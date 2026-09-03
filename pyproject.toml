@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "evolutor-book"
+version = "0.1.0"
+description = "Executable research companion to Evolutor: Genomic Computation"
+requires-python = ">=3.11"
+dependencies = ["torch>=2.2"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "ruff>=0.8"]
+
+[tool.setuptools.packages.find]
+where = ["code/minievolutor", "code/evo_torch"]
+
+[tool.pytest.ini_options]
+pythonpath = ["code/minievolutor", "code/evo_torch"]
+testpaths = ["code/minievolutor/tests", "code/evo_torch/tests", "tests"]
+addopts = "-q"
+
