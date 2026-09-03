@@ -6,15 +6,7 @@ Establish ordinary recurrent/state baselines before claiming a genomic mechanism
 
 ## Reference path
 
-```text
-DNA character IDs [B,T]
-        |
-embedding [B,T,D]
-        |
-GRU recurrence, carried state [L,B,S]
-        |
-vocabulary logits [B,T,V]
-```
+[E08 — Recurrent reference: training and stateful step](../book/diagrams/e08-recurrent-reference-flow.txt) specifies the full-scan and one-token paths, carried-state contract, capacity boundary, and parity obligation.
 
 The baseline tests that repeated `step(token, state)` equals full-sequence forward execution. It supplies a control for later simple recurrence, state-space, selective-scan, regulation, and trace-aware models.
 
@@ -27,4 +19,3 @@ The baseline tests that repeated `step(token, state)` equals full-sequence forwa
 5. regulated expression or GCS mechanisms only after generic controls.
 
 None is defined as “genomic computation” merely because it carries state.
-

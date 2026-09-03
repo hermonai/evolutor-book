@@ -1,0 +1,39 @@
+E12 — COMMON SERVING PROTOCOL OVER DISTINCT INFERENCE ENGINES
+Scope: proposes a shared request lifecycle without pretending that KV, recurrent, and GCS state are equivalent.
+
+LEGEND
+  ╔═╗ common protocol   ┌─┐ engine-specific state   → request/event flow
+   ⇒ conformance gate   ⊣ abstraction leak
+
+╔══════════════════════════════════════════════════════════════════════════════════════╗
+║ COMMON SESSION PROTOCOL                                                            ║
+║ open(model_id, config) · prefill(input) · step(token/event) · snapshot · close     ║
+║ outputs: logits/result · usage · trace handle · typed error                         ║
+╚══════════════════════════════════════╤═══════════════════════════════════════════════╝
+                                       │ route by immutable architecture ID
+                   ┌───────────────────┼────────────────────┐
+                   ▼                   ▼                    ▼
+┌────────────────────────┐ ┌────────────────────────┐ ┌────────────────────────┐
+│ TRANSFORMER ENGINE     │ │ RECURRENT ENGINE       │ │ SYMBOLIC GCS ENGINE    │
+│ state: per-layer KV ↺  │ │ state: h_t / SSM ↺    │ │ store/worklist/plan ↺  │
+│ prefill + decode       │ │ scan + one-step update │ │ regulate + small steps │
+│ memory grows by context│ │ explicit bounded shape │ │ dynamic structured state│
+└───────────┬────────────┘ └───────────┬────────────┘ └───────────┬────────────┘
+            │                          │                          │
+            └──────────────────────────┼──────────────────────────┘
+                                       ⇒ protocol conformance tests
+                                       ▼
+                         ┌──────────────────────────────┐
+                         │ SHARED OBSERVABILITY        │
+                         │ latency · bytes · work ·    │
+                         │ output identity · failures  │
+                         └──────────────────────────────┘
+
+ABSTRACTION-LEAK RULES
+  fixed `kv_bytes` field ⊣ recurrent/GCS equivalence; generic `state_bytes` is allowed.
+  `step(token)`          ⊣ all symbolic event semantics; typed events may be required.
+
+READING NOTES
+1. The common layer owns lifecycle and observability; each engine owns state semantics.
+2. Conformance means declared behavior and errors match the protocol, not equal internal algorithms.
+3. The protocol should be built only after real engines expose stable shared requirements.

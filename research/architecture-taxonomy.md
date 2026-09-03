@@ -2,11 +2,7 @@
 
 ## Umbrella
 
-**Evolutor / GCS** is a formal computational program with five roles:
-
-```text
-GCS = alphabet + persistent genome + regulation + expression + evolution
-```
+**Evolutor / GCS** is a formal computational program with five roles. [E01 — Genomic Computation System: components and interfaces](../book/diagrams/e01-gcs-interfaces.txt) gives the full decomposition, including compilation, transient expression plans, trace/cost output, independent verification, and persistent version change.
 
 It can be instantiated by a symbolic interpreter, graph runtime, differentiable model, Transformer, recurrence, or future molecular compiler. No one instantiation defines the umbrella.
 
@@ -35,4 +31,3 @@ The table is a research map, not a winner declaration.
 7. **Molecular realization:** separate compiler, kinetics, and wet-lab validation.
 
 Claims do not cross layers automatically.
-

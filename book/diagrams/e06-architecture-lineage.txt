@@ -1,0 +1,38 @@
+E06 — HISTORICAL AND TARGET ARCHITECTURE LINEAGES
+Scope: prevents names from transferring measurements between incompatible mechanisms.
+
+LEGEND
+  ┌─┐ architecture identity   → documented relation   ⇢ proposed naming
+  ═══ evidence firewall       ⊣ prohibited inference
+
+┌────────────────────────────────┐               ┌────────────────────────────────┐
+│ DOGMA-R                        │               │ HERMON ENGINE                  │
+│ historical/current            │               │ historical/current             │
+│ recurrent non-Transformer     │               │ Transformer serving            │
+│ carried-state measurements    │               │ attention + paged-KV artifacts│
+└────────────────┬───────────────┘               └────────────────┬───────────────┘
+                 │ architecture ID + commit                       │ architecture ID + commit
+                 ▼                                                ▼
+══════════════════════════════════ EVIDENCE FIREWALL ═══════════════════════════════════
+  name reuse ⊣ transfer of mechanism, benchmark, checkpoint, or runtime evidence
+════════════════════════════════════════════════════════════════════════════════════════
+                 │                                                │
+                 ⇢ proposed target naming                         ⇢ proposed target naming
+┌────────────────▼───────────────┐               ┌────────────────▼───────────────┐
+│ DOGMA-T                       │               │ HERMON DNA-R                   │
+│ target Transformer DNA line   │               │ target non-Transformer line   │
+│ attention / retrieval / KV    │               │ recurrence / state / GCS      │
+└────────────────┬───────────────┘               └────────────────┬───────────────┘
+                 └──────────────────────┬─────────────────────────┘
+                                        │ shared experiment schema
+                                        ▼
+                         ┌────────────────────────────────┐
+                         │ COMPARISON WITHOUT COLLAPSE    │
+                         │ same tasks and reporting;      │
+                         │ distinct inference contracts   │
+                         └────────────────────────────────┘
+
+READING NOTES
+1. Qualified names preserve the historical record while target names remain proposals.
+2. Artifacts need stable architecture IDs that survive product and repository renames.
+3. Shared evaluation makes results comparable, not interchangeable.

@@ -6,27 +6,7 @@ After this chapter, you will be able to state the central Evolutor question as c
 
 Ordinary software already has persistent code, conditional branches, dynamically loaded modules, configuration, logs, and updates. Renaming these familiar pieces *genes*, *promoters*, *expression*, and *evolution* would not create a new computational model. A genomic approach becomes interesting only when it commits to a precise organization that changes which questions can be asked and measured.
 
-The motivating contrast is this:
-
-```text
-stored program view                  genomic computation view
--------------------                  ------------------------
-program                              persistent typed genome
-  |                                           |
-  v                                           v
-execute instructions                  regulate for this context
-  |                                           |
-  v                                           v
-output                               express a selected structure
-                                              |
-                                      +-------+-------+
-                                      |               |
-                                      v               v
-                                    output          trace
-                                                      |
-                                                      v
-                                            verified structural edit
-```
+The motivating contrast is captured in [E02 — Stored genome to contextual expression](../diagrams/e02-genome-compile-regulate-express.txt). The graph separates persistent and transient artifacts, records suppressed as well as expressed structure, and keeps regulation cost inside the account.
 
 The right side asserts more structure. It separates what is stored from what is expressed, makes the selection mechanism explicit, treats the execution trace as a semantic output, and restricts how persistent structure may change.
 
@@ -172,21 +152,7 @@ where the update may depend on the current genome, its trace, and a loss or eval
 
 MiniEvolutor currently supports only a one-gene replacement and verifies that external and output interfaces remain stable and that the candidate still compiles. It explicitly does not prove behavioral equivalence or policy safety.
 
-This small contract illustrates an important division of authority:
-
-```text
-proposal mechanism ---> candidate genome
-                              |
-                              v
-                      independent verifier
-                              |
-                    +---------+---------+
-                    |                   |
-                  reject              eligible
-                                        |
-                                        v
-                                evaluation/selection
-```
+This small contract illustrates an important division of authority. [E04 — Verified local evolution loop](../diagrams/e04-verified-evolution-loop.txt) separates the observation bundle, proposal mechanism, static verifier, controlled evaluation, rejection record, and versioned acceptance.
 
 Proposal, verification, and selection should remain separable even if one implementation later automates all three.
 
@@ -218,4 +184,3 @@ These are falsifiable research questions. A negative answer would narrow the the
 - No experiment here shows that traces improve learning or explanation.
 - No benchmark shows that regulated expression beats a generic router after overhead.
 - A portable genomic IR and optimized runtime are future hypotheses, not present results.
-

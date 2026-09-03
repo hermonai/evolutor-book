@@ -1,0 +1,55 @@
+E13 — FIVE EVIDENCE LAYERS AND THEIR BRIDGE ARTIFACTS
+Scope: prevents claims from crossing biology, formal semantics, code, ML, and runtime without validation.
+
+LEGEND
+  ╔═╗ evidence domain   ┌─┐ bridge artifact   ⇒ scoped support
+   ⇢ hypothesis/translation requiring validation   ⊣ blocked promotion
+
+╔══════════════════════════════════════════════════════════════════════════════════════╗
+║ L1  BIOLOGY: observed living/molecular mechanisms, interventions, and assays        ║
+╚══════════════════════════════════════╤═══════════════════════════════════════════════╝
+                                       ▼
+                 ┌────────────────────────────────────────────┐
+                 │ ABSTRACTION CONTRACT                      │
+                 │ retained phenomenon + declared omissions │
+                 └───────────────────┬────────────────────────┘
+                                      ⇢ adequacy is not automatic
+╔═════════════════════════════════════▼════════════════════════════════════════════════╗
+║ L2  FORMAL COMPUTATION: alphabet, genome, state, transitions, semantics, cost       ║
+╚══════════════════════════════════════╤═══════════════════════════════════════════════╝
+                                       ▼
+                 ┌────────────────────────────────────────────┐
+                 │ EXECUTABLE CORRESPONDENCE                 │
+                 │ implementation map + semantic tests       │
+                 └───────────────────┬────────────────────────┘
+                                      ⇒ implemented subset only
+╔═════════════════════════════════════▼════════════════════════════════════════════════╗
+║ L3  EXECUTABLE REFERENCE: deterministic semantics, tensors, traces, test fixtures   ║
+╚══════════════════════════════════════╤═══════════════════════════════════════════════╝
+                                       ▼
+                 ┌────────────────────────────────────────────┐
+                 │ FROZEN EXPERIMENT CONTRACT                │
+                 │ data, splits, objectives, controls, seeds │
+                 └───────────────────┬────────────────────────┘
+                                      ⇒ measured task-scoped behavior
+╔═════════════════════════════════════▼════════════════════════════════════════════════╗
+║ L4  MACHINE LEARNING: learned parameters, generalization, ablation, uncertainty    ║
+╚══════════════════════════════════════╤═══════════════════════════════════════════════╝
+                                       ▼
+                 ┌────────────────────────────────────────────┐
+                 │ PARITY + PROFILE RECORD                   │
+                 │ shapes, dtypes, hardware, workload, error │
+                 └───────────────────┬────────────────────────┘
+                                      ⇒ operational result on named conditions
+╔═════════════════════════════════════▼════════════════════════════════════════════════╗
+║ L5  SYSTEMS RUNTIME: kernels, memory, scheduling, batching, latency, failures       ║
+╚═══════════════════════════════════════════════════════════════════════════════════════╝
+
+BOUNDARY RULES
+  biological analogy ⊣ software guarantee; semantic test ⊣ theorem completion;
+  ML quality ⊣ runtime efficiency; runtime speed ⊣ scientific mechanism claim.
+
+READING NOTES
+1. Each bridge emits a reviewable artifact; an arrow without an artifact is only rhetoric.
+2. Evidence may move backward: runtime mismatch can reveal a reference ambiguity or model defect.
+3. Layers cooperate without collapsing their standards of truth.

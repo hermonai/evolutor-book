@@ -1,0 +1,46 @@
+E02 — STORED GENOME TO CONTEXTUAL EXPRESSION
+Scope: contrasts persistent program structure with the transient structure selected for one context.
+
+LEGEND
+  ╔═╗ persistent artifact   ┌─┐ transient artifact   → transformation
+   ↺ state carried forward  ⊣ invalidity/error path
+
+╔══════════════════════════════════════════════════════════════════════════════════════╗
+║ TYPED GENOME G                                                                      ║
+║ genes · interfaces · dependency declarations · gates · policies · provenance        ║
+╚══════════════════════════════════════╤═══════════════════════════════════════════════╝
+                                       │ compile + static validation
+                                       ▼
+                         ┌──────────────────────────────┐
+                         │ COMPILED SUBSTRATE C         │──⊣ type/dependency failure
+                         │ executable dependency graph  │
+                         └──────────────┬───────────────┘
+                                        │ C, context x, machine state m
+                                        ▼
+                         ┌──────────────────────────────┐
+                         │ REGULATOR                    │
+                         │ staged gate/policy decisions │
+                         └──────┬──────────────┬────────┘
+                                │ enabled       │ disabled + reasons
+                                ▼               ▼
+                 ┌────────────────────────┐   ┌────────────────────────┐
+                 │ EXPRESSION PLAN π      │   │ SUPPRESSION RECORD     │
+                 │ selected nodes + order │   │ non-executed candidates│
+                 └───────────┬────────────┘   └────────────────────────┘
+                              │ execute small steps
+                              ▼
+                 ┌────────────────────────┐
+                 │ EXPRESSION MACHINE     │
+                 │ store · worklist · m ↺ │
+                 └───────┬────────┬───────┘
+                         │        │
+                  output y        └──→ trace τ + cost κ + next state m′
+
+CONTRAST
+  Stored-program shorthand: instructions → execution → output.
+  GCS contract: persistent typed structure → context selection → partial expression → output + trace + state.
+
+READING NOTES
+1. Compilation establishes static structure; regulation chooses what is eligible now.
+2. Non-expression is observable through suppression reasons rather than disappearing from the account.
+3. Selective execution matters only if selection and scheduling costs are included in κ.

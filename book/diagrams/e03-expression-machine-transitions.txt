@@ -1,0 +1,46 @@
+E03 — EXPRESSION MACHINE STATE AND SMALL-STEP TRANSITIONS
+Scope: exposes the worklist, store, gate map, trace, and cost changes in one expression run.
+
+LEGEND
+  ┌─┐ machine state   → small step   ↺ scheduling cycle   ⊣ blocked/error transition
+
+MACHINE STATE
+  M = ⟨C, x, ρ, κ, γ, Ω, w⟩
+      C compiled substrate; x context; ρ typed store; κ worklist;
+      γ gate decisions; Ω trace; w accumulated cost.
+
+┌──────────────────────────────┐
+│ SELECT n FROM WORKLIST κ     │──⊣ empty κ → halt/read outputs
+└──────────────┬───────────────┘
+               ▼
+┌──────────────────────────────┐
+│ CHECK DEPENDENCIES IN ρ      │──⊣ unavailable → defer or declared scheduling error
+└──────────────┬───────────────┘
+               ▼
+┌──────────────────────────────┐
+│ EVALUATE GATE γ(n,x,ρ)       │
+└────────┬──────────────┬──────┘
+         │ false         │ true
+         ▼               ▼
+┌───────────────────┐  ┌──────────────────────────────┐
+│ APPEND SKIP EVENT │  │ EVALUATE PRIMITIVE n        │──⊣ type/effect/policy failure
+│ Ω′; charge cost   │  └──────────────┬───────────────┘
+└─────────┬─────────┘                 │ value v : declared output type
+          │                           ▼
+          │                ┌──────────────────────────┐
+          │                │ UPDATE STORE ρ′          │
+          │                │ APPEND FIRE EVENT Ω′     │
+          │                │ CHARGE COST w′           │
+          │                └─────────────┬────────────┘
+          └──────────────────────────────┤
+                                         ▼
+                              ┌────────────────────────┐
+                              │ ENQUEUE READY SUCCESSORS│
+                              │ form next worklist κ′  │
+                              └─────────────┬──────────┘
+                                             ↺ next small step
+
+READING NOTES
+1. Gate evaluation and scheduling consume work even for nodes that never fire.
+2. Trace soundness requires every recorded event to correspond to a declared transition.
+3. The exact scheduler and error semantics are proof obligations, not implementation details.

@@ -1,0 +1,50 @@
+E05 — THEOREM DEPENDENCY GRAPH AND BLOCKED OBLIGATIONS
+Scope: separates proved prerequisites, scoped proof programs, and claims blocked by missing lemmas.
+
+LEGEND
+  ┌─┐ definition/lemma   ⇒ valid dependency   ⇢ open proof obligation
+   ⊣ blocked claim       ╔═╗ theorem family boundary
+
+╔══════════════════════════════ CORE SEMANTICS ════════════════════════════════════════╗
+║ finite alphabet + grammar + store typing                                             ║
+║                  ⇒ typed genome                                                      ║
+║                  ⇒ compilation + policy judgment                                     ║
+║                  ⇒ typed substrate                                                   ║
+║                  ⇒ small-step expression semantics                                   ║
+║                         ├⇒ type preservation                                          ║
+║                         ├⇒ trace soundness                                            ║
+║                         └⇒ cost semantics ⇢ bounded gate/schedule/I/O costs           ║
+║                                             └⇒ scoped expression-complexity theorem   ║
+╚═══════════════════════════════════════════════════════════════════════════════════════╝
+
+╔══════════════════════════════ COMPUTATIONAL POWER ═══════════════════════════════════╗
+║ machine encoding + simulation invariant + halting correspondence ⇒ universality      ║
+║ missing encoding or correspondence ⇢ construction only, not a completed theorem      ║
+╚═══════════════════════════════════════════════════════════════════════════════════════╝
+
+╔══════════════════════════════ LOCALITY SEPARATION ════════════════════════════════════╗
+║ LIM definition ⇒ light-cone lemma ⇒ sparse-pointer LIM lower bound                   ║
+║ SPR GCS construction + explicit cost ⇒ linear upper bound                            ║
+║ both branches + identical task assumptions ⇒ scoped SPR separation                   ║
+║ scoped separation ⊣ lower bound for all Transformers or all neural sequence models   ║
+╚═══════════════════════════════════════════════════════════════════════════════════════╝
+
+╔══════════════════════════════ DEPTH HIERARCHY ════════════════════════════════════════╗
+║ local GCS interface ⇒ stage/round simulation                                         ║
+║ pointer-communication problem ⇒ round lower bound                                    ║
+║ simulation + lower bound ⇢ strict depth hierarchy                                    ║
+║                         ⊣ until correspondence and resource matching are proved       ║
+╚═══════════════════════════════════════════════════════════════════════════════════════╝
+
+╔══════════════════════════════ LEARNING / EDITS ═══════════════════════════════════════╗
+║ finite genome encoding ⇒ finite hypothesis class ⇒ uniform-convergence bound         ║
+║ trace semantics + edit encoding ⇢ candidate-count bound                              ║
+║ average trace support ⊣ bound on union of editable locations without extra assumption║
+║ edit soundness + identity candidate + evaluated improvement ⇒ monotone accepted loss ║
+║ monotone accepted loss ⊣ general learning capability                                 ║
+╚═══════════════════════════════════════════════════════════════════════════════════════╝
+
+READING NOTES
+1. A theorem family can use core semantics without inheriting another family’s open claims.
+2. Every arrow names a dependency; prose similarity and shared vocabulary are not dependencies.
+3. Blocked nodes remain visible so later chapters cannot quietly build on them as established facts.

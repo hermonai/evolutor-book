@@ -86,51 +86,12 @@ Book I supplies DNA biology, classical DNA computing, and common ML foundations.
 
 ## Chapter dependency map
 
-```text
-evidence boundaries + correction record
-                 |
-                 v
-architecture taxonomy -----> source and claim ledgers
-                 |                    |
-                 v                    v
-            typed genome ------> theorem obligations
-                 |
-                 v
-        compiled substrate <------ regulation
-                 |                    |
-                 +---------+----------+
-                           v
-                    expression machine
-                    /       |        \
-                   v        v         v
-              outputs     traces    expression cost
-                            |             |
-                            v             +--> separation/hierarchy audits
-                   verified local edits
-                            |
-                            v
-                   structural learning
-
-shared PyTorch semantics + causality + controls
-                            |
-                +-----------+-----------+
-                |                       |
-                v                       v
-        Transformer DNA line    Non-Transformer DNA line
-                |                       |
-                +-----------+-----------+
-                            v
-                  controlled comparisons
-                            |
-                            v
-                compiler/runtime hypotheses
-```
+[E14 — Evolutor book dependency map](book/diagrams/e14-book-dependency-map.txt) is the canonical dependency graph. It exposes the formal and neural branches, shared validation boundary, blocked inferences, and the point at which a compiler/runtime proposal becomes justified.
 
 ## Text-diagram inventory
 
-Canonical bootstrap diagrams cover the GCS tuple, compiler pipeline, expression machine state, trace/evolution loop, theorem dependency graph, training/inference split for both neural families, long-context capability map, historical versus target names, and a possible genomic IR/runtime stack. See [the inventory](book/diagrams/INVENTORY.md).
+Canonical UTF-8 `.txt` graphs cover the GCS tuple, compiler pipeline, expression machine state, trace/evolution loop, theorem dependency graph, training/inference split for both neural families, long-context capability map, historical versus target names, and a possible genomic IR/runtime stack. They use stable IDs, legends, named nodes, typed edges, failure paths, and reading notes under the [TXT graph standard](book/diagrams/TXT_GRAPH_STANDARD.md). See [the inventory](book/diagrams/INVENTORY.md).
 
 ## Completion gates
 
 Each chapter must distinguish source theory from new proposal, link nontrivial claims to the ledger, state theorem assumptions and proof status, map formal equations to executable semantics where possible, and close with “What this chapter established” and “What remains unverified.”
-

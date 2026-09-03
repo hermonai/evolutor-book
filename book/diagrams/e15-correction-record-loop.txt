@@ -1,0 +1,53 @@
+E15 — CORRECTION RECORD AS AN ACTIVE RESEARCH SUBSYSTEM
+Scope: turns anomalies into versioned changes in claims, artifacts, and downstream dependencies.
+
+LEGEND
+  ┌─┐ state/artifact   → information flow   ⇒ passed gate   ⊣ invalidated path   ↺ recurrence
+
+┌──────────────────────────────┐
+│ ACTIVE CLAIM C_v             │ scope + dependencies + artifact IDs + status
+└──────────────┬───────────────┘
+               │ prediction / invariant / replication expectation
+               ▼
+┌──────────────────────────────┐       ┌─────────────────────────────────┐
+│ ADVERSARIAL PROBES           │  →    │ ANOMALY OR COUNTEREVIDENCE      │
+│ leakage · intervention ·     │       │ failing seed, mismatch, exploit,│
+│ capacity · parity · rerun    │       │ counterexample, non-replication │
+└──────────────────────────────┘       └──────────────┬──────────────────┘
+                                                      │ classify root dependency
+                                                      ▼
+                                      ┌──────────────────────────────────┐
+                                      │ DEFECT TAXONOMY                  │
+                                      │ semantics / data / control /     │
+                                      │ statistic / oracle / mechanism   │
+                                      │ provenance / implementation      │
+                                      └────────┬───────────────┬─────────┘
+                                               │               │
+                                    invalidate │               │ uncertain
+                                               ▼               ▼
+                             ┌──────────────────────┐  ┌──────────────────────┐
+                             │ CONTAINMENT          │  │ QUARANTINE           │
+                             │ mark affected claims │  │ freeze interpretation│
+                             │ and descendants ⊣    │  │ preserve artifacts   │
+                             └──────────┬───────────┘  └──────────┬───────────┘
+                                        └──────────────┬──────────┘
+                                                       │ corrective change + rationale
+                                                       ▼
+                                      ┌──────────────────────────────────┐
+                                      │ CORRECTED CONTRACT C_{v+1}       │
+                                      │ new tests, controls, scope, IDs  │
+                                      └────────┬───────────────┬─────────┘
+                                               │ passes         │ ⊣ fails
+                                               ⇒               └──→ withdraw/narrow
+                             ┌────────────────────────────────────────────┐
+                             │ REPLICATION + DEPENDENCY RE-EVALUATION     │
+                             └──────────────────┬─────────────────────────┘
+                                                ↺ reinstated scoped claim or new correction
+
+PERMANENT RECORD
+  old claim + defect + affected artifacts + correction + rerun outcome remain linked and readable.
+
+READING NOTES
+1. A correction changes the dependency graph; it is not merely an erratum appended to prose.
+2. Containment occurs before repair so invalid results cannot continue to support new claims.
+3. Reinstatement requires rerunning the corrected contract, not editing the old conclusion in place.

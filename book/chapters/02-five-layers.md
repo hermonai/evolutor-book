@@ -4,24 +4,7 @@ After this chapter, you will be able to place an Evolutor claim in the correct l
 
 ## 2.1 One program, several kinds of truth
 
-Evolutor crosses biology, formal computer science, machine learning, and systems engineering. A sentence that is sensible in one layer may be false in another. To keep the program coherent, this book separates five layers:
-
-```text
-1. BIOLOGY
-   observed or experimentally supported living/molecular mechanisms
-
-2. FORMAL COMPUTATION
-   alphabets, genomes, transition systems, semantics, proofs, cost models
-
-3. EXECUTABLE REFERENCE
-   Python programs that implement a declared subset of the semantics
-
-4. MACHINE-LEARNING ARCHITECTURE
-   parameterized models, objectives, data, training, and experiments
-
-5. SYSTEMS RUNTIME
-   kernels, memory, scheduling, batching, serving, and hardware behavior
-```
+Evolutor crosses biology, formal computer science, machine learning, and systems engineering. A sentence that is sensible in one layer may be false in another. To keep the program coherent, this book separates five layers. [E13 — Five evidence layers and their bridge artifacts](../diagrams/e13-five-evidence-layers.txt) shows not only the layers but the reviewable artifact required at each crossing.
 
 A possible molecular implementation would connect layers one and two through a separate compiler and experimental program. It is not assumed by the current software.
 
@@ -112,27 +95,7 @@ These are documentation qualifiers, not repository renames. A later migration re
 
 ## 2.8 How evidence moves between layers
 
-Evidence can connect layers only through an explicit bridge.
-
-```text
-biological phenomenon
-      |
-      | abstraction with declared omissions
-      v
-formal operator
-      |
-      | implementation + semantic tests
-      v
-executable reference
-      |
-      | frozen training/evaluation protocol
-      v
-measured model result
-      |
-      | parity + profiling + hardware record
-      v
-runtime result
-```
+Evidence can connect layers only through an explicit bridge. [E13](../diagrams/e13-five-evidence-layers.txt) names four such bridge artifacts and shows that evidence can also move backward when an implementation or runtime exposes an earlier ambiguity.
 
 Moving upward is not automatic. A biological observation suggests a formal operator. It does not prove that the operator helps learning. A PyTorch implementation enables an experiment. It does not prove a runtime advantage. A kernel benchmark establishes performance on its hardware and shapes. It does not validate the theory's broader claims.
 
@@ -166,4 +129,3 @@ The research program becomes credible by accumulating or rejecting such bounded 
 - No common serving protocol has been justified.
 - No molecular compiler or wet-lab realization exists here.
 - The final public naming migration remains undecided.
-

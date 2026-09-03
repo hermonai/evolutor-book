@@ -1,0 +1,39 @@
+E08 — RECURRENT REFERENCE: TRAINING AND STATEFUL STEP
+Scope: makes the fixed-shaped carried state and its information bottleneck explicit.
+
+LEGEND
+  ┌─┐ computation/state   → tensor flow   ↺ carried state   ⇒ parity obligation
+
+┌──────────────────────────────┐
+│ DNA TOKEN IDS [B,T]          │
+└──────────────┬───────────────┘
+               ▼
+┌──────────────────────────────┐
+│ TOKEN EMBEDDINGS [B,T,D]     │
+└──────────────┬───────────────┘
+               ▼
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ RECURRENT UPDATE                                                            │
+│ h_t = F(h_{t-1}, e_t); state h has declared layers, width, dtype, and shape │
+│       ▲                                                                      │
+│       └──────────────────────────── carried state ↺                          │
+└──────────────┬───────────────────────────────┬───────────────────────────────┘
+               │ full scan                     │ one-token step
+               ▼                               ▼
+┌────────────────────────┐          ┌────────────────────────────┐
+│ LOGITS [B,T,V]         │          │ LOGITS [B,1,V] + h_t       │
+│ shifted-token loss     │          │ next call receives h_t ↺  │
+└────────────────────────┘          └────────────────────────────┘
+
+PARITY OBLIGATION
+  full-scan logits ⇒ concatenated step logits for the same tokens and initial state,
+  within declared tolerance.
+
+CAPACITY BOUNDARY
+  fixed state shape ⇒ bounded explicit carried memory;
+  bounded explicit memory ⊣ proof of poor or good long-context task performance.
+
+READING NOTES
+1. A recurrent state can summarize unbounded history while retaining only bounded explicit state.
+2. Exact retrieval and running aggregates stress different properties; both require targeted tasks.
+3. State capacity must be reported separately from parameter count and representation width.

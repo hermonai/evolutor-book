@@ -1,0 +1,54 @@
+E01 — GENOMIC COMPUTATION SYSTEM: COMPONENTS AND INTERFACES
+Scope: decomposes the GCS umbrella into persistent structure, contextual selection, execution, and verified change.
+
+LEGEND
+  ╔═╗ persistent boundary   ┌─┐ transient artifact   → data/state flow
+   ↺ feedback/state update  ⇒ verified transition   ⊣ rejected candidate
+
+╔══════════════════════════════════════════════════════════════════════════════════════╗
+║ PERSISTENT GENOMIC STATE                                                            ║
+║ alphabet Σ · typed genome G · store schema S · policy P · version/provenance ID      ║
+╚══════════════════════════════════════╤═══════════════════════════════════════════════╝
+                                       │ compile(G, S)
+                                       ▼
+                         ┌──────────────────────────────┐
+                         │ COMPILED SUBSTRATE C         │
+                         │ typed dependencies, gates,   │
+                         │ primitives, output contracts │
+                         └──────────────┬───────────────┘
+                                        │ C + context x + machine state m
+                                        ▼
+                         ┌──────────────────────────────┐
+                         │ REGULATION Reg              │
+                         │ stages, eligibility, policy │
+                         └──────────────┬───────────────┘
+                                        │ expression plan π
+                                        ▼
+                         ┌──────────────────────────────┐
+                         │ EXPRESSION Expr             │
+                         │ worklist + small steps       │
+                         └──────┬──────────┬────────────┘
+                                │          │
+                        output y│          │mechanistic trace τ + cost κ
+                                ▼          ▼
+                    ┌───────────────┐   ┌──────────────────────────┐
+                    │ TYPED OUTPUT  │   │ AUDIT / LEARNING SIGNAL  │
+                    └───────────────┘   └────────────┬─────────────┘
+                                                     │ local proposal ΔG
+                                                     ▼
+                                      ┌────────────────────────────┐
+                                      │ INDEPENDENT VERIFIER V     │
+                                      │ type, policy, invariant,    │
+                                      │ budget, identity checks     │
+                                      └──────┬───────────────┬─────┘
+                                             │ accepted       │ ⊣ rejected + reason
+                                             ⇒                └──→ correction record
+╔════════════════════════════════════════════▼═════════════════════════════════════════╗
+║ NEW PERSISTENT GENOMIC STATE  G′ = apply(G, ΔG)                                     ║
+╚════════════════════════════════════════════╤═════════════════════════════════════════╝
+                                             ↺ next compile/regulate/expression cycle
+
+READING NOTES
+1. The genome persists across contexts; the expression plan is derived and transient.
+2. The verifier is independent of the proposal mechanism. A proposed edit has no authority by itself.
+3. The trace records executed causes, but a trace is not automatically a causal proof or learning guarantee.

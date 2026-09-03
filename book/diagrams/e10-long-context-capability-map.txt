@@ -1,0 +1,39 @@
+E10 — LONG-CONTEXT CAPABILITY MAP: RETRIEVAL VS ACCUMULATED STATE
+Scope: separates tasks that require addressable past content from tasks compressible into running state.
+
+LEGEND
+  ┌─┐ task/mechanism   → required information path   ↺ persistent memory
+   ⇒ measured success  ⊣ invalid generalization
+
+                           ┌──────────────────────────────┐
+                           │ LONG INPUT HISTORY x₁…x_T   │
+                           └──────────────┬───────────────┘
+                                          │ task semantics
+                       ┌──────────────────┴──────────────────┐
+                       ▼                                     ▼
+┌────────────────────────────────────┐     ┌────────────────────────────────────┐
+│ ADDRESSABLE RETRIEVAL              │     │ ACCUMULATED-STATE COMPUTATION      │
+│ query identifies a past item       │     │ answer is a sufficient statistic  │
+│ exact content/order may matter     │     │ count, parity, running automaton   │
+└──────────────────┬─────────────────┘     └──────────────────┬─────────────────┘
+                   │                                          │
+       ┌───────────┴───────────┐                  ┌───────────┴───────────┐
+       ▼                       ▼                  ▼                       ▼
+┌──────────────┐      ┌────────────────┐  ┌────────────────┐    ┌────────────────┐
+│ ATTENTION/KV │      │ EXTERNAL MEMORY│  │ RECURRENT STATE│    │ ATTENTION      │
+│ content index│      │ pointer/query  │  │ h_t = F(h,x_t) │    │ recompute/stat │
+└──────┬───────┘      └───────┬────────┘  └───────┬────────┘    └───────┬────────┘
+       └──────────────┬────────┘                   └─────────────┬────────┘
+                       ⇒ exact-retrieval tests                   ⇒ streaming tests
+
+EVALUATION AXES
+  context extrapolation · distractors · query distance · state/KV bytes · compute · error accumulation.
+
+BOUNDARY RULE
+  success on running aggregates ⊣ exact retrieval superiority;
+  success on retrieval          ⊣ efficient streaming-state superiority.
+
+READING NOTES
+1. “Long context” is not one capability; benchmarks must isolate the information requirement.
+2. Fixed state may solve a running statistic perfectly and fail exact recall for principled capacity reasons.
+3. Attention may retrieve well while paying growing memory or compute costs; those costs stay in the result.

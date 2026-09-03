@@ -1,0 +1,49 @@
+E16 — TRAINING, EVALUATION, AND ARTIFACT PROVENANCE
+Scope: connects immutable inputs to learned checkpoints and bounded conclusions.
+
+LEGEND
+  ┌─┐ artifact/process   → data flow   ⇒ verified identity/result   ↺ optimization step
+   ⊣ failed integrity gate
+
+┌──────────────────────────────┐     ┌──────────────────────────────┐
+│ EXPERIMENT MANIFEST          │     │ DATA MANIFEST                │
+│ code ID · config · seeds     │     │ source hashes · splits       │
+│ budget · metrics · stopping  │     │ exclusions · leakage audit   │
+└──────────────┬───────────────┘     └──────────────┬───────────────┘
+               └─────────────────────┬───────────────┘
+                                      ▼
+                         ┌──────────────────────────────┐
+                         │ TOKENIZER + BATCH BUILDER    │──⊣ ID/split mismatch
+                         └──────────────┬───────────────┘
+                                        │ token IDs [B,T], targets [B,T]
+                                        ▼
+                         ┌──────────────────────────────┐
+                         │ MODEL FORWARD               │
+                         │ declared architecture ID    │
+                         └──────────────┬───────────────┘
+                                        │ logits [B,T,V]
+                                        ▼
+                         ┌──────────────────────────────┐
+                         │ SHIFTED LOSS + AUTOGRAD      │
+                         └──────────────┬───────────────┘
+                                        │ gradients
+                                        ▼
+                         ┌──────────────────────────────┐
+                         │ OPTIMIZER / SCHEDULER ↺      │ budget counter + state
+                         └──────────────┬───────────────┘
+                                        │ checkpoint + optimizer state
+                                        ▼
+                         ┌──────────────────────────────┐
+                         │ FROZEN EVALUATION            │
+                         │ per-seed metrics, probes,    │
+                         │ ablations, latency/memory    │
+                         └──────────────┬───────────────┘
+                                        ⇒
+╔══════════════════════════════════════════════════════════════════════════════════════╗
+║ ARTIFACT BUNDLE: manifest + hashes + logs + checkpoints + raw metrics + conclusion  ║
+╚═══════════════════════════════════════════════════════════════════════════════════════╝
+
+READING NOTES
+1. The manifest is an input to the run, not a retrospective description.
+2. Per-seed records remain primary; aggregate statistics never replace them.
+3. A conclusion inherits the exact data, architecture, budget, and hardware scope of its bundle.

@@ -1,0 +1,49 @@
+E11 — GENOMIC MODEL, IR, DIFFERENTIABLE, AND STRUCTURAL PATHS
+Scope: shows a proposed shared stack while preserving separate semantics and validation for each backend.
+
+LEGEND
+  ╔═╗ stable contract   ┌─┐ proposed component   → compile/lower
+   ⇢ research bridge   ⇒ parity/verification gate   ⊣ premature unification
+
+╔══════════════════════════════════════════════════════════════════════════════════════╗
+║ VERSIONED GENOMIC MODEL                                                             ║
+║ typed genes · interfaces · regulation · effects · provenance · policy              ║
+╚══════════════════════════════════════╤═══════════════════════════════════════════════╝
+                                       │ validate + compile
+                                       ▼
+                         ┌──────────────────────────────┐
+                         │ GENOMIC IR ⇢                │
+                         │ typed dataflow + control +  │
+                         │ state + trace event schema  │
+                         └──────┬──────────┬────────────┘
+                                │          │
+               symbolic lowering│          │ differentiable lowering
+                                ▼          ▼
+                  ┌────────────────────┐  ┌──────────────────────────┐
+                  │ SYMBOLIC ENGINE    │  │ PYTORCH REFERENCE        │
+                  │ exact transitions  │  │ tensors + gradients      │
+                  │ store/worklist     │  │ Transformer/recurrent     │
+                  └─────────┬──────────┘  └────────────┬─────────────┘
+                            │                          │
+                            ⇒ trace/type parity        ⇒ output/step parity
+                            └──────────────┬───────────┘
+                                           ▼
+                              ┌──────────────────────────┐
+                              │ OPTIMIZED RUNTIME ⇢      │
+                              │ kernels, batching, state │
+                              └────────────┬─────────────┘
+                                           │ profiles + traces
+                                           ▼
+                              ┌──────────────────────────┐
+                              │ VERIFIED STRUCTURAL EDIT│
+                              │ proposal → checks → eval │
+                              └────────────┬─────────────┘
+                                           ↺ new versioned model
+
+BLOCKED INFERENCE
+  one working backend ⊣ proof that a common IR is necessary or lossless for all backends.
+
+READING NOTES
+1. This is a hypothesis architecture, not a description of a completed toolchain.
+2. The IR is justified only by multiple working consumers with shared semantic needs.
+3. Structural edits operate on versioned source/IR artifacts; gradient updates operate on parameters.

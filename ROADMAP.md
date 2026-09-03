@@ -10,12 +10,13 @@
 
 ## Phase 1 - Formal-core audit
 
-- **In progress:** Chapters 1-2 now have complete first drafts.
-- Next: correction-record and architecture-lineage chapters, followed by the v1.4.1-to-v1.7.0 proof delta.
+- **In progress:** Chapters 1-3 now have complete first drafts.
+- Next: the architecture-lineage chapter, followed by the v1.4.1-to-v1.7.0 proof delta.
 - Reconcile Evolutor v1.4.1 with v1.7.0 definition-by-definition.
 - Formalize typed syntax, evaluation contexts, cost semantics, and trace events.
 - Turn proof sketches into checkable proofs or downgrade their status.
 - Build counterexample tests for locality, stage depth, and trace-neighborhood claims.
+- Bind every formal chapter to the completed E01-E16 text-graph inventory and its open obligations.
 
 ## Phase 2 - Executable GCS
 

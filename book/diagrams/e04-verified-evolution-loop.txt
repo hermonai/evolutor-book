@@ -1,0 +1,43 @@
+E04 — VERIFIED LOCAL EVOLUTION LOOP
+Scope: shows how traces may guide structural proposals without allowing the proposer to certify itself.
+
+LEGEND
+  ┌─┐ process/artifact   → information flow   ⇒ passed independent gate
+   ⊣ rejection          ↺ next version/iteration
+
+┌─────────────────────────────┐
+│ CURRENT VERSION             │ genome G, tests T, invariants I, policy P
+└──────────────┬──────────────┘
+               │ execute on contexts/data
+               ▼
+┌─────────────────────────────┐       ┌─────────────────────────────┐
+│ OBSERVATION BUNDLE          │  →    │ PROPOSAL MECHANISM          │
+│ outputs, traces, cost, loss │       │ heuristic / search / learner│
+│ failures, uncertainty       │       └──────────────┬──────────────┘
+└─────────────────────────────┘                      │ candidate edit ΔG + rationale
+                                                    ▼
+                                     ┌──────────────────────────────┐
+                                     │ INDEPENDENT STATIC VERIFIER  │
+                                     │ syntax · typing · policy · I │
+                                     └────────┬─────────────┬───────┘
+                                              │ pass         │ ⊣ fail
+                                              ▼              └──→ archive reason
+                                     ┌──────────────────────────────┐
+                                     │ CONTROLLED EVALUATION        │
+                                     │ tests · holdout · budgets ·  │
+                                     │ regression + identity control│
+                                     └────────┬─────────────┬───────┘
+                                              │ accept       │ ⊣ reject
+                                              ⇒              └──→ correction record
+┌─────────────────────────────────────────────▼───────────────────────────────────────┐
+│ VERSIONED ACCEPTANCE: G′ + parent ID + ΔG + verifier result + evaluation manifest   │
+└─────────────────────────────────────────────┬───────────────────────────────────────┘
+                                              ↺ next iteration
+
+SAFETY INVARIANT
+  proposer(ΔG) ≠ authority(ΔG); only a versioned, verified, evaluated candidate may replace G.
+
+READING NOTES
+1. Trace restriction can reduce a search region, but it may also omit useful edits and must be tested.
+2. The identity candidate prevents forced degradation when no edit passes.
+3. “Evolution” here means a controlled structural update process, not a claim of biological equivalence.

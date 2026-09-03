@@ -1,0 +1,39 @@
+E09 — FINITE-INTERVENTION CAUSALITY TEST
+Scope: detects future-to-past information leakage in a sequence model by changing only the suffix.
+
+LEGEND
+  ┌─┐ artifact/process   → data flow   = required equality   ⊣ causal failure
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ SHARED PREFIX p = x₁…x_t                                                    │
+└───────────────────────────────┬──────────────────────────────────────────────┘
+                                │ fork test inputs
+                 ┌──────────────┴───────────────┐
+                 ▼                              ▼
+┌──────────────────────────────┐   ┌──────────────────────────────┐
+│ INPUT A = p ⊕ suffix a       │   │ INPUT B = p ⊕ suffix b       │
+│ choose a and b materially    │   │ same length/validity class   │
+│ different after position t   │   │ different after position t  │
+└──────────────┬───────────────┘   └──────────────┬───────────────┘
+               │ same model/checkpoint/mode        │
+               ▼                                   ▼
+┌──────────────────────────────┐   ┌──────────────────────────────┐
+│ PREFIX OUTPUTS Y^A_{≤t}      │   │ PREFIX OUTPUTS Y^B_{≤t}      │
+└──────────────┬───────────────┘   └──────────────┬───────────────┘
+               └──────────────────┬────────────────┘
+                                  ▼
+                     ┌──────────────────────────────┐
+                     │ COMPARE MAX/RELATIVE ERROR  │
+                     │ tolerance fixed by dtype    │
+                     └────────┬──────────────┬──────┘
+                              │ within tol    │ exceeds tol
+                              =               └──⊣ future leakage / nondeterminism audit
+                     ┌──────────────────────────────┐
+                     │ CAUSALITY TEST PASSES        │
+                     │ for tested path/checkpoint   │
+                     └──────────────────────────────┘
+
+READING NOTES
+1. The test changes future values by a finite amount, avoiding tiny-gradient false reassurance.
+2. Dropout, stochastic kernels, padding, and position handling must be controlled.
+3. Passing sampled interventions supports the implementation boundary; it is not a universal formal proof.

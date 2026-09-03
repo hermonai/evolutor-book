@@ -1,0 +1,37 @@
+E07 — TRANSFORMER REFERENCE: TRAINING, PREFILL, AND DECODE
+Scope: makes causal tensor semantics and growing inference memory explicit.
+
+LEGEND
+  ┌─┐ computation/state   → tensor flow   ↺ cached state   ⇒ parity obligation
+
+┌──────────────────────────────┐
+│ DNA TOKEN IDS [B,T]          │
+└──────────────┬───────────────┘
+               ▼
+┌──────────────────────────────┐
+│ TOKEN + POSITION EMBEDDINGS  │
+└──────────────┬───────────────┘
+               ▼
+┌──────────────────────────────┐
+│ CAUSAL TRANSFORMER BLOCKS    │ mask forbids information from positions > t
+│ attention → residual → MLP   │
+└───────┬──────────────┬───────┘
+        │ training/full │ incremental inference
+        ▼               ▼
+┌───────────────────┐  ┌──────────────────────────────┐
+│ LOGITS [B,T,V]    │  │ KV STATE BY LAYER ↺         │
+│ shifted-token loss│  │ append K_t,V_t; attend past │
+└───────────────────┘  └──────────────┬───────────────┘
+                                      ▼
+                           ┌──────────────────────────┐
+                           │ NEXT-TOKEN LOGITS [B,1,V]│
+                           └──────────────────────────┘
+
+PARITY OBLIGATION
+  full causal logits at position t ⇒ incremental logits after prefill/decode at t,
+  within declared tolerance and with identical masking/position semantics.
+
+READING NOTES
+1. The reference may recompute prefixes before a KV optimization exists; semantics come first.
+2. KV memory grows with processed context in the ordinary design and must be measured by layer and dtype.
+3. Causal masking prevents direct future access; intervention tests still check the implementation.

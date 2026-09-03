@@ -1,0 +1,60 @@
+E14 — EVOLUTOR BOOK DEPENDENCY MAP
+Scope: orders semantics, proofs, learning, neural baselines, and runtime hypotheses by prerequisite.
+
+LEGEND
+  ┌─┐ topic cluster   → prerequisite   ⇢ hypothesis   ⊣ blocked use
+  ╔═╗ shared validation boundary
+
+┌──────────────────────────────┐      ┌────────────────────────────┐
+│ EVIDENCE + CORRECTION RECORD │─────►│ ARCHITECTURE PROVENANCE    │
+└──────────────┬───────────────┘      └─────────────┬──────────────┘
+               │                                    │ IDs constrain claims/artifacts
+               ▼                                    ▼
+┌──────────────────────────────┐      ┌────────────────────────────┐
+│ CLAIM / SOURCE LEDGERS       │─────►│ TYPED GENOME               │
+└──────────────┬───────────────┘      └─────────────┬──────────────┘
+               │ theorem status                     │ compile
+               ▼                                    ▼
+┌──────────────────────────────┐      ┌────────────────────────────┐
+│ PROOF OBLIGATIONS           │◄─────│ COMPILED SUBSTRATE         │
+└──────────────┬───────────────┘      └─────────────┬──────────────┘
+               │                                    │ context + regulation
+               │                                    ▼
+               │                      ┌────────────────────────────┐
+               └─────────────────────►│ EXPRESSION MACHINE        │
+                                      └──────┬──────────┬──────────┘
+                                             │          │
+                                    output   │          │ trace + cost
+                                             ▼          ▼
+                                  ┌──────────────┐  ┌────────────────────────┐
+                                  │ TYPED RESULT │  │ EDIT / COMPLEXITY AUDIT│
+                                  └──────────────┘  └───────────┬────────────┘
+                                                               ⇢ structural learning
+
+╔══════════════════════════════════════════════════════════════════════════════════════╗
+║ SHARED PYTORCH SEMANTICS AND EXPERIMENT CONTRACT                                   ║
+║ tokenizer · causal tests · loss · controls · capacity views · manifests · metrics   ║
+╚══════════════════════════════════════╤═══════════════════════════════════════════════╝
+                                       │
+                         ┌─────────────┴──────────────┐
+                         ▼                            ▼
+             ┌──────────────────────┐     ┌────────────────────────┐
+             │ TRANSFORMER DNA LINE │     │ NON-TRANSFORMER LINE   │
+             │ attention + KV       │     │ recurrence + GCS state │
+             └──────────┬───────────┘     └───────────┬────────────┘
+                        └──────────────┬───────────────┘
+                                       ⇒ controlled comparison
+                                       ▼
+                          ┌───────────────────────────┐
+                          │ COMPILER/RUNTIME PROPOSAL │
+                          │ only after semantic need  │
+                          └───────────────────────────┘
+
+BLOCKED USES
+  open depth theorem ⊣ architectural superiority; trace sparsity ⊣ learning guarantee;
+  PyTorch baseline ⊣ justification for a new compiler; name similarity ⊣ lineage continuity.
+
+READING NOTES
+1. The formal and neural branches share evidence discipline, not necessarily internal machinery.
+2. Runtime specialization comes last because it must preserve a stable semantic reference.
+3. Open proof obligations remain visible and cannot silently become prerequisites.

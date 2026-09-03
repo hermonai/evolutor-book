@@ -8,12 +8,7 @@ They do not share internal state structures, inference engines, or hidden capaci
 
 ## Training
 
-```text
-manifest -> tokenizer -> batches -> model.forward -> shifted loss
-                                              |
-                                              v
-                                      autograd + optimizer
-```
+[E16 — Training, evaluation, and artifact provenance](../book/diagrams/e16-training-evaluation-flow.txt) connects immutable manifests to tokenization, optimization, frozen evaluation, and the final artifact bundle. It also marks integrity failures and keeps per-seed records primary.
 
 The first loop will use ordinary PyTorch optimizers and checkpoint `state_dict` plus a versioned architecture config. Dataset and source hashes live with every result.
 
@@ -33,4 +28,3 @@ The first loop will use ordinary PyTorch optimizers and checkpoint `state_dict` 
 6. negative-result preservation.
 
 Initial tasks separate exact retrieval from running aggregates, then add genomic motif and regulation tasks with group-aware splits.
-
