@@ -1,0 +1,23 @@
+ID: EVO-G01
+TITLE: Genomic computation is a research question
+SUBTITLE: Compare the biological property with existing computing
+EVIDENCE: Editorial model; arrows specify relationships, not measured superiority.
+LEGEND: DATA → transformation or dependency; CONTROL ⇢ condition or review; HYPOTHESIS ⇢ unverified proposal.
+
+NODE n1 | Biological property | Regulation, development, memory or adaptation.
+NODE n2 | Candidate abstraction | Define state, operators and observable behavior.
+NODE n3 | Nearest prior art | Routing, libraries, search, memory and control.
+NODE n4 | Operational question | Specify a measurable computational benefit.
+NODE n5 | Controlled comparison | Match information access, resources and evaluation.
+NODE n6 | Keep, revise or reject | A negative result is an acceptable research outcome.
+
+EDGE n1 → n2 | DATA | translate with limits
+EDGE n2 → n3 | DATA | search for equivalence
+EDGE n1 → n4 | CONTROL | motivate
+EDGE n2 → n5 | CONTROL | formalize
+EDGE n3 → n6 | CONTROL | challenge novelty
+EDGE n4 → n5 | DATA | design falsifier
+EDGE n5 → n6 | DATA | evaluate
+
+READING: Rejected candidates return to the failure ledger; surviving abstractions still need reproduction.
+FAILURE: Biological vocabulary alone does not create new expressive power or an AGI mechanism.

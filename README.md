@@ -1,33 +1,19 @@
-# Evolutor: Genomic Computation
+# Evolutor
 
-**From Regulation and Expression to Machine Intelligence**
+## Genomic Computation as a Testable Research Program
 
-This repository develops Evolutor as an umbrella theory and executable research program. [E01 — Genomic Computation System: components and interfaces](book/diagrams/e01-gcs-interfaces.txt) shows the persistent genome, compiled substrate, contextual regulation, expression outputs, trace/cost channel, independent verifier, and versioned evolution loop.
+Publication reboot • edition 2 development • branch `astra-rewrite`.
 
-Evolutor is not automatically DOGMA, Hermon DNA, a neural network, or a molecular computer. A Genomic Computation System (GCS) may have symbolic, differentiable, or other implementations, and every implementation inherits a claim boundary.
+Biological regulation, development and adaptation motivate questions about adaptive computation. Evolutor will earn its abstractions by distinguishing them from routing, program synthesis, memory systems and structural learning, then testing whether the differences matter.
 
-## Bootstrap contents
+This is the **research-reset milestone**, not a completed book. No new manuscript chapters have been drafted in this reset. Start with [the redesign](ASTRA_REDESIGN.md), [the candidate contents](BOOK_PLAN.md), and [the execution report](RESET_REPORT.md).
 
-- an architecture taxonomy and name-lineage audit;
-- a claim and theorem ledger with explicit proof obligations;
-- a revised book plan and notation standard;
-- MiniEvolutor, a deterministic reference for genome/compile/regulate/execute/trace;
-- `evo_torch`, minimal Transformer and recurrent DNA baselines with shared training and intervention-based causality tests.
+- [Research source register](research/primary-sources.md)
+- [Publication plan and build commands](PUBLICATION_PLAN.md)
+- [Reference implementation design](REFERENCE_IMPLEMENTATION.md)
+- [Diagram standard](book/GRAPH_STANDARD.md)
+- [Historical edition and audit](historical/README.md)
 
-Start with [the book plan](BOOK_PLAN.md), [Chapter 1](book/chapters/01-program-as-genome.md), [Chapter 2](book/chapters/02-five-layers.md), [Chapter 3](book/chapters/03-correction-record-as-method.md), [architecture taxonomy](research/architecture-taxonomy.md), [theorem ledger](research/theorem-ledger.md), and the [TXT graph standard](book/diagrams/TXT_GRAPH_STANDARD.md).
+The old manuscript and research notes are quarantined under `historical/pre-reboot/` and excluded from the publication build. Existing code remains runnable for regression and audit, not as the definition of the new theory. The earlier public edition remains on `main`; no force-push or automatic default-branch change is used.
 
-## Development
-
-```bash
-python3 -m pytest
-```
-
-PyTorch is the semantic reference layer for early neural experiments. A new tensor library, compiler, or inference engine must be justified by a measured deficiency and must preserve parity with this layer.
-
-## Manuscript status
-
-Chapters 1 through 3 have complete first drafts. Chapter 4 will turn the architecture lineage into a durable provenance scheme.
-
-## Publication status
-
-Public research repository; not yet publication-ready. No source PDFs are copied here, and this repository currently has no open-source license.
+No authorship or licensing change has been made. Public visibility does not grant a new reuse license. Third-party papers and supplied reference images are not redistributed.

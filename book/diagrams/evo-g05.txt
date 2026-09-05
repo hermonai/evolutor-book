@@ -1,0 +1,23 @@
+ID: EVO-G05
+TITLE: Training, inference and serving are separate layers
+SUBTITLE: Optimization must preserve reference semantics
+EVIDENCE: Editorial model; arrows specify relationships, not measured superiority.
+LEGEND: DATA → transformation or dependency; CONTROL ⇢ condition or review; HYPOTHESIS ⇢ unverified proposal.
+
+NODE n1 | Model specification | Objective, causal graph, state and interfaces.
+NODE n2 | Training reference | PyTorch forward, loss, gradients and optimizer.
+NODE n3 | Checkpoint and provenance | Architecture, config, data and parameter identities.
+NODE n4 | Inference reference | Full-prefix or incremental outputs and carried state.
+NODE n5 | Optimized backend | Profile a workload and test precision-specific parity.
+NODE n6 | Serving system | Admission, batching, isolation, monitoring and rollback.
+
+EDGE n1 → n2 | DATA | instantiate
+EDGE n2 → n3 | DATA | record
+EDGE n1 → n4 | CONTROL | define semantics
+EDGE n2 → n5 | CONTROL | compare semantics
+EDGE n3 → n6 | CONTROL | load compatible artifact
+EDGE n4 → n5 | DATA | profile then optimize
+EDGE n5 → n6 | DATA | integrate
+
+READING: Parity compares outputs and state. Deployment metrics never replace model-quality evaluation.
+FAILURE: Schema mismatch, numerical drift or unsafe structural edits block promotion to serving.

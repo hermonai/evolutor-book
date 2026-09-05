@@ -1,4 +1,6 @@
 __pycache__/
+output/
+tmp/
 *.py[cod]
 .pytest_cache/
 .ruff_cache/
@@ -8,4 +10,3 @@ build/
 *.egg-info/
 .DS_Store
 book/_build/
-

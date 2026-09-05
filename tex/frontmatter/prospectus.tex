@@ -1,0 +1,76 @@
+\chapter*{Research prospectus}
+\renewcommand{\thefigure}{P.\arabic{figure}}
+\renewcommand{\thedefinition}{P.\arabic{definition}}
+\renewcommand{\theproposition}{P.\arabic{proposition}}
+\addcontentsline{toc}{chapter}{Research prospectus}
+\section*{The book's question}
+Biological regulation, development and adaptation motivate questions about adaptive computation. Evolutor will earn its abstractions by distinguishing them from routing, program synthesis, memory systems and structural learning, then testing whether the differences matter.
+
+ML and systems researchers who can read Python and linear algebra. Biology and learning theory are introduced at the point of use. AGI is a research question, not an assumed destination.
+\section*{Evidence and reading order}
+Sparse routing already separates stored and executed computation
+\citep{shazeer2017}. Reverse-complement-aware sequence modeling is existing
+research \citep{schiff2024}. These comparisons make biological vocabulary
+insufficient as a novelty claim.
+
+The new organization is a candidate dependency structure. Detailed methods,
+quantitative claims and proof statements require chapter-level full-text review.
+The present literature work is a scoping review, not an exhaustive survey.
+
+\section*{How the repository is read}
+Start with ASTRA\_REDESIGN.md, then BOOK\_PLAN.md and the source register.
+Historical text is kept separately. Existing code is available for regression
+tests and critical inspection; it does not define the new theory.
+The \gls{provenance}\index{provenance} of each future result must identify the
+implementation, configuration, data and evaluation.
+
+\section*{Next publication gate}
+Research and write one chapter at a time. Include a worked example, the smallest
+useful executable model, source-reviewed diagrams, limitations and exercises.
+Do not turn planned experiments into result tables.
+
+\clearpage
+\begin{figure}[p]
+\centering
+\includegraphics[width=\textwidth]{../build/figures/evo-g04.pdf}
+\caption{The research pipeline: failed integrity, causality or comparison gates block downstream claims. Canonical source: EVO-G04.}
+\label{fig:research-map}
+\end{figure}
+\clearpage
+\chapter*{Publication verification card}
+\addcontentsline{toc}{chapter}{Publication verification card}
+This page exercises equation labels, theorem/proof typography, code, Unicode
+graph text, index and glossary hooks. It is an editorial build check, not a new
+manuscript chapter or research contribution.
+
+\begin{definition}[Canonical complement]
+On \(\Sigma=\{A,C,G,T\}\), set \(c(A)=T\), \(c(T)=A\),
+\(c(C)=G\) and \(c(G)=C\).
+\end{definition}
+For a finite sequence \(s=s_1\cdots s_n\), define
+\begin{equation}
+RC(s)=c(s_n)\cdots c(s_1).
+\label{eq:reverse-complement}
+\end{equation}
+\begin{proposition}[An elementary identity]
+Under the canonical string model, \(RC(RC(s))=s\).
+\end{proposition}
+\begin{proof}
+Reversal applied twice restores order; the base map applied twice restores
+each symbol. These two operations commute.
+\end{proof}
+Equation~\eqref{eq:reverse-complement} describes a symbolic operation, not
+molecular kinetics. It cannot establish an advantage for a neural architecture.
+\index{reverse complement}
+
+\section*{Code style and UTF-8 graph inclusion}
+\begin{Verbatim}[fontsize=\small,frame=single]
+python3 -m pytest
+make pdf
+make check-pdf
+\end{Verbatim}
+The excerpt below is included directly from the canonical TXT graph, not
+transcribed into the manuscript.
+\VerbatimInput[firstline=1,lastline=1,fontsize=\small]{../book/diagrams/evo-g04.txt}
+\VerbatimInput[firstline=13,lastline=14,fontsize=\footnotesize]{../book/diagrams/evo-g04.txt}
+See Figure~\ref{fig:research-map} for the graphical reading of the source.

@@ -1,0 +1,23 @@
+ID: EVO-G02
+TITLE: Capabilities do not collapse into AGI
+SUBTITLE: Use a portfolio with explicit evaluation boundaries
+EVIDENCE: Editorial model; arrows specify relationships, not measured superiority.
+LEGEND: DATA → transformation or dependency; CONTROL ⇢ condition or review; HYPOTHESIS ⇢ unverified proposal.
+
+NODE n1 | Task definition | Declare the task, distribution and allowed resources.
+NODE n2 | Capability measurement | Measure retrieval, reasoning, planning or adaptation.
+NODE n3 | Cross-domain evidence | Test breadth without changing evidence standards.
+NODE n4 | Oracle and controls | Check chance, shortcuts, leakage and information access.
+NODE n5 | Transfer and retention | Separate faster learning from old-skill preservation.
+NODE n6 | AGI interpretation gate | Apply a stated framework and expose remaining limits.
+
+EDGE n1 → n2 | DATA | operationalize
+EDGE n2 → n3 | DATA | broaden cautiously
+EDGE n1 → n4 | CONTROL | validate
+EDGE n2 → n5 | CONTROL | counter-test
+EDGE n3 → n6 | CONTROL | interpret
+EDGE n4 → n5 | DATA | compare
+EDGE n5 → n6 | DATA | require evidence
+
+READING: No portfolio cell is measured by this diagram. All new-model capability entries are currently unmeasured.
+FAILURE: One narrow task score cannot establish a different capability, broad intelligence or autonomy.

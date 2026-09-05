@@ -1,5 +1,14 @@
 # Changelog
 
+## 2026-09-05 — Edition 2 research reset
+
+- Preserved the earlier edition and unfinished work on archive/pre-reboot-20260905.
+- Moved old manuscript/research into an explicitly historical directory and reset the active chapter manifest.
+- Rebuilt the thesis, candidate contents, literature maps, claim/audit records and reference-stack design.
+- Added canonical Unicode TXT graphs, reproducible SVG rendering, and a compiling LaTeX prospectus.
+- Verified 20 tests, archival byte fidelity, links, diagrams, bibliography/index/glossary and nine rendered PDF pages.
+- No new chapters, model-training results, wet-lab experiments or AGI claims in this milestone.
+
 ## 2026-09-04
 
 - Bootstrapped the Evolutor book plan, source/theorem audits, naming lineage, MiniEvolutor, and shared PyTorch reference baselines.

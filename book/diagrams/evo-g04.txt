@@ -1,0 +1,25 @@
+ID: EVO-G04
+TITLE: Evidence pipeline with rejection paths
+SUBTITLE: Evidence status changes only at explicit gates
+EVIDENCE: Editorial model; arrows specify relationships, not measured superiority.
+LEGEND: DATA → transformation or dependency; CONTROL ⇢ condition or review; HYPOTHESIS ⇢ unverified proposal.
+
+NODE n1 | Question and prior art | Locate the nearest existing explanation.
+NODE n2 | Registered hypothesis | Fix comparison and rejection criterion before results.
+NODE n3 | Reference implementation | Implement observable semantics and preserve identity.
+NODE n4 | Oracle and integrity | Check causal structure, parity and task validity.
+NODE n5 | Controlled experiments | Use seeds, capacity controls and mechanism tests.
+NODE n6 | Bounded claim or rejection | Publish limitations, artifacts and failed hypotheses.
+
+EDGE n1 → n2 | DATA | identify gap
+EDGE n2 → n3 | DATA | formalize
+EDGE n1 → n4 | CONTROL | validate task
+EDGE n2 → n5 | CONTROL | define falsifier
+EDGE n3 → n6 | CONTROL | execute tests
+EDGE n4 → n5 | DATA | gate entry
+EDGE n5 → n6 | DATA | evaluate
+
+EDGE n6 → n2 | CONTROL | revise after failure
+
+READING: Failure at a gate blocks downstream claims and returns the candidate to revision; no gate certifies AGI.
+FAILURE: A renamed model or new engine cannot inherit evidence from a different configuration.

@@ -1,0 +1,46 @@
+\documentclass[11pt,oneside,openany]{book}
+\input{metadata}
+\input{preamble}
+\begin{document}
+\frontmatter
+\begin{titlepage}
+\vspace*{22mm}
+{\sffamily\color{BookBlue}\large RESEARCH RESET\par}
+\vspace{12mm}
+{\Huge\bfseries\BookTitle\par}
+\vspace{7mm}
+{\Large\BookSubtitle\par}
+\vspace{20mm}
+{\large\EditionLabel\par}
+\vfill
+This document establishes the new book's scope and publication machinery.
+It is not a completed textbook or a report of new experimental results.\par
+\vspace{8mm}
+{\sffamily\EditionDate\par}
+\end{titlepage}
+\chapter*{Edition and rights}
+\addcontentsline{toc}{chapter}{Edition and rights}
+This development prospectus begins a new intellectual edition while preserving
+the earlier manuscript, code and correction history in Git and a historical
+directory. No old chapter is included in this build.
+
+Author attribution is unchanged. No new copyright holder, open-source license
+or permission to redistribute third-party material is asserted. Publication
+metadata will be finalized with the rights holder before a final edition.
+
+AI assistance is a research and authoring process, not evidence for a scientific
+claim. External sources, mathematical reasoning, executable checks and measured
+experiments have separate evidentiary roles.
+
+The accompanying repository contains the research map, source-access records,
+candidate contents, audit decisions and canonical text graphs.
+\tableofcontents
+\input{frontmatter/prospectus}
+\mainmatter
+\input{chapters/manifest}
+\backmatter
+\bibliographystyle{plainnat}
+\bibliography{bibliography}
+\printnoidxglossary
+\printindex
+\end{document}

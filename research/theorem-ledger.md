@@ -1,24 +1,30 @@
-# Theorem ledger
+# Theorem reset ledger
 
-Status meanings: `sketch`, `conditional`, `gap`, `standard consequence`, `unreviewed revision`.
+The historical ledger's IDs T01–T15 remain historical IDs. The classifications below screen its stated claims and proof obligations; they are **not** a completed line-by-line audit of every original paper version. Full v1.4.1-to-v1.7 proof review remains blocked from publication until original statements and proof deltas are checked.
 
-| ID | v1.4.1 result | Dependencies | Audit status | Main obligation |
-| --- | --- | --- | --- | --- |
-| T01 | expression type preservation | complete typing rules; transition semantics | sketch | define every AST form, store typing, primitive, and edit transition |
-| T02 | policy safety preservation | policy type semantics; safe transition relation | sketch / partly by definition | show all emits and external primitives respect policy, not only edits |
-| T03 | GCS universality | unbounded sequence/tape, random access, iteration, deterministic regulation | sketch | formal encoding and multi-step simulation relation; state-space accounting |
-| T04 | expression-bounded runtime | local routing, total constant-cost primitives, gate-cost bound, fair scheduler | conditional | replace “runtime is O(EC)” with a cost semantics including gates and primitive costs |
-| T05 | SPR linear expression upper bound | scan genome; explicit query availability | sketch | give executable genome and count gates/firings separately |
-| T06 | LIM light-cone lemma | synchronous local rounds or precisely bounded asynchronous steps | standard consequence | resolve asynchronous-round definition |
-| T07 | SPR quadratic LIM interaction lower bound | T06; output location; all-pairs-per-round cost | conditional | state output model and scheduler; clarify it is LIM-only |
-| T08 | regulation-depth upper bound for pointer chasing | staged scan; pointer availability; locality | gap | reconcile “bounded location carried between stages” with local gate access |
-| T09 | strict regulation-depth hierarchy | communication lower bound; faithful stage-to-round simulation | gap | `k+O(1)` does not yield `<k`; message-size and cut interface need bounds |
-| T10 | finite-class size bound | finite grammar encoding including constants/names/structure | gap | define a prefix-free finite encoding; `(A B)^s` is currently too coarse |
-| T11 | uniform convergence over finite class | finite H, bounded i.i.d. loss | standard consequence | correct constants and distinguish risk from regularized objective |
-| T12 | trace-restricted candidate-count bound | support union, edit radius, local encoding choices | gap | average support does not bound union across N examples without more assumptions |
-| T13 | monotone verified-local descent | finite candidate set, identity candidate, exact argmin | standard consequence | state lower bound/grid assumptions for termination count |
-| T14 | invariants under verified edits | initial invariant, sound verifier, preservation per step | standard induction | formalize verifier and non-edit transitions |
-| T15 | v1.7 revised pointer-depth and normalized learning results | version-specific definitions | unreviewed revision | prepare a line-by-line v1.4.1-to-v1.7 proof delta |
+| Old ID | Restated target / assumptions | Attack or missing step | Decision |
+| --- | --- | --- | --- |
+| T01 | Typed execution preserves store typing under typed total primitives | Arbitrary Python callable or untyped external result breaks assumption | REPAIR with full syntax and transitions |
+| T02 | Every allowed step preserves a semantic safety policy | Interface validation alone does not constrain external effects | WEAKEN; current code is structural validation only |
+| T03 | GCS simulates an unbounded machine with explicit memory/iteration | Finite acyclic executable subset cannot establish it | RESEARCH AGAIN; require encoding and simulation |
+| T04 | Runtime bounded by expression work under costed routing/primitives | All gates disabled gives zero firings and nonzero routing work | REPLACE with total cost semantics |
+| T05 | A particular SPR algorithm has a linear expression bound | Gate scan, query availability and costs omitted | REPAIR with executable construction |
+| T06 | Local synchronous information travels at most one edge per round | Asynchronous “round” can hide sequential propagation | KEEP CONCEPT as a standard locality lemma |
+| T07 | Specified LIM model incurs a quadratic interaction cost | Different output location, indexed access or scheduler defeats transfer | WEAKEN to exact restricted model |
+| T08 | Pointer chasing admits a claimed regulation-depth upper bound | Pointer accessibility must be paid for per stage | RESEARCH AGAIN |
+| T09 | Strict depth hierarchy from communication simulation | \(k+O(1)\) bound does not establish a strict \(k\)-stage separation | BLOCKED until exact round/message argument |
+| T10 | A size-bounded genome class is finite | Unbounded constants or names yield infinitely many programs of one node | REPAIR with finite bit encoding |
+| T11 | Finite-class uniform convergence under bounded iid loss | Training objective is not automatically population risk | KEEP CONCEPT as standard learning theory |
+| T12 | Average trace support bounds editable union | Disjoint supports of size one over \(N\) samples have union \(N\) | REJECT this inference; derive union-aware bound |
+| T13 | Exact local minimization with identity candidate is monotone | Monotonicity alone gives no finite termination or generalization | WEAKEN to non-increase |
+| T14 | Sound verified invariant preservation composes over edits | Unsound verifier or unmodeled non-edit steps breaks induction | KEEP CONCEPT as standard induction |
+| T15 | Revised v1.7 results repair older claims | No full proof delta checked in this reset | UNVERIFIED |
 
-No `gap` result is presented as established in the manuscript.
+No original theorem is declared novel or established here. A finite-class bound can use
+\[
+\Pr\{\sup_{h\in H}|\widehat R(h)-R(h)|>\epsilon\}
+\leq 2|H|\exp(-2N\epsilon^2)
+\]
+only with finite \(H\), bounded \([0,1]\) losses and independent identically distributed samples. This is a standard Hoeffding/union-bound consequence, not an Evolutor discovery; a verified learning-theory citation is required before chapter publication.
 
+Trace counterexample: let the support on example \(i\) be \(\{i\}\). Mean support is 1; union support is \(N\). This refutes a dataset-union bound by the mean alone, not every trace-guided search bound.

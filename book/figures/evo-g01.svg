@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="920" viewBox="0 0 1000 920" role="img" aria-labelledby="title desc">
+<title id="title">EVO-G01: Genomic computation is a research question</title>
+<desc id="desc">Editorial model; arrows specify relationships, not measured superiority. Rejected candidates return to the failure ledger; surviving abstractions still need reproduction. Failure: Biological vocabulary alone does not create new expressive power or an AGI mechanism.</desc>
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#245579"/></marker></defs>
+<rect width="1000" height="920" fill="white"/>
+<text x="30" y="36" font-family="DejaVu Sans, sans-serif" font-size="15" fill="#245579" font-weight="bold" text-anchor="start">EVO-G01  /  EDITION 2 RESEARCH MAP</text>
+<text x="30" y="77" font-family="DejaVu Sans, sans-serif" font-size="28" fill="#20334a" font-weight="bold" text-anchor="start">Genomic computation is a research question</text>
+<text x="30" y="110" font-family="DejaVu Sans, sans-serif" font-size="18" fill="#20334a" font-weight="normal" text-anchor="start">Compare the biological property with existing computing</text>
+<path d="M215,270 V340" fill="none" stroke="#245579" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="232" y="306" font-family="DejaVu Sans, sans-serif" font-size="15" fill="#20334a" font-weight="normal" text-anchor="start">translate with</text>
+<text x="232" y="324" font-family="DejaVu Sans, sans-serif" font-size="15" fill="#20334a" font-weight="normal" text-anchor="start">limits</text>
+<path d="M215,455 V525" fill="none" stroke="#245579" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="232" y="491" font-family="DejaVu Sans, sans-serif" font-size="15" fill="#20334a" font-weight="normal" text-anchor="start">search for</text>
+<text x="232" y="509" font-family="DejaVu Sans, sans-serif" font-size="15" fill="#20334a" font-weight="normal" text-anchor="start">equivalence</text>
+<path d="M400,213 H600" fill="none" stroke="#245579" stroke-width="2" stroke-dasharray="7 5" marker-end="url(#arrow)"/>
+<text x="500" y="180" font-family="DejaVu Sans, sans-serif" font-size="15" fill="#20334a" font-weight="normal" text-anchor="middle">motivate</text>
+<path d="M400,398 H600" fill="none" stroke="#245579" stroke-width="2" stroke-dasharray="7 5" marker-end="url(#arrow)"/>
+<text x="500" y="365" font-family="DejaVu Sans, sans-serif" font-size="15" fill="#20334a" font-weight="normal" text-anchor="middle">formalize</text>
+<path d="M400,583 H600" fill="none" stroke="#245579" stroke-width="2" stroke-dasharray="7 5" marker-end="url(#arrow)"/>
+<text x="500" y="550" font-family="DejaVu Sans, sans-serif" font-size="15" fill="#20334a" font-weight="normal" text-anchor="middle">challenge novelty</text>
+<path d="M785,270 V340" fill="none" stroke="#245579" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="802" y="306" font-family="DejaVu Sans, sans-serif" font-size="15" fill="#20334a" font-weight="normal" text-anchor="start">design falsifier</text>
+<path d="M785,455 V525" fill="none" stroke="#245579" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="802" y="491" font-family="DejaVu Sans, sans-serif" font-size="15" fill="#20334a" font-weight="normal" text-anchor="start">evaluate</text>
+<rect x="30" y="155" width="370" height="115" rx="9" fill="#eef5fb" stroke="#afc4d5"/>
+<text x="45" y="183" font-family="DejaVu Sans, sans-serif" font-size="19" fill="#20334a" font-weight="bold" text-anchor="start">Biological property</text>
+<text x="45" y="210" font-family="DejaVu Sans, sans-serif" font-size="17" fill="#20334a" font-weight="normal" text-anchor="start">Regulation, development, memory or</text>
+<text x="45" y="232" font-family="DejaVu Sans, sans-serif" font-size="17" fill="#20334a" font-weight="normal" text-anchor="start">adaptation.</text>
+<rect x="30" y="340" width="370" height="115" rx="9" fill="#eef5fb" stroke="#afc4d5"/>
+<text x="45" y="368" font-family="DejaVu Sans, sans-serif" font-size="19" fill="#20334a" font-weight="bold" text-anchor="start">Candidate abstraction</text>
+<text x="45" y="395" font-family="DejaVu Sans, sans-serif" font-size="17" fill="#20334a" font-weight="normal" text-anchor="start">Define state, operators and</text>
+<text x="45" y="417" font-family="DejaVu Sans, sans-serif" font-size="17" fill="#20334a" font-weight="normal" text-anchor="start">observable behavior.</text>
+<rect x="30" y="525" width="370" height="115" rx="9" fill="#eef5fb" stroke="#afc4d5"/>
+<text x="45" y="553" font-family="DejaVu Sans, sans-serif" font-size="19" fill="#20334a" font-weight="bold" text-anchor="start">Nearest prior art</text>
+<text x="45" y="580" font-family="DejaVu Sans, sans-serif" font-size="17" fill="#20334a" font-weight="normal" text-anchor="start">Routing, libraries, search, memory</text>
+<text x="45" y="602" font-family="DejaVu Sans, sans-serif" font-size="17" fill="#20334a" font-weight="normal" text-anchor="start">and control.</text>
+<rect x="600" y="155" width="370" height="115" rx="9" fill="#f2f7f2" stroke="#afc4d5"/>
+<text x="615" y="183" font-family="DejaVu Sans, sans-serif" font-size="19" fill="#20334a" font-weight="bold" text-anchor="start">Operational question</text>
+<text x="615" y="210" font-family="DejaVu Sans, sans-serif" font-size="17" fill="#20334a" font-weight="normal" text-anchor="start">Specify a measurable computational</text>
+<text x="615" y="232" font-family="DejaVu Sans, sans-serif" font-size="17" fill="#20334a" font-weight="normal" text-anchor="start">benefit.</text>
+<rect x="600" y="340" width="370" height="115" rx="9" fill="#f2f7f2" stroke="#afc4d5"/>
+<text x="615" y="368" font-family="DejaVu Sans, sans-serif" font-size="19" fill="#20334a" font-weight="bold" text-anchor="start">Controlled comparison</text>
+<text x="615" y="395" font-family="DejaVu Sans, sans-serif" font-size="17" fill="#20334a" font-weight="normal" text-anchor="start">Match information access, resources</text>
+<text x="615" y="417" font-family="DejaVu Sans, sans-serif" font-size="17" fill="#20334a" font-weight="normal" text-anchor="start">and evaluation.</text>
+<rect x="600" y="525" width="370" height="115" rx="9" fill="#f2f7f2" stroke="#afc4d5"/>
+<text x="615" y="553" font-family="DejaVu Sans, sans-serif" font-size="19" fill="#20334a" font-weight="bold" text-anchor="start">Keep, revise or reject</text>
+<text x="615" y="580" font-family="DejaVu Sans, sans-serif" font-size="17" fill="#20334a" font-weight="normal" text-anchor="start">A negative result is an acceptable</text>
+<text x="615" y="602" font-family="DejaVu Sans, sans-serif" font-size="17" fill="#20334a" font-weight="normal" text-anchor="start">research outcome.</text>
+<text x="30" y="744" font-family="DejaVu Sans, sans-serif" font-size="16" fill="#245579" font-weight="bold" text-anchor="start">Solid: data / dependency     Dashed: control / review</text>
+<text x="30" y="772" font-family="DejaVu Sans, sans-serif" font-size="16" fill="#20334a" font-weight="normal" text-anchor="start">READING: Rejected candidates return to the failure ledger; surviving abstractions still need</text>
+<text x="30" y="795" font-family="DejaVu Sans, sans-serif" font-size="16" fill="#20334a" font-weight="normal" text-anchor="start">reproduction.</text>
+<text x="30" y="818" font-family="DejaVu Sans, sans-serif" font-size="16" fill="#20334a" font-weight="normal" text-anchor="start">BOUNDARY: Biological vocabulary alone does not create new expressive power or an AGI mechanism.</text>
+<text x="30" y="898" font-family="DejaVu Sans, sans-serif" font-size="14" fill="#20334a" font-weight="normal" text-anchor="start">Conceptual map. No measured superiority or physical validation is implied by an arrow.</text>
+</svg>

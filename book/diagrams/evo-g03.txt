@@ -1,0 +1,23 @@
+ID: EVO-G03
+TITLE: Architecture choices are memory and execution choices
+SUBTITLE: Select comparisons by workload, not by project name
+EVIDENCE: Editorial model; arrows specify relationships, not measured superiority.
+LEGEND: DATA → transformation or dependency; CONTROL ⇢ condition or review; HYPOTHESIS ⇢ unverified proposal.
+
+NODE n1 | Workload and constraints | Specify latency, exactness, context and adaptation.
+NODE n2 | Memory access regime | Compressed state, attention cache or external records.
+NODE n3 | Execution and update regime | Fixed graph, routed modules or structural construction.
+NODE n4 | Plain baselines | Markov, CNN, GRU, Transformer, SSM and lookup.
+NODE n5 | Candidate modification | Add only a defined difference from existing methods.
+NODE n6 | Resource-matched test | Report multiple matching axes and remaining confounds.
+
+EDGE n1 → n2 | DATA | derive requirements
+EDGE n2 → n3 | DATA | specify operations
+EDGE n1 → n4 | CONTROL | choose
+EDGE n2 → n5 | CONTROL | modify
+EDGE n3 → n6 | CONTROL | test
+EDGE n4 → n5 | DATA | compare
+EDGE n5 → n6 | DATA | measure
+
+READING: DOGMA and Hermon DNA have no assigned winner or mandatory backbone in this reset.
+FAILURE: Parameter matching alone can hide unequal width, state, context or information access.

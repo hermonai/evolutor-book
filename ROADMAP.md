@@ -1,46 +1,21 @@
-# Roadmap
+# Research-reset roadmap
 
-## Phase 0 - Bootstrap (current)
+## Completed in this milestone
 
-- Inventory source versions and repository states.
-- Freeze the architecture/name conflict in explicit documents.
-- Create theorem and proof-obligation ledgers.
-- Implement MiniEvolutor and minimal PyTorch baselines.
-- Establish intervention causality and capacity controls.
+- Preserve the public edition and unfinished work on an archival branch.
+- Separate historical manuscript/research from the active publication manifest.
+- Rebuild thesis, audience, candidate TOC and source map.
+- Screen old chapters, diagrams, code and claims; record unresolved proof/benchmark audits.
+- Establish and test a LaTeX publication shell and canonical graph sources.
 
-## Phase 1 - Formal-core audit
+## Next: one chapter, reviewed deeply
 
-- **In progress:** Chapters 1-3 now have complete first drafts.
-- Next: the architecture-lineage chapter, followed by the v1.4.1-to-v1.7.0 proof delta.
-- Reconcile Evolutor v1.4.1 with v1.7.0 definition-by-definition.
-- Formalize typed syntax, evaluation contexts, cost semantics, and trace events.
-- Turn proof sketches into checkable proofs or downgrade their status.
-- Build counterexample tests for locality, stage depth, and trace-neighborhood claims.
-- Bind every formal chapter to the completed E01-E16 text-graph inventory and its open obligations.
+Research the first chapter's specific claims using full papers and authoritative biology sources. Write an outline and claim list first; then draft, implement the smallest example, test it, and create verified illustrations. Review math, citations, semantics and rendered pages before committing. Do not bulk-generate planned chapters.
 
-## Phase 2 - Executable GCS
+## Research gates still open
 
-- Extend MiniEvolutor with typed AST parsing and explicit effect declarations.
-- Implement staged regulation, expression accounting, and trace serialization.
-- Reproduce the SPR upper-bound construction as code.
-- Add verified edit certificates without autonomous mutation.
+The field map is not a complete systematic review. Full-text audits of formal-model variants and contemporary experimental protocols remain open. Historical proof deltas, benchmark generators and checkpoints require artifact-level re-audit. No AGI scorecard cells can be populated from these unit tests.
 
-## Phase 3 - Neural baselines
+## Later
 
-- Freeze datasets, tokenizer, splits, artifacts, and budgets.
-- Train ordinary Transformer and GRU/SSM references.
-- Verify full-sequence versus incremental inference parity.
-- Add one DNA/genomic hypothesis at a time.
-
-## Phase 4 - Comparative research
-
-- Run retrieval, streaming, algorithmic, regulatory, and genomic tasks.
-- Report multiple matching conventions and per-seed results.
-- Publish negative results and correction records with artifacts.
-
-## Phase 5 - Foundations and runtimes
-
-- Profile PyTorch to identify actual missing primitives.
-- Specify a genomic IR only if multiple working implementations need it.
-- Build optimized engines only behind parity tests.
-- Produce final HTML/PDF after the scientific source stabilizes.
+Add chapter-based releases, full index/glossary, accessible figure alternatives, reproducible measured tables and an HTML edition if useful. Optimize only after a semantic reference and measured workload exist.

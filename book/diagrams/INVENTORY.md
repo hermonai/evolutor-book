@@ -1,22 +1,9 @@
-# Text-diagram inventory
+# Active graph inventory
 
-| ID | Subject | Status |
-| --- | --- | --- |
-| E01 | [GCS components and interfaces](e01-gcs-interfaces.txt) | manuscript-ready; full implementation pending |
-| E02 | [Genome, compile, regulate, express](e02-genome-compile-regulate-express.txt) | implemented subset in MiniEvolutor |
-| E03 | [Expression state and worklist transitions](e03-expression-machine-transitions.txt) | graph drafted; proof audit needed |
-| E04 | [Verified local evolution loop](e04-verified-evolution-loop.txt) | implemented at skeleton level |
-| E05 | [Theorem dependencies and blocked obligations](e05-theorem-dependencies.txt) | proof audit in progress |
-| E06 | [Historical versus target architecture names](e06-architecture-lineage.txt) | manuscript-ready |
-| E07 | [Transformer training, prefill, KV decode](e07-transformer-reference-flow.txt) | baseline implemented without KV optimization |
-| E08 | [Recurrent training and stateful step](e08-recurrent-reference-flow.txt) | baseline implemented |
-| E09 | [Intervention causality test](e09-intervention-causality-test.txt) | implemented |
-| E10 | [Retrieval versus accumulated-state long context](e10-long-context-capability-map.txt) | evaluation graph ready; experiments planned |
-| E11 | [Genomic model, IR, differentiable, and structural paths](e11-genomic-stack-paths.txt) | hypothesis only |
-| E12 | [Common protocol over distinct inference engines](e12-common-protocol-distinct-engines.txt) | hypothesis only |
-| E13 | [Five evidence layers and bridge artifacts](e13-five-evidence-layers.txt) | manuscript-ready |
-| E14 | [Book dependency map](e14-book-dependency-map.txt) | manuscript-ready |
-| E15 | [Correction record loop](e15-correction-record-loop.txt) | manuscript-ready; automation pending |
-| E16 | [Training, evaluation, and artifact provenance](e16-training-evaluation-flow.txt) | protocol drafted |
+- **EVO-G01 — Genomic computation is a research question**: [canonical TXT](evo-g01.txt), [generated SVG](../figures/evo-g01.svg). Status: editorial research map; no empirical superiority implied.
+- **EVO-G02 — Capabilities do not collapse into AGI**: [canonical TXT](evo-g02.txt), [generated SVG](../figures/evo-g02.svg). Status: editorial research map; no empirical superiority implied.
+- **EVO-G03 — Architecture choices are memory and execution choices**: [canonical TXT](evo-g03.txt), [generated SVG](../figures/evo-g03.svg). Status: editorial research map; no empirical superiority implied.
+- **EVO-G04 — Evidence pipeline with rejection paths**: [canonical TXT](evo-g04.txt), [generated SVG](../figures/evo-g04.svg). Status: editorial research map; no empirical superiority implied.
+- **EVO-G05 — Training, inference and serving are separate layers**: [canonical TXT](evo-g05.txt), [generated SVG](../figures/evo-g05.svg). Status: editorial research map; no empirical superiority implied.
 
-All diagrams follow the [TXT graph standard](TXT_GRAPH_STANDARD.md). The `.txt` file is the canonical source even if a later ebook build generates a vector or raster rendering from it.
+Only EVO-G04 is included in the publication shell as a figure-layout check. The other maps support the redesign report. Historical diagrams are not active figures.

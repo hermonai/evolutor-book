@@ -1,0 +1,38 @@
+\usepackage{fontspec}
+\setmainfont{texgyrepagella-regular.otf}[BoldFont=texgyrepagella-bold.otf,ItalicFont=texgyrepagella-italic.otf,BoldItalicFont=texgyrepagella-bolditalic.otf]
+\setsansfont{texgyreheros-regular.otf}[BoldFont=texgyreheros-bold.otf]
+\setmonofont{DejaVuSansMono.ttf}[Scale=0.82]
+\usepackage[a4paper,inner=27mm,outer=24mm,top=24mm,bottom=25mm]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{xcolor,graphicx,booktabs,fancyvrb}
+\usepackage[round,authoryear]{natbib}
+\usepackage{makeidx}
+\makeindex
+\usepackage[toc]{glossaries}
+\makenoidxglossaries
+\newglossaryentry{provenance}{name=provenance,description={The identifiable sources, configuration and process behind an artifact or claim}}
+\usepackage{hyperref}
+\definecolor{BookBlue}{HTML}{234F73}
+\hypersetup{colorlinks=true,hypertexnames=false,linkcolor=BookBlue,citecolor=BookBlue,urlcolor=BookBlue}
+\newtheorem{definition}{Definition}[chapter]
+\newtheorem{proposition}{Proposition}[chapter]
+\newtheorem{lemma}{Lemma}[chapter]
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{corollary}{Corollary}[chapter]
+\theoremstyle{definition}
+\newtheorem{conjecture}{Conjecture}[chapter]
+\newtheorem{hypothesis}{Hypothesis}[chapter]
+\newtheorem{observation}{Observation}[chapter]
+\newtheorem{engineeringprinciple}{Engineering Principle}[chapter]
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\sffamily\BookTitle}
+\fancyhead[R]{\small\sffamily Research prospectus}
+\fancyfoot[C]{\thepage}
+\setlength{\headheight}{15pt}
+\setlength{\parskip}{5pt}
+\setlength{\parindent}{0pt}
+\clubpenalty=10000
+\widowpenalty=10000
+\emergencystretch=1em

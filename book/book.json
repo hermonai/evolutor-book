@@ -1,0 +1,16 @@
+{
+  "title": "Evolutor",
+  "subtitle": "Genomic Computation as a Testable Research Program",
+  "edition": "2-development",
+  "status": "research-reset",
+  "chapters": [],
+  "prospectus": "tex/evolutor.tex",
+  "graphs": [
+    "EVO-G01",
+    "EVO-G02",
+    "EVO-G03",
+    "EVO-G04",
+    "EVO-G05"
+  ],
+  "historicalSnapshot": "9df0d006e10e56cd836a4b84400009dab3cbf4f2"
+}
