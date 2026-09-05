@@ -1,0 +1,40 @@
+E20 — WHY A RESULT CANNOT MIGRATE WITH A NAME
+Scope: demonstrates the evidence break created by renaming a redesigned architecture.
+
+LEGEND
+  ┌─┐ versioned object   → valid attribution   ⇢ proposed rename
+   ⊣ invalid evidence transfer   ═══ provenance firewall
+
+┌──────────────────────────────┐
+│ EXPERIMENT R                │
+│ architecture A₁ · code c₁   │
+│ config q₁ · data d₁ · eval e₁│
+└──────────────┬───────────────┘
+               → supports only
+┌──────────────────────────────┐
+│ CLAIM R(A₁,c₁,q₁,d₁,e₁)     │
+└──────────────┬───────────────┘
+               │ project name N reused ⇢
+══════════════════════════════ PROVENANCE FIREWALL ════════════════════════════════════
+               │
+               └──⊣ R(A₂) without a new implementation, checkpoint, and evaluation
+                                      │
+                                      ▼
+                         ┌──────────────────────────────┐
+                         │ REDESIGNED ARCHITECTURE A₂  │
+                         │ possibly same public name N │
+                         └──────────────┬───────────────┘
+                                        │ requires new experiment R′
+                                        ▼
+                         ┌──────────────────────────────┐
+                         │ CLAIM R′(A₂,c₂,q₂,d₂,e₂)    │
+                         └──────────────────────────────┘
+
+CONCRETE APPLICATION
+  DOGMA-R recurrent measurements ⊣ DOGMA-T Transformer claims.
+  Hermon Engine paged-KV results ⊣ Hermon DNA-R recurrent claims.
+
+READING NOTES
+1. A stable name may conceal a changed equation, state model, or evaluation path.
+2. Compatibility can be tested, but similarity of branding is never a compatibility test.
+3. Historical aliases remain searchable and linked to their original architecture IDs.

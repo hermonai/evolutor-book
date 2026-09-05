@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "record_type": "claim",
+  "claim_id": "G012",
+  "claim": "The inspected DOGMA lineage is recurrent/non-Transformer, while the inspected Hermon-owned paged Llama path is Transformer-oriented.",
+  "classification": "SOURCE-DERIVED CLAIM",
+  "status": "active",
+  "architecture_ids": [
+    "dogma-r-recurrent-2026-09",
+    "hermon-engine-paged-llama-v0.6"
+  ],
+  "evidence": [
+    {
+      "repository": "local:dogma",
+      "path": "docs/ARCHITECTURE.md",
+      "source_identity": {
+        "content_sha256": "d860a8d535f8a9aaa371d736892192dfcf118a2671e317dc1117ea6c71545339"
+      }
+    },
+    {
+      "repository": "https://github.com/hermonai/hermon",
+      "path": "crates/hermon-paged-kv/src/attention.rs",
+      "source_identity": {
+        "commit": "472a44cdb511b2dae6c9569e59543db8f8350b25"
+      }
+    }
+  ],
+  "limitations": [
+    "The claim identifies inspected architecture families; it is not a benchmark result.",
+    "The dogma source hash cannot establish when the uncommitted file was created.",
+    "The claim does not approve or execute the proposed DOGMA/Hermon DNA naming inversion."
+  ]
+}

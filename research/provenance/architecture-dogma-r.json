@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "record_type": "architecture",
+  "architecture_id": "dogma-r-recurrent-2026-09",
+  "lineage_name": "DOGMA-R",
+  "family": "recurrent non-Transformer sequence architecture",
+  "architecture_version": "historical/current local snapshot 2026-09-04",
+  "attention": false,
+  "recurrence": true,
+  "state_model": "fixed-shaped carried recurrent state per layer and sequence",
+  "context_memory": "explicit recurrent state does not grow with processed token count",
+  "training_semantics": "PyTorch recurrent/scan reference in evo-trainer; corrected artifacts require independent manifests",
+  "inference_semantics": "first-order recurrent step with a fixed-size state pool",
+  "checkpoint_format": "not standardized by this book",
+  "reference_implementation": "evo-trainer PyTorch sources at commit 610117f0c6f73eed12d7bfba1478696512fb52c2",
+  "optimized_implementations": [
+    "uncommitted local dogma Rust/C engine snapshot identified by content hashes"
+  ],
+  "evidence": [
+    {
+      "repository": "local:dogma",
+      "path": "docs/ARCHITECTURE.md",
+      "source_identity": {
+        "content_sha256": "d860a8d535f8a9aaa371d736892192dfcf118a2671e317dc1117ea6c71545339"
+      }
+    },
+    {
+      "repository": "local:evo-trainer",
+      "path": "src/evolutor_trainer/foundation/evolutor_net.py",
+      "source_identity": {
+        "commit": "610117f0c6f73eed12d7bfba1478696512fb52c2"
+      }
+    }
+  ],
+  "limitations": [
+    "The local dogma repository has no commits, so its file hash is evidence of content but not chronology.",
+    "The evo-trainer working tree is dirty; only content retrievable from the named commit is used here.",
+    "No historical DOGMA result transfers to a proposed Transformer target named DOGMA-T."
+  ]
+}

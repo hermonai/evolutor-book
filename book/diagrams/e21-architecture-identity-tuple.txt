@@ -1,0 +1,35 @@
+E21 — ARCHITECTURE AND EXPERIMENT IDENTITY
+Scope: decomposes the word “model” into the fields required for scientific attribution.
+
+LEGEND
+  ┌─┐ identity component   → contributes to identity   ⊣ insufficient shorthand
+
+                         ┌────────────────────────────────────────┐
+                         │ EXPERIMENT IDENTITY 𝕀                 │
+                         │ (A, θ, C, D, T, E, S, H, P)           │
+                         └──────────────────┬─────────────────────┘
+       ┌────────────┬────────────┬──────────┼──────────┬────────────┬────────────┐
+       ▼            ▼            ▼          ▼          ▼            ▼            ▼
+┌────────────┐┌────────────┐┌────────────┐┌────────┐┌──────────┐┌──────────┐┌──────────┐
+│ A          ││ θ          ││ C          ││ D      ││ T        ││ E        ││ S,H,P    │
+│ architecture│ checkpoint ││ resolved   ││ data + ││ training ││ eval +   ││ seed,    │
+│ semantics  ││ + hash     ││ config     ││ split  ││ procedure││ benchmark││ hardware,│
+│ + version  ││            ││ + hash     ││ version││ + budget ││ version  ││ precision│
+└────────────┘└────────────┘└────────────┘└────────┘└──────────┘└──────────┘└──────────┘
+       └────────────┴────────────┴──────────┬──────────┴────────────┴────────────┘
+                                           ▼
+                              ┌──────────────────────────┐
+                              │ CLAIM SCOPE + ARTIFACT ID│
+                              └──────────────────────────┘
+
+SEPARATE ARCHITECTURE DESCRIPTOR
+  lineage name · family · architecture version · attention · recurrence · state model ·
+  training semantics · inference semantics · checkpoint format · reference/optimized implementations.
+
+BOUNDARY RULE
+  “same name” or “same repository” ⊣ equality of 𝕀.
+
+READING NOTES
+1. θ is distinct from A: many checkpoints can instantiate one architecture.
+2. Evaluation version matters because a corrected oracle can change a result without changing θ.
+3. Hardware and precision enter claims about speed, memory, and numerical parity.

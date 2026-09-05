@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "record_type": "architecture",
+  "architecture_id": "hermon-engine-paged-llama-v0.6",
+  "lineage_name": "Hermon Engine",
+  "family": "Transformer-oriented inference runtime and gateway",
+  "architecture_version": "workspace v0.6.0 at commit 472a44cdb511b2dae6c9569e59543db8f8350b25",
+  "attention": true,
+  "recurrence": false,
+  "state_model": "per-layer causal key/value state for the Hermon-owned paged Llama path",
+  "context_memory": "paged KV state grows with retained token positions on the described Transformer path",
+  "training_semantics": "not applicable: Hermon Engine is an inference system, not the training definition",
+  "inference_semantics": "default llama.cpp continuous batching plus an opt-in Hermon-owned paged-KV Llama path",
+  "checkpoint_format": "GGUF for the inspected model path",
+  "reference_implementation": "hermon-paged-kv CPU attention and block-pool oracle",
+  "optimized_implementations": [
+    "pinned llama.cpp production path",
+    "Hermon-owned paged runtime preview",
+    "native C attention kernel library"
+  ],
+  "evidence": [
+    {
+      "repository": "https://github.com/hermonai/hermon",
+      "path": "docs/CORE_ENGINE_ARCHITECTURE.md",
+      "source_identity": {
+        "commit": "472a44cdb511b2dae6c9569e59543db8f8350b25"
+      }
+    },
+    {
+      "repository": "https://github.com/hermonai/hermon",
+      "path": "crates/hermon-paged-kv/src/attention.rs",
+      "source_identity": {
+        "commit": "472a44cdb511b2dae6c9569e59543db8f8350b25"
+      }
+    }
+  ],
+  "limitations": [
+    "This descriptor covers the documented paged Llama path, not every model supported by vendored llama.cpp.",
+    "Hermon repository identity alone does not identify a model architecture.",
+    "Hermon Engine evidence does not transfer to the proposed recurrent target Hermon DNA-R."
+  ]
+}

@@ -1,0 +1,48 @@
+E17 — THEORY, IMPLEMENTATION, EXPERIMENT, AND CLAIM PROVENANCE
+Scope: identifies every dependency needed to interpret a scientific result.
+
+LEGEND
+  ┌─┐ versioned artifact   → construction/data flow   ⇒ verified identity
+   ⊣ missing-link failure  ↺ correction/supersession
+
+┌──────────────────────────────┐
+│ THEORY / ARCHITECTURE SPEC   │ definition version + assumptions
+└──────────────┬───────────────┘
+               │ executable interpretation
+               ▼
+┌──────────────────────────────┐      ┌──────────────────────────────┐
+│ SOURCE CODE                  │◄─────│ CONFIGURATION                │
+│ repository + commit/hash     │      │ resolved values + hash      │
+└──────────────┬───────────────┘      └──────────────┬───────────────┘
+               └─────────────────────┬────────────────┘
+                                      │ train/evaluate under environment
+          ┌───────────────────────────┼────────────────────────────┐
+          ▼                           ▼                            ▼
+┌────────────────────┐    ┌────────────────────────┐    ┌─────────────────────┐
+│ DATASET + SPLIT    │    │ TRAINING PROCEDURE     │    │ ENVIRONMENT         │
+│ version + hashes   │    │ seed + budget + code   │    │ hardware + precision│
+└──────────┬─────────┘    └────────────┬───────────┘    └──────────┬──────────┘
+           └───────────────────────────┼───────────────────────────┘
+                                       ▼
+                         ┌──────────────────────────────┐
+                         │ CHECKPOINT + TRAIN LOGS      │
+                         │ artifact hashes + run ID     │
+                         └──────────────┬───────────────┘
+                                        │ named benchmark definition
+                                        ▼
+                         ┌──────────────────────────────┐
+                         │ EVALUATION                  │
+                         │ script + version + controls │
+                         └──────────────┬───────────────┘
+                                        ⇒ reproducible result artifact
+                         ┌──────────────────────────────┐
+                         │ SCOPED CLAIM + STATUS        │↺ correction record
+                         └──────────────────────────────┘
+
+FAILURE RULE
+  any missing identity ⊣ a fully reproducible claim; a name never repairs the missing link.
+
+READING NOTES
+1. Training and evaluation each depend on code, configuration, data, and environment.
+2. A checkpoint alone does not identify the experiment that produced or measured it.
+3. Corrections preserve the old chain and add a superseding chain with explicit linkage.

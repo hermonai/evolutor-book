@@ -1,0 +1,37 @@
+E19 — EVOLUTOR / GCS UMBRELLA AND CANDIDATE INSTANTIATIONS
+Scope: distinguishes the formal GCS contract from neural and symbolic implementations.
+
+LEGEND
+  ╔═╗ formal contract   ┌─┐ implementation family   ⇒ satisfies defined interface
+   ⇢ candidate instantiation   ⊣ insufficient qualification
+
+╔══════════════════════════════════════════════════════════════════════════════════════╗
+║ EVOLUTOR / GCS THEORY                                                              ║
+║ finite alphabet · persistent typed genome · regulation · expression · trace         ║
+║ verified structural evolution · declared state, semantics, policy, and cost         ║
+╚══════════════════════════════════════╤═══════════════════════════════════════════════╝
+                                       │ conformance obligations
+          ┌────────────────────────────┼────────────────────────────┐
+          ▼                            ▼                            ▼
+┌──────────────────────┐   ┌────────────────────────┐   ┌────────────────────────┐
+│ SYMBOLIC GCS         │   │ DIFFERENTIABLE GCS ⇢   │   │ HYBRID / MOLECULAR ⇢  │
+│ MiniEvolutor subset  │   │ learned gates/state    │   │ compiler + physical   │
+│ compile/regulate/run │   │ trace + verified edits │   │ realization           │
+└──────────────────────┘   └──────────┬─────────────┘   └────────────────────────┘
+                                      │ possible backends
+                         ┌────────────┴────────────┐
+                         ▼                         ▼
+              ┌──────────────────┐      ┌────────────────────────┐
+              │ TRANSFORMER ⇢    │      │ RECURRENT / SSM ⇢      │
+              │ attention + KV   │      │ carried/structured state│
+              └──────────────────┘      └────────────────────────┘
+
+QUALIFICATION GATE
+  architecture family alone ⊣ GCS instantiation.
+  Required: persistent typed genome, explicit regulation/expression semantics, trace contract,
+  and verified structural-update rules—or a declared narrower subset.
+
+READING NOTES
+1. Not every Transformer or recurrent model is a GCS.
+2. A GCS can be non-neural; the umbrella is defined by computational roles and semantics.
+3. The differentiable and molecular branches remain research proposals until their bridges are specified and tested.

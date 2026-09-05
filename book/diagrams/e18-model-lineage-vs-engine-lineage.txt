@@ -1,0 +1,34 @@
+E18 — MODEL LINEAGE AND ENGINE LINEAGE ARE DIFFERENT GRAPHS
+Scope: separates mathematical architecture ancestry from serving-system ancestry.
+
+LEGEND
+  ┌─┐ model artifact   ╔═╗ engine artifact   → lineage   ⇒ parity-tested compatibility
+   ⊣ name-based inference
+
+MODEL LINEAGE                                  ENGINE LINEAGE
+┌────────────────────────────┐                 ╔════════════════════════════╗
+│ DOGMA-R PyTorch recurrence │                 ║ DOGMA RECURRENT ENGINE     ║
+│ evo-trainer 24f26dc…       │────────────────⇒║ fixed state · C/Rust step  ║
+└──────────────┬─────────────┘  export/parity  ╚════════════════════════════╝
+               │ revisions
+               ▼
+┌────────────────────────────┐                 ╔════════════════════════════╗
+│ corrected recurrent paths  │                 ║ HERMON ENGINE             ║
+│ evo-trainer 610117f…       │                 ║ gateway + llama.cpp default║
+└────────────────────────────┘                 ║ + paged Llama preview      ║
+                                               ╚══════════════╤═════════════╝
+                                                              │ serves compatible GGUF models
+┌────────────────────────────┐                                │
+│ TRANSFORMER MODEL FAMILY   │────────────────────────────────⇒
+│ causal Q/K/V + FFN         │      model-format/runtime contract
+└────────────────────────────┘
+
+PROHIBITED INFERENCES
+  repository name “Hermon” ⊣ a unique Hermon model architecture.
+  engine support for a model ⊣ authorship of that model’s training semantics.
+  recurrent DOGMA result ⊣ Transformer DOGMA-T evidence after a future rename.
+
+READING NOTES
+1. Model lineage follows equations, parameters, and training semantics.
+2. Engine lineage follows loaders, state ownership, kernels, scheduling, and protocol behavior.
+3. A parity edge is versioned compatibility evidence, not identity between model and engine.

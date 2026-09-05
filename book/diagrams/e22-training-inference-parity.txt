@@ -1,0 +1,39 @@
+E22 — TRAINING AND INFERENCE IMPLEMENTATIONS UNDER ONE SEMANTIC CONTRACT
+Scope: shows how different implementations may represent one model only after parity checks.
+
+LEGEND
+  ╔═╗ model semantics   ┌─┐ implementation/artifact   → lowering/export
+   ⇒ parity evidence   ⊣ semantic drift
+
+╔══════════════════════════════════════════════════════════════════════════════════════╗
+║ MODEL SEMANTICS                                                                     ║
+║ equations · causal boundary · state transition · positions · normalization · dtype  ║
+╚══════════════════════════════════════╤═══════════════════════════════════════════════╝
+                                       │ two implementations
+                         ┌─────────────┴─────────────┐
+                         ▼                           ▼
+              ┌──────────────────────┐   ┌──────────────────────────┐
+              │ TRAINING REFERENCE   │   │ INFERENCE IMPLEMENTATION │
+              │ PyTorch full sequence│   │ PyTorch step / Rust / C  │
+              │ autograd + checkpoint│   │ exported weights + state │
+              └──────────┬───────────┘   └────────────┬─────────────┘
+                         │ reference traces            │ engine traces
+                         └─────────────┬───────────────┘
+                                       ▼
+                          ┌────────────────────────────┐
+                          │ PARITY SUITE               │
+                          │ logits · state · prefill   │
+                          │ repeated step · precision  │
+                          │ causal interventions       │
+                          └────────┬─────────────┬─────┘
+                                   │ within bounds│ mismatch
+                                   ⇒              └──⊣ optimization claim
+                          ┌────────────────────────────┐
+                          │ VERSIONED COMPATIBILITY    │
+                          │ model ID ↔ engine version  │
+                          └────────────────────────────┘
+
+READING NOTES
+1. PyTorch-first means inspectable semantics first, not permanent monopoly by one runtime.
+2. Numerical tolerance is part of the parity contract and depends on precision and operation order.
+3. A faster engine that fails state or output parity is a different computation until explained.
