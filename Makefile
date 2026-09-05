@@ -1,17 +1,20 @@
 PYTHON ?= python3
 MAIN := evolutor
 
-.PHONY: graphs test pdf check-pdf
+.PHONY: graphs artifacts test pdf check-pdf
 
 graphs:
 	$(PYTHON) scripts/render_graphs.py
 
+artifacts:
+	$(PYTHON) scripts/chapter01_artifacts.py
+
 test:
 	$(PYTHON) -m pytest
 
-pdf: graphs
+pdf: graphs artifacts
 	mkdir -p build/figures output/pdf
-	rsvg-convert --format=pdf --output=build/figures/evo-g04.pdf book/figures/evo-g04.svg
+	for figure in book/figures/*.svg; do rsvg-convert --format=pdf --output="build/figures/$$(basename "$$figure" .svg).pdf" "$$figure" || exit; done
 	cd tex && latexmk -xelatex -interaction=nonstopmode -halt-on-error -outdir=../build $(MAIN).tex
 	cp build/$(MAIN).pdf output/pdf/$(MAIN).pdf
 

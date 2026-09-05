@@ -3,6 +3,8 @@ from pathlib import Path
 import importlib.util
 import re
 import subprocess
+import json
+import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 SPEC = importlib.util.spec_from_file_location("render_graphs", ROOT / "scripts/render_graphs.py")
@@ -10,7 +12,7 @@ MODULE = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(MODULE)
 
 
-def test_reset_deliverables_and_empty_chapter_manifest():
+def test_reset_deliverables_and_reviewed_chapter_manifest():
     for path in ["ASTRA_REDESIGN.md", "BOOK_PLAN.md", "PUBLICATION_PLAN.md",
                  "REFERENCE_IMPLEMENTATION.md", "RESET_REPORT.md",
                  "research/reset-audit.md", "research/primary-sources.md",
@@ -18,8 +20,19 @@ def test_reset_deliverables_and_empty_chapter_manifest():
                  "book/TERMINOLOGY.md", "book/GRAPH_STANDARD.md"]:
         assert (ROOT / path).is_file(), path
     manifest = (ROOT / "tex/chapters/manifest.tex").read_text()
-    assert all(not line.strip() or line.lstrip().startswith("%")
-               for line in manifest.splitlines())
+    book = json.loads((ROOT / "book/book.json").read_text())
+    includes = re.findall(r"\\input\{([^}]+)\}", manifest)
+    expected = [str(Path(chapter["source"]).relative_to("tex").with_suffix(""))
+                for chapter in book["chapters"]]
+    assert includes == expected
+    for chapter in book["chapters"]:
+        assert chapter["status"] == "internally-reviewed-draft"
+        assert (ROOT / chapter["source"]).is_file()
+
+
+def test_chapter_example_artifacts_are_current():
+    subprocess.run([sys.executable, "scripts/chapter01_artifacts.py", "--check"],
+                   cwd=ROOT, check=True)
 
 
 def test_every_graph_is_complete_and_has_generated_svg():

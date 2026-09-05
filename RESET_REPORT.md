@@ -7,7 +7,7 @@ Date: 2026-09-05. Milestone: first-principles redesign and compiling publication
 - Starting public commit: `3895e94ff206a537a846a88966a27435b14f6ae2`.
 - Historical snapshot including unfinished earlier work: `9df0d006e10e56cd836a4b84400009dab3cbf4f2`.
 - Working/publication branch: `astra-rewrite`; archival branch: `archive/pre-reboot-20260905`.
-- Final reset commit is the commit containing this report; resolve with `git rev-parse astra-rewrite`. Publication verification and exact final hash are also reported in the task handoff.
+- Final reset commit: `e439334ad525bf0291170ec48004aa40b3b661ff`. This report records that fixed historical milestone; later chapter work is reported in CHAPTER_REPORT.md.
 - Public repository: [hermonai/evolutor-book](https://github.com/hermonai/evolutor-book/tree/astra-rewrite). The default branch remains main; no force-push is used.
 
 ## Delivered

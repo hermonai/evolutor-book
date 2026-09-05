@@ -1,4 +1,4 @@
-# Research-reset roadmap
+# Edition 2 roadmap
 
 ## Completed in this milestone
 
@@ -8,9 +8,15 @@
 - Screen old chapters, diagrams, code and claims; record unresolved proof/benchmark audits.
 - Establish and test a LaTeX publication shell and canonical graph sources.
 
-## Next: one chapter, reviewed deeply
+## Completed: Chapter 1 development draft
 
-Research the first chapter's specific claims using full papers and authoritative biology sources. Write an outline and claim list first; then draft, implement the smallest example, test it, and create verified illustrations. Review math, citations, semantics and rendered pages before committing. Do not bulk-generate planned chapters.
+Chapter 1 now has a canonical LaTeX manuscript, a bounded proof, executable example and independent oracle checks, a Unicode TXT/vector figure, generated records, six exercises and solution notes. See [the chapter report](CHAPTER_REPORT.md). Internal review is not independent peer review.
+
+## Next: Chapter 2
+
+Develop biological inspiration and its limits. Use authoritative sources for regulation, development and adaptation; distinguish literal biological mechanisms, computational analogies and proposed engineering mechanisms. Do not promote a naming analogy into evidence of novelty.
+
+Continue one chapter at a time: outline and claims first, then source review, manuscript, small executable checks where appropriate, figure review and rendered-page QA.
 
 ## Research gates still open
 

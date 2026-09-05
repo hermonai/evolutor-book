@@ -1,0 +1,23 @@
+ID: EVO-G06
+TITLE: A result and the evidence behind it
+SUBTITLE: Functional agreement is not an efficiency or novelty result
+EVIDENCE: Chapter 1 conceptual contract; exact examples are checked separately in code.
+LEGEND: DATA → transformation or dependency; CONTROL ⇢ obligation, not a measured causal effect.
+
+NODE n1 | Declared request | An operation name and an integer in the accepted domain.
+NODE n2 | Select and invoke | Index or full scan; execute the same pure operation once.
+NODE n3 | Result: minus six | For double of minus three, both selectors agree.
+NODE n4 | Library contract | Unique names, identical pure functions and a stable library.
+NODE n5 | Resource account | Count storage, construction, routing, execution and trace work.
+NODE n6 | Comparison obligation | Test the closest baseline at matched budgets before claiming an advantage.
+
+EDGE n1 → n2 | DATA | dispatch
+EDGE n2 → n3 | DATA | evaluate
+EDGE n1 → n4 | CONTROL | validate
+EDGE n2 → n5 | CONTROL | account
+EDGE n3 → n6 | CONTROL | interpret
+EDGE n4 → n5 | DATA | expose costs
+EDGE n5 → n6 | DATA | compare fairly
+
+READING: One firing can coexist with K gate tests. Report routing and setup costs separately from selected work.
+FAILURE: Matching outputs prove neither speed nor generalization; naming a library genomic does not establish novelty.

@@ -1,0 +1,249 @@
+\chapter{What would genomic computation add?}
+\label{ch:what-adds}
+
+\section*{Begin with a comparison, not a name}
+A system stores many possible operations, selects a few in response to context,
+and combines their effects. Calling the stored collection a genome can be
+suggestive. It does not, by itself, explain how the system differs from an
+ordinary program library. This book starts with that uncomfortable comparison
+because a useful new abstraction should survive it.
+
+Evolutor is a research program, not a demonstrated general intelligence. Its
+questions concern the organization, selection and adaptation of computational
+parts. We will distinguish a definition from a mechanism, a mechanism from an
+implementation, and an implementation from evidence of an advantage. A
+biological analogy may suggest a mechanism; it cannot supply the missing
+comparison or experiment.
+
+This chapter develops a deliberately small control example. You will reproduce
+two dispatch strategies, prove when they agree, and see why counting selected
+operations can hide routing work. No neural-network training is required.
+The point is to make the experimental burden visible before adding a large
+model whose size could obscure it.
+
+\section{Four operations, one request}
+Consider a closed library containing these integer functions:
+\[
+ f_{\mathrm{double}}(x)=2x,\qquad
+ f_{\mathrm{square}}(x)=x^2,\qquad
+ f_{\mathrm{absolute}}(x)=|x|,\qquad
+ f_{\mathrm{identity}}(x)=x.
+\]
+A request names one operation and supplies an integer. The request
+$(\mathrm{double},-3)$ should produce $-6$. It does not require executing the
+other three functions. We may add unused identity operations under distinct
+names without changing this request's meaning.
+
+Let the library contain $K$ uniquely named operations. We implement two
+strategies. \emph{Indexed dispatch} builds a dictionary once and retrieves the
+requested operation by name. \emph{Full-scan dispatch} compares the request
+with every stored name, remembers the match and then invokes the selected
+operation. The full scan deliberately does not stop early, making its
+accounting unambiguous. It is a transparent control, not a claim about the
+best implementation of a conditional program.
+
+The distinction between what is stored and what is executed already exists in
+this ordinary library. If a proposed genomic system exhibits only that
+distinction, our example is a counterexample to the claim that the distinction
+alone establishes a novel computational principle. It does not show that all
+possible genomic mechanisms are equivalent to dictionary dispatch.
+
+\section{Same semantics, different work}
+\begin{definition}[Request semantics]
+For a library $L$ with unique names and a declared request $r$ in its domain,
+the result on input $x$ is $\operatorname{eval}_{L}(r,x)=f_r(x)$, where $f_r$ is
+the operation associated with $r$.
+\end{definition}
+
+\begin{proposition}[Dispatch equivalence]
+Indexed and full-scan dispatch return the same result when they refer to the
+same uniquely named, pure operations, receive the same valid request and input,
+and complete normally.
+\end{proposition}
+\begin{proof}
+The index associates $r$ with $f_r$. The scan encounters exactly one matching
+name and retains that same $f_r$. Both invoke it once on $x$. Purity and equal
+input imply equal results. No equality of routing work follows from this
+argument.
+\end{proof}
+
+Each premise matters. Duplicate names could make a different construction or
+scan policy select a different operation. Mutating the library during a request
+could break agreement about its contents. An operation that reads changing
+external state need not return the same value in two successive runs. Our
+closed arithmetic example excludes these complications so the proposition
+states a useful, testable contract rather than a universal assertion.
+
+Table~\ref{tab:dispatch} comes from executing both strategies. Increasing the
+stored library from four to 64 operations changes the scan's comparison count
+but not its firing count. The indexed implementation records one lookup event
+at both sizes. All four outputs are $-6$.
+
+\begin{table}[htbp]
+\centering
+\input{../book/results/ch01-table}
+\caption{Logical event counts for the request $(\mathrm{double},-3)$. A firing
+is one invocation of the selected arithmetic function. These are not CPU
+instruction counts, elapsed times or learned-model measurements.}
+\label{tab:dispatch}
+\end{table}
+
+\section{What a cost account must include}
+Write a resource record as
+\[
+ C=(S,B,R,X,T),
+\]
+where $S$ describes stored representation, $B$ construction or update work,
+$R$ routing work, $X$ selected-operation execution and $T$ trace production.
+This tuple is a bookkeeping choice for this book, not a new complexity theory.
+Its entries need units and a measurement boundary before they can be compared.
+
+For our code, the table reports stored entries and selected logical events.
+It does not measure bytes. Constructing the library and its index creates
+$O(K)$ entries; that work occurs before dispatch. One dictionary lookup in
+the table means one source-level lookup operation, not a guarantee of one
+processor instruction or constant worst-case latency. Hashing, collisions,
+key representation and memory behavior are outside this event count.
+
+Similarly, a firing of $x\mapsto x^2$ is not a fixed amount of arithmetic work
+for integers of arbitrary size. The input's bit length matters. Replacing
+small integers with very large integers preserves the semantics while changing
+the execution workload. A benchmark must record the input domain as well as
+the number of calls.
+
+This explains why ``only one gene fired'' would be an incomplete efficiency
+argument. The system might have scored a million gates, loaded a large state,
+performed expensive verification or written a detailed trace before and after
+that firing. Conversely, a larger persistent library might be worthwhile if
+it improves reuse over many requests. We need to measure the tradeoff rather
+than deciding it from either the stored size or the active count alone.
+
+\section{The nearest established comparison}
+Sparse conditional execution has substantial prior art. The sparsely gated
+mixture-of-experts work of \citet{shazeer2017} selects a subset of experts using
+a learned gate. Its discussion includes routing, load balancing and practical
+execution challenges. Our arithmetic library is not a reproduction of that
+neural model; it is a simpler semantic control. Neither source establishes
+that an Evolutor design is new or better.
+
+The right comparison depends on the claim. For exact named dispatch, a
+dictionary is a serious baseline. For learned input-dependent selection,
+learned routing is closer. For discovering reusable compositions, program
+search and library-learning approaches become relevant. Comparing a proposed
+system only with a deliberately inefficient full scan would leave the most
+important alternative untested.
+
+Figure~\ref{fig:dispatch-contract} separates a successful request from the
+evidence needed to interpret it. The right-hand lane asks about the library
+contract, the cost boundary and the comparison. A successful left-hand lane
+does not automatically answer any of those questions.
+
+\begin{figure}[p]
+\centering
+\includegraphics[width=\textwidth]{../build/figures/evo-g06.pdf}
+\caption{EVO-G06. Execution and its evidentiary contract. Solid arrows carry
+the request, result or evidence; dashed arrows identify checks needed to
+interpret a run. No arrow asserts an advantage over an existing method.}
+\label{fig:dispatch-contract}
+\end{figure}
+
+\section{How an additional mechanism could earn its place}
+A more ambitious system might learn when to reuse an operation, construct a
+new composition or revise a library after failure. These possibilities are
+research directions, not properties of the present example. Each must be
+specified well enough that its absence can be tested.
+
+Suppose a proposed mechanism grows a reusable operation library across tasks.
+A concrete question would be whether it reduces the cost of solving held-out
+compositions without degrading retained tasks. The mechanism must specify what
+can be added, what validation an addition passes, how selection changes and
+what state is retained. A name such as ``genome growth'' does not answer those
+engineering questions.
+
+\begin{hypothesis}[Illustrative, not yet tested]
+Under a fixed task distribution and matched training and inference budgets,
+a validated library-growth mechanism reduces held-out composition error
+relative to a fixed library and a comparable routing baseline, without
+increasing retained-task error beyond a declared tolerance.
+\end{hypothesis}
+
+This is a template for a falsifiable study, not a result. Before running it,
+choose the tasks, splits, budgets, tolerance, repeated-run protocol and primary
+metric. Include a control that spends the same resources without library
+growth. If the advantage disappears under that control, a claim about the
+growth mechanism is not supported. If retained performance declines beyond
+the tolerance, the stated hypothesis fails even if new-task accuracy improves.
+
+There are also less dramatic but worthwhile outcomes. A representation might
+make failures easier to localize or modules easier to inspect without improving
+predictive accuracy. Such benefits require their own operational tests; they
+should not be silently translated into claims of intelligence or asymptotic
+speedup. A negative result can sharpen the abstraction by showing which
+proposed distinction does no useful work.
+
+\section{Traceability is a design obligation}
+Our result record includes the chosen name, output, stored count and event
+counts. That helps explain this closed request. It is not a tamper-evident
+audit trail or a proof of safe execution. A mutable log can report a plausible
+story without establishing that the reported operations occurred.
+
+For a future adaptive system, a reproducible record would also need the library
+version, input identity, selection configuration and any stochastic state
+needed to replay the request. Claims about \gls{provenance} should state which
+of these are captured and what replay checks. Claims about authorization need
+a separate policy boundary: identifying the selected operation does not grant
+it permission to access an external system.
+
+The current example calls only fixed arithmetic functions. It loads no external
+tools, generates no code, changes no permissions and has no online adaptation.
+Those exclusions make the example small enough to reason about. They must not
+be mistaken for demonstrated safety of a later, more capable architecture.
+\index{conditional computation}\index{routing cost}\index{semantic equivalence}
+
+\section{Reproduce and challenge the result}
+After installing development dependencies, inspect the four records:
+\begin{Verbatim}[fontsize=\small]
+from minievolutor.dispatch_reference import chapter_example
+for size, method, result in chapter_example():
+    print(size, method, result)
+\end{Verbatim}
+The artifact generator uses these records for the printed table and JSON.
+Tests compare both strategies across declared operations and signed inputs,
+check arithmetic against independent expressions, and include a large integer.
+Unknown requests are rejected rather than silently mapped to identity. These
+checks establish behavior of this implementation over tested cases. They do
+not measure neural-model quality, wall-clock acceleration or generalization.
+
+\section{Exercises and solution notes}
+\begin{enumerate}
+\item With $K=1000$, how many comparisons and firings does the full scan record
+for a successful request? What important costs remain unmeasured?
+\item Modify the scan to stop at the first match. Which proposition remains
+valid, and which table entries now depend on operation order?
+\item Explain why invoking a function once on a million-bit integer cannot be
+equated with invoking it once on a small integer for performance purposes.
+\item Give an experimental result that would falsify the library-growth
+hypothesis even if held-out composition error improved.
+\item An author reports one active module out of a million and concludes that
+inference cost is independent of library size. Identify a missing measurement
+and an alternative mechanism consistent with the reported observation.
+\item State one property that our equivalence proof does not establish about
+a learned, stateful or externally connected operation library.
+\end{enumerate}
+
+\paragraph{Solution notes.}
+(1) 1000 comparisons and one firing; construction, bytes, arithmetic cost and
+timing remain unmeasured. (2) Equivalence holds for unique names and the same
+pure operations; scan comparisons depend on the match position. (3) Operand
+representation and arithmetic work depend on bit length, which firing counts
+omit. (4) Retained-task degradation beyond the preregistered tolerance violates
+the hypothesis. (5) Measure selection cost; scanning every module's gate can
+coexist with one final firing. (6) The proof establishes neither learned
+selection quality nor safe effects nor stability under library updates.
+
+\section*{The standard for the rest of the book}
+We have established a semantic baseline and exposed a misleading cost shortcut.
+We have not established a new theory of computation or an advantage for
+Evolutor. The next chapter examines biological inspiration with explicit
+limits on the analogy. Later mechanisms must return to this chapter's question:
+what changed, compared with which baseline, and what evidence shows it matters?

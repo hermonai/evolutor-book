@@ -1,0 +1,45 @@
+{
+  "model": "logical event counts; not timing",
+  "runs": [
+    {
+      "size": 4,
+      "method": "indexed",
+      "value": -6,
+      "selected": "double",
+      "stored": 4,
+      "gate_tests": 0,
+      "lookups": 1,
+      "firings": 1
+    },
+    {
+      "size": 4,
+      "method": "full_scan",
+      "value": -6,
+      "selected": "double",
+      "stored": 4,
+      "gate_tests": 4,
+      "lookups": 0,
+      "firings": 1
+    },
+    {
+      "size": 64,
+      "method": "indexed",
+      "value": -6,
+      "selected": "double",
+      "stored": 64,
+      "gate_tests": 0,
+      "lookups": 1,
+      "firings": 1
+    },
+    {
+      "size": 64,
+      "method": "full_scan",
+      "value": -6,
+      "selected": "double",
+      "stored": 64,
+      "gate_tests": 64,
+      "lookups": 0,
+      "firings": 1
+    }
+  ]
+}

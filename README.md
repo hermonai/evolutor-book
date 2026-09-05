@@ -6,7 +6,9 @@ Publication reboot • edition 2 development • branch `astra-rewrite`.
 
 Biological regulation, development and adaptation motivate questions about adaptive computation. Evolutor will earn its abstractions by distinguishing them from routing, program synthesis, memory systems and structural learning, then testing whether the differences matter.
 
-This is the **research-reset milestone**, not a completed book. No new manuscript chapters have been drafted in this reset. Start with [the redesign](ASTRA_REDESIGN.md), [the candidate contents](BOOK_PLAN.md), and [the execution report](RESET_REPORT.md).
+**Chapter 1 is now drafted and executable**, not a completed book. Read [What would genomic computation add?](tex/chapters/ch01.tex), [the chapter report](CHAPTER_REPORT.md), and [the generated example records](book/results/ch01.json). Build the PDF with `make pdf check-pdf`.
+
+The new edition lives on `astra-rewrite`; the earlier public edition remains on `main`. For the longer plan, see [the redesign](ASTRA_REDESIGN.md), [the candidate contents](BOOK_PLAN.md), and [the preserved reset milestone](RESET_REPORT.md).
 
 - [Research source register](research/primary-sources.md)
 - [Publication plan and build commands](PUBLICATION_PLAN.md)

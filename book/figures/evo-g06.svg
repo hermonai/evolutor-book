@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="920" viewBox="0 0 1000 920" role="img" aria-labelledby="title desc">
+<title id="title">EVO-G06: A result and the evidence behind it</title>
+<desc id="desc">Chapter 1 conceptual contract; exact examples are checked separately in code. One firing can coexist with K gate tests. Report routing and setup costs separately from selected work. Failure: Matching outputs prove neither speed nor generalization; naming a library genomic does not establish novelty.</desc>
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#245579"/></marker></defs>
+<rect width="1000" height="920" fill="white"/>
+<text x="30" y="36" font-family="DejaVu Sans, sans-serif" font-size="15" fill="#245579" font-weight="bold" text-anchor="start">EVO-G06  /  EDITION 2 RESEARCH MAP</text>
+<text x="30" y="77" font-family="DejaVu Sans, sans-serif" font-size="28" fill="#20334a" font-weight="bold" text-anchor="start">A result and the evidence behind it</text>
+<text x="30" y="110" font-family="DejaVu Sans, sans-serif" font-size="18" fill="#20334a" font-weight="normal" text-anchor="start">Functional agreement is not an efficiency or novelty result</text>
+<path d="M215,270 V340" fill="none" stroke="#245579" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="232" y="306" font-family="DejaVu Sans, sans-serif" font-size="15" fill="#20334a" font-weight="normal" text-anchor="start">dispatch</text>
+<path d="M215,455 V525" fill="none" stroke="#245579" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="232" y="491" font-family="DejaVu Sans, sans-serif" font-size="15" fill="#20334a" font-weight="normal" text-anchor="start">evaluate</text>
+<path d="M400,213 H600" fill="none" stroke="#245579" stroke-width="2" stroke-dasharray="7 5" marker-end="url(#arrow)"/>
+<text x="500" y="180" font-family="DejaVu Sans, sans-serif" font-size="15" fill="#20334a" font-weight="normal" text-anchor="middle">validate</text>
+<path d="M400,398 H600" fill="none" stroke="#245579" stroke-width="2" stroke-dasharray="7 5" marker-end="url(#arrow)"/>
+<text x="500" y="365" font-family="DejaVu Sans, sans-serif" font-size="15" fill="#20334a" font-weight="normal" text-anchor="middle">account</text>
+<path d="M400,583 H600" fill="none" stroke="#245579" stroke-width="2" stroke-dasharray="7 5" marker-end="url(#arrow)"/>
+<text x="500" y="550" font-family="DejaVu Sans, sans-serif" font-size="15" fill="#20334a" font-weight="normal" text-anchor="middle">interpret</text>
+<path d="M785,270 V340" fill="none" stroke="#245579" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="802" y="306" font-family="DejaVu Sans, sans-serif" font-size="15" fill="#20334a" font-weight="normal" text-anchor="start">expose costs</text>
+<path d="M785,455 V525" fill="none" stroke="#245579" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="802" y="491" font-family="DejaVu Sans, sans-serif" font-size="15" fill="#20334a" font-weight="normal" text-anchor="start">compare fairly</text>
+<rect x="30" y="155" width="370" height="115" rx="9" fill="#eef5fb" stroke="#afc4d5"/>
+<text x="45" y="183" font-family="DejaVu Sans, sans-serif" font-size="19" fill="#20334a" font-weight="bold" text-anchor="start">Declared request</text>
+<text x="45" y="210" font-family="DejaVu Sans, sans-serif" font-size="17" fill="#20334a" font-weight="normal" text-anchor="start">An operation name and an integer in</text>
+<text x="45" y="232" font-family="DejaVu Sans, sans-serif" font-size="17" fill="#20334a" font-weight="normal" text-anchor="start">the accepted domain.</text>
+<rect x="30" y="340" width="370" height="115" rx="9" fill="#eef5fb" stroke="#afc4d5"/>
+<text x="45" y="368" font-family="DejaVu Sans, sans-serif" font-size="19" fill="#20334a" font-weight="bold" text-anchor="start">Select and invoke</text>
+<text x="45" y="395" font-family="DejaVu Sans, sans-serif" font-size="17" fill="#20334a" font-weight="normal" text-anchor="start">Index or full scan; execute the same</text>
+<text x="45" y="417" font-family="DejaVu Sans, sans-serif" font-size="17" fill="#20334a" font-weight="normal" text-anchor="start">pure operation once.</text>
+<rect x="30" y="525" width="370" height="115" rx="9" fill="#eef5fb" stroke="#afc4d5"/>
+<text x="45" y="553" font-family="DejaVu Sans, sans-serif" font-size="19" fill="#20334a" font-weight="bold" text-anchor="start">Result: minus six</text>
+<text x="45" y="580" font-family="DejaVu Sans, sans-serif" font-size="17" fill="#20334a" font-weight="normal" text-anchor="start">For double of minus three, both</text>
+<text x="45" y="602" font-family="DejaVu Sans, sans-serif" font-size="17" fill="#20334a" font-weight="normal" text-anchor="start">selectors agree.</text>
+<rect x="600" y="155" width="370" height="115" rx="9" fill="#f2f7f2" stroke="#afc4d5"/>
+<text x="615" y="183" font-family="DejaVu Sans, sans-serif" font-size="19" fill="#20334a" font-weight="bold" text-anchor="start">Library contract</text>
+<text x="615" y="210" font-family="DejaVu Sans, sans-serif" font-size="17" fill="#20334a" font-weight="normal" text-anchor="start">Unique names, identical pure</text>
+<text x="615" y="232" font-family="DejaVu Sans, sans-serif" font-size="17" fill="#20334a" font-weight="normal" text-anchor="start">functions and a stable library.</text>
+<rect x="600" y="340" width="370" height="115" rx="9" fill="#f2f7f2" stroke="#afc4d5"/>
+<text x="615" y="368" font-family="DejaVu Sans, sans-serif" font-size="19" fill="#20334a" font-weight="bold" text-anchor="start">Resource account</text>
+<text x="615" y="395" font-family="DejaVu Sans, sans-serif" font-size="17" fill="#20334a" font-weight="normal" text-anchor="start">Count storage, construction, routing,</text>
+<text x="615" y="417" font-family="DejaVu Sans, sans-serif" font-size="17" fill="#20334a" font-weight="normal" text-anchor="start">execution and trace work.</text>
+<rect x="600" y="525" width="370" height="115" rx="9" fill="#f2f7f2" stroke="#afc4d5"/>
+<text x="615" y="553" font-family="DejaVu Sans, sans-serif" font-size="19" fill="#20334a" font-weight="bold" text-anchor="start">Comparison obligation</text>
+<text x="615" y="580" font-family="DejaVu Sans, sans-serif" font-size="17" fill="#20334a" font-weight="normal" text-anchor="start">Test the closest baseline at matched</text>
+<text x="615" y="602" font-family="DejaVu Sans, sans-serif" font-size="17" fill="#20334a" font-weight="normal" text-anchor="start">budgets before claiming an advantage.</text>
+<text x="30" y="744" font-family="DejaVu Sans, sans-serif" font-size="16" fill="#245579" font-weight="bold" text-anchor="start">Solid: data / dependency     Dashed: control / review</text>
+<text x="30" y="772" font-family="DejaVu Sans, sans-serif" font-size="16" fill="#20334a" font-weight="normal" text-anchor="start">READING: One firing can coexist with K gate tests. Report routing and setup costs separately from</text>
+<text x="30" y="795" font-family="DejaVu Sans, sans-serif" font-size="16" fill="#20334a" font-weight="normal" text-anchor="start">selected work.</text>
+<text x="30" y="818" font-family="DejaVu Sans, sans-serif" font-size="16" fill="#20334a" font-weight="normal" text-anchor="start">BOUNDARY: Matching outputs prove neither speed nor generalization; naming a library genomic does not</text>
+<text x="30" y="841" font-family="DejaVu Sans, sans-serif" font-size="16" fill="#20334a" font-weight="normal" text-anchor="start">establish novelty.</text>
+<text x="30" y="898" font-family="DejaVu Sans, sans-serif" font-size="14" fill="#20334a" font-weight="normal" text-anchor="start">Conceptual map. No measured superiority or physical validation is implied by an arrow.</text>
+</svg>
