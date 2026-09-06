@@ -1,0 +1,1292 @@
+[
+  {
+    "id": "EVOU-01-A1",
+    "chapter": "EVOU-01",
+    "status": "planned-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "Execute a familiar written recipe",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "Show a fixed program reacting to two inputs",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "Recall one genome with different expression states",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 4,
+        "action": "Place a question mark, not an equals sign, between biology and software",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evou-01/",
+    "motionPolicy": "Only animate changes needed to answer the reader question; provide static and reduced-motion alternatives."
+  },
+  {
+    "id": "EVOU-02-A1",
+    "chapter": "EVOU-02",
+    "status": "planned-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "Run an if/else choice",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "Add a remembered counter",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "Run the same input after two histories",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 4,
+        "action": "Separate stored instructions from changing state",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evou-02/",
+    "motionPolicy": "Only animate changes needed to answer the reader question; provide static and reduced-motion alternatives."
+  },
+  {
+    "id": "EVOU-03-A1",
+    "chapter": "EVOU-03",
+    "status": "planned-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "Place measured points on a small chart",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "Try a rule with one adjustable multiplier",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "Add an offset",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 4,
+        "action": "Compare predictions with targets",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 5,
+        "action": "Freeze the numbers for a new input",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evou-03/",
+    "motionPolicy": "Only animate changes needed to answer the reader question; provide static and reduced-motion alternatives."
+  },
+  {
+    "id": "EVOU-04-A1",
+    "chapter": "EVOU-04",
+    "status": "planned-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "Sort examples into three named boxes",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "Fit only the training box",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "Choose settings using validation",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 4,
+        "action": "Open the test box once",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 5,
+        "action": "Repeat with a different random seed",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evou-04/",
+    "motionPolicy": "Only animate changes needed to answer the reader question; provide static and reduced-motion alternatives."
+  },
+  {
+    "id": "EVOU-05-A1",
+    "chapter": "EVOU-05",
+    "status": "planned-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "Recall a feature vector",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "Stack examples as matrix rows",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "Add a batch axis with labeled dimensions",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 4,
+        "action": "Show an invalid shape combination",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evou-05/",
+    "motionPolicy": "Only animate changes needed to answer the reader question; provide static and reduced-motion alternatives."
+  },
+  {
+    "id": "EVOU-06-A1",
+    "chapter": "EVOU-06",
+    "status": "planned-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "Move one parameter slightly left and right",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "Measure the change in loss",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "Draw a local slope",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 4,
+        "action": "Follow two linked operations backward",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 5,
+        "action": "Take a small update step",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evou-06/",
+    "motionPolicy": "Only animate changes needed to answer the reader question; provide static and reduced-motion alternatives."
+  },
+  {
+    "id": "EVOU-07-A1",
+    "chapter": "EVOU-07",
+    "status": "planned-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "Apply one weighted sum",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "Add a nonlinear activation",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "Connect two small layers",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 4,
+        "action": "Compare a shared sliding filter",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 5,
+        "action": "Trace the error backward",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evou-07/",
+    "motionPolicy": "Only animate changes needed to answer the reader question; provide static and reduced-motion alternatives."
+  },
+  {
+    "id": "EVOU-08-A1",
+    "chapter": "EVOU-08",
+    "status": "planned-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "Load labeled examples",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "Predict",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "Compare and form loss",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 4,
+        "action": "Compute gradients",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 5,
+        "action": "Update parameters",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 6,
+        "action": "Repeat, then freeze parameters and predict",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evou-08/",
+    "motionPolicy": "Only animate changes needed to answer the reader question; provide static and reduced-motion alternatives."
+  },
+  {
+    "id": "EVOU-09-A1",
+    "chapter": "EVOU-09",
+    "status": "planned-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "Split a tiny sequence using a declared tokenizer",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "Assign token IDs",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "Look up small learned rows",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 4,
+        "action": "Predict one next-token distribution",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evou-09/",
+    "motionPolicy": "Only animate changes needed to answer the reader question; provide static and reduced-motion alternatives."
+  },
+  {
+    "id": "EVOU-10-A1",
+    "chapter": "EVOU-10",
+    "status": "planned-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "Show state zero",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "Read the first symbol",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "Retain part of old state and add new input",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 4,
+        "action": "Read a second symbol with changed state",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 5,
+        "action": "Unroll the same update across time",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evou-10/",
+    "motionPolicy": "Only animate changes needed to answer the reader question; provide static and reduced-motion alternatives."
+  },
+  {
+    "id": "EVOU-11-A1",
+    "chapter": "EVOU-11",
+    "status": "planned-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "Show retained and discarded contributions",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "Introduce one adjustable gate",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "Compare a GRU update with fixed retention",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 4,
+        "action": "Draw state transition and observation separately",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evou-11/",
+    "motionPolicy": "Only animate changes needed to answer the reader question; provide static and reduced-motion alternatives."
+  },
+  {
+    "id": "EVOU-12-A1",
+    "chapter": "EVOU-12",
+    "status": "planned-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "Give three tokens labeled information cards",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "Ask one query",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "Compare it with three keys",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 4,
+        "action": "Normalize scores",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 5,
+        "action": "Combine values",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 6,
+        "action": "Hide a forbidden future position",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evou-12/",
+    "motionPolicy": "Only animate changes needed to answer the reader question; provide static and reduced-motion alternatives."
+  },
+  {
+    "id": "EVOU-13-A1",
+    "chapter": "EVOU-13",
+    "status": "planned-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "Recall a single head",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "Compare two heads",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "Add residual and normalization steps",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 4,
+        "action": "Add a feed-forward sublayer",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 5,
+        "action": "Add position information",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 6,
+        "action": "Stack labeled blocks",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evou-13/",
+    "motionPolicy": "Only animate changes needed to answer the reader question; provide static and reduced-motion alternatives."
+  },
+  {
+    "id": "EVOU-14-A1",
+    "chapter": "EVOU-14",
+    "status": "planned-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "Generate two tokens without reuse",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "Retain earlier keys and values",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "Generate the next token reusing them",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 4,
+        "action": "Compare lookup in an external document collection",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evou-14/",
+    "motionPolicy": "Only animate changes needed to answer the reader question; provide static and reduced-motion alternatives."
+  },
+  {
+    "id": "EVOU-15-A1",
+    "chapter": "EVOU-15",
+    "status": "planned-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "Choose a function by a name",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "Compare a scan with an indexed lookup",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "Load a declared plugin",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 4,
+        "action": "Record selection work separately from execution work",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evou-15/",
+    "motionPolicy": "Only animate changes needed to answer the reader question; provide static and reduced-motion alternatives."
+  },
+  {
+    "id": "EVOU-16-A1",
+    "chapter": "EVOU-16",
+    "status": "planned-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "Score three expert choices",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "Select a small subset",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "Combine their outputs",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 4,
+        "action": "Show an overloaded expert and balancing response",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evou-16/",
+    "motionPolicy": "Only animate changes needed to answer the reader question; provide static and reduced-motion alternatives."
+  },
+  {
+    "id": "EVOU-17-A1",
+    "chapter": "EVOU-17",
+    "status": "planned-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "Show source text",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "Transform to an executable representation",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "Start a process",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 4,
+        "action": "Call a library through a named interface",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 5,
+        "action": "Compare separate processes and threads sharing memory",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evou-17/",
+    "motionPolicy": "Only animate changes needed to answer the reader question; provide static and reduced-motion alternatives."
+  },
+  {
+    "id": "EVOU-18-A1",
+    "chapter": "EVOU-18",
+    "status": "planned-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "Send a request to a service",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "Queue two requests",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "Fetch a row from a database",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 4,
+        "action": "Compare two query plans",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 5,
+        "action": "Return labeled responses",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evou-18/",
+    "motionPolicy": "Only animate changes needed to answer the reader question; provide static and reduced-motion alternatives."
+  },
+  {
+    "id": "EVOU-19-A1",
+    "chapter": "EVOU-19",
+    "status": "planned-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "Specify a task before choosing a model",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "Put simple and advanced baselines alongside a proposal",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "Hide test answers",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 4,
+        "action": "Match declared resources",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 5,
+        "action": "Repeat with several seeds",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evou-19/",
+    "motionPolicy": "Only animate changes needed to answer the reader question; provide static and reduced-motion alternatives."
+  },
+  {
+    "id": "EVOU-20-A1",
+    "chapter": "EVOU-20",
+    "status": "planned-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "Recall DNA-to-RNA-to-protein sequence transfer",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "Add a separately typed control relation",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "Hold DNA fixed while state changes",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 4,
+        "action": "Contrast inherited variation across generations",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evou-20/",
+    "motionPolicy": "Only animate changes needed to answer the reader question; provide static and reduced-motion alternatives."
+  },
+  {
+    "id": "EVOU-21-A1",
+    "chapter": "EVOU-21",
+    "status": "planned-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "Pair gene with module using a question-mark link",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "Compare promoter and condition",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "Compare expression and execution",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 4,
+        "action": "Cross out an equivalence when mechanisms differ",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evou-21/",
+    "motionPolicy": "Only animate changes needed to answer the reader question; provide static and reduced-motion alternatives."
+  },
+  {
+    "id": "EVOU-22-A1",
+    "chapter": "EVOU-22",
+    "status": "planned-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "Update one weight",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "Remove a connection",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "Choose another small architecture",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 4,
+        "action": "Edit a syntax tree",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 5,
+        "action": "Select among candidate programs",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evou-22/",
+    "motionPolicy": "Only animate changes needed to answer the reader question; provide static and reduced-motion alternatives."
+  },
+  {
+    "id": "EVOU-23-A1",
+    "chapter": "EVOU-23",
+    "status": "planned-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "Expand a small repeated pattern",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "Build a typed expression representation",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "Validate its structure",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 4,
+        "action": "Compile or interpret it",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 5,
+        "action": "Compare construction with biological development",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evou-23/",
+    "motionPolicy": "Only animate changes needed to answer the reader question; provide static and reduced-motion alternatives."
+  },
+  {
+    "id": "EVOU-24-A1",
+    "chapter": "EVOU-24",
+    "status": "planned-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "Recall stored modules, context and state",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "Select an expression plan",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "Execute it with an explicit trace",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 4,
+        "action": "Show an optional separately authorized structural proposal",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evou-24/",
+    "motionPolicy": "Only animate changes needed to answer the reader question; provide static and reduced-motion alternatives."
+  },
+  {
+    "id": "EVOU-25-A1",
+    "chapter": "EVOU-25",
+    "status": "planned-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "Compare a blueprint class with two instances",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "Teach class compartments and relationship symbols",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "Draw Genome, Gene and Regulator classes",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 4,
+        "action": "Add ExpressionPlan and Trace ownership",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evou-25/",
+    "motionPolicy": "Only animate changes needed to answer the reader question; provide static and reduced-motion alternatives."
+  },
+  {
+    "id": "EVOU-26-A1",
+    "chapter": "EVOU-26",
+    "status": "planned-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "Introduce actor and lifeline notation",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "Send context from Runtime to Regulator",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "Return an expression plan",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 4,
+        "action": "Execute modules",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 5,
+        "action": "Return result and trace",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 6,
+        "action": "Show the error branch",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evou-26/",
+    "motionPolicy": "Only animate changes needed to answer the reader question; provide static and reduced-motion alternatives."
+  },
+  {
+    "id": "EVOU-27-A1",
+    "chapter": "EVOU-27",
+    "status": "planned-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "Record chosen modules",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "Associate outputs with events",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "Remove one component in a controlled run",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 4,
+        "action": "Compare the result with the original",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evou-27/",
+    "motionPolicy": "Only animate changes needed to answer the reader question; provide static and reduced-motion alternatives."
+  },
+  {
+    "id": "EVOU-28-A1",
+    "chapter": "EVOU-28",
+    "status": "planned-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "Teach state/transition notation",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "Create a proposal",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "Validate it",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 4,
+        "action": "Evaluate in isolation",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 5,
+        "action": "Accept or reject",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 6,
+        "action": "Retain a rollback path",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evou-28/",
+    "motionPolicy": "Only animate changes needed to answer the reader question; provide static and reduced-motion alternatives."
+  },
+  {
+    "id": "EVOU-29-A1",
+    "chapter": "EVOU-29",
+    "status": "planned-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "Load a declared task split",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "Train the fixed-structure control",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "Train the candidate",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 4,
+        "action": "Separate parameter updates from structural proposals",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 5,
+        "action": "Compare held-out results",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evou-29/",
+    "motionPolicy": "Only animate changes needed to answer the reader question; provide static and reduced-motion alternatives."
+  },
+  {
+    "id": "EVOU-30-A1",
+    "chapter": "EVOU-30",
+    "status": "planned-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "Teach component and interface symbols",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "Load a checked model",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "Connect planning and execution",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 4,
+        "action": "Separate storage and monitoring",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 5,
+        "action": "Return a bounded result",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evou-30/",
+    "motionPolicy": "Only animate changes needed to answer the reader question; provide static and reduced-motion alternatives."
+  },
+  {
+    "id": "EVOU-31-A1",
+    "chapter": "EVOU-31",
+    "status": "planned-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "Save weights and configuration",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "Attach schema and data provenance",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "Reload into a fresh process",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 4,
+        "action": "Compare identity and outputs",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evou-31/",
+    "motionPolicy": "Only animate changes needed to answer the reader question; provide static and reduced-motion alternatives."
+  },
+  {
+    "id": "EVOU-32-A1",
+    "chapter": "EVOU-32",
+    "status": "planned-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "Assign two requests separate state slots",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "Allocate cache pages",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "Grow one history",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 4,
+        "action": "Evict a permitted entry",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 5,
+        "action": "Verify the other history is unchanged",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evou-32/",
+    "motionPolicy": "Only animate changes needed to answer the reader question; provide static and reduced-motion alternatives."
+  },
+  {
+    "id": "EVOU-33-A1",
+    "chapter": "EVOU-33",
+    "status": "planned-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "Time one request",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "Queue several arrivals",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "Form a batch",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 4,
+        "action": "Let completed requests leave while new ones enter",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 5,
+        "action": "Compare waiting-time distributions",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evou-33/",
+    "motionPolicy": "Only animate changes needed to answer the reader question; provide static and reduced-motion alternatives."
+  },
+  {
+    "id": "EVOU-34-A1",
+    "chapter": "EVOU-34",
+    "status": "planned-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "Compare reference and optimized outputs",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "Locate measured work in a profile",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "Change one bottleneck",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 4,
+        "action": "Repeat under the same workload",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evou-34/",
+    "motionPolicy": "Only animate changes needed to answer the reader question; provide static and reduced-motion alternatives."
+  },
+  {
+    "id": "EVOU-35-A1",
+    "chapter": "EVOU-35",
+    "status": "planned-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "Teach nodes and deployed artifacts",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "Route an authenticated request",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "Observe logs and metrics without exposing secrets",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 4,
+        "action": "Roll out a version",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 5,
+        "action": "Detect failure and roll back",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evou-35/",
+    "motionPolicy": "Only animate changes needed to answer the reader question; provide static and reduced-motion alternatives."
+  },
+  {
+    "id": "EVOU-36-A1",
+    "chapter": "EVOU-36",
+    "status": "planned-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "State a claim and its failure condition",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "Show matched results including failures",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "Test a suspected confound",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 4,
+        "action": "Revise or retire the claim",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evou-36/",
+    "motionPolicy": "Only animate changes needed to answer the reader question; provide static and reduced-motion alternatives."
+  },
+  {
+    "id": "EVOU-37-A1",
+    "chapter": "EVOU-37",
+    "status": "planned-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "Compare a Transformer DNA model with a non-Transformer model",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "Mark shared data and objectives",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "Test a reverse-complement intervention",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 4,
+        "action": "Place DOGMA and Hermon DNA names only after source and artifact audit",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evou-37/",
+    "motionPolicy": "Only animate changes needed to answer the reader question; provide static and reduced-motion alternatives."
+  },
+  {
+    "id": "EVOU-38-A1",
+    "chapter": "EVOU-38",
+    "status": "planned-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "Train on a first task",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "Evaluate a genuinely new task",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "Continue learning and recheck the first",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 4,
+        "action": "Compare individual and population mechanisms",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evou-38/",
+    "motionPolicy": "Only animate changes needed to answer the reader question; provide static and reduced-motion alternatives."
+  },
+  {
+    "id": "EVOU-39-A1",
+    "chapter": "EVOU-39",
+    "status": "planned-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "List specific tasks and conditions",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "Mark measured, failed and untested cells",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "Separate breadth from repeated variants",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 4,
+        "action": "Show unresolved safety and transfer boundaries",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evou-39/",
+    "motionPolicy": "Only animate changes needed to answer the reader question; provide static and reduced-motion alternatives."
+  },
+  {
+    "id": "EVOU-40-A1",
+    "chapter": "EVOU-40",
+    "status": "planned-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "Connect hypothesis to mechanism",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "Connect mechanism to code and diagrams",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "Reproduce baseline and candidate results",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 4,
+        "action": "Inspect failures",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 5,
+        "action": "State what remains unproven",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evou-40/",
+    "motionPolicy": "Only animate changes needed to answer the reader question; provide static and reduced-motion alternatives."
+  }
+]

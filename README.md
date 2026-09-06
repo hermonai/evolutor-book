@@ -1,21 +1,26 @@
 # Evolutor
 
-## Genomic Computation as a Testable Research Program
+## From Genomic Computation to Adaptive Machine Intelligence
 
-Publication reboot • edition 2 development • branch `astra-rewrite`.
+Active work: **undergraduate-first pedagogical architecture**, branch `astra-undergraduate-rewrite`. No new manuscript chapters have been drafted.
 
-Biological regulation, development and adaptation motivate questions about adaptive computation. Evolutor will earn its abstractions by distinguishing them from routing, program synthesis, memory systems and structural learning, then testing whether the differences matter.
+Start with [the redesign](PEDAGOGICAL_REDESIGN.md), [new contents](BOOK_PLAN.md), [course map](COURSE_MAP.md), [prerequisite graph](PREREQUISITE_GRAPH.md) and [chapter storyboards](VISUAL_STORYBOARD.md). See [beginner review](BEGINNER_REVIEW.md), [professional-perspective review](PROFESSIONAL_REVIEW.md) and [review gates](REVIEW_GATES.md) before authorizing new Chapter 1.
 
-**Chapters 1 and 2 are now drafted and executable**, not a completed book. Read [the active chapters](book/chapters/README.md), [the latest chapter report](CHAPTER_02_REPORT.md), and [the Chapter 2 example records](book/results/ch02.json). Build the PDF with `make pdf check-pdf`.
+The plan contains 40 small teaching units. It is a proposed learning route, not a completed book or a validated semester schedule. Book II assumes only the eventually verified Book I outcomes, not a separate ML or software-architecture course.
 
-The new edition lives on `astra-rewrite`; the earlier public edition remains on `main`. For the longer plan, see [the redesign](ASTRA_REDESIGN.md), [the candidate contents](BOOK_PLAN.md), and [the preserved reset milestone](RESET_REPORT.md).
+## Preservation and build boundary
 
-- [Research source register](research/primary-sources.md)
-- [Publication plan and build commands](PUBLICATION_PLAN.md)
-- [Reference implementation design](REFERENCE_IMPLEMENTATION.md)
-- [Diagram standard](book/GRAPH_STANDARD.md)
-- [Historical edition and audit](historical/README.md)
+The two-chapter edition is preserved on [astra-rewrite at 58fa55a](https://github.com/hermonai/evolutor-book/tree/58fa55a8097157d297be4afe21f146623048b875). The earlier public edition remains on main. No force-push, deletion, default-branch, license or authorship change is made.
 
-The old manuscript and research notes are quarantined under `historical/pre-reboot/` and excluded from the publication build. Existing code remains runnable for regression and audit, not as the definition of the new theory. The earlier public edition remains on `main`; no force-push or automatic default-branch change is used.
+The old LaTeX chapters, code, figures and reports remain audit material, not active new-edition content. The new manuscript manifest is empty. `make pdf` and `make check-pdf` deliberately fail with an explanatory message while the edition is architecture-only. Existing local PDFs still belong to the earlier edition and are not regenerated or relabeled. Reproduce them from the preserved commit, preferably in a separate worktree.
 
-No authorship or licensing change has been made. Public visibility does not grant a new reuse license. Third-party papers and supplied reference images are not redistributed.
+## Verify the architecture
+
+```sh
+python3 scripts/build_pedagogy.py --check
+python3 -m pytest
+```
+
+After editing pedagogy/curriculum.json, run `python3 scripts/build_pedagogy.py`. Checks cover prerequisite ordering, cross-book imports, inventory freshness and preservation. They do not certify readability or scientific validity.
+
+See [publication plan](PUBLICATION_PLAN.md), [learning/code progression](LEARNING_PROGRESSION.md), [concept maps](CONCEPT_MAPS.md), [figure system](FIGURE_SYSTEM.md), [terminology audit](TERMINOLOGY_AUDIT.md) and [previous-outline disposition](PREVIOUS_EDITION_AUDIT.md). Third-party papers and supplied review screenshots are not redistributed.

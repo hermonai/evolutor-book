@@ -1,0 +1,514 @@
+{
+  "schemaVersion": 1,
+  "status": "planned-not-yet-taught",
+  "sourceBook": "DNA Computing",
+  "sourceBranch": "astra-undergraduate-rewrite",
+  "activationRule": "An outcome becomes an assumed prerequisite only after its chapter, exercises and reader checks pass production review. Current Chapters 1-2 on astra-rewrite do not meet this contract.",
+  "chapters": [
+    {
+      "id": "DNAU-01",
+      "title": "What does it mean to compute?",
+      "terms": [
+        "computation",
+        "input",
+        "output",
+        "rule",
+        "step"
+      ],
+      "exitCheck": "Identify input and output; find an ambiguous instruction; explain why the material can change while the rule stays the same.",
+      "status": "planned-not-yet-taught"
+    },
+    {
+      "id": "DNAU-02",
+      "title": "Symbols, information and representations",
+      "terms": [
+        "symbol",
+        "data",
+        "information",
+        "representation",
+        "encoding",
+        "set",
+        "sequence"
+      ],
+      "exitCheck": "Recognize a sequence versus a set; expose an ambiguous encoding; supply a decoding key.",
+      "status": "planned-not-yet-taught"
+    },
+    {
+      "id": "DNAU-03",
+      "title": "Algorithms, decisions and remembered state",
+      "terms": [
+        "algorithm",
+        "condition",
+        "logic",
+        "and",
+        "or",
+        "not",
+        "state",
+        "loop",
+        "function",
+        "relation"
+      ],
+      "exitCheck": "Complete a trace; test a boundary case; explain why an instruction must terminate.",
+      "status": "planned-not-yet-taught"
+    },
+    {
+      "id": "DNAU-04",
+      "title": "Your first small Python programs",
+      "terms": [
+        "source code",
+        "program",
+        "interpreter",
+        "variable",
+        "string",
+        "list",
+        "dictionary",
+        "test",
+        "error message"
+      ],
+      "exitCheck": "Predict output before running; repair an index error; write a three-case test with supplied answers.",
+      "status": "planned-not-yet-taught"
+    },
+    {
+      "id": "DNAU-05",
+      "title": "Cities, roads, graphs and paths",
+      "terms": [
+        "graph",
+        "vertex",
+        "edge",
+        "directed edge",
+        "undirected edge",
+        "walk",
+        "path",
+        "simple path",
+        "cycle"
+      ],
+      "exitCheck": "Reject a backwards road; identify repeated vertices; compare path and cycle without requiring a named hard problem.",
+      "status": "planned-not-yet-taught"
+    },
+    {
+      "id": "DNAU-06",
+      "title": "Search, counting and growing work",
+      "terms": [
+        "search",
+        "candidate",
+        "verification",
+        "permutation",
+        "factorial",
+        "growth rate",
+        "Big-O",
+        "proposition",
+        "proof",
+        "counterexample"
+      ],
+      "exitCheck": "Count a three-card case; find a checker bug; explain a small proof in words before notation.",
+      "status": "planned-not-yet-taught"
+    },
+    {
+      "id": "DNAU-07",
+      "title": "Atoms, molecules and different kinds of bonds",
+      "terms": [
+        "atom",
+        "molecule",
+        "chemical bond",
+        "covalent bond",
+        "hydrogen bond",
+        "charge"
+      ],
+      "exitCheck": "Identify what each line style means; explain why base-pair marks must not look like backbone bonds.",
+      "status": "planned-not-yet-taught"
+    },
+    {
+      "id": "DNAU-08",
+      "title": "Solutions, amounts, temperature and change",
+      "terms": [
+        "solution",
+        "concentration",
+        "mole",
+        "pH",
+        "temperature",
+        "energy",
+        "equilibrium",
+        "kinetics",
+        "reaction rate"
+      ],
+      "exitCheck": "Distinguish rate from equilibrium; identify missing units; interpret a pH scale without an unsupported binding calculation.",
+      "status": "planned-not-yet-taught"
+    },
+    {
+      "id": "DNAU-09",
+      "title": "Cells, chromosomes, genes and genomes",
+      "terms": [
+        "cell",
+        "nucleus",
+        "chromosome",
+        "DNA",
+        "gene",
+        "genome"
+      ],
+      "exitCheck": "Distinguish gene, chromosome and genome; explain why not every cell has a nucleus.",
+      "status": "planned-not-yet-taught"
+    },
+    {
+      "id": "DNAU-10",
+      "title": "From a nucleotide to a DNA strand",
+      "terms": [
+        "base",
+        "sugar",
+        "phosphate",
+        "nucleotide",
+        "nucleoside",
+        "strand",
+        "double helix",
+        "deoxyribose",
+        "phosphodiester bond"
+      ],
+      "exitCheck": "Distinguish base from nucleotide; locate the backbone; identify what a flattened drawing omits.",
+      "status": "planned-not-yet-taught"
+    },
+    {
+      "id": "DNAU-11",
+      "title": "Direction, pairing and reverse complement",
+      "terms": [
+        "5-prime and 3-prime",
+        "complementarity",
+        "antiparallel",
+        "duplex",
+        "reverse complement"
+      ],
+      "exitCheck": "Compute AGTC and ATAT partners; reject a wrong orientation; explain why a string test does not predict binding.",
+      "status": "planned-not-yet-taught"
+    },
+    {
+      "id": "DNAU-12",
+      "title": "Chance, encounters and repeated trials",
+      "terms": [
+        "probability",
+        "event",
+        "independence",
+        "conditional probability",
+        "random sample"
+      ],
+      "exitCheck": "Compute 0.19; contrast sampling with and without replacement; identify when the model is unjustified.",
+      "status": "planned-not-yet-taught"
+    },
+    {
+      "id": "DNAU-13",
+      "title": "From DNA to RNA and proteins",
+      "terms": [
+        "RNA",
+        "protein",
+        "transcription",
+        "translation",
+        "codon",
+        "sequence transfer",
+        "amino acid",
+        "ribosome",
+        "transfer RNA"
+      ],
+      "exitCheck": "Distinguish copying sequence from controlling a process; recognize that some RNAs are not translated.",
+      "status": "planned-not-yet-taught"
+    },
+    {
+      "id": "DNAU-14",
+      "title": "Enzymes and DNA replication in six frames",
+      "terms": [
+        "enzyme",
+        "helicase",
+        "primer",
+        "primase",
+        "polymerase",
+        "replication",
+        "leading strand",
+        "lagging strand"
+      ],
+      "exitCheck": "Locate the growing end; repair a reversed arrow; track parental versus newly synthesized strands.",
+      "status": "planned-not-yet-taught"
+    },
+    {
+      "id": "DNAU-15",
+      "title": "What a laboratory operation actually does",
+      "terms": [
+        "pipette",
+        "test tube",
+        "centrifuge",
+        "control sample",
+        "measurement",
+        "calibration"
+      ],
+      "exitCheck": "Match instruments to purpose; spot a unit error; explain why an unlabeled tube invalidates interpretation.",
+      "status": "planned-not-yet-taught"
+    },
+    {
+      "id": "DNAU-16",
+      "title": "Hybridization as molecular recognition",
+      "terms": [
+        "hybridization",
+        "melting",
+        "free energy",
+        "association",
+        "dissociation"
+      ],
+      "exitCheck": "Separate compatibility, occupancy and reaction speed; identify unsupported numerical predictions.",
+      "status": "planned-not-yet-taught"
+    },
+    {
+      "id": "DNAU-17",
+      "title": "Cutting and joining strands",
+      "terms": [
+        "restriction enzyme",
+        "recognition site",
+        "ligation",
+        "ligase"
+      ],
+      "exitCheck": "Predict fragments; reject incompatible orientation; distinguish association from covalent joining.",
+      "status": "planned-not-yet-taught"
+    },
+    {
+      "id": "DNAU-18",
+      "title": "Copying selected DNA with PCR",
+      "terms": [
+        "polymerase chain reaction",
+        "PCR",
+        "thermal cycler",
+        "amplification"
+      ],
+      "exitCheck": "Identify primer direction; calculate two cycles; explain why real yield need not double.",
+      "status": "planned-not-yet-taught"
+    },
+    {
+      "id": "DNAU-19",
+      "title": "Separating molecules and retaining candidates",
+      "terms": [
+        "gel",
+        "electrophoresis",
+        "affinity separation",
+        "size selection"
+      ],
+      "exitCheck": "Read a schematic gel; distinguish amount from length; explain what a blurry band cannot establish.",
+      "status": "planned-not-yet-taught"
+    },
+    {
+      "id": "DNAU-20",
+      "title": "Detecting and reading a result",
+      "terms": [
+        "fluorescence",
+        "sequencer",
+        "DNA synthesizer",
+        "readout",
+        "detection threshold"
+      ],
+      "exitCheck": "Explain synthesizer versus sequencer; reject an overconfident negative result; propose a control.",
+      "status": "planned-not-yet-taught"
+    },
+    {
+      "id": "DNAU-21",
+      "title": "Hamiltonian paths: a visual mini-course",
+      "terms": [
+        "Hamiltonian path",
+        "Hamiltonian cycle",
+        "specified endpoint",
+        "witness",
+        "predicate"
+      ],
+      "exitCheck": "Recognition, route checking, implementation and reasoning ladder; fully work one valid and two invalid routes.",
+      "status": "planned-not-yet-taught"
+    },
+    {
+      "id": "DNAU-22",
+      "title": "Adleman's idea: encode a graph in DNA",
+      "terms": [
+        "molecular encoding",
+        "vertex code",
+        "overlap code"
+      ],
+      "exitCheck": "Spot encoding ambiguity; trace one joined candidate; explain that a correct code does not guarantee physical generation.",
+      "status": "planned-not-yet-taught"
+    },
+    {
+      "id": "DNAU-23",
+      "title": "Generate, filter and read the candidates",
+      "terms": [
+        "candidate population",
+        "endpoint filter",
+        "coverage filter",
+        "false positive",
+        "false negative"
+      ],
+      "exitCheck": "Keep a repeated-vertex counterexample until coverage; explain absent candidates versus missed detection.",
+      "status": "planned-not-yet-taught"
+    },
+    {
+      "id": "DNAU-24",
+      "title": "What the experiment proved, and what it did not",
+      "terms": [
+        "soundness",
+        "completeness",
+        "resource model",
+        "parallelism"
+      ],
+      "exitCheck": "Find a missing completeness premise; audit exponential material demand; state the bounded historical conclusion.",
+      "status": "planned-not-yet-taught"
+    },
+    {
+      "id": "DNAU-25",
+      "title": "Languages, machines and computational models",
+      "terms": [
+        "alphabet",
+        "formal language",
+        "automaton",
+        "finite-state machine",
+        "transition",
+        "Turing machine",
+        "SAT",
+        "nondeterminism",
+        "decision problem",
+        "polynomial reduction",
+        "NP",
+        "NP-complete"
+      ],
+      "exitCheck": "Trace acceptance; explain nondeterminism versus randomness; mark theorem assumptions and idealized unlimited storage.",
+      "status": "planned-not-yet-taught"
+    },
+    {
+      "id": "DNAU-26",
+      "title": "Strand, sticker and paired-strand models",
+      "terms": [
+        "sticker model",
+        "Watson-Crick automaton",
+        "molecular instruction set"
+      ],
+      "exitCheck": "Recognize a model operation; trace a program; reject a theorem transferred between variants.",
+      "status": "planned-not-yet-taught"
+    },
+    {
+      "id": "DNAU-27",
+      "title": "Splicing and rewriting strings",
+      "terms": [
+        "rewrite rule",
+        "splicing",
+        "insertion",
+        "deletion"
+      ],
+      "exitCheck": "Apply a rule; identify an illegal cut; distinguish formal closure from laboratory feasibility.",
+      "status": "planned-not-yet-taught"
+    },
+    {
+      "id": "DNAU-28",
+      "title": "Reaction networks and changing amounts",
+      "terms": [
+        "chemical reaction network",
+        "recurrence",
+        "stochastic process",
+        "mass action"
+      ],
+      "exitCheck": "Compute two updates; check conservation; distinguish one random path from an average.",
+      "status": "planned-not-yet-taught"
+    },
+    {
+      "id": "DNAU-29",
+      "title": "Strand displacement in slow motion",
+      "terms": [
+        "toehold",
+        "branch migration",
+        "strand displacement",
+        "leakage"
+      ],
+      "exitCheck": "Track conserved strands; correct an orientation mistake; identify omitted side reactions.",
+      "status": "planned-not-yet-taught"
+    },
+    {
+      "id": "DNAU-30",
+      "title": "Digital and analog molecular circuits",
+      "terms": [
+        "logic gate",
+        "digital circuit",
+        "analog signal",
+        "threshold",
+        "feedback"
+      ],
+      "exitCheck": "Check all inputs; identify signal depletion; explain why correct isolated gates need not compose reliably.",
+      "status": "planned-not-yet-taught"
+    },
+    {
+      "id": "DNAU-31",
+      "title": "Local assembly, tiles and DNA origami",
+      "terms": [
+        "tile assembly",
+        "local rule",
+        "DNA origami",
+        "addressability",
+        "geometry"
+      ],
+      "exitCheck": "Find a forbidden attachment; distinguish shape from algorithm; state the physical scale boundary.",
+      "status": "planned-not-yet-taught"
+    },
+    {
+      "id": "DNAU-32",
+      "title": "Genes, regulation, development and evolution",
+      "terms": [
+        "regulation",
+        "promoter",
+        "expression",
+        "mutation",
+        "inheritance",
+        "selection",
+        "adaptation",
+        "development"
+      ],
+      "exitCheck": "Identify regulatory control versus sequence transfer; distinguish adaptation, mutation and development.",
+      "status": "planned-not-yet-taught"
+    },
+    {
+      "id": "DNAU-33",
+      "title": "DNA storage, codes and recovery",
+      "terms": [
+        "bit",
+        "error-correcting code",
+        "redundancy",
+        "random access",
+        "entropy"
+      ],
+      "exitCheck": "Recover a toy message; measure overhead; distinguish storage from active molecular computation.",
+      "status": "planned-not-yet-taught"
+    },
+    {
+      "id": "DNAU-34",
+      "title": "Many numbers at once: vectors, matrices and DNA data",
+      "terms": [
+        "vector",
+        "matrix",
+        "dot product",
+        "matrix multiplication",
+        "sequence model"
+      ],
+      "exitCheck": "Check dimensions; compute a two-row result; explain the two meanings of DNA computation.",
+      "status": "planned-not-yet-taught"
+    },
+    {
+      "id": "DNAU-35",
+      "title": "Resources, energy, reliability and design tools",
+      "terms": [
+        "resource budget",
+        "energy accounting",
+        "reliability",
+        "model validation",
+        "parameter provenance"
+      ],
+      "exitCheck": "Reconcile units; design a control; distinguish software tests from physical validation.",
+      "status": "planned-not-yet-taught"
+    },
+    {
+      "id": "DNAU-36",
+      "title": "A measured frontier and the bridge to Evolutor",
+      "terms": [
+        "research claim",
+        "baseline",
+        "falsifier",
+        "reproducibility",
+        "transfer task"
+      ],
+      "exitCheck": "Explain a mechanism, implement its checker, critique evidence and complete the Book II readiness tasks.",
+      "status": "planned-not-yet-taught"
+    }
+  ]
+}

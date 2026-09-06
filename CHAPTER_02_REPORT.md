@@ -1,5 +1,7 @@
 # Chapter 2 development report
 
+> Preserved edition-2 document. This does not describe the active undergraduate-first edition. See [PEDAGOGICAL_REDESIGN.md](PEDAGOGICAL_REDESIGN.md); the new manuscript has no drafted chapters yet.
+
 Date: 2026-09-06. Publication branch: `astra-rewrite`. This is an internally reviewed two-chapter draft, not a complete or independently peer-reviewed textbook.
 
 ## Delivered

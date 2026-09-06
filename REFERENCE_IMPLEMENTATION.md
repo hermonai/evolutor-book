@@ -1,5 +1,7 @@
 # Reference implementation reset
 
+> Preserved edition-2 document. This does not describe the active undergraduate-first edition. See [PEDAGOGICAL_REDESIGN.md](PEDAGOGICAL_REDESIGN.md); the new manuscript has no drafted chapters yet.
+
 ## Existing code classification
 
 All source modules were inspected; the snapshot passed 16 repository tests. Passing tests support only tested semantics.

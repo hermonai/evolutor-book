@@ -1,0 +1,2383 @@
+{
+  "schemaVersion": 1,
+  "book": "Evolutor",
+  "subtitle": "From Genomic Computation to Adaptive Machine Intelligence",
+  "edition": "3-undergraduate-planning",
+  "status": "architecture-only-no-manuscript",
+  "branch": "astra-undergraduate-rewrite",
+  "preservedEdition": {
+    "branch": "astra-rewrite",
+    "commit": "58fa55a8097157d297be4afe21f146623048b875"
+  },
+  "entryAssumptions": [
+    "Basic high-school arithmetic and algebra",
+    "Ability to follow a logical explanation",
+    "Completion of Book I to its eventually verified exit contract; not satisfied by its existing two-chapter draft"
+  ],
+  "chapters": [
+    {
+      "id": "EVOU-01",
+      "number": 1,
+      "part": "I · From a familiar genome to a new question",
+      "title": "Programs, genomes and the question of Evolutor",
+      "domains": [
+        "genomic",
+        "systems"
+      ],
+      "requires": [],
+      "book1Requires": [
+        "DNAU-03",
+        "DNAU-09",
+        "DNAU-32"
+      ],
+      "introduces": [
+        "biological gene versus computational gene",
+        "analogy",
+        "research program"
+      ],
+      "readerQuestion": "Why compare a genome with a program?",
+      "frames": [
+        "Execute a familiar written recipe",
+        "Show a fixed program reacting to two inputs",
+        "Recall one genome with different expression states",
+        "Place a question mark, not an equals sign, between biology and software"
+      ],
+      "mathBridge": "No tuple or cost formula. Explain program as written instructions; model and neural network are destinations taught in Chapter 3 and Chapter 7.",
+      "codeLab": "Paper comparison of what is stored, what changes and what is observed; no new code.",
+      "exercise": "Recognize an analogy; identify a missing mechanism; explain that ordinary software can also respond and change.",
+      "status": "planned-not-drafted",
+      "figures": [
+        {
+          "id": "EVOU-01-F1",
+          "type": "sequential teaching figure",
+          "status": "storyboard-only"
+        },
+        {
+          "id": "EVOU-01-F2",
+          "type": "worked-example comparison",
+          "status": "planned-not-drawn"
+        }
+      ],
+      "animation": "candidate-keyframe-sequence"
+    },
+    {
+      "id": "EVOU-02",
+      "number": 2,
+      "part": "I · From a familiar genome to a new question",
+      "title": "Programs that choose and remember",
+      "domains": [
+        "systems"
+      ],
+      "requires": [
+        "EVOU-01"
+      ],
+      "book1Requires": [
+        "DNAU-03",
+        "DNAU-04"
+      ],
+      "introduces": [
+        "persistent state",
+        "module",
+        "interface contract",
+        "conditional execution"
+      ],
+      "readerQuestion": "How can the same input produce a different answer after a different history?",
+      "frames": [
+        "Run an if/else choice",
+        "Add a remembered counter",
+        "Run the same input after two histories",
+        "Separate stored instructions from changing state"
+      ],
+      "mathBridge": "Replay addition and assignment before a state-update table; no recurrence symbols yet.",
+      "codeLab": "Refresh Book I Python functions, dictionaries and tests, then build a two-command stateful program.",
+      "exercise": "Trace both histories; test a reset; distinguish the current input, remembered state and stored instructions.",
+      "status": "planned-not-drafted",
+      "figures": [
+        {
+          "id": "EVOU-02-F1",
+          "type": "sequential teaching figure",
+          "status": "storyboard-only"
+        },
+        {
+          "id": "EVOU-02-F2",
+          "type": "worked-example comparison",
+          "status": "planned-not-drawn"
+        }
+      ],
+      "animation": "candidate-keyframe-sequence"
+    },
+    {
+      "id": "EVOU-03",
+      "number": 3,
+      "part": "I · From a familiar genome to a new question",
+      "title": "Machine learning with one tiny model",
+      "domains": [
+        "ML",
+        "AI"
+      ],
+      "requires": [
+        "EVOU-02"
+      ],
+      "book1Requires": [
+        "DNAU-03",
+        "DNAU-34"
+      ],
+      "introduces": [
+        "machine learning",
+        "model",
+        "parameter",
+        "prediction",
+        "training",
+        "inference",
+        "loss"
+      ],
+      "readerQuestion": "How can examples help set a rule's adjustable numbers?",
+      "frames": [
+        "Place measured points on a small chart",
+        "Try a rule with one adjustable multiplier",
+        "Add an offset",
+        "Compare predictions with targets",
+        "Freeze the numbers for a new input"
+      ],
+      "mathBridge": "Explain input, weight and offset using prices before y=wx+b; errors before mean squared loss. Training uses manual trials, not gradients.",
+      "codeLab": "Plain Python predictions and a short table of trial parameter choices; keep training and inference functions separate.",
+      "exercise": "Compute one prediction; compare two trial settings; distinguish fitting examples from success on new ones.",
+      "status": "planned-not-drafted",
+      "figures": [
+        {
+          "id": "EVOU-03-F1",
+          "type": "sequential teaching figure",
+          "status": "storyboard-only"
+        },
+        {
+          "id": "EVOU-03-F2",
+          "type": "worked-example comparison",
+          "status": "planned-not-drawn"
+        }
+      ],
+      "animation": "candidate-keyframe-sequence"
+    },
+    {
+      "id": "EVOU-04",
+      "number": 4,
+      "part": "I · From a familiar genome to a new question",
+      "title": "Data, uncertainty and fair evaluation",
+      "domains": [
+        "ML",
+        "mathematics"
+      ],
+      "requires": [
+        "EVOU-03"
+      ],
+      "book1Requires": [
+        "DNAU-12"
+      ],
+      "introduces": [
+        "dataset",
+        "training split",
+        "validation split",
+        "test split",
+        "overfitting",
+        "mean",
+        "variance",
+        "confidence interval",
+        "data leakage"
+      ],
+      "readerQuestion": "Why can a model look good and still fail on new examples?",
+      "frames": [
+        "Sort examples into three named boxes",
+        "Fit only the training box",
+        "Choose settings using validation",
+        "Open the test box once",
+        "Repeat with a different random seed"
+      ],
+      "mathBridge": "Recall Book I probabilities; concrete spreads precede variance, sampling uncertainty and interval notation; teach what an interval does not guarantee.",
+      "codeLab": "Create a tiny split with duplicate detection; keep an untouched test file.",
+      "exercise": "Identify leakage; compute a mean error; explain why one run is insufficient evidence.",
+      "status": "planned-not-drafted",
+      "figures": [
+        {
+          "id": "EVOU-04-F1",
+          "type": "sequential teaching figure",
+          "status": "storyboard-only"
+        },
+        {
+          "id": "EVOU-04-F2",
+          "type": "worked-example comparison",
+          "status": "planned-not-drawn"
+        }
+      ],
+      "animation": "candidate-keyframe-sequence"
+    },
+    {
+      "id": "EVOU-05",
+      "number": 5,
+      "part": "II · Learning the language of neural models",
+      "title": "Vectors, matrices and tensors as data containers",
+      "domains": [
+        "mathematics",
+        "ML"
+      ],
+      "requires": [
+        "EVOU-03"
+      ],
+      "book1Requires": [
+        "DNAU-34"
+      ],
+      "introduces": [
+        "tensor",
+        "shape",
+        "batch dimension",
+        "broadcasting"
+      ],
+      "readerQuestion": "How can one rule process several measurements together?",
+      "frames": [
+        "Recall a feature vector",
+        "Stack examples as matrix rows",
+        "Add a batch axis with labeled dimensions",
+        "Show an invalid shape combination"
+      ],
+      "mathBridge": "Recall Book I dot products and matrix multiplication explicitly; every axis gets a name before tensor notation.",
+      "codeLab": "Plain Python arrays with shape labels and a paper tensor-layout exercise; PyTorch tensor construction and setup wait for Chapter 8.",
+      "exercise": "Compute a tiny product; label axes; diagnose an accidental broadcast.",
+      "status": "planned-not-drafted",
+      "figures": [
+        {
+          "id": "EVOU-05-F1",
+          "type": "sequential teaching figure",
+          "status": "storyboard-only"
+        },
+        {
+          "id": "EVOU-05-F2",
+          "type": "worked-example comparison",
+          "status": "planned-not-drawn"
+        }
+      ],
+      "animation": "candidate-keyframe-sequence"
+    },
+    {
+      "id": "EVOU-06",
+      "number": 6,
+      "part": "II · Learning the language of neural models",
+      "title": "Slopes, gradients and improving a prediction",
+      "domains": [
+        "mathematics",
+        "ML"
+      ],
+      "requires": [
+        "EVOU-03",
+        "EVOU-04",
+        "EVOU-05"
+      ],
+      "book1Requires": [
+        "DNAU-08",
+        "DNAU-34"
+      ],
+      "introduces": [
+        "derivative",
+        "partial derivative",
+        "gradient",
+        "chain rule",
+        "gradient descent",
+        "learning rate"
+      ],
+      "readerQuestion": "Which small change would reduce the error?",
+      "frames": [
+        "Move one parameter slightly left and right",
+        "Measure the change in loss",
+        "Draw a local slope",
+        "Follow two linked operations backward",
+        "Take a small update step"
+      ],
+      "mathBridge": "Finite differences and rise-over-run precede derivatives; one variable before partial derivatives; chain rule before gradient update notation.",
+      "codeLab": "Calculate a finite-difference gradient in plain Python and compare a hand-derived scalar gradient.",
+      "exercise": "Compute a slope; show an overly large step; explain local improvement versus a global guarantee.",
+      "status": "planned-not-drafted",
+      "figures": [
+        {
+          "id": "EVOU-06-F1",
+          "type": "sequential teaching figure",
+          "status": "storyboard-only"
+        },
+        {
+          "id": "EVOU-06-F2",
+          "type": "worked-example comparison",
+          "status": "planned-not-drawn"
+        }
+      ],
+      "animation": "candidate-keyframe-sequence"
+    },
+    {
+      "id": "EVOU-07",
+      "number": 7,
+      "part": "II · Learning the language of neural models",
+      "title": "Neural networks built one layer at a time",
+      "domains": [
+        "ML",
+        "AI"
+      ],
+      "requires": [
+        "EVOU-05",
+        "EVOU-06"
+      ],
+      "book1Requires": [
+        "DNAU-03",
+        "DNAU-34"
+      ],
+      "introduces": [
+        "neural network",
+        "layer",
+        "activation",
+        "multilayer perceptron",
+        "MLP",
+        "backpropagation",
+        "convolution",
+        "CNN"
+      ],
+      "readerQuestion": "Why put simple transformations in layers?",
+      "frames": [
+        "Apply one weighted sum",
+        "Add a nonlinear activation",
+        "Connect two small layers",
+        "Compare a shared sliding filter",
+        "Trace the error backward"
+      ],
+      "mathBridge": "Teach linear versus nonlinear with pictures before matrix-layer notation; convolution is a local shared-weight operation before the acronym convolutional neural network.",
+      "codeLab": "Tiny scalar network first, then batched matrix forward pass; no large architecture.",
+      "exercise": "Compute two neurons; compare linear compositions and nonlinear layers; trace one gradient path.",
+      "status": "planned-not-drafted",
+      "figures": [
+        {
+          "id": "EVOU-07-F1",
+          "type": "sequential teaching figure",
+          "status": "storyboard-only"
+        },
+        {
+          "id": "EVOU-07-F2",
+          "type": "worked-example comparison",
+          "status": "planned-not-drawn"
+        }
+      ],
+      "animation": "candidate-keyframe-sequence"
+    },
+    {
+      "id": "EVOU-08",
+      "number": 8,
+      "part": "II · Learning the language of neural models",
+      "title": "A complete small training loop in PyTorch",
+      "domains": [
+        "ML",
+        "systems"
+      ],
+      "requires": [
+        "EVOU-04",
+        "EVOU-06",
+        "EVOU-07"
+      ],
+      "book1Requires": [
+        "DNAU-04"
+      ],
+      "introduces": [
+        "PyTorch",
+        "automatic differentiation",
+        "optimizer",
+        "epoch",
+        "checkpoint",
+        "device",
+        "random seed"
+      ],
+      "readerQuestion": "What changes during training, and what stays fixed during inference?",
+      "frames": [
+        "Load labeled examples",
+        "Predict",
+        "Compare and form loss",
+        "Compute gradients",
+        "Update parameters",
+        "Repeat, then freeze parameters and predict"
+      ],
+      "mathBridge": "Map each code operation to Chapter 6 arithmetic; explain gradient accumulation and reset before optimizer calls.",
+      "codeLab": "Teach installation, tensors, autograd, zero_grad, backward and step; separate no-update inference and evaluation behavior.",
+      "exercise": "Repair a missing gradient reset; reproduce a tiny run; verify parameters are unchanged by inference.",
+      "status": "planned-not-drafted",
+      "figures": [
+        {
+          "id": "EVOU-08-F1",
+          "type": "sequential teaching figure",
+          "status": "storyboard-only"
+        },
+        {
+          "id": "EVOU-08-F2",
+          "type": "worked-example comparison",
+          "status": "planned-not-drawn"
+        }
+      ],
+      "animation": "candidate-keyframe-sequence"
+    },
+    {
+      "id": "EVOU-09",
+      "number": 9,
+      "part": "III · Sequences and memory",
+      "title": "Tokens, embeddings and predicting the next symbol",
+      "domains": [
+        "ML",
+        "AI"
+      ],
+      "requires": [
+        "EVOU-05",
+        "EVOU-07",
+        "EVOU-08"
+      ],
+      "book1Requires": [
+        "DNAU-02",
+        "DNAU-12",
+        "DNAU-33"
+      ],
+      "introduces": [
+        "token",
+        "vocabulary",
+        "embedding",
+        "next-token prediction",
+        "categorical distribution",
+        "softmax",
+        "cross-entropy"
+      ],
+      "readerQuestion": "How do written symbols become numbers a model can use?",
+      "frames": [
+        "Split a tiny sequence using a declared tokenizer",
+        "Assign token IDs",
+        "Look up small learned rows",
+        "Predict one next-token distribution"
+      ],
+      "mathBridge": "Explain categorical probabilities and normalized positive scores before softmax; logarithm recall precedes cross-entropy; IDs are not numeric distances.",
+      "codeLab": "Build a tiny tokenizer and embedding lookup, then a next-token table baseline.",
+      "exercise": "Distinguish a character from a token; compute a tiny normalized distribution; prevent future-token leakage.",
+      "status": "planned-not-drafted",
+      "figures": [
+        {
+          "id": "EVOU-09-F1",
+          "type": "sequential teaching figure",
+          "status": "storyboard-only"
+        },
+        {
+          "id": "EVOU-09-F2",
+          "type": "worked-example comparison",
+          "status": "planned-not-drawn"
+        }
+      ],
+      "animation": "candidate-keyframe-sequence"
+    },
+    {
+      "id": "EVOU-10",
+      "number": 10,
+      "part": "III · Sequences and memory",
+      "title": "Recurrence: remembering one step at a time",
+      "domains": [
+        "ML",
+        "mathematics"
+      ],
+      "requires": [
+        "EVOU-02",
+        "EVOU-06",
+        "EVOU-08",
+        "EVOU-09"
+      ],
+      "book1Requires": [
+        "DNAU-28"
+      ],
+      "introduces": [
+        "recurrent neural network",
+        "RNN",
+        "hidden state",
+        "unrolling",
+        "backpropagation through time",
+        "leaky integrator"
+      ],
+      "readerQuestion": "How can a model carry something from the previous symbol?",
+      "frames": [
+        "Show state zero",
+        "Read the first symbol",
+        "Retain part of old state and add new input",
+        "Read a second symbol with changed state",
+        "Unroll the same update across time"
+      ],
+      "mathBridge": "Old amount minus lost amount plus new amount precedes (1-d)x+pu; label before/after state, then generalize to RNN notation.",
+      "codeLab": "Exact rational leaky example before a small trained RNN; distinguish hand-set recurrence from learning.",
+      "exercise": "Compute two steps; compare histories; test reset boundaries and explain why memory is not yet learning.",
+      "status": "planned-not-drafted",
+      "figures": [
+        {
+          "id": "EVOU-10-F1",
+          "type": "sequential teaching figure",
+          "status": "storyboard-only"
+        },
+        {
+          "id": "EVOU-10-F2",
+          "type": "worked-example comparison",
+          "status": "planned-not-drawn"
+        }
+      ],
+      "animation": "candidate-keyframe-sequence"
+    },
+    {
+      "id": "EVOU-11",
+      "number": 11,
+      "part": "III · Sequences and memory",
+      "title": "Gates and state-space models",
+      "domains": [
+        "ML",
+        "mathematics"
+      ],
+      "requires": [
+        "EVOU-05",
+        "EVOU-10"
+      ],
+      "book1Requires": [
+        "DNAU-28",
+        "DNAU-34"
+      ],
+      "introduces": [
+        "gate",
+        "gated recurrent unit",
+        "GRU",
+        "state-space model",
+        "SSM",
+        "stability"
+      ],
+      "readerQuestion": "What should a compact state keep or forget?",
+      "frames": [
+        "Show retained and discarded contributions",
+        "Introduce one adjustable gate",
+        "Compare a GRU update with fixed retention",
+        "Draw state transition and observation separately"
+      ],
+      "mathBridge": "Matrix recurrence follows scalar recurrence; introduce eigenvalue intuition only if used, with a two-dimensional example; no unprepared stability theorem.",
+      "codeLab": "Implement a small GRU and a declared linear SSM baseline before contemporary variants.",
+      "exercise": "Trace a gate at zero and one; compare state sizes; state what information a compact state may lose.",
+      "status": "planned-not-drafted",
+      "figures": [
+        {
+          "id": "EVOU-11-F1",
+          "type": "sequential teaching figure",
+          "status": "storyboard-only"
+        },
+        {
+          "id": "EVOU-11-F2",
+          "type": "worked-example comparison",
+          "status": "planned-not-drawn"
+        }
+      ],
+      "animation": "candidate-keyframe-sequence"
+    },
+    {
+      "id": "EVOU-12",
+      "number": 12,
+      "part": "III · Sequences and memory",
+      "title": "Attention as a weighted lookup",
+      "domains": [
+        "ML",
+        "mathematics"
+      ],
+      "requires": [
+        "EVOU-05",
+        "EVOU-06",
+        "EVOU-09"
+      ],
+      "book1Requires": [
+        "DNAU-12",
+        "DNAU-34"
+      ],
+      "introduces": [
+        "query",
+        "key",
+        "value",
+        "attention score",
+        "attention",
+        "causal mask",
+        "attention head"
+      ],
+      "readerQuestion": "Which earlier symbol should matter now?",
+      "frames": [
+        "Give three tokens labeled information cards",
+        "Ask one query",
+        "Compare it with three keys",
+        "Normalize scores",
+        "Combine values",
+        "Hide a forbidden future position"
+      ],
+      "mathBridge": "Use explicit two-number vectors, dot products, softmax and weighted sum before QK-transpose notation.",
+      "codeLab": "Hand-compute a three-token example, then plain tensors and autograd parity checks.",
+      "exercise": "Compute weights; explain query/key/value roles; demonstrate a causal-mask failure.",
+      "status": "planned-not-drafted",
+      "figures": [
+        {
+          "id": "EVOU-12-F1",
+          "type": "sequential teaching figure",
+          "status": "storyboard-only"
+        },
+        {
+          "id": "EVOU-12-F2",
+          "type": "worked-example comparison",
+          "status": "planned-not-drawn"
+        }
+      ],
+      "animation": "candidate-keyframe-sequence"
+    },
+    {
+      "id": "EVOU-13",
+      "number": 13,
+      "part": "III · Sequences and memory",
+      "title": "From one attention head to a Transformer",
+      "domains": [
+        "ML",
+        "AI"
+      ],
+      "requires": [
+        "EVOU-07",
+        "EVOU-08",
+        "EVOU-12"
+      ],
+      "book1Requires": [
+        "DNAU-34"
+      ],
+      "introduces": [
+        "multi-head attention",
+        "residual connection",
+        "normalization",
+        "feed-forward network",
+        "Transformer",
+        "positional encoding"
+      ],
+      "readerQuestion": "How do small attention operations form a useful model?",
+      "frames": [
+        "Recall a single head",
+        "Compare two heads",
+        "Add residual and normalization steps",
+        "Add a feed-forward sublayer",
+        "Add position information",
+        "Stack labeled blocks"
+      ],
+      "mathBridge": "Teach mean/variance normalization and skip addition before block equations; every tensor shape remains labeled.",
+      "codeLab": "Build one small causal block and test shape, masking and checkpoint reload before stacking.",
+      "exercise": "Trace one token through a block; explain why position matters; reject a full architecture diagram with unlabeled axes.",
+      "status": "planned-not-drafted",
+      "figures": [
+        {
+          "id": "EVOU-13-F1",
+          "type": "sequential teaching figure",
+          "status": "storyboard-only"
+        },
+        {
+          "id": "EVOU-13-F2",
+          "type": "worked-example comparison",
+          "status": "planned-not-drawn"
+        }
+      ],
+      "animation": "candidate-keyframe-sequence"
+    },
+    {
+      "id": "EVOU-14",
+      "number": 14,
+      "part": "III · Sequences and memory",
+      "title": "Caches, retrieval and external memory",
+      "domains": [
+        "systems",
+        "AI"
+      ],
+      "requires": [
+        "EVOU-10",
+        "EVOU-13"
+      ],
+      "book1Requires": [
+        "DNAU-33"
+      ],
+      "introduces": [
+        "cache",
+        "key-value cache",
+        "KV cache",
+        "retrieval",
+        "external memory",
+        "index"
+      ],
+      "readerQuestion": "Why keep earlier work, and when should a system look something up?",
+      "frames": [
+        "Generate two tokens without reuse",
+        "Retain earlier keys and values",
+        "Generate the next token reusing them",
+        "Compare lookup in an external document collection"
+      ],
+      "mathBridge": "Count stored rows and reused operations before memory formulas; cache stores computations, not a magical source of factual truth.",
+      "codeLab": "Compare cached and uncached tiny-model outputs; build a tiny exact retrieval index.",
+      "exercise": "Distinguish recurrent state, KV cache and retrieved documents; test stale-cache and mismatched-history cases.",
+      "status": "planned-not-drafted",
+      "figures": [
+        {
+          "id": "EVOU-14-F1",
+          "type": "sequential teaching figure",
+          "status": "storyboard-only"
+        },
+        {
+          "id": "EVOU-14-F2",
+          "type": "worked-example comparison",
+          "status": "planned-not-drawn"
+        }
+      ],
+      "animation": "candidate-keyframe-sequence"
+    },
+    {
+      "id": "EVOU-15",
+      "number": 15,
+      "part": "IV · Existing software before genomic abstractions",
+      "title": "If/else, dispatch, plugins and dynamic routing",
+      "domains": [
+        "systems"
+      ],
+      "requires": [
+        "EVOU-02",
+        "EVOU-04"
+      ],
+      "book1Requires": [
+        "DNAU-03",
+        "DNAU-04",
+        "DNAU-06"
+      ],
+      "introduces": [
+        "dispatch",
+        "plugin",
+        "router",
+        "dynamic routing",
+        "pure function",
+        "lookup cost"
+      ],
+      "readerQuestion": "What already selects only part of a program?",
+      "frames": [
+        "Choose a function by a name",
+        "Compare a scan with an indexed lookup",
+        "Load a declared plugin",
+        "Record selection work separately from execution work"
+      ],
+      "mathBridge": "Count concrete comparisons before cost tuples; prove equivalence only after tracing matching inputs and assumptions.",
+      "codeLab": "Rebuild the old dispatch example with explicit errors, purity assumptions and counted events.",
+      "exercise": "Find a duplicate-name bug; compare costs honestly; explain why selective execution alone is not novel.",
+      "status": "planned-not-drafted",
+      "figures": [
+        {
+          "id": "EVOU-15-F1",
+          "type": "sequential teaching figure",
+          "status": "storyboard-only"
+        },
+        {
+          "id": "EVOU-15-F2",
+          "type": "worked-example comparison",
+          "status": "planned-not-drawn"
+        }
+      ],
+      "animation": "candidate-keyframe-sequence"
+    },
+    {
+      "id": "EVOU-16",
+      "number": 16,
+      "part": "IV · Existing software before genomic abstractions",
+      "title": "Mixture of experts and learned routing",
+      "domains": [
+        "ML",
+        "AI"
+      ],
+      "requires": [
+        "EVOU-04",
+        "EVOU-08",
+        "EVOU-13",
+        "EVOU-15"
+      ],
+      "book1Requires": [
+        "DNAU-06",
+        "DNAU-34"
+      ],
+      "introduces": [
+        "mixture of experts",
+        "MoE",
+        "expert",
+        "load balancing",
+        "sparse activation"
+      ],
+      "readerQuestion": "Can the choice of a module itself be learned?",
+      "frames": [
+        "Score three expert choices",
+        "Select a small subset",
+        "Combine their outputs",
+        "Show an overloaded expert and balancing response"
+      ],
+      "mathBridge": "Top-k selection and weighted sums precede routing loss; distinguish stored and activated parameters.",
+      "codeLab": "Implement a tiny routed baseline with a matched dense control; report routing cost as well as expert work.",
+      "exercise": "Trace a route; identify collapse; distinguish sparsity from an established end-to-end speedup.",
+      "status": "planned-not-drafted",
+      "figures": [
+        {
+          "id": "EVOU-16-F1",
+          "type": "sequential teaching figure",
+          "status": "storyboard-only"
+        },
+        {
+          "id": "EVOU-16-F2",
+          "type": "worked-example comparison",
+          "status": "planned-not-drawn"
+        }
+      ],
+      "animation": "candidate-keyframe-sequence"
+    },
+    {
+      "id": "EVOU-17",
+      "number": 17,
+      "part": "IV · Existing software before genomic abstractions",
+      "title": "Source code, compilers, runtimes and interfaces",
+      "domains": [
+        "systems"
+      ],
+      "requires": [
+        "EVOU-02",
+        "EVOU-15"
+      ],
+      "book1Requires": [
+        "DNAU-04",
+        "DNAU-25"
+      ],
+      "introduces": [
+        "compiler",
+        "runtime",
+        "library",
+        "application programming interface",
+        "API",
+        "process",
+        "thread",
+        "memory"
+      ],
+      "readerQuestion": "What happens between writing a program and running it?",
+      "frames": [
+        "Show source text",
+        "Transform to an executable representation",
+        "Start a process",
+        "Call a library through a named interface",
+        "Compare separate processes and threads sharing memory"
+      ],
+      "mathBridge": "No compiler-theory prerequisites; distinguish representation from running instance before any formal semantics.",
+      "codeLab": "Build a tiny expression interpreter before optional compilation; document an API with inputs and failure outputs.",
+      "exercise": "Match objects to stages; distinguish process from thread; explain interpreter and runtime without treating them as synonyms.",
+      "status": "planned-not-drafted",
+      "figures": [
+        {
+          "id": "EVOU-17-F1",
+          "type": "sequential teaching figure",
+          "status": "storyboard-only"
+        },
+        {
+          "id": "EVOU-17-F2",
+          "type": "worked-example comparison",
+          "status": "planned-not-drawn"
+        }
+      ],
+      "animation": "candidate-keyframe-sequence"
+    },
+    {
+      "id": "EVOU-18",
+      "number": 18,
+      "part": "IV · Existing software before genomic abstractions",
+      "title": "Services, databases, protocols and scheduling",
+      "domains": [
+        "systems"
+      ],
+      "requires": [
+        "EVOU-14",
+        "EVOU-17"
+      ],
+      "book1Requires": [
+        "DNAU-03",
+        "DNAU-35"
+      ],
+      "introduces": [
+        "service",
+        "database",
+        "protocol",
+        "scheduler",
+        "query plan",
+        "latency",
+        "throughput",
+        "batch"
+      ],
+      "readerQuestion": "Why does serving several requests need more than a model?",
+      "frames": [
+        "Send a request to a service",
+        "Queue two requests",
+        "Fetch a row from a database",
+        "Compare two query plans",
+        "Return labeled responses"
+      ],
+      "mathBridge": "Time a single request before latency; count completed requests per interval before throughput; teach query operator order before planning costs.",
+      "codeLab": "Single-process simulated service and queue; no production deployment required.",
+      "exercise": "Trace request identity; compare batching tradeoffs; distinguish a cache from an authoritative database.",
+      "status": "planned-not-drafted",
+      "figures": [
+        {
+          "id": "EVOU-18-F1",
+          "type": "sequential teaching figure",
+          "status": "storyboard-only"
+        },
+        {
+          "id": "EVOU-18-F2",
+          "type": "worked-example comparison",
+          "status": "planned-not-drawn"
+        }
+      ],
+      "animation": "candidate-keyframe-sequence"
+    },
+    {
+      "id": "EVOU-19",
+      "number": 19,
+      "part": "IV · Existing software before genomic abstractions",
+      "title": "Baselines, oracles and resource-matched experiments",
+      "domains": [
+        "ML",
+        "systems"
+      ],
+      "requires": [
+        "EVOU-04",
+        "EVOU-08",
+        "EVOU-11",
+        "EVOU-13",
+        "EVOU-16",
+        "EVOU-18"
+      ],
+      "book1Requires": [
+        "DNAU-06",
+        "DNAU-12",
+        "DNAU-24",
+        "DNAU-36"
+      ],
+      "introduces": [
+        "baseline",
+        "oracle",
+        "ablation",
+        "capacity matching",
+        "profiling plan",
+        "experimental hypothesis",
+        "Markov assumption"
+      ],
+      "readerQuestion": "What would count as a fair improvement?",
+      "frames": [
+        "Specify a task before choosing a model",
+        "Put simple and advanced baselines alongside a proposal",
+        "Hide test answers",
+        "Match declared resources",
+        "Repeat with several seeds"
+      ],
+      "mathBridge": "Report sample counts, distributions and uncertainty before summary rankings; separate parameters, executed work and wall time.",
+      "codeLab": "Shared experiment contract for Markov, MLP, CNN, GRU, Transformer and SSM baselines; teach Markov assumption with a small transition table here.",
+      "exercise": "Design a falsifier; expose answer leakage; explain why an oracle checks a task but does not certify intelligence.",
+      "status": "planned-not-drafted",
+      "figures": [
+        {
+          "id": "EVOU-19-F1",
+          "type": "sequential teaching figure",
+          "status": "storyboard-only"
+        },
+        {
+          "id": "EVOU-19-F2",
+          "type": "worked-example comparison",
+          "status": "planned-not-drawn"
+        }
+      ],
+      "animation": "candidate-keyframe-sequence"
+    },
+    {
+      "id": "EVOU-20",
+      "number": 20,
+      "part": "V · Borrowing from biology carefully",
+      "title": "Regulation, expression and different timescales",
+      "domains": [
+        "genomic"
+      ],
+      "requires": [
+        "EVOU-01",
+        "EVOU-10",
+        "EVOU-19"
+      ],
+      "book1Requires": [
+        "DNAU-13",
+        "DNAU-32"
+      ],
+      "introduces": [
+        "biological regulation versus routing",
+        "sequence transfer versus control",
+        "timescale"
+      ],
+      "readerQuestion": "What changes within a cell, and what changes across generations?",
+      "frames": [
+        "Recall DNA-to-RNA-to-protein sequence transfer",
+        "Add a separately typed control relation",
+        "Hold DNA fixed while state changes",
+        "Contrast inherited variation across generations"
+      ],
+      "mathBridge": "Recall Book I units and recurrence; a biological cartoon is not a fitted differential equation.",
+      "codeLab": "Revisit a toy control example next to an ordinary stateful software baseline.",
+      "exercise": "Distinguish control from sequence reversal; classify state change, gene expression and inherited change.",
+      "status": "planned-not-drafted",
+      "figures": [
+        {
+          "id": "EVOU-20-F1",
+          "type": "sequential teaching figure",
+          "status": "storyboard-only"
+        },
+        {
+          "id": "EVOU-20-F2",
+          "type": "worked-example comparison",
+          "status": "planned-not-drawn"
+        }
+      ],
+      "animation": "candidate-keyframe-sequence"
+    },
+    {
+      "id": "EVOU-21",
+      "number": 21,
+      "part": "V · Borrowing from biology carefully",
+      "title": "Analogies that can fail",
+      "domains": [
+        "genomic",
+        "AI"
+      ],
+      "requires": [
+        "EVOU-15",
+        "EVOU-16",
+        "EVOU-18",
+        "EVOU-19",
+        "EVOU-20"
+      ],
+      "book1Requires": [
+        "DNAU-32",
+        "DNAU-36"
+      ],
+      "introduces": [
+        "abstraction",
+        "mechanism",
+        "novelty claim",
+        "biological fidelity"
+      ],
+      "readerQuestion": "What remains after comparing a biological idea with existing software?",
+      "frames": [
+        "Pair gene with module using a question-mark link",
+        "Compare promoter and condition",
+        "Compare expression and execution",
+        "Cross out an equivalence when mechanisms differ"
+      ],
+      "mathBridge": "No formalism yet; specify observable differences and excluded biological features in ordinary language.",
+      "codeLab": "Write a mechanism contract and a nearest-baseline checklist before any genomic class.",
+      "exercise": "Reject a renamed existing mechanism; propose a discriminating experiment; leave an unsupported claim open.",
+      "status": "planned-not-drafted",
+      "figures": [
+        {
+          "id": "EVOU-21-F1",
+          "type": "sequential teaching figure",
+          "status": "storyboard-only"
+        },
+        {
+          "id": "EVOU-21-F2",
+          "type": "worked-example comparison",
+          "status": "planned-not-drawn"
+        }
+      ],
+      "animation": "candidate-keyframe-sequence"
+    },
+    {
+      "id": "EVOU-22",
+      "number": 22,
+      "part": "V · Borrowing from biology carefully",
+      "title": "Learning parameters and changing structure",
+      "domains": [
+        "ML",
+        "genomic"
+      ],
+      "requires": [
+        "EVOU-06",
+        "EVOU-19",
+        "EVOU-21"
+      ],
+      "book1Requires": [
+        "DNAU-05",
+        "DNAU-06",
+        "DNAU-32"
+      ],
+      "introduces": [
+        "pruning",
+        "architecture search",
+        "genetic programming",
+        "program synthesis",
+        "structural update"
+      ],
+      "readerQuestion": "How does changing a number differ from changing a program?",
+      "frames": [
+        "Update one weight",
+        "Remove a connection",
+        "Choose another small architecture",
+        "Edit a syntax tree",
+        "Select among candidate programs"
+      ],
+      "mathBridge": "Teach tree and syntax node with an arithmetic expression before genetic-programming notation; introduce search spaces concretely.",
+      "codeLab": "Compare parameter fitting, pruning and small program search under a declared budget.",
+      "exercise": "Classify changes; track who evaluates candidates; identify evaluation-set reuse and selection bias.",
+      "status": "planned-not-drafted",
+      "figures": [
+        {
+          "id": "EVOU-22-F1",
+          "type": "sequential teaching figure",
+          "status": "storyboard-only"
+        },
+        {
+          "id": "EVOU-22-F2",
+          "type": "worked-example comparison",
+          "status": "planned-not-drawn"
+        }
+      ],
+      "animation": "candidate-keyframe-sequence"
+    },
+    {
+      "id": "EVOU-23",
+      "number": 23,
+      "part": "V · Borrowing from biology carefully",
+      "title": "Development as building a representation",
+      "domains": [
+        "genomic",
+        "systems"
+      ],
+      "requires": [
+        "EVOU-17",
+        "EVOU-21",
+        "EVOU-22"
+      ],
+      "book1Requires": [
+        "DNAU-25",
+        "DNAU-31",
+        "DNAU-32"
+      ],
+      "introduces": [
+        "intermediate representation",
+        "IR",
+        "developmental program",
+        "compilation phase"
+      ],
+      "readerQuestion": "Can a compact description construct a larger program?",
+      "frames": [
+        "Expand a small repeated pattern",
+        "Build a typed expression representation",
+        "Validate its structure",
+        "Compile or interpret it",
+        "Compare construction with biological development"
+      ],
+      "mathBridge": "Explain grammar, node type and validation locally before formal grammar notation; no equivalence with embryology.",
+      "codeLab": "Build a tiny checked expression plan from a declarative source.",
+      "exercise": "Find an invalid type; distinguish expansion from learning; identify the biological details intentionally absent.",
+      "status": "planned-not-drafted",
+      "figures": [
+        {
+          "id": "EVOU-23-F1",
+          "type": "sequential teaching figure",
+          "status": "storyboard-only"
+        },
+        {
+          "id": "EVOU-23-F2",
+          "type": "worked-example comparison",
+          "status": "planned-not-drawn"
+        }
+      ],
+      "animation": "candidate-keyframe-sequence"
+    },
+    {
+      "id": "EVOU-24",
+      "number": 24,
+      "part": "V · Borrowing from biology carefully",
+      "title": "A minimal genomic-computation hypothesis",
+      "domains": [
+        "genomic",
+        "mathematics"
+      ],
+      "requires": [
+        "EVOU-19",
+        "EVOU-20",
+        "EVOU-21",
+        "EVOU-22",
+        "EVOU-23"
+      ],
+      "book1Requires": [
+        "DNAU-25",
+        "DNAU-32",
+        "DNAU-35"
+      ],
+      "introduces": [
+        "computational genome",
+        "computational regulator",
+        "expression plan",
+        "operational semantics"
+      ],
+      "readerQuestion": "What precise system are we proposing to test?",
+      "frames": [
+        "Recall stored modules, context and state",
+        "Select an expression plan",
+        "Execute it with an explicit trace",
+        "Show an optional separately authorized structural proposal"
+      ],
+      "mathBridge": "Only now collect already taught components into a tuple; explain transition rules and costs one at a time.",
+      "codeLab": "Specify a small deterministic reference before neural implementations; all novelty claims remain hypotheses.",
+      "exercise": "Derive one transition; exhibit nearest-baseline equivalence; write a condition that would falsify the additional mechanism.",
+      "status": "planned-not-drafted",
+      "figures": [
+        {
+          "id": "EVOU-24-F1",
+          "type": "sequential teaching figure",
+          "status": "storyboard-only"
+        },
+        {
+          "id": "EVOU-24-F2",
+          "type": "worked-example comparison",
+          "status": "planned-not-drawn"
+        }
+      ],
+      "animation": "candidate-keyframe-sequence"
+    },
+    {
+      "id": "EVOU-25",
+      "number": 25,
+      "part": "VI · Implementing only what is specified",
+      "title": "Classes, interfaces and a UML model",
+      "domains": [
+        "systems"
+      ],
+      "requires": [
+        "EVOU-17",
+        "EVOU-24"
+      ],
+      "book1Requires": [
+        "DNAU-03"
+      ],
+      "introduces": [
+        "class",
+        "instance",
+        "method",
+        "composition",
+        "Unified Modeling Language",
+        "UML"
+      ],
+      "readerQuestion": "How can the software structure express the proposed rules?",
+      "frames": [
+        "Compare a blueprint class with two instances",
+        "Teach class compartments and relationship symbols",
+        "Draw Genome, Gene and Regulator classes",
+        "Add ExpressionPlan and Trace ownership"
+      ],
+      "mathBridge": "No unexplained engineering notation; cardinalities are illustrated with concrete object counts first.",
+      "codeLab": "Reference classes follow the Chapter 24 contract; class diagram names must match code.",
+      "exercise": "Distinguish class from instance; repair an ownership edge; test interface preconditions.",
+      "status": "planned-not-drafted",
+      "figures": [
+        {
+          "id": "EVOU-25-F1",
+          "type": "UML class",
+          "status": "storyboard-only"
+        },
+        {
+          "id": "EVOU-25-F2",
+          "type": "worked-example comparison",
+          "status": "planned-not-drawn"
+        }
+      ],
+      "animation": "candidate-keyframe-sequence"
+    },
+    {
+      "id": "EVOU-26",
+      "number": 26,
+      "part": "VI · Implementing only what is specified",
+      "title": "From a request to an expression trace",
+      "domains": [
+        "systems"
+      ],
+      "requires": [
+        "EVOU-18",
+        "EVOU-25"
+      ],
+      "book1Requires": [
+        "DNAU-03"
+      ],
+      "introduces": [
+        "UML sequence diagram",
+        "lifeline",
+        "message",
+        "executor"
+      ],
+      "readerQuestion": "Who talks to whom during one request?",
+      "frames": [
+        "Introduce actor and lifeline notation",
+        "Send context from Runtime to Regulator",
+        "Return an expression plan",
+        "Execute modules",
+        "Return result and trace",
+        "Show the error branch"
+      ],
+      "mathBridge": "Time flows down, messages sideways; distinguish return from a fresh request before asynchronous detail.",
+      "codeLab": "Single-request reference execution with deterministic trace IDs and explicit failures.",
+      "exercise": "Trace one request; detect a backwards message; compare diagram events to recorded code events.",
+      "status": "planned-not-drafted",
+      "figures": [
+        {
+          "id": "EVOU-26-F1",
+          "type": "UML sequence",
+          "status": "storyboard-only"
+        },
+        {
+          "id": "EVOU-26-F2",
+          "type": "worked-example comparison",
+          "status": "planned-not-drawn"
+        }
+      ],
+      "animation": "candidate-keyframe-sequence"
+    },
+    {
+      "id": "EVOU-27",
+      "number": 27,
+      "part": "VI · Implementing only what is specified",
+      "title": "Traces, credit and explanations",
+      "domains": [
+        "ML",
+        "systems"
+      ],
+      "requires": [
+        "EVOU-06",
+        "EVOU-19",
+        "EVOU-26"
+      ],
+      "book1Requires": [
+        "DNAU-12",
+        "DNAU-36"
+      ],
+      "introduces": [
+        "credit assignment",
+        "trace provenance",
+        "causal intervention"
+      ],
+      "readerQuestion": "Which component deserves credit, and what can a trace actually explain?",
+      "frames": [
+        "Record chosen modules",
+        "Associate outputs with events",
+        "Remove one component in a controlled run",
+        "Compare the result with the original"
+      ],
+      "mathBridge": "Event correlation before causal claims; gradients and interventions answer different questions.",
+      "codeLab": "Trace-based ablation harness with a counterfactual baseline where well-defined.",
+      "exercise": "Explain why a logged route is not a causal proof; identify missing provenance; propose a controlled intervention.",
+      "status": "planned-not-drafted",
+      "figures": [
+        {
+          "id": "EVOU-27-F1",
+          "type": "sequential teaching figure",
+          "status": "storyboard-only"
+        },
+        {
+          "id": "EVOU-27-F2",
+          "type": "worked-example comparison",
+          "status": "planned-not-drawn"
+        }
+      ],
+      "animation": "candidate-keyframe-sequence"
+    },
+    {
+      "id": "EVOU-28",
+      "number": 28,
+      "part": "VI · Implementing only what is specified",
+      "title": "Structural proposals and their lifecycle",
+      "domains": [
+        "systems",
+        "genomic"
+      ],
+      "requires": [
+        "EVOU-22",
+        "EVOU-25",
+        "EVOU-27"
+      ],
+      "book1Requires": [
+        "DNAU-06",
+        "DNAU-32"
+      ],
+      "introduces": [
+        "UML state machine",
+        "proposal lifecycle",
+        "invariant",
+        "rollback"
+      ],
+      "readerQuestion": "When may a proposed edit become active?",
+      "frames": [
+        "Teach state/transition notation",
+        "Create a proposal",
+        "Validate it",
+        "Evaluate in isolation",
+        "Accept or reject",
+        "Retain a rollback path"
+      ],
+      "mathBridge": "State diagrams precede transition tables; explain safety invariants with invalid examples.",
+      "codeLab": "Pending, validated, tested, accepted and rejected states with illegal-transition tests.",
+      "exercise": "Reject an untested transition; preserve the old version; distinguish bounded validation from universal correctness.",
+      "status": "planned-not-drafted",
+      "figures": [
+        {
+          "id": "EVOU-28-F1",
+          "type": "UML state machine",
+          "status": "storyboard-only"
+        },
+        {
+          "id": "EVOU-28-F2",
+          "type": "worked-example comparison",
+          "status": "planned-not-drawn"
+        }
+      ],
+      "animation": "candidate-keyframe-sequence"
+    },
+    {
+      "id": "EVOU-29",
+      "number": 29,
+      "part": "VI · Implementing only what is specified",
+      "title": "Training a candidate Evolutor model",
+      "domains": [
+        "ML",
+        "genomic"
+      ],
+      "requires": [
+        "EVOU-08",
+        "EVOU-19",
+        "EVOU-24",
+        "EVOU-27",
+        "EVOU-28"
+      ],
+      "book1Requires": [
+        "DNAU-34",
+        "DNAU-36"
+      ],
+      "introduces": [
+        "candidate training contract",
+        "multi-timescale update",
+        "frozen structure control"
+      ],
+      "readerQuestion": "Does the proposed mechanism help beyond the taught baselines?",
+      "frames": [
+        "Load a declared task split",
+        "Train the fixed-structure control",
+        "Train the candidate",
+        "Separate parameter updates from structural proposals",
+        "Compare held-out results"
+      ],
+      "mathBridge": "Map each loss term to a measured objective before combining it; disclose update schedules and budgets.",
+      "codeLab": "Small PyTorch candidate with identical evaluation interface to Chapter 19; no large-run result invented.",
+      "exercise": "Audit a training loop; test frozen-structure behavior; report an inconclusive or negative outcome correctly.",
+      "status": "planned-not-drafted",
+      "figures": [
+        {
+          "id": "EVOU-29-F1",
+          "type": "sequential teaching figure",
+          "status": "storyboard-only"
+        },
+        {
+          "id": "EVOU-29-F2",
+          "type": "worked-example comparison",
+          "status": "planned-not-drawn"
+        }
+      ],
+      "animation": "candidate-keyframe-sequence"
+    },
+    {
+      "id": "EVOU-30",
+      "number": 30,
+      "part": "VI · Implementing only what is specified",
+      "title": "An inference runtime with clear boundaries",
+      "domains": [
+        "systems"
+      ],
+      "requires": [
+        "EVOU-17",
+        "EVOU-26",
+        "EVOU-29"
+      ],
+      "book1Requires": [
+        "DNAU-03",
+        "DNAU-35"
+      ],
+      "introduces": [
+        "runtime component",
+        "backend",
+        "inference contract",
+        "UML component diagram"
+      ],
+      "readerQuestion": "Which parts must run for one prediction?",
+      "frames": [
+        "Teach component and interface symbols",
+        "Load a checked model",
+        "Connect planning and execution",
+        "Separate storage and monitoring",
+        "Return a bounded result"
+      ],
+      "mathBridge": "No new optimization formulas; teach contracts and observable behavior before implementation shortcuts.",
+      "codeLab": "Reference runtime with backend adapter; inference must not silently train or accept structural edits.",
+      "exercise": "Trace a component failure; test parameter immutability; compare class and component diagrams.",
+      "status": "planned-not-drafted",
+      "figures": [
+        {
+          "id": "EVOU-30-F1",
+          "type": "UML component",
+          "status": "storyboard-only"
+        },
+        {
+          "id": "EVOU-30-F2",
+          "type": "worked-example comparison",
+          "status": "planned-not-drawn"
+        }
+      ],
+      "animation": "candidate-keyframe-sequence"
+    },
+    {
+      "id": "EVOU-31",
+      "number": 31,
+      "part": "VII · Engineering and reproducibility",
+      "title": "Model identity, formats and checkpoints",
+      "domains": [
+        "systems"
+      ],
+      "requires": [
+        "EVOU-29",
+        "EVOU-30"
+      ],
+      "book1Requires": [
+        "DNAU-33",
+        "DNAU-35"
+      ],
+      "introduces": [
+        "serialization",
+        "schema version",
+        "content hash",
+        "model identity",
+        "provenance"
+      ],
+      "readerQuestion": "How do we know which model produced this result?",
+      "frames": [
+        "Save weights and configuration",
+        "Attach schema and data provenance",
+        "Reload into a fresh process",
+        "Compare identity and outputs"
+      ],
+      "mathBridge": "Explain byte representation and hash purpose before digest notation; integrity is not authenticity.",
+      "codeLab": "Round-trip serialization tests, schema validation and explicit incompatible-version errors.",
+      "exercise": "Find a missing configuration field; distinguish matching filename from matching model; reject silent fallback.",
+      "status": "planned-not-drafted",
+      "figures": [
+        {
+          "id": "EVOU-31-F1",
+          "type": "sequential teaching figure",
+          "status": "storyboard-only"
+        },
+        {
+          "id": "EVOU-31-F2",
+          "type": "worked-example comparison",
+          "status": "planned-not-drawn"
+        }
+      ],
+      "animation": "candidate-keyframe-sequence"
+    },
+    {
+      "id": "EVOU-32",
+      "number": 32,
+      "part": "VII · Engineering and reproducibility",
+      "title": "Managing recurrent state, KV and external memory",
+      "domains": [
+        "systems"
+      ],
+      "requires": [
+        "EVOU-14",
+        "EVOU-18",
+        "EVOU-30",
+        "EVOU-31"
+      ],
+      "book1Requires": [
+        "DNAU-35"
+      ],
+      "introduces": [
+        "state pool",
+        "memory ownership",
+        "paged KV",
+        "eviction",
+        "isolation"
+      ],
+      "readerQuestion": "How can several requests share hardware without sharing private state?",
+      "frames": [
+        "Assign two requests separate state slots",
+        "Allocate cache pages",
+        "Grow one history",
+        "Evict a permitted entry",
+        "Verify the other history is unchanged"
+      ],
+      "mathBridge": "Labeled byte counts and page sizes precede capacity equations; distinguish logical history from physical location.",
+      "codeLab": "Small memory-manager simulation with isolation, eviction and reset tests.",
+      "exercise": "Detect cross-request leakage; calculate capacity; explain why recurrent state and KV have different contracts.",
+      "status": "planned-not-drafted",
+      "figures": [
+        {
+          "id": "EVOU-32-F1",
+          "type": "sequential teaching figure",
+          "status": "storyboard-only"
+        },
+        {
+          "id": "EVOU-32-F2",
+          "type": "worked-example comparison",
+          "status": "planned-not-drawn"
+        }
+      ],
+      "animation": "candidate-keyframe-sequence"
+    },
+    {
+      "id": "EVOU-33",
+      "number": 33,
+      "part": "VII · Engineering and reproducibility",
+      "title": "Batching, queues and latency",
+      "domains": [
+        "systems"
+      ],
+      "requires": [
+        "EVOU-18",
+        "EVOU-32"
+      ],
+      "book1Requires": [
+        "DNAU-12",
+        "DNAU-35"
+      ],
+      "introduces": [
+        "continuous batching",
+        "admission control",
+        "backpressure",
+        "tail latency"
+      ],
+      "readerQuestion": "Why can throughput improve while some users wait longer?",
+      "frames": [
+        "Time one request",
+        "Queue several arrivals",
+        "Form a batch",
+        "Let completed requests leave while new ones enter",
+        "Compare waiting-time distributions"
+      ],
+      "mathBridge": "Teach percentile from sorted waiting times before p95; simple arrival examples before queueing formulas.",
+      "codeLab": "Discrete-event serving simulator with declared arrival traces; no production performance claim.",
+      "exercise": "Calculate waiting times; identify starvation; compare a throughput gain with tail-latency cost.",
+      "status": "planned-not-drafted",
+      "figures": [
+        {
+          "id": "EVOU-33-F1",
+          "type": "sequential teaching figure",
+          "status": "storyboard-only"
+        },
+        {
+          "id": "EVOU-33-F2",
+          "type": "worked-example comparison",
+          "status": "planned-not-drawn"
+        }
+      ],
+      "animation": "candidate-keyframe-sequence"
+    },
+    {
+      "id": "EVOU-34",
+      "number": 34,
+      "part": "VII · Engineering and reproducibility",
+      "title": "Parity, profiling and optimization",
+      "domains": [
+        "systems",
+        "ML"
+      ],
+      "requires": [
+        "EVOU-19",
+        "EVOU-30",
+        "EVOU-32",
+        "EVOU-33"
+      ],
+      "book1Requires": [
+        "DNAU-35",
+        "DNAU-36"
+      ],
+      "introduces": [
+        "parity",
+        "profiler",
+        "benchmark",
+        "warm-up",
+        "optimization"
+      ],
+      "readerQuestion": "How do we make it faster without changing what it computes?",
+      "frames": [
+        "Compare reference and optimized outputs",
+        "Locate measured work in a profile",
+        "Change one bottleneck",
+        "Repeat under the same workload"
+      ],
+      "mathBridge": "Absolute and relative numerical tolerance precede parity thresholds; timing distribution precedes speedup ratios.",
+      "codeLab": "Reference-versus-optimized harness with warm-up, synchronization and hardware/version records.",
+      "exercise": "Reject unequal workloads; diagnose a tolerance failure; separate logical-event counts from elapsed time.",
+      "status": "planned-not-drafted",
+      "figures": [
+        {
+          "id": "EVOU-34-F1",
+          "type": "sequential teaching figure",
+          "status": "storyboard-only"
+        },
+        {
+          "id": "EVOU-34-F2",
+          "type": "worked-example comparison",
+          "status": "planned-not-drawn"
+        }
+      ],
+      "animation": "candidate-keyframe-sequence"
+    },
+    {
+      "id": "EVOU-35",
+      "number": 35,
+      "part": "VII · Engineering and reproducibility",
+      "title": "Serving, observability and safe rollback",
+      "domains": [
+        "systems"
+      ],
+      "requires": [
+        "EVOU-28",
+        "EVOU-31",
+        "EVOU-33",
+        "EVOU-34"
+      ],
+      "book1Requires": [
+        "DNAU-35"
+      ],
+      "introduces": [
+        "UML deployment diagram",
+        "observability",
+        "authentication",
+        "authorization",
+        "threat model",
+        "deployment rollback"
+      ],
+      "readerQuestion": "How do we observe and recover a running service?",
+      "frames": [
+        "Teach nodes and deployed artifacts",
+        "Route an authenticated request",
+        "Observe logs and metrics without exposing secrets",
+        "Roll out a version",
+        "Detect failure and roll back"
+      ],
+      "mathBridge": "Service goals and measured thresholds precede any availability formula; security is a separate review discipline.",
+      "codeLab": "Local deployment diagram and failure-injection exercise; no live service or credentials required.",
+      "exercise": "Distinguish authentication from authorization; trace rollback state; redact a sensitive log.",
+      "status": "planned-not-drafted",
+      "figures": [
+        {
+          "id": "EVOU-35-F1",
+          "type": "UML deployment",
+          "status": "storyboard-only"
+        },
+        {
+          "id": "EVOU-35-F2",
+          "type": "worked-example comparison",
+          "status": "planned-not-drawn"
+        }
+      ],
+      "animation": "candidate-keyframe-sequence"
+    },
+    {
+      "id": "EVOU-36",
+      "number": 36,
+      "part": "VIII · Evidence, failure and the frontier",
+      "title": "Failed ideas as a source of knowledge",
+      "domains": [
+        "AI",
+        "ML"
+      ],
+      "requires": [
+        "EVOU-29",
+        "EVOU-34",
+        "EVOU-35"
+      ],
+      "book1Requires": [
+        "DNAU-12",
+        "DNAU-36"
+      ],
+      "introduces": [
+        "negative result",
+        "confound",
+        "replication",
+        "stopping rule"
+      ],
+      "readerQuestion": "What should we learn when the idea does not win?",
+      "frames": [
+        "State a claim and its failure condition",
+        "Show matched results including failures",
+        "Test a suspected confound",
+        "Revise or retire the claim"
+      ],
+      "mathBridge": "Teach multiple comparisons and selection effects with repeated toy trials before significance language.",
+      "codeLab": "Archive all declared runs, including crashes and null results; use synthetic records only when explicitly labeled.",
+      "exercise": "Separate bug, underpowered test and refuted claim; write a transparent negative-result report.",
+      "status": "planned-not-drafted",
+      "figures": [
+        {
+          "id": "EVOU-36-F1",
+          "type": "sequential teaching figure",
+          "status": "storyboard-only"
+        },
+        {
+          "id": "EVOU-36-F2",
+          "type": "worked-example comparison",
+          "status": "planned-not-drawn"
+        }
+      ],
+      "animation": "candidate-keyframe-sequence"
+    },
+    {
+      "id": "EVOU-37",
+      "number": 37,
+      "part": "VIII · Evidence, failure and the frontier",
+      "title": "DNA sequence models: DOGMA and Hermon DNA as questions",
+      "domains": [
+        "ML",
+        "genomic"
+      ],
+      "requires": [
+        "EVOU-11",
+        "EVOU-13",
+        "EVOU-29",
+        "EVOU-31",
+        "EVOU-36"
+      ],
+      "book1Requires": [
+        "DNAU-11",
+        "DNAU-34",
+        "DNAU-36"
+      ],
+      "introduces": [
+        "DNA model taxonomy",
+        "reverse-complement symmetry study",
+        "research-program name"
+      ],
+      "readerQuestion": "Which architectural distinction survives beyond a project name?",
+      "frames": [
+        "Compare a Transformer DNA model with a non-Transformer model",
+        "Mark shared data and objectives",
+        "Test a reverse-complement intervention",
+        "Place DOGMA and Hermon DNA names only after source and artifact audit"
+      ],
+      "mathBridge": "Reuse established equations; no new family definition from branding and no claim of validated taxonomy.",
+      "codeLab": "Re-audit source, dataset splits, checkpoints and licenses before experiments; runnable substitutes are clearly labeled.",
+      "exercise": "Separate name, architecture and evidence; design a symmetry control; leave an unverifiable claim unresolved.",
+      "status": "planned-not-drafted",
+      "figures": [
+        {
+          "id": "EVOU-37-F1",
+          "type": "sequential teaching figure",
+          "status": "storyboard-only"
+        },
+        {
+          "id": "EVOU-37-F2",
+          "type": "worked-example comparison",
+          "status": "planned-not-drawn"
+        }
+      ],
+      "animation": "candidate-keyframe-sequence"
+    },
+    {
+      "id": "EVOU-38",
+      "number": 38,
+      "part": "VIII · Evidence, failure and the frontier",
+      "title": "Transfer, continual learning and populations",
+      "domains": [
+        "AI",
+        "ML",
+        "genomic"
+      ],
+      "requires": [
+        "EVOU-22",
+        "EVOU-28",
+        "EVOU-36",
+        "EVOU-37"
+      ],
+      "book1Requires": [
+        "DNAU-12",
+        "DNAU-32",
+        "DNAU-36"
+      ],
+      "introduces": [
+        "transfer",
+        "continual learning",
+        "catastrophic forgetting",
+        "population composition",
+        "distribution shift"
+      ],
+      "readerQuestion": "Does an improvement survive a changed task?",
+      "frames": [
+        "Train on a first task",
+        "Evaluate a genuinely new task",
+        "Continue learning and recheck the first",
+        "Compare individual and population mechanisms"
+      ],
+      "mathBridge": "Teach task distributions through concrete examples; distinguish adaptation budget from zero-shot evaluation.",
+      "codeLab": "Two-task forgetting study with frozen controls and explicit adaptation budgets.",
+      "exercise": "Identify hidden retraining; compare retention and transfer; report costs of population search.",
+      "status": "planned-not-drafted",
+      "figures": [
+        {
+          "id": "EVOU-38-F1",
+          "type": "sequential teaching figure",
+          "status": "storyboard-only"
+        },
+        {
+          "id": "EVOU-38-F2",
+          "type": "worked-example comparison",
+          "status": "planned-not-drawn"
+        }
+      ],
+      "animation": "candidate-keyframe-sequence"
+    },
+    {
+      "id": "EVOU-39",
+      "number": 39,
+      "part": "VIII · Evidence, failure and the frontier",
+      "title": "AGI claims and an operational scorecard",
+      "domains": [
+        "AI",
+        "mathematics"
+      ],
+      "requires": [
+        "EVOU-19",
+        "EVOU-36",
+        "EVOU-38"
+      ],
+      "book1Requires": [
+        "DNAU-36"
+      ],
+      "introduces": [
+        "artificial general intelligence",
+        "AGI",
+        "capability scope",
+        "generalization claim",
+        "evidence scorecard"
+      ],
+      "readerQuestion": "What does a narrow result allow us to say about general intelligence?",
+      "frames": [
+        "List specific tasks and conditions",
+        "Mark measured, failed and untested cells",
+        "Separate breadth from repeated variants",
+        "Show unresolved safety and transfer boundaries"
+      ],
+      "mathBridge": "No single magic scalar; explain operational definition and uncertainty before any aggregate score.",
+      "codeLab": "Generate a scorecard from actual experiment records; unknown cells stay unknown.",
+      "exercise": "Reject a unit-test-to-AGI inference; propose disconfirming tests; state the limits of the chosen definition.",
+      "status": "planned-not-drafted",
+      "figures": [
+        {
+          "id": "EVOU-39-F1",
+          "type": "sequential teaching figure",
+          "status": "storyboard-only"
+        },
+        {
+          "id": "EVOU-39-F2",
+          "type": "worked-example comparison",
+          "status": "planned-not-drawn"
+        }
+      ],
+      "animation": "candidate-keyframe-sequence"
+    },
+    {
+      "id": "EVOU-40",
+      "number": 40,
+      "part": "VIII · Evidence, failure and the frontier",
+      "title": "Capstone: a reproducible research-engineering argument",
+      "domains": [
+        "AI",
+        "systems",
+        "genomic"
+      ],
+      "requires": [
+        "EVOU-24",
+        "EVOU-35",
+        "EVOU-36",
+        "EVOU-37",
+        "EVOU-38",
+        "EVOU-39"
+      ],
+      "book1Requires": [
+        "DNAU-36"
+      ],
+      "introduces": [
+        "research artifact",
+        "replication package",
+        "claim retirement"
+      ],
+      "readerQuestion": "Can another reader reproduce both the result and the boundary of the claim?",
+      "frames": [
+        "Connect hypothesis to mechanism",
+        "Connect mechanism to code and diagrams",
+        "Reproduce baseline and candidate results",
+        "Inspect failures",
+        "State what remains unproven"
+      ],
+      "mathBridge": "Use only established tools; require every equation and plotted quantity to trace to a definition and artifact.",
+      "codeLab": "Release a small reproducible package with source, UML, tests, records and limitations; publication and rights gates remain explicit.",
+      "exercise": "Present the strongest bounded claim, a failed alternative and the next falsifying experiment.",
+      "status": "planned-not-drafted",
+      "figures": [
+        {
+          "id": "EVOU-40-F1",
+          "type": "sequential teaching figure",
+          "status": "storyboard-only"
+        },
+        {
+          "id": "EVOU-40-F2",
+          "type": "worked-example comparison",
+          "status": "planned-not-drawn"
+        }
+      ],
+      "animation": "candidate-keyframe-sequence"
+    }
+  ],
+  "previousChapterAudit": [
+    {
+      "id": "EVO-01",
+      "title": "What would genomic computation add?",
+      "previousStatus": "drafted",
+      "newChapters": [
+        "EVOU-01",
+        "EVOU-15",
+        "EVOU-21",
+        "EVOU-24"
+      ],
+      "disposition": "Re-sequence and rewrite; no automatic prose or figure reuse.",
+      "prerequisiteDiagnosis": "Dispatch and cost tuples are moved after programs, data, control flow and fair-comparison basics."
+    },
+    {
+      "id": "EVO-02",
+      "title": "Biological inspiration and its limits",
+      "previousStatus": "drafted",
+      "newChapters": [
+        "EVOU-10",
+        "EVOU-20",
+        "EVOU-21"
+      ],
+      "disposition": "Re-sequence and rewrite; no automatic prose or figure reuse.",
+      "prerequisiteDiagnosis": "State arithmetic and biological mechanisms are taught separately before comparing abstractions."
+    },
+    {
+      "id": "EVO-03",
+      "title": "Capabilities, evidence and AGI claims",
+      "previousStatus": "planned-only",
+      "newChapters": [
+        "EVOU-04",
+        "EVOU-19",
+        "EVOU-39"
+      ],
+      "disposition": "Re-sequence and rewrite; no automatic prose or figure reuse.",
+      "prerequisiteDiagnosis": "Evaluation concepts and actual results must precede any AGI scorecard."
+    },
+    {
+      "id": "EVO-04",
+      "title": "Existing answers: conditional programs and learned modules",
+      "previousStatus": "planned-only",
+      "newChapters": [
+        "EVOU-02",
+        "EVOU-15",
+        "EVOU-16"
+      ],
+      "disposition": "Re-sequence and rewrite; no automatic prose or figure reuse.",
+      "prerequisiteDiagnosis": "Functions, plugins and learned routers need separate first encounters."
+    },
+    {
+      "id": "EVO-05",
+      "title": "Attention and exact retrieval",
+      "previousStatus": "planned-only",
+      "newChapters": [
+        "EVOU-09",
+        "EVOU-12",
+        "EVOU-14"
+      ],
+      "disposition": "Re-sequence and rewrite; no automatic prose or figure reuse.",
+      "prerequisiteDiagnosis": "Tokens, vectors, weights and scores must precede attention and retrieval."
+    },
+    {
+      "id": "EVO-06",
+      "title": "Recurrence and streaming state",
+      "previousStatus": "planned-only",
+      "newChapters": [
+        "EVOU-10",
+        "EVOU-11"
+      ],
+      "disposition": "Re-sequence and rewrite; no automatic prose or figure reuse.",
+      "prerequisiteDiagnosis": "Arithmetic retention precedes scalar recurrence, then vector states and trained recurrence."
+    },
+    {
+      "id": "EVO-07",
+      "title": "Retrieval, external memory and hybrid systems",
+      "previousStatus": "planned-only",
+      "newChapters": [
+        "EVOU-14",
+        "EVOU-18"
+      ],
+      "disposition": "Re-sequence and rewrite; no automatic prose or figure reuse.",
+      "prerequisiteDiagnosis": "Memory and service concepts must precede a hybrid-system comparison."
+    },
+    {
+      "id": "EVO-08",
+      "title": "Regulation as routing: a comparative account",
+      "previousStatus": "planned-only",
+      "newChapters": [
+        "EVOU-15",
+        "EVOU-16",
+        "EVOU-20",
+        "EVOU-21"
+      ],
+      "disposition": "Re-sequence and rewrite; no automatic prose or figure reuse.",
+      "prerequisiteDiagnosis": "Ordinary dispatch, MoE and query planning precede a regulation novelty claim."
+    },
+    {
+      "id": "EVO-09",
+      "title": "Development as program construction",
+      "previousStatus": "planned-only",
+      "newChapters": [
+        "EVOU-17",
+        "EVOU-22",
+        "EVOU-23"
+      ],
+      "disposition": "Re-sequence and rewrite; no automatic prose or figure reuse.",
+      "prerequisiteDiagnosis": "Compilers, syntax and structure search must precede development-as-construction."
+    },
+    {
+      "id": "EVO-10",
+      "title": "Parameters, structure and three update timescales",
+      "previousStatus": "planned-only",
+      "newChapters": [
+        "EVOU-06",
+        "EVOU-10",
+        "EVOU-22",
+        "EVOU-28"
+      ],
+      "disposition": "Re-sequence and rewrite; no automatic prose or figure reuse.",
+      "prerequisiteDiagnosis": "Learned parameters, carried state and structural proposals need separate examples."
+    },
+    {
+      "id": "EVO-11",
+      "title": "Tasks, oracles and leakage",
+      "previousStatus": "planned-only",
+      "newChapters": [
+        "EVOU-04",
+        "EVOU-19"
+      ],
+      "disposition": "Re-sequence and rewrite; no automatic prose or figure reuse.",
+      "prerequisiteDiagnosis": "Data splits and elementary uncertainty precede oracle and leakage contracts."
+    },
+    {
+      "id": "EVO-12",
+      "title": "A common PyTorch training and inference contract",
+      "previousStatus": "planned-only",
+      "newChapters": [
+        "EVOU-03",
+        "EVOU-05",
+        "EVOU-06",
+        "EVOU-07",
+        "EVOU-08",
+        "EVOU-29",
+        "EVOU-30"
+      ],
+      "disposition": "Re-sequence and rewrite; no automatic prose or figure reuse.",
+      "prerequisiteDiagnosis": "Tiny models, gradients, arrays and Python precede PyTorch contracts."
+    },
+    {
+      "id": "EVO-13",
+      "title": "Markov, MLP, CNN, GRU, Transformer and SSM baselines",
+      "previousStatus": "planned-only",
+      "newChapters": [
+        "EVOU-07",
+        "EVOU-09",
+        "EVOU-10",
+        "EVOU-11",
+        "EVOU-12",
+        "EVOU-13",
+        "EVOU-19"
+      ],
+      "disposition": "Re-sequence and rewrite; no automatic prose or figure reuse.",
+      "prerequisiteDiagnosis": "Each baseline must be built before a compressed comparison table."
+    },
+    {
+      "id": "EVO-14",
+      "title": "Reverse-complement symmetry as a controlled study",
+      "previousStatus": "planned-only",
+      "newChapters": [
+        "EVOU-37"
+      ],
+      "disposition": "Re-sequence and rewrite; no automatic prose or figure reuse.",
+      "prerequisiteDiagnosis": "Architecture and evaluation prerequisites precede a reverse-complement experiment."
+    },
+    {
+      "id": "EVO-15",
+      "title": "Capacity, seeds and resource-matched comparisons",
+      "previousStatus": "planned-only",
+      "newChapters": [
+        "EVOU-04",
+        "EVOU-19",
+        "EVOU-34"
+      ],
+      "disposition": "Re-sequence and rewrite; no automatic prose or figure reuse.",
+      "prerequisiteDiagnosis": "Data uncertainty and measured work precede matching and seed accounting."
+    },
+    {
+      "id": "EVO-16",
+      "title": "Mechanism tests and failed hypotheses",
+      "previousStatus": "planned-only",
+      "newChapters": [
+        "EVOU-19",
+        "EVOU-36"
+      ],
+      "disposition": "Re-sequence and rewrite; no automatic prose or figure reuse.",
+      "prerequisiteDiagnosis": "Falsifiers and reproducible records must precede interpreting failure."
+    },
+    {
+      "id": "EVO-17",
+      "title": "Programs selected from persistent modules",
+      "previousStatus": "planned-only",
+      "newChapters": [
+        "EVOU-15",
+        "EVOU-21",
+        "EVOU-24"
+      ],
+      "disposition": "Re-sequence and rewrite; no automatic prose or figure reuse.",
+      "prerequisiteDiagnosis": "Modules, routing and biological analogy boundaries precede persistent genomic abstractions."
+    },
+    {
+      "id": "EVO-18",
+      "title": "Minimal operational semantics and explicit costs",
+      "previousStatus": "planned-only",
+      "newChapters": [
+        "EVOU-24",
+        "EVOU-26",
+        "EVOU-34"
+      ],
+      "disposition": "Re-sequence and rewrite; no automatic prose or figure reuse.",
+      "prerequisiteDiagnosis": "Trace concrete execution before formal transitions and cost bookkeeping."
+    },
+    {
+      "id": "EVO-19",
+      "title": "Traces and structural credit assignment",
+      "previousStatus": "planned-only",
+      "newChapters": [
+        "EVOU-27"
+      ],
+      "disposition": "Re-sequence and rewrite; no automatic prose or figure reuse.",
+      "prerequisiteDiagnosis": "Teach gradients, event traces and interventions before credit assignment."
+    },
+    {
+      "id": "EVO-20",
+      "title": "Verified edits and continual learning",
+      "previousStatus": "planned-only",
+      "newChapters": [
+        "EVOU-22",
+        "EVOU-28",
+        "EVOU-38"
+      ],
+      "disposition": "Re-sequence and rewrite; no automatic prose or figure reuse.",
+      "prerequisiteDiagnosis": "Structure search and lifecycle validation precede continual adaptation."
+    },
+    {
+      "id": "EVO-21",
+      "title": "Populations, composition and developmental programs",
+      "previousStatus": "planned-only",
+      "newChapters": [
+        "EVOU-22",
+        "EVOU-23",
+        "EVOU-38"
+      ],
+      "disposition": "Re-sequence and rewrite; no automatic prose or figure reuse.",
+      "prerequisiteDiagnosis": "Biological development, program construction and population variation need distinct mechanisms."
+    },
+    {
+      "id": "EVO-22",
+      "title": "Model identity, formats and checkpoint provenance",
+      "previousStatus": "planned-only",
+      "newChapters": [
+        "EVOU-31"
+      ],
+      "disposition": "Re-sequence and rewrite; no automatic prose or figure reuse.",
+      "prerequisiteDiagnosis": "Runtime and training artifacts precede format and provenance engineering."
+    },
+    {
+      "id": "EVO-23",
+      "title": "Planning, expression IR and backend boundaries",
+      "previousStatus": "planned-only",
+      "newChapters": [
+        "EVOU-17",
+        "EVOU-23",
+        "EVOU-30"
+      ],
+      "disposition": "Re-sequence and rewrite; no automatic prose or figure reuse.",
+      "prerequisiteDiagnosis": "Source transformation and representation validation precede an expression IR."
+    },
+    {
+      "id": "EVO-24",
+      "title": "State, KV and external-memory managers",
+      "previousStatus": "planned-only",
+      "newChapters": [
+        "EVOU-14",
+        "EVOU-32"
+      ],
+      "disposition": "Re-sequence and rewrite; no automatic prose or figure reuse.",
+      "prerequisiteDiagnosis": "Teach cached attention, recurrent state and memory ownership before managers."
+    },
+    {
+      "id": "EVO-25",
+      "title": "Parity, profiling and optimization",
+      "previousStatus": "planned-only",
+      "newChapters": [
+        "EVOU-34"
+      ],
+      "disposition": "Re-sequence and rewrite; no automatic prose or figure reuse.",
+      "prerequisiteDiagnosis": "Parity and timing methods precede optimization claims."
+    },
+    {
+      "id": "EVO-26",
+      "title": "Serving, observability, security and rollback",
+      "previousStatus": "planned-only",
+      "newChapters": [
+        "EVOU-18",
+        "EVOU-33",
+        "EVOU-35"
+      ],
+      "disposition": "Re-sequence and rewrite; no automatic prose or figure reuse.",
+      "prerequisiteDiagnosis": "Requests, queues, services and threats precede industrial deployment."
+    },
+    {
+      "id": "EVO-27",
+      "title": "DOGMA, Hermon DNA and GCS reconsidered",
+      "previousStatus": "planned-only",
+      "newChapters": [
+        "EVOU-37"
+      ],
+      "disposition": "Re-sequence and rewrite; no automatic prose or figure reuse.",
+      "prerequisiteDiagnosis": "Teach both architecture families and renew source/artifact audits before retaining project names."
+    },
+    {
+      "id": "EVO-28",
+      "title": "Generalization and cross-domain transfer",
+      "previousStatus": "planned-only",
+      "newChapters": [
+        "EVOU-38"
+      ],
+      "disposition": "Re-sequence and rewrite; no automatic prose or figure reuse.",
+      "prerequisiteDiagnosis": "Controlled learning and evaluation precede transfer generality."
+    },
+    {
+      "id": "EVO-29",
+      "title": "A research scorecard without an AGI shortcut",
+      "previousStatus": "planned-only",
+      "newChapters": [
+        "EVOU-39",
+        "EVOU-40"
+      ],
+      "disposition": "Re-sequence and rewrite; no automatic prose or figure reuse.",
+      "prerequisiteDiagnosis": "Breadth claims come last; missing evidence is not filled by analogy or unit tests."
+    }
+  ]
+}

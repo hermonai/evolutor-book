@@ -1,0 +1,722 @@
+[
+  {
+    "id": "EVOU-01-F1",
+    "type": "sequential teaching figure",
+    "status": "storyboard-only",
+    "chapter": "EVOU-01",
+    "readerQuestion": "Why compare a genome with a program?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-01-F2",
+    "type": "worked-example comparison",
+    "status": "planned-not-drawn",
+    "chapter": "EVOU-01",
+    "readerQuestion": "Why compare a genome with a program?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-02-F1",
+    "type": "sequential teaching figure",
+    "status": "storyboard-only",
+    "chapter": "EVOU-02",
+    "readerQuestion": "How can the same input produce a different answer after a different history?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-02-F2",
+    "type": "worked-example comparison",
+    "status": "planned-not-drawn",
+    "chapter": "EVOU-02",
+    "readerQuestion": "How can the same input produce a different answer after a different history?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-03-F1",
+    "type": "sequential teaching figure",
+    "status": "storyboard-only",
+    "chapter": "EVOU-03",
+    "readerQuestion": "How can examples help set a rule's adjustable numbers?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-03-F2",
+    "type": "worked-example comparison",
+    "status": "planned-not-drawn",
+    "chapter": "EVOU-03",
+    "readerQuestion": "How can examples help set a rule's adjustable numbers?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-04-F1",
+    "type": "sequential teaching figure",
+    "status": "storyboard-only",
+    "chapter": "EVOU-04",
+    "readerQuestion": "Why can a model look good and still fail on new examples?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-04-F2",
+    "type": "worked-example comparison",
+    "status": "planned-not-drawn",
+    "chapter": "EVOU-04",
+    "readerQuestion": "Why can a model look good and still fail on new examples?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-05-F1",
+    "type": "sequential teaching figure",
+    "status": "storyboard-only",
+    "chapter": "EVOU-05",
+    "readerQuestion": "How can one rule process several measurements together?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-05-F2",
+    "type": "worked-example comparison",
+    "status": "planned-not-drawn",
+    "chapter": "EVOU-05",
+    "readerQuestion": "How can one rule process several measurements together?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-06-F1",
+    "type": "sequential teaching figure",
+    "status": "storyboard-only",
+    "chapter": "EVOU-06",
+    "readerQuestion": "Which small change would reduce the error?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-06-F2",
+    "type": "worked-example comparison",
+    "status": "planned-not-drawn",
+    "chapter": "EVOU-06",
+    "readerQuestion": "Which small change would reduce the error?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-07-F1",
+    "type": "sequential teaching figure",
+    "status": "storyboard-only",
+    "chapter": "EVOU-07",
+    "readerQuestion": "Why put simple transformations in layers?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-07-F2",
+    "type": "worked-example comparison",
+    "status": "planned-not-drawn",
+    "chapter": "EVOU-07",
+    "readerQuestion": "Why put simple transformations in layers?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-08-F1",
+    "type": "sequential teaching figure",
+    "status": "storyboard-only",
+    "chapter": "EVOU-08",
+    "readerQuestion": "What changes during training, and what stays fixed during inference?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-08-F2",
+    "type": "worked-example comparison",
+    "status": "planned-not-drawn",
+    "chapter": "EVOU-08",
+    "readerQuestion": "What changes during training, and what stays fixed during inference?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-09-F1",
+    "type": "sequential teaching figure",
+    "status": "storyboard-only",
+    "chapter": "EVOU-09",
+    "readerQuestion": "How do written symbols become numbers a model can use?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-09-F2",
+    "type": "worked-example comparison",
+    "status": "planned-not-drawn",
+    "chapter": "EVOU-09",
+    "readerQuestion": "How do written symbols become numbers a model can use?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-10-F1",
+    "type": "sequential teaching figure",
+    "status": "storyboard-only",
+    "chapter": "EVOU-10",
+    "readerQuestion": "How can a model carry something from the previous symbol?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-10-F2",
+    "type": "worked-example comparison",
+    "status": "planned-not-drawn",
+    "chapter": "EVOU-10",
+    "readerQuestion": "How can a model carry something from the previous symbol?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-11-F1",
+    "type": "sequential teaching figure",
+    "status": "storyboard-only",
+    "chapter": "EVOU-11",
+    "readerQuestion": "What should a compact state keep or forget?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-11-F2",
+    "type": "worked-example comparison",
+    "status": "planned-not-drawn",
+    "chapter": "EVOU-11",
+    "readerQuestion": "What should a compact state keep or forget?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-12-F1",
+    "type": "sequential teaching figure",
+    "status": "storyboard-only",
+    "chapter": "EVOU-12",
+    "readerQuestion": "Which earlier symbol should matter now?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-12-F2",
+    "type": "worked-example comparison",
+    "status": "planned-not-drawn",
+    "chapter": "EVOU-12",
+    "readerQuestion": "Which earlier symbol should matter now?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-13-F1",
+    "type": "sequential teaching figure",
+    "status": "storyboard-only",
+    "chapter": "EVOU-13",
+    "readerQuestion": "How do small attention operations form a useful model?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-13-F2",
+    "type": "worked-example comparison",
+    "status": "planned-not-drawn",
+    "chapter": "EVOU-13",
+    "readerQuestion": "How do small attention operations form a useful model?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-14-F1",
+    "type": "sequential teaching figure",
+    "status": "storyboard-only",
+    "chapter": "EVOU-14",
+    "readerQuestion": "Why keep earlier work, and when should a system look something up?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-14-F2",
+    "type": "worked-example comparison",
+    "status": "planned-not-drawn",
+    "chapter": "EVOU-14",
+    "readerQuestion": "Why keep earlier work, and when should a system look something up?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-15-F1",
+    "type": "sequential teaching figure",
+    "status": "storyboard-only",
+    "chapter": "EVOU-15",
+    "readerQuestion": "What already selects only part of a program?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-15-F2",
+    "type": "worked-example comparison",
+    "status": "planned-not-drawn",
+    "chapter": "EVOU-15",
+    "readerQuestion": "What already selects only part of a program?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-16-F1",
+    "type": "sequential teaching figure",
+    "status": "storyboard-only",
+    "chapter": "EVOU-16",
+    "readerQuestion": "Can the choice of a module itself be learned?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-16-F2",
+    "type": "worked-example comparison",
+    "status": "planned-not-drawn",
+    "chapter": "EVOU-16",
+    "readerQuestion": "Can the choice of a module itself be learned?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-17-F1",
+    "type": "sequential teaching figure",
+    "status": "storyboard-only",
+    "chapter": "EVOU-17",
+    "readerQuestion": "What happens between writing a program and running it?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-17-F2",
+    "type": "worked-example comparison",
+    "status": "planned-not-drawn",
+    "chapter": "EVOU-17",
+    "readerQuestion": "What happens between writing a program and running it?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-18-F1",
+    "type": "sequential teaching figure",
+    "status": "storyboard-only",
+    "chapter": "EVOU-18",
+    "readerQuestion": "Why does serving several requests need more than a model?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-18-F2",
+    "type": "worked-example comparison",
+    "status": "planned-not-drawn",
+    "chapter": "EVOU-18",
+    "readerQuestion": "Why does serving several requests need more than a model?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-19-F1",
+    "type": "sequential teaching figure",
+    "status": "storyboard-only",
+    "chapter": "EVOU-19",
+    "readerQuestion": "What would count as a fair improvement?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-19-F2",
+    "type": "worked-example comparison",
+    "status": "planned-not-drawn",
+    "chapter": "EVOU-19",
+    "readerQuestion": "What would count as a fair improvement?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-20-F1",
+    "type": "sequential teaching figure",
+    "status": "storyboard-only",
+    "chapter": "EVOU-20",
+    "readerQuestion": "What changes within a cell, and what changes across generations?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-20-F2",
+    "type": "worked-example comparison",
+    "status": "planned-not-drawn",
+    "chapter": "EVOU-20",
+    "readerQuestion": "What changes within a cell, and what changes across generations?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-21-F1",
+    "type": "sequential teaching figure",
+    "status": "storyboard-only",
+    "chapter": "EVOU-21",
+    "readerQuestion": "What remains after comparing a biological idea with existing software?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-21-F2",
+    "type": "worked-example comparison",
+    "status": "planned-not-drawn",
+    "chapter": "EVOU-21",
+    "readerQuestion": "What remains after comparing a biological idea with existing software?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-22-F1",
+    "type": "sequential teaching figure",
+    "status": "storyboard-only",
+    "chapter": "EVOU-22",
+    "readerQuestion": "How does changing a number differ from changing a program?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-22-F2",
+    "type": "worked-example comparison",
+    "status": "planned-not-drawn",
+    "chapter": "EVOU-22",
+    "readerQuestion": "How does changing a number differ from changing a program?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-23-F1",
+    "type": "sequential teaching figure",
+    "status": "storyboard-only",
+    "chapter": "EVOU-23",
+    "readerQuestion": "Can a compact description construct a larger program?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-23-F2",
+    "type": "worked-example comparison",
+    "status": "planned-not-drawn",
+    "chapter": "EVOU-23",
+    "readerQuestion": "Can a compact description construct a larger program?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-24-F1",
+    "type": "sequential teaching figure",
+    "status": "storyboard-only",
+    "chapter": "EVOU-24",
+    "readerQuestion": "What precise system are we proposing to test?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-24-F2",
+    "type": "worked-example comparison",
+    "status": "planned-not-drawn",
+    "chapter": "EVOU-24",
+    "readerQuestion": "What precise system are we proposing to test?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-25-F1",
+    "type": "UML class",
+    "status": "storyboard-only",
+    "chapter": "EVOU-25",
+    "readerQuestion": "How can the software structure express the proposed rules?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-25-F2",
+    "type": "worked-example comparison",
+    "status": "planned-not-drawn",
+    "chapter": "EVOU-25",
+    "readerQuestion": "How can the software structure express the proposed rules?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-26-F1",
+    "type": "UML sequence",
+    "status": "storyboard-only",
+    "chapter": "EVOU-26",
+    "readerQuestion": "Who talks to whom during one request?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-26-F2",
+    "type": "worked-example comparison",
+    "status": "planned-not-drawn",
+    "chapter": "EVOU-26",
+    "readerQuestion": "Who talks to whom during one request?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-27-F1",
+    "type": "sequential teaching figure",
+    "status": "storyboard-only",
+    "chapter": "EVOU-27",
+    "readerQuestion": "Which component deserves credit, and what can a trace actually explain?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-27-F2",
+    "type": "worked-example comparison",
+    "status": "planned-not-drawn",
+    "chapter": "EVOU-27",
+    "readerQuestion": "Which component deserves credit, and what can a trace actually explain?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-28-F1",
+    "type": "UML state machine",
+    "status": "storyboard-only",
+    "chapter": "EVOU-28",
+    "readerQuestion": "When may a proposed edit become active?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-28-F2",
+    "type": "worked-example comparison",
+    "status": "planned-not-drawn",
+    "chapter": "EVOU-28",
+    "readerQuestion": "When may a proposed edit become active?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-29-F1",
+    "type": "sequential teaching figure",
+    "status": "storyboard-only",
+    "chapter": "EVOU-29",
+    "readerQuestion": "Does the proposed mechanism help beyond the taught baselines?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-29-F2",
+    "type": "worked-example comparison",
+    "status": "planned-not-drawn",
+    "chapter": "EVOU-29",
+    "readerQuestion": "Does the proposed mechanism help beyond the taught baselines?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-30-F1",
+    "type": "UML component",
+    "status": "storyboard-only",
+    "chapter": "EVOU-30",
+    "readerQuestion": "Which parts must run for one prediction?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-30-F2",
+    "type": "worked-example comparison",
+    "status": "planned-not-drawn",
+    "chapter": "EVOU-30",
+    "readerQuestion": "Which parts must run for one prediction?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-31-F1",
+    "type": "sequential teaching figure",
+    "status": "storyboard-only",
+    "chapter": "EVOU-31",
+    "readerQuestion": "How do we know which model produced this result?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-31-F2",
+    "type": "worked-example comparison",
+    "status": "planned-not-drawn",
+    "chapter": "EVOU-31",
+    "readerQuestion": "How do we know which model produced this result?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-32-F1",
+    "type": "sequential teaching figure",
+    "status": "storyboard-only",
+    "chapter": "EVOU-32",
+    "readerQuestion": "How can several requests share hardware without sharing private state?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-32-F2",
+    "type": "worked-example comparison",
+    "status": "planned-not-drawn",
+    "chapter": "EVOU-32",
+    "readerQuestion": "How can several requests share hardware without sharing private state?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-33-F1",
+    "type": "sequential teaching figure",
+    "status": "storyboard-only",
+    "chapter": "EVOU-33",
+    "readerQuestion": "Why can throughput improve while some users wait longer?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-33-F2",
+    "type": "worked-example comparison",
+    "status": "planned-not-drawn",
+    "chapter": "EVOU-33",
+    "readerQuestion": "Why can throughput improve while some users wait longer?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-34-F1",
+    "type": "sequential teaching figure",
+    "status": "storyboard-only",
+    "chapter": "EVOU-34",
+    "readerQuestion": "How do we make it faster without changing what it computes?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-34-F2",
+    "type": "worked-example comparison",
+    "status": "planned-not-drawn",
+    "chapter": "EVOU-34",
+    "readerQuestion": "How do we make it faster without changing what it computes?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-35-F1",
+    "type": "UML deployment",
+    "status": "storyboard-only",
+    "chapter": "EVOU-35",
+    "readerQuestion": "How do we observe and recover a running service?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-35-F2",
+    "type": "worked-example comparison",
+    "status": "planned-not-drawn",
+    "chapter": "EVOU-35",
+    "readerQuestion": "How do we observe and recover a running service?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-36-F1",
+    "type": "sequential teaching figure",
+    "status": "storyboard-only",
+    "chapter": "EVOU-36",
+    "readerQuestion": "What should we learn when the idea does not win?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-36-F2",
+    "type": "worked-example comparison",
+    "status": "planned-not-drawn",
+    "chapter": "EVOU-36",
+    "readerQuestion": "What should we learn when the idea does not win?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-37-F1",
+    "type": "sequential teaching figure",
+    "status": "storyboard-only",
+    "chapter": "EVOU-37",
+    "readerQuestion": "Which architectural distinction survives beyond a project name?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-37-F2",
+    "type": "worked-example comparison",
+    "status": "planned-not-drawn",
+    "chapter": "EVOU-37",
+    "readerQuestion": "Which architectural distinction survives beyond a project name?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-38-F1",
+    "type": "sequential teaching figure",
+    "status": "storyboard-only",
+    "chapter": "EVOU-38",
+    "readerQuestion": "Does an improvement survive a changed task?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-38-F2",
+    "type": "worked-example comparison",
+    "status": "planned-not-drawn",
+    "chapter": "EVOU-38",
+    "readerQuestion": "Does an improvement survive a changed task?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-39-F1",
+    "type": "sequential teaching figure",
+    "status": "storyboard-only",
+    "chapter": "EVOU-39",
+    "readerQuestion": "What does a narrow result allow us to say about general intelligence?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-39-F2",
+    "type": "worked-example comparison",
+    "status": "planned-not-drawn",
+    "chapter": "EVOU-39",
+    "readerQuestion": "What does a narrow result allow us to say about general intelligence?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-40-F1",
+    "type": "sequential teaching figure",
+    "status": "storyboard-only",
+    "chapter": "EVOU-40",
+    "readerQuestion": "Can another reader reproduce both the result and the boundary of the claim?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-40-F2",
+    "type": "worked-example comparison",
+    "status": "planned-not-drawn",
+    "chapter": "EVOU-40",
+    "readerQuestion": "Can another reader reproduce both the result and the boundary of the claim?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  }
+]

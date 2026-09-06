@@ -1,32 +1,31 @@
-# Publication plan
+# Publication plan: undergraduate-first edition
 
-## Format and scope
+Status: architecture-only, edition 3 planning, branch astra-undergraduate-rewrite. Title: Evolutor. Subtitle: From Genomic Computation to Adaptive Machine Intelligence. No authorship or license change.
 
-Title: Evolutor. Subtitle: Genomic Computation as a Testable Research Program. Edition label: **2-development**, a new major intellectual edition, not a final release. No author attribution or license is changed. The active manuscript contains a reader preface and Chapters 1–2. Historic material and the reset prospectus are never included automatically.
+## Active versus preserved
 
-Markdown holds research and rapid drafts; reviewed chapter LaTeX is the publication source. Conversion is explicit and reviewed: no two silently divergent canonical chapter versions. An HTML edition is deferred until the first reviewed chapters exist; GitHub renders the present Markdown/SVG materials.
+The active source of pedagogical architecture is pedagogy/curriculum.json. Its generated Markdown maps and JSON inventories are versioned. The new book/book.json has an empty chapter list, no active TeX main, and an explicit previous-edition commit. tex/chapters/manifest.tex has no chapter includes.
 
-## Reproducible build
+The existing TeX chapters, preamble, metadata, scientific figures, tests and reference code are preserved audit inputs. Their byte identity is checked where covered by the preservation test. They are not reader-facing content in the new edition. Old reports describe their original milestone, not current active status.
 
-Prerequisites: Python 3.11+, pytest, PyTorch (existing teaching code); TeX Live with XeLaTeX, latexmk, natbib, amsthm, fancyvrb, glossaries and makeidx; librsvg's rsvg-convert. TeX fonts are loaded by filename from the TeX distribution. No shell escape is required. The committed tex/.latexmkrc selects PDF 1.7 for vector-figure compatibility.
+## Build isolation
+
+`make pdf` and `make check-pdf` stop while the new edition has no accepted chapters. Do not compile the old TeX main directly and call it the new edition. Existing local output PDFs are earlier-edition artifacts; this milestone neither edits nor exports them.
+
+To reproduce the earlier edition, check out preserved commit `58fa55a8097157d297be4afe21f146623048b875` in a separate worktree and follow its PUBLICATION_PLAN.md. Its existing LaTeX build remains available in that history. The new edition will reuse infrastructure only after its reader preface, metadata, glossary, index and accepted chapter manifest are deliberately revised.
+
+## Architecture checks
 
 ```sh
-python3 -m pip install -e '.[dev]'
+python3 scripts/build_pedagogy.py
+python3 scripts/build_pedagogy.py --check
 python3 -m pytest
-make pdf
-make check-pdf
 ```
 
-Main entry: tex/evolutor.tex → preamble.tex + metadata.tex + frontmatter/preface.tex + chapters/manifest.tex + bibliography.bib. The manifest includes only the internally reviewed Chapters 1–2 and is checked against book/book.json. latexmk manages XeLaTeX/BibTeX passes. Index and no-index glossary hooks are active. Vector figures are generated from canonical Unicode TXT graphs.
+The generator uses the standard library. Existing regression tests still require the previously documented project dependencies. Verified interpreter: Python 3.13.6; pytest 9.0.2. No new dependency installation or third-party asset redistribution is required for this milestone.
 
-`make pdf` regenerates diagrams and the chapter JSON/LaTeX tables from their reference examples before compiling. Both `chapter01_artifacts.py --check` and `chapter02_artifacts.py --check` verify committed record freshness. These are exact logical example counts, not newly measured research results. The verified environment uses Python 3.13.6, PyTorch 2.10.0 and pytest 9.0.2; select a suitable interpreter through `make PYTHON=...` if the default Python lacks dependencies.
+## Chapter production and release
 
-Output: output/pdf/evolutor.pdf. Build products are ignored; source and reviewed SVGs are versioned. Build checks reject missing characters, undefined references/citations and overfull boxes. Visual review still matters; passing log checks is not layout certification. Record tool versions in RESET_REPORT.md. Reproducibility means same content/layout with documented dependencies, not byte-identical PDF timestamps.
+Use [the full gate checklist](REVIEW_GATES.md). Only a newly taught, reviewed chapter enters the active manuscript. Code-native SVG and reproducible UML sources accompany Unicode TXT semantics. Animation inventories are plans, not generated frame assets. PDF layout review happens after actual chapter production, not during this planning-only pass.
 
-## Release and review
-
-First reboot commit contains research, audits, architecture, roadmaps and publication infrastructure only. Commit each repository separately on astra-rewrite and publish the branch after tests. Preserve main and the archival branch. Later reviewed chapter milestones may use edition-2-* tags; no final-edition tag is created now.
-
-Before a chapter enters the manifest: complete source reading, claim classification, mathematical audit, executable example tests, biological/UML figure review, citation check, skeptical review and PDF inspection. Before public final release: independent subject review, full bibliography, index/glossary coverage, accessible alternatives, rights review and explicit author/license approval.
-
-No third-party PDFs or supplied screenshots are redistributed. Measured tables must be generated from immutable experimental artifacts; currently there are no new measured research results.
+Publish scoped architecture commits on astra-undergraduate-rewrite. Preserve main, astra-rewrite and archival branches. Do not change the default branch or create a final-edition release. Independent review, novice teach-back, source verification, rights and accessibility checks remain release gates.

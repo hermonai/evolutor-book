@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-09-06 — Undergraduate-first architecture reset
+
+- Preserve the two-chapter astra-rewrite edition and start astra-undergraduate-rewrite.
+- Plan 40 beginner-first teaching units with explicit prerequisites, first encounters, visual storyboards and exercise/code progression.
+- Record complete previous-outline dispositions, cross-book exit contracts and clearly labeled internal review simulations.
+- Keep the new chapter manifest empty and block PDF builds until accepted new chapters exist.
+- Add structural validation and preservation tests; see UNDERGRADUATE_REBUILD_REPORT.md. No new manuscript chapters or PDFs are drafted.
+
 ## 2026-09-06 — Edition 2 Chapter 2
 
 - Added a source-reviewed Chapter 2 with an exact worked example, proof and six exercises.

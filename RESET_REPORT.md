@@ -1,5 +1,7 @@
 # Research-reset execution report
 
+> Preserved edition-2 document. This does not describe the active undergraduate-first edition. See [PEDAGOGICAL_REDESIGN.md](PEDAGOGICAL_REDESIGN.md); the new manuscript has no drafted chapters yet.
+
 Date: 2026-09-05. Milestone: first-principles redesign and compiling publication shell, not completed books.
 
 ## Repository identity
