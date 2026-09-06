@@ -13,4 +13,8 @@
 | EVO-CL08 | One firing does not account for routing cost; ch1 | Observation | REPRODUCED | Same firing count with K scan comparisons | Logical events are not wall-clock measurements | Four generated records at K=4 and K=64 | book/results/ch01.json | High for declared counters |
 | EVO-CL09 | This example establishes genomic novelty or AGI capability; ch1 | Capability inference | UNSUPPORTED | Ordinary dispatch is a sufficient explanation | Does not rule out useful later mechanisms | No learning or AGI experiment | Chapter 1 evidence boundary | No supporting evidence |
 
+| EVO-CL10 | Sequence transfer and transcriptional control are different relations; ch2 | Biological distinction | SUPPORTED | Crick's explicit scope and generic regulatory-protein account | Schematic is not a complete biological map | No biological experiment | E-S13, E-S14 | High for scoped distinction |
+| EVO-CL11 | A leaky state depends on history and obeys the stated bound for d>0; ch2 | Proposition | PROVED under premises | Convolution/induction proof | d=0 is outside finite p/d bound; units are arbitrary | 765 sequence/loss cases plus boundary tests | Original scalar reference | High within model |
+| EVO-CL12 | The pulse response demonstrates genomic adaptation; ch2 | Capability inference | UNSUPPORTED | Ordinary recurrence is sufficient | No genome, optimizer or inheritance mechanism exists in the example | No learning experiment | Model inspection | No supporting evidence |
+
 The chapter's illustrative library-growth hypothesis is NOT TESTED; it is a study template, not a reported result. No archival result is promoted into this ledger by name alone.

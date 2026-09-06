@@ -1,6 +1,6 @@
 # Evolutor: candidate table of contents
 
-Status: edition 2 development. Chapter 1 is an internally reviewed draft with executable examples; chapters 2 onward are planned, not written. Stable IDs survive later title or ordering changes.
+Status: edition 2 development. Chapters 1 and 2 are internally reviewed drafts with executable examples; chapters 3 onward are planned, not written. Stable IDs survive later title or ordering changes.
 
 ## I. The question before the architecture
 

@@ -33,6 +33,25 @@ def test_reset_deliverables_and_reviewed_chapter_manifest():
 def test_chapter_example_artifacts_are_current():
     subprocess.run([sys.executable, "scripts/chapter01_artifacts.py", "--check"],
                    cwd=ROOT, check=True)
+    subprocess.run([sys.executable, "scripts/chapter02_artifacts.py", "--check"],
+                   cwd=ROOT, check=True)
+
+
+def test_scientific_figure_matches_canonical_source():
+    sys.path.insert(0, str(ROOT / "scripts"))
+    from render_chapter02 import svg
+    source = ROOT / "book/diagrams/evo-g07.txt"
+    expected = svg(*MODULE.parse_graph(source))
+    assert (ROOT / "book/figures" / (source.stem + ".svg")).read_text() == expected
+
+
+def test_scientific_figure_rejects_unrepresented_relation():
+    sys.path.insert(0, str(ROOT / "scripts"))
+    from render_chapter02 import svg
+    import pytest
+    meta, nodes, edges = MODULE.parse_graph(ROOT / "book/diagrams/evo-g07.txt")
+    with pytest.raises(ValueError, match="unsupported"):
+        svg(meta, nodes, edges + [("n3", "n1", "CONTROL", "unrepresented feedback")])
 
 
 def test_every_graph_is_complete_and_has_generated_svg():
@@ -42,7 +61,10 @@ def test_every_graph_is_complete_and_has_generated_svg():
     for source in sources:
         meta, nodes, edges = MODULE.parse_graph(source)
         ids.append(meta["ID"])
-        assert len(nodes) == 6 and len(edges) >= 7
+        if meta.get("LAYOUT") == "chapter02":
+            assert len(nodes) >= 3 and len(edges) >= 2
+        else:
+            assert len(nodes) == 6 and len(edges) >= 7
         assert meta["EVIDENCE"] and meta["FAILURE"] and meta["READING"]
         assert "→" in source.read_text()
         svg = ROOT / "book/figures" / (source.stem + ".svg")

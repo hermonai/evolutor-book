@@ -1,0 +1,223 @@
+\chapter{Biological inspiration and its limits}
+\label{ch:biology-limits}
+
+\section*{A useful analogy must be allowed to fail}
+Chapter~\ref{ch:what-adds} showed that selective execution is not uniquely
+genomic. Does that make biology irrelevant to computational design? No. It
+means we need a more careful method for borrowing an idea. We should say what
+we observed, what abstraction we extracted, what we omitted and which
+experiment could show that the abstraction was unhelpful.
+
+Three activities must remain distinct. An \emph{analogy} highlights a possible
+similarity. An \emph{abstraction} specifies a smaller mathematical object with
+explicit rules. A \emph{biological model} makes testable claims about a biological
+system. An abstraction inspired by regulation can be a useful computer program
+without being an adequate biological model. Conversely, biological realism
+does not automatically make a computational design efficient.
+
+This chapter uses one biological distinction and one original recurrence.
+The distinction separates sequence transfer from regulatory control. The
+recurrence separates an instantaneous response from persistent state. Neither
+establishes that Evolutor has a genome, developmental program or learning
+mechanism.
+
+\section{Two meanings that one arrow can conceal}
+\index{regulatory control}\index{sequence transfer}
+For a protein-coding pathway, the familiar DNA-to-RNA-to-protein sketch concerns
+the relationship between polymer sequences. Crick's 1970 discussion explicitly
+distinguished such \gls{sequence-transfer} from control over the rates of processes;
+reverse transcription was not excluded by his formulation
+\citep{crick1970}. A diagram that merges these arrow meanings can create a
+false contradiction where none exists.
+
+Proteins can regulate transcription through interactions with DNA control
+sequences. The classical distinction between a linked control site and a
+diffusible regulatory factor is useful here \citep{cooper2000transcription}.
+A regulatory protein changing transcription is not its amino-acid sequence
+being translated backward into DNA. This is the narrow point of
+Figure~\ref{fig:information-control}; it is not an exhaustive map of molecular
+biology.
+
+\begin{figure}[p]
+\centering
+\includegraphics[width=\textwidth]{../build/figures/evo-g07.pdf}
+\caption{EVO-G07. Sequence transfer and regulatory control are different
+relations. The schematic uses a protein-coding pathway and a generic
+transcriptional repressor, not a complete operon or a universal feedback loop.
+Solid transfer arrows and the dashed inhibitory line must not be interpreted
+interchangeably \citep{crick1970,cooper2000transcription}.}
+\label{fig:information-control}
+\end{figure}
+
+For software, this distinction suggests a question rather than an answer:
+does a component supply content, alter a control decision, or both? A module
+returning a value, a gate selecting a module, and an updater changing a gate
+are different mechanisms. Giving every connecting arrow the label
+``information'' makes the architecture harder to audit. Typed relations expose
+what would need to be implemented and tested.
+
+\section{State is not the same as an enabled operation}
+An instantaneous gate answers a question about the current input. A stateful
+response also depends on what happened before. To isolate this difference,
+define a nonnegative state $x_t$, a binary signal $u_t\in\{0,1\}$, a production
+parameter $p\geq0$ and a loss fraction $d\in[0,1]$. Our discrete update is
+\begin{equation}
+ x_{t+1}=(1-d)x_t+p u_t.
+ \label{eq:leaky-state}
+\end{equation}
+The comparison gate returns $y_t=p u_t$ with no retained state. We compare
+$y_t$ with $x_{t+1}$ after processing the same input $u_t$, not with the state
+before that input. The indexing is part of the experiment.
+
+This is an ordinary \gls{leaky-integrator} written as an original teaching example.\index{leaky integrator}
+Its units are arbitrary state units per discrete update. It is not fitted to
+RNA, protein or any measured cell population. The word ``production'' is a
+mnemonic for the additive term, not evidence that the equation captures an
+expression mechanism. In particular, $d$ is a fraction removed per update,
+not a continuous-time decay constant.
+
+Let $p=2$, $d=1/2$, $x_0=0$ and use the signals $(1,1,0,0,0,1)$.
+Table~\ref{tab:state} is generated using exact rational arithmetic.
+After two active steps, the signal becomes zero. The instantaneous output
+immediately becomes zero, but the state remains positive and then decays.
+When the signal returns, the retained remainder contributes to the new state.
+
+\begin{table}[htbp]
+\centering
+\input{../book/results/ch02-table}
+\caption{An exact synthetic pulse response in arbitrary state units.
+The table reports the state before and after each discrete input, alongside
+an instantaneous gate. No biological measurement or fitted rate is used.}
+\label{tab:state}
+\end{table}
+
+At $t=2$ and $t=4$, the current input is zero in both cases, but the resulting
+states differ. No function of that binary current input alone can reproduce
+both outputs. This establishes a distinction between the declared stateless
+and stateful models; it does not establish a uniquely biological or genomic
+property. A conventional recurrent program handles it directly.
+
+\section{A closed form makes the memory explicit}
+Put $a=1-d$. Repeated substitution in Equation~\ref{eq:leaky-state} yields
+\begin{equation}
+ x_t=a^t x_0+p\sum_{j=0}^{t-1}a^{t-1-j}u_j.
+ \label{eq:state-convolution}
+\end{equation}
+For $t=0$ the sum is empty. A signal's contribution is weighted by the number
+of updates since it occurred. This is the exact reason history matters here,
+not an inference from the biological vocabulary.
+
+\begin{proposition}[History weighting and a bound]
+Equation~\ref{eq:state-convolution} solves the recurrence. If $0<d\leq1$,
+$x_0\geq0$ and signals are binary, then
+$0\leq x_t\leq\max\{x_0,p/d\}$ for every $t$.
+\end{proposition}
+\begin{proof}
+The expression gives $x_0$ at $t=0$. Multiplying its value at $t$ by $a$ and
+adding $p u_t$ produces the stated expression at $t+1$, proving the formula
+by induction. For the bound, let $M=\max\{x_0,p/d\}$. If $0\leq x_t\leq M$,
+then $0\leq a x_t+p u_t\leq(1-d)M+p\leq M$, because $dM\geq p$.
+The initial condition starts the induction.
+\end{proof}
+
+For a run of zero inputs, the state after $k$ additional updates is $a^k$
+times its initial value for that run. With $d=1/2$, it halves at each update.
+With $d=1$, the previous state is completely removed and the model reduces to
+the instantaneous gate. With $d=0$, nothing is removed: repeated active inputs
+accumulate without the finite bound above. Keeping these boundary cases in
+view prevents a proof valid for $d>0$ from being extended to $d=0$ by accident.
+
+For $0<d<1$, arbitrarily old inputs have nonzero weights in exact arithmetic,
+although their influence decreases. Thus ``memory'' here does not mean a
+finite window in which all older inputs are exactly forgotten. The state is
+finite-dimensional; its dependency on history is not finitely truncated.
+
+\section{What would make this a biological model?}
+To interpret $x_t$ as a measured biological quantity, we would need to choose
+that quantity and its units, define an observation process, select a time
+interval and justify the update law. A measurement of total signal would not
+automatically identify the separate contributions represented by production
+and loss. We would need experiments that distinguish competing explanations.
+
+Our synthetic sequence cannot do that job. Its parameters were chosen for
+readable fractions, not estimated from data. Even a visually plausible curve
+would not validate the mechanism. Different hidden processes can agree over
+a short observation window. The next useful step would be a discriminating
+experiment, not a more elaborate biological name for the same recurrence.
+
+The same caution applies in machine learning. If retained state improves a
+sequence task, compare with an ordinary recurrent baseline under the same
+information and resource constraints. If state is reset between evaluation
+examples, report that policy. If it persists, ensure that it cannot carry
+information from a held-out answer into later predictions. State is both a
+modeling resource and a possible channel for leakage.
+
+\section{Separate changes that happen at different levels}
+For the computational proposals later in this book, we distinguish three
+update categories. A \emph{state update} changes a run's carried values, as
+Equation~\ref{eq:leaky-state} does. A \emph{parameter update} changes a rule's
+coefficients or selection parameters. A \emph{structural update} changes the
+available operations or their connections. These are design categories, not
+a claim that biology divides neatly into three independent clocks.
+
+Changing $x_t$ with fixed $p$ and $d$ is not learning those parameters. Adjusting
+$p$ by an optimizer does not add a new operation to a library. Adding an
+operation is not inheritance unless the system specifies what is transmitted
+between which entities. This vocabulary blocks several attractive but invalid
+shortcuts: dynamics do not by themselves establish development; parameter
+fitting does not by itself establish evolution; persistence does not by itself
+establish a genome.
+
+A candidate mechanism should therefore name the object that changes and the
+evidence that drives the change. If a proposed system updates all three levels,
+each needs its own state transition, test and resource account. Otherwise a
+reported benefit cannot be attributed to the mechanism the author highlights.
+This is the same principle as Chapter 1's routing-cost account, now applied to
+adaptation rather than invocation.
+
+\section{Reproduce the calculation and inspect its limits}
+\begin{Verbatim}[fontsize=\small]
+from minievolutor.leaky_state import chapter_example
+for step in chapter_example():
+    print(step.time, step.signal, step.before, step.after)
+\end{Verbatim}
+The code accepts integer or rational parameters, rejects floating-point
+parameters rather than silently treating decimal approximations as exact,
+and validates the domain. Tests compare recurrence outputs with the explicit
+convolution for every binary input sequence of lengths zero through seven,
+at three loss settings: 765 input/setting cases. They also check the zero-input
+decay, nonnegativity and the two boundary loss fractions.
+
+The graph source identifies which arrows describe biology and which relationships
+belong only to the computational example. There is no learned gate, stochastic
+reaction, optimizer, mutation operator or external action in this code. Those
+omissions are visible scope decisions, not capabilities waiting to be inferred.
+
+\section{Exercises and solution notes}
+\begin{enumerate}
+\item Starting from $x_0=8$ with $d=1/2$ and three zero inputs, compute the final
+state. Why does the production parameter not affect this answer?
+\item With $d=0$, $p=2$ and zero initial state, compute the response to
+$(1,0,1)$. Which bound in the proposition is unavailable?
+\item Construct two input histories ending in the same current signal but
+yielding different states. State which model class this distinguishes.
+\item Explain why a repressor-to-DNA control line is not a reverse-translation
+arrow. What information would an unlabeled arrow conceal?
+\item An author calls the change from $x_t$ to $x_{t+1}$ ``genome evolution.''
+What object would need to change, and what inheritance/variation rules are
+missing from our example?
+\item A new architecture beats an instantaneous gate on the pulse example.
+Name a stronger ordinary baseline and a test that would isolate the claimed
+contribution beyond state retention.
+\end{enumerate}
+
+\paragraph{Solution notes.}
+(1) One; all production terms are multiplied by zero. (2) The post-update
+states are 2, 2, 4; $p/d$ is undefined. (3) Histories $(1,0)$ and $(0,0)$ give
+post-update states 1 and 0 under the default parameters. They distinguish this
+stateful recurrence from a deterministic function of the current signal alone.
+(4) Control affects a process rather than encoding the protein's residue
+sequence in DNA; the relation type is essential. (5) The example has no genome,
+inherited structure or variation/selection rule; only a scalar state changes.
+(6) Compare with the same leaky integrator and ablate the proposed additional
+mechanism at matched budgets and state-access rules.

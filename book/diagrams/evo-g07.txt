@@ -1,0 +1,18 @@
+ID: EVO-G07
+LAYOUT: chapter02
+TITLE: Sequence transfer is not regulatory control
+SUBTITLE: A protein can change transcription without reverse translation
+EVIDENCE: Bounded protein-coding pathway and generic repression; Crick 1970 and Cooper 2000. Not a complete central-dogma map.
+LEGEND: Solid arrow: sequence transfer; dashed T-ended line: inhibitory control; no shared arrow meaning is implied.
+
+NODE n1 | DNA template | Sequence used for transcription; not a complete gene or genome specification.
+NODE n2 | RNA transcript | Protein-coding RNA in the pathway shown; not all RNA is translated.
+NODE n3 | Protein product | Amino-acid sequence produced by translation.
+NODE n4 | Regulatory protein | A separate diffusible factor can reduce transcription through a DNA control site; its origin is not shown.
+
+EDGE n1 → n2 | DATA | transcription: sequence transfer
+EDGE n2 → n3 | DATA | translation: sequence transfer
+EDGE n4 → n1 | CONTROL | repression at a DNA control site; not protein sequence copied into DNA
+
+READING: The repressor is not assumed to be the pictured pathway's protein product. The drawing asserts neither a universal feedback loop nor a complete regulation mechanism.
+FAILURE: An untyped protein-to-DNA arrow can falsely suggest reverse translation. A software gate is only a proposed analogy, not a biological model.

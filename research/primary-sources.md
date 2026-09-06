@@ -122,6 +122,14 @@ Supports: Boundary case: electronic modeling of DNA is not computation executed 
 
 Next gate: inspect the complete relevant methods/proof and supplements before using a quantitative or mechanistic claim in a chapter.
 
+## E-S13 — Central Dogma of Molecular Biology
+
+Francis Crick, Nature 227, 561–563 (1970), DOI 10.1038/227561a0. [Publisher](https://www.nature.com/articles/227561a0), [original article reprint](https://www.dna.caltech.edu/courses/cs191/paperscs191/CrickCentralDogma1970.pdf). Read article text and distinctions on pages 561–563 on 2026-09-06. Supports the distinction between sequence transfer and process control. Historical classifications are not adopted as a complete modern molecular-biology map. The neighboring article in the scan is excluded.
+
+## E-S14 — Transcription in Prokaryotes
+
+Geoffrey M. Cooper, The Cell: A Molecular Approach, 2nd edition (2000). [Source](https://www.ncbi.nlm.nih.gov/books/NBK9850/). Authoritative textbook, not a primary experimental report. Read negative-control/cis/trans sections on 2026-09-06. Used for a narrow generic regulatory-protein/DNA-site relationship; no complete lac-operon kinetic or inducer-binding model is claimed. See [EVO-02 review](chapter-02-review.md).
+
 ## Search record and exclusions
 
 Search families: classical DNA experiments; splicing/formal languages; CRN compilation; programmable DNA circuits and self-assembly; 2024–2026 molecular computing; Transformers, selective state spaces, RC equivariance, MoE, retrieval, program learning, continual learning and AGI definitions. Publisher and author records were preferred. Search-index dates were not treated as publication dates. News, social posts and secondary summaries were discovery aids only and are not evidence for technical claims. Some publisher direct opens failed; metadata/abstract access depth is marked above. No supplied model-release benchmark assertions were adopted.

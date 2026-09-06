@@ -8,4 +8,6 @@
 
 - **EVO-G06 — A result and the evidence behind it**: [canonical TXT](evo-g06.txt), [generated SVG](../figures/evo-g06.svg). Status: Chapter 1 conceptual contract, internally reviewed; no physical or performance validation claimed.
 
-Only EVO-G06 is included in the active Chapter 1 PDF. Earlier edition-2 maps remain research aids; the reset prospectus source is retained but excluded from the current build. Historical diagrams are not active figures.
+- **EVO-G07 — Sequence transfer is not regulatory control**: [canonical TXT](evo-g07.txt), [generated SVG](../figures/evo-g07.svg). Scientific schematic; internal source/semantic/visual review, no empirical performance claim.
+
+EVO-G06 and EVO-G07 are included in the active two-chapter PDF. Earlier maps remain research aids; the reset prospectus and historical diagrams are excluded.

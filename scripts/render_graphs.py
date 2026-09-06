@@ -24,7 +24,12 @@ def parse_graph(path):
             key, value = line.split(": ", 1)
             meta[key] = value
     required = {"ID", "TITLE", "SUBTITLE", "EVIDENCE", "LEGEND", "READING", "FAILURE"}
-    if required - meta.keys() or set(nodes) != {f"n{i}" for i in range(1, 7)}:
+    layout = meta.get("LAYOUT", "map")
+    if layout not in {"map", "chapter02"}:
+        raise ValueError(f"unknown layout {layout}")
+    valid_nodes = (set(nodes) == {f"n{i}" for i in range(1, 7)}
+                   if layout == "map" else len(nodes) >= 3)
+    if required - meta.keys() or not valid_nodes:
         raise ValueError(f"incomplete graph {path}")
     if any(a not in nodes or b not in nodes for a, b, _, _ in edges):
         raise ValueError("dangling edge")
@@ -33,6 +38,9 @@ def parse_graph(path):
 
 def render(path):
     meta, nodes, edges = parse_graph(path)
+    if meta.get("LAYOUT") == "chapter02":
+        from render_chapter02 import render_chapter02
+        return render_chapter02(path, meta, nodes, edges)
     out = [f'<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="920" viewBox="0 0 1000 920" role="img" aria-labelledby="title desc">',
            f'<title id="title">{escape(meta["ID"] + ": " + meta["TITLE"])}</title>',
            f'<desc id="desc">{escape(meta["EVIDENCE"] + " " + meta["READING"] + " Failure: " + meta["FAILURE"])}</desc>',

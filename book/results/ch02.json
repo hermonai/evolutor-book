@@ -1,0 +1,53 @@
+{
+  "model": "exact discrete state recurrence; not measured biology",
+  "parameters": {
+    "production": "2",
+    "loss": "1/2",
+    "initial": "0"
+  },
+  "units": "arbitrary state units; loss is a fraction per update",
+  "steps": [
+    {
+      "time": 0,
+      "signal": 1,
+      "before": "0",
+      "after": "2",
+      "instantaneous": "2"
+    },
+    {
+      "time": 1,
+      "signal": 1,
+      "before": "2",
+      "after": "3",
+      "instantaneous": "2"
+    },
+    {
+      "time": 2,
+      "signal": 0,
+      "before": "3",
+      "after": "3/2",
+      "instantaneous": "0"
+    },
+    {
+      "time": 3,
+      "signal": 0,
+      "before": "3/2",
+      "after": "3/4",
+      "instantaneous": "0"
+    },
+    {
+      "time": 4,
+      "signal": 0,
+      "before": "3/4",
+      "after": "3/8",
+      "instantaneous": "0"
+    },
+    {
+      "time": 5,
+      "signal": 1,
+      "before": "3/8",
+      "after": "35/16",
+      "instantaneous": "2"
+    }
+  ]
+}

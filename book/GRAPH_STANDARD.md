@@ -9,3 +9,5 @@ Biological illustrations will use editable SVG sources and source-reviewed scien
 The supplied reference images guide navy headings, whitespace and consistent typography. Do not copy their chemical drawings or assertions as authority. No generative raster image is needed for these conceptual maps. Future chapter illustrations require a biological/math review and visual inspection at final publication size, including grayscale legibility.
 
 Use color as reinforcement only. Re-render after edits; do not manually alter a generated SVG. Keep graph captions outside the image in LaTeX and stable alt text in the source register.
+
+Chapter 2 scientific figures use `LAYOUT: chapter02` with three or more explicitly named semantic nodes and typed edges. They are rendered by `scripts/render_chapter02.py` through the standard renderer. Unlike research maps, they do not require six boxes or seven edges: chemical orientation and relation types determine the drawing. The canonical TXT must enumerate the actual relations shown; the specialized renderer validates the supported node/edge contract rather than silently inventing relations.

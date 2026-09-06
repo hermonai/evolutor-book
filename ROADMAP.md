@@ -12,9 +12,13 @@
 
 Chapter 1 now has a canonical LaTeX manuscript, a bounded proof, executable example and independent oracle checks, a Unicode TXT/vector figure, generated records, six exercises and solution notes. See [the chapter report](CHAPTER_REPORT.md). Internal review is not independent peer review.
 
-## Next: Chapter 2
+## Completed: Chapter 2 development draft
 
-Develop biological inspiration and its limits. Use authoritative sources for regulation, development and adaptation; distinguish literal biological mechanisms, computational analogies and proposed engineering mechanisms. Do not promote a naming analogy into evidence of novelty.
+Biological inspiration and its limits now includes a source-reviewed scientific diagram, exact reference example, proof and six exercises. See [the Chapter 2 report](CHAPTER_02_REPORT.md).
+
+## Next: Chapter 3
+
+Develop capabilities, evidence and AGI claims with operational evaluation boundaries. Do not promote scalar state retention or module dispatch into broad capability evidence.
 
 Continue one chapter at a time: outline and claims first, then source review, manuscript, small executable checks where appropriate, figure review and rendered-page QA.
 

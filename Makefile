@@ -8,6 +8,7 @@ graphs:
 
 artifacts:
 	$(PYTHON) scripts/chapter01_artifacts.py
+	$(PYTHON) scripts/chapter02_artifacts.py
 
 test:
 	$(PYTHON) -m pytest

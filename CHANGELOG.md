@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-09-06 — Edition 2 Chapter 2
+
+- Added a source-reviewed Chapter 2 with an exact worked example, proof and six exercises.
+- Added a rational leaky-state control and independent convolution checks.
+- Added a scientific diagram layout driven by canonical TXT; tested graph contracts and generated SVG freshness.
+- Expanded the active two-chapter PDF, source/claim registers and notation documentation.
+- Verification and remaining review gates are recorded in CHAPTER_02_REPORT.md.
+
 ## 2026-09-05 — Edition 2 Chapter 1
 
 - Drafted the first new chapter with a bounded proof, worked example, six exercises and solution notes.

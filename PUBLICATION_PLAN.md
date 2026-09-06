@@ -2,7 +2,7 @@
 
 ## Format and scope
 
-Title: Evolutor. Subtitle: Genomic Computation as a Testable Research Program. Edition label: **2-development**, a new major intellectual edition, not a final release. No author attribution or license is changed. The active manuscript contains a reader preface and Chapter 1. Historic material and the reset prospectus are never included automatically.
+Title: Evolutor. Subtitle: Genomic Computation as a Testable Research Program. Edition label: **2-development**, a new major intellectual edition, not a final release. No author attribution or license is changed. The active manuscript contains a reader preface and Chapters 1–2. Historic material and the reset prospectus are never included automatically.
 
 Markdown holds research and rapid drafts; reviewed chapter LaTeX is the publication source. Conversion is explicit and reviewed: no two silently divergent canonical chapter versions. An HTML edition is deferred until the first reviewed chapters exist; GitHub renders the present Markdown/SVG materials.
 
@@ -17,9 +17,9 @@ make pdf
 make check-pdf
 ```
 
-Main entry: tex/evolutor.tex → preamble.tex + metadata.tex + frontmatter/preface.tex + chapters/manifest.tex + bibliography.bib. The manifest includes only the internally reviewed Chapter 1 draft and is checked against book/book.json. latexmk manages XeLaTeX/BibTeX passes. Index and no-index glossary hooks are active. Vector figures are generated from canonical Unicode TXT graphs.
+Main entry: tex/evolutor.tex → preamble.tex + metadata.tex + frontmatter/preface.tex + chapters/manifest.tex + bibliography.bib. The manifest includes only the internally reviewed Chapters 1–2 and is checked against book/book.json. latexmk manages XeLaTeX/BibTeX passes. Index and no-index glossary hooks are active. Vector figures are generated from canonical Unicode TXT graphs.
 
-`make pdf` regenerates diagrams and the Chapter 1 JSON/LaTeX table from the reference example before compiling. `python3 scripts/chapter01_artifacts.py --check` verifies committed record freshness. These are exact logical example counts, not newly measured research results. The verified environment uses Python 3.13.6, PyTorch 2.10.0 and pytest 9.0.2; select a suitable interpreter through `make PYTHON=...` if the default Python lacks dependencies.
+`make pdf` regenerates diagrams and the chapter JSON/LaTeX tables from their reference examples before compiling. Both `chapter01_artifacts.py --check` and `chapter02_artifacts.py --check` verify committed record freshness. These are exact logical example counts, not newly measured research results. The verified environment uses Python 3.13.6, PyTorch 2.10.0 and pytest 9.0.2; select a suitable interpreter through `make PYTHON=...` if the default Python lacks dependencies.
 
 Output: output/pdf/evolutor.pdf. Build products are ignored; source and reviewed SVGs are versioned. Build checks reject missing characters, undefined references/citations and overfull boxes. Visual review still matters; passing log checks is not layout certification. Record tool versions in RESET_REPORT.md. Reproducibility means same content/layout with documented dependencies, not byte-identical PDF timestamps.
 
