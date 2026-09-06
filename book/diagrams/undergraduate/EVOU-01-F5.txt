@@ -1,0 +1,13 @@
+FIGURE EVOU-01-F5: How a proposal earns evidence
+QUESTION: What would make an Evolutor claim worth believing?
+OBJECTS: observation; precise software proposal; ordinary comparison; test; retain or revise branch
+RELATION: explanatory reading order, not an unlabelled physical cause
+STEP 1: Select one biological observation
+STEP 2: Specify an implementable mechanism
+STEP 3: Compare with an ordinary alternative
+STEP 4: Test a declared claim
+STEP 5: Retain or revise according to results
+STEP 1 → STEP 2 → STEP 3 → STEP 4 → STEP 5
+CAPTION: Biological inspiration starts the investigation; a fair test must decide the claim.
+LIMIT: No measured advantage, training result, general intelligence or breakthrough asserted.
+EVIDENCE: Original research method; no benchmark performed.

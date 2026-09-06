@@ -1,0 +1,36 @@
+\usepackage{fontspec}
+\setmainfont{texgyrepagella-regular.otf}[BoldFont=texgyrepagella-bold.otf,ItalicFont=texgyrepagella-italic.otf,BoldItalicFont=texgyrepagella-bolditalic.otf]
+\setsansfont{texgyreheros-regular.otf}[BoldFont=texgyreheros-bold.otf]
+\setmonofont{DejaVuSansMono.ttf}[Scale=0.83]
+\usepackage[a4paper,inner=25mm,outer=25mm,top=23mm,bottom=25mm]{geometry}
+\usepackage{xcolor,graphicx,booktabs,fancyvrb,needspace,titlesec,caption}
+\usepackage{makeidx}
+\makeindex
+\usepackage{hyperref}
+\usepackage[toc]{glossaries}
+\makenoidxglossaries
+\definecolor{BookBlue}{HTML}{173A55}
+\definecolor{BookPale}{HTML}{EDF5FA}
+\hypersetup{colorlinks=true,linkcolor=BookBlue,citecolor=BookBlue,urlcolor=BookBlue,hypertexnames=false}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\sffamily\BookTitle}
+\fancyhead[R]{\small\sffamily Undergraduate edition / Chapter 1}
+\fancyfoot[C]{\thepage}
+\setlength{\headheight}{15pt}
+\setlength{\parskip}{6pt}
+\setlength{\parindent}{0pt}
+\setlength{\emergencystretch}{1.5em}
+\clubpenalty=10000
+\widowpenalty=10000
+\raggedbottom
+\titleformat{\chapter}[display]{\raggedright\hyphenpenalty=10000\color{BookBlue}\sffamily\bfseries}{\large CHAPTER \thechapter}{8pt}{\huge}
+\titlespacing*{\chapter}{0pt}{0pt}{18pt}
+\titleformat{\section}{\Large\sffamily\bfseries\color{BookBlue}}{\thesection}{0.7em}{}
+\titlespacing*{\section}{0pt}{12pt}{8pt}
+\newcommand{\Teach}[2]{\ifhmode\gls{#1}\else\Gls{#1}\fi\index{\glsentryname{#1}} #2}
+\newcommand{\Callout}[2]{\par\medskip\noindent\colorbox{BookPale}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{\vspace{5pt}\textbf{\sffamily\color{BookBlue}#1}\par\smallskip #2\vspace{5pt}}}\par\medskip}
+\newcommand{\TeachingFigure}[3]{\par\medskip\noindent\begin{minipage}{\linewidth}\centering\includegraphics[width=\linewidth]{../build/figures/#1.pdf}\captionof{figure}{#2}\label{#3}\end{minipage}\par\medskip}
+
+\renewcommand*{\glspostdescription}{}

@@ -1,31 +1,21 @@
-# Publication plan: undergraduate-first edition
+# Undergraduate publication plan
 
-Status: architecture-only, edition 3 planning, branch astra-undergraduate-rewrite. Title: Evolutor. Subtitle: From Genomic Computation to Adaptive Machine Intelligence. No authorship or license change.
+The new entry point is tex/undergraduate-evolutor.tex. Its manifest includes only tex/undergraduate/ch01.tex. Preserved old chapter files are never silently promoted.
 
-## Active versus preserved
+## Rebuild
 
-The active source of pedagogical architecture is pedagogy/curriculum.json. Its generated Markdown maps and JSON inventories are versioned. The new book/book.json has an empty chapter list, no active TeX main, and an explicit previous-edition commit. tex/chapters/manifest.tex has no chapter includes.
+Run make pdf with the intended Python executable. The target checks the active manifest, derives glossary/terminology from the manuscript, generates six SVG/TXT pairs and the tested example trace, converts SVG to PDF and runs XeLaTeX through latexmk. The output uses a distinct undergraduate filename under output/pdf. The published snapshot of that exact file accompanies this milestone; future rebuilds may differ in PDF metadata.
 
-The existing TeX chapters, preamble, metadata, scientific figures, tests and reference code are preserved audit inputs. Their byte identity is checked where covered by the preservation test. They are not reader-facing content in the new edition. Old reports describe their original milestone, not current active status.
+Run make check-pdf and the full pytest suite. The new integration test also checks all six figure references, glossary, bibliography, index and the absence of missing references or box warnings. Dependencies are listed in README.
 
-## Build isolation
+## Visual acceptance
 
-`make pdf` and `make check-pdf` stop while the new edition has no accepted chapters. Do not compile the old TeX main directly and call it the new edition. Existing local output PDFs are earlier-edition artifacts; this milestone neither edits nor exports them.
+Run scripts/review_undergraduate.py with Python and Pillow. It renders every page at 110 dpi with Poppler and produces numbered color/grayscale contact sheets in tmp/pdfs. Inspect every page and enlarge any uncertain figure or line. Do not equate a successful build with a successful page. Rebuild and re-render after meaningful changes.
 
-To reproduce the earlier edition, check out preserved commit `58fa55a8097157d297be4afe21f146623048b875` in a separate worktree and follow its PUBLICATION_PLAN.md. Its existing LaTeX build remains available in that history. The new edition will reuse infrastructure only after its reader preface, metadata, glossary, index and accepted chapter manifest are deliberately revised.
+The present preview contains a nine-page chapter plus front/back matter. It has no tagged-PDF structure; accessibility certification and independent reviewer/learner checks remain open.
 
-## Architecture checks
+## Publication boundary
 
-```sh
-python3 scripts/build_pedagogy.py
-python3 scripts/build_pedagogy.py --check
-python3 -m pytest
-```
+Publish this coherent Chapter 1 milestone and supporting plans to origin/astra-undergraduate-rewrite only after checks and staged-diff review. Main, astra-rewrite and pre-reboot history stay unchanged. No automatic merge, force push, license change, deployment or research-engine implementation is included.
 
-The generator uses the standard library. Existing regression tests still require the previously documented project dependencies. Verified interpreter: Python 3.13.6; pytest 9.0.2. No new dependency installation or third-party asset redistribution is required for this milestone.
-
-## Chapter production and release
-
-Use [the full gate checklist](REVIEW_GATES.md). Only a newly taught, reviewed chapter enters the active manuscript. Code-native SVG and reproducible UML sources accompany Unicode TXT semantics. Animation inventories are plans, not generated frame assets. PDF layout review happens after actual chapter production, not during this planning-only pass.
-
-Publish scoped architecture commits on astra-undergraduate-rewrite. Preserve main, astra-rewrite and archival branches. Do not change the default branch or create a final-edition release. Independent review, novice teach-back, source verification, rights and accessibility checks remain release gates.
+The final delivery provides the publication commit hash. CHAPTER_1_REPORT.md describes the content and verification; the commit containing that report is the authoritative release identity.

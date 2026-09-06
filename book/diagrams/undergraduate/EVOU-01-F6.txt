@@ -1,0 +1,12 @@
+FIGURE EVOU-01-F6: The route from programs to research
+QUESTION: Why delay sophisticated machinery?
+OBJECTS: four ordered course stages with actual chapter ranges
+RELATION: explanatory reading order, not an unlabelled physical cause
+STEP 1: Make programs explicit
+STEP 2: Learn from examples
+STEP 3: Build and measure systems
+STEP 4: Evaluate proposed mechanisms
+STEP 1 → STEP 2 → STEP 3 → STEP 4
+CAPTION: Each stage supplies tools needed to ask a sharper research question.
+LIMIT: Later chapters remain plans; this figure does not certify prerequisites.
+EVIDENCE: Approved EVOU dependency graph.

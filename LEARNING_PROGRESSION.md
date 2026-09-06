@@ -1,6 +1,8 @@
 # Evolutor: undergraduate-first architecture
 
-Status: planning only. No new chapters, finished figures, animations, experiments or reviewed learning outcomes are claimed. Generated from [pedagogy/curriculum.json](pedagogy/curriculum.json); edit that source and regenerate.
+Status: Chapter 1 internally reviewed development draft; all later units remain planned. No learner study, independent expert certification or new research-model experiment is claimed. Generated from [pedagogy/curriculum.json](pedagogy/curriculum.json). See [Chapter 1 storyboard](research/undergraduate-ch01-storyboard.md) for the six produced figures.
+
+Target taxonomy: **DOGMA = non-Transformer DNA-native architecture + DOGMA Engine; Hermon DNA = Transformer-based DNA architecture + Hermon DNA Engine; Evolutor = research/theory/runtime above both.** These are research targets, not implementation evidence. See [taxonomy and lineage](research/architecture-taxonomy.md). Stable EVOU IDs differ from printed numbers after EVOU-11.
 
 ## Exercises, code and experiments
 
@@ -12,7 +14,7 @@ Before code: picture, plain-language procedure, trace, pseudocode, then syntax e
 
 **Worked example / exercise ladder:** Recognize an analogy; identify a missing mechanism; explain that ordinary software can also respond and change.
 
-**Code or hands-on progression:** Paper comparison of what is stored, what changes and what is observed; no new code.
+**Code or hands-on progression:** Paper heater trace first; optional four-line Python function shared by listing and executable tests. Local biology reminder because Book I imports remain planned.
 
 **Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
 
@@ -93,6 +95,14 @@ Before code: picture, plain-language procedure, trace, pseudocode, then syntax e
 **Worked example / exercise ladder:** Trace a gate at zero and one; compare state sizes; state what information a compact state may lose.
 
 **Code or hands-on progression:** Implement a small GRU and a declared linear SSM baseline before contemporary variants.
+
+**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
+
+## EVOU-41
+
+**Worked example / exercise ladder:** Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
+
+**Code or hands-on progression:** Build small baselines and test chunked versus sequential execution; only claim parallel scan where composition permits it.
 
 **Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
 
@@ -232,11 +242,83 @@ Before code: picture, plain-language procedure, trace, pseudocode, then syntax e
 
 **Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
 
+## EVOU-42
+
+**Worked example / exercise ladder:** Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
+
+**Code or hands-on progression:** Specify initial_state, step and forward in a future PyTorch reference; do not implement in this planning amendment.
+
+**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
+
+## EVOU-43
+
+**Worked example / exercise ladder:** Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
+
+**Code or hands-on progression:** Ablate regulator and expression separately; report equivalence if the mechanism reduces to an established primitive.
+
+**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
+
+## EVOU-44
+
+**Worked example / exercise ladder:** Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
+
+**Code or hands-on progression:** Compare dense and structured state with declared parameter, compute and total-memory budgets.
+
+**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
+
+## EVOU-45
+
+**Worked example / exercise ladder:** Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
+
+**Code or hands-on progression:** Use task-appropriate symmetry controls; reject causal leakage; do not force proposal/verification or activation/inhibition metaphors.
+
+**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
+
+## EVOU-46
+
+**Worked example / exercise ladder:** Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
+
+**Code or hands-on progression:** Measure trace cost and usefulness; distinguish observed events from causal explanations; preserve failed proposals.
+
+**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
+
+## EVOU-47
+
+**Worked example / exercise ladder:** Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
+
+**Code or hands-on progression:** Implement a plain causal Transformer reference before DNA-specific variants; compare full and incremental outputs.
+
+**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
+
+## EVOU-48
+
+**Worked example / exercise ladder:** Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
+
+**Code or hands-on progression:** Use strong Transformer baselines, data-split checks, reverse-complement augmentation and symmetry controls.
+
+**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
+
 ## EVOU-29
 
 **Worked example / exercise ladder:** Audit a training loop; test frozen-structure behavior; report an inconclusive or negative outcome correctly.
 
 **Code or hands-on progression:** Small PyTorch candidate with identical evaluation interface to Chapter 19; no large-run result invented.
+
+**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
+
+## EVOU-49
+
+**Worked example / exercise ladder:** Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
+
+**Code or hands-on progression:** Plan evo_torch/dogma, hermon_dna, data, training, inference, causality, evaluation and benchmarks; interfaces shared only where meaningful.
+
+**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
+
+## EVOU-50
+
+**Worked example / exercise ladder:** Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
+
+**Code or hands-on progression:** Test full versus stepped outputs, reset, masking, chunk boundaries and gradient parity; retain a sequential reference.
 
 **Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
 
@@ -264,6 +346,78 @@ Before code: picture, plain-language procedure, trace, pseudocode, then syntax e
 
 **Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
 
+## EVOU-51
+
+**Worked example / exercise ladder:** Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
+
+**Code or hands-on progression:** Derive the engine from tested state semantics; no obligatory KV cache or borrowed Transformer prefill contract.
+
+**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
+
+## EVOU-52
+
+**Worked example / exercise ladder:** Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
+
+**Code or hands-on progression:** Test allocation, reset, reuse, clone, cancellation and cross-request isolation.
+
+**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
+
+## EVOU-53
+
+**Worked example / exercise ladder:** Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
+
+**Code or hands-on progression:** Test resume, branch isolation and prefix invalidation; benchmark copy and restore cost rather than asserting cheap continuation.
+
+**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
+
+## EVOU-54
+
+**Worked example / exercise ladder:** Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
+
+**Code or hands-on progression:** Compare tensorized independent transitions with single-request execution and declared arrival traces.
+
+**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
+
+## EVOU-55
+
+**Worked example / exercise ladder:** Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
+
+**Code or hands-on progression:** Require full-sequence versus incremental parity before optimization; pin positions, masks, dtype and cache layout.
+
+**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
+
+## EVOU-56
+
+**Worked example / exercise ladder:** Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
+
+**Code or hands-on progression:** Test allocation, fragmentation, copy-on-write, prefix validity, eviction and page reuse.
+
+**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
+
+## EVOU-57
+
+**Worked example / exercise ladder:** Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
+
+**Code or hands-on progression:** Use request timelines and UML sequence diagrams; test quality and parity within justified tolerances before timing.
+
+**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
+
+## EVOU-58
+
+**Worked example / exercise ladder:** Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
+
+**Code or hands-on progression:** Specify a common prepare/step envelope only where meaningful; never reinterpret DOGMA state as KV or vice versa.
+
+**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
+
+## EVOU-59
+
+**Worked example / exercise ladder:** Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
+
+**Code or hands-on progression:** Evaluate loss of historical detail, retrieval errors, quality and full resource use; no universal winner.
+
+**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
+
 ## EVOU-33
 
 **Worked example / exercise ladder:** Calculate waiting times; identify starvation; compare a throughput gain with tail-latency cost.
@@ -277,6 +431,14 @@ Before code: picture, plain-language procedure, trace, pseudocode, then syntax e
 **Worked example / exercise ladder:** Reject unequal workloads; diagnose a tolerance failure; separate logical-event counts from elapsed time.
 
 **Code or hands-on progression:** Reference-versus-optimized harness with warm-up, synchronization and hardware/version records.
+
+**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
+
+## EVOU-60
+
+**Worked example / exercise ladder:** Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
+
+**Code or hands-on progression:** DOGMA candidates: transition, selective update, scan, regulation, mixing and strand interaction. Hermon: attention/KV, projection and precision. No native kernels before evidence.
 
 **Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
 
@@ -301,6 +463,14 @@ Before code: picture, plain-language procedure, trace, pseudocode, then syntax e
 **Worked example / exercise ladder:** Separate name, architecture and evidence; design a symmetry control; leave an unverifiable claim unresolved.
 
 **Code or hands-on progression:** Re-audit source, dataset splits, checkpoints and licenses before experiments; runnable substitutes are clearly labeled.
+
+**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
+
+## EVOU-61
+
+**Worked example / exercise ladder:** Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
+
+**Code or hands-on progression:** Compare next-token prediction, pointer tasks and long sequences; natural-language/code transfer is not presumed. Report weights, state, temporary/context memory, batch size, latency and throughput; power only if measured.
 
 **Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
 

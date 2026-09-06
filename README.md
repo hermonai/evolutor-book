@@ -1,26 +1,33 @@
 # Evolutor
 
-## From Genomic Computation to Adaptive Machine Intelligence
+From Genomic Computation to Adaptive Machine Intelligence
 
-Active work: **undergraduate-first pedagogical architecture**, branch `astra-undergraduate-rewrite`. No new manuscript chapters have been drafted.
+Active branch: astra-undergraduate-rewrite. **New undergraduate Chapter 1: internally reviewed development draft.** All later units remain planned (61 units in the current full curriculum). This is not a completed textbook or independent pedagogical validation.
 
-Start with [the redesign](PEDAGOGICAL_REDESIGN.md), [new contents](BOOK_PLAN.md), [course map](COURSE_MAP.md), [prerequisite graph](PREREQUISITE_GRAPH.md) and [chapter storyboards](VISUAL_STORYBOARD.md). See [beginner review](BEGINNER_REVIEW.md), [professional-perspective review](PROFESSIONAL_REVIEW.md) and [review gates](REVIEW_GATES.md) before authorizing new Chapter 1.
+Read [the chapter source](tex/undergraduate/ch01.tex), [production report](CHAPTER_1_REPORT.md), [storyboard](research/undergraduate-ch01-storyboard.md), [contents](BOOK_PLAN.md) and [course map](COURSE_MAP.md).
 
-The plan contains 40 small teaching units. It is a proposed learning route, not a completed book or a validated semester schedule. Book II assumes only the eventually verified Book I outcomes, not a separate ML or software-architecture course.
+**Target taxonomy: DOGMA = non-Transformer DNA-native; Hermon DNA = Transformer-based DNA; Evolutor = the higher-level research/runtime.** See [taxonomy and historical lineage](research/architecture-taxonomy.md). This is future design intent, not a claim about implemented engines.
 
-## Preservation and build boundary
+## Reproduce and inspect
 
-The two-chapter edition is preserved on [astra-rewrite at 58fa55a](https://github.com/hermonai/evolutor-book/tree/58fa55a8097157d297be4afe21f146623048b875). The earlier public edition remains on main. No force-push, deletion, default-branch, license or authorship change is made.
+[Read the published Chapter 1 PDF](output/pdf/undergraduate-evolutor.pdf).
 
-The old LaTeX chapters, code, figures and reports remain audit material, not active new-edition content. The new manuscript manifest is empty. `make pdf` and `make check-pdf` deliberately fail with an explanatory message while the edition is architecture-only. Existing local PDFs still belong to the earlier edition and are not regenerated or relabeled. Reproduce them from the preserved commit, preferably in a separate worktree.
-
-## Verify the architecture
+Requires Python 3, pytest and the existing project test dependencies; XeLaTeX/latexmk, librsvg's rsvg-convert and Poppler. Pillow is needed only for page contact sheets.
 
 ```sh
 python3 scripts/build_pedagogy.py --check
+python3 scripts/audit_undergraduate.py --check
+python3 scripts/build_undergraduate.py --check
 python3 -m pytest
+make pdf
+make check-pdf
+python3 scripts/review_undergraduate.py
 ```
 
-After editing pedagogy/curriculum.json, run `python3 scripts/build_pedagogy.py`. Checks cover prerequisite ordering, cross-book imports, inventory freshness and preservation. They do not certify readability or scientific validity.
+The PDF is generated under output/pdf with a distinct undergraduate filename. Figures retain editable SVG and Unicode TXT sources. Printed code is included directly from the tested example. See [publication instructions](PUBLICATION_PLAN.md) and [chapter standard](CHAPTER_STANDARD.md).
 
-See [publication plan](PUBLICATION_PLAN.md), [learning/code progression](LEARNING_PROGRESSION.md), [concept maps](CONCEPT_MAPS.md), [figure system](FIGURE_SYSTEM.md), [terminology audit](TERMINOLOGY_AUDIT.md) and [previous-outline disposition](PREVIOUS_EDITION_AUDIT.md). Third-party papers and supplied review screenshots are not redistributed.
+## Preservation
+
+The earlier two-chapter edition remains at astra-rewrite commit 58fa55a8097157d297be4afe21f146623048b875; main and historical snapshots are unchanged. Old chapter sources remain byte-identical and are excluded from the active manifest. Use the preserved commit to reproduce old PDFs. No force push, deletion, license or authorship change is part of this milestone.
+
+Reports and evidence ledgers distinguish current undergraduate work from earlier editions. Internal role reviews are not external endorsements; no new laboratory or research-model experiment is claimed.

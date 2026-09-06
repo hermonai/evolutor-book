@@ -10,7 +10,7 @@ NAMES = ("BOOK_PLAN.md", "COURSE_MAP.md", "PREREQUISITE_GRAPH.md",
 
 
 def validate(data, contract):
-    assert data["status"] == "architecture-only-no-manuscript"
+    assert data["status"] in {"architecture-only-no-manuscript", "chapter-one-production"}
     chapters = data["chapters"]
     ids = [c["id"] for c in chapters]
     assert len(ids) == len(set(ids)), "duplicate chapter"
@@ -22,7 +22,9 @@ def validate(data, contract):
         assert c["requires"] == sorted(set(c["requires"])), "duplicate or unordered prerequisites"
         assert set(c["requires"]) <= known, f"forward, missing or cyclic dependency: {c['id']}"
         assert set(c["book1Requires"]) <= exported, "missing Book I export"
-        assert c["status"] == "planned-not-drafted"
+        assert c["status"] in {"planned-not-drafted", "internally-reviewed-draft"}
+        if c["status"] != "planned-not-drafted":
+            assert c is chapters[0], "only Chapter 1 may be active in this phase"
         assert len(c["frames"]) >= 3 and len(c["figures"]) >= 2
         for field in ("readerQuestion", "mathBridge", "codeLab", "exercise"):
             assert c[field].strip(), (c["id"], field)
@@ -35,6 +37,14 @@ def validate(data, contract):
         known.add(c["id"])
     for old in data["previousChapterAudit"]:
         assert old["prerequisiteDiagnosis"] and set(old["newChapters"]) <= known
+    assert [c["number"] for c in chapters] == list(range(1, len(chapters)+1))
+    assert len(chapters) == data.get("plannedChapterCount", len(chapters))
+    if "architectureTaxonomy" in data:
+        taxonomy = data["architectureTaxonomy"]
+        assert taxonomy["DOGMA"]["family"] == "non-Transformer DNA-native", "DOGMA taxonomy reversed"
+        assert taxonomy["Hermon DNA"]["family"] == "Transformer-based DNA", "Hermon DNA taxonomy reversed"
+        assert taxonomy["DOGMA"]["engine"] == "DOGMA Engine"
+        assert taxonomy["Hermon DNA"]["engine"] == "Hermon DNA Engine"
     return True
 
 
@@ -47,6 +57,18 @@ def outputs(data, contract):
     notice = ("Status: planning only. No new chapters, finished figures, animations, experiments or "
               "reviewed learning outcomes are claimed. Generated from "
               "[pedagogy/curriculum.json](pedagogy/curriculum.json); edit that source and regenerate.\n\n")
+    if data["status"] == "chapter-one-production":
+        notice = ("Status: Chapter 1 internally reviewed development draft; all later units remain planned. "
+                  "No learner study, independent expert certification or new research-model experiment is claimed. "
+                  "Generated from [pedagogy/curriculum.json](pedagogy/curriculum.json). "
+                  "See [Chapter 1 storyboard](research/undergraduate-ch01-storyboard.md) for the six produced figures.\n\n")
+    if "architectureTaxonomy" in data:
+        notice += ("Target taxonomy: **DOGMA = non-Transformer DNA-native architecture + DOGMA Engine; "
+                   "Hermon DNA = Transformer-based DNA architecture + Hermon DNA Engine; "
+                   "Evolutor = research/theory/runtime above both.** "
+                   "These are research targets, not implementation evidence. "
+                   "See [taxonomy and lineage](research/architecture-taxonomy.md). "
+                   "Stable EVOU IDs differ from printed numbers after EVOU-11.\n\n")
     result = {}
     lines = [header, notice, "## Table of contents\n\n"]
     part = None
@@ -71,7 +93,7 @@ def outputs(data, contract):
         external = ", ".join(c["book1Requires"]) or "None"
         nxt = [x["id"] for x in chapters if c["id"] in x["requires"]]
         lines += [f"## {c['id']} — {c['title']}\n\n",
-                  f"**Already taught locally:** {local}.\n\n",
+                  f"**Required earlier units (planned unless marked active):** {local}.\n\n",
                   f"**Book I bridge:** {external}. See the planned exit checks in the shared contract.\n\n",
                   f"**First encounters, in planned teaching order:** {' → '.join(c['introduces'])}.\n\n",
                   f"**Tangible opening:** {c['readerQuestion']}\n\n",
@@ -140,10 +162,15 @@ def outputs(data, contract):
                   "sequence transfer and control; software distinguishes messages, data, ownership and state transitions. "
                   "Use labels and line styles as well as color.\n\n",
                   f"**Animation decision:** {c['animation']}; storyboard only, no exported frames yet.\n\n"]
+        if c["status"] == "internally-reviewed-draft":
+            lines.append("**Production override:** the six figure-specific storyboards and actual assets are in "
+                         "[research/undergraduate-ch01-storyboard.md](research/undergraduate-ch01-storyboard.md). "
+                         "The original F1/F2 course sketches above are planning lineage, not final captions. "
+                         "Static vectors produced; animation export remains deferred.\n\n")
         for f in c["figures"]:
             figure_inventory.append({**f,"chapter":c["id"],"readerQuestion":c["readerQuestion"],
                                      "sourcePlan":"Unicode TXT companion plus SVG; reproducible UML source for UML figures",
-                                     "reviewStatus":"not-drawn-not-reviewed"})
+                                     "reviewStatus":("internally-reviewed-vector" if c["status"] == "internally-reviewed-draft" else "not-drawn-not-reviewed")})
         if c["animation"] == "candidate-keyframe-sequence":
             animation_inventory.append({"id":c["id"]+"-A1","chapter":c["id"],"status":"planned-no-assets",
                                         "frames":[{"number":i,"action":s,"sourceStatus":"not-created"}
@@ -194,7 +221,12 @@ def outputs(data, contract):
              "| First-use chapter | Terms to teach | Definition / illustration / glossary state |\n",
              "|---|---|---|\n"]
     for c in chapters:
-        lines.append(f"| {c['id']} | {'; '.join(c['introduces'])} | All pending chapter production |\n")
+        lines.append(f"| {c['id']} | {'; '.join(c['introduces'])} | " + ("Produced; see Chapter 1 first-sentence audit" if c["status"] == "internally-reviewed-draft" else "Pending chapter production") + " |\n")
+    if data["status"] == "chapter-one-production":
+        lines.append("\nChapter 1 production overrides the planned inventory: see "
+                     "[its first-sentence audit](research/undergraduate-ch01-terminology.md), including "
+                     "locally defined preview terms and optional-code vocabulary. Later units deepen these "
+                     "ideas rather than assuming the full planned treatment has already occurred.\n")
     result["TERMINOLOGY_AUDIT.md"]="".join(lines)
 
     lines=[header, notice, "## Complete previous-outline disposition\n\n",

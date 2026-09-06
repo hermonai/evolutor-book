@@ -1,22 +1,22 @@
 # Pedagogical redesign: Evolutor
 
-Date: 2026-09-06. New branch: astra-undergraduate-rewrite. Status: architecture ready for user review; manuscript production not started.
+Date: 2026-09-06. New branch: astra-undergraduate-rewrite. Status: unit EVOU-01 production; later units remain planned.
 
 ## Thesis: discovery before architecture
 
 **Evolutor: From Genomic Computation to Adaptive Machine Intelligence** assumes only completion of the eventual Book I curriculum. It does not assume machine learning, calculus, PyTorch, compilers or service-engineering coursework.
 
-The book opens with a familiar program and a recalled biological genome. It asks which organizational similarities are useful and which are misleading. The old dispatch comparison and cost tuple are moved to Chapter 15 and later formal accounting. The old scalar recurrence becomes a step-by-step arithmetic example in Chapter 10. Neither remains an opening gatekeeper.
+The book opens with a familiar program and a recalled biological genome. It asks which organizational similarities are useful and which are misleading. The old dispatch comparison and cost tuple are moved to unit EVOU-15 and later formal accounting. The old scalar recurrence becomes a step-by-step arithmetic example in unit EVOU-10. Neither remains an opening gatekeeper.
 
 The story is observation → computational question → conventional explanation → remaining difference → explicit mechanism → smallest implementation → fair test → failure or bounded extension. Calling a module a gene is not a discovery. Ordinary software can already choose, remember, construct programs and adapt; biology is a source of questions, not an automatic superiority claim.
 
 ## The new staircase
 
-A tiny model with adjustable numbers introduces prediction, training, inference and error in Chapter 3. Gradients come only after numerical trials, slopes and arrays. A neural network is built one layer at a time. Tokens and embeddings precede sequence models. Scalar retention precedes recurrence; a three-token weighted lookup precedes attention; one head precedes the full Transformer.
+A tiny model with adjustable numbers introduces prediction, training, inference and error in unit EVOU-03. Gradients come only after numerical trials, slopes and arrays. A neural network is built one layer at a time. Tokens and embeddings precede sequence models. Scalar retention precedes recurrence; a three-token weighted lookup precedes attention; one head precedes the full Transformer.
 
-Book II explicitly teaches calculus where needed: finite differences, derivative, partial derivative, gradient and chain rule before backpropagation. It teaches software concepts before using architectural notation: interpreter, compiler, runtime, library, API, process, thread, service, protocol, database, scheduler and cache. Query planning is taught in Chapter 18 before a genomic-routing novelty comparison.
+Book II explicitly teaches calculus where needed: finite differences, derivative, partial derivative, gradient and chain rule before backpropagation. It teaches software concepts before using architectural notation: interpreter, compiler, runtime, library, API, process, thread, service, protocol, database, scheduler and cache. Query planning is taught in unit EVOU-18 before a genomic-routing novelty comparison.
 
-The proposal begins only after conventional if/else, dispatch, plugins, MoE routing, attention and query planning. Parameter learning, pruning, architecture search, genetic programming and program synthesis precede structural evolution. The genomic tuple arrives in Chapter 24 to summarize known components, not introduce mysterious symbols.
+The proposal begins only after conventional if/else, dispatch, plugins, MoE routing, attention and query planning. Parameter learning, pruning, architecture search, genetic programming and program synthesis precede structural evolution. The genomic tuple arrives in unit EVOU-24 to summarize known components, not introduce mysterious symbols.
 
 ## The Book I dependency is a checked promise, not an assumption about the old PDF
 
@@ -28,7 +28,9 @@ No Book I → Book II → Book I dependency cycle is allowed. Book I's sequence-
 
 UML is taught before class, sequence, state-machine, component and deployment diagrams are used. Training and inference have separate code routes and tests. Memory managers, paged key-value storage and continuous batching appear only after requests, caches, memory use, queues and latency.
 
-DOGMA and Hermon DNA remain names to re-audit in Chapter 37, after Transformer and non-Transformer architectures, training, inference, data controls and artifact provenance. The renewed taxonomy may reject the names or mappings. AGI means artificial general intelligence; an operational scorecard comes near the end and leaves untested cells unknown. A passing reference implementation is not evidence of AGI.
+Target taxonomy is now fixed by the user's amendment: **DOGMA is non-Transformer DNA-native architecture plus DOGMA Engine; Hermon DNA is Transformer-based DNA architecture plus Hermon DNA Engine. Evolutor is the higher-level genomic theory, planning, research and runtime.** Actual historical artifacts still require source and behavior audits; target naming does not relabel evidence. See [taxonomy and lineage](research/architecture-taxonomy.md).
+
+The plan now has 61 teaching units in 14 parts. Twenty-one new units are inserted by prerequisites while the original 40 EVOU IDs remain stable. DOGMA has its own primitives, structured state, regulation/expression, trace, training-parity and engine agenda; ordinary recurrence, gates and selective state models remain strong comparisons. Hermon DNA has separate Transformer mathematics, DNA variants and attention/KV inference teaching. Runtime composition and hybrid memory are explicit hypotheses. AGI means artificial general intelligence; its late scorecard keeps untested cells unknown. A passing reference implementation is not evidence of AGI.
 
 ## Pedagogical contract
 
@@ -68,6 +70,10 @@ This architecture adopts concrete-to-abstract bridges, paired verbal/visual expl
 
 Research registers from the old edition remain useful leads, not automatic scientific approval. Every new chapter needs renewed section-level source review and explicit observation/model/hypothesis boundaries. Current frontier chapters require fresh primary-paper and artifact review when drafted. No benchmark, experiment or contemporary taxonomy is asserted by this outline.
 
-## First execution boundary
+## Current production boundary
 
-This milestone produces architecture only. It does not draft Chapter 1, continue old Chapter 3, generate publication figures or animations, rewrite PDFs, run new scientific experiments, change licensing or authorship, or declare the new curriculum taught. The next execution prompt authorizes the first undergraduate-first chapter only after the architecture is reviewed. Existing astra-rewrite and main histories are preserved; neither is force-pushed or replaced.
+Phase 2 authorizes only the new Chapter 1, not later manuscripts. The original approved title is retained. Its visual storyboard was internally approved before prose. Six original editable figures replace the two coarse planning placeholders. A tiny optional Python example implements the paper exercise without making programming an entry prerequisite.
+
+The local biology reminder supplies the narrow opening dependency while DNAU-03, DNAU-09 and DNAU-32 remain planned. Machine-learning mechanisms stay out of the opening; the taxonomy amendment changes future architecture, not Chapter 1's difficulty.
+
+The active source is tex/undergraduate/ch01.tex. Earlier tex/chapters/ch01.tex and ch02.tex remain byte-preserved. No main merge, force push, licensing change, independent-review claim or activation of the full Book I exit contract is authorized by this production step.

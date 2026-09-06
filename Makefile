@@ -1,5 +1,5 @@
 PYTHON ?= python3
-MAIN := evolutor
+MAIN := undergraduate-evolutor
 
 .PHONY: graphs artifacts test pdf check-pdf manuscript-gate pedagogy
 
@@ -20,9 +20,10 @@ test:
 	$(PYTHON) -m pytest
 
 pdf: manuscript-gate
-	$(MAKE) graphs artifacts PYTHON="$(PYTHON)"
+	$(PYTHON) scripts/audit_undergraduate.py
+	$(PYTHON) scripts/build_undergraduate.py
 	mkdir -p build/figures output/pdf
-	for figure in book/figures/*.svg; do rsvg-convert --format=pdf --output="build/figures/$$(basename "$$figure" .svg).pdf" "$$figure" || exit; done
+	for figure in book/figures/undergraduate/*.svg; do rsvg-convert --format=pdf --output="build/figures/$$(basename "$$figure" .svg).pdf" "$$figure" || exit; done
 	cd tex && latexmk -xelatex -interaction=nonstopmode -halt-on-error -outdir=../build $(MAIN).tex
 	cp build/$(MAIN).pdf output/pdf/$(MAIN).pdf
 

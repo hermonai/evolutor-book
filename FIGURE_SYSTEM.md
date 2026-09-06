@@ -42,3 +42,22 @@ Future animation directories contain storyboard.md, frame-NN.svg and machine-rea
 Each final figure needs number, title, labels, direction marks, short explanatory caption, legend where necessary, and boundary note. Captions say what the learner should notice, not merely name the topic. A figure should be largely understandable without searching backward, but must not teach an unexplained vocabulary cluster by accident.
 
 Use stable typography with readable labels at final print size, generous separation, and consistent margins. Split crowded figures into successive panels or figures. Review after embedding in a real page, not only the standalone SVG. Scientific correctness and visual clarity are separate checks, and both must pass.
+
+## Chapter 1 production conventions (2026-09-06)
+
+These conventions were refined after actual SVG-to-PDF rendering of both openings.
+
+| Figure class | Meaning to preserve | Visual convention |
+|---|---|---|
+| Biology textbook illustration | Physical objects versus their written descriptions | Clearly label schematic level; connected chain is not movement; omit unintroduced chemistry explicitly |
+| Process storyboard | Object identity and permitted change | Number stages; preserve counter identities; distinguish unchanged objects, movement and absence of creation/consumption |
+| Mathematical diagram | Quantity versus carrier | State the reading convention; derive notation from a hand-worked case |
+| Software UML | Standard engineering relations | Teach the relevant UML symbols before use; do not draw software as molecules |
+| Introductory data-flow / architecture | Information use versus physical action | Solid directed connectors with a stated meaning; output word is not a live device action |
+| Research evidence diagram | Proposal, comparison, test and possible rejection | Keep hypotheses visibly unmeasured; dashed analogy links are not causal or execution arrows |
+
+Use a restrained navy/blue palette, pale panels, amber for an alternate/boundary condition, and dark labels. Color never carries the distinction alone. At 900 source units over the publication text width, 20–24-unit labels remain readable; inspect the actual PDF, not just the source dimensions. Avoid tiny labels to rescue a crowded panel.
+
+Every publication figure keeps editable SVG, a Unicode TXT semantic companion, title/description metadata, caption, evidence and limitation. No ASCII box art and no decorative raster illustration. The Chapter 1 generator is intentionally small: labeled panels, tokens, schematic strands, text and typed arrows. Draw connectors after panels where required so arrowheads are not occluded.
+
+Keep a caption with its figure. Check identity, arrow direction and meaning separately from typography. Static multi-frame artwork does not count as an exported animation. Internal illustration review is not independent scientific certification.

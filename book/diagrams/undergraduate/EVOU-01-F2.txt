@@ -1,0 +1,11 @@
+FIGURE EVOU-01-F2: The boundary belongs to the rule
+QUESTION: What happens at exactly twenty?
+OBJECTS: input rows 18 20 22; condition result; returned words
+RELATION: explanatory reading order, not an unlabelled physical cause
+STEP 1: Compare 18 with 20
+STEP 2: Compare 20 with 20
+STEP 3: Compare 22 with 20
+STEP 1 → STEP 2 → STEP 3
+CAPTION: Below means strictly less than; equality belongs to the other branch.
+LIMIT: Do not depict an untested physical temperature controller.
+EVIDENCE: Executable heater_rule.py and exact expected results.

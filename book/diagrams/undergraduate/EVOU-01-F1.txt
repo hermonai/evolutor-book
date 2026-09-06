@@ -1,0 +1,11 @@
+FIGURE EVOU-01-F1: A stored rule can choose
+QUESTION: Can one unchanged program produce different answers?
+OBJECTS: instruction card; input 18; comparison; returned word on
+RELATION: explanatory reading order, not an unlabelled physical cause
+STEP 1: Read temperature 18
+STEP 2: Ask is it below 20
+STEP 3: Return on
+STEP 1 → STEP 2 → STEP 3
+CAPTION: The rule remains fixed while the input selects an answer.
+LIMIT: A returned word is not a real heater action or safe control system.
+EVIDENCE: Original software example.

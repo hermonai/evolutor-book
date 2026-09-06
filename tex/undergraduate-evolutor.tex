@@ -1,0 +1,41 @@
+\documentclass[11pt,oneside,openany]{book}
+\newcommand{\BookTitle}{Evolutor}
+\input{undergraduate/preamble}
+\input{undergraduate/glossary}
+\begin{document}
+\frontmatter
+\begin{titlepage}
+\color{BookBlue}\sffamily
+\vspace*{20mm}
+{\Huge\bfseries Evolutor\par}
+\vspace{8mm}
+{\Large From Genomic Computation to Adaptive Machine Intelligence\par}
+\vspace{20mm}
+{\large Undergraduate edition\par}
+{\LARGE Chapter 1\par}
+\vspace{10mm}
+{\large Programs, genomes and the question of Evolutor\par}
+\vfill
+{\normalsize A coordinated textbook series from Hermon AI\par}
+\vspace{5mm}
+{\small Internally reviewed development chapter · 6 September 2026\par}
+\end{titlepage}
+\chapter*{How to use this preview}
+This is the first chapter of a new undergraduate edition, not a completed textbook. Later chapter references point to the approved teaching plan. Earlier editions remain separately preserved.
+
+Read pictures with their captions, try worked examples by hand, and attempt exercises before opening the answers. The Python section is optional. Linked glossary entries return to the section teaching each term; the index points to substantive definitions.
+
+Figures are original editable vector artwork with Unicode TXT companions. Their captions state the simplifications. This preview contains no new laboratory result or claim of a research-model advantage.
+
+Review so far is internal author-agent review using beginner and specialist perspectives. It is not independent expert certification, a learner study or an accessibility-conformance certification. The repository includes sources, tests, build instructions and a candid production report.
+\tableofcontents
+\mainmatter
+\input{chapters/manifest}
+\backmatter
+\printnoidxglossary[title={Chapter 1 glossary},style=altlist,nonumberlist]
+\input{undergraduate/references}
+\clearpage
+\phantomsection
+\addcontentsline{toc}{chapter}{Index}
+\printindex
+\end{document}

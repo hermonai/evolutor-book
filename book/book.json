@@ -1,11 +1,25 @@
 {
   "title": "Evolutor",
   "subtitle": "From Genomic Computation to Adaptive Machine Intelligence",
-  "edition": "3-undergraduate-planning",
-  "status": "architecture-only-no-manuscript",
-  "chapters": [],
-  "main": null,
-  "graphs": [],
+  "edition": "3-undergraduate",
+  "status": "chapter-one-production",
+  "chapters": [
+    {
+      "id": "EVOU-01",
+      "title": "Programs, genomes and the question of Evolutor",
+      "source": "tex/undergraduate/ch01.tex",
+      "status": "internally-reviewed-draft"
+    }
+  ],
+  "main": "tex/undergraduate-evolutor.tex",
+  "graphs": [
+    "book/diagrams/undergraduate/EVOU-01-F1.txt",
+    "book/diagrams/undergraduate/EVOU-01-F2.txt",
+    "book/diagrams/undergraduate/EVOU-01-F3.txt",
+    "book/diagrams/undergraduate/EVOU-01-F4.txt",
+    "book/diagrams/undergraduate/EVOU-01-F5.txt",
+    "book/diagrams/undergraduate/EVOU-01-F6.txt"
+  ],
   "pedagogy": "pedagogy/curriculum.json",
   "previousEdition": {
     "branch": "astra-rewrite",

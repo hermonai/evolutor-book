@@ -1,0 +1,11 @@
+FIGURE EVOU-01-F4: An analogy is a question, not an identity
+QUESTION: What transfers when we compare a program with a genome?
+OBJECTS: software unit and biological gene in separate lanes; dashed comparison link
+RELATION: explanatory reading order, not an unlabelled physical cause
+STEP 1: Describe each mechanism separately
+STEP 2: Name one limited resemblance
+STEP 3: Ask what does not transfer
+STEP 1 → STEP 2 → STEP 3
+CAPTION: A proposed computational gene is a software label; it is not DNA and has no inherited biological capabilities.
+LIMIT: Avoid claiming novelty from ordinary conditional execution or proving efficiency through resemblance.
+EVIDENCE: Original analogy and non-equivalence argument.

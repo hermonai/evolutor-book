@@ -1,21 +1,57 @@
 [
   {
     "id": "EVOU-01-F1",
-    "type": "sequential teaching figure",
-    "status": "storyboard-only",
+    "type": "original editable teaching vector",
+    "status": "internally-reviewed-vector",
     "chapter": "EVOU-01",
     "readerQuestion": "Why compare a genome with a program?",
     "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
-    "reviewStatus": "not-drawn-not-reviewed"
+    "reviewStatus": "internally-reviewed-vector"
   },
   {
     "id": "EVOU-01-F2",
-    "type": "worked-example comparison",
-    "status": "planned-not-drawn",
+    "type": "original editable teaching vector",
+    "status": "internally-reviewed-vector",
     "chapter": "EVOU-01",
     "readerQuestion": "Why compare a genome with a program?",
     "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
-    "reviewStatus": "not-drawn-not-reviewed"
+    "reviewStatus": "internally-reviewed-vector"
+  },
+  {
+    "id": "EVOU-01-F3",
+    "type": "original editable teaching vector",
+    "status": "internally-reviewed-vector",
+    "chapter": "EVOU-01",
+    "readerQuestion": "Why compare a genome with a program?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "internally-reviewed-vector"
+  },
+  {
+    "id": "EVOU-01-F4",
+    "type": "original editable teaching vector",
+    "status": "internally-reviewed-vector",
+    "chapter": "EVOU-01",
+    "readerQuestion": "Why compare a genome with a program?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "internally-reviewed-vector"
+  },
+  {
+    "id": "EVOU-01-F5",
+    "type": "original editable teaching vector",
+    "status": "internally-reviewed-vector",
+    "chapter": "EVOU-01",
+    "readerQuestion": "Why compare a genome with a program?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "internally-reviewed-vector"
+  },
+  {
+    "id": "EVOU-01-F6",
+    "type": "original editable teaching vector",
+    "status": "internally-reviewed-vector",
+    "chapter": "EVOU-01",
+    "readerQuestion": "Why compare a genome with a program?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "internally-reviewed-vector"
   },
   {
     "id": "EVOU-02-F1",
@@ -194,6 +230,24 @@
     "status": "planned-not-drawn",
     "chapter": "EVOU-11",
     "readerQuestion": "What should a compact state keep or forget?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-41-F1",
+    "type": "sequential teaching figure",
+    "status": "storyboard-only",
+    "chapter": "EVOU-41",
+    "readerQuestion": "Which familiar mechanisms could already explain a candidate's behavior?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-41-F2",
+    "type": "worked-example comparison",
+    "status": "planned-not-drawn",
+    "chapter": "EVOU-41",
+    "readerQuestion": "Which familiar mechanisms could already explain a candidate's behavior?",
     "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
     "reviewStatus": "not-drawn-not-reviewed"
   },
@@ -504,6 +558,132 @@
     "reviewStatus": "not-drawn-not-reviewed"
   },
   {
+    "id": "EVOU-42-F1",
+    "type": "sequential teaching figure",
+    "status": "storyboard-only",
+    "chapter": "EVOU-42",
+    "readerQuestion": "Can structured state support DNA-native computation without Transformer attention as its organizing mechanism?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-42-F2",
+    "type": "worked-example comparison",
+    "status": "planned-not-drawn",
+    "chapter": "EVOU-42",
+    "readerQuestion": "Can structured state support DNA-native computation without Transformer attention as its organizing mechanism?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-43-F1",
+    "type": "sequential teaching figure",
+    "status": "storyboard-only",
+    "chapter": "EVOU-43",
+    "readerQuestion": "What exactly does regulation select and expression execute?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-43-F2",
+    "type": "worked-example comparison",
+    "status": "planned-not-drawn",
+    "chapter": "EVOU-43",
+    "readerQuestion": "What exactly does regulation select and expression execute?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-44-F1",
+    "type": "sequential teaching figure",
+    "status": "storyboard-only",
+    "chapter": "EVOU-44",
+    "readerQuestion": "Does modular state help beyond a single carried vector?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-44-F2",
+    "type": "worked-example comparison",
+    "status": "planned-not-drawn",
+    "chapter": "EVOU-44",
+    "readerQuestion": "Does modular state help beyond a single carried vector?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-45-F1",
+    "type": "sequential teaching figure",
+    "status": "storyboard-only",
+    "chapter": "EVOU-45",
+    "readerQuestion": "Does a paired representation improve a declared task?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-45-F2",
+    "type": "worked-example comparison",
+    "status": "planned-not-drawn",
+    "chapter": "EVOU-45",
+    "readerQuestion": "Does a paired representation improve a declared task?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-46-F1",
+    "type": "sequential teaching figure",
+    "status": "storyboard-only",
+    "chapter": "EVOU-46",
+    "readerQuestion": "Does a trace reveal useful mechanism beyond ordinary activation logs?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-46-F2",
+    "type": "worked-example comparison",
+    "status": "planned-not-drawn",
+    "chapter": "EVOU-46",
+    "readerQuestion": "Does a trace reveal useful mechanism beyond ordinary activation logs?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-47-F1",
+    "type": "sequential teaching figure",
+    "status": "storyboard-only",
+    "chapter": "EVOU-47",
+    "readerQuestion": "What remains recognizably Transformer-based before DNA-specific changes?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-47-F2",
+    "type": "worked-example comparison",
+    "status": "planned-not-drawn",
+    "chapter": "EVOU-47",
+    "readerQuestion": "What remains recognizably Transformer-based before DNA-specific changes?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-48-F1",
+    "type": "sequential teaching figure",
+    "status": "storyboard-only",
+    "chapter": "EVOU-48",
+    "readerQuestion": "Which DNA-specific change adds value beyond the plain Transformer?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-48-F2",
+    "type": "worked-example comparison",
+    "status": "planned-not-drawn",
+    "chapter": "EVOU-48",
+    "readerQuestion": "Which DNA-specific change adds value beyond the plain Transformer?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
     "id": "EVOU-29-F1",
     "type": "sequential teaching figure",
     "status": "storyboard-only",
@@ -518,6 +698,42 @@
     "status": "planned-not-drawn",
     "chapter": "EVOU-29",
     "readerQuestion": "Does the proposed mechanism help beyond the taught baselines?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-49-F1",
+    "type": "sequential teaching figure",
+    "status": "storyboard-only",
+    "chapter": "EVOU-49",
+    "readerQuestion": "What can both model families share without hiding their differences?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-49-F2",
+    "type": "worked-example comparison",
+    "status": "planned-not-drawn",
+    "chapter": "EVOU-49",
+    "readerQuestion": "What can both model families share without hiding their differences?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-50-F1",
+    "type": "sequential teaching figure",
+    "status": "storyboard-only",
+    "chapter": "EVOU-50",
+    "readerQuestion": "When can a candidate transition be parallelized without changing its meaning?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-50-F2",
+    "type": "worked-example comparison",
+    "status": "planned-not-drawn",
+    "chapter": "EVOU-50",
+    "readerQuestion": "When can a candidate transition be parallelized without changing its meaning?",
     "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
     "reviewStatus": "not-drawn-not-reviewed"
   },
@@ -576,6 +792,168 @@
     "reviewStatus": "not-drawn-not-reviewed"
   },
   {
+    "id": "EVOU-51-F1",
+    "type": "UML component or process storyboard",
+    "status": "storyboard-only",
+    "chapter": "EVOU-51",
+    "readerQuestion": "How does the engine execute the model's exact state machine?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-51-F2",
+    "type": "worked-example comparison",
+    "status": "planned-not-drawn",
+    "chapter": "EVOU-51",
+    "readerQuestion": "How does the engine execute the model's exact state machine?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-52-F1",
+    "type": "UML component or process storyboard",
+    "status": "storyboard-only",
+    "chapter": "EVOU-52",
+    "readerQuestion": "How can requests share hardware without sharing state?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-52-F2",
+    "type": "worked-example comparison",
+    "status": "planned-not-drawn",
+    "chapter": "EVOU-52",
+    "readerQuestion": "How can requests share hardware without sharing state?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-53-F1",
+    "type": "UML component or process storyboard",
+    "status": "storyboard-only",
+    "chapter": "EVOU-53",
+    "readerQuestion": "Can a saved state resume the same computation?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-53-F2",
+    "type": "worked-example comparison",
+    "status": "planned-not-drawn",
+    "chapter": "EVOU-53",
+    "readerQuestion": "Can a saved state resume the same computation?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-54-F1",
+    "type": "UML component or process storyboard",
+    "status": "storyboard-only",
+    "chapter": "EVOU-54",
+    "readerQuestion": "Which independent requests can take a step together?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-54-F2",
+    "type": "worked-example comparison",
+    "status": "planned-not-drawn",
+    "chapter": "EVOU-54",
+    "readerQuestion": "Which independent requests can take a step together?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-55-F1",
+    "type": "UML component or process storyboard",
+    "status": "storyboard-only",
+    "chapter": "EVOU-55",
+    "readerQuestion": "Why does one Transformer request have two execution phases?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-55-F2",
+    "type": "worked-example comparison",
+    "status": "planned-not-drawn",
+    "chapter": "EVOU-55",
+    "readerQuestion": "Why does one Transformer request have two execution phases?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-56-F1",
+    "type": "UML component or process storyboard",
+    "status": "storyboard-only",
+    "chapter": "EVOU-56",
+    "readerQuestion": "How do logical positions map to reusable physical pages?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-56-F2",
+    "type": "worked-example comparison",
+    "status": "planned-not-drawn",
+    "chapter": "EVOU-56",
+    "readerQuestion": "How do logical positions map to reusable physical pages?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-57-F1",
+    "type": "UML component or process storyboard",
+    "status": "storyboard-only",
+    "chapter": "EVOU-57",
+    "readerQuestion": "How do request phases and numerical precision change serving?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-57-F2",
+    "type": "worked-example comparison",
+    "status": "planned-not-drawn",
+    "chapter": "EVOU-57",
+    "readerQuestion": "How do request phases and numerical precision change serving?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-58-F1",
+    "type": "UML component or process storyboard",
+    "status": "storyboard-only",
+    "chapter": "EVOU-58",
+    "readerQuestion": "What belongs in a shared runtime rather than either engine?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-58-F2",
+    "type": "worked-example comparison",
+    "status": "planned-not-drawn",
+    "chapter": "EVOU-58",
+    "readerQuestion": "What belongs in a shared runtime rather than either engine?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-59-F1",
+    "type": "UML component or process storyboard",
+    "status": "storyboard-only",
+    "chapter": "EVOU-59",
+    "readerQuestion": "When should information be compressed into state or kept addressable?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-59-F2",
+    "type": "worked-example comparison",
+    "status": "planned-not-drawn",
+    "chapter": "EVOU-59",
+    "readerQuestion": "When should information be compressed into state or kept addressable?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
     "id": "EVOU-33-F1",
     "type": "sequential teaching figure",
     "status": "storyboard-only",
@@ -608,6 +986,24 @@
     "status": "planned-not-drawn",
     "chapter": "EVOU-34",
     "readerQuestion": "How do we make it faster without changing what it computes?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-60-F1",
+    "type": "UML component or process storyboard",
+    "status": "storyboard-only",
+    "chapter": "EVOU-60",
+    "readerQuestion": "Which optimization is justified by profiling and semantic parity?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-60-F2",
+    "type": "worked-example comparison",
+    "status": "planned-not-drawn",
+    "chapter": "EVOU-60",
+    "readerQuestion": "Which optimization is justified by profiling and semantic parity?",
     "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
     "reviewStatus": "not-drawn-not-reviewed"
   },
@@ -662,6 +1058,24 @@
     "status": "planned-not-drawn",
     "chapter": "EVOU-37",
     "readerQuestion": "Which architectural distinction survives beyond a project name?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-61-F1",
+    "type": "UML component or process storyboard",
+    "status": "storyboard-only",
+    "chapter": "EVOU-61",
+    "readerQuestion": "Which tasks reveal compression and addressability tradeoffs?",
+    "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOU-61-F2",
+    "type": "worked-example comparison",
+    "status": "planned-not-drawn",
+    "chapter": "EVOU-61",
+    "readerQuestion": "Which tasks reveal compression and addressability tradeoffs?",
     "sourcePlan": "Unicode TXT companion plus SVG; reproducible UML source for UML figures",
     "reviewStatus": "not-drawn-not-reviewed"
   },

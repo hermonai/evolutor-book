@@ -1,0 +1,20 @@
+{
+  "kind": "deterministic teaching example; not a scientific benchmark",
+  "cases": [
+    {
+      "input": 18,
+      "below_twenty": true,
+      "output": "on"
+    },
+    {
+      "input": 20,
+      "below_twenty": false,
+      "output": "off"
+    },
+    {
+      "input": 22,
+      "below_twenty": false,
+      "output": "off"
+    }
+  ]
+}

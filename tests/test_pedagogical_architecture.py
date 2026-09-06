@@ -31,10 +31,10 @@ def test_architecture_deliverables_and_freshness():
 def test_dependencies_first_encounters_and_inventory_are_valid():
     data, contract = inputs()
     assert MODULE.validate(data, contract)
-    assert len(data["chapters"]) == (36 if data["book"] == "DNA Computing" else 40)
+    assert len(data["chapters"]) == (36 if data["book"] == "DNA Computing" else 61)
     figures = json.loads((ROOT / "pedagogy/figure-inventory.json").read_text())
-    assert len(figures) == 2 * len(data["chapters"])
-    assert all(f["reviewStatus"] == "not-drawn-not-reviewed" for f in figures)
+    assert len(figures) == 2 * len(data["chapters"]) + 4
+    assert all(f["reviewStatus"] == ("internally-reviewed-vector" if f["chapter"] == data["chapters"][0]["id"] else "not-drawn-not-reviewed") for f in figures)
 
 
 @pytest.mark.parametrize("defect", ["forward", "missing-import", "duplicate-term", "missing-frame"])
@@ -69,15 +69,26 @@ def test_previous_chapter_sources_remain_byte_identical():
         assert (ROOT / name).read_bytes() == old
 
 
-def test_no_active_chapters_and_pdf_build_is_blocked():
+def test_only_new_chapter_is_active_and_guard_rejects_preserved_editions():
     book = json.loads((ROOT / "book/book.json").read_text())
-    assert book["chapters"] == [] and book["main"] is None and book["graphs"] == []
-    assert not re.findall(r"\\input\{", (ROOT / "tex/chapters/manifest.tex").read_text())
-    for target in ("pdf", "check-pdf"):
-        result = subprocess.run(["make", target, "PYTHON=" + sys.executable], cwd=ROOT,
-                                text=True, capture_output=True)
-        assert result.returncode != 0
-        assert "No accepted undergraduate manuscript chapters" in result.stdout + result.stderr
+    spec = importlib.util.spec_from_file_location("manuscript_gate", ROOT / "scripts/require_active_manuscript.py")
+    gate = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(gate)
+    assert gate.validate_book(book)
+    assert book["chapters"][0]["source"] == "tex/undergraduate/ch01.tex"
+    assert re.findall(r"\\input\{([^}]+)\}", (ROOT / "tex/chapters/manifest.tex").read_text()) == ["undergraduate/ch01"]
+    for mutate in ("empty", "preserved", "old-main", "unreviewed"):
+        invalid = deepcopy(book)
+        if mutate == "empty":
+            invalid["chapters"] = []
+        elif mutate == "preserved":
+            invalid["chapters"][0]["source"] = "tex/chapters/ch01.tex"
+        elif mutate == "old-main":
+            invalid["main"] = "tex/evolutor.tex"
+        else:
+            invalid["chapters"][0]["status"] = "planned-not-drafted"
+        with pytest.raises(ValueError):
+            gate.validate_book(invalid)
 
 
 def test_shared_book_i_contract_has_no_drift():

@@ -18,3 +18,20 @@
 | EVO-CL12 | The pulse response demonstrates genomic adaptation; ch2 | Capability inference | UNSUPPORTED | Ordinary recurrence is sufficient | No genome, optimizer or inheritance mechanism exists in the example | No learning experiment | Model inspection | No supporting evidence |
 
 The chapter's illustrative library-growth hypothesis is NOT TESTED; it is a study template, not a reported result. No archival result is promoted into this ledger by name alone.
+
+## Undergraduate Chapter 1: new, separately scoped claims (2026-09-06)
+
+Earlier rows above refer to preserved editions; they are not automatically evidence for the new chapter. Internal reviews are author-agent checks, not independent expert endorsements.
+
+| Claim | Location | Status and supporting source | Boundary |
+|---|---|---|---|
+| EVOU-CL01: the fixed heater rule returns on/off with strict threshold | Sections 1.1–1.3; F1/F2 | Exact toy source and hand-case tests | A returned word, not a real heating controller |
+| EVOU-CL02: input-dependent results do not require changing instructions | Sections 1.1–1.2 | Constructive software example | Does not characterize all ordinary software as stateless or unadaptive |
+| EVOU-CL03: DNA/genome/gene working descriptions | Section 1.4 | NHGRI Gene and Genome definitions, read 2026-09-06 | Gene definition includes functional RNA; no one-gene-one-behavior claim |
+| EVOU-CL04: RNA and proteins have distinct cellular roles | Section 1.4 | NHGRI RNA and Protein definitions, read 2026-09-06 | Minimal reminder, no complete molecular mechanism |
+| EVOU-CL05: expression can differ without changing shown DNA | Section 1.4; F3 | Alberts et al. 2002, An Overview of Gene Control, relevant sections read | Conceptual low/high production, not measured rates; machinery required; no universal identical-cell-genome assertion; obsolete gene counts unused |
+| EVOU-CL06: program/gene resemblance does not establish mechanism or advantage | Section 1.5; F4 | Explicit analogy and non-equivalence reasoning | Proposed computational gene is a software label, not a molecule |
+| EVOU-CL07: Evolutor is presented as a research program | Sections 1.6–1.7; F5/F6 | Editorial positioning; falsifiable comparison exercise | No implemented architecture, trained-model, benchmark, universal advantage or AGI result |
+| EVOU-CL08: corrected target taxonomy and future engine split | research/architecture-taxonomy.md; curriculum | User-authorized research target: DOGMA non-Transformer, Hermon DNA Transformer, Evolutor above both | Historical artifacts not relabeled; all new future units remain planned and unmeasured |
+
+Source URLs and access depth are recorded in [the Chapter 1 source register](undergraduate-ch01-sources.md). Code records are deterministic examples, not empirical research claims.

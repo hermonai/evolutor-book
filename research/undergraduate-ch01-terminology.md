@@ -1,0 +1,41 @@
+# Chapter 1 terminology audit
+
+Generated from the canonical manuscript; definitions are not maintained in a second prose copy. Headings, the opening question and learning-objective previews may name a destination before its definition. These previews do not require the reader to use that concept. Ordinary words such as rule and information are refined before their technical use. The first-encounter column includes these early previews rather than hiding them.
+
+| Term | First sentence or heading preview | Precise definition sentence | Location | Figure / worked illustration | Glossary key |
+|---|---|---|---|---|---|
+| program | rograms, genomes and the question of Evolutor Begin with a program that chooses Imagine a device that reads a temperature and produces the word “on” or “off.” Give it this instruction: if the temperature is below twenty, return “on”; otherwise return “off.” The same instruction can produce different answers. | program is instructions written in a form a computer can carry out. | sec:program | EVOU-01-F1 | program |
+| input | input is the starting information supplied to it. | input is the starting information supplied to it. | sec:program | EVOU-01-F1 | input |
+| output | output is the resulting information we read, such as the word “on.” | output is the resulting information we read, such as the word “on.” | sec:program | EVOU-01-F1 | output |
+| execution | execution means carrying out the program's instructions. | execution means carrying out the program's instructions. | sec:program | EVOU-01-F1 | execution |
+| rule | The difference comes from the temperature, not from rewriting the rule. | rule is an explicit instruction specifying an allowed operation. | sec:program | EVOU-01-F1 | rule |
+| computation | computation carries out specified rules on represented information to obtain a result. | computation carries out specified rules on represented information to obtain a result. | sec:program | EVOU-01-F1 | computation |
+| threshold | threshold is a chosen boundary used in making a decision. | threshold is a chosen boundary used in making a decision. | sec:boundary | EVOU-01-F2 | threshold |
+| condition | condition is a statement checked as true or false. | condition is a statement checked as true or false. | sec:boundary | EVOU-01-F2 | condition |
+| trace | By the end of this chapter, you should trace a small program, distinguish a biological gene from a proposed software unit and explain why an analogy needs a test. | trace is a record of the steps and values in one execution. | sec:boundary | EVOU-01-F2 | trace |
+| context | No learning, memory or biological process is needed to explain this answer.context means the relevant current situation in which an operation is selected or carried out. | context means the relevant current situation in which an operation is selected or carried out. | sec:boundary | EVOU-01-F2 | context |
+| Python | Python is the programming language used here. | Python is the programming language used here. | sec:code | code listing and generated trace | Python |
+| function | function is a named, reusable rule in this program. | function is a named, reusable rule in this program. | sec:code | code listing and generated trace | function |
+| cell | cell is a basic living unit. | cell is a basic living unit. | sec:biology | EVOU-01-F3 | cell |
+| molecule | molecule is atoms joined by chemical bonds: small constituents of matter held together by chemical connections. | molecule is atoms joined by chemical bonds: small constituents of matter held together by chemical connections. | sec:biology | EVOU-01-F3 | molecule |
+| DNA | A biological reminder: stored DNA is not the whole story Book I plans to teach programs in Chapter 3, DNA and genomes in Chapter 9, and regulation and evolution in Chapter 32. | DNA is deoxyribonucleic acid, a molecule that carries genetic information. | sec:biology | EVOU-01-F3 | dna |
+| genome | genome is an organism's complete set of DNA. | genome is an organism's complete set of DNA. | sec:biology | EVOU-01-F3 | genome |
+| RNA | A genome is an organism's complete set of DNA.RNA means ribonucleic acid, a related molecule that can carry information from DNA and perform cellular roles. | RNA means ribonucleic acid, a related molecule that can carry information from DNA and perform cellular roles. | sec:biology | EVOU-01-F3 | rna |
+| protein | protein is a molecule built from smaller units called amino acids; proteins do many structural and working jobs in cells. | protein is a molecule built from smaller units called amino acids; proteins do many structural and working jobs in cells. | sec:biology | EVOU-01-F3 | protein |
+| gene | By the end of this chapter, you should trace a small program, distinguish a biological gene from a proposed software unit and explain why an analogy needs a test. | gene is a DNA region whose information is used to make a functional RNA or, through RNA, a protein. | sec:biology | EVOU-01-F3 | gene |
+| gene expression | These are working descriptions, not a complete chemistry lesson.gene expression is the use of a gene's information to produce RNA or protein. | gene expression is the use of a gene's information to produce RNA or protein. | sec:biology | EVOU-01-F3 | expression |
+| gene regulation | Here,gene regulation is control over when, where or how much that expression occurs. | gene regulation is control over when, where or how much that expression occurs. | sec:biology | EVOU-01-F3 | regulation |
+| analogy | By the end of this chapter, you should trace a small program, distinguish a biological gene from a proposed software unit and explain why an analogy needs a test. | analogy is a comparison highlighting a limited resemblance between different things. | sec:analogy | EVOU-01-F4 | analogy |
+| computational gene | computational gene is a proposed named software unit, not a DNA molecule. | computational gene is a proposed named software unit, not a DNA molecule. | sec:analogy | EVOU-01-F4 | computational-gene |
+| research program | research program is a coordinated set of questions, proposed explanations and tests. | research program is a coordinated set of questions, proposed explanations and tests. | sec:research | EVOU-01-F5 | research-program |
+| hypothesis | hypothesis is a claim precise enough to be tested and potentially contradicted. | hypothesis is a claim precise enough to be tested and potentially contradicted. | sec:research | EVOU-01-F5 | hypothesis |
+| baseline | baseline is an ordinary comparison method against which a proposal is assessed. | baseline is an ordinary comparison method against which a proposal is assessed. | sec:research | EVOU-01-F5 | baseline |
+| evidence | Those are limits of this example, not evidence that all conventional programs lack those capabilities. | evidence is an observation or reason bearing on a stated claim. | sec:research | EVOU-01-F5 | evidence |
+| representation | representation is a chosen way to express information through distinguishable forms. | representation is a chosen way to express information through distinguishable forms. | sec:roadmap | EVOU-01-F6 | representation |
+| information | Its input is the starting information supplied to it. | information here means what a chosen description tells us about the possibilities relevant to a task. | sec:roadmap | EVOU-01-F6 | information |
+
+## Additional syntax and supporting words
+
+Optional code defines def, return, input-name substitution, parentheses, colon and indentation in Section 1.3; Evolutor also explains if, quoted words and early return. No library, tensor or training syntax is required. The DNA chapter defines decimal in Figure 1.3's caption and symbol in Section 1.7. Its atom and bond descriptions are preliminary, not chemical structure claims. Evolutor defines amino acids as protein building units, sequence as written order, and stored state as information retained between steps; each receives deeper treatment later. Roadmap stage names are destinations, not hidden prerequisites.
+
+Internal review: unknown-word candidates in captions, exercises and answers were read separately. This explicit inventory cannot certify that an actual novice knows every ordinary word; learner testing remains open.

@@ -1,0 +1,292 @@
+[
+  {
+    "key": "program",
+    "name": "program",
+    "firstSentenceOrHeadingPreview": "rograms, genomes and the question of Evolutor Begin with a program that chooses Imagine a device that reads a temperature and produces the word “on” or “off.” Give it this instruction: if the temperature is below twenty, return “on”; otherwise return “off.” The same instruction can produce different answers.",
+    "definitionSentence": "program is instructions written in a form a computer can carry out.",
+    "section": "sec:program",
+    "figure": "EVOU-01-F1",
+    "glossaryKey": "program",
+    "related": "function"
+  },
+  {
+    "key": "input",
+    "name": "input",
+    "firstSentenceOrHeadingPreview": "input is the starting information supplied to it.",
+    "definitionSentence": "input is the starting information supplied to it.",
+    "section": "sec:program",
+    "figure": "EVOU-01-F1",
+    "glossaryKey": "input",
+    "related": "output"
+  },
+  {
+    "key": "output",
+    "name": "output",
+    "firstSentenceOrHeadingPreview": "output is the resulting information we read, such as the word “on.”",
+    "definitionSentence": "output is the resulting information we read, such as the word “on.”",
+    "section": "sec:program",
+    "figure": "EVOU-01-F1",
+    "glossaryKey": "output",
+    "related": "input"
+  },
+  {
+    "key": "execution",
+    "name": "execution",
+    "firstSentenceOrHeadingPreview": "execution means carrying out the program's instructions.",
+    "definitionSentence": "execution means carrying out the program's instructions.",
+    "section": "sec:program",
+    "figure": "EVOU-01-F1",
+    "glossaryKey": "execution",
+    "related": "trace"
+  },
+  {
+    "key": "rule",
+    "name": "rule",
+    "firstSentenceOrHeadingPreview": "The difference comes from the temperature, not from rewriting the rule.",
+    "definitionSentence": "rule is an explicit instruction specifying an allowed operation.",
+    "section": "sec:program",
+    "figure": "EVOU-01-F1",
+    "glossaryKey": "rule",
+    "related": "computation"
+  },
+  {
+    "key": "computation",
+    "name": "computation",
+    "firstSentenceOrHeadingPreview": "computation carries out specified rules on represented information to obtain a result.",
+    "definitionSentence": "computation carries out specified rules on represented information to obtain a result.",
+    "section": "sec:program",
+    "figure": "EVOU-01-F1",
+    "glossaryKey": "computation",
+    "related": "rule"
+  },
+  {
+    "key": "threshold",
+    "name": "threshold",
+    "firstSentenceOrHeadingPreview": "threshold is a chosen boundary used in making a decision.",
+    "definitionSentence": "threshold is a chosen boundary used in making a decision.",
+    "section": "sec:boundary",
+    "figure": "EVOU-01-F2",
+    "glossaryKey": "threshold",
+    "related": "condition"
+  },
+  {
+    "key": "condition",
+    "name": "condition",
+    "firstSentenceOrHeadingPreview": "condition is a statement checked as true or false.",
+    "definitionSentence": "condition is a statement checked as true or false.",
+    "section": "sec:boundary",
+    "figure": "EVOU-01-F2",
+    "glossaryKey": "condition",
+    "related": "threshold"
+  },
+  {
+    "key": "trace",
+    "name": "trace",
+    "firstSentenceOrHeadingPreview": "By the end of this chapter, you should trace a small program, distinguish a biological gene from a proposed software unit and explain why an analogy needs a test.",
+    "definitionSentence": "trace is a record of the steps and values in one execution.",
+    "section": "sec:boundary",
+    "figure": "EVOU-01-F2",
+    "glossaryKey": "trace",
+    "related": "execution"
+  },
+  {
+    "key": "context",
+    "name": "context",
+    "firstSentenceOrHeadingPreview": "No learning, memory or biological process is needed to explain this answer.context means the relevant current situation in which an operation is selected or carried out.",
+    "definitionSentence": "context means the relevant current situation in which an operation is selected or carried out.",
+    "section": "sec:boundary",
+    "figure": "EVOU-01-F2",
+    "glossaryKey": "context",
+    "related": "condition"
+  },
+  {
+    "key": "Python",
+    "name": "Python",
+    "firstSentenceOrHeadingPreview": "Python is the programming language used here.",
+    "definitionSentence": "Python is the programming language used here.",
+    "section": "sec:code",
+    "figure": "code listing and generated trace",
+    "glossaryKey": "Python",
+    "related": "program"
+  },
+  {
+    "key": "function",
+    "name": "function",
+    "firstSentenceOrHeadingPreview": "function is a named, reusable rule in this program.",
+    "definitionSentence": "function is a named, reusable rule in this program.",
+    "section": "sec:code",
+    "figure": "code listing and generated trace",
+    "glossaryKey": "function",
+    "related": "program"
+  },
+  {
+    "key": "cell",
+    "name": "cell",
+    "firstSentenceOrHeadingPreview": "cell is a basic living unit.",
+    "definitionSentence": "cell is a basic living unit.",
+    "section": "sec:biology",
+    "figure": "EVOU-01-F3",
+    "glossaryKey": "cell",
+    "related": "genome"
+  },
+  {
+    "key": "molecule",
+    "name": "molecule",
+    "firstSentenceOrHeadingPreview": "molecule is atoms joined by chemical bonds: small constituents of matter held together by chemical connections.",
+    "definitionSentence": "molecule is atoms joined by chemical bonds: small constituents of matter held together by chemical connections.",
+    "section": "sec:biology",
+    "figure": "EVOU-01-F3",
+    "glossaryKey": "molecule",
+    "related": "dna"
+  },
+  {
+    "key": "dna",
+    "name": "DNA",
+    "firstSentenceOrHeadingPreview": "A biological reminder: stored DNA is not the whole story Book I plans to teach programs in Chapter 3, DNA and genomes in Chapter 9, and regulation and evolution in Chapter 32.",
+    "definitionSentence": "DNA is deoxyribonucleic acid, a molecule that carries genetic information.",
+    "section": "sec:biology",
+    "figure": "EVOU-01-F3",
+    "glossaryKey": "dna",
+    "related": "molecule"
+  },
+  {
+    "key": "genome",
+    "name": "genome",
+    "firstSentenceOrHeadingPreview": "genome is an organism's complete set of DNA.",
+    "definitionSentence": "genome is an organism's complete set of DNA.",
+    "section": "sec:biology",
+    "figure": "EVOU-01-F3",
+    "glossaryKey": "genome",
+    "related": "gene"
+  },
+  {
+    "key": "rna",
+    "name": "RNA",
+    "firstSentenceOrHeadingPreview": "A genome is an organism's complete set of DNA.RNA means ribonucleic acid, a related molecule that can carry information from DNA and perform cellular roles.",
+    "definitionSentence": "RNA means ribonucleic acid, a related molecule that can carry information from DNA and perform cellular roles.",
+    "section": "sec:biology",
+    "figure": "EVOU-01-F3",
+    "glossaryKey": "rna",
+    "related": "protein"
+  },
+  {
+    "key": "protein",
+    "name": "protein",
+    "firstSentenceOrHeadingPreview": "protein is a molecule built from smaller units called amino acids; proteins do many structural and working jobs in cells.",
+    "definitionSentence": "protein is a molecule built from smaller units called amino acids; proteins do many structural and working jobs in cells.",
+    "section": "sec:biology",
+    "figure": "EVOU-01-F3",
+    "glossaryKey": "protein",
+    "related": "rna"
+  },
+  {
+    "key": "gene",
+    "name": "gene",
+    "firstSentenceOrHeadingPreview": "By the end of this chapter, you should trace a small program, distinguish a biological gene from a proposed software unit and explain why an analogy needs a test.",
+    "definitionSentence": "gene is a DNA region whose information is used to make a functional RNA or, through RNA, a protein.",
+    "section": "sec:biology",
+    "figure": "EVOU-01-F3",
+    "glossaryKey": "gene",
+    "related": "expression"
+  },
+  {
+    "key": "expression",
+    "name": "gene expression",
+    "firstSentenceOrHeadingPreview": "These are working descriptions, not a complete chemistry lesson.gene expression is the use of a gene's information to produce RNA or protein.",
+    "definitionSentence": "gene expression is the use of a gene's information to produce RNA or protein.",
+    "section": "sec:biology",
+    "figure": "EVOU-01-F3",
+    "glossaryKey": "expression",
+    "related": "regulation"
+  },
+  {
+    "key": "regulation",
+    "name": "gene regulation",
+    "firstSentenceOrHeadingPreview": "Here,gene regulation is control over when, where or how much that expression occurs.",
+    "definitionSentence": "gene regulation is control over when, where or how much that expression occurs.",
+    "section": "sec:biology",
+    "figure": "EVOU-01-F3",
+    "glossaryKey": "regulation",
+    "related": "expression"
+  },
+  {
+    "key": "analogy",
+    "name": "analogy",
+    "firstSentenceOrHeadingPreview": "By the end of this chapter, you should trace a small program, distinguish a biological gene from a proposed software unit and explain why an analogy needs a test.",
+    "definitionSentence": "analogy is a comparison highlighting a limited resemblance between different things.",
+    "section": "sec:analogy",
+    "figure": "EVOU-01-F4",
+    "glossaryKey": "analogy",
+    "related": "computational-gene"
+  },
+  {
+    "key": "computational-gene",
+    "name": "computational gene",
+    "firstSentenceOrHeadingPreview": "computational gene is a proposed named software unit, not a DNA molecule.",
+    "definitionSentence": "computational gene is a proposed named software unit, not a DNA molecule.",
+    "section": "sec:analogy",
+    "figure": "EVOU-01-F4",
+    "glossaryKey": "computational-gene",
+    "related": "analogy"
+  },
+  {
+    "key": "research-program",
+    "name": "research program",
+    "firstSentenceOrHeadingPreview": "research program is a coordinated set of questions, proposed explanations and tests.",
+    "definitionSentence": "research program is a coordinated set of questions, proposed explanations and tests.",
+    "section": "sec:research",
+    "figure": "EVOU-01-F5",
+    "glossaryKey": "research-program",
+    "related": "hypothesis"
+  },
+  {
+    "key": "hypothesis",
+    "name": "hypothesis",
+    "firstSentenceOrHeadingPreview": "hypothesis is a claim precise enough to be tested and potentially contradicted.",
+    "definitionSentence": "hypothesis is a claim precise enough to be tested and potentially contradicted.",
+    "section": "sec:research",
+    "figure": "EVOU-01-F5",
+    "glossaryKey": "hypothesis",
+    "related": "evidence"
+  },
+  {
+    "key": "baseline",
+    "name": "baseline",
+    "firstSentenceOrHeadingPreview": "baseline is an ordinary comparison method against which a proposal is assessed.",
+    "definitionSentence": "baseline is an ordinary comparison method against which a proposal is assessed.",
+    "section": "sec:research",
+    "figure": "EVOU-01-F5",
+    "glossaryKey": "baseline",
+    "related": "hypothesis"
+  },
+  {
+    "key": "evidence",
+    "name": "evidence",
+    "firstSentenceOrHeadingPreview": "Those are limits of this example, not evidence that all conventional programs lack those capabilities.",
+    "definitionSentence": "evidence is an observation or reason bearing on a stated claim.",
+    "section": "sec:research",
+    "figure": "EVOU-01-F5",
+    "glossaryKey": "evidence",
+    "related": "hypothesis"
+  },
+  {
+    "key": "representation",
+    "name": "representation",
+    "firstSentenceOrHeadingPreview": "representation is a chosen way to express information through distinguishable forms.",
+    "definitionSentence": "representation is a chosen way to express information through distinguishable forms.",
+    "section": "sec:roadmap",
+    "figure": "EVOU-01-F6",
+    "glossaryKey": "representation",
+    "related": "information"
+  },
+  {
+    "key": "information",
+    "name": "information",
+    "firstSentenceOrHeadingPreview": "Its input is the starting information supplied to it.",
+    "definitionSentence": "information here means what a chosen description tells us about the possibilities relevant to a task.",
+    "section": "sec:roadmap",
+    "figure": "EVOU-01-F6",
+    "glossaryKey": "information",
+    "related": "representation"
+  }
+]

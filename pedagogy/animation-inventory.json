@@ -1175,22 +1175,22 @@
     "frames": [
       {
         "number": 1,
-        "action": "Compare a Transformer DNA model with a non-Transformer model",
+        "action": "Apply the target taxonomy: DOGMA non-Transformer; Hermon DNA Transformer",
         "sourceStatus": "not-created"
       },
       {
         "number": 2,
-        "action": "Mark shared data and objectives",
+        "action": "Audit actual artifacts separately from target names",
         "sourceStatus": "not-created"
       },
       {
         "number": 3,
-        "action": "Test a reverse-complement intervention",
+        "action": "Compare structured carried state with attention-addressable K/V",
         "sourceStatus": "not-created"
       },
       {
         "number": 4,
-        "action": "Place DOGMA and Hermon DNA names only after source and artifact audit",
+        "action": "Test reverse-complement controls and publish unresolved differences",
         "sourceStatus": "not-created"
       }
     ],

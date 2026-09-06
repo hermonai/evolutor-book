@@ -1,0 +1,11 @@
+FIGURE EVOU-01-F3: Same DNA, different expression
+QUESTION: Must the DNA change whenever cellular activity changes?
+OBJECTS: two schematic cell contexts; same DNA gene region; different RNA-production labels
+RELATION: explanatory reading order, not an unlabelled physical cause
+STEP 1: Hold the shown DNA region fixed
+STEP 2: Compare two cellular contexts
+STEP 3: Observe possible lower and higher production
+STEP 1 → STEP 2 → STEP 3
+CAPTION: Gene expression can differ without changing the DNA sequence; cellular machinery is required.
+LIMIT: Not measured data, binary gene switches, universal equality of every cell genome, or DNA acting alone.
+EVIDENCE: Alberts et al., An Overview of Gene Control; NHGRI gene and genome.

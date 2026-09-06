@@ -1,6 +1,8 @@
 # Evolutor: undergraduate-first architecture
 
-Status: planning only. No new chapters, finished figures, animations, experiments or reviewed learning outcomes are claimed. Generated from [pedagogy/curriculum.json](pedagogy/curriculum.json); edit that source and regenerate.
+Status: Chapter 1 internally reviewed development draft; all later units remain planned. No learner study, independent expert certification or new research-model experiment is claimed. Generated from [pedagogy/curriculum.json](pedagogy/curriculum.json). See [Chapter 1 storyboard](research/undergraduate-ch01-storyboard.md) for the six produced figures.
+
+Target taxonomy: **DOGMA = non-Transformer DNA-native architecture + DOGMA Engine; Hermon DNA = Transformer-based DNA architecture + Hermon DNA Engine; Evolutor = research/theory/runtime above both.** These are research targets, not implementation evidence. See [taxonomy and lineage](research/architecture-taxonomy.md). Stable EVOU IDs differ from printed numbers after EVOU-11.
 
 ## Figure production contract
 
@@ -10,7 +12,7 @@ Storyboard → semantic TXT companion → editable vector source → teaching ca
 
 **Reader question:** Why compare a genome with a program?
 
-**EVOU-01-F1 (sequential teaching figure):**
+**EVOU-01-F1 (original editable teaching vector):**
 
 1. Execute a familiar written recipe.
 2. Show a fixed program reacting to two inputs.
@@ -26,6 +28,8 @@ Keep objects in stable positions when identity is unchanged. Each frame ledger m
 **Boundary review:** Label every arrow's meaning. Biology distinguishes covalent links, pairing, sequence transfer and control; software distinguishes messages, data, ownership and state transitions. Use labels and line styles as well as color.
 
 **Animation decision:** candidate-keyframe-sequence; storyboard only, no exported frames yet.
+
+**Production override:** the six figure-specific storyboards and actual assets are in [research/undergraduate-ch01-storyboard.md](research/undergraduate-ch01-storyboard.md). The original F1/F2 course sketches above are planning lineage, not final captions. Static vectors produced; animation export remains deferred.
 
 ## EVOU-02 — Programs that choose and remember
 
@@ -243,6 +247,27 @@ Keep objects in stable positions when identity is unchanged. Each frame ledger m
 **Boundary review:** Label every arrow's meaning. Biology distinguishes covalent links, pairing, sequence transfer and control; software distinguishes messages, data, ownership and state transitions. Use labels and line styles as well as color.
 
 **Animation decision:** candidate-keyframe-sequence; storyboard only, no exported frames yet.
+
+## EVOU-41 — Strong recurrent baselines and valid scans
+
+**Reader question:** Which familiar mechanisms could already explain a candidate's behavior?
+
+**EVOU-41-F1 (sequential teaching figure):**
+
+1. Trace a finite-state machine and a linear recurrence.
+2. Compare vanilla RNN, LSTM, GRU and SSM state updates.
+3. Explain Mamba-like selection and RWKV-like recurrence from primary sources.
+4. Check whether the transition composition is associative.
+
+Keep objects in stable positions when identity is unchanged. Each frame ledger must mark before-state, change, unchanged objects, movement, creation and consumption; use 'not applicable' rather than inventing a physical process for a software picture.
+
+**Caption teaching target:** Hand trace before equations; recurrence does not imply all training is serial. Teach each named baseline before comparison.
+
+**EVOU-41-F2 (worked comparison):** Show a correct worked case beside the mistake or boundary tested here: Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
+
+**Boundary review:** Label every arrow's meaning. Biology distinguishes covalent links, pairing, sequence transfer and control; software distinguishes messages, data, ownership and state transitions. Use labels and line styles as well as color.
+
+**Animation decision:** static-first; storyboard only, no exported frames yet.
 
 ## EVOU-12 — Attention as a weighted lookup
 
@@ -614,6 +639,153 @@ Keep objects in stable positions when identity is unchanged. Each frame ledger m
 
 **Animation decision:** candidate-keyframe-sequence; storyboard only, no exported frames yet.
 
+## EVOU-42 — DOGMA: candidate primitives and state semantics
+
+**Reader question:** Can structured state support DNA-native computation without Transformer attention as its organizing mechanism?
+
+**EVOU-42-F1 (sequential teaching figure):**
+
+1. Receive a token and previous state.
+2. Apply one candidate transition.
+3. Return next state and prediction with explicit indexing.
+4. Compare the transition with an ordinary recurrence.
+
+Keep objects in stable positions when identity is unchanged. Each frame ledger must mark before-state, change, unchanged objects, movement, creation and consumption; use 'not applicable' rather than inventing a physical process for a software picture.
+
+**Caption teaching target:** Define state ownership and token timing before F_theta. A next-token head reads the post-input state; other conventions must be explicit.
+
+**EVOU-42-F2 (worked comparison):** Show a correct worked case beside the mistake or boundary tested here: Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
+
+**Boundary review:** Label every arrow's meaning. Biology distinguishes covalent links, pairing, sequence transfer and control; software distinguishes messages, data, ownership and state transitions. Use labels and line styles as well as color.
+
+**Animation decision:** static-first; storyboard only, no exported frames yet.
+
+## EVOU-43 — DOGMA regulation and expressed transformations
+
+**Reader question:** What exactly does regulation select and expression execute?
+
+**EVOU-43-F1 (sequential teaching figure):**
+
+1. Separate stored structure from selected work.
+2. Produce a control decision.
+3. Execute the selected transformation.
+4. Compare with GRU gates, SSM selection, MoE routing and conditional execution.
+
+Keep objects in stable positions when identity is unchanged. Each frame ledger must mark before-state, change, unchanged objects, movement, creation and consumption; use 'not applicable' rather than inventing a physical process for a software picture.
+
+**Caption teaching target:** R/E/U is a candidate decomposition, not a validated final definition; introduce each domain and codomain after a hand trace.
+
+**EVOU-43-F2 (worked comparison):** Show a correct worked case beside the mistake or boundary tested here: Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
+
+**Boundary review:** Label every arrow's meaning. Biology distinguishes covalent links, pairing, sequence transfer and control; software distinguishes messages, data, ownership and state transitions. Use labels and line styles as well as color.
+
+**Animation decision:** static-first; storyboard only, no exported frames yet.
+
+## EVOU-44 — DOGMA modular state, locality and structural memory
+
+**Reader question:** Does modular state help beyond a single carried vector?
+
+**EVOU-44-F1 (sequential teaching figure):**
+
+1. Separate working, regulatory and structural state.
+2. Mark local, regional and global access.
+3. Update fast and slow state on declared schedules.
+4. Ablate each additional state component.
+
+Keep objects in stable positions when identity is unchanged. Each frame ledger must mark before-state, change, unchanged objects, movement, creation and consumption; use 'not applicable' rather than inventing a physical process for a software picture.
+
+**Caption teaching target:** Define purpose, update schedule, differentiability and reset rules for each component; genomic names supply no semantics.
+
+**EVOU-44-F2 (worked comparison):** Show a correct worked case beside the mistake or boundary tested here: Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
+
+**Boundary review:** Label every arrow's meaning. Biology distinguishes covalent links, pairing, sequence transfer and control; software distinguishes messages, data, ownership and state transitions. Use labels and line styles as well as color.
+
+**Animation decision:** static-first; storyboard only, no exported frames yet.
+
+## EVOU-45 — DOGMA strands, complements and dual-state proposals
+
+**Reader question:** Does a paired representation improve a declared task?
+
+**EVOU-45-F1 (sequential teaching figure):**
+
+1. Show separate forward and complementary states.
+2. Label allowed cross-state interaction.
+3. Audit whether reverse-complement access reveals future input.
+4. Compare augmentation and equivariant alternatives.
+
+Keep objects in stable positions when identity is unchanged. Each frame ledger must mark before-state, change, unchanged objects, movement, creation and consumption; use 'not applicable' rather than inventing a physical process for a software picture.
+
+**Caption teaching target:** Book I strand polarity and reverse complement are explicit imports. Full-sequence symmetry and streaming causality are different contracts.
+
+**EVOU-45-F2 (worked comparison):** Show a correct worked case beside the mistake or boundary tested here: Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
+
+**Boundary review:** Label every arrow's meaning. Biology distinguishes covalent links, pairing, sequence transfer and control; software distinguishes messages, data, ownership and state transitions. Use labels and line styles as well as color.
+
+**Animation decision:** static-first; storyboard only, no exported frames yet.
+
+## EVOU-46 — DOGMA traces and structural adaptation
+
+**Reader question:** Does a trace reveal useful mechanism beyond ordinary activation logs?
+
+**EVOU-46-F1 (sequential teaching figure):**
+
+1. Record regulatory selection and state changes.
+2. Connect an event to output provenance.
+3. Compare with ordinary logging.
+4. Test a proposed edit under a rollback boundary.
+
+Keep objects in stable positions when identity is unchanged. Each frame ledger must mark before-state, change, unchanged objects, movement, creation and consumption; use 'not applicable' rather than inventing a physical process for a software picture.
+
+**Caption teaching target:** Trace metadata is not inherently an explanation; state exactly what a claimed intervention changes.
+
+**EVOU-46-F2 (worked comparison):** Show a correct worked case beside the mistake or boundary tested here: Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
+
+**Boundary review:** Label every arrow's meaning. Biology distinguishes covalent links, pairing, sequence transfer and control; software distinguishes messages, data, ownership and state transitions. Use labels and line styles as well as color.
+
+**Animation decision:** static-first; storyboard only, no exported frames yet.
+
+## EVOU-47 — Hermon DNA: a Transformer sequence model
+
+**Reader question:** What remains recognizably Transformer-based before DNA-specific changes?
+
+**EVOU-47-F1 (sequential teaching figure):**
+
+1. Encode DNA tokens and embeddings.
+2. Trace Q/K/V with tensor shapes and causal mask.
+3. Compose attention, feed-forward, residual and normalization blocks.
+4. Produce next-token logits.
+
+Keep objects in stable positions when identity is unchanged. Each frame ledger must mark before-state, change, unchanged objects, movement, creation and consumption; use 'not applicable' rather than inventing a physical process for a software picture.
+
+**Caption teaching target:** Teach all matrix shapes; identify head, layers, positions and output projection. Genomic name does not change attention semantics.
+
+**EVOU-47-F2 (worked comparison):** Show a correct worked case beside the mistake or boundary tested here: Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
+
+**Boundary review:** Label every arrow's meaning. Biology distinguishes covalent links, pairing, sequence transfer and control; software distinguishes messages, data, ownership and state transitions. Use labels and line styles as well as color.
+
+**Animation decision:** static-first; storyboard only, no exported frames yet.
+
+## EVOU-48 — Hermon DNA: DNA-aware Transformer hypotheses
+
+**Reader question:** Which DNA-specific change adds value beyond the plain Transformer?
+
+**EVOU-48-F1 (sequential teaching figure):**
+
+1. Hold tokenization and objective fixed.
+2. Change one strand or motif mechanism.
+3. Compare k-mer and positional choices under causal constraints.
+4. Test sparse, long-context or retrieval variants one at a time.
+
+Keep objects in stable positions when identity is unchanged. Each frame ledger must mark before-state, change, unchanged objects, movement, creation and consumption; use 'not applicable' rather than inventing a physical process for a software picture.
+
+**Caption teaching target:** Different tokenizations change sequence length and workload; compare full resource accounts, not raw tokens alone.
+
+**EVOU-48-F2 (worked comparison):** Show a correct worked case beside the mistake or boundary tested here: Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
+
+**Boundary review:** Label every arrow's meaning. Biology distinguishes covalent links, pairing, sequence transfer and control; software distinguishes messages, data, ownership and state transitions. Use labels and line styles as well as color.
+
+**Animation decision:** static-first; storyboard only, no exported frames yet.
+
 ## EVOU-29 — Training a candidate Evolutor model
 
 **Reader question:** Does the proposed mechanism help beyond the taught baselines?
@@ -635,6 +807,48 @@ Keep objects in stable positions when identity is unchanged. Each frame ledger m
 **Boundary review:** Label every arrow's meaning. Biology distinguishes covalent links, pairing, sequence transfer and control; software distinguishes messages, data, ownership and state transitions. Use labels and line styles as well as color.
 
 **Animation decision:** candidate-keyframe-sequence; storyboard only, no exported frames yet.
+
+## EVOU-49 — Shared PyTorch experiments without false equivalence
+
+**Reader question:** What can both model families share without hiding their differences?
+
+**EVOU-49-F1 (sequential teaching figure):**
+
+1. Share data, objectives and evaluation.
+2. Separate DOGMA and Hermon DNA model code.
+3. Record family-specific state and context.
+4. Compare quality, convergence, memory and throughput.
+
+Keep objects in stable positions when identity is unchanged. Each frame ledger must mark before-state, change, unchanged objects, movement, creation and consumption; use 'not applicable' rather than inventing a physical process for a software picture.
+
+**Caption teaching target:** No new algebra: consolidate training and inference contracts already taught. Shared prepare/step returns logits, not an unexplained token.
+
+**EVOU-49-F2 (worked comparison):** Show a correct worked case beside the mistake or boundary tested here: Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
+
+**Boundary review:** Label every arrow's meaning. Biology distinguishes covalent links, pairing, sequence transfer and control; software distinguishes messages, data, ownership and state transitions. Use labels and line styles as well as color.
+
+**Animation decision:** static-first; storyboard only, no exported frames yet.
+
+## EVOU-50 — DOGMA training: sequential, chunked and scan forms
+
+**Reader question:** When can a candidate transition be parallelized without changing its meaning?
+
+**EVOU-50-F1 (sequential teaching figure):**
+
+1. Run the sequential reference.
+2. Compose a mathematically valid scan if available.
+3. Try declared chunk boundaries.
+4. Compare states, logits and gradients.
+
+Keep objects in stable positions when identity is unchanged. Each frame ledger must mark before-state, change, unchanged objects, movement, creation and consumption; use 'not applicable' rather than inventing a physical process for a software picture.
+
+**Caption teaching target:** Prove associativity where required. A nonlinear state-dependent regulator may prevent the proposed scan; do not assume a speedup.
+
+**EVOU-50-F2 (worked comparison):** Show a correct worked case beside the mistake or boundary tested here: Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
+
+**Boundary review:** Label every arrow's meaning. Biology distinguishes covalent links, pairing, sequence transfer and control; software distinguishes messages, data, ownership and state transitions. Use labels and line styles as well as color.
+
+**Animation decision:** static-first; storyboard only, no exported frames yet.
 
 ## EVOU-30 — An inference runtime with clear boundaries
 
@@ -701,6 +915,195 @@ Keep objects in stable positions when identity is unchanged. Each frame ledger m
 
 **Animation decision:** candidate-keyframe-sequence; storyboard only, no exported frames yet.
 
+## EVOU-51 — DOGMA Engine: state construction and native steps
+
+**Reader question:** How does the engine execute the model's exact state machine?
+
+**EVOU-51-F1 (UML component or process storyboard):**
+
+1. Encode a prompt.
+2. Construct carried state token by token.
+3. Execute a new token transition.
+4. Return next state and logits.
+
+Keep objects in stable positions when identity is unchanged. Each frame ledger must mark before-state, change, unchanged objects, movement, creation and consumption; use 'not applicable' rather than inventing a physical process for a software picture.
+
+**Caption teaching target:** State exactly whether predictions precede or follow input consumption; model weights stay fixed during ordinary inference.
+
+**EVOU-51-F2 (worked comparison):** Show a correct worked case beside the mistake or boundary tested here: Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
+
+**Boundary review:** Label every arrow's meaning. Biology distinguishes covalent links, pairing, sequence transfer and control; software distinguishes messages, data, ownership and state transitions. Use labels and line styles as well as color.
+
+**Animation decision:** static-first; storyboard only, no exported frames yet.
+
+## EVOU-52 — DOGMA Engine: isolated state pools
+
+**Reader question:** How can requests share hardware without sharing state?
+
+**EVOU-52-F1 (UML component or process storyboard):**
+
+1. Allocate independent request slots.
+2. Update only the owning slot.
+3. Reset and release a slot.
+4. Reuse it without residual information.
+
+Keep objects in stable positions when identity is unchanged. Each frame ledger must mark before-state, change, unchanged objects, movement, creation and consumption; use 'not applicable' rather than inventing a physical process for a software picture.
+
+**Caption teaching target:** Account separately for weights, per-request state, temporary buffers, token history, external memory and trace storage.
+
+**EVOU-52-F2 (worked comparison):** Show a correct worked case beside the mistake or boundary tested here: Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
+
+**Boundary review:** Label every arrow's meaning. Biology distinguishes covalent links, pairing, sequence transfer and control; software distinguishes messages, data, ownership and state transitions. Use labels and line styles as well as color.
+
+**Animation decision:** static-first; storyboard only, no exported frames yet.
+
+## EVOU-53 — DOGMA Engine: checkpoint, restore and prefix state
+
+**Reader question:** Can a saved state resume the same computation?
+
+**EVOU-53-F1 (UML component or process storyboard):**
+
+1. Process a shared prefix.
+2. Checkpoint weights identity and state schema.
+3. Clone or restore into an isolated request.
+4. Compare continuation with uninterrupted execution.
+
+Keep objects in stable positions when identity is unchanged. Each frame ledger must mark before-state, change, unchanged objects, movement, creation and consumption; use 'not applicable' rather than inventing a physical process for a software picture.
+
+**Caption teaching target:** A fixed-size recurrent state need not preserve every past detail; state cache is not Transformer KV cache.
+
+**EVOU-53-F2 (worked comparison):** Show a correct worked case beside the mistake or boundary tested here: Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
+
+**Boundary review:** Label every arrow's meaning. Biology distinguishes covalent links, pairing, sequence transfer and control; software distinguishes messages, data, ownership and state transitions. Use labels and line styles as well as color.
+
+**Animation decision:** static-first; storyboard only, no exported frames yet.
+
+## EVOU-54 — DOGMA Engine: scheduling state transitions
+
+**Reader question:** Which independent requests can take a step together?
+
+**EVOU-54-F1 (UML component or process storyboard):**
+
+1. Admit requests with separate slots.
+2. Group compatible state transitions.
+3. Advance active requests.
+4. Release completed requests and test fairness.
+
+Keep objects in stable positions when identity is unchanged. Each frame ledger must mark before-state, change, unchanged objects, movement, creation and consumption; use 'not applicable' rather than inventing a physical process for a software picture.
+
+**Caption teaching target:** Do not copy a Transformer scheduler; state shapes, masks, request length and optional scans determine grouping.
+
+**EVOU-54-F2 (worked comparison):** Show a correct worked case beside the mistake or boundary tested here: Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
+
+**Boundary review:** Label every arrow's meaning. Biology distinguishes covalent links, pairing, sequence transfer and control; software distinguishes messages, data, ownership and state transitions. Use labels and line styles as well as color.
+
+**Animation decision:** static-first; storyboard only, no exported frames yet.
+
+## EVOU-55 — Hermon DNA Engine: prefill and attention decode
+
+**Reader question:** Why does one Transformer request have two execution phases?
+
+**EVOU-55-F1 (UML component or process storyboard):**
+
+1. Process prompt positions with a causal mask.
+2. Retain past keys and values.
+3. Use a new query to attend to cached positions.
+4. Append current K/V and return logits.
+
+Keep objects in stable positions when identity is unchanged. Each frame ledger must mark before-state, change, unchanged objects, movement, creation and consumption; use 'not applicable' rather than inventing a physical process for a software picture.
+
+**Caption teaching target:** Derive KV bytes from sequence length, layers, KV heads, head dimension and precision; include other memory separately.
+
+**EVOU-55-F2 (worked comparison):** Show a correct worked case beside the mistake or boundary tested here: Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
+
+**Boundary review:** Label every arrow's meaning. Biology distinguishes covalent links, pairing, sequence transfer and control; software distinguishes messages, data, ownership and state transitions. Use labels and line styles as well as color.
+
+**Animation decision:** static-first; storyboard only, no exported frames yet.
+
+## EVOU-56 — Hermon DNA Engine: paged KV and prefix sharing
+
+**Reader question:** How do logical positions map to reusable physical pages?
+
+**EVOU-56-F1 (UML component or process storyboard):**
+
+1. Map logical tokens to physical pages.
+2. Allocate and grow one request.
+3. Share eligible prefix pages with ownership rules.
+4. Finish, release and verify isolation.
+
+Keep objects in stable positions when identity is unchanged. Each frame ledger must mark before-state, change, unchanged objects, movement, creation and consumption; use 'not applicable' rather than inventing a physical process for a software picture.
+
+**Caption teaching target:** Memory maps precede byte equations; prefix matching includes model and tokenizer identity.
+
+**EVOU-56-F2 (worked comparison):** Show a correct worked case beside the mistake or boundary tested here: Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
+
+**Boundary review:** Label every arrow's meaning. Biology distinguishes covalent links, pairing, sequence transfer and control; software distinguishes messages, data, ownership and state transitions. Use labels and line styles as well as color.
+
+**Animation decision:** static-first; storyboard only, no exported frames yet.
+
+## EVOU-57 — Hermon DNA Engine: continuous batching and precision
+
+**Reader question:** How do request phases and numerical precision change serving?
+
+**EVOU-57-F1 (UML component or process storyboard):**
+
+1. Admit requests.
+2. Schedule prefill and decode phases.
+3. Finish and release pages.
+4. Compare a declared reduced-precision representation.
+
+Keep objects in stable positions when identity is unchanged. Each frame ledger must mark before-state, change, unchanged objects, movement, creation and consumption; use 'not applicable' rather than inventing a physical process for a software picture.
+
+**Caption teaching target:** Quantization changes represented numbers; teach rounding and scaling before implementation. Performance remains unmeasured.
+
+**EVOU-57-F2 (worked comparison):** Show a correct worked case beside the mistake or boundary tested here: Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
+
+**Boundary review:** Label every arrow's meaning. Biology distinguishes covalent links, pairing, sequence transfer and control; software distinguishes messages, data, ownership and state transitions. Use labels and line styles as well as color.
+
+**Animation decision:** static-first; storyboard only, no exported frames yet.
+
+## EVOU-58 — Evolutor runtime above two distinct engines
+
+**Reader question:** What belongs in a shared runtime rather than either engine?
+
+**EVOU-58-F1 (UML component or process storyboard):**
+
+1. Receive a typed request.
+2. Select a compatible DOGMA or Hermon DNA engine.
+3. Keep family-specific state behind an explicit handle.
+4. Return results and shared metrics.
+
+Keep objects in stable positions when identity is unchanged. Each frame ledger must mark before-state, change, unchanged objects, movement, creation and consumption; use 'not applicable' rather than inventing a physical process for a software picture.
+
+**Caption teaching target:** Separate theory/planning, model architecture and industrial engine. Runtime composition is a target, not an implemented fact.
+
+**EVOU-58-F2 (worked comparison):** Show a correct worked case beside the mistake or boundary tested here: Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
+
+**Boundary review:** Label every arrow's meaning. Biology distinguishes covalent links, pairing, sequence transfer and control; software distinguishes messages, data, ownership and state transitions. Use labels and line styles as well as color.
+
+**Animation decision:** static-first; storyboard only, no exported frames yet.
+
+## EVOU-59 — Hybrid memory as a testable Evolutor proposal
+
+**Reader question:** When should information be compressed into state or kept addressable?
+
+**EVOU-59-F1 (UML component or process storyboard):**
+
+1. Maintain candidate carried state and contextual memory separately.
+2. Let a proposed regulator choose an operation.
+3. Compare known hybrid-memory and routing alternatives.
+4. Ablate each path and the regulator.
+
+Keep objects in stable positions when identity is unchanged. Each frame ledger must mark before-state, change, unchanged objects, movement, creation and consumption; use 'not applicable' rather than inventing a physical process for a software picture.
+
+**Caption teaching target:** Attention access to past representations is not a guarantee of exact retrieval. Hybrid composition remains a hypothesis.
+
+**EVOU-59-F2 (worked comparison):** Show a correct worked case beside the mistake or boundary tested here: Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
+
+**Boundary review:** Label every arrow's meaning. Biology distinguishes covalent links, pairing, sequence transfer and control; software distinguishes messages, data, ownership and state transitions. Use labels and line styles as well as color.
+
+**Animation decision:** static-first; storyboard only, no exported frames yet.
+
 ## EVOU-33 — Batching, queues and latency
 
 **Reader question:** Why can throughput improve while some users wait longer?
@@ -743,6 +1146,27 @@ Keep objects in stable positions when identity is unchanged. Each frame ledger m
 **Boundary review:** Label every arrow's meaning. Biology distinguishes covalent links, pairing, sequence transfer and control; software distinguishes messages, data, ownership and state transitions. Use labels and line styles as well as color.
 
 **Animation decision:** candidate-keyframe-sequence; storyboard only, no exported frames yet.
+
+## EVOU-60 — Measured bottlenecks, native kernels and model formats
+
+**Reader question:** Which optimization is justified by profiling and semantic parity?
+
+**EVOU-60-F1 (UML component or process storyboard):**
+
+1. Profile the PyTorch reference.
+2. Locate a measured bottleneck.
+3. Optimize one state or attention operation.
+4. Recheck traces, logits, tolerance and resource accounting.
+
+Keep objects in stable positions when identity is unchanged. Each frame ledger must mark before-state, change, unchanged objects, movement, creation and consumption; use 'not applicable' rather than inventing a physical process for a software picture.
+
+**Caption teaching target:** Add architecture/state/regulation schemas only if semantics require them; preserve tokenizer and provenance. Do not turn candidate formats into standards prematurely.
+
+**EVOU-60-F2 (worked comparison):** Show a correct worked case beside the mistake or boundary tested here: Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
+
+**Boundary review:** Label every arrow's meaning. Biology distinguishes covalent links, pairing, sequence transfer and control; software distinguishes messages, data, ownership and state transitions. Use labels and line styles as well as color.
+
+**Animation decision:** static-first; storyboard only, no exported frames yet.
 
 ## EVOU-35 — Serving, observability and safe rollback
 
@@ -787,26 +1211,47 @@ Keep objects in stable positions when identity is unchanged. Each frame ledger m
 
 **Animation decision:** candidate-keyframe-sequence; storyboard only, no exported frames yet.
 
-## EVOU-37 — DNA sequence models: DOGMA and Hermon DNA as questions
+## EVOU-37 — DOGMA and Hermon DNA: taxonomy, lineage and comparative evidence
 
 **Reader question:** Which architectural distinction survives beyond a project name?
 
 **EVOU-37-F1 (sequential teaching figure):**
 
-1. Compare a Transformer DNA model with a non-Transformer model.
-2. Mark shared data and objectives.
-3. Test a reverse-complement intervention.
-4. Place DOGMA and Hermon DNA names only after source and artifact audit.
+1. Apply the target taxonomy: DOGMA non-Transformer; Hermon DNA Transformer.
+2. Audit actual artifacts separately from target names.
+3. Compare structured carried state with attention-addressable K/V.
+4. Test reverse-complement controls and publish unresolved differences.
 
 Keep objects in stable positions when identity is unchanged. Each frame ledger must mark before-state, change, unchanged objects, movement, creation and consumption; use 'not applicable' rather than inventing a physical process for a software picture.
 
-**Caption teaching target:** Reuse established equations; no new family definition from branding and no claim of validated taxonomy.
+**Caption teaching target:** Reuse taught equations. The target mapping is fixed editorial intent; actual old artifacts keep their measured architecture and historical names.
 
 **EVOU-37-F2 (worked comparison):** Show a correct worked case beside the mistake or boundary tested here: Separate name, architecture and evidence; design a symmetry control; leave an unverifiable claim unresolved.
 
 **Boundary review:** Label every arrow's meaning. Biology distinguishes covalent links, pairing, sequence transfer and control; software distinguishes messages, data, ownership and state transitions. Use labels and line styles as well as color.
 
 **Animation decision:** candidate-keyframe-sequence; storyboard only, no exported frames yet.
+
+## EVOU-61 — Applications that stress different kinds of memory
+
+**Reader question:** Which tasks reveal compression and addressability tradeoffs?
+
+**EVOU-61-F1 (UML component or process storyboard):**
+
+1. Declare inputs, task and success criteria.
+2. Test copying, retrieval, motifs, statistics, parity and state-machine tasks.
+3. Extend cautiously to streaming genomic sequences, language and code.
+4. Report failures and measured resources.
+
+Keep objects in stable positions when identity is unchanged. Each frame ledger must mark before-state, change, unchanged objects, movement, creation and consumption; use 'not applicable' rather than inventing a physical process for a software picture.
+
+**Caption teaching target:** Potential streaming, edge and persistent-agent uses are hypotheses. Indefinite ingestion does not imply perfect retention or constant total memory.
+
+**EVOU-61-F2 (worked comparison):** Show a correct worked case beside the mistake or boundary tested here: Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
+
+**Boundary review:** Label every arrow's meaning. Biology distinguishes covalent links, pairing, sequence transfer and control; software distinguishes messages, data, ownership and state transitions. Use labels and line styles as well as color.
+
+**Animation decision:** static-first; storyboard only, no exported frames yet.
 
 ## EVOU-38 — Transfer, continual learning and populations
 
@@ -850,7 +1295,7 @@ Keep objects in stable positions when identity is unchanged. Each frame ledger m
 
 **Animation decision:** candidate-keyframe-sequence; storyboard only, no exported frames yet.
 
-## EVOU-40 — Capstone: a reproducible research-engineering argument
+## EVOU-40 — Capstone: failures, limits and a reproducible research argument
 
 **Reader question:** Can another reader reproduce both the result and the boundary of the claim?
 

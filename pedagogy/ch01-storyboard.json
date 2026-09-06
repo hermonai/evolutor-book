@@ -1,0 +1,120 @@
+{
+  "chapter": "EVOU-01",
+  "status": "storyboard-internally-approved-before-prose",
+  "reviewDate": "2026-09-06",
+  "reviewer": "Author-agent internal review, not independent human validation",
+  "decision": "Retain the approved chapter title. Expand the two planning placeholders into six concrete teaching figures. Optional source-linked Python illustrates the already worked rule; it is not an entry prerequisite. Book II supplies a local biological reminder and defers learned models to EVOU-03.",
+  "figures": [
+    {
+      "id": "EVOU-01-F1",
+      "title": "A stored rule can choose",
+      "question": "Can one unchanged program produce different answers?",
+      "concept": "program; execution; context",
+      "prerequisites": "reading temperatures; counting",
+      "objects": "instruction card; input 18; comparison; returned word on",
+      "steps": [
+        "Read temperature 18",
+        "Ask is it below 20",
+        "Return on"
+      ],
+      "caption": "The rule remains fixed while the input selects an answer.",
+      "risk": "A returned word is not a real heater action or safe control system.",
+      "evidence": "Original software example.",
+      "kind": "program",
+      "review": "Approved for drawing: all arrows must say operation, comparison, reading, or teaching order; stable objects retain identity."
+    },
+    {
+      "id": "EVOU-01-F2",
+      "title": "The boundary belongs to the rule",
+      "question": "What happens at exactly twenty?",
+      "concept": "threshold; condition; trace",
+      "prerequisites": "less than; program; input and output",
+      "objects": "input rows 18 20 22; condition result; returned words",
+      "steps": [
+        "Compare 18 with 20",
+        "Compare 20 with 20",
+        "Compare 22 with 20"
+      ],
+      "caption": "Below means strictly less than; equality belongs to the other branch.",
+      "risk": "Do not depict an untested physical temperature controller.",
+      "evidence": "Executable heater_rule.py and exact expected results.",
+      "kind": "boundary",
+      "review": "Approved for drawing: all arrows must say operation, comparison, reading, or teaching order; stable objects retain identity."
+    },
+    {
+      "id": "EVOU-01-F3",
+      "title": "Same DNA, different expression",
+      "question": "Must the DNA change whenever cellular activity changes?",
+      "concept": "cell; genome; gene; RNA; expression; regulation",
+      "prerequisites": "brief biological reminder taught locally",
+      "objects": "two schematic cell contexts; same DNA gene region; different RNA-production labels",
+      "steps": [
+        "Hold the shown DNA region fixed",
+        "Compare two cellular contexts",
+        "Observe possible lower and higher production"
+      ],
+      "caption": "Gene expression can differ without changing the DNA sequence; cellular machinery is required.",
+      "risk": "Not measured data, binary gene switches, universal equality of every cell genome, or DNA acting alone.",
+      "evidence": "Alberts et al., An Overview of Gene Control; NHGRI gene and genome.",
+      "kind": "expression",
+      "review": "Approved for drawing: all arrows must say operation, comparison, reading, or teaching order; stable objects retain identity."
+    },
+    {
+      "id": "EVOU-01-F4",
+      "title": "An analogy is a question, not an identity",
+      "question": "What transfers when we compare a program with a genome?",
+      "concept": "analogy; biological gene versus proposed computational gene",
+      "prerequisites": "program; gene expression and regulation",
+      "objects": "software unit and biological gene in separate lanes; dashed comparison link",
+      "steps": [
+        "Describe each mechanism separately",
+        "Name one limited resemblance",
+        "Ask what does not transfer"
+      ],
+      "caption": "A proposed computational gene is a software label; it is not DNA and has no inherited biological capabilities.",
+      "risk": "Avoid claiming novelty from ordinary conditional execution or proving efficiency through resemblance.",
+      "evidence": "Original analogy and non-equivalence argument.",
+      "kind": "analogy",
+      "review": "Approved for drawing: all arrows must say operation, comparison, reading, or teaching order; stable objects retain identity."
+    },
+    {
+      "id": "EVOU-01-F5",
+      "title": "How a proposal earns evidence",
+      "question": "What would make an Evolutor claim worth believing?",
+      "concept": "research program; hypothesis; baseline; evidence",
+      "prerequisites": "explicit rule; comparison; analogy limits",
+      "objects": "observation; precise software proposal; ordinary comparison; test; retain or revise branch",
+      "steps": [
+        "Select one biological observation",
+        "Specify an implementable mechanism",
+        "Compare with an ordinary alternative",
+        "Test a declared claim",
+        "Retain or revise according to results"
+      ],
+      "caption": "Biological inspiration starts the investigation; a fair test must decide the claim.",
+      "risk": "No measured advantage, training result, general intelligence or breakthrough asserted.",
+      "evidence": "Original research method; no benchmark performed.",
+      "kind": "research",
+      "review": "Approved for drawing: all arrows must say operation, comparison, reading, or teaching order; stable objects retain identity."
+    },
+    {
+      "id": "EVOU-01-F6",
+      "title": "The route from programs to research",
+      "question": "Why delay sophisticated machinery?",
+      "concept": "learning progression; limits",
+      "prerequisites": "this chapter only",
+      "objects": "four ordered course stages with actual chapter ranges",
+      "steps": [
+        "Make programs explicit",
+        "Learn from examples",
+        "Build and measure systems",
+        "Evaluate proposed mechanisms"
+      ],
+      "caption": "Each stage supplies tools needed to ask a sharper research question.",
+      "risk": "Later chapters remain plans; this figure does not certify prerequisites.",
+      "evidence": "Approved EVOU dependency graph.",
+      "kind": "roadmap",
+      "review": "Approved for drawing: all arrows must say operation, comparison, reading, or teaching order; stable objects retain identity."
+    }
+  ]
+}
