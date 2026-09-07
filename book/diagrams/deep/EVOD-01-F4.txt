@@ -1,0 +1,8 @@
+ID: EVOD-01-F4
+TITLE: Selection, execution and trace are separate objects
+PURPOSE: Use a UML activity diagram with guarded alternatives and an explicit ordered sequence of operations.
+STEP 1 → STEP 2: Context branch → Build typed plan
+STEP 2 → STEP 3: Build typed plan → Execute operations
+STEP 3 → STEP 4: Execute operations → Emit trace
+LIMIT: A computational expression plan is proposed terminology, not biological gene expression.
+EVIDENCE: Original software example; biological statements and established architectures attributed separately; project architecture is a research target.

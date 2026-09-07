@@ -1,7 +1,9 @@
 PYTHON ?= python3
-MAIN := undergraduate-evolutor
+MAIN := deep-evolutor
+HISTORICAL_MAIN := undergraduate-evolutor
+export PATH := /Library/TeX/texbin:$(PATH)
 
-.PHONY: graphs artifacts test pdf historical-pdf check-pdf manuscript-gate pedagogy
+.PHONY: graphs artifacts test pdf historical-pdf check-pdf manuscript-gate pedagogy deep-artifacts review-pdf
 
 pedagogy:
 	$(PYTHON) scripts/build_pedagogy.py --check
@@ -19,7 +21,18 @@ artifacts:
 test:
 	$(PYTHON) -m pytest
 
-pdf: manuscript-gate
+deep-artifacts:
+	$(PYTHON) scripts/build_deep_chapter.py --check
+
+pdf: manuscript-gate deep-artifacts
+	mkdir -p build/deep-figures output/pdf
+	for figure in book/figures/deep/*.svg; do rsvg-convert --format=pdf --output="build/deep-figures/$$(basename "$$figure" .svg).pdf" "$$figure" || exit; done
+	cd tex && latexmk -silent -xelatex -interaction=nonstopmode -halt-on-error -outdir=../build $(MAIN).tex
+	$(PYTHON) scripts/check_latex_log.py build/$(MAIN).log
+	cp build/$(MAIN).pdf output/pdf/$(MAIN).pdf
+
+review-pdf: pdf
+	$(PYTHON) scripts/review_deep.py
 
 # Reproduce the preserved edition explicitly; never overwrite its committed PDF.
 historical-pdf:
@@ -27,7 +40,7 @@ historical-pdf:
 	$(PYTHON) scripts/build_undergraduate.py --check
 	mkdir -p build/figures output/pdf
 	for figure in book/figures/undergraduate/*.svg; do rsvg-convert --format=pdf --output="build/figures/$$(basename "$$figure" .svg).pdf" "$$figure" || exit; done
-	cd tex && latexmk -xelatex -interaction=nonstopmode -halt-on-error -outdir=../build $(MAIN).tex
+	cd tex && latexmk -xelatex -interaction=nonstopmode -halt-on-error -outdir=../build $(HISTORICAL_MAIN).tex
 
 check-pdf: manuscript-gate
 	$(PYTHON) scripts/check_latex_log.py build/$(MAIN).log

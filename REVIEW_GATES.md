@@ -1,6 +1,6 @@
 # Deep-edition review gates
 
-Date: 7 September 2026. Current scope: planning only.
+Date: 7 September 2026. Current scope: canonical deep Chapter 1 production; later chapters remain plans.
 
 ## Architecture gate
 
@@ -8,16 +8,16 @@ Date: 7 September 2026. Current scope: planning only.
 - The new chapter sequence has explicit prior dependencies, Book I imports, mechanisms, mathematics, implementation/assessment tasks and visual briefs.
 - No forward prerequisite, dependency cycle, missing import or DOGMA/Hermon inversion is accepted.
 - Useful abstraction is permitted and explained. Elementary syntax and arithmetic are not the intellectual entry.
-- Chapter 1 is a detailed outline only. Default PDF production is blocked; historical drafts and their assets remain byte-identical.
+- Chapter 1 has an edition-specific manuscript. Default PDF production requires its source-hashed author-agent review; historical drafts and assets remain byte-identical.
 - Plans, placeholder paths and animation candidates are not counted as delivered chapters or artwork.
 
 ## Internal review findings
 
-The first risk was replacing small beginner units with a long title list without changing substance. The plan now assigns every chapter a mathematical development and an observable technical task. The second risk was making the introductory experiment depend on chemistry chapters not yet read. The DNA opening supplies limited local operational explanations; later chapters explicitly deepen them. The third risk was treating all Book I outcomes as already delivered. The deep contract marks every export planned-not-yet-taught and allows demonstrated equivalent knowledge.
+The first risk was replacing small beginner units with a long title list without changing substance. The plan now assigns every chapter a mathematical development and an observable technical task. The second risk was making the introductory experiment depend on chemistry chapters not yet read. The DNA opening supplies limited local operational explanations; later chapters explicitly deepen them. The third risk was treating all Book I outcomes as already delivered. The deep contract marks DNAD-01 prototype-available, all later exports planned-not-yet-taught, and allows demonstrated equivalent knowledge. Prototype availability is not independent reader validation.
 
 For Evolutor, conventional conditional computation is a central baseline, not an absence to be invented. Model semantics precede training parity and native engines. AGI capability research appears after models, systems and experiments. These are author-agent reviews, not external endorsements.
 
-## Chapter gate for the next execution
+## Chapter production gate
 
 Follow CHAPTER_STANDARD.md: source review → exact worked mechanisms and derivations → storyboards → manuscript and code → editable vectors/TXT → tests → scientific/mathematical/systems review → actual every-page PDF inspection. Keep methodology primarily in notes and ledgers so it supports rather than dominates the teaching.
 

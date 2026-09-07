@@ -1,24 +1,28 @@
 # Evolutor
 
-Genomic Computation, DNA-Native AI, and Adaptive Machine Intelligence
+Canonical active edition: **astra-deep-rewrite**. Deep science and engineering, straightforward explanations, useful abstraction.
 
-Active development branch: **astra-deep-rewrite**. The target is full technical and scientific depth with straightforward explanations, including useful abstraction. This is currently a **planning-only deep edition**: 52 substantial chapters are planned; none is drafted yet. No new deep PDF, model or engine is claimed.
+Chapter 1 — **Why Genomic Computation?** — is the new internally reviewed prototype: ten original editable figures, semantic Unicode TXT, an exact Python companion, exercises with solutions, glossary, bibliography and index. The 52-chapter architecture remains; only Chapter 1 is drafted.
 
-Start with [DEEP_REDESIGN.md](DEEP_REDESIGN.md), [contents](BOOK_PLAN.md), [Chapter 1 outline](CHAPTER_1_OUTLINE.md), [technical reset](TECHNICAL_LEVEL_RESET.md) and [redesign report](DEEP_REDESIGN_REPORT.md).
+Read the [deep PDF](output/pdf/deep-evolutor.pdf), [chapter source](tex/deep/ch01.tex), [production report](DEEP_CHAPTER_1_REPORT.md), [edition strategy](CANONICAL_EDITION_STRATEGY.md), [book plan](BOOK_PLAN.md) and [chapter standard](CHAPTER_STANDARD.md).
 
-DOGMA = non-Transformer DNA-native model + DOGMA Engine; Hermon DNA = Transformer-based DNA model + Hermon DNA Engine; Evolutor = broader theory/research/runtime above both. These are target research roles, not evidence of implementation.\n\n## Validate the plan
+DOGMA = non-Transformer DNA-native model + DOGMA Engine; Hermon DNA = Transformer-based DNA model + Hermon DNA Engine; Evolutor = broader theory/research/compiler/runtime above both. These are research identities, not claims of trained models or production engines.
+
+## Build and verify
 
 ```sh
+python3 examples/deep/ch01.py
+python3 scripts/build_deep_chapter.py --check
 python3 scripts/build_deep_plan.py --check
-python3 scripts/build_pedagogy.py --check
+make pdf
 python3 -m pytest
-make pedagogy
+python3 scripts/review_deep.py
 ```
 
-The default `make pdf` intentionally refuses to build until a new deep manuscript is accepted. `make historical-pdf` explicitly reproduces the preserved undergraduate prototype into build/, without replacing its committed PDF or treating it as the new edition. See [publication policy](PUBLICATION_PLAN.md).
+Dependencies: Python 3.10+ (pytest; Pillow for page review), XeLaTeX/latexmk, librsvg, Poppler, and DejaVu fonts. The full historical numerical regression suite also uses the existing repository dependencies. The PDF gate rejects old, empty, later-chapter, unreviewed, or changed-after-review source. To author new material, build a preview under build/ and complete review before updating the acceptance record; do not weaken the gate.
 
-## Previous editions
+## Frozen editions
 
-The undergraduate experiment is preserved at astra-undergraduate-rewrite commit af8de42e16c71024d3e228a57e1d4d87c8d87276. Its [source](tex/undergraduate/ch01.tex), [historical report](CHAPTER_1_REPORT.md) and [historical PDF](output/pdf/undergraduate-evolutor.pdf) remain available, but are not the active intellectual target. Earlier astra-rewrite and pre-reboot snapshots are unchanged. No main merge, deletion, license or authorship change is included.
+astra-undergraduate-rewrite is a pedagogical archive, not a parallel manuscript. Its source, figures, examples and committed PDF remain byte-identical. The default tests verify its preserved publication without rebuilding it; make historical-pdf remains an explicit reproduction tool under build/. Main, astra-rewrite and historical snapshots are preserved; no main merge is part of this milestone.
 
-Active planning data use the deep- prefix under pedagogy/. The older unprefixed data are retained only for historical regression checks. Tests verify structure and preservation, not scientific novelty or successful reader learning.
+The original eight-section [preproduction outline](CHAPTER_1_OUTLINE.md) is retained as design history. The actual chapter deliberately expands it to 12 sections and ten figures. Full source-access details live in [the chapter source review](research/deep-ch01-sources.md). Review is author-agent work, not independent scientific certification or a real-reader study.

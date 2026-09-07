@@ -1,0 +1,8 @@
+ID: EVOD-01-F8
+TITLE: Models, engines and orchestration occupy different levels
+PURPOSE: Editable UML components with dependency stereotypes; DOGMA and Hermon remain separate under Evolutor.
+STEP 1 → STEP 2: Research questions → Two model families
+STEP 2 → STEP 3: Two model families → Two inference engines
+STEP 3 → STEP 4: Two inference engines → Evolutor orchestration
+LIMIT: Target research architecture, not a deployed platform.
+EVIDENCE: Original software example; biological statements and established architectures attributed separately; project architecture is a research target.

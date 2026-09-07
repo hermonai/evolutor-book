@@ -1,0 +1,8 @@
+ID: EVOD-01-F2
+TITLE: A catalog is not an execution
+PURPOSE: Show immutable module catalog, two selected plans and their outputs on the same signal.
+STEP 1 → STEP 2: Store three modules → Receive context
+STEP 2 → STEP 3: Receive context → Select ordered plan
+STEP 3 → STEP 4: Select ordered plan → Execute and trace
+LIMIT: This is ordinary conditional software before it is any new architecture.
+EVIDENCE: Original software example; biological statements and established architectures attributed separately; project architecture is a research target.

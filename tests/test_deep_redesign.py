@@ -51,7 +51,7 @@ def test_invalid_plans_are_rejected(defect):
     elif defect == "wrong-count":
         data["plannedChapterCount"] += 1
     elif defect == "active-chapter":
-        data["chapters"][0]["status"] = "internally-reviewed-draft"
+        data["chapters"][1]["status"] = "internally-reviewed-draft"
     elif defect in {"dogma","hermon"}:
         family = "DOGMA" if defect == "dogma" else "Hermon DNA"
         data["architectureTaxonomy"][family]["family"] = "reversed"
@@ -79,21 +79,16 @@ def test_every_preceding_topic_is_accounted_for():
 
 def test_new_edition_cannot_build_a_preserved_manuscript():
     book = json.loads((ROOT/"book/book.json").read_text())
-    assert book["edition"] == "4-deep"
-    assert book["chapters"] == [] and book["main"] is None and book["graphs"] == []
-    assert book["pedagogy"] == "pedagogy/deep-curriculum.json"
     gate = module("deep_gate", "scripts/require_active_manuscript.py")
-    with pytest.raises(ValueError, match="Deep edition is planning-only"):
-        gate.validate_book(book)
-    attempt = deepcopy(book)
-    attempt["status"] = "chapter-one-production"
-    attempt["chapters"] = [{"source":"tex/undergraduate/ch01.tex","status":"internally-reviewed-draft"}]
-    attempt["main"] = "tex/undergraduate-evolutor.tex"
-    with pytest.raises(ValueError, match="Deep edition is planning-only"):
-        gate.validate_book(attempt)
-    result = subprocess.run(["make","pdf","PYTHON="+sys.executable],cwd=ROOT,capture_output=True,text=True)
-    assert result.returncode != 0
-    assert "Deep edition is planning-only" in result.stdout+result.stderr
+    assert book["edition"] == "4-deep" and gate.validate_book(book)
+    for defect in ("empty","preserved","later","unreviewed","old-main"):
+        attempt=deepcopy(book)
+        if defect=="empty":attempt["chapters"]=[]
+        elif defect=="preserved":attempt["chapters"][0]["source"]="tex/undergraduate/ch01.tex"
+        elif defect=="later":attempt["chapters"][0]["number"]=2
+        elif defect=="unreviewed":attempt["chapters"][0]["status"]="planned-not-drafted"
+        else:attempt["main"]="tex/undergraduate-evolutor.tex"
+        with pytest.raises(ValueError):gate.validate_book(attempt)
 
 def test_prior_manuscripts_artwork_examples_and_pdfs_are_byte_identical():
     data, _, _ = inputs()
@@ -113,7 +108,8 @@ def test_shared_contract_matches_sibling_and_all_exports_remain_planned():
     path = sibling/"pedagogy/deep-book-i-contract.json"
     if path.exists():
         assert json.loads(path.read_text()) == contract
-    assert all(c["status"] == "planned-not-yet-taught" for c in contract["chapters"])
+    assert contract["chapters"][0]["status"] == "prototype-available"
+    assert all(c["status"] == "planned-not-yet-taught" for c in contract["chapters"][1:])
 
 def test_separate_model_engine_and_runtime_dependencies():
     data, _, _ = inputs()
@@ -138,13 +134,38 @@ def test_active_documents_keep_taxonomy_and_allow_abstraction():
     assert "No artificial university-level ceiling" in json.dumps(inputs()[0])
     assert "no accepted deep manuscript" in (ROOT/"scripts/require_active_manuscript.py").read_text()
 
-def test_inventories_never_claim_finished_art_or_animation():
-    figures = json.loads((ROOT/"pedagogy/deep-figure-inventory.json").read_text())
-    animations = json.loads((ROOT/"pedagogy/deep-animation-inventory.json").read_text())
-    ids = [f["id"] for f in figures]
-    assert len(ids) == len(set(ids))
-    assert len(figures) == len(inputs()[0]["chapters"])+7
-    assert all(f["status"] == "planned-no-assets" and f["reviewStatus"] == "not-drawn-not-reviewed" for f in figures)
-    assert all(a["status"] == "storyboard-candidate-no-assets" for a in animations)
-    assert all(f["sourceStatus"] == "not-created" for a in animations for f in a["frames"])
-    assert not (ROOT/"tex/deep").exists()
+def test_inventories_distinguish_produced_chapter_one_from_future_plans():
+    figures=json.loads((ROOT/"pedagogy/deep-figure-inventory.json").read_text())
+    animations=json.loads((ROOT/"pedagogy/deep-animation-inventory.json").read_text())
+    assert len({f["id"] for f in figures})==len(figures)
+    assert len(figures)==len(inputs()[0]["chapters"])+9
+    assert all(f["status"]=="internally-reviewed-produced" for f in figures[:10])
+    assert all(f["status"]=="planned-no-assets" for f in figures[10:])
+    assert animations[0]["status"]=="static-keyframes-produced-not-moving-media"
+    assert all(f["sourceStatus"]=="created" for f in animations[0]["frames"])
+    assert all(a["status"]=="storyboard-candidate-no-assets" for a in animations[1:])
+    assert (ROOT/"tex/deep/ch01.tex").exists()
+    assert not (ROOT/"tex/deep/ch02.tex").exists()
+
+@pytest.mark.parametrize("defect", ["stale", "missing-manifest", "unreviewed-figure"])
+def test_review_is_bound_to_actual_sources(tmp_path, defect):
+    import shutil
+    gate = module("hashed_gate", "scripts/require_active_manuscript.py")
+    review = json.loads((ROOT/"artifacts/deep/ch01-review.json").read_text())
+    for path in review["reviewedSources"]:
+        target = tmp_path/path
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(ROOT/path, target)
+    if defect == "stale":
+        (tmp_path/"tex/deep/ch01.tex").write_text("changed after inspection")
+    elif defect == "missing-manifest":
+        review.pop("reviewedSources")
+    else:
+        path = next(p for p in review["reviewedSources"] if p.endswith(".svg"))
+        review["reviewedSources"].pop(path)
+    target = tmp_path/"artifacts/deep/ch01-review.json"
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text(json.dumps(review))
+    book = json.loads((ROOT/"book/book.json").read_text())
+    with pytest.raises(ValueError):
+        gate.validate_book(book, tmp_path)

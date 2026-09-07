@@ -1,6 +1,6 @@
 # Evolutor: deep technical edition
 
-Status: architecture and detailed outlines only; no new manuscript, final figures, animation frames, models, engines or experiments are delivered. Canonical source: [deep curriculum](pedagogy/deep-curriculum.json). Prior editions remain historical references, not the active teaching level.
+Status: canonical deep Chapter 1 is an internally reviewed prototype; all later chapters remain plans. The undergraduate edition is frozen. No trained model, engine or wet-lab result is delivered. See [production report](DEEP_CHAPTER_1_REPORT.md) and [edition strategy](CANONICAL_EDITION_STRATEGY.md).
 
 DOGMA = non-Transformer DNA-native model + DOGMA Engine; Hermon DNA = Transformer-based DNA model + Hermon DNA Engine; Evolutor = broader genomic computation theory, research and eventual runtime above both.
 
@@ -10,67 +10,77 @@ Each primary visual below is a production brief, not a finished asset or a one-f
 
 ### EVOD-01 — Why Genomic Computation?
 
-**EVOD-01-F1 — Program, model and genome**. Three aligned lanes with distinct visual grammars and explicit execution machinery.
+**EVOD-01-F1 — Programs, neural models and genomic systems**. Three aligned lanes compare persistence, selection and execution, with distinct biology/software symbols.
 
-1. stored structure.
-2. context.
-3. active process.
-4. output or phenotype.
+1. Stored organization.
+2. Context-dependent activity.
+3. Executed process.
+4. Output or phenotype.
 
-**EVOD-01-F2 — Stored versus expressed computation**. Separate persistent module catalog, selected plan and execution trace; no claim of novelty from selection alone.
+**EVOD-01-F2 — A catalog is not an execution**. Show immutable module catalog, two selected plans and their outputs on the same signal.
 
-1. module catalog.
-2. context.
-3. selected plan.
-4. executed operations.
-5. result and trace.
+1. Store three modules.
+2. Receive context.
+3. Select ordered plan.
+4. Execute and trace.
 
-**EVOD-01-F3 — Regulation with visible alternatives**. Two contexts over one unchanged catalog; control arrows differ from data flow.
+**EVOD-01-F3 — Control changes activity without rewriting DNA**. Show promoter/transcription machinery and a qualitative signal-controlled abundance change.
 
-1. context A or B.
-2. control decision.
-3. selected transformation.
-4. state/result.
+1. Regulatory input.
+2. Molecular interaction.
+3. Changed transcription.
+4. Changed RNA abundance.
 
-**EVOD-01-F4 — Development and adaptation timescales**. Aligned state/parameter/structure/population timelines with explicit update triggers.
+**EVOD-01-F4 — Selection, execution and trace are separate objects**. Use a UML activity diagram with guarded alternatives and an explicit ordered sequence of operations.
 
-1. persistent description.
-2. developed structure.
-3. inference state changes.
-4. parameter update.
-5. structural or population proposal.
+1. Context branch.
+2. Build typed plan.
+3. Execute operations.
+4. Emit trace.
 
-**EVOD-01-F5 — Established alternatives**. Mechanism comparison matrix with supported correspondences and explicit non-equivalences.
+**EVOD-01-F5 — A stored description can generate a larger structure**. Compare a short program generator to its expanded operator sequence and runtime instance.
 
-1. proposed mechanism.
-2. closest baseline.
-3. equivalence test.
-4. remaining question.
+1. Compact description.
+2. Construction process.
+3. Generated program.
+4. Runtime state.
 
-**EVOD-01-F6 — Research gap and test**. Mechanism → prediction → controlled test → support/rejection, with baseline in the same frame.
+**EVOD-01-F6 — Four different objects can change**. Show execution state, parameter vector, structure and population on separate labeled axes.
 
-1. candidate mechanism.
-2. declared claim.
-3. matched comparison.
-4. outcome.
-5. revise or retain.
+1. State update.
+2. Parameter optimization.
+3. Structure revision.
+4. Population selection.
 
-**EVOD-01-F7 — Two families and their memory**. Separate candidate state layout and Transformer KV layout; weights, workspace and external memory shown separately.
+**EVOD-01-F7 — Before calling it genomic, check computer science**. Matrix of dispatch, MoE, attention, recurrence, search and orchestration against claims they already cover.
 
-1. DOGMA input/state.
-2. state transition.
-3. next state/output; Hermon input/prior KV.
-4. attention.
-5. appended KV/output.
+1. Name claimed mechanism.
+2. Find nearest baseline.
+3. Test equivalence.
+4. Specify remaining gap.
 
-**EVOD-01-F8 — Research and engineering roadmap**. UML component/dependency view, with planned interfaces and no implied deployed service.
+**EVOD-01-F8 — Models, engines and orchestration occupy different levels**. Editable UML components with dependency stereotypes; DOGMA and Hermon remain separate under Evolutor.
 
-1. semantics.
-2. reference model.
-3. parity tests.
-4. profiled engine.
-5. Evolutor runtime.
-6. capability evaluation.
+1. Research questions.
+2. Two model families.
+3. Two inference engines.
+4. Evolutor orchestration.
+
+**EVOD-01-F9 — Compressed state and addressable history**. Show per-request state slot versus growing K/V rows; separately account for weights and workspace.
+
+1. Past inputs.
+2. Carried state or cached positions.
+3. New token update.
+4. Output.
+
+**EVOD-01-F10 — From a computational idea to a defensible system**. Separate semantic, reference, parity, experiment, engine and capability gates.
+
+1. Formal model.
+2. Executable reference.
+3. Parity and causality.
+4. Controlled experiment.
+5. Profiled engine.
+6. Capability evaluation.
 
 ### EVOD-02 — Learning objectives, data and evaluation
 

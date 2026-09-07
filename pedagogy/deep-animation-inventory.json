@@ -2,42 +2,49 @@
   {
     "id": "EVOD-01-A1",
     "chapter": "EVOD-01",
-    "status": "storyboard-candidate-no-assets",
+    "status": "static-keyframes-produced-not-moving-media",
     "frames": [
       {
         "number": 1,
-        "action": "persistent structure",
-        "sourceStatus": "not-created"
+        "action": "Catalog = {clip, center, prefix}; all map X to X.|The catalog is unchanged throughout this execution.",
+        "sourceStatus": "created",
+        "source": "frame-01.svg"
       },
       {
         "number": 2,
-        "action": "context",
-        "sourceStatus": "not-created"
+        "action": "Input x = [3, −1, 2]; context = balanced.|No learned regulator or hidden context is assumed.",
+        "sourceStatus": "created",
+        "source": "frame-02.svg"
       },
       {
         "number": 3,
-        "action": "regulation",
-        "sourceStatus": "not-created"
+        "action": "balanced selects the ordered plan center → prefix.|bounded would select clip → prefix instead.",
+        "sourceStatus": "created",
+        "source": "frame-03.svg"
       },
       {
         "number": 4,
-        "action": "expression",
-        "sourceStatus": "not-created"
+        "action": "The selected names resolve to typed catalog operations.|A plan is ordered; a set of names would lose semantics.",
+        "sourceStatus": "created",
+        "source": "frame-04.svg"
       },
       {
         "number": 5,
-        "action": "execution",
-        "sourceStatus": "not-created"
+        "action": "center gives [5/3, −7/3, 2/3].|prefix then gives [5/3, −2/3, 0].",
+        "sourceStatus": "created",
+        "source": "frame-05.svg"
       },
       {
         "number": 6,
-        "action": "trace",
-        "sourceStatus": "not-created"
+        "action": "Record each operation, its input and its output.|The persistent catalog still has not changed.",
+        "sourceStatus": "created",
+        "source": "frame-06.svg"
       },
       {
         "number": 7,
-        "action": "possible adaptation",
-        "sourceStatus": "not-created"
+        "action": "No G→G′ update is implemented by this example.|A structural proposal needs its own update and validation rules.",
+        "sourceStatus": "created",
+        "source": "frame-07.svg"
       }
     ],
     "plannedDirectory": "animation/evod-01/",

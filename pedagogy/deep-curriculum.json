@@ -3,7 +3,8 @@
   "book": "Evolutor",
   "subtitle": "Genomic Computation, DNA-Native AI, and Adaptive Machine Intelligence",
   "edition": "4-deep",
-  "status": "architecture-only-no-manuscript",
+  "status": "chapter-one-production",
+  "canonicalEditionStrategy": "Only astra-deep-rewrite advances; undergraduate frozen for later derivatives.",
   "branch": "astra-deep-rewrite",
   "startingCommit": "af8de42e16c71024d3e228a57e1d4d87c8d87276",
   "entryAssumptions": [
@@ -33,7 +34,7 @@
       "number": 1,
       "part": "I · The research question",
       "title": "Why Genomic Computation?",
-      "status": "planned-not-drafted",
+      "status": "internally-reviewed-draft",
       "requires": [],
       "book1Requires": [
         "DNAD-30",

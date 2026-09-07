@@ -1,0 +1,8 @@
+ID: EVOD-01-F9
+TITLE: Compressed state and addressable history
+PURPOSE: Show per-request state slot versus growing K/V rows; separately account for weights and workspace.
+STEP 1 → STEP 2: Past inputs → Carried state or cached positions
+STEP 2 → STEP 3: Carried state or cached positions → New token update
+STEP 3 → STEP 4: New token update → Output
+LIMIT: Fixed-size state does not imply perfect recall or constant total memory; attention is not guaranteed exact retrieval.
+EVIDENCE: Original software example; biological statements and established architectures attributed separately; project architecture is a research target.

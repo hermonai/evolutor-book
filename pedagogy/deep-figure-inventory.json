@@ -1,129 +1,155 @@
 [
   {
     "id": "EVOD-01-F1",
-    "title": "Program, model and genome",
-    "grammar": "Three aligned lanes with distinct visual grammars and explicit execution machinery.",
+    "title": "Programs, neural models and genomic systems",
+    "grammar": "Three aligned lanes compare persistence, selection and execution, with distinct biology/software symbols.",
     "frames": [
-      "stored structure",
-      "context",
-      "active process",
-      "output or phenotype"
+      "Stored organization",
+      "Context-dependent activity",
+      "Executed process",
+      "Output or phenotype"
     ],
-    "status": "planned-no-assets",
+    "status": "internally-reviewed-produced",
     "chapter": "EVOD-01",
     "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
-    "reviewStatus": "not-drawn-not-reviewed"
+    "reviewStatus": "author-agent-reviewed"
   },
   {
     "id": "EVOD-01-F2",
-    "title": "Stored versus expressed computation",
-    "grammar": "Separate persistent module catalog, selected plan and execution trace; no claim of novelty from selection alone.",
+    "title": "A catalog is not an execution",
+    "grammar": "Show immutable module catalog, two selected plans and their outputs on the same signal.",
     "frames": [
-      "module catalog",
-      "context",
-      "selected plan",
-      "executed operations",
-      "result and trace"
+      "Store three modules",
+      "Receive context",
+      "Select ordered plan",
+      "Execute and trace"
     ],
-    "status": "planned-no-assets",
+    "status": "internally-reviewed-produced",
     "chapter": "EVOD-01",
     "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
-    "reviewStatus": "not-drawn-not-reviewed"
+    "reviewStatus": "author-agent-reviewed"
   },
   {
     "id": "EVOD-01-F3",
-    "title": "Regulation with visible alternatives",
-    "grammar": "Two contexts over one unchanged catalog; control arrows differ from data flow.",
+    "title": "Control changes activity without rewriting DNA",
+    "grammar": "Show promoter/transcription machinery and a qualitative signal-controlled abundance change.",
     "frames": [
-      "context A or B",
-      "control decision",
-      "selected transformation",
-      "state/result"
+      "Regulatory input",
+      "Molecular interaction",
+      "Changed transcription",
+      "Changed RNA abundance"
     ],
-    "status": "planned-no-assets",
+    "status": "internally-reviewed-produced",
     "chapter": "EVOD-01",
     "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
-    "reviewStatus": "not-drawn-not-reviewed"
+    "reviewStatus": "author-agent-reviewed"
   },
   {
     "id": "EVOD-01-F4",
-    "title": "Development and adaptation timescales",
-    "grammar": "Aligned state/parameter/structure/population timelines with explicit update triggers.",
+    "title": "Selection, execution and trace are separate objects",
+    "grammar": "Use a UML activity diagram with guarded alternatives and an explicit ordered sequence of operations.",
     "frames": [
-      "persistent description",
-      "developed structure",
-      "inference state changes",
-      "parameter update",
-      "structural or population proposal"
+      "Context branch",
+      "Build typed plan",
+      "Execute operations",
+      "Emit trace"
     ],
-    "status": "planned-no-assets",
+    "status": "internally-reviewed-produced",
     "chapter": "EVOD-01",
     "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
-    "reviewStatus": "not-drawn-not-reviewed"
+    "reviewStatus": "author-agent-reviewed"
   },
   {
     "id": "EVOD-01-F5",
-    "title": "Established alternatives",
-    "grammar": "Mechanism comparison matrix with supported correspondences and explicit non-equivalences.",
+    "title": "A stored description can generate a larger structure",
+    "grammar": "Compare a short program generator to its expanded operator sequence and runtime instance.",
     "frames": [
-      "proposed mechanism",
-      "closest baseline",
-      "equivalence test",
-      "remaining question"
+      "Compact description",
+      "Construction process",
+      "Generated program",
+      "Runtime state"
     ],
-    "status": "planned-no-assets",
+    "status": "internally-reviewed-produced",
     "chapter": "EVOD-01",
     "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
-    "reviewStatus": "not-drawn-not-reviewed"
+    "reviewStatus": "author-agent-reviewed"
   },
   {
     "id": "EVOD-01-F6",
-    "title": "Research gap and test",
-    "grammar": "Mechanism → prediction → controlled test → support/rejection, with baseline in the same frame.",
+    "title": "Four different objects can change",
+    "grammar": "Show execution state, parameter vector, structure and population on separate labeled axes.",
     "frames": [
-      "candidate mechanism",
-      "declared claim",
-      "matched comparison",
-      "outcome",
-      "revise or retain"
+      "State update",
+      "Parameter optimization",
+      "Structure revision",
+      "Population selection"
     ],
-    "status": "planned-no-assets",
+    "status": "internally-reviewed-produced",
     "chapter": "EVOD-01",
     "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
-    "reviewStatus": "not-drawn-not-reviewed"
+    "reviewStatus": "author-agent-reviewed"
   },
   {
     "id": "EVOD-01-F7",
-    "title": "Two families and their memory",
-    "grammar": "Separate candidate state layout and Transformer KV layout; weights, workspace and external memory shown separately.",
+    "title": "Before calling it genomic, check computer science",
+    "grammar": "Matrix of dispatch, MoE, attention, recurrence, search and orchestration against claims they already cover.",
     "frames": [
-      "DOGMA input/state",
-      "state transition",
-      "next state/output; Hermon input/prior KV",
-      "attention",
-      "appended KV/output"
+      "Name claimed mechanism",
+      "Find nearest baseline",
+      "Test equivalence",
+      "Specify remaining gap"
     ],
-    "status": "planned-no-assets",
+    "status": "internally-reviewed-produced",
     "chapter": "EVOD-01",
     "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
-    "reviewStatus": "not-drawn-not-reviewed"
+    "reviewStatus": "author-agent-reviewed"
   },
   {
     "id": "EVOD-01-F8",
-    "title": "Research and engineering roadmap",
-    "grammar": "UML component/dependency view, with planned interfaces and no implied deployed service.",
+    "title": "Models, engines and orchestration occupy different levels",
+    "grammar": "Editable UML components with dependency stereotypes; DOGMA and Hermon remain separate under Evolutor.",
     "frames": [
-      "semantics",
-      "reference model",
-      "parity tests",
-      "profiled engine",
-      "Evolutor runtime",
-      "capability evaluation"
+      "Research questions",
+      "Two model families",
+      "Two inference engines",
+      "Evolutor orchestration"
     ],
-    "status": "planned-no-assets",
+    "status": "internally-reviewed-produced",
     "chapter": "EVOD-01",
     "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
-    "reviewStatus": "not-drawn-not-reviewed"
+    "reviewStatus": "author-agent-reviewed"
+  },
+  {
+    "id": "EVOD-01-F9",
+    "title": "Compressed state and addressable history",
+    "grammar": "Show per-request state slot versus growing K/V rows; separately account for weights and workspace.",
+    "frames": [
+      "Past inputs",
+      "Carried state or cached positions",
+      "New token update",
+      "Output"
+    ],
+    "status": "internally-reviewed-produced",
+    "chapter": "EVOD-01",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "author-agent-reviewed"
+  },
+  {
+    "id": "EVOD-01-F10",
+    "title": "From a computational idea to a defensible system",
+    "grammar": "Separate semantic, reference, parity, experiment, engine and capability gates.",
+    "frames": [
+      "Formal model",
+      "Executable reference",
+      "Parity and causality",
+      "Controlled experiment",
+      "Profiled engine",
+      "Capability evaluation"
+    ],
+    "status": "internally-reviewed-produced",
+    "chapter": "EVOD-01",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "author-agent-reviewed"
   },
   {
     "id": "EVOD-02-F1",

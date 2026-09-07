@@ -14,8 +14,8 @@ OUTPUT_NAMES = ("BOOK_PLAN.md", "COURSE_MAP.md", "PREREQUISITE_GRAPH.md", "CONCE
 
 
 def validate(data, contract, outline):
-    if data["status"] != "architecture-only-no-manuscript":
-        raise ValueError("Deep edition must remain planning-only in this milestone")
+    if data["status"] not in {"architecture-only-no-manuscript","chapter-one-production"}:
+        raise ValueError("Unknown deep production milestone")
     chapters = data["chapters"]
     ids = [c["id"] for c in chapters]
     if not chapters or len(ids) != len(set(ids)):
@@ -28,7 +28,7 @@ def validate(data, contract, outline):
     if any(c["id"] != expected_prefix+f"{c['number']:02}" for c in chapters):
         raise ValueError("Chapter identity/number mismatch")
     exports = {c["id"] for c in contract["chapters"]}
-    if len(exports) != len(contract["chapters"]) or contract["status"] != "planned-not-yet-taught":
+    if len(exports) != len(contract["chapters"]) or contract["status"] not in {"planned-not-yet-taught","chapter-one-prototype-available"}:
         raise ValueError("Invalid Book I export contract")
     known = set()
     for c in chapters:
@@ -38,8 +38,9 @@ def validate(data, contract, outline):
             raise ValueError("Unknown Book I import: "+c["id"])
         if data["book"] == "DNA Computing" and c["book1Requires"]:
             raise ValueError("Book I cannot import itself or Book II")
-        if c["status"] != "planned-not-drafted":
-            raise ValueError("No deep manuscript is produced yet")
+        expected_status = "internally-reviewed-draft" if data["status"] == "chapter-one-production" and c["number"] == 1 else "planned-not-drafted"
+        if c["status"] != expected_status:
+            raise ValueError("Only the reviewed deep Chapter 1 may be active")
         for field in ("title", "part", "math", "exercise", "visual", "evidenceGate"):
             if not c[field].strip():
                 raise ValueError("Missing chapter depth field: "+field)
@@ -78,7 +79,7 @@ def validate(data, contract, outline):
             raise ValueError("Missing figure storyboard")
     if data["book"] == "DNA Computing":
         expected = [{"id":c["id"], "title":c["title"], "topics":c["topics"],
-                     "exitCheck":c["exercise"], "status":"planned-not-yet-taught"} for c in chapters]
+                     "exitCheck":c["exercise"], "status":("prototype-available" if c["number"] == 1 and data["status"] == "chapter-one-production" else "planned-not-yet-taught")} for c in chapters]
         if contract["chapters"] != expected:
             raise ValueError("Book I exports drift from actual plan")
     return True
@@ -93,6 +94,12 @@ def outputs(data, contract, outline):
             "Canonical source: [deep curriculum](pedagogy/deep-curriculum.json). "
             "Prior editions remain historical references, not the active teaching level.\n\n"
             + TAXONOMY + "\n\n")
+    produced = data["status"] == "chapter-one-production"
+    if produced:
+        note = ("Status: canonical deep Chapter 1 is an internally reviewed prototype; all later chapters remain plans. "
+                "The undergraduate edition is frozen. No trained model, engine or wet-lab result is delivered. "
+                "See [production report](DEEP_CHAPTER_1_REPORT.md) and [edition strategy](CANONICAL_EDITION_STRATEGY.md).\n\n"
+                + TAXONOMY + "\n\n")
     result = {}
     def page(title):
         return [head, note, "## "+title+"\n\n"]
@@ -114,7 +121,7 @@ def outputs(data, contract, outline):
         downstream = [x["id"] for x in cs if c["id"] in x["requires"]]
         lines += [f"### {c['id']} — {c['title']}\n\n",
                   "**Required earlier chapters:** "+(", ".join(c["requires"]) or "Declared entry assumptions")+".\n\n",
-                  "**Book I imports:** "+(", ".join(c["book1Requires"]) or "None")+". All imports are future teaching dependencies, not completed outcomes.\n\n",
+                  "**Book I imports:** "+(", ".join(c["book1Requires"]) or "None")+". DNAD-01 is prototype-available; later imports remain future teaching dependencies, not completed outcomes.\n\n",
                   "**Mechanisms and concepts:** "+"; ".join(c["topics"])+".\n\n",
                   "**Formal/mathematical development:** "+c["math"]+"\n\n",
                   "**Implementation / assessment:** "+c["exercise"]+"\n\n",
@@ -158,6 +165,10 @@ def outputs(data, contract, outline):
         fs = [s["figure"] for s in outline["sections"]] if c is cs[0] else [
             {"id":c["id"]+"-F1", "title":c["visual"], "grammar":c["visual"],
              "frames":c["frames"], "status":"planned-no-assets"}]
+        if produced and c is cs[0]:
+            storyboard = json.loads((ROOT/"pedagogy/deep-ch01-storyboard.json").read_text())
+            fs = [{"id":f["id"],"title":f["title"],"grammar":f["teachingPurpose"],
+                   "frames":f["steps"],"status":"internally-reviewed-produced"} for f in storyboard["figures"]]
         lines.append(f"### {c['id']} — {c['title']}\n\n")
         for f in fs:
             lines.append(f"**{f['id']} — {f['title']}**. {f['grammar']}\n\n")
@@ -165,7 +176,7 @@ def outputs(data, contract, outline):
                 lines.append(f"{i}. {frame}.\n")
             lines.append("\n")
             figures.append({**f,"chapter":c["id"],"sourcePlan":"Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
-                            "reviewStatus":"not-drawn-not-reviewed"})
+                            "reviewStatus":("author-agent-reviewed" if produced and c is cs[0] else "not-drawn-not-reviewed")})
         # Every chapter has a static sequence brief; only selected mechanisms are animation candidates.
         candidates = ({2,7,8,9,12,15,17,19,20,21,22,26,27,28,30} if data["book"]=="DNA Computing"
                       else {4,6,7,8,9,11,12,13,15,18,19,20,21,26,27,28,30,31,32,33,34,35,36,37,38,39,41,43,44,46,50})
@@ -176,6 +187,11 @@ def outputs(data, contract, outline):
                                "frames":[{"number":i,"action":f,"sourceStatus":"not-created"} for i,f in enumerate(frames,1)],
                                "plannedDirectory":"animation/"+c["id"].lower()+"/",
                                "policy":"Decide at chapter storyboard review whether motion adds information; preserve static and reduced-motion versions."})
+    if produced:
+        actual = json.loads((ROOT/"animation"/cs[0]["id"].lower()/"frames.json").read_text())
+        animations[0].update(status="static-keyframes-produced-not-moving-media",
+                             frames=[{"number":f["frame"],"action":f["change"],"sourceStatus":"created",
+                                      "source":f["source"]} for f in actual])
     result["VISUAL_STORYBOARD.md"] = "".join(lines)
     result["pedagogy/deep-figure-inventory.json"] = json.dumps(figures,indent=2,ensure_ascii=False)+"\n"
     result["pedagogy/deep-animation-inventory.json"] = json.dumps(animations,indent=2,ensure_ascii=False)+"\n"
@@ -221,9 +237,16 @@ def outputs(data, contract, outline):
               "No first-pass figure brief is artwork; no plan is an engine. "
               "New training libraries or IRs require demonstrated need. "
               "Keep the main text focused on mechanisms and reasoning; place full evidence ledgers in research appendices.\n"]
+    if produced:
+        lines[3] = "1. **Current milestone:** canonical deep Chapter 1, ten original figures, executable example, tests, LaTeX and every-page review.\n"
+        lines[4] = "2. **Next execution:** Chapter 2 only, following its source and dependency gates; no undergraduate parallel manuscript.\n"
     result["ROADMAP.md"] = "".join(lines)
 
     lines = page("Detailed Chapter 1 outline: "+outline["title"])
+    if produced:
+        lines.append("This is the preserved eight-section preproduction outline. Production deliberately expanded it to "
+                     +("13" if data["book"]=="DNA Computing" else "12")+
+                     " sections and ten figures; see the production report and tex/deep/ch01.tex for the actual chapter.\n\n")
     lines += [outline["scope"]+"\n\n",outline["sizePolicy"]+"\n\n"]
     for s in outline["sections"]:
         lines += [f"### 1.{s['number']} {s['title']}\n\n",

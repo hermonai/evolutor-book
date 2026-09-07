@@ -1,9 +1,11 @@
-# Deep-edition publication plan
+# Canonical deep publication policy
 
-The active book metadata identifies edition 4-deep, status architecture-only-no-manuscript, an empty chapter list and no main entry point. The default PDF gate rejects this state deliberately. Never rename a preserved PDF or point the deep manifest at old source to bypass the gate.
+Only astra-deep-rewrite advances. The undergraduate edition is frozen; a future introductory derivative will be selected from mature deep material, not synchronized chapter by chapter.
 
-The next manuscript milestone creates a distinct tex/deep/ source tree and distinct deep-edition PDF filename after Chapter 1 meets CHAPTER_STANDARD.md. Do not create these files during the planning-only milestone. Retain LaTeX equations, theorem/proof environments where useful, algorithms, source-linked code, references, index and selective glossary. Render and inspect every actual page before delivery; no PDF/UA claim without appropriate accessibility work.
+Edition 4-deep has one accepted source, tex/deep/ch01.tex, and a distinct entry point tex/deep-evolutor.tex. make pdf builds output/pdf/deep-evolutor.pdf. The gate verifies the acceptance record and source hashes; it rejects preserved, later or unreviewed manuscripts. Numerical outputs and figures are checked against their generator before compilation.
 
-Historical reproduction is explicit: make historical-pdf uses tex/undergraduate-evolutor.tex and builds only under build/. The committed output/pdf/undergraduate-evolutor.pdf remains byte-identical. The historical gate accepts the preserved edition metadata for regression tests but not as the active deep manuscript.
+Every page must be rendered and inspected after material changes. Figures retain editable SVG and semantic Unicode TXT; code excerpts and tables come from executable files. The PDF is not tagged and is not claimed to satisfy PDF/UA. Independent subject review, technically mature reader review and accessibility remediation remain release work.
 
-Plan checks: python3 scripts/build_deep_plan.py --check and the complete pytest suite. Changes are confined to astra-deep-rewrite. Never merge to main or modify protected historical branches implicitly; publication pushes require user authorization.
+make historical-pdf is an explicit archival reproduction under build/; it never replaces a committed old PDF. Normal tests check frozen artifacts and only build the canonical deep prototype. No main merge, history rewrite, tag movement, licensing change or authorship change is authorized.
+
+The current user explicitly authorized committing and pushing astra-deep-rewrite after successful Chapter 1 review. This authorization does not establish a blanket future push policy. See [production report](DEEP_CHAPTER_1_REPORT.md).

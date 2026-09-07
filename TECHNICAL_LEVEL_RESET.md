@@ -19,3 +19,7 @@ Old planned units are not existing chapter manuscripts. Every one of the 61 prev
 Preserved illustration standards: editable vectors, semantic Unicode TXT (no ASCII art), scientific/UML notation, oriented molecular figures, stable animation-like keyframes, captions, shape/unit annotations, grayscale readability and actual rendered-page inspection. The figure count and beginner page template are not retained as rigid requirements.
 
 The old CHAPTER_1_REPORT.md and CROSS_BOOK_CHAPTER_1_REVIEW.md report the preserved experiment, not the current target. No new deep PDF exists. See DEEP_REDESIGN_REPORT.md for this milestone's checks and next execution.
+
+## Subsequent canonical production
+
+The planning-only statements above describe the earlier reset milestone. The deep Chapter 1 now exists; see [current production report](DEEP_CHAPTER_1_REPORT.md). The undergraduate source remains frozen.

@@ -1,0 +1,8 @@
+ID: EVOD-01-F1
+TITLE: Programs, neural models and genomic systems
+PURPOSE: Three aligned lanes compare persistence, selection and execution, with distinct biology/software symbols.
+STEP 1 → STEP 2: Stored organization → Context-dependent activity
+STEP 2 → STEP 3: Context-dependent activity → Executed process
+STEP 3 → STEP 4: Executed process → Output or phenotype
+LIMIT: Correspondence is an analogy, not identity or a novelty claim.
+EVIDENCE: Original software example; biological statements and established architectures attributed separately; project architecture is a research target.

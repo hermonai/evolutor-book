@@ -1,0 +1,8 @@
+ID: EVOD-01-F7
+TITLE: Before calling it genomic, check computer science
+PURPOSE: Matrix of dispatch, MoE, attention, recurrence, search and orchestration against claims they already cover.
+STEP 1 → STEP 2: Name claimed mechanism → Find nearest baseline
+STEP 2 → STEP 3: Find nearest baseline → Test equivalence
+STEP 3 → STEP 4: Test equivalence → Specify remaining gap
+LIMIT: No existing technique is exhaustively taught or ranked in Chapter 1.
+EVIDENCE: Original software example; biological statements and established architectures attributed separately; project architecture is a research target.

@@ -1,10 +1,12 @@
 # Evolutor: deep technical edition
 
-Status: architecture and detailed outlines only; no new manuscript, final figures, animation frames, models, engines or experiments are delivered. Canonical source: [deep curriculum](pedagogy/deep-curriculum.json). Prior editions remain historical references, not the active teaching level.
+Status: canonical deep Chapter 1 is an internally reviewed prototype; all later chapters remain plans. The undergraduate edition is frozen. No trained model, engine or wet-lab result is delivered. See [production report](DEEP_CHAPTER_1_REPORT.md) and [edition strategy](CANONICAL_EDITION_STRATEGY.md).
 
 DOGMA = non-Transformer DNA-native model + DOGMA Engine; Hermon DNA = Transformer-based DNA model + Hermon DNA Engine; Evolutor = broader genomic computation theory, research and eventual runtime above both.
 
 ## Detailed Chapter 1 outline: Why Genomic Computation?
+
+This is the preserved eight-section preproduction outline. Production deliberately expanded it to 12 sections and ten figures; see the production report and tex/deep/ch01.tex for the actual chapter.
 
 Next execution writes this chapter; this milestone creates no manuscript, finished artwork or animation frames.
 

@@ -1,0 +1,8 @@
+ID: EVOD-01-F5
+TITLE: A stored description can generate a larger structure
+PURPOSE: Compare a short program generator to its expanded operator sequence and runtime instance.
+STEP 1 → STEP 2: Compact description → Construction process
+STEP 2 → STEP 3: Construction process → Generated program
+STEP 3 → STEP 4: Generated program → Runtime state
+LIMIT: Compilation/development analogy; the digital example is not a model of an organism.
+EVIDENCE: Original software example; biological statements and established architectures attributed separately; project architecture is a research target.

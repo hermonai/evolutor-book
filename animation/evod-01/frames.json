@@ -1,0 +1,72 @@
+[
+  {
+    "frame": 1,
+    "focus": "Persistent",
+    "before": "entry assumptions",
+    "change": "Catalog = {clip, center, prefix}; all map X to X.|The catalog is unchanged throughout this execution.",
+    "unchanged": "all stage identities and layout",
+    "motion": "none; static keyframe",
+    "creationConsumption": "not asserted at this abstraction level",
+    "source": "frame-01.svg"
+  },
+  {
+    "frame": 2,
+    "focus": "Context",
+    "before": "Catalog = {clip, center, prefix}; all map X to X.|The catalog is unchanged throughout this execution.",
+    "change": "Input x = [3, \u22121, 2]; context = balanced.|No learned regulator or hidden context is assumed.",
+    "unchanged": "all stage identities and layout",
+    "motion": "none; static keyframe",
+    "creationConsumption": "not asserted at this abstraction level",
+    "source": "frame-02.svg"
+  },
+  {
+    "frame": 3,
+    "focus": "Regulate",
+    "before": "Input x = [3, \u22121, 2]; context = balanced.|No learned regulator or hidden context is assumed.",
+    "change": "balanced selects the ordered plan center \u2192 prefix.|bounded would select clip \u2192 prefix instead.",
+    "unchanged": "all stage identities and layout",
+    "motion": "none; static keyframe",
+    "creationConsumption": "not asserted at this abstraction level",
+    "source": "frame-03.svg"
+  },
+  {
+    "frame": 4,
+    "focus": "Express",
+    "before": "balanced selects the ordered plan center \u2192 prefix.|bounded would select clip \u2192 prefix instead.",
+    "change": "The selected names resolve to typed catalog operations.|A plan is ordered; a set of names would lose semantics.",
+    "unchanged": "all stage identities and layout",
+    "motion": "none; static keyframe",
+    "creationConsumption": "not asserted at this abstraction level",
+    "source": "frame-04.svg"
+  },
+  {
+    "frame": 5,
+    "focus": "Execute",
+    "before": "The selected names resolve to typed catalog operations.|A plan is ordered; a set of names would lose semantics.",
+    "change": "center gives [5/3, \u22127/3, 2/3].|prefix then gives [5/3, \u22122/3, 0].",
+    "unchanged": "all stage identities and layout",
+    "motion": "none; static keyframe",
+    "creationConsumption": "not asserted at this abstraction level",
+    "source": "frame-05.svg"
+  },
+  {
+    "frame": 6,
+    "focus": "Trace",
+    "before": "center gives [5/3, \u22127/3, 2/3].|prefix then gives [5/3, \u22122/3, 0].",
+    "change": "Record each operation, its input and its output.|The persistent catalog still has not changed.",
+    "unchanged": "all stage identities and layout",
+    "motion": "none; static keyframe",
+    "creationConsumption": "not asserted at this abstraction level",
+    "source": "frame-06.svg"
+  },
+  {
+    "frame": 7,
+    "focus": "Adapt?",
+    "before": "Record each operation, its input and its output.|The persistent catalog still has not changed.",
+    "change": "No G\u2192G\u2032 update is implemented by this example.|A structural proposal needs its own update and validation rules.",
+    "unchanged": "all stage identities and layout",
+    "motion": "none; static keyframe",
+    "creationConsumption": "not asserted at this abstraction level",
+    "source": "frame-07.svg"
+  }
+]

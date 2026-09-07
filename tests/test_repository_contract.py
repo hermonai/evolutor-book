@@ -22,10 +22,11 @@ def test_reset_deliverables_and_reviewed_chapter_manifest():
     manifest = (ROOT / "tex/chapters/manifest.tex").read_text()
     book = json.loads((ROOT / "book/book.json").read_text())
     if book.get("edition") == "4-deep":
-        # No active deep entry point exists. The retained TeX manifest belongs to
-        # the immutable undergraduate entry point, whose consistency still matters.
-        assert book["chapters"] == [] and book["main"] is None
-        assert book["status"] == "architecture-only-no-manuscript"
+        # Check the canonical source independently; the old manifest remains frozen.
+        assert len(book["chapters"]) == 1
+        assert book["chapters"][0]["source"] == "tex/deep/ch01.tex"
+        assert r"\input{deep/ch01}" in (ROOT/book["main"]).read_text()
+        assert book["status"] == "chapter-one-production"
         anchor = book["preservedUndergraduateEdition"]["commit"]
         book = json.loads(subprocess.check_output(
             ["git", "show", anchor+":book/book.json"], cwd=ROOT, text=True))

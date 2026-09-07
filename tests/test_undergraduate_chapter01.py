@@ -90,13 +90,11 @@ def test_printed_code_and_citations_use_real_sources():
     assert len(re.findall(r"\\item ",body))==16
 
 def test_pdf_build_and_textual_publication_contract():
-    subprocess.run(["make","historical-pdf","PYTHON="+sys.executable],cwd=ROOT,check=True,capture_output=True)
+    # Frozen publication is checked without rebuilding a parallel manuscript.
     name="undergraduate-dna-computing" if DNA else "undergraduate-evolutor"
-    pdf=ROOT/f"build/{name}.pdf"
+    pdf=ROOT/f"output/pdf/{name}.pdf"
     assert pdf.read_bytes().startswith(b"%PDF-")
     text=subprocess.check_output(["pdftotext",str(pdf),"-"],text=True)
     assert "Chapter 1 glossary" in text and "Bibliography" in text and "Index" in text
     assert "??" not in text
     assert all(f"Figure 1.{i}:" in text for i in range(1,7))
-    log=(ROOT/f"build/{name}.log").read_text()
-    assert not re.search(r"Overfull|Underfull|undefined references|undefined citations|Missing character",log)

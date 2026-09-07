@@ -2,10 +2,29 @@
   "title": "Evolutor",
   "subtitle": "Genomic Computation, DNA-Native AI, and Adaptive Machine Intelligence",
   "edition": "4-deep",
-  "status": "architecture-only-no-manuscript",
-  "chapters": [],
-  "main": null,
-  "graphs": [],
+  "status": "chapter-one-production",
+  "chapters": [
+    {
+      "id": "EVOD-01",
+      "number": 1,
+      "title": "Why Genomic Computation?",
+      "source": "tex/deep/ch01.tex",
+      "status": "internally-reviewed-draft"
+    }
+  ],
+  "main": "tex/deep-evolutor.tex",
+  "graphs": [
+    "book/figures/deep/EVOD-01-F1.svg",
+    "book/figures/deep/EVOD-01-F2.svg",
+    "book/figures/deep/EVOD-01-F3.svg",
+    "book/figures/deep/EVOD-01-F4.svg",
+    "book/figures/deep/EVOD-01-F5.svg",
+    "book/figures/deep/EVOD-01-F6.svg",
+    "book/figures/deep/EVOD-01-F7.svg",
+    "book/figures/deep/EVOD-01-F8.svg",
+    "book/figures/deep/EVOD-01-F9.svg",
+    "book/figures/deep/EVOD-01-F10.svg"
+  ],
   "pedagogy": "pedagogy/deep-curriculum.json",
   "previousEdition": {
     "branch": "astra-rewrite",

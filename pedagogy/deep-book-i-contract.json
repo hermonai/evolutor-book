@@ -1,9 +1,9 @@
 {
   "schemaVersion": 2,
-  "status": "planned-not-yet-taught",
+  "status": "chapter-one-prototype-available",
   "sourceBranch": "astra-deep-rewrite",
   "sourceBook": "DNA Computing",
-  "activationRule": "An import is a future course dependency, not a delivered outcome. Activate only after the corresponding deep chapter and assessment exist; qualified readers may demonstrate equivalent knowledge. No Book II-to-Book I dependency.",
+  "activationRule": "DNAD-01 has a reviewed prototype and exercises, not independent reader validation. All other imports remain future teaching dependencies. Qualified readers may demonstrate equivalent knowledge. No Book II-to-Book I dependency.",
   "chapters": [
     {
       "id": "DNAD-01",
@@ -14,7 +14,7 @@
         "encoding and selection"
       ],
       "exitCheck": "Verify a nontrivial directed path and identify a filter-surviving invalid candidate.",
-      "status": "planned-not-yet-taught"
+      "status": "prototype-available"
     },
     {
       "id": "DNAD-02",

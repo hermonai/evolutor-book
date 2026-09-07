@@ -30,4 +30,8 @@ Source-linked code must match literal outputs and numerical conventions. A biolo
 
 A technically capable reader should be able to reconstruct the mechanism, derive the important relationship, execute or trace the reference model, and distinguish evidence from hypothesis. Internal checks cannot establish that a real reader succeeds. Independent review, reader observation, source/rights auditing and accessible publication structure remain open release gates.
 
-The current milestone contains no deep manuscript or PDF. All new chapters remain planned until a future chapter production record satisfies this standard.
+Chapter 1 now supplies the first deep production example; all later chapters remain planned. See DEEP_CHAPTER_1_REPORT.md and artifacts/deep/ch01-review.json. Only the deep edition advances; the undergraduate prototype is frozen.
+
+## Lessons from the canonical Chapter 1 production
+
+Keep a comparison table header with its rows. Inspect literal separator characters inside SVG text helpers: a vertical-bar line splitter can accidentally turn a KV label into two lines. Mark molecular backbone continuity separately from base pairing. Show explicit UML guards, merge points, and dependency direction. Do not draw causal arrows between unrelated field categories. Static keyframes should expose a changing state, not merely highlight labels. Round generated geometry to a documented precision so different Python math libraries do not create meaningless artifact drift. Keep printed code at readable size, and verify bibliography navigation as well as citation closure. Bind acceptance to hashes of reviewed source and artwork; a passing old review must not certify new edits.

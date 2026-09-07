@@ -49,7 +49,7 @@ Retain original editable SVG/TikZ/Graphviz/PlantUML and semantic Unicode TXT com
 
 Molecular figures show orientation, bonds, species, enzymes and conservation. Energy and kinetic plots show units and assumptions. Software uses UML or equally precise engineering notation; memory pictures show ownership and actual storage categories. Tensor diagrams show dimensions. Runtime diagrams show time, queues, cancellation and state lifetime. A diagram may be abstract, but its arrows and omissions must be explicit.
 
-Animation candidates are storyboards now, not delivered moving media. Before artwork, define before-state, changed/unchanged objects, movement, creation/consumption, stable identities and arrow semantics. Preserve static keyframes and reduced-motion alternatives. Render final figures inside the actual LaTeX pages before accepting them. No fixed number of figures per page or chapter overrides explanatory value.
+Chapter 1 now has original static keyframes with explicit state changes; later animation candidates remain storyboards, not delivered moving media. Before artwork, define before-state, changed/unchanged objects, movement, creation/consumption, stable identities and arrow semantics. Preserve static keyframes and reduced-motion alternatives. Render final figures inside the actual LaTeX pages before accepting them. No fixed number of figures per page or chapter overrides explanatory value.
 
 ## Code, evidence and research
 
@@ -61,9 +61,9 @@ Primary-source review is required before drafting technical claims. Publication 
 
 ## Scope and production gate
 
-This execution delivers architecture, inventories and Chapter 1 outlines only. No deep chapter manuscript, finished figure, animation frame, training run or engine is produced. The previous Chapter 1s remain reproducible historical experiments. The new book manifest has no active chapters; the default PDF command must refuse to relabel an old PDF as the deep edition.
+The canonical Chapter 1 is now a fresh deep manuscript with ten original vectors, semantic TXT, static keyframes, exact code, exercises and a distinct reviewed PDF. The gate rejects old or changed-after-review source. No training run, physical experiment or inference engine is delivered. The undergraduate branch is frozen as a pedagogical archive.
 
-Next execution: write fresh Chapter 1 only in each requested book from CHAPTER_1_OUTLINE.md, with primary-source audit, worked derivations, exact tests, original editable figures, exercises/solutions, LaTeX and every-page visual review. Do not continue the old Chapter 2. All later chapters remain plans.
+Next execution: Chapter 2 under the existing source and dependency gates. Do not continue the undergraduate manuscript or old Chapter 2. The original eight-section outline is retained as preproduction history; the actual source and ten-figure production inventory supersede its asset count. All later chapters remain plans.
 
 Internal structural and author-perspective review is not independent scientific certification or a real reader study. Release still needs subject review, actual technically capable readers, source/rights checks, reproducible evidence and accessibility work.
 

@@ -1,0 +1,8 @@
+ID: EVOD-01-F3
+TITLE: Control changes activity without rewriting DNA
+PURPOSE: Show promoter/transcription machinery and a qualitative signal-controlled abundance change.
+STEP 1 → STEP 2: Regulatory input → Molecular interaction
+STEP 2 → STEP 3: Molecular interaction → Changed transcription
+STEP 3 → STEP 4: Changed transcription → Changed RNA abundance
+LIMIT: Conceptual biology; no measured rates and no assumption that all regulation is transcriptional.
+EVIDENCE: Original software example; biological statements and established architectures attributed separately; project architecture is a research target.

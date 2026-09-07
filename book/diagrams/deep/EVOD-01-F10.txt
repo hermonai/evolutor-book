@@ -1,0 +1,10 @@
+ID: EVOD-01-F10
+TITLE: From a computational idea to a defensible system
+PURPOSE: Separate semantic, reference, parity, experiment, engine and capability gates.
+STEP 1 → STEP 2: Formal model → Executable reference
+STEP 2 → STEP 3: Executable reference → Parity and causality
+STEP 3 → STEP 4: Parity and causality → Controlled experiment
+STEP 4 → STEP 5: Controlled experiment → Profiled engine
+STEP 5 → STEP 6: Profiled engine → Capability evaluation
+LIMIT: No new trained model, inference engine or AGI result is claimed.
+EVIDENCE: Original software example; biological statements and established architectures attributed separately; project architecture is a research target.
