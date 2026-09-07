@@ -1,5 +1,17 @@
 # Architecture taxonomy and historical lineage
 
+## Active deep-edition reconciliation — 7 September 2026
+
+DOGMA = non-Transformer DNA-native model + DOGMA Engine. Hermon DNA = Transformer-based DNA model + Hermon DNA Engine. Evolutor = broader genomic computation theory, research and eventual runtime above both. The taxonomy is unchanged; the intellectual level and organization are revised.
+
+The active plan has 52 substantial chapters in 12 parts, using EVOD IDs: baselines EVOD-06–10; formal hypotheses EVOD-11–17; DOGMA model EVOD-18–22; Hermon DNA model EVOD-23–24; training/evidence EVOD-25–29; shared runtime contracts EVOD-30; DOGMA Engine EVOD-31–34; Hermon DNA Engine EVOD-35–38; Evolutor runtime/IR/adaptation EVOD-39–43; industrial engineering EVOD-44–47; applications/capabilities EVOD-48–51; synthesis EVOD-52.
+
+See ../pedagogy/deep-curriculum.json and ../PREVIOUS_EDITION_AUDIT.md for the authoritative dependencies and complete EVOU-to-EVOD mapping. No new models, engines or results exist in this milestone. Historical names are not reclassified by intention.
+
+## Preserved 6 September amendment (historical curriculum references below)
+
+The following note records the preceding 61-unit plan. Its EVOU IDs and curriculum links describe that historical edition, not the active deep plan. Mechanism/evidence cautions remain relevant.
+
 Status: user-authorized target research taxonomy, 6 September 2026. No architecture, engine, training run, kernel or performance result is implemented by this amendment. Chapter 1 production continues separately.
 
 ## Target taxonomy

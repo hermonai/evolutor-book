@@ -1,29 +1,21 @@
 {
   "title": "Evolutor",
-  "subtitle": "From Genomic Computation to Adaptive Machine Intelligence",
-  "edition": "3-undergraduate",
-  "status": "chapter-one-production",
-  "chapters": [
-    {
-      "id": "EVOU-01",
-      "title": "Programs, genomes and the question of Evolutor",
-      "source": "tex/undergraduate/ch01.tex",
-      "status": "internally-reviewed-draft"
-    }
-  ],
-  "main": "tex/undergraduate-evolutor.tex",
-  "graphs": [
-    "book/diagrams/undergraduate/EVOU-01-F1.txt",
-    "book/diagrams/undergraduate/EVOU-01-F2.txt",
-    "book/diagrams/undergraduate/EVOU-01-F3.txt",
-    "book/diagrams/undergraduate/EVOU-01-F4.txt",
-    "book/diagrams/undergraduate/EVOU-01-F5.txt",
-    "book/diagrams/undergraduate/EVOU-01-F6.txt"
-  ],
-  "pedagogy": "pedagogy/curriculum.json",
+  "subtitle": "Genomic Computation, DNA-Native AI, and Adaptive Machine Intelligence",
+  "edition": "4-deep",
+  "status": "architecture-only-no-manuscript",
+  "chapters": [],
+  "main": null,
+  "graphs": [],
+  "pedagogy": "pedagogy/deep-curriculum.json",
   "previousEdition": {
     "branch": "astra-rewrite",
     "commit": "58fa55a8097157d297be4afe21f146623048b875"
   },
-  "historicalSnapshot": "9df0d006e10e56cd836a4b84400009dab3cbf4f2"
+  "historicalSnapshot": "9df0d006e10e56cd836a4b84400009dab3cbf4f2",
+  "preservedUndergraduateEdition": {
+    "branch": "astra-undergraduate-rewrite",
+    "commit": "af8de42e16c71024d3e228a57e1d4d87c8d87276",
+    "source": "tex/undergraduate/ch01.tex",
+    "pdf": "output/pdf/undergraduate-evolutor.pdf"
+  }
 }

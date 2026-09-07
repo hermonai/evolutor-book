@@ -1,0 +1,430 @@
+{
+  "schemaVersion": 2,
+  "status": "planned-not-yet-taught",
+  "sourceBranch": "astra-deep-rewrite",
+  "sourceBook": "DNA Computing",
+  "activationRule": "An import is a future course dependency, not a delivered outcome. Activate only after the corresponding deep chapter and assessment exist; qualified readers may demonstrate equivalent knowledge. No Book II-to-Book I dependency.",
+  "chapters": [
+    {
+      "id": "DNAD-01",
+      "title": "Computing with DNA",
+      "topics": [
+        "molecular computation",
+        "Hamiltonian witness",
+        "encoding and selection"
+      ],
+      "exitCheck": "Verify a nontrivial directed path and identify a filter-surviving invalid candidate.",
+      "status": "planned-not-yet-taught"
+    },
+    {
+      "id": "DNAD-02",
+      "title": "Adleman's experiment: a mechanistic reconstruction",
+      "topics": [
+        "vertex and edge oligos",
+        "annealing and ligation",
+        "endpoint PCR",
+        "length and affinity selection",
+        "historical readout"
+      ],
+      "exitCheck": "Reconstruct each operation from the primary paper; simulate filter losses and missing witnesses.",
+      "status": "planned-not-yet-taught"
+    },
+    {
+      "id": "DNAD-03",
+      "title": "Combinatorial search and complexity",
+      "topics": [
+        "directed graphs",
+        "Hamiltonian paths",
+        "SAT",
+        "P",
+        "NP",
+        "reductions",
+        "verification"
+      ],
+      "exitCheck": "Build an exhaustive oracle and a polynomial witness checker; compare search and verification counts.",
+      "status": "planned-not-yet-taught"
+    },
+    {
+      "id": "DNAD-04",
+      "title": "Molecular parallelism and resource accounting",
+      "topics": [
+        "sampling",
+        "material",
+        "concentration",
+        "reaction depth",
+        "readout",
+        "energy boundaries"
+      ],
+      "exitCheck": "Estimate a declared sampling budget and sensitivity to bias; do not assume uniform generation.",
+      "status": "planned-not-yet-taught"
+    },
+    {
+      "id": "DNAD-05",
+      "title": "DNA chemistry and sequence geometry",
+      "topics": [
+        "nucleotide",
+        "phosphodiester backbone",
+        "stacking",
+        "antiparallel duplex",
+        "reverse complement"
+      ],
+      "exitCheck": "Implement reverse complement and test orientation, ambiguity and involution.",
+      "status": "planned-not-yet-taught"
+    },
+    {
+      "id": "DNAD-06",
+      "title": "Hybridization thermodynamics",
+      "topics": [
+        "free energy",
+        "nearest-neighbor models",
+        "salt",
+        "concentration",
+        "melting",
+        "mismatch"
+      ],
+      "exitCheck": "Compare symbolic matches with parameterized free-energy predictions; record parameter provenance.",
+      "status": "planned-not-yet-taught"
+    },
+    {
+      "id": "DNAD-07",
+      "title": "Reaction kinetics and stochastic chemistry",
+      "topics": [
+        "mass action",
+        "stoichiometry",
+        "ODEs",
+        "stochastic trajectories",
+        "diffusion limits"
+      ],
+      "exitCheck": "Simulate association; check conservation, units and stochastic versus deterministic limits.",
+      "status": "planned-not-yet-taught"
+    },
+    {
+      "id": "DNAD-08",
+      "title": "Enzymes as molecular operators",
+      "topics": [
+        "polymerase",
+        "ligase",
+        "restriction",
+        "recognition",
+        "substrates",
+        "cofactors"
+      ],
+      "exitCheck": "Trace ligation and restriction cases including incompatible ends and incomplete reactions.",
+      "status": "planned-not-yet-taught"
+    },
+    {
+      "id": "DNAD-09",
+      "title": "PCR, amplification and selection bias",
+      "topics": [
+        "primer orientation",
+        "thermal cycling",
+        "specificity",
+        "efficiency",
+        "contamination"
+      ],
+      "exitCheck": "Compute amplification with variable efficiency and adversarial primer placement.",
+      "status": "planned-not-yet-taught"
+    },
+    {
+      "id": "DNAD-10",
+      "title": "Separation, detection and experimental logic",
+      "topics": [
+        "electrophoresis",
+        "affinity purification",
+        "fluorescence",
+        "sequencing",
+        "controls"
+      ],
+      "exitCheck": "Interpret a synthetic gel with declared uncertainty and design positive/negative controls.",
+      "status": "planned-not-yet-taught"
+    },
+    {
+      "id": "DNAD-11",
+      "title": "Sequence design and graph encoding",
+      "topics": [
+        "orthogonality",
+        "overlaps",
+        "reverse-complement constraints",
+        "secondary structure"
+      ],
+      "exitCheck": "Construct an encoding and test orientation, off-target overlaps and hairpin risks.",
+      "status": "planned-not-yet-taught"
+    },
+    {
+      "id": "DNAD-12",
+      "title": "Generate–filter–verify algorithms",
+      "topics": [
+        "candidate multisets",
+        "predicates",
+        "soundness",
+        "completeness",
+        "physical loss"
+      ],
+      "exitCheck": "Compare a symbolic filter simulator with an independent graph oracle.",
+      "status": "planned-not-yet-taught"
+    },
+    {
+      "id": "DNAD-13",
+      "title": "SAT and combinatorial constructions",
+      "topics": [
+        "Lipton encoding",
+        "clauses",
+        "selection",
+        "solution extraction"
+      ],
+      "exitCheck": "Implement a small SAT oracle and molecular abstraction; expose unsound or incomplete filters.",
+      "status": "planned-not-yet-taught"
+    },
+    {
+      "id": "DNAD-14",
+      "title": "Sticker systems and molecular memory",
+      "topics": [
+        "memory strands",
+        "stickers",
+        "bit operations",
+        "register reuse"
+      ],
+      "exitCheck": "Execute a small register program and count operations, species and memory.",
+      "status": "planned-not-yet-taught"
+    },
+    {
+      "id": "DNAD-15",
+      "title": "Splicing and insertion–deletion systems",
+      "topics": [
+        "cut-and-paste rules",
+        "context",
+        "insertion",
+        "deletion",
+        "molecular interpretation"
+      ],
+      "exitCheck": "Write a bounded rewrite enumerator and verify hand-derived reachable strings.",
+      "status": "planned-not-yet-taught"
+    },
+    {
+      "id": "DNAD-16",
+      "title": "Languages, automata and molecular recognition",
+      "topics": [
+        "formal languages",
+        "grammars",
+        "automata",
+        "acceptance",
+        "transduction"
+      ],
+      "exitCheck": "Build a finite-state recognizer and map its transitions to a proposed molecular scheme.",
+      "status": "planned-not-yet-taught"
+    },
+    {
+      "id": "DNAD-17",
+      "title": "Watson–Crick and biochemical automata",
+      "topics": [
+        "paired-strand automata",
+        "complementarity relation",
+        "Benenson-style systems"
+      ],
+      "exitCheck": "Trace acceptance on paired inputs; audit what the biochemical experiment actually implements.",
+      "status": "planned-not-yet-taught"
+    },
+    {
+      "id": "DNAD-18",
+      "title": "Universality and complexity models",
+      "topics": [
+        "Turing completeness",
+        "simulations",
+        "uniformity",
+        "resource vectors"
+      ],
+      "exitCheck": "Critique a universality argument by finding missing resources or illegal operations.",
+      "status": "planned-not-yet-taught"
+    },
+    {
+      "id": "DNAD-19",
+      "title": "Toehold-mediated strand displacement",
+      "topics": [
+        "toehold binding",
+        "branch migration",
+        "release",
+        "leakage"
+      ],
+      "exitCheck": "Simulate a gate with explicit fuel and waste; test leak pathways.",
+      "status": "planned-not-yet-taught"
+    },
+    {
+      "id": "DNAD-20",
+      "title": "Chemical reaction networks as programs",
+      "topics": [
+        "species",
+        "stoichiometry",
+        "mass action",
+        "compositional encodings"
+      ],
+      "exitCheck": "Implement a small CRN with independent conservation and nonnegativity checks.",
+      "status": "planned-not-yet-taught"
+    },
+    {
+      "id": "DNAD-21",
+      "title": "Digital and analog DNA circuits",
+      "topics": [
+        "logic",
+        "thresholds",
+        "restoration",
+        "feedback",
+        "fan-out",
+        "depletion"
+      ],
+      "exitCheck": "Compare a truth table with concentration trajectories and resource depletion.",
+      "status": "planned-not-yet-taught"
+    },
+    {
+      "id": "DNAD-22",
+      "title": "Self-assembly, tiles and geometry",
+      "topics": [
+        "Seeman structures",
+        "Wang tiles",
+        "aTAM",
+        "glue strengths",
+        "assembly sequences",
+        "origami"
+      ],
+      "exitCheck": "Enumerate a small tile assembly and test illegal attachments and alternative growth orders.",
+      "status": "planned-not-yet-taught"
+    },
+    {
+      "id": "DNAD-23",
+      "title": "Noise, crosstalk and fault models",
+      "topics": [
+        "synthesis error",
+        "mismatch",
+        "leak",
+        "PCR bias",
+        "false positives",
+        "false negatives"
+      ],
+      "exitCheck": "Inject correlated faults into a filter or circuit model; quantify robust and fragile regimes.",
+      "status": "planned-not-yet-taught"
+    },
+    {
+      "id": "DNAD-24",
+      "title": "Scaling and resource limits",
+      "topics": [
+        "material",
+        "species",
+        "volume",
+        "latency",
+        "energy",
+        "detection",
+        "parallelism"
+      ],
+      "exitCheck": "Compare two algorithms at matched success probability, not only reaction-step count.",
+      "status": "planned-not-yet-taught"
+    },
+    {
+      "id": "DNAD-25",
+      "title": "Synthesis, sequencing and DNA storage",
+      "topics": [
+        "writing",
+        "coding",
+        "redundancy",
+        "access",
+        "sequencing channels",
+        "storage versus computation"
+      ],
+      "exitCheck": "Recover a synthetic message under insertion/deletion/substitution errors.",
+      "status": "planned-not-yet-taught"
+    },
+    {
+      "id": "DNAD-26",
+      "title": "Laboratory workflows and reproducibility",
+      "topics": [
+        "oligo design",
+        "purification",
+        "mixing",
+        "reaction",
+        "controls",
+        "measurement",
+        "provenance"
+      ],
+      "exitCheck": "Design a documented non-operational experiment plan with controls and failure interpretation.",
+      "status": "planned-not-yet-taught"
+    },
+    {
+      "id": "DNAD-27",
+      "title": "Symbolic molecular simulation",
+      "topics": [
+        "strings",
+        "multisets",
+        "rule interpreters",
+        "bounded search",
+        "independent oracles"
+      ],
+      "exitCheck": "Build a tested symbolic core shared by graph filters and rewriting systems.",
+      "status": "planned-not-yet-taught"
+    },
+    {
+      "id": "DNAD-28",
+      "title": "Kinetic and stochastic simulation",
+      "topics": [
+        "ODE integration",
+        "stochastic simulation",
+        "parameter fitting",
+        "model validation"
+      ],
+      "exitCheck": "Compare deterministic and stochastic trajectories under reproducible seeds and fitted uncertainty.",
+      "status": "planned-not-yet-taught"
+    },
+    {
+      "id": "DNAD-29",
+      "title": "Differentiable molecular and sequence models",
+      "topics": [
+        "sensitivity",
+        "inverse design",
+        "tensors",
+        "gradients",
+        "DNA representations"
+      ],
+      "exitCheck": "Use NumPy or PyTorch only where gradients or tensors serve the model; check finite differences.",
+      "status": "planned-not-yet-taught"
+    },
+    {
+      "id": "DNAD-30",
+      "title": "Genomic organization, regulation and development",
+      "topics": [
+        "genes",
+        "RNA",
+        "proteins",
+        "promoters",
+        "regulatory networks",
+        "development",
+        "inheritance",
+        "selection"
+      ],
+      "exitCheck": "Analyze a small regulatory model and identify what it omits about a living system.",
+      "status": "planned-not-yet-taught"
+    },
+    {
+      "id": "DNAD-31",
+      "title": "Modern molecular programming and evidence",
+      "topics": [
+        "circuits",
+        "assembly",
+        "sensing",
+        "in-vitro and in-vivo boundaries",
+        "current literature"
+      ],
+      "exitCheck": "Produce a reproducible evidence comparison; refresh literature at drafting time.",
+      "status": "planned-not-yet-taught"
+    },
+    {
+      "id": "DNAD-32",
+      "title": "From molecular computation to genomic computation",
+      "topics": [
+        "physical molecule",
+        "formal string",
+        "simulator",
+        "learned representation",
+        "computational analogy"
+      ],
+      "exitCheck": "Complete the Book II handoff by formalizing one mechanism and rejecting an unsupported analogy.",
+      "status": "planned-not-yet-taught"
+    }
+  ]
+}

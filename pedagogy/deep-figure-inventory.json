@@ -1,0 +1,893 @@
+[
+  {
+    "id": "EVOD-01-F1",
+    "title": "Program, model and genome",
+    "grammar": "Three aligned lanes with distinct visual grammars and explicit execution machinery.",
+    "frames": [
+      "stored structure",
+      "context",
+      "active process",
+      "output or phenotype"
+    ],
+    "status": "planned-no-assets",
+    "chapter": "EVOD-01",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOD-01-F2",
+    "title": "Stored versus expressed computation",
+    "grammar": "Separate persistent module catalog, selected plan and execution trace; no claim of novelty from selection alone.",
+    "frames": [
+      "module catalog",
+      "context",
+      "selected plan",
+      "executed operations",
+      "result and trace"
+    ],
+    "status": "planned-no-assets",
+    "chapter": "EVOD-01",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOD-01-F3",
+    "title": "Regulation with visible alternatives",
+    "grammar": "Two contexts over one unchanged catalog; control arrows differ from data flow.",
+    "frames": [
+      "context A or B",
+      "control decision",
+      "selected transformation",
+      "state/result"
+    ],
+    "status": "planned-no-assets",
+    "chapter": "EVOD-01",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOD-01-F4",
+    "title": "Development and adaptation timescales",
+    "grammar": "Aligned state/parameter/structure/population timelines with explicit update triggers.",
+    "frames": [
+      "persistent description",
+      "developed structure",
+      "inference state changes",
+      "parameter update",
+      "structural or population proposal"
+    ],
+    "status": "planned-no-assets",
+    "chapter": "EVOD-01",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOD-01-F5",
+    "title": "Established alternatives",
+    "grammar": "Mechanism comparison matrix with supported correspondences and explicit non-equivalences.",
+    "frames": [
+      "proposed mechanism",
+      "closest baseline",
+      "equivalence test",
+      "remaining question"
+    ],
+    "status": "planned-no-assets",
+    "chapter": "EVOD-01",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOD-01-F6",
+    "title": "Research gap and test",
+    "grammar": "Mechanism → prediction → controlled test → support/rejection, with baseline in the same frame.",
+    "frames": [
+      "candidate mechanism",
+      "declared claim",
+      "matched comparison",
+      "outcome",
+      "revise or retain"
+    ],
+    "status": "planned-no-assets",
+    "chapter": "EVOD-01",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOD-01-F7",
+    "title": "Two families and their memory",
+    "grammar": "Separate candidate state layout and Transformer KV layout; weights, workspace and external memory shown separately.",
+    "frames": [
+      "DOGMA input/state",
+      "state transition",
+      "next state/output; Hermon input/prior KV",
+      "attention",
+      "appended KV/output"
+    ],
+    "status": "planned-no-assets",
+    "chapter": "EVOD-01",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOD-01-F8",
+    "title": "Research and engineering roadmap",
+    "grammar": "UML component/dependency view, with planned interfaces and no implied deployed service.",
+    "frames": [
+      "semantics",
+      "reference model",
+      "parity tests",
+      "profiled engine",
+      "Evolutor runtime",
+      "capability evaluation"
+    ],
+    "status": "planned-no-assets",
+    "chapter": "EVOD-01",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOD-02-F1",
+    "title": "Data lineage and objective",
+    "grammar": "Data lineage and objective",
+    "frames": [
+      "examples",
+      "prediction",
+      "loss",
+      "held-out check"
+    ],
+    "status": "planned-no-assets",
+    "chapter": "EVOD-02",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOD-03-F1",
+    "title": "Tensor and gradient flow",
+    "grammar": "Tensor and gradient flow",
+    "frames": [
+      "forward values",
+      "loss",
+      "backward gradients",
+      "parameter update"
+    ],
+    "status": "planned-no-assets",
+    "chapter": "EVOD-03",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOD-04-F1",
+    "title": "Training lifecycle",
+    "grammar": "Training lifecycle",
+    "frames": [
+      "batch",
+      "forward",
+      "backward",
+      "update",
+      "evaluate",
+      "checkpoint"
+    ],
+    "status": "planned-no-assets",
+    "chapter": "EVOD-04",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOD-05-F1",
+    "title": "Sequence to indexed tensor",
+    "grammar": "Sequence to indexed tensor",
+    "frames": [
+      "sequence",
+      "tokens",
+      "embeddings",
+      "aligned targets"
+    ],
+    "status": "planned-no-assets",
+    "chapter": "EVOD-05",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOD-06-F1",
+    "title": "Unrolled and stepwise state",
+    "grammar": "Unrolled and stepwise state",
+    "frames": [
+      "token and state",
+      "gate/update",
+      "next state",
+      "prediction"
+    ],
+    "status": "planned-no-assets",
+    "chapter": "EVOD-06",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOD-07-F1",
+    "title": "Scan tree and recurrent trace",
+    "grammar": "Scan tree and recurrent trace",
+    "frames": [
+      "transition factors",
+      "composition",
+      "prefix states"
+    ],
+    "status": "planned-no-assets",
+    "chapter": "EVOD-07",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOD-08-F1",
+    "title": "Keys, query scores and weighted values",
+    "grammar": "Keys, query scores and weighted values",
+    "frames": [
+      "query",
+      "key comparison",
+      "normalization",
+      "value mixture"
+    ],
+    "status": "planned-no-assets",
+    "chapter": "EVOD-08",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOD-09-F1",
+    "title": "Block diagram and cached token sequence",
+    "grammar": "Block diagram and cached token sequence",
+    "frames": [
+      "prompt",
+      "block computation",
+      "cached state",
+      "next step"
+    ],
+    "status": "planned-no-assets",
+    "chapter": "EVOD-09",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOD-10-F1",
+    "title": "Dispatch and memory comparison",
+    "grammar": "Dispatch and memory comparison",
+    "frames": [
+      "context",
+      "route",
+      "selected operator",
+      "output"
+    ],
+    "status": "planned-no-assets",
+    "chapter": "EVOD-10",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOD-11-F1",
+    "title": "Biology/software comparison with typed arrows",
+    "grammar": "Biology/software comparison with typed arrows",
+    "frames": [
+      "context",
+      "regulator",
+      "selected structure",
+      "execution"
+    ],
+    "status": "planned-no-assets",
+    "chapter": "EVOD-11",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOD-12-F1",
+    "title": "Development stages and compiler analogy",
+    "grammar": "Development stages and compiler analogy",
+    "frames": [
+      "persistent description",
+      "developmental process",
+      "executable structure"
+    ],
+    "status": "planned-no-assets",
+    "chapter": "EVOD-12",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOD-13-F1",
+    "title": "Multiple timescales",
+    "grammar": "Multiple timescales",
+    "frames": [
+      "inference state",
+      "parameter update",
+      "structural revision",
+      "population selection"
+    ],
+    "status": "planned-no-assets",
+    "chapter": "EVOD-13",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOD-14-F1",
+    "title": "Typed module and state relations",
+    "grammar": "Typed module and state relations",
+    "frames": [
+      "input types",
+      "selected plan",
+      "legal execution",
+      "typed result"
+    ],
+    "status": "planned-no-assets",
+    "chapter": "EVOD-14",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOD-15-F1",
+    "title": "State-transition rules and execution trace",
+    "grammar": "State-transition rules and execution trace",
+    "frames": [
+      "configuration",
+      "permitted transition",
+      "trace event",
+      "next configuration"
+    ],
+    "status": "planned-no-assets",
+    "chapter": "EVOD-15",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOD-16-F1",
+    "title": "Cost decomposition and counterexample",
+    "grammar": "Cost decomposition and counterexample",
+    "frames": [
+      "stored system",
+      "selected execution",
+      "full resource ledger"
+    ],
+    "status": "planned-no-assets",
+    "chapter": "EVOD-16",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOD-17-F1",
+    "title": "Trace interventions",
+    "grammar": "Trace interventions",
+    "frames": [
+      "recorded execution",
+      "intervention",
+      "changed outcome",
+      "evidence"
+    ],
+    "status": "planned-no-assets",
+    "chapter": "EVOD-17",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOD-18-F1",
+    "title": "One-step candidate state machine",
+    "grammar": "One-step candidate state machine",
+    "frames": [
+      "input and state",
+      "regulation",
+      "expressed transformation",
+      "new state",
+      "output"
+    ],
+    "status": "planned-no-assets",
+    "chapter": "EVOD-18",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOD-19-F1",
+    "title": "Regulation and transformation panels",
+    "grammar": "Regulation and transformation panels",
+    "frames": [
+      "context",
+      "control",
+      "selected transformation",
+      "state update"
+    ],
+    "status": "planned-no-assets",
+    "chapter": "EVOD-19",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOD-20-F1",
+    "title": "State layout and update timescales",
+    "grammar": "State layout and update timescales",
+    "frames": [
+      "state partitions",
+      "selective updates",
+      "retained and lost information"
+    ],
+    "status": "planned-no-assets",
+    "chapter": "EVOD-20",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOD-21-F1",
+    "title": "Paired state with causal boundaries",
+    "grammar": "Paired state with causal boundaries",
+    "frames": [
+      "forward context",
+      "paired proposal",
+      "allowed interaction",
+      "output"
+    ],
+    "status": "planned-no-assets",
+    "chapter": "EVOD-21",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOD-22-F1",
+    "title": "Semantic reference and evidence loop",
+    "grammar": "Semantic reference and evidence loop",
+    "frames": [
+      "specified transition",
+      "reference",
+      "test",
+      "experiment",
+      "retain or reject"
+    ],
+    "status": "planned-no-assets",
+    "chapter": "EVOD-22",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOD-23-F1",
+    "title": "DNA Transformer tensor pipeline",
+    "grammar": "DNA Transformer tensor pipeline",
+    "frames": [
+      "tokens",
+      "embeddings",
+      "attention blocks",
+      "output head"
+    ],
+    "status": "planned-no-assets",
+    "chapter": "EVOD-23",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOD-24-F1",
+    "title": "Baseline versus DNA-aware mechanism",
+    "grammar": "Baseline versus DNA-aware mechanism",
+    "frames": [
+      "baseline computation",
+      "proposed modification",
+      "controlled comparison"
+    ],
+    "status": "planned-no-assets",
+    "chapter": "EVOD-24",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOD-25-F1",
+    "title": "UML interface and two opaque state types",
+    "grammar": "UML interface and two opaque state types",
+    "frames": [
+      "shared request",
+      "family adapter",
+      "typed state/result"
+    ],
+    "status": "planned-no-assets",
+    "chapter": "EVOD-25",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOD-26-F1",
+    "title": "Parity comparison across execution modes",
+    "grammar": "Parity comparison across execution modes",
+    "frames": [
+      "reference trace",
+      "alternate execution",
+      "aligned comparison"
+    ],
+    "status": "planned-no-assets",
+    "chapter": "EVOD-26",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOD-27-F1",
+    "title": "Training memory and recomputation timeline",
+    "grammar": "Training memory and recomputation timeline",
+    "frames": [
+      "forward activations",
+      "checkpoint choice",
+      "backward recomputation"
+    ],
+    "status": "planned-no-assets",
+    "chapter": "EVOD-27",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOD-28-F1",
+    "title": "UML deployment and communication schedule",
+    "grammar": "UML deployment and communication schedule",
+    "frames": [
+      "sharded training",
+      "synchronized update",
+      "versioned checkpoint"
+    ],
+    "status": "planned-no-assets",
+    "chapter": "EVOD-28",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOD-29-F1",
+    "title": "Capability/resource matrix",
+    "grammar": "Capability/resource matrix",
+    "frames": [
+      "hypothesis",
+      "matched tasks",
+      "repeated trials",
+      "bounded conclusion"
+    ],
+    "status": "planned-no-assets",
+    "chapter": "EVOD-29",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOD-30-F1",
+    "title": "UML state and sequence diagrams",
+    "grammar": "UML state and sequence diagrams",
+    "frames": [
+      "admit",
+      "prepare",
+      "step",
+      "finish or cancel",
+      "release"
+    ],
+    "status": "planned-no-assets",
+    "chapter": "EVOD-30",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOD-31-F1",
+    "title": "DOGMA step sequence",
+    "grammar": "DOGMA step sequence",
+    "frames": [
+      "prompt tokens",
+      "state construction",
+      "native transition",
+      "logits"
+    ],
+    "status": "planned-no-assets",
+    "chapter": "EVOD-31",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOD-32-F1",
+    "title": "State-pool memory map",
+    "grammar": "State-pool memory map",
+    "frames": [
+      "allocate",
+      "own",
+      "update",
+      "reset",
+      "reuse"
+    ],
+    "status": "planned-no-assets",
+    "chapter": "EVOD-32",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOD-33-F1",
+    "title": "Branching states and ownership",
+    "grammar": "Branching states and ownership",
+    "frames": [
+      "shared prefix",
+      "immutable snapshot",
+      "independent branches"
+    ],
+    "status": "planned-no-assets",
+    "chapter": "EVOD-33",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOD-34-F1",
+    "title": "Scheduler timeline and kernel dataflow",
+    "grammar": "Scheduler timeline and kernel dataflow",
+    "frames": [
+      "queued states",
+      "compatible batch",
+      "kernel",
+      "independent next states"
+    ],
+    "status": "planned-no-assets",
+    "chapter": "EVOD-34",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOD-35-F1",
+    "title": "Tensor layout and request sequence",
+    "grammar": "Tensor layout and request sequence",
+    "frames": [
+      "prompt",
+      "K/V construction",
+      "new query",
+      "updated cache"
+    ],
+    "status": "planned-no-assets",
+    "chapter": "EVOD-35",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOD-36-F1",
+    "title": "Paged KV memory map",
+    "grammar": "Paged KV memory map",
+    "frames": [
+      "logical positions",
+      "physical pages",
+      "shared prefix",
+      "release"
+    ],
+    "status": "planned-no-assets",
+    "chapter": "EVOD-36",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOD-37-F1",
+    "title": "Request timeline and quantized layout",
+    "grammar": "Request timeline and quantized layout",
+    "frames": [
+      "admit",
+      "schedule",
+      "decode batch",
+      "finish",
+      "reclaim"
+    ],
+    "status": "planned-no-assets",
+    "chapter": "EVOD-37",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOD-38-F1",
+    "title": "Draft/verify timeline and kernel memory flow",
+    "grammar": "Draft/verify timeline and kernel memory flow",
+    "frames": [
+      "draft tokens",
+      "target verification",
+      "accept/correct",
+      "continue"
+    ],
+    "status": "planned-no-assets",
+    "chapter": "EVOD-38",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOD-39-F1",
+    "title": "UML components and sequence",
+    "grammar": "UML components and sequence",
+    "frames": [
+      "request",
+      "planner",
+      "family/tool adapter",
+      "execution",
+      "trace"
+    ],
+    "status": "planned-no-assets",
+    "chapter": "EVOD-39",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOD-40-F1",
+    "title": "Dual memory layout and routing",
+    "grammar": "Dual memory layout and routing",
+    "frames": [
+      "context",
+      "state or addressable memory",
+      "regulator",
+      "output"
+    ],
+    "status": "planned-no-assets",
+    "chapter": "EVOD-40",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOD-41-F1",
+    "title": "UML pipeline and typed IR",
+    "grammar": "UML pipeline and typed IR",
+    "frames": [
+      "source",
+      "typed IR",
+      "optimized plan",
+      "backend execution"
+    ],
+    "status": "planned-no-assets",
+    "chapter": "EVOD-41",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOD-42-F1",
+    "title": "Query-plan and runtime-plan comparison",
+    "grammar": "Query-plan and runtime-plan comparison",
+    "frames": [
+      "logical request",
+      "candidate plans",
+      "cost choice",
+      "operator execution"
+    ],
+    "status": "planned-no-assets",
+    "chapter": "EVOD-42",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOD-43-F1",
+    "title": "UML proposal lifecycle",
+    "grammar": "UML proposal lifecycle",
+    "frames": [
+      "propose",
+      "validate",
+      "compare",
+      "promote or reject",
+      "rollback"
+    ],
+    "status": "planned-no-assets",
+    "chapter": "EVOD-43",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOD-44-F1",
+    "title": "UML deployment and fault sequence",
+    "grammar": "UML deployment and fault sequence",
+    "frames": [
+      "package",
+      "deploy",
+      "observe",
+      "recover or roll back"
+    ],
+    "status": "planned-no-assets",
+    "chapter": "EVOD-44",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOD-45-F1",
+    "title": "Trust boundaries and ownership map",
+    "grammar": "Trust boundaries and ownership map",
+    "frames": [
+      "untrusted request",
+      "authorization",
+      "isolated execution",
+      "controlled result"
+    ],
+    "status": "planned-no-assets",
+    "chapter": "EVOD-45",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOD-46-F1",
+    "title": "UML deployment and communication timeline",
+    "grammar": "UML deployment and communication timeline",
+    "frames": [
+      "route",
+      "place state",
+      "execute shards",
+      "aggregate",
+      "recover"
+    ],
+    "status": "planned-no-assets",
+    "chapter": "EVOD-46",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOD-47-F1",
+    "title": "Memory traffic, roofline and measured curves",
+    "grammar": "Memory traffic, roofline and measured curves",
+    "frames": [
+      "workload",
+      "profile",
+      "bottleneck",
+      "optimized backend",
+      "parity check"
+    ],
+    "status": "planned-no-assets",
+    "chapter": "EVOD-47",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOD-48-F1",
+    "title": "Genomic task, split and evidence map",
+    "grammar": "Genomic task, split and evidence map",
+    "frames": [
+      "sequence dataset",
+      "controlled prediction",
+      "biological interpretation limits"
+    ],
+    "status": "planned-no-assets",
+    "chapter": "EVOD-48",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOD-49-F1",
+    "title": "Memory-demand and request timeline",
+    "grammar": "Memory-demand and request timeline",
+    "frames": [
+      "stream",
+      "state or cache",
+      "task query",
+      "evaluated outcome"
+    ],
+    "status": "planned-no-assets",
+    "chapter": "EVOD-49",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOD-50-F1",
+    "title": "Task sequence and population lineage",
+    "grammar": "Task sequence and population lineage",
+    "frames": [
+      "old tasks",
+      "new task",
+      "adaptation",
+      "retention check"
+    ],
+    "status": "planned-no-assets",
+    "chapter": "EVOD-50",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOD-51-F1",
+    "title": "Capability/evidence matrix",
+    "grammar": "Capability/evidence matrix",
+    "frames": [
+      "mechanism",
+      "task evidence",
+      "transfer test",
+      "bounded claim"
+    ],
+    "status": "planned-no-assets",
+    "chapter": "EVOD-51",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "not-drawn-not-reviewed"
+  },
+  {
+    "id": "EVOD-52-F1",
+    "title": "Claim-to-evidence and failure map",
+    "grammar": "Claim-to-evidence and failure map",
+    "frames": [
+      "proposal",
+      "experiment",
+      "failure or support",
+      "revised theory"
+    ],
+    "status": "planned-no-assets",
+    "chapter": "EVOD-52",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "not-drawn-not-reviewed"
+  }
+]

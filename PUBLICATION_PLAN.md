@@ -1,21 +1,9 @@
-# Undergraduate publication plan
+# Deep-edition publication plan
 
-The new entry point is tex/undergraduate-evolutor.tex. Its manifest includes only tex/undergraduate/ch01.tex. Preserved old chapter files are never silently promoted.
+The active book metadata identifies edition 4-deep, status architecture-only-no-manuscript, an empty chapter list and no main entry point. The default PDF gate rejects this state deliberately. Never rename a preserved PDF or point the deep manifest at old source to bypass the gate.
 
-## Rebuild
+The next manuscript milestone creates a distinct tex/deep/ source tree and distinct deep-edition PDF filename after Chapter 1 meets CHAPTER_STANDARD.md. Do not create these files during the planning-only milestone. Retain LaTeX equations, theorem/proof environments where useful, algorithms, source-linked code, references, index and selective glossary. Render and inspect every actual page before delivery; no PDF/UA claim without appropriate accessibility work.
 
-Run make pdf with the intended Python executable. The target checks the active manifest, derives glossary/terminology from the manuscript, generates six SVG/TXT pairs and the tested example trace, converts SVG to PDF and runs XeLaTeX through latexmk. The output uses a distinct undergraduate filename under output/pdf. The published snapshot of that exact file accompanies this milestone; future rebuilds may differ in PDF metadata.
+Historical reproduction is explicit: make historical-pdf uses tex/undergraduate-evolutor.tex and builds only under build/. The committed output/pdf/undergraduate-evolutor.pdf remains byte-identical. The historical gate accepts the preserved edition metadata for regression tests but not as the active deep manuscript.
 
-Run make check-pdf and the full pytest suite. The new integration test also checks all six figure references, glossary, bibliography, index and the absence of missing references or box warnings. Dependencies are listed in README.
-
-## Visual acceptance
-
-Run scripts/review_undergraduate.py with Python and Pillow. It renders every page at 110 dpi with Poppler and produces numbered color/grayscale contact sheets in tmp/pdfs. Inspect every page and enlarge any uncertain figure or line. Do not equate a successful build with a successful page. Rebuild and re-render after meaningful changes.
-
-The present preview contains a nine-page chapter plus front/back matter. It has no tagged-PDF structure; accessibility certification and independent reviewer/learner checks remain open.
-
-## Publication boundary
-
-Publish this coherent Chapter 1 milestone and supporting plans to origin/astra-undergraduate-rewrite only after checks and staged-diff review. Main, astra-rewrite and pre-reboot history stay unchanged. No automatic merge, force push, license change, deployment or research-engine implementation is included.
-
-The final delivery provides the publication commit hash. CHAPTER_1_REPORT.md describes the content and verification; the commit containing that report is the authoritative release identity.
+Plan checks: python3 scripts/build_deep_plan.py --check and the complete pytest suite. Changes are confined to astra-deep-rewrite. Never merge to main or modify protected historical branches implicitly; publication pushes require user authorization.

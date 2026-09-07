@@ -1,0 +1,955 @@
+[
+  {
+    "id": "EVOD-01-A1",
+    "chapter": "EVOD-01",
+    "status": "storyboard-candidate-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "persistent structure",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "context",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "regulation",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 4,
+        "action": "expression",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 5,
+        "action": "execution",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 6,
+        "action": "trace",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 7,
+        "action": "possible adaptation",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evod-01/",
+    "policy": "Decide at chapter storyboard review whether motion adds information; preserve static and reduced-motion versions."
+  },
+  {
+    "id": "EVOD-04-A1",
+    "chapter": "EVOD-04",
+    "status": "storyboard-candidate-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "batch",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "forward",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "backward",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 4,
+        "action": "update",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 5,
+        "action": "evaluate",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 6,
+        "action": "checkpoint",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evod-04/",
+    "policy": "Decide at chapter storyboard review whether motion adds information; preserve static and reduced-motion versions."
+  },
+  {
+    "id": "EVOD-06-A1",
+    "chapter": "EVOD-06",
+    "status": "storyboard-candidate-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "token and state",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "gate/update",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "next state",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 4,
+        "action": "prediction",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evod-06/",
+    "policy": "Decide at chapter storyboard review whether motion adds information; preserve static and reduced-motion versions."
+  },
+  {
+    "id": "EVOD-07-A1",
+    "chapter": "EVOD-07",
+    "status": "storyboard-candidate-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "transition factors",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "composition",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "prefix states",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evod-07/",
+    "policy": "Decide at chapter storyboard review whether motion adds information; preserve static and reduced-motion versions."
+  },
+  {
+    "id": "EVOD-08-A1",
+    "chapter": "EVOD-08",
+    "status": "storyboard-candidate-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "query",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "key comparison",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "normalization",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 4,
+        "action": "value mixture",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evod-08/",
+    "policy": "Decide at chapter storyboard review whether motion adds information; preserve static and reduced-motion versions."
+  },
+  {
+    "id": "EVOD-09-A1",
+    "chapter": "EVOD-09",
+    "status": "storyboard-candidate-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "prompt",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "block computation",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "cached state",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 4,
+        "action": "next step",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evod-09/",
+    "policy": "Decide at chapter storyboard review whether motion adds information; preserve static and reduced-motion versions."
+  },
+  {
+    "id": "EVOD-11-A1",
+    "chapter": "EVOD-11",
+    "status": "storyboard-candidate-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "context",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "regulator",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "selected structure",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 4,
+        "action": "execution",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evod-11/",
+    "policy": "Decide at chapter storyboard review whether motion adds information; preserve static and reduced-motion versions."
+  },
+  {
+    "id": "EVOD-12-A1",
+    "chapter": "EVOD-12",
+    "status": "storyboard-candidate-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "persistent description",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "developmental process",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "executable structure",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evod-12/",
+    "policy": "Decide at chapter storyboard review whether motion adds information; preserve static and reduced-motion versions."
+  },
+  {
+    "id": "EVOD-13-A1",
+    "chapter": "EVOD-13",
+    "status": "storyboard-candidate-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "inference state",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "parameter update",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "structural revision",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 4,
+        "action": "population selection",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evod-13/",
+    "policy": "Decide at chapter storyboard review whether motion adds information; preserve static and reduced-motion versions."
+  },
+  {
+    "id": "EVOD-15-A1",
+    "chapter": "EVOD-15",
+    "status": "storyboard-candidate-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "configuration",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "permitted transition",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "trace event",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 4,
+        "action": "next configuration",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evod-15/",
+    "policy": "Decide at chapter storyboard review whether motion adds information; preserve static and reduced-motion versions."
+  },
+  {
+    "id": "EVOD-18-A1",
+    "chapter": "EVOD-18",
+    "status": "storyboard-candidate-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "input and state",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "regulation",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "expressed transformation",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 4,
+        "action": "new state",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 5,
+        "action": "output",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evod-18/",
+    "policy": "Decide at chapter storyboard review whether motion adds information; preserve static and reduced-motion versions."
+  },
+  {
+    "id": "EVOD-19-A1",
+    "chapter": "EVOD-19",
+    "status": "storyboard-candidate-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "context",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "control",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "selected transformation",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 4,
+        "action": "state update",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evod-19/",
+    "policy": "Decide at chapter storyboard review whether motion adds information; preserve static and reduced-motion versions."
+  },
+  {
+    "id": "EVOD-20-A1",
+    "chapter": "EVOD-20",
+    "status": "storyboard-candidate-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "state partitions",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "selective updates",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "retained and lost information",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evod-20/",
+    "policy": "Decide at chapter storyboard review whether motion adds information; preserve static and reduced-motion versions."
+  },
+  {
+    "id": "EVOD-21-A1",
+    "chapter": "EVOD-21",
+    "status": "storyboard-candidate-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "forward context",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "paired proposal",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "allowed interaction",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 4,
+        "action": "output",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evod-21/",
+    "policy": "Decide at chapter storyboard review whether motion adds information; preserve static and reduced-motion versions."
+  },
+  {
+    "id": "EVOD-26-A1",
+    "chapter": "EVOD-26",
+    "status": "storyboard-candidate-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "reference trace",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "alternate execution",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "aligned comparison",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evod-26/",
+    "policy": "Decide at chapter storyboard review whether motion adds information; preserve static and reduced-motion versions."
+  },
+  {
+    "id": "EVOD-27-A1",
+    "chapter": "EVOD-27",
+    "status": "storyboard-candidate-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "forward activations",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "checkpoint choice",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "backward recomputation",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evod-27/",
+    "policy": "Decide at chapter storyboard review whether motion adds information; preserve static and reduced-motion versions."
+  },
+  {
+    "id": "EVOD-28-A1",
+    "chapter": "EVOD-28",
+    "status": "storyboard-candidate-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "sharded training",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "synchronized update",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "versioned checkpoint",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evod-28/",
+    "policy": "Decide at chapter storyboard review whether motion adds information; preserve static and reduced-motion versions."
+  },
+  {
+    "id": "EVOD-30-A1",
+    "chapter": "EVOD-30",
+    "status": "storyboard-candidate-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "admit",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "prepare",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "step",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 4,
+        "action": "finish or cancel",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 5,
+        "action": "release",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evod-30/",
+    "policy": "Decide at chapter storyboard review whether motion adds information; preserve static and reduced-motion versions."
+  },
+  {
+    "id": "EVOD-31-A1",
+    "chapter": "EVOD-31",
+    "status": "storyboard-candidate-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "prompt tokens",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "state construction",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "native transition",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 4,
+        "action": "logits",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evod-31/",
+    "policy": "Decide at chapter storyboard review whether motion adds information; preserve static and reduced-motion versions."
+  },
+  {
+    "id": "EVOD-32-A1",
+    "chapter": "EVOD-32",
+    "status": "storyboard-candidate-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "allocate",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "own",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "update",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 4,
+        "action": "reset",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 5,
+        "action": "reuse",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evod-32/",
+    "policy": "Decide at chapter storyboard review whether motion adds information; preserve static and reduced-motion versions."
+  },
+  {
+    "id": "EVOD-33-A1",
+    "chapter": "EVOD-33",
+    "status": "storyboard-candidate-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "shared prefix",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "immutable snapshot",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "independent branches",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evod-33/",
+    "policy": "Decide at chapter storyboard review whether motion adds information; preserve static and reduced-motion versions."
+  },
+  {
+    "id": "EVOD-34-A1",
+    "chapter": "EVOD-34",
+    "status": "storyboard-candidate-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "queued states",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "compatible batch",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "kernel",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 4,
+        "action": "independent next states",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evod-34/",
+    "policy": "Decide at chapter storyboard review whether motion adds information; preserve static and reduced-motion versions."
+  },
+  {
+    "id": "EVOD-35-A1",
+    "chapter": "EVOD-35",
+    "status": "storyboard-candidate-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "prompt",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "K/V construction",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "new query",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 4,
+        "action": "updated cache",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evod-35/",
+    "policy": "Decide at chapter storyboard review whether motion adds information; preserve static and reduced-motion versions."
+  },
+  {
+    "id": "EVOD-36-A1",
+    "chapter": "EVOD-36",
+    "status": "storyboard-candidate-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "logical positions",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "physical pages",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "shared prefix",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 4,
+        "action": "release",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evod-36/",
+    "policy": "Decide at chapter storyboard review whether motion adds information; preserve static and reduced-motion versions."
+  },
+  {
+    "id": "EVOD-37-A1",
+    "chapter": "EVOD-37",
+    "status": "storyboard-candidate-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "admit",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "schedule",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "decode batch",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 4,
+        "action": "finish",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 5,
+        "action": "reclaim",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evod-37/",
+    "policy": "Decide at chapter storyboard review whether motion adds information; preserve static and reduced-motion versions."
+  },
+  {
+    "id": "EVOD-38-A1",
+    "chapter": "EVOD-38",
+    "status": "storyboard-candidate-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "draft tokens",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "target verification",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "accept/correct",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 4,
+        "action": "continue",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evod-38/",
+    "policy": "Decide at chapter storyboard review whether motion adds information; preserve static and reduced-motion versions."
+  },
+  {
+    "id": "EVOD-39-A1",
+    "chapter": "EVOD-39",
+    "status": "storyboard-candidate-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "request",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "planner",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "family/tool adapter",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 4,
+        "action": "execution",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 5,
+        "action": "trace",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evod-39/",
+    "policy": "Decide at chapter storyboard review whether motion adds information; preserve static and reduced-motion versions."
+  },
+  {
+    "id": "EVOD-41-A1",
+    "chapter": "EVOD-41",
+    "status": "storyboard-candidate-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "source",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "typed IR",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "optimized plan",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 4,
+        "action": "backend execution",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evod-41/",
+    "policy": "Decide at chapter storyboard review whether motion adds information; preserve static and reduced-motion versions."
+  },
+  {
+    "id": "EVOD-43-A1",
+    "chapter": "EVOD-43",
+    "status": "storyboard-candidate-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "propose",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "validate",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "compare",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 4,
+        "action": "promote or reject",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 5,
+        "action": "rollback",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evod-43/",
+    "policy": "Decide at chapter storyboard review whether motion adds information; preserve static and reduced-motion versions."
+  },
+  {
+    "id": "EVOD-44-A1",
+    "chapter": "EVOD-44",
+    "status": "storyboard-candidate-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "package",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "deploy",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "observe",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 4,
+        "action": "recover or roll back",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evod-44/",
+    "policy": "Decide at chapter storyboard review whether motion adds information; preserve static and reduced-motion versions."
+  },
+  {
+    "id": "EVOD-46-A1",
+    "chapter": "EVOD-46",
+    "status": "storyboard-candidate-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "route",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "place state",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "execute shards",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 4,
+        "action": "aggregate",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 5,
+        "action": "recover",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evod-46/",
+    "policy": "Decide at chapter storyboard review whether motion adds information; preserve static and reduced-motion versions."
+  },
+  {
+    "id": "EVOD-50-A1",
+    "chapter": "EVOD-50",
+    "status": "storyboard-candidate-no-assets",
+    "frames": [
+      {
+        "number": 1,
+        "action": "old tasks",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 2,
+        "action": "new task",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 3,
+        "action": "adaptation",
+        "sourceStatus": "not-created"
+      },
+      {
+        "number": 4,
+        "action": "retention check",
+        "sourceStatus": "not-created"
+      }
+    ],
+    "plannedDirectory": "animation/evod-50/",
+    "policy": "Decide at chapter storyboard review whether motion adds information; preserve static and reduced-motion versions."
+  }
+]

@@ -242,6 +242,10 @@ def outputs(data, contract):
 
 
 def main():
+    active = json.loads((ROOT/"book/book.json").read_text())
+    if active.get("edition") == "4-deep":
+        from build_deep_plan import main as deep_main
+        return deep_main()
     parser=argparse.ArgumentParser()
     parser.add_argument("--check", action="store_true")
     args=parser.parse_args()

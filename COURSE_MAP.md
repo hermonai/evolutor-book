@@ -1,985 +1,737 @@
-# Evolutor: undergraduate-first architecture
+# Evolutor: deep technical edition
 
-Status: Chapter 1 internally reviewed development draft; all later units remain planned. No learner study, independent expert certification or new research-model experiment is claimed. Generated from [pedagogy/curriculum.json](pedagogy/curriculum.json). See [Chapter 1 storyboard](research/undergraduate-ch01-storyboard.md) for the six produced figures.
+Status: architecture and detailed outlines only; no new manuscript, final figures, animation frames, models, engines or experiments are delivered. Canonical source: [deep curriculum](pedagogy/deep-curriculum.json). Prior editions remain historical references, not the active teaching level.
 
-Target taxonomy: **DOGMA = non-Transformer DNA-native architecture + DOGMA Engine; Hermon DNA = Transformer-based DNA architecture + Hermon DNA Engine; Evolutor = research/theory/runtime above both.** These are research targets, not implementation evidence. See [taxonomy and lineage](research/architecture-taxonomy.md). Stable EVOU IDs differ from printed numbers after EVOU-11.
+DOGMA = non-Transformer DNA-native model + DOGMA Engine; Hermon DNA = Transformer-based DNA model + Hermon DNA Engine; Evolutor = broader genomic computation theory, research and eventual runtime above both.
 
-## Teaching route and chapter opening maps
+## Chapter dependencies, mechanisms and exit tasks
 
-Each opening recalls named prior ideas, introduces only the current step, and identifies what it enables next. A dependency is a teaching requirement, not a claimed biological causal relation. Unlisted previous chapters remain available for optional practice; no later chapter may be required.
+Entry assumptions: Basic programming and algorithmic reasoning; Algebra, functions, sets and discrete mathematical maturity; Basic probability, vectors, matrices and first-year calculus; DNA Computing or demonstrated equivalent molecular/formal knowledge; named imports remain planned until taught.
 
-## EVOU-01 — Programs, genomes and the question of Evolutor
+### EVOD-01 — Why Genomic Computation?
 
-**Required earlier units (planned unless marked active):** High-school arithmetic and logical reading.
+**Required earlier chapters:** Declared entry assumptions.
 
-**Book I bridge:** DNAU-03, DNAU-09, DNAU-32. See the planned exit checks in the shared contract.
+**Book I imports:** DNAD-30, DNAD-32. All imports are future teaching dependencies, not completed outcomes.
 
-**First encounters, in planned teaching order:** biological gene versus computational gene → analogy → research program.
+**Mechanisms and concepts:** programs; neural models; genomes; stored and expressed computation; development; adaptation.
 
-**Tangible opening:** Why compare a genome with a program?
+**Formal/mathematical development:** Use provisional typed selection/execution maps after a concrete module example; novelty remains a question.
 
-**Why and how the mathematics enters:** No tuple or cost formula. Explain program as written instructions; model and neural network are destinations taught in Chapter 3 and Chapter 7.
+**Implementation / assessment:** Compare conventional conditional execution with a proposed genomic organization and identify a falsifier.
 
-**Observable exit task:** Recognize an analogy; identify a missing mechanism; explain that ordinary software can also respond and change.
+**Enables:** EVOD-02, EVOD-11.
 
-**Enables next:** EVOU-02, EVOU-20.
+### EVOD-02 — Learning objectives, data and evaluation
 
-## EVOU-02 — Programs that choose and remember
+**Required earlier chapters:** EVOD-01.
 
-**Required earlier units (planned unless marked active):** EVOU-01: Programs, genomes and the question of Evolutor.
+**Book I imports:** None. All imports are future teaching dependencies, not completed outcomes.
 
-**Book I bridge:** DNAU-03, DNAU-04. See the planned exit checks in the shared contract.
+**Mechanisms and concepts:** prediction; likelihood; splits; uncertainty; controls; capacity.
 
-**First encounters, in planned teaching order:** persistent state → module → interface contract → conditional execution.
+**Formal/mathematical development:** Derive a sequence likelihood and loss; separate training fit from held-out generalization.
 
-**Tangible opening:** How can the same input produce a different answer after a different history?
+**Implementation / assessment:** Construct a leakage-resistant split and hand-check loss and calibration on a tiny dataset.
 
-**Why and how the mathematics enters:** Replay addition and assignment before a state-update table; no recurrence symbols yet.
+**Enables:** EVOD-03, EVOD-04, EVOD-05.
 
-**Observable exit task:** Trace both histories; test a reset; distinguish the current input, remembered state and stored instructions.
+### EVOD-03 — Differentiation, optimization and tensor programs
 
-**Enables next:** EVOU-03, EVOU-10, EVOU-15, EVOU-17.
+**Required earlier chapters:** EVOD-02.
 
-## EVOU-03 — Machine learning with one tiny model
+**Book I imports:** None. All imports are future teaching dependencies, not completed outcomes.
 
-**Required earlier units (planned unless marked active):** EVOU-02: Programs that choose and remember.
+**Mechanisms and concepts:** tensor shapes; gradients; autograd; optimization; numerical precision.
 
-**Book I bridge:** DNAU-03, DNAU-34. See the planned exit checks in the shared contract.
+**Formal/mathematical development:** Derive chain-rule gradients for a small network and annotate every dimension.
 
-**First encounters, in planned teaching order:** machine learning → model → parameter → prediction → training → inference → loss.
+**Implementation / assessment:** Check autograd with finite differences and demonstrate numerical failure cases.
 
-**Tangible opening:** How can examples help set a rule's adjustable numbers?
+**Enables:** EVOD-04, EVOD-06, EVOD-08, EVOD-27.
 
-**Why and how the mathematics enters:** Explain input, weight and offset using prices before y=wx+b; errors before mean squared loss. Training uses manual trials, not gradients.
+### EVOD-04 — Reproducible PyTorch training
 
-**Observable exit task:** Compute one prediction; compare two trial settings; distinguish fitting examples from success on new ones.
+**Required earlier chapters:** EVOD-02, EVOD-03.
 
-**Enables next:** EVOU-04, EVOU-05, EVOU-06.
+**Book I imports:** None. All imports are future teaching dependencies, not completed outcomes.
 
-## EVOU-04 — Data, uncertainty and fair evaluation
+**Mechanisms and concepts:** datasets; batching; masking; optimizer; checkpoints; seeds.
 
-**Required earlier units (planned unless marked active):** EVOU-03: Machine learning with one tiny model.
+**Formal/mathematical development:** Relate code to the objective and masking assumptions; distinguish resumption from reproducibility.
 
-**Book I bridge:** DNAU-12. See the planned exit checks in the shared contract.
+**Implementation / assessment:** Implement a reference training loop with exact small cases and restart tests.
 
-**First encounters, in planned teaching order:** dataset → training split → validation split → test split → overfitting → mean → variance → confidence interval → data leakage.
+**Enables:** EVOD-05, EVOD-09, EVOD-13, EVOD-22, EVOD-25, EVOD-27.
 
-**Tangible opening:** Why can a model look good and still fail on new examples?
+### EVOD-05 — Tokenization and sequence representation
 
-**Why and how the mathematics enters:** Recall Book I probabilities; concrete spreads precede variance, sampling uncertainty and interval notation; teach what an interval does not guarantee.
+**Required earlier chapters:** EVOD-02, EVOD-04.
 
-**Observable exit task:** Identify leakage; compute a mean error; explain why one run is insufficient evidence.
+**Book I imports:** DNAD-05, DNAD-25. All imports are future teaching dependencies, not completed outcomes.
 
-**Enables next:** EVOU-06, EVOU-08, EVOU-15, EVOU-16, EVOU-19.
+**Mechanisms and concepts:** DNA tokens; k-mers; embeddings; positions; strand orientation.
 
-## EVOU-05 — Vectors, matrices and tensors as data containers
+**Formal/mathematical development:** Derive vocabulary and sequence-length tradeoffs; state reverse-complement alignment conventions.
 
-**Required earlier units (planned unless marked active):** EVOU-03: Machine learning with one tiny model.
+**Implementation / assessment:** Test tokenization round trips and orientation handling without future leakage.
 
-**Book I bridge:** DNAU-34. See the planned exit checks in the shared contract.
+**Enables:** EVOD-06, EVOD-08, EVOD-21, EVOD-23.
 
-**First encounters, in planned teaching order:** tensor → shape → batch dimension → broadcasting.
+### EVOD-06 — Recurrent models and gated state
 
-**Tangible opening:** How can one rule process several measurements together?
+**Required earlier chapters:** EVOD-03, EVOD-05.
 
-**Why and how the mathematics enters:** Recall Book I dot products and matrix multiplication explicitly; every axis gets a name before tensor notation.
+**Book I imports:** None. All imports are future teaching dependencies, not completed outcomes.
 
-**Observable exit task:** Compute a tiny product; label axes; diagnose an accidental broadcast.
+**Mechanisms and concepts:** RNN; LSTM; GRU; state transition; retention; gradients.
 
-**Enables next:** EVOU-06, EVOU-07, EVOU-09, EVOU-11, EVOU-12.
+**Formal/mathematical development:** Derive one-step and unrolled computations and identify vanishing/exploding gradient mechanisms.
 
-## EVOU-06 — Slopes, gradients and improving a prediction
+**Implementation / assessment:** Compare recurrent baselines on copying and running statistics with matched controls.
 
-**Required earlier units (planned unless marked active):** EVOU-03: Machine learning with one tiny model; EVOU-04: Data, uncertainty and fair evaluation; EVOU-05: Vectors, matrices and tensors as data containers.
+**Enables:** EVOD-07, EVOD-10.
 
-**Book I bridge:** DNAU-08, DNAU-34. See the planned exit checks in the shared contract.
+### EVOD-07 — State-space models, selective updates and scans
 
-**First encounters, in planned teaching order:** derivative → partial derivative → gradient → chain rule → gradient descent → learning rate.
+**Required earlier chapters:** EVOD-06.
 
-**Tangible opening:** Which small change would reduce the error?
+**Book I imports:** None. All imports are future teaching dependencies, not completed outcomes.
 
-**Why and how the mathematics enters:** Finite differences and rise-over-run precede derivatives; one variable before partial derivatives; chain rule before gradient update notation.
+**Mechanisms and concepts:** linear recurrence; S4/S5; selective SSM; Mamba; RWKV; chunking.
 
-**Observable exit task:** Compute a slope; show an overly large step; explain local improvement versus a global guarantee.
+**Formal/mathematical development:** Derive an associative scan for a valid linear case and show where state-dependent nonlinearities break it.
 
-**Enables next:** EVOU-07, EVOU-08, EVOU-10, EVOU-12, EVOU-22, EVOU-27.
+**Implementation / assessment:** Test sequential/chunked/scan parity and review strong primary-source baselines.
 
-## EVOU-07 — Neural networks built one layer at a time
+**Enables:** EVOD-10, EVOD-16, EVOD-18, EVOD-20, EVOD-26, EVOD-34.
 
-**Required earlier units (planned unless marked active):** EVOU-05: Vectors, matrices and tensors as data containers; EVOU-06: Slopes, gradients and improving a prediction.
+### EVOD-08 — Attention and content-addressed computation
 
-**Book I bridge:** DNAU-03, DNAU-34. See the planned exit checks in the shared contract.
+**Required earlier chapters:** EVOD-03, EVOD-05.
 
-**First encounters, in planned teaching order:** neural network → layer → activation → multilayer perceptron → MLP → backpropagation → convolution → CNN.
+**Book I imports:** None. All imports are future teaching dependencies, not completed outcomes.
 
-**Tangible opening:** Why put simple transformations in layers?
+**Mechanisms and concepts:** Q/K/V; scores; masks; heads; softmax; retrieval.
 
-**Why and how the mathematics enters:** Teach linear versus nonlinear with pictures before matrix-layer notation; convolution is a local shared-weight operation before the acronym convolutional neural network.
+**Formal/mathematical development:** Derive shaped attention from weighted lookup; distinguish addressability from exact recall.
 
-**Observable exit task:** Compute two neurons; compare linear compositions and nonlinear layers; trace one gradient path.
+**Implementation / assessment:** Implement a small attention oracle and causal masking tests.
 
-**Enables next:** EVOU-08, EVOU-09, EVOU-13.
+**Enables:** EVOD-09.
 
-## EVOU-08 — A complete small training loop in PyTorch
+### EVOD-09 — Transformers and cached execution
 
-**Required earlier units (planned unless marked active):** EVOU-04: Data, uncertainty and fair evaluation; EVOU-06: Slopes, gradients and improving a prediction; EVOU-07: Neural networks built one layer at a time.
+**Required earlier chapters:** EVOD-04, EVOD-08.
 
-**Book I bridge:** DNAU-04. See the planned exit checks in the shared contract.
+**Book I imports:** None. All imports are future teaching dependencies, not completed outcomes.
 
-**First encounters, in planned teaching order:** PyTorch → automatic differentiation → optimizer → epoch → checkpoint → device → random seed.
+**Mechanisms and concepts:** residuals; normalization; MLP; positions; blocks; KV; prefill; decode.
 
-**Tangible opening:** What changes during training, and what stays fixed during inference?
+**Formal/mathematical development:** Derive a complete decoder block and full versus incremental equivalence under declared positions.
 
-**Why and how the mathematics enters:** Map each code operation to Chapter 6 arithmetic; explain gradient accumulation and reset before optimizer calls.
+**Implementation / assessment:** Verify logits and K/V across full and cached execution.
 
-**Observable exit task:** Repair a missing gradient reset; reproduce a tiny run; verify parameters are unchanged by inference.
+**Enables:** EVOD-10, EVOD-16, EVOD-23, EVOD-26, EVOD-35.
 
-**Enables next:** EVOU-09, EVOU-10, EVOU-13, EVOU-16, EVOU-19, EVOU-29, EVOU-49.
+### EVOD-10 — Conditional computation and memory alternatives
 
-## EVOU-09 — Tokens, embeddings and predicting the next symbol
+**Required earlier chapters:** EVOD-06, EVOD-07, EVOD-09.
 
-**Required earlier units (planned unless marked active):** EVOU-05: Vectors, matrices and tensors as data containers; EVOU-07: Neural networks built one layer at a time; EVOU-08: A complete small training loop in PyTorch.
+**Book I imports:** None. All imports are future teaching dependencies, not completed outcomes.
 
-**Book I bridge:** DNAU-02, DNAU-12, DNAU-33. See the planned exit checks in the shared contract.
+**Mechanisms and concepts:** dispatch; MoE; retrieval; external memory; dynamic graphs; hybrid models.
 
-**First encounters, in planned teaching order:** token → vocabulary → embedding → next-token prediction → categorical distribution → softmax → cross-entropy.
+**Formal/mathematical development:** Separate routing cost, active computation and memory access; compare mechanisms without renaming them.
 
-**Tangible opening:** How do written symbols become numbers a model can use?
+**Implementation / assessment:** Build an ordinary routed baseline and account for inactive parameter storage.
 
-**Why and how the mathematics enters:** Explain categorical probabilities and normalized positive scores before softmax; logarithm recall precedes cross-entropy; IDs are not numeric distances.
+**Enables:** EVOD-11, EVOD-12, EVOD-14, EVOD-19, EVOD-24, EVOD-40, EVOD-42.
 
-**Observable exit task:** Distinguish a character from a token; compute a tiny normalized distribution; prevent future-token leakage.
+### EVOD-11 — Regulation and expression across levels
 
-**Enables next:** EVOU-10, EVOU-12, EVOU-47.
+**Required earlier chapters:** EVOD-01, EVOD-10.
 
-## EVOU-10 — Recurrence: remembering one step at a time
+**Book I imports:** DNAD-30. All imports are future teaching dependencies, not completed outcomes.
 
-**Required earlier units (planned unless marked active):** EVOU-02: Programs that choose and remember; EVOU-06: Slopes, gradients and improving a prediction; EVOU-08: A complete small training loop in PyTorch; EVOU-09: Tokens, embeddings and predicting the next symbol.
+**Mechanisms and concepts:** biological regulation; stored modules; selection; execution; context.
 
-**Book I bridge:** DNAU-28. See the planned exit checks in the shared contract.
+**Formal/mathematical development:** Give distinct biological and software interpretations and a typed selection map.
 
-**First encounters, in planned teaching order:** recurrent neural network → RNN → hidden state → unrolling → backpropagation through time → leaky integrator.
+**Implementation / assessment:** Compare a regulatory proposal to gates, dispatch and MoE with an explicit equivalence test.
 
-**Tangible opening:** How can a model carry something from the previous symbol?
+**Enables:** EVOD-12, EVOD-13, EVOD-14.
 
-**Why and how the mathematics enters:** Old amount minus lost amount plus new amount precedes (1-d)x+pu; label before/after state, then generalize to RNN notation.
+### EVOD-12 — Development and generated computational structure
 
-**Observable exit task:** Compute two steps; compare histories; test reset boundaries and explain why memory is not yet learning.
+**Required earlier chapters:** EVOD-10, EVOD-11.
 
-**Enables next:** EVOU-11, EVOU-41, EVOU-14, EVOU-20.
+**Book I imports:** DNAD-30. All imports are future teaching dependencies, not completed outcomes.
 
-## EVOU-11 — Gates and state-space models
+**Mechanisms and concepts:** genotype/phenotype; developmental encoding; compilation; program synthesis; NAS.
 
-**Required earlier units (planned unless marked active):** EVOU-05: Vectors, matrices and tensors as data containers; EVOU-10: Recurrence: remembering one step at a time.
+**Formal/mathematical development:** Formulate a candidate development map and compare it to established program/network generation.
 
-**Book I bridge:** DNAU-28, DNAU-34. See the planned exit checks in the shared contract.
+**Implementation / assessment:** Generate a small executable structure and test whether development adds value over direct encoding.
 
-**First encounters, in planned teaching order:** gate → gated recurrent unit → GRU → state-space model → SSM → stability.
+**Enables:** EVOD-13, EVOD-14, EVOD-41.
 
-**Tangible opening:** What should a compact state keep or forget?
+### EVOD-13 — Learning, structural adaptation and evolution
 
-**Why and how the mathematics enters:** Matrix recurrence follows scalar recurrence; introduce eigenvalue intuition only if used, with a two-dimensional example; no unprepared stability theorem.
+**Required earlier chapters:** EVOD-04, EVOD-11, EVOD-12.
 
-**Observable exit task:** Trace a gate at zero and one; compare state sizes; state what information a compact state may lose.
+**Book I imports:** DNAD-30. All imports are future teaching dependencies, not completed outcomes.
 
-**Enables next:** EVOU-41, EVOU-19, EVOU-37.
+**Mechanisms and concepts:** state change; parameter learning; structural learning; populations; selection.
 
-## EVOU-41 — Strong recurrent baselines and valid scans
+**Formal/mathematical development:** Specify which object changes, at what timescale, with what objective and inheritance rule.
 
-**Required earlier units (planned unless marked active):** EVOU-10: Recurrence: remembering one step at a time; EVOU-11: Gates and state-space models.
+**Implementation / assessment:** Contrast one state update, optimizer step, structural proposal and population generation.
 
-**Book I bridge:** None. See the planned exit checks in the shared contract.
+**Enables:** EVOD-14, EVOD-17, EVOD-43, EVOD-50.
 
-**First encounters, in planned teaching order:** finite-state machine → long short-term memory → LSTM → selective state update → associative scan → RWKV comparison.
+### EVOD-14 — Typed genomic computation systems
 
-**Tangible opening:** Which familiar mechanisms could already explain a candidate's behavior?
+**Required earlier chapters:** EVOD-10, EVOD-11, EVOD-12, EVOD-13.
 
-**Why and how the mathematics enters:** Hand trace before equations; recurrence does not imply all training is serial. Teach each named baseline before comparison.
+**Book I imports:** DNAD-16, DNAD-18, DNAD-32. All imports are future teaching dependencies, not completed outcomes.
 
-**Observable exit task:** Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
+**Mechanisms and concepts:** alphabet; computational gene; genome; regulator; expression; state; trace.
 
-**Enables next:** EVOU-42, EVOU-45, EVOU-50.
+**Formal/mathematical development:** Derive typed interfaces from examples; re-evaluate the old tuple rather than canonizing it.
 
-## EVOU-12 — Attention as a weighted lookup
+**Implementation / assessment:** Build a minimal interpreter with types, invariants and a conventional baseline.
 
-**Required earlier units (planned unless marked active):** EVOU-05: Vectors, matrices and tensors as data containers; EVOU-06: Slopes, gradients and improving a prediction; EVOU-09: Tokens, embeddings and predicting the next symbol.
+**Enables:** EVOD-15, EVOD-18, EVOD-39, EVOD-41.
 
-**Book I bridge:** DNAU-12, DNAU-34. See the planned exit checks in the shared contract.
+### EVOD-15 — Operational semantics and expression traces
 
-**First encounters, in planned teaching order:** query → key → value → attention score → attention → causal mask → attention head.
+**Required earlier chapters:** EVOD-14.
 
-**Tangible opening:** Which earlier symbol should matter now?
+**Book I imports:** None. All imports are future teaching dependencies, not completed outcomes.
 
-**Why and how the mathematics enters:** Use explicit two-number vectors, dot products, softmax and weighted sum before QK-transpose notation.
+**Mechanisms and concepts:** configuration; transition; evaluation rule; effects; termination; trace.
 
-**Observable exit task:** Compute weights; explain query/key/value roles; demonstrate a causal-mask failure.
+**Formal/mathematical development:** Define a small-step semantics and prove a bounded correspondence with the reference interpreter.
 
-**Enables next:** EVOU-13, EVOU-47.
+**Implementation / assessment:** Compare exact transition traces; test invalid configurations and causal ordering.
 
-## EVOU-13 — From one attention head to a Transformer
+**Enables:** EVOD-16, EVOD-17, EVOD-18, EVOD-30, EVOD-39, EVOD-41.
 
-**Required earlier units (planned unless marked active):** EVOU-07: Neural networks built one layer at a time; EVOU-08: A complete small training loop in PyTorch; EVOU-12: Attention as a weighted lookup.
+### EVOD-16 — Expression complexity and resource semantics
 
-**Book I bridge:** DNAU-34. See the planned exit checks in the shared contract.
+**Required earlier chapters:** EVOD-07, EVOD-09, EVOD-15.
 
-**First encounters, in planned teaching order:** multi-head attention → residual connection → normalization → feed-forward network → Transformer → positional encoding.
+**Book I imports:** DNAD-04, DNAD-24. All imports are future teaching dependencies, not completed outcomes.
 
-**Tangible opening:** How do small attention operations form a useful model?
+**Mechanisms and concepts:** stored size; routing; active work; state; communication; trace; adaptation.
 
-**Why and how the mathematics enters:** Teach mean/variance normalization and skip addition before block equations; every tensor shape remains labeled.
+**Formal/mathematical development:** Reassess expression-size complexity against a cost vector with units and worst-case quantifiers.
 
-**Observable exit task:** Trace one token through a block; explain why position matters; reject a full architecture diagram with unlabeled axes.
+**Implementation / assessment:** Construct a counterexample where fewer active modules cost more overall.
 
-**Enables next:** EVOU-14, EVOU-16, EVOU-19, EVOU-47, EVOU-37.
+**Enables:** EVOD-17, EVOD-18, EVOD-20, EVOD-23, EVOD-29, EVOD-40, EVOD-41, EVOD-42.
 
-## EVOU-14 — Caches, retrieval and external memory
+### EVOD-17 — Traces, credit and mechanistic evidence
 
-**Required earlier units (planned unless marked active):** EVOU-10: Recurrence: remembering one step at a time; EVOU-13: From one attention head to a Transformer.
+**Required earlier chapters:** EVOD-13, EVOD-15, EVOD-16.
 
-**Book I bridge:** DNAU-33. See the planned exit checks in the shared contract.
+**Book I imports:** None. All imports are future teaching dependencies, not completed outcomes.
 
-**First encounters, in planned teaching order:** cache → key-value cache → KV cache → retrieval → external memory → index.
+**Mechanisms and concepts:** logging; causal interventions; credit assignment; structural proposals.
 
-**Tangible opening:** Why keep earlier work, and when should a system look something up?
+**Formal/mathematical development:** Distinguish observed activation traces from causal explanations and useful adaptation signals.
 
-**Why and how the mathematics enters:** Count stored rows and reused operations before memory formulas; cache stores computations, not a magical source of factual truth.
+**Implementation / assessment:** Ablate trace-guided proposals against logging and random-selection controls.
 
-**Observable exit task:** Distinguish recurrent state, KV cache and retrieved documents; test stale-cache and mismatched-history cases.
+**Enables:** EVOD-19, EVOD-22, EVOD-29, EVOD-43.
 
-**Enables next:** EVOU-18, EVOU-47, EVOU-32, EVOU-55.
+### EVOD-18 — DOGMA primitives and state semantics
 
-## EVOU-15 — If/else, dispatch, plugins and dynamic routing
+**Required earlier chapters:** EVOD-07, EVOD-14, EVOD-15, EVOD-16.
 
-**Required earlier units (planned unless marked active):** EVOU-02: Programs that choose and remember; EVOU-04: Data, uncertainty and fair evaluation.
+**Book I imports:** None. All imports are future teaching dependencies, not completed outcomes.
 
-**Book I bridge:** DNAU-03, DNAU-04, DNAU-06. See the planned exit checks in the shared contract.
+**Mechanisms and concepts:** State; Regulator; Expression; Strand; Complement; Gate; Memory locus; Module; Trace.
 
-**First encounters, in planned teaching order:** dispatch → plugin → router → dynamic routing → pure function → lookup cost.
+**Formal/mathematical development:** Define candidate primitives by type and transition; compare each with nearest recurrent or conditional baseline.
 
-**Tangible opening:** What already selects only part of a program?
+**Implementation / assessment:** Implement only a minimal candidate after its semantics; reject redundant biological terminology.
 
-**Why and how the mathematics enters:** Count concrete comparisons before cost tuples; prove equivalence only after tracing matching inputs and assumptions.
+**Enables:** EVOD-19, EVOD-20, EVOD-21, EVOD-31.
 
-**Observable exit task:** Find a duplicate-name bug; compare costs honestly; explain why selective execution alone is not novel.
+### EVOD-19 — DOGMA regulation and selective transformations
 
-**Enables next:** EVOU-16, EVOU-17, EVOU-21, EVOU-43.
+**Required earlier chapters:** EVOD-10, EVOD-17, EVOD-18.
 
-## EVOU-16 — Mixture of experts and learned routing
+**Book I imports:** None. All imports are future teaching dependencies, not completed outcomes.
 
-**Required earlier units (planned unless marked active):** EVOU-04: Data, uncertainty and fair evaluation; EVOU-08: A complete small training loop in PyTorch; EVOU-13: From one attention head to a Transformer; EVOU-15: If/else, dispatch, plugins and dynamic routing.
+**Mechanisms and concepts:** regulation; expression; conditional state update; routing; ablation.
 
-**Book I bridge:** DNAU-06, DNAU-34. See the planned exit checks in the shared contract.
+**Formal/mathematical development:** Derive candidate R/E/U maps and compare gates, selection and dispatch algebraically.
 
-**First encounters, in planned teaching order:** mixture of experts → MoE → expert → load balancing → sparse activation.
+**Implementation / assessment:** Measure one-mechanism ablations with state/logit/gradient checks.
 
-**Tangible opening:** Can the choice of a module itself be learned?
+**Enables:** EVOD-20, EVOD-22.
 
-**Why and how the mathematics enters:** Top-k selection and weighted sums precede routing loss; distinguish stored and activated parameters.
+### EVOD-20 — Structured memory, locality and timescales
 
-**Observable exit task:** Trace a route; identify collapse; distinguish sparsity from an established end-to-end speedup.
+**Required earlier chapters:** EVOD-07, EVOD-16, EVOD-18, EVOD-19.
 
-**Enables next:** EVOU-19, EVOU-21, EVOU-43, EVOU-59.
+**Book I imports:** None. All imports are future teaching dependencies, not completed outcomes.
 
-## EVOU-17 — Source code, compilers, runtimes and interfaces
+**Mechanisms and concepts:** local/global state; modular memory; regulatory state; fast/slow state; capacity.
 
-**Required earlier units (planned unless marked active):** EVOU-02: Programs that choose and remember; EVOU-15: If/else, dispatch, plugins and dynamic routing.
+**Formal/mathematical development:** Specify ownership, updates, resets and capacity; no infinite-context or constant-total-memory claim.
 
-**Book I bridge:** DNAU-04, DNAU-25. See the planned exit checks in the shared contract.
+**Implementation / assessment:** Test retention, interference and reset behavior at matched memory and parameter budgets.
 
-**First encounters, in planned teaching order:** compiler → runtime → library → application programming interface → API → process → thread → memory.
+**Enables:** EVOD-21, EVOD-22, EVOD-32, EVOD-40.
 
-**Tangible opening:** What happens between writing a program and running it?
+### EVOD-21 — Strands, complements and dual-state hypotheses
 
-**Why and how the mathematics enters:** No compiler-theory prerequisites; distinguish representation from running instance before any formal semantics.
+**Required earlier chapters:** EVOD-05, EVOD-18, EVOD-20.
 
-**Observable exit task:** Match objects to stages; distinguish process from thread; explain interpreter and runtime without treating them as synonyms.
+**Book I imports:** DNAD-05, DNAD-30. All imports are future teaching dependencies, not completed outcomes.
 
-**Enables next:** EVOU-18, EVOU-23, EVOU-25, EVOU-30.
+**Mechanisms and concepts:** paired states; reverse complement; equivariance; causal streaming.
 
-## EVOU-18 — Services, databases, protocols and scheduling
+**Formal/mathematical development:** Separate offline symmetry from causal inference; formalize a candidate interaction and augmentation control.
 
-**Required earlier units (planned unless marked active):** EVOU-14: Caches, retrieval and external memory; EVOU-17: Source code, compilers, runtimes and interfaces.
+**Implementation / assessment:** Detect reverse-complement future leakage; compare dual-state with augmentation and equivariant baselines.
 
-**Book I bridge:** DNAU-03, DNAU-35. See the planned exit checks in the shared contract.
+**Enables:** EVOD-22, EVOD-24.
 
-**First encounters, in planned teaching order:** service → database → protocol → scheduler → query plan → latency → throughput → batch.
+### EVOD-22 — DOGMA reference model and falsifiable research program
 
-**Tangible opening:** Why does serving several requests need more than a model?
+**Required earlier chapters:** EVOD-04, EVOD-17, EVOD-19, EVOD-20, EVOD-21.
 
-**Why and how the mathematics enters:** Time a single request before latency; count completed requests per interval before throughput; teach query operator order before planning costs.
+**Book I imports:** None. All imports are future teaching dependencies, not completed outcomes.
 
-**Observable exit task:** Trace request identity; compare batching tradeoffs; distinguish a cache from an authoritative database.
+**Mechanisms and concepts:** reference implementation; state trace; objective; baseline; ablation; negative evidence.
 
-**Enables next:** EVOU-19, EVOU-21, EVOU-26, EVOU-32, EVOU-54, EVOU-57, EVOU-33.
+**Formal/mathematical development:** Fix prediction timing after consumed tokens and precise state/logit contracts.
 
-## EVOU-19 — Baselines, oracles and resource-matched experiments
+**Implementation / assessment:** Train a small candidate only after exact tests; retain losing hypotheses and failure reports.
 
-**Required earlier units (planned unless marked active):** EVOU-04: Data, uncertainty and fair evaluation; EVOU-08: A complete small training loop in PyTorch; EVOU-11: Gates and state-space models; EVOU-13: From one attention head to a Transformer; EVOU-16: Mixture of experts and learned routing; EVOU-18: Services, databases, protocols and scheduling.
+**Enables:** EVOD-25, EVOD-26, EVOD-29, EVOD-31.
 
-**Book I bridge:** DNAU-06, DNAU-12, DNAU-24, DNAU-36. See the planned exit checks in the shared contract.
+### EVOD-23 — Hermon DNA reference architecture
 
-**First encounters, in planned teaching order:** baseline → oracle → ablation → capacity matching → profiling plan → experimental hypothesis → Markov assumption.
+**Required earlier chapters:** EVOD-05, EVOD-09, EVOD-16.
 
-**Tangible opening:** What would count as a fair improvement?
+**Book I imports:** None. All imports are future teaching dependencies, not completed outcomes.
 
-**Why and how the mathematics enters:** Report sample counts, distributions and uncertainty before summary rankings; separate parameters, executed work and wall time.
+**Mechanisms and concepts:** DNA tokenizer; Transformer blocks; output head; causal positions.
 
-**Observable exit task:** Design a falsifier; expose answer leakage; explain why an oracle checks a task but does not certify intelligence.
+**Formal/mathematical development:** Specify a recognizably Transformer reference with all tensor shapes and attention semantics.
 
-**Enables next:** EVOU-20, EVOU-21, EVOU-22, EVOU-24, EVOU-27, EVOU-42, EVOU-45, EVOU-47, EVOU-48, EVOU-29, EVOU-49, EVOU-59, EVOU-34, EVOU-61, EVOU-39.
+**Implementation / assessment:** Train a small controlled reference and test full/incremental parity.
 
-## EVOU-20 — Regulation, expression and different timescales
+**Enables:** EVOD-24, EVOD-25, EVOD-26, EVOD-35.
 
-**Required earlier units (planned unless marked active):** EVOU-01: Programs, genomes and the question of Evolutor; EVOU-10: Recurrence: remembering one step at a time; EVOU-19: Baselines, oracles and resource-matched experiments.
+### EVOD-24 — DNA-aware Transformer mechanisms
 
-**Book I bridge:** DNAU-13, DNAU-32. See the planned exit checks in the shared contract.
+**Required earlier chapters:** EVOD-10, EVOD-21, EVOD-23.
 
-**First encounters, in planned teaching order:** biological regulation versus routing → sequence transfer versus control → timescale.
+**Book I imports:** DNAD-25, DNAD-30. All imports are future teaching dependencies, not completed outcomes.
 
-**Tangible opening:** What changes within a cell, and what changes across generations?
+**Mechanisms and concepts:** strand embeddings; motifs; k-mers; multi-scale positions; sparse/long context; retrieval.
 
-**Why and how the mathematics enters:** Recall Book I units and recurrence; a biological cartoon is not a fitted differential equation.
+**Formal/mathematical development:** Define each modification as a testable change to the baseline, including symmetry and causality.
 
-**Observable exit task:** Distinguish control from sequence reversal; classify state change, gene expression and inherited change.
+**Implementation / assessment:** Run one-factor ablations and matched-budget DNA-task controls; no biomedical success implied.
 
-**Enables next:** EVOU-21, EVOU-24.
+**Enables:** EVOD-25, EVOD-29, EVOD-48.
 
-## EVOU-21 — Analogies that can fail
+### EVOD-25 — Shared experiments without false equivalence
 
-**Required earlier units (planned unless marked active):** EVOU-15: If/else, dispatch, plugins and dynamic routing; EVOU-16: Mixture of experts and learned routing; EVOU-18: Services, databases, protocols and scheduling; EVOU-19: Baselines, oracles and resource-matched experiments; EVOU-20: Regulation, expression and different timescales.
+**Required earlier chapters:** EVOD-04, EVOD-22, EVOD-23, EVOD-24.
 
-**Book I bridge:** DNAU-32, DNAU-36. See the planned exit checks in the shared contract.
+**Book I imports:** None. All imports are future teaching dependencies, not completed outcomes.
 
-**First encounters, in planned teaching order:** abstraction → mechanism → novelty claim → biological fidelity.
+**Mechanisms and concepts:** data contracts; model interfaces; state types; losses; benchmarks.
 
-**Tangible opening:** What remains after comparing a biological idea with existing software?
+**Formal/mathematical development:** Separate common evaluation interfaces from family-specific recurrent and KV states.
 
-**Why and how the mathematics enters:** No formalism yet; specify observable differences and excluded biological features in ordinary language.
+**Implementation / assessment:** Build compatible prepare/step contracts with explicit logits versus sampled tokens.
 
-**Observable exit task:** Reject a renamed existing mechanism; propose a discriminating experiment; leave an unsupported claim open.
+**Enables:** EVOD-26, EVOD-27, EVOD-28, EVOD-30.
 
-**Enables next:** EVOU-22, EVOU-23, EVOU-24, EVOU-43.
+### EVOD-26 — Training/inference parity and parallel recurrence
 
-## EVOU-22 — Learning parameters and changing structure
+**Required earlier chapters:** EVOD-07, EVOD-09, EVOD-22, EVOD-23, EVOD-25.
 
-**Required earlier units (planned unless marked active):** EVOU-06: Slopes, gradients and improving a prediction; EVOU-19: Baselines, oracles and resource-matched experiments; EVOU-21: Analogies that can fail.
+**Book I imports:** None. All imports are future teaching dependencies, not completed outcomes.
 
-**Book I bridge:** DNAU-05, DNAU-06, DNAU-32. See the planned exit checks in the shared contract.
+**Mechanisms and concepts:** sequential; chunked; scan; full sequence; incremental; gradients.
 
-**First encounters, in planned teaching order:** pruning → architecture search → genetic programming → program synthesis → structural update.
+**Formal/mathematical development:** State tolerances and valid equivalences; test outputs and internal state, not just loss.
 
-**Tangible opening:** How does changing a number differ from changing a program?
+**Implementation / assessment:** Compare state/logit/gradient trajectories and deliberately broken masks or scans.
 
-**Why and how the mathematics enters:** Teach tree and syntax node with an arithmetic expression before genetic-programming notation; introduce search spaces concretely.
+**Enables:** EVOD-27, EVOD-28, EVOD-29, EVOD-30, EVOD-31, EVOD-34, EVOD-35, EVOD-38.
 
-**Observable exit task:** Classify changes; track who evaluates candidates; identify evaluation-set reuse and selection bias.
+### EVOD-27 — Optimization and memory-efficient training
 
-**Enables next:** EVOU-23, EVOU-24, EVOU-28, EVOU-44, EVOU-38.
+**Required earlier chapters:** EVOD-03, EVOD-04, EVOD-25, EVOD-26.
 
-## EVOU-23 — Development as building a representation
+**Book I imports:** None. All imports are future teaching dependencies, not completed outcomes.
 
-**Required earlier units (planned unless marked active):** EVOU-17: Source code, compilers, runtimes and interfaces; EVOU-21: Analogies that can fail; EVOU-22: Learning parameters and changing structure.
+**Mechanisms and concepts:** mixed precision; accumulation; checkpointing; optimizer state; stability.
 
-**Book I bridge:** DNAU-25, DNAU-31, DNAU-32. See the planned exit checks in the shared contract.
+**Formal/mathematical development:** Derive effective batch and memory accounting; distinguish recomputation from saved state.
 
-**First encounters, in planned teaching order:** intermediate representation → IR → developmental program → compilation phase.
+**Implementation / assessment:** Measure loss/gradient drift, memory and restart fidelity under one optimization at a time.
 
-**Tangible opening:** Can a compact description construct a larger program?
+**Enables:** EVOD-28, EVOD-29, EVOD-37.
 
-**Why and how the mathematics enters:** Explain grammar, node type and validation locally before formal grammar notation; no equivalence with embryology.
+### EVOD-28 — Distributed training and model artifacts
 
-**Observable exit task:** Find an invalid type; distinguish expansion from learning; identify the biological details intentionally absent.
+**Required earlier chapters:** EVOD-25, EVOD-26, EVOD-27.
 
-**Enables next:** EVOU-24.
+**Book I imports:** None. All imports are future teaching dependencies, not completed outcomes.
 
-## EVOU-24 — A minimal genomic-computation hypothesis
+**Mechanisms and concepts:** data/tensor/pipeline parallelism; communication; sharding; formats; provenance.
 
-**Required earlier units (planned unless marked active):** EVOU-19: Baselines, oracles and resource-matched experiments; EVOU-20: Regulation, expression and different timescales; EVOU-21: Analogies that can fail; EVOU-22: Learning parameters and changing structure; EVOU-23: Development as building a representation.
+**Formal/mathematical development:** Derive communication and memory consequences; identify model/state schema version boundaries.
 
-**Book I bridge:** DNAU-25, DNAU-32, DNAU-35. See the planned exit checks in the shared contract.
+**Implementation / assessment:** Specify small distributed parity and fault-recovery tests; benchmark only measured configurations.
 
-**First encounters, in planned teaching order:** computational genome → computational regulator → expression plan → operational semantics.
+**Enables:** EVOD-30, EVOD-32, EVOD-33, EVOD-36, EVOD-44, EVOD-46.
 
-**Tangible opening:** What precise system are we proposing to test?
+### EVOD-29 — Benchmark design and comparative evidence
 
-**Why and how the mathematics enters:** Only now collect already taught components into a tuple; explain transition rules and costs one at a time.
+**Required earlier chapters:** EVOD-16, EVOD-17, EVOD-22, EVOD-24, EVOD-26, EVOD-27.
 
-**Observable exit task:** Derive one transition; exhibit nearest-baseline equivalence; write a condition that would falsify the additional mechanism.
+**Book I imports:** None. All imports are future teaching dependencies, not completed outcomes.
 
-**Enables next:** EVOU-25, EVOU-42, EVOU-29, EVOU-40.
+**Mechanisms and concepts:** oracles; budgets; multi-seed evaluation; capacity controls; causality; transplant tests.
 
-## EVOU-25 — Classes, interfaces and a UML model
+**Formal/mathematical development:** Define estimands, uncertainty and a full resource vector before comparing families.
 
-**Required earlier units (planned unless marked active):** EVOU-17: Source code, compilers, runtimes and interfaces; EVOU-24: A minimal genomic-computation hypothesis.
+**Implementation / assessment:** Build a benchmark matrix including copying, retrieval, statistics, motifs and state-machine tasks.
 
-**Book I bridge:** DNAU-03. See the planned exit checks in the shared contract.
+**Enables:** EVOD-37, EVOD-38, EVOD-40, EVOD-43, EVOD-47, EVOD-48, EVOD-49, EVOD-50, EVOD-51, EVOD-52.
 
-**First encounters, in planned teaching order:** class → instance → method → composition → Unified Modeling Language → UML.
+### EVOD-30 — Runtime contracts and request lifecycles
 
-**Tangible opening:** How can the software structure express the proposed rules?
+**Required earlier chapters:** EVOD-15, EVOD-25, EVOD-26, EVOD-28.
 
-**Why and how the mathematics enters:** No unexplained engineering notation; cardinalities are illustrated with concrete object counts first.
+**Book I imports:** None. All imports are future teaching dependencies, not completed outcomes.
 
-**Observable exit task:** Distinguish class from instance; repair an ownership edge; test interface preconditions.
+**Mechanisms and concepts:** request; model identity; state ownership; cancellation; streaming; errors.
 
-**Enables next:** EVOU-26, EVOU-28, EVOU-58.
+**Formal/mathematical development:** Specify prepare/step semantics and lifecycle invariants without assuming a cache type.
 
-## EVOU-26 — From a request to an expression trace
+**Implementation / assessment:** Build a runtime skeleton only after model semantics; test request isolation and cancellation.
 
-**Required earlier units (planned unless marked active):** EVOU-18: Services, databases, protocols and scheduling; EVOU-25: Classes, interfaces and a UML model.
+**Enables:** EVOD-31, EVOD-32, EVOD-35, EVOD-36, EVOD-39, EVOD-42, EVOD-44.
 
-**Book I bridge:** DNAU-03. See the planned exit checks in the shared contract.
+### EVOD-31 — DOGMA state construction and execution
 
-**First encounters, in planned teaching order:** UML sequence diagram → lifeline → message → executor.
+**Required earlier chapters:** EVOD-18, EVOD-22, EVOD-26, EVOD-30.
 
-**Tangible opening:** Who talks to whom during one request?
+**Book I imports:** None. All imports are future teaching dependencies, not completed outcomes.
 
-**Why and how the mathematics enters:** Time flows down, messages sideways; distinguish return from a fresh request before asynchronous detail.
+**Mechanisms and concepts:** prompt ingestion; native step; chunking; output head; state tracing.
 
-**Observable exit task:** Trace one request; detect a backwards message; compare diagram events to recorded code events.
+**Formal/mathematical development:** Derive engine transitions from the exact model; distinguish prompt ingestion from Transformer prefill.
 
-**Enables next:** EVOU-27, EVOU-42, EVOU-30.
+**Implementation / assessment:** Compare token-by-token and valid chunked state construction against PyTorch.
 
-## EVOU-27 — Traces, credit and explanations
+**Enables:** EVOD-32, EVOD-33, EVOD-34.
 
-**Required earlier units (planned unless marked active):** EVOU-06: Slopes, gradients and improving a prediction; EVOU-19: Baselines, oracles and resource-matched experiments; EVOU-26: From a request to an expression trace.
+### EVOD-32 — DOGMA state pools and memory ownership
 
-**Book I bridge:** DNAU-12, DNAU-36. See the planned exit checks in the shared contract.
+**Required earlier chapters:** EVOD-20, EVOD-28, EVOD-30, EVOD-31.
 
-**First encounters, in planned teaching order:** credit assignment → trace provenance → causal intervention.
+**Book I imports:** None. All imports are future teaching dependencies, not completed outcomes.
 
-**Tangible opening:** Which component deserves credit, and what can a trace actually explain?
+**Mechanisms and concepts:** allocation; reset; reuse; clone; isolation; temporary buffers.
 
-**Why and how the mathematics enters:** Event correlation before causal claims; gradients and interventions answer different questions.
+**Formal/mathematical development:** Define slot ownership and generation counters; separate persistent state from workspace and weights.
 
-**Observable exit task:** Explain why a logged route is not a causal proof; identify missing provenance; propose a controlled intervention.
+**Implementation / assessment:** Stress reuse and cancellation with cross-request leakage tests.
 
-**Enables next:** EVOU-28, EVOU-46, EVOU-29.
+**Enables:** EVOD-33, EVOD-34, EVOD-45.
 
-## EVOU-28 — Structural proposals and their lifecycle
+### EVOD-33 — DOGMA checkpoints, branching and prefix state
 
-**Required earlier units (planned unless marked active):** EVOU-22: Learning parameters and changing structure; EVOU-25: Classes, interfaces and a UML model; EVOU-27: Traces, credit and explanations.
+**Required earlier chapters:** EVOD-28, EVOD-31, EVOD-32.
 
-**Book I bridge:** DNAU-06, DNAU-32. See the planned exit checks in the shared contract.
+**Book I imports:** None. All imports are future teaching dependencies, not completed outcomes.
 
-**First encounters, in planned teaching order:** UML state machine → proposal lifecycle → invariant → rollback.
+**Mechanisms and concepts:** checkpoint; restore; state clone; versioning; shared prefixes.
 
-**Tangible opening:** When may a proposed edit become active?
+**Formal/mathematical development:** Specify semantic equivalence and invalidation for cached state snapshots.
 
-**Why and how the mathematics enters:** State diagrams precede transition tables; explain safety invariants with invalid examples.
+**Implementation / assessment:** Measure clone/restore cost and reject tokenizer/model/schema mismatches.
 
-**Observable exit task:** Reject an untested transition; preserve the old version; distinguish bounded validation from universal correctness.
+**Enables:** EVOD-34, EVOD-40, EVOD-49.
 
-**Enables next:** EVOU-42, EVOU-44, EVOU-46, EVOU-29, EVOU-35, EVOU-38.
+### EVOD-34 — DOGMA batching and state-native kernels
 
-## EVOU-42 — DOGMA: candidate primitives and state semantics
+**Required earlier chapters:** EVOD-07, EVOD-26, EVOD-31, EVOD-32, EVOD-33.
 
-**Required earlier units (planned unless marked active):** EVOU-19: Baselines, oracles and resource-matched experiments; EVOU-24: A minimal genomic-computation hypothesis; EVOU-26: From a request to an expression trace; EVOU-28: Structural proposals and their lifecycle; EVOU-41: Strong recurrent baselines and valid scans.
+**Book I imports:** None. All imports are future teaching dependencies, not completed outcomes.
 
-**Book I bridge:** None. See the planned exit checks in the shared contract.
+**Mechanisms and concepts:** state-transition batching; scheduling; scans; locality; kernel profiling.
 
-**First encounters, in planned teaching order:** DOGMA target architecture → DOGMA transition contract.
+**Formal/mathematical development:** Group only compatible transitions; gate native kernels on profiling and parity.
 
-**Tangible opening:** Can structured state support DNA-native computation without Transformer attention as its organizing mechanism?
+**Implementation / assessment:** Profile the reference, optimize one bottleneck and test state/logit parity and latency tails.
 
-**Why and how the mathematics enters:** Define state ownership and token timing before F_theta. A next-token head reads the post-input state; other conventions must be explicit.
+**Enables:** EVOD-39, EVOD-46, EVOD-47.
 
-**Observable exit task:** Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
+### EVOD-35 — Hermon DNA prefill, decode and KV state
 
-**Enables next:** EVOU-43, EVOU-44, EVOU-50, EVOU-51.
+**Required earlier chapters:** EVOD-09, EVOD-23, EVOD-26, EVOD-30.
 
-## EVOU-43 — DOGMA regulation and expressed transformations
+**Book I imports:** None. All imports are future teaching dependencies, not completed outcomes.
 
-**Required earlier units (planned unless marked active):** EVOU-15: If/else, dispatch, plugins and dynamic routing; EVOU-16: Mixture of experts and learned routing; EVOU-21: Analogies that can fail; EVOU-42: DOGMA: candidate primitives and state semantics.
+**Mechanisms and concepts:** prefill; decode; cache layout; positions; memory growth.
 
-**Book I bridge:** None. See the planned exit checks in the shared contract.
+**Formal/mathematical development:** Derive KV bytes as 2*B*L*T*H_KV*D_h*b under declared layout; include other memory separately.
 
-**First encounters, in planned teaching order:** DOGMA regulator candidate → DOGMA expression candidate.
+**Implementation / assessment:** Validate full/cached logits and K/V before throughput measurements.
 
-**Tangible opening:** What exactly does regulation select and expression execute?
+**Enables:** EVOD-36, EVOD-37, EVOD-38.
 
-**Why and how the mathematics enters:** R/E/U is a candidate decomposition, not a validated final definition; introduce each domain and codomain after a hand trace.
+### EVOD-36 — Paged KV, prefix sharing and allocation
 
-**Observable exit task:** Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
+**Required earlier chapters:** EVOD-28, EVOD-30, EVOD-35.
 
-**Enables next:** EVOU-44, EVOU-45, EVOU-46, EVOU-50.
+**Book I imports:** None. All imports are future teaching dependencies, not completed outcomes.
 
-## EVOU-44 — DOGMA modular state, locality and structural memory
+**Mechanisms and concepts:** pages; blocks; fragmentation; prefix cache; reference counting; eviction.
 
-**Required earlier units (planned unless marked active):** EVOU-22: Learning parameters and changing structure; EVOU-28: Structural proposals and their lifecycle; EVOU-42: DOGMA: candidate primitives and state semantics; EVOU-43: DOGMA regulation and expressed transformations.
+**Formal/mathematical development:** Derive allocation overhead and shared-prefix ownership without assuming exact retrieval.
 
-**Book I bridge:** None. See the planned exit checks in the shared contract.
+**Implementation / assessment:** Test page reuse, invalidation, cancellation and cross-request isolation.
 
-**First encounters, in planned teaching order:** DOGMA memory locus candidate → DOGMA multi-timescale state.
+**Enables:** EVOD-37, EVOD-40, EVOD-45.
 
-**Tangible opening:** Does modular state help beyond a single carried vector?
+### EVOD-37 — Continuous batching and precision
 
-**Why and how the mathematics enters:** Define purpose, update schedule, differentiability and reset rules for each component; genomic names supply no semantics.
+**Required earlier chapters:** EVOD-27, EVOD-29, EVOD-35, EVOD-36.
 
-**Observable exit task:** Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
+**Book I imports:** None. All imports are future teaching dependencies, not completed outcomes.
 
-**Enables next:** EVOU-45, EVOU-46, EVOU-59.
+**Mechanisms and concepts:** admission; prefill/decode scheduling; quantization; quality; tails.
 
-## EVOU-45 — DOGMA strands, complements and dual-state proposals
+**Formal/mathematical development:** Separate TTFT, ITL and throughput; derive scheduling and quantization tradeoffs.
 
-**Required earlier units (planned unless marked active):** EVOU-19: Baselines, oracles and resource-matched experiments; EVOU-41: Strong recurrent baselines and valid scans; EVOU-43: DOGMA regulation and expressed transformations; EVOU-44: DOGMA modular state, locality and structural memory.
+**Implementation / assessment:** Compare declared workloads with quality and latency distributions, not only peak tokens/sec.
 
-**Book I bridge:** DNAU-11, DNAU-32, DNAU-34. See the planned exit checks in the shared contract.
+**Enables:** EVOD-38.
 
-**First encounters, in planned teaching order:** DOGMA dual-state candidate → causal reverse-complement boundary.
+### EVOD-38 — Speculative decoding and attention kernels
 
-**Tangible opening:** Does a paired representation improve a declared task?
+**Required earlier chapters:** EVOD-26, EVOD-29, EVOD-35, EVOD-37.
 
-**Why and how the mathematics enters:** Book I strand polarity and reverse complement are explicit imports. Full-sequence symmetry and streaming causality are different contracts.
+**Book I imports:** None. All imports are future teaching dependencies, not completed outcomes.
 
-**Observable exit task:** Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
+**Mechanisms and concepts:** draft/verify; acceptance; numerical parity; memory traffic; fused kernels.
 
-**Enables next:** EVOU-46.
+**Formal/mathematical development:** Explain exactness conditions for a chosen speculative scheme and profile kernel bottlenecks.
 
-## EVOU-46 — DOGMA traces and structural adaptation
+**Implementation / assessment:** Check distributional correctness where applicable and report quality, latency and memory.
 
-**Required earlier units (planned unless marked active):** EVOU-27: Traces, credit and explanations; EVOU-28: Structural proposals and their lifecycle; EVOU-43: DOGMA regulation and expressed transformations; EVOU-44: DOGMA modular state, locality and structural memory; EVOU-45: DOGMA strands, complements and dual-state proposals.
+**Enables:** EVOD-39, EVOD-46, EVOD-47.
 
-**Book I bridge:** None. See the planned exit checks in the shared contract.
+### EVOD-39 — Evolutor runtime above both engines
 
-**First encounters, in planned teaching order:** DOGMA trace contract → trace utility test.
+**Required earlier chapters:** EVOD-14, EVOD-15, EVOD-30, EVOD-34, EVOD-38.
 
-**Tangible opening:** Does a trace reveal useful mechanism beyond ordinary activation logs?
+**Book I imports:** None. All imports are future teaching dependencies, not completed outcomes.
 
-**Why and how the mathematics enters:** Trace metadata is not inherently an explanation; state exactly what a claimed intervention changes.
+**Mechanisms and concepts:** planner; router; adapters; tools; retrieval; symbolic modules; trace.
 
-**Observable exit task:** Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
+**Formal/mathematical development:** Define composition contracts without collapsing state and KV representations.
 
-**Enables next:** EVOU-29, EVOU-49, EVOU-37.
+**Implementation / assessment:** Execute a small heterogeneous plan with typed results, failure propagation and audit traces.
 
-## EVOU-47 — Hermon DNA: a Transformer sequence model
+**Enables:** EVOD-40, EVOD-41, EVOD-42, EVOD-43, EVOD-44, EVOD-45, EVOD-46.
 
-**Required earlier units (planned unless marked active):** EVOU-09: Tokens, embeddings and predicting the next symbol; EVOU-12: Attention as a weighted lookup; EVOU-13: From one attention head to a Transformer; EVOU-14: Caches, retrieval and external memory; EVOU-19: Baselines, oracles and resource-matched experiments.
+### EVOD-40 — Hybrid compressed and addressable memory
 
-**Book I bridge:** None. See the planned exit checks in the shared contract.
+**Required earlier chapters:** EVOD-10, EVOD-16, EVOD-20, EVOD-29, EVOD-33, EVOD-36, EVOD-39.
 
-**First encounters, in planned teaching order:** Hermon DNA target architecture → Transformer DNA reference contract.
+**Book I imports:** None. All imports are future teaching dependencies, not completed outcomes.
 
-**Tangible opening:** What remains recognizably Transformer-based before DNA-specific changes?
+**Mechanisms and concepts:** compression; addressability; forgetting; retrieval; memory routing.
 
-**Why and how the mathematics enters:** Teach all matrix shapes; identify head, layers, positions and output projection. Genomic name does not change attention semantics.
+**Formal/mathematical development:** Formulate a regulator hypothesis and compare established hybrid-memory and routing alternatives.
 
-**Observable exit task:** Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
+**Implementation / assessment:** Test copying and streaming tradeoffs at matched total memory; report losses as well as wins.
 
-**Enables next:** EVOU-48, EVOU-55.
+**Enables:** EVOD-48, EVOD-49, EVOD-50.
 
-## EVOU-48 — Hermon DNA: DNA-aware Transformer hypotheses
+### EVOD-41 — Compiler, IR and execution planning
 
-**Required earlier units (planned unless marked active):** EVOU-19: Baselines, oracles and resource-matched experiments; EVOU-47: Hermon DNA: a Transformer sequence model.
+**Required earlier chapters:** EVOD-12, EVOD-14, EVOD-15, EVOD-16, EVOD-39.
 
-**Book I bridge:** DNAU-11, DNAU-32, DNAU-34. See the planned exit checks in the shared contract.
+**Book I imports:** None. All imports are future teaching dependencies, not completed outcomes.
 
-**First encounters, in planned teaching order:** strand-aware embedding candidate → motif-aware attention candidate.
+**Mechanisms and concepts:** IR; typing; optimization; lowering; backend legality; cost model.
 
-**Tangible opening:** Which DNA-specific change adds value beyond the plain Transformer?
+**Formal/mathematical development:** Derive an IR only from implemented mechanisms; prove one transformation preserves semantics.
 
-**Why and how the mathematics enters:** Different tokenizations change sequence length and workload; compare full resource accounts, not raw tokens alone.
+**Implementation / assessment:** Lower a small expression plan to two backends with trace-equivalence tests.
 
-**Observable exit task:** Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
+**Enables:** EVOD-42, EVOD-43.
 
-**Enables next:** EVOU-29, EVOU-49, EVOU-59, EVOU-37.
+### EVOD-42 — Database engines as a systems comparison
 
-## EVOU-29 — Training a candidate Evolutor model
+**Required earlier chapters:** EVOD-10, EVOD-16, EVOD-30, EVOD-39, EVOD-41.
 
-**Required earlier units (planned unless marked active):** EVOU-08: A complete small training loop in PyTorch; EVOU-19: Baselines, oracles and resource-matched experiments; EVOU-24: A minimal genomic-computation hypothesis; EVOU-27: Traces, credit and explanations; EVOU-28: Structural proposals and their lifecycle; EVOU-46: DOGMA traces and structural adaptation; EVOU-48: Hermon DNA: DNA-aware Transformer hypotheses.
+**Book I imports:** None. All imports are future teaching dependencies, not completed outcomes.
 
-**Book I bridge:** DNAU-34, DNAU-36. See the planned exit checks in the shared contract.
+**Mechanisms and concepts:** parser; logical plan; optimizer; physical operators; buffer pool; transactions.
 
-**First encounters, in planned teaching order:** candidate training contract → multi-timescale update → frozen structure control.
+**Formal/mathematical development:** Compare database planning to expression planning and state exactly where transaction semantics differ.
 
-**Tangible opening:** Does the proposed mechanism help beyond the taught baselines?
+**Implementation / assessment:** Cost two valid plans and expose a bad optimizer assumption using measured or synthetic labeled data.
 
-**Why and how the mathematics enters:** Map each loss term to a measured objective before combining it; disclose update schedules and budgets.
+**Enables:** Research synthesis.
 
-**Observable exit task:** Audit a training loop; test frozen-structure behavior; report an inconclusive or negative outcome correctly.
+### EVOD-43 — Structural adaptation and lifecycle governance
 
-**Enables next:** EVOU-49, EVOU-30, EVOU-31, EVOU-36, EVOU-37.
+**Required earlier chapters:** EVOD-13, EVOD-17, EVOD-29, EVOD-39, EVOD-41.
 
-## EVOU-49 — Shared PyTorch experiments without false equivalence
+**Book I imports:** None. All imports are future teaching dependencies, not completed outcomes.
 
-**Required earlier units (planned unless marked active):** EVOU-08: A complete small training loop in PyTorch; EVOU-19: Baselines, oracles and resource-matched experiments; EVOU-29: Training a candidate Evolutor model; EVOU-46: DOGMA traces and structural adaptation; EVOU-48: Hermon DNA: DNA-aware Transformer hypotheses.
+**Mechanisms and concepts:** proposals; validation; evaluation; promotion; rollback; lineage.
 
-**Book I bridge:** None. See the planned exit checks in the shared contract.
+**Formal/mathematical development:** Specify a proposal state machine and separate learning-time changes from serving-time state.
 
-**First encounters, in planned teaching order:** dual-family training contract.
+**Implementation / assessment:** Test invalid proposals, lineage checks and rollback without uncontrolled self-modification.
 
-**Tangible opening:** What can both model families share without hiding their differences?
+**Enables:** EVOD-44, EVOD-50, EVOD-51, EVOD-52.
 
-**Why and how the mathematics enters:** No new algebra: consolidate training and inference contracts already taught. Shared prepare/step returns logits, not an unexplained token.
+### EVOD-44 — Packaging, deployment and observable services
 
-**Observable exit task:** Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
+**Required earlier chapters:** EVOD-28, EVOD-30, EVOD-39, EVOD-43.
 
-**Enables next:** EVOU-50, EVOU-51, EVOU-55.
+**Book I imports:** None. All imports are future teaching dependencies, not completed outcomes.
 
-## EVOU-50 — DOGMA training: sequential, chunked and scan forms
+**Mechanisms and concepts:** versioning; APIs; tracing; metrics; streaming; fault handling; rollback.
 
-**Required earlier units (planned unless marked active):** EVOU-41: Strong recurrent baselines and valid scans; EVOU-42: DOGMA: candidate primitives and state semantics; EVOU-43: DOGMA regulation and expressed transformations; EVOU-49: Shared PyTorch experiments without false equivalence.
+**Formal/mathematical development:** Define compatible artifacts and end-to-end failure semantics.
 
-**Book I bridge:** None. See the planned exit checks in the shared contract.
+**Implementation / assessment:** Build reproducible deployment examples with version mismatch and restart tests.
 
-**First encounters, in planned teaching order:** DOGMA training-inference parity.
+**Enables:** EVOD-45, EVOD-46, EVOD-47, EVOD-48.
 
-**Tangible opening:** When can a candidate transition be parallelized without changing its meaning?
+### EVOD-45 — Multi-tenancy, isolation and security
 
-**Why and how the mathematics enters:** Prove associativity where required. A nonlinear state-dependent regulator may prevent the proposed scan; do not assume a speedup.
+**Required earlier chapters:** EVOD-32, EVOD-36, EVOD-39, EVOD-44.
 
-**Observable exit task:** Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
+**Book I imports:** None. All imports are future teaching dependencies, not completed outcomes.
 
-**Enables next:** EVOU-51, EVOU-60.
+**Mechanisms and concepts:** ownership; quotas; untrusted inputs; tool authority; state leakage; threat model.
 
-## EVOU-30 — An inference runtime with clear boundaries
+**Formal/mathematical development:** Specify trust boundaries, tenant isolation and resource exhaustion limits.
 
-**Required earlier units (planned unless marked active):** EVOU-17: Source code, compilers, runtimes and interfaces; EVOU-26: From a request to an expression trace; EVOU-29: Training a candidate Evolutor model.
+**Implementation / assessment:** Test adversarial cancellation/reuse and unauthorized cross-tenant state access.
 
-**Book I bridge:** DNAU-03, DNAU-35. See the planned exit checks in the shared contract.
+**Enables:** EVOD-46, EVOD-49.
 
-**First encounters, in planned teaching order:** runtime component → backend → inference contract → UML component diagram.
+### EVOD-46 — Distributed serving and state placement
 
-**Tangible opening:** Which parts must run for one prediction?
+**Required earlier chapters:** EVOD-28, EVOD-34, EVOD-38, EVOD-39, EVOD-44, EVOD-45.
 
-**Why and how the mathematics enters:** No new optimization formulas; teach contracts and observable behavior before implementation shortcuts.
+**Book I imports:** None. All imports are future teaching dependencies, not completed outcomes.
 
-**Observable exit task:** Trace a component failure; test parameter immutability; compare class and component diagrams.
+**Mechanisms and concepts:** replication; partitioning; tensor/pipeline parallelism; sharding; migration.
 
-**Enables next:** EVOU-31, EVOU-32, EVOU-51, EVOU-55, EVOU-58, EVOU-34.
+**Formal/mathematical development:** Derive communication and placement costs for recurrent state versus growing KV.
 
-## EVOU-31 — Model identity, formats and checkpoints
+**Implementation / assessment:** Compare declared multi-device layouts and failure scenarios without fabricated speedups.
 
-**Required earlier units (planned unless marked active):** EVOU-29: Training a candidate Evolutor model; EVOU-30: An inference runtime with clear boundaries.
+**Enables:** EVOD-47.
 
-**Book I bridge:** DNAU-33, DNAU-35. See the planned exit checks in the shared contract.
+### EVOD-47 — Profiling, performance and hardware backends
 
-**First encounters, in planned teaching order:** serialization → schema version → content hash → model identity → provenance.
+**Required earlier chapters:** EVOD-29, EVOD-34, EVOD-38, EVOD-44, EVOD-46.
 
-**Tangible opening:** How do we know which model produced this result?
+**Book I imports:** None. All imports are future teaching dependencies, not completed outcomes.
 
-**Why and how the mathematics enters:** Explain byte representation and hash purpose before digest notation; integrity is not authenticity.
+**Mechanisms and concepts:** TTFT; ITL; throughput; memory; power; utilization; roofline intuition.
 
-**Observable exit task:** Find a missing configuration field; distinguish matching filename from matching model; reject silent fallback.
+**Formal/mathematical development:** Separate measured data from analytical bounds; state synchronization and hardware assumptions.
 
-**Enables next:** EVOU-32, EVOU-51, EVOU-53, EVOU-55, EVOU-58, EVOU-60, EVOU-35, EVOU-37.
+**Implementation / assessment:** Produce reproducible profiles and latency distributions; report power only when measured.
 
-## EVOU-32 — Managing recurrent state, KV and external memory
+**Enables:** EVOD-48, EVOD-49, EVOD-52.
 
-**Required earlier units (planned unless marked active):** EVOU-14: Caches, retrieval and external memory; EVOU-18: Services, databases, protocols and scheduling; EVOU-30: An inference runtime with clear boundaries; EVOU-31: Model identity, formats and checkpoints.
+### EVOD-48 — Genomic sequence applications
 
-**Book I bridge:** DNAU-35. See the planned exit checks in the shared contract.
+**Required earlier chapters:** EVOD-24, EVOD-29, EVOD-40, EVOD-44, EVOD-47.
 
-**First encounters, in planned teaching order:** state pool → memory ownership → paged KV → eviction → isolation.
+**Book I imports:** DNAD-25, DNAD-26, DNAD-30, DNAD-31. All imports are future teaching dependencies, not completed outcomes.
 
-**Tangible opening:** How can several requests share hardware without sharing private state?
+**Mechanisms and concepts:** regulatory sequence analysis; motifs; long context; strand symmetry; uncertainty.
 
-**Why and how the mathematics enters:** Labeled byte counts and page sizes precede capacity equations; distinguish logical history from physical location.
+**Formal/mathematical development:** Define task-specific labels and leakage-resistant biological splits; no clinical inference from toy success.
 
-**Observable exit task:** Detect cross-request leakage; calculate capacity; explain why recurrent state and KV have different contracts.
+**Implementation / assessment:** Evaluate a controlled genomic task with causal/symmetry checks and strong baselines.
 
-**Enables next:** EVOU-51, EVOU-52, EVOU-54, EVOU-55, EVOU-56, EVOU-57, EVOU-33, EVOU-34.
+**Enables:** EVOD-51, EVOD-52.
 
-## EVOU-51 — DOGMA Engine: state construction and native steps
+### EVOD-49 — Streaming, language, code and persistent agents
 
-**Required earlier units (planned unless marked active):** EVOU-30: An inference runtime with clear boundaries; EVOU-31: Model identity, formats and checkpoints; EVOU-32: Managing recurrent state, KV and external memory; EVOU-42: DOGMA: candidate primitives and state semantics; EVOU-49: Shared PyTorch experiments without false equivalence; EVOU-50: DOGMA training: sequential, chunked and scan forms.
+**Required earlier chapters:** EVOD-29, EVOD-33, EVOD-40, EVOD-45, EVOD-47.
 
-**Book I bridge:** None. See the planned exit checks in the shared contract.
+**Book I imports:** None. All imports are future teaching dependencies, not completed outcomes.
 
-**First encounters, in planned teaching order:** DOGMA Engine → prompt ingestion.
+**Mechanisms and concepts:** statistics; retrieval; copying; code; tools; persistent state; planning.
 
-**Tangible opening:** How does the engine execute the model's exact state machine?
+**Formal/mathematical development:** Define retention and exact-retrieval demands separately and account for external tools/memory.
 
-**Why and how the mathematics enters:** State exactly whether predictions precede or follow input consumption; model weights stay fixed during ordinary inference.
+**Implementation / assessment:** Compare family capabilities across algorithmic, language and agent tasks at declared budgets.
 
-**Observable exit task:** Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
+**Enables:** EVOD-50, EVOD-51, EVOD-52.
 
-**Enables next:** EVOU-52, EVOU-53, EVOU-54, EVOU-58.
+### EVOD-50 — Continual learning and population adaptation
 
-## EVOU-52 — DOGMA Engine: isolated state pools
+**Required earlier chapters:** EVOD-13, EVOD-29, EVOD-40, EVOD-43, EVOD-49.
 
-**Required earlier units (planned unless marked active):** EVOU-32: Managing recurrent state, KV and external memory; EVOU-51: DOGMA Engine: state construction and native steps.
+**Book I imports:** None. All imports are future teaching dependencies, not completed outcomes.
 
-**Book I bridge:** None. See the planned exit checks in the shared contract.
+**Mechanisms and concepts:** transfer; forgetting; structural search; populations; open-ended learning.
 
-**First encounters, in planned teaching order:** DOGMA state-slot lifecycle.
+**Formal/mathematical development:** Specify retention/adaptation objectives and distinguish in-context state from learned changes.
 
-**Tangible opening:** How can requests share hardware without sharing state?
+**Implementation / assessment:** Run controlled sequential-task and population comparisons with rollback and lineage.
 
-**Why and how the mathematics enters:** Account separately for weights, per-request state, temporary buffers, token history, external memory and trace storage.
+**Enables:** EVOD-51, EVOD-52.
 
-**Observable exit task:** Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
+### EVOD-51 — AGI capability hypotheses and limits
 
-**Enables next:** EVOU-53, EVOU-54.
+**Required earlier chapters:** EVOD-29, EVOD-43, EVOD-48, EVOD-49, EVOD-50.
 
-## EVOU-53 — DOGMA Engine: checkpoint, restore and prefix state
+**Book I imports:** None. All imports are future teaching dependencies, not completed outcomes.
 
-**Required earlier units (planned unless marked active):** EVOU-31: Model identity, formats and checkpoints; EVOU-51: DOGMA Engine: state construction and native steps; EVOU-52: DOGMA Engine: isolated state pools.
+**Mechanisms and concepts:** reasoning; planning; world models; transfer; tools; self-modification; generalization.
 
-**Book I bridge:** None. See the planned exit checks in the shared contract.
+**Formal/mathematical development:** Operationalize capability axes without treating architectural resemblance as AGI evidence.
 
-**First encounters, in planned teaching order:** prefix state cache → state checkpoint parity.
+**Implementation / assessment:** Design held-out capability tests and document what would falsify a broad claim.
 
-**Tangible opening:** Can a saved state resume the same computation?
+**Enables:** EVOD-52.
 
-**Why and how the mathematics enters:** A fixed-size recurrent state need not preserve every past detail; state cache is not Transformer KV cache.
+### EVOD-52 — Failures, open problems and reproducible synthesis
 
-**Observable exit task:** Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
+**Required earlier chapters:** EVOD-29, EVOD-43, EVOD-47, EVOD-48, EVOD-49, EVOD-50, EVOD-51.
 
-**Enables next:** EVOU-54, EVOU-59, EVOU-61.
+**Book I imports:** None. All imports are future teaching dependencies, not completed outcomes.
 
-## EVOU-54 — DOGMA Engine: scheduling state transitions
+**Mechanisms and concepts:** failed mechanisms; causality leaks; capacity confounds; negative results; historical lineage.
 
-**Required earlier units (planned unless marked active):** EVOU-18: Services, databases, protocols and scheduling; EVOU-32: Managing recurrent state, KV and external memory; EVOU-51: DOGMA Engine: state construction and native steps; EVOU-52: DOGMA Engine: isolated state pools; EVOU-53: DOGMA Engine: checkpoint, restore and prefix state.
+**Formal/mathematical development:** Separate established mechanisms, implemented results, conjectures and rejected proposals.
 
-**Book I bridge:** None. See the planned exit checks in the shared contract.
+**Implementation / assessment:** Deliver a reproducible argument with baseline, ablation, uncertainty, artifact lineage and unsolved questions.
 
-**First encounters, in planned teaching order:** state-transition batching.
-
-**Tangible opening:** Which independent requests can take a step together?
-
-**Why and how the mathematics enters:** Do not copy a Transformer scheduler; state shapes, masks, request length and optional scans determine grouping.
-
-**Observable exit task:** Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
-
-**Enables next:** EVOU-58, EVOU-60, EVOU-37.
-
-## EVOU-55 — Hermon DNA Engine: prefill and attention decode
-
-**Required earlier units (planned unless marked active):** EVOU-14: Caches, retrieval and external memory; EVOU-30: An inference runtime with clear boundaries; EVOU-31: Model identity, formats and checkpoints; EVOU-32: Managing recurrent state, KV and external memory; EVOU-47: Hermon DNA: a Transformer sequence model; EVOU-49: Shared PyTorch experiments without false equivalence.
-
-**Book I bridge:** None. See the planned exit checks in the shared contract.
-
-**First encounters, in planned teaching order:** Hermon DNA Engine → prefill → attention decode.
-
-**Tangible opening:** Why does one Transformer request have two execution phases?
-
-**Why and how the mathematics enters:** Derive KV bytes from sequence length, layers, KV heads, head dimension and precision; include other memory separately.
-
-**Observable exit task:** Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
-
-**Enables next:** EVOU-56, EVOU-57, EVOU-58.
-
-## EVOU-56 — Hermon DNA Engine: paged KV and prefix sharing
-
-**Required earlier units (planned unless marked active):** EVOU-32: Managing recurrent state, KV and external memory; EVOU-55: Hermon DNA Engine: prefill and attention decode.
-
-**Book I bridge:** None. See the planned exit checks in the shared contract.
-
-**First encounters, in planned teaching order:** Hermon KV page table → Transformer prefix cache.
-
-**Tangible opening:** How do logical positions map to reusable physical pages?
-
-**Why and how the mathematics enters:** Memory maps precede byte equations; prefix matching includes model and tokenizer identity.
-
-**Observable exit task:** Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
-
-**Enables next:** EVOU-57, EVOU-59.
-
-## EVOU-57 — Hermon DNA Engine: continuous batching and precision
-
-**Required earlier units (planned unless marked active):** EVOU-18: Services, databases, protocols and scheduling; EVOU-32: Managing recurrent state, KV and external memory; EVOU-55: Hermon DNA Engine: prefill and attention decode; EVOU-56: Hermon DNA Engine: paged KV and prefix sharing.
-
-**Book I bridge:** None. See the planned exit checks in the shared contract.
-
-**First encounters, in planned teaching order:** Transformer batch lifecycle → quantization.
-
-**Tangible opening:** How do request phases and numerical precision change serving?
-
-**Why and how the mathematics enters:** Quantization changes represented numbers; teach rounding and scaling before implementation. Performance remains unmeasured.
-
-**Observable exit task:** Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
-
-**Enables next:** EVOU-58, EVOU-60, EVOU-37, EVOU-61.
-
-## EVOU-58 — Evolutor runtime above two distinct engines
-
-**Required earlier units (planned unless marked active):** EVOU-25: Classes, interfaces and a UML model; EVOU-30: An inference runtime with clear boundaries; EVOU-31: Model identity, formats and checkpoints; EVOU-51: DOGMA Engine: state construction and native steps; EVOU-54: DOGMA Engine: scheduling state transitions; EVOU-55: Hermon DNA Engine: prefill and attention decode; EVOU-57: Hermon DNA Engine: continuous batching and precision.
-
-**Book I bridge:** None. See the planned exit checks in the shared contract.
-
-**First encounters, in planned teaching order:** heterogeneous model routing.
-
-**Tangible opening:** What belongs in a shared runtime rather than either engine?
-
-**Why and how the mathematics enters:** Separate theory/planning, model architecture and industrial engine. Runtime composition is a target, not an implemented fact.
-
-**Observable exit task:** Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
-
-**Enables next:** EVOU-59, EVOU-60, EVOU-37.
-
-## EVOU-59 — Hybrid memory as a testable Evolutor proposal
-
-**Required earlier units (planned unless marked active):** EVOU-16: Mixture of experts and learned routing; EVOU-19: Baselines, oracles and resource-matched experiments; EVOU-44: DOGMA modular state, locality and structural memory; EVOU-48: Hermon DNA: DNA-aware Transformer hypotheses; EVOU-53: DOGMA Engine: checkpoint, restore and prefix state; EVOU-56: Hermon DNA Engine: paged KV and prefix sharing; EVOU-58: Evolutor runtime above two distinct engines.
-
-**Book I bridge:** None. See the planned exit checks in the shared contract.
-
-**First encounters, in planned teaching order:** compression-addressability hypothesis.
-
-**Tangible opening:** When should information be compressed into state or kept addressable?
-
-**Why and how the mathematics enters:** Attention access to past representations is not a guarantee of exact retrieval. Hybrid composition remains a hypothesis.
-
-**Observable exit task:** Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
-
-**Enables next:** EVOU-61, EVOU-40.
-
-## EVOU-33 — Batching, queues and latency
-
-**Required earlier units (planned unless marked active):** EVOU-18: Services, databases, protocols and scheduling; EVOU-32: Managing recurrent state, KV and external memory.
-
-**Book I bridge:** DNAU-12, DNAU-35. See the planned exit checks in the shared contract.
-
-**First encounters, in planned teaching order:** continuous batching → admission control → backpressure → tail latency.
-
-**Tangible opening:** Why can throughput improve while some users wait longer?
-
-**Why and how the mathematics enters:** Teach percentile from sorted waiting times before p95; simple arrival examples before queueing formulas.
-
-**Observable exit task:** Calculate waiting times; identify starvation; compare a throughput gain with tail-latency cost.
-
-**Enables next:** EVOU-34, EVOU-35.
-
-## EVOU-34 — Parity, profiling and optimization
-
-**Required earlier units (planned unless marked active):** EVOU-19: Baselines, oracles and resource-matched experiments; EVOU-30: An inference runtime with clear boundaries; EVOU-32: Managing recurrent state, KV and external memory; EVOU-33: Batching, queues and latency.
-
-**Book I bridge:** DNAU-35, DNAU-36. See the planned exit checks in the shared contract.
-
-**First encounters, in planned teaching order:** parity → profiler → benchmark → warm-up → optimization.
-
-**Tangible opening:** How do we make it faster without changing what it computes?
-
-**Why and how the mathematics enters:** Absolute and relative numerical tolerance precede parity thresholds; timing distribution precedes speedup ratios.
-
-**Observable exit task:** Reject unequal workloads; diagnose a tolerance failure; separate logical-event counts from elapsed time.
-
-**Enables next:** EVOU-60, EVOU-35, EVOU-36.
-
-## EVOU-60 — Measured bottlenecks, native kernels and model formats
-
-**Required earlier units (planned unless marked active):** EVOU-31: Model identity, formats and checkpoints; EVOU-34: Parity, profiling and optimization; EVOU-50: DOGMA training: sequential, chunked and scan forms; EVOU-54: DOGMA Engine: scheduling state transitions; EVOU-57: Hermon DNA Engine: continuous batching and precision; EVOU-58: Evolutor runtime above two distinct engines.
-
-**Book I bridge:** None. See the planned exit checks in the shared contract.
-
-**First encounters, in planned teaching order:** family-specific kernel gate → state-schema metadata.
-
-**Tangible opening:** Which optimization is justified by profiling and semantic parity?
-
-**Why and how the mathematics enters:** Add architecture/state/regulation schemas only if semantics require them; preserve tokenizer and provenance. Do not turn candidate formats into standards prematurely.
-
-**Observable exit task:** Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
-
-**Enables next:** EVOU-37, EVOU-61.
-
-## EVOU-35 — Serving, observability and safe rollback
-
-**Required earlier units (planned unless marked active):** EVOU-28: Structural proposals and their lifecycle; EVOU-31: Model identity, formats and checkpoints; EVOU-33: Batching, queues and latency; EVOU-34: Parity, profiling and optimization.
-
-**Book I bridge:** DNAU-35. See the planned exit checks in the shared contract.
-
-**First encounters, in planned teaching order:** UML deployment diagram → observability → authentication → authorization → threat model → deployment rollback.
-
-**Tangible opening:** How do we observe and recover a running service?
-
-**Why and how the mathematics enters:** Service goals and measured thresholds precede any availability formula; security is a separate review discipline.
-
-**Observable exit task:** Distinguish authentication from authorization; trace rollback state; redact a sensitive log.
-
-**Enables next:** EVOU-36, EVOU-40.
-
-## EVOU-36 — Failed ideas as a source of knowledge
-
-**Required earlier units (planned unless marked active):** EVOU-29: Training a candidate Evolutor model; EVOU-34: Parity, profiling and optimization; EVOU-35: Serving, observability and safe rollback.
-
-**Book I bridge:** DNAU-12, DNAU-36. See the planned exit checks in the shared contract.
-
-**First encounters, in planned teaching order:** negative result → confound → replication → stopping rule.
-
-**Tangible opening:** What should we learn when the idea does not win?
-
-**Why and how the mathematics enters:** Teach multiple comparisons and selection effects with repeated toy trials before significance language.
-
-**Observable exit task:** Separate bug, underpowered test and refuted claim; write a transparent negative-result report.
-
-**Enables next:** EVOU-37, EVOU-61, EVOU-38, EVOU-39, EVOU-40.
-
-## EVOU-37 — DOGMA and Hermon DNA: taxonomy, lineage and comparative evidence
-
-**Required earlier units (planned unless marked active):** EVOU-11: Gates and state-space models; EVOU-13: From one attention head to a Transformer; EVOU-29: Training a candidate Evolutor model; EVOU-31: Model identity, formats and checkpoints; EVOU-36: Failed ideas as a source of knowledge; EVOU-46: DOGMA traces and structural adaptation; EVOU-48: Hermon DNA: DNA-aware Transformer hypotheses; EVOU-54: DOGMA Engine: scheduling state transitions; EVOU-57: Hermon DNA Engine: continuous batching and precision; EVOU-58: Evolutor runtime above two distinct engines; EVOU-60: Measured bottlenecks, native kernels and model formats.
-
-**Book I bridge:** DNAU-11, DNAU-34, DNAU-36. See the planned exit checks in the shared contract.
-
-**First encounters, in planned teaching order:** DNA model taxonomy → reverse-complement symmetry study → research-program name.
-
-**Tangible opening:** Which architectural distinction survives beyond a project name?
-
-**Why and how the mathematics enters:** Reuse taught equations. The target mapping is fixed editorial intent; actual old artifacts keep their measured architecture and historical names.
-
-**Observable exit task:** Separate name, architecture and evidence; design a symmetry control; leave an unverifiable claim unresolved.
-
-**Enables next:** EVOU-61, EVOU-38, EVOU-40.
-
-## EVOU-61 — Applications that stress different kinds of memory
-
-**Required earlier units (planned unless marked active):** EVOU-19: Baselines, oracles and resource-matched experiments; EVOU-36: Failed ideas as a source of knowledge; EVOU-37: DOGMA and Hermon DNA: taxonomy, lineage and comparative evidence; EVOU-53: DOGMA Engine: checkpoint, restore and prefix state; EVOU-57: Hermon DNA Engine: continuous batching and precision; EVOU-59: Hybrid memory as a testable Evolutor proposal; EVOU-60: Measured bottlenecks, native kernels and model formats.
-
-**Book I bridge:** None. See the planned exit checks in the shared contract.
-
-**First encounters, in planned teaching order:** cross-family workload matrix.
-
-**Tangible opening:** Which tasks reveal compression and addressability tradeoffs?
-
-**Why and how the mathematics enters:** Potential streaming, edge and persistent-agent uses are hypotheses. Indefinite ingestion does not imply perfect retention or constant total memory.
-
-**Observable exit task:** Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
-
-**Enables next:** EVOU-40.
-
-## EVOU-38 — Transfer, continual learning and populations
-
-**Required earlier units (planned unless marked active):** EVOU-22: Learning parameters and changing structure; EVOU-28: Structural proposals and their lifecycle; EVOU-36: Failed ideas as a source of knowledge; EVOU-37: DOGMA and Hermon DNA: taxonomy, lineage and comparative evidence.
-
-**Book I bridge:** DNAU-12, DNAU-32, DNAU-36. See the planned exit checks in the shared contract.
-
-**First encounters, in planned teaching order:** transfer → continual learning → catastrophic forgetting → population composition → distribution shift.
-
-**Tangible opening:** Does an improvement survive a changed task?
-
-**Why and how the mathematics enters:** Teach task distributions through concrete examples; distinguish adaptation budget from zero-shot evaluation.
-
-**Observable exit task:** Identify hidden retraining; compare retention and transfer; report costs of population search.
-
-**Enables next:** EVOU-39, EVOU-40.
-
-## EVOU-39 — AGI claims and an operational scorecard
-
-**Required earlier units (planned unless marked active):** EVOU-19: Baselines, oracles and resource-matched experiments; EVOU-36: Failed ideas as a source of knowledge; EVOU-38: Transfer, continual learning and populations.
-
-**Book I bridge:** DNAU-36. See the planned exit checks in the shared contract.
-
-**First encounters, in planned teaching order:** artificial general intelligence → AGI → capability scope → generalization claim → evidence scorecard.
-
-**Tangible opening:** What does a narrow result allow us to say about general intelligence?
-
-**Why and how the mathematics enters:** No single magic scalar; explain operational definition and uncertainty before any aggregate score.
-
-**Observable exit task:** Reject a unit-test-to-AGI inference; propose disconfirming tests; state the limits of the chosen definition.
-
-**Enables next:** EVOU-40.
-
-## EVOU-40 — Capstone: failures, limits and a reproducible research argument
-
-**Required earlier units (planned unless marked active):** EVOU-24: A minimal genomic-computation hypothesis; EVOU-35: Serving, observability and safe rollback; EVOU-36: Failed ideas as a source of knowledge; EVOU-37: DOGMA and Hermon DNA: taxonomy, lineage and comparative evidence; EVOU-38: Transfer, continual learning and populations; EVOU-39: AGI claims and an operational scorecard; EVOU-59: Hybrid memory as a testable Evolutor proposal; EVOU-61: Applications that stress different kinds of memory.
-
-**Book I bridge:** DNAU-36. See the planned exit checks in the shared contract.
-
-**First encounters, in planned teaching order:** research artifact → replication package → claim retirement.
-
-**Tangible opening:** Can another reader reproduce both the result and the boundary of the claim?
-
-**Why and how the mathematics enters:** Use only established tools; require every equation and plotted quantity to trace to a definition and artifact.
-
-**Observable exit task:** Present the strongest bounded claim, a failed alternative and the next falsifying experiment.
-
-**Enables next:** Capstone completion and further research.
+**Enables:** Research synthesis.

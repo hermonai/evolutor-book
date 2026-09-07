@@ -1,511 +1,321 @@
-# Evolutor: undergraduate-first architecture
+# Evolutor: deep technical edition
 
-Status: Chapter 1 internally reviewed development draft; all later units remain planned. No learner study, independent expert certification or new research-model experiment is claimed. Generated from [pedagogy/curriculum.json](pedagogy/curriculum.json). See [Chapter 1 storyboard](research/undergraduate-ch01-storyboard.md) for the six produced figures.
+Status: architecture and detailed outlines only; no new manuscript, final figures, animation frames, models, engines or experiments are delivered. Canonical source: [deep curriculum](pedagogy/deep-curriculum.json). Prior editions remain historical references, not the active teaching level.
 
-Target taxonomy: **DOGMA = non-Transformer DNA-native architecture + DOGMA Engine; Hermon DNA = Transformer-based DNA architecture + Hermon DNA Engine; Evolutor = research/theory/runtime above both.** These are research targets, not implementation evidence. See [taxonomy and lineage](research/architecture-taxonomy.md). Stable EVOU IDs differ from printed numbers after EVOU-11.
+DOGMA = non-Transformer DNA-native model + DOGMA Engine; Hermon DNA = Transformer-based DNA model + Hermon DNA Engine; Evolutor = broader genomic computation theory, research and eventual runtime above both.
 
-## Exercises, code and experiments
+## Mathematics, implementation and evidence
 
-Progress through recognition → hand calculation/tracing → application → implementation → reasoning → research design. Early chapters stop before levels whose tools are untaught. Every introductory task gets a worked solution or a staged hint and answer check. Later research tasks get a rubric and explicit acceptable uncertainty, not a fabricated unique answer. Return to earlier concepts after a delay and interleave worked examples with new attempts.
+Motivate the problem → explain the mechanism → define the abstraction → derive → interpret → work an example → implement → test → examine limits. This is a reasoning discipline, not a rigid chapter template. Basic programming is assumed; library-specific and domain-specific semantics are taught. Proofs, differential equations and formal systems are welcome.
 
-Before code: picture, plain-language procedure, trace, pseudocode, then syntax explanation. No code lab assumes an untaught library. Existing code is audit material, not automatic chapter content.
+### EVOD-01
 
-## EVOU-01
+Use provisional typed selection/execution maps after a concrete module example; novelty remains a question.
 
-**Worked example / exercise ladder:** Recognize an analogy; identify a missing mechanism; explain that ordinary software can also respond and change.
+Compare conventional conditional execution with a proposed genomic organization and identify a falsifier.
 
-**Code or hands-on progression:** Paper heater trace first; optional four-line Python function shared by listing and executable tests. Local biology reminder because Book I imports remain planned.
+### EVOD-02
 
-**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
+Derive a sequence likelihood and loss; separate training fit from held-out generalization.
 
-## EVOU-02
+Construct a leakage-resistant split and hand-check loss and calibration on a tiny dataset.
 
-**Worked example / exercise ladder:** Trace both histories; test a reset; distinguish the current input, remembered state and stored instructions.
+### EVOD-03
 
-**Code or hands-on progression:** Refresh Book I Python functions, dictionaries and tests, then build a two-command stateful program.
+Derive chain-rule gradients for a small network and annotate every dimension.
 
-**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
+Check autograd with finite differences and demonstrate numerical failure cases.
 
-## EVOU-03
+### EVOD-04
 
-**Worked example / exercise ladder:** Compute one prediction; compare two trial settings; distinguish fitting examples from success on new ones.
+Relate code to the objective and masking assumptions; distinguish resumption from reproducibility.
 
-**Code or hands-on progression:** Plain Python predictions and a short table of trial parameter choices; keep training and inference functions separate.
+Implement a reference training loop with exact small cases and restart tests.
 
-**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
+### EVOD-05
 
-## EVOU-04
+Derive vocabulary and sequence-length tradeoffs; state reverse-complement alignment conventions.
 
-**Worked example / exercise ladder:** Identify leakage; compute a mean error; explain why one run is insufficient evidence.
+Test tokenization round trips and orientation handling without future leakage.
 
-**Code or hands-on progression:** Create a tiny split with duplicate detection; keep an untouched test file.
+### EVOD-06
 
-**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
+Derive one-step and unrolled computations and identify vanishing/exploding gradient mechanisms.
 
-## EVOU-05
+Compare recurrent baselines on copying and running statistics with matched controls.
 
-**Worked example / exercise ladder:** Compute a tiny product; label axes; diagnose an accidental broadcast.
+### EVOD-07
 
-**Code or hands-on progression:** Plain Python arrays with shape labels and a paper tensor-layout exercise; PyTorch tensor construction and setup wait for Chapter 8.
+Derive an associative scan for a valid linear case and show where state-dependent nonlinearities break it.
 
-**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
+Test sequential/chunked/scan parity and review strong primary-source baselines.
 
-## EVOU-06
+### EVOD-08
 
-**Worked example / exercise ladder:** Compute a slope; show an overly large step; explain local improvement versus a global guarantee.
+Derive shaped attention from weighted lookup; distinguish addressability from exact recall.
 
-**Code or hands-on progression:** Calculate a finite-difference gradient in plain Python and compare a hand-derived scalar gradient.
+Implement a small attention oracle and causal masking tests.
 
-**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
+### EVOD-09
 
-## EVOU-07
+Derive a complete decoder block and full versus incremental equivalence under declared positions.
 
-**Worked example / exercise ladder:** Compute two neurons; compare linear compositions and nonlinear layers; trace one gradient path.
+Verify logits and K/V across full and cached execution.
 
-**Code or hands-on progression:** Tiny scalar network first, then batched matrix forward pass; no large architecture.
+### EVOD-10
 
-**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
+Separate routing cost, active computation and memory access; compare mechanisms without renaming them.
 
-## EVOU-08
+Build an ordinary routed baseline and account for inactive parameter storage.
 
-**Worked example / exercise ladder:** Repair a missing gradient reset; reproduce a tiny run; verify parameters are unchanged by inference.
+### EVOD-11
 
-**Code or hands-on progression:** Teach installation, tensors, autograd, zero_grad, backward and step; separate no-update inference and evaluation behavior.
+Give distinct biological and software interpretations and a typed selection map.
 
-**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
+Compare a regulatory proposal to gates, dispatch and MoE with an explicit equivalence test.
 
-## EVOU-09
+### EVOD-12
 
-**Worked example / exercise ladder:** Distinguish a character from a token; compute a tiny normalized distribution; prevent future-token leakage.
+Formulate a candidate development map and compare it to established program/network generation.
 
-**Code or hands-on progression:** Build a tiny tokenizer and embedding lookup, then a next-token table baseline.
+Generate a small executable structure and test whether development adds value over direct encoding.
 
-**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
+### EVOD-13
 
-## EVOU-10
+Specify which object changes, at what timescale, with what objective and inheritance rule.
 
-**Worked example / exercise ladder:** Compute two steps; compare histories; test reset boundaries and explain why memory is not yet learning.
+Contrast one state update, optimizer step, structural proposal and population generation.
 
-**Code or hands-on progression:** Exact rational leaky example before a small trained RNN; distinguish hand-set recurrence from learning.
+### EVOD-14
 
-**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
+Derive typed interfaces from examples; re-evaluate the old tuple rather than canonizing it.
 
-## EVOU-11
+Build a minimal interpreter with types, invariants and a conventional baseline.
 
-**Worked example / exercise ladder:** Trace a gate at zero and one; compare state sizes; state what information a compact state may lose.
+### EVOD-15
 
-**Code or hands-on progression:** Implement a small GRU and a declared linear SSM baseline before contemporary variants.
+Define a small-step semantics and prove a bounded correspondence with the reference interpreter.
 
-**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
+Compare exact transition traces; test invalid configurations and causal ordering.
 
-## EVOU-41
+### EVOD-16
 
-**Worked example / exercise ladder:** Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
+Reassess expression-size complexity against a cost vector with units and worst-case quantifiers.
 
-**Code or hands-on progression:** Build small baselines and test chunked versus sequential execution; only claim parallel scan where composition permits it.
+Construct a counterexample where fewer active modules cost more overall.
 
-**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
+### EVOD-17
 
-## EVOU-12
+Distinguish observed activation traces from causal explanations and useful adaptation signals.
 
-**Worked example / exercise ladder:** Compute weights; explain query/key/value roles; demonstrate a causal-mask failure.
+Ablate trace-guided proposals against logging and random-selection controls.
 
-**Code or hands-on progression:** Hand-compute a three-token example, then plain tensors and autograd parity checks.
+### EVOD-18
 
-**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
+Define candidate primitives by type and transition; compare each with nearest recurrent or conditional baseline.
 
-## EVOU-13
+Implement only a minimal candidate after its semantics; reject redundant biological terminology.
 
-**Worked example / exercise ladder:** Trace one token through a block; explain why position matters; reject a full architecture diagram with unlabeled axes.
+### EVOD-19
 
-**Code or hands-on progression:** Build one small causal block and test shape, masking and checkpoint reload before stacking.
+Derive candidate R/E/U maps and compare gates, selection and dispatch algebraically.
 
-**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
+Measure one-mechanism ablations with state/logit/gradient checks.
 
-## EVOU-14
+### EVOD-20
 
-**Worked example / exercise ladder:** Distinguish recurrent state, KV cache and retrieved documents; test stale-cache and mismatched-history cases.
+Specify ownership, updates, resets and capacity; no infinite-context or constant-total-memory claim.
 
-**Code or hands-on progression:** Compare cached and uncached tiny-model outputs; build a tiny exact retrieval index.
+Test retention, interference and reset behavior at matched memory and parameter budgets.
 
-**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
+### EVOD-21
 
-## EVOU-15
+Separate offline symmetry from causal inference; formalize a candidate interaction and augmentation control.
 
-**Worked example / exercise ladder:** Find a duplicate-name bug; compare costs honestly; explain why selective execution alone is not novel.
+Detect reverse-complement future leakage; compare dual-state with augmentation and equivariant baselines.
 
-**Code or hands-on progression:** Rebuild the old dispatch example with explicit errors, purity assumptions and counted events.
+### EVOD-22
 
-**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
+Fix prediction timing after consumed tokens and precise state/logit contracts.
 
-## EVOU-16
+Train a small candidate only after exact tests; retain losing hypotheses and failure reports.
 
-**Worked example / exercise ladder:** Trace a route; identify collapse; distinguish sparsity from an established end-to-end speedup.
+### EVOD-23
 
-**Code or hands-on progression:** Implement a tiny routed baseline with a matched dense control; report routing cost as well as expert work.
+Specify a recognizably Transformer reference with all tensor shapes and attention semantics.
 
-**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
+Train a small controlled reference and test full/incremental parity.
 
-## EVOU-17
+### EVOD-24
 
-**Worked example / exercise ladder:** Match objects to stages; distinguish process from thread; explain interpreter and runtime without treating them as synonyms.
+Define each modification as a testable change to the baseline, including symmetry and causality.
 
-**Code or hands-on progression:** Build a tiny expression interpreter before optional compilation; document an API with inputs and failure outputs.
+Run one-factor ablations and matched-budget DNA-task controls; no biomedical success implied.
 
-**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
+### EVOD-25
 
-## EVOU-18
+Separate common evaluation interfaces from family-specific recurrent and KV states.
 
-**Worked example / exercise ladder:** Trace request identity; compare batching tradeoffs; distinguish a cache from an authoritative database.
+Build compatible prepare/step contracts with explicit logits versus sampled tokens.
 
-**Code or hands-on progression:** Single-process simulated service and queue; no production deployment required.
+### EVOD-26
 
-**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
+State tolerances and valid equivalences; test outputs and internal state, not just loss.
 
-## EVOU-19
+Compare state/logit/gradient trajectories and deliberately broken masks or scans.
 
-**Worked example / exercise ladder:** Design a falsifier; expose answer leakage; explain why an oracle checks a task but does not certify intelligence.
+### EVOD-27
 
-**Code or hands-on progression:** Shared experiment contract for Markov, MLP, CNN, GRU, Transformer and SSM baselines; teach Markov assumption with a small transition table here.
+Derive effective batch and memory accounting; distinguish recomputation from saved state.
 
-**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
+Measure loss/gradient drift, memory and restart fidelity under one optimization at a time.
 
-## EVOU-20
+### EVOD-28
 
-**Worked example / exercise ladder:** Distinguish control from sequence reversal; classify state change, gene expression and inherited change.
+Derive communication and memory consequences; identify model/state schema version boundaries.
 
-**Code or hands-on progression:** Revisit a toy control example next to an ordinary stateful software baseline.
+Specify small distributed parity and fault-recovery tests; benchmark only measured configurations.
 
-**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
+### EVOD-29
 
-## EVOU-21
+Define estimands, uncertainty and a full resource vector before comparing families.
 
-**Worked example / exercise ladder:** Reject a renamed existing mechanism; propose a discriminating experiment; leave an unsupported claim open.
+Build a benchmark matrix including copying, retrieval, statistics, motifs and state-machine tasks.
 
-**Code or hands-on progression:** Write a mechanism contract and a nearest-baseline checklist before any genomic class.
+### EVOD-30
 
-**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
+Specify prepare/step semantics and lifecycle invariants without assuming a cache type.
 
-## EVOU-22
+Build a runtime skeleton only after model semantics; test request isolation and cancellation.
 
-**Worked example / exercise ladder:** Classify changes; track who evaluates candidates; identify evaluation-set reuse and selection bias.
+### EVOD-31
 
-**Code or hands-on progression:** Compare parameter fitting, pruning and small program search under a declared budget.
+Derive engine transitions from the exact model; distinguish prompt ingestion from Transformer prefill.
 
-**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
+Compare token-by-token and valid chunked state construction against PyTorch.
 
-## EVOU-23
+### EVOD-32
 
-**Worked example / exercise ladder:** Find an invalid type; distinguish expansion from learning; identify the biological details intentionally absent.
+Define slot ownership and generation counters; separate persistent state from workspace and weights.
 
-**Code or hands-on progression:** Build a tiny checked expression plan from a declarative source.
+Stress reuse and cancellation with cross-request leakage tests.
 
-**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
+### EVOD-33
 
-## EVOU-24
+Specify semantic equivalence and invalidation for cached state snapshots.
 
-**Worked example / exercise ladder:** Derive one transition; exhibit nearest-baseline equivalence; write a condition that would falsify the additional mechanism.
+Measure clone/restore cost and reject tokenizer/model/schema mismatches.
 
-**Code or hands-on progression:** Specify a small deterministic reference before neural implementations; all novelty claims remain hypotheses.
+### EVOD-34
 
-**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
+Group only compatible transitions; gate native kernels on profiling and parity.
 
-## EVOU-25
+Profile the reference, optimize one bottleneck and test state/logit parity and latency tails.
 
-**Worked example / exercise ladder:** Distinguish class from instance; repair an ownership edge; test interface preconditions.
+### EVOD-35
 
-**Code or hands-on progression:** Reference classes follow the Chapter 24 contract; class diagram names must match code.
+Derive KV bytes as 2*B*L*T*H_KV*D_h*b under declared layout; include other memory separately.
 
-**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
+Validate full/cached logits and K/V before throughput measurements.
 
-## EVOU-26
+### EVOD-36
 
-**Worked example / exercise ladder:** Trace one request; detect a backwards message; compare diagram events to recorded code events.
+Derive allocation overhead and shared-prefix ownership without assuming exact retrieval.
 
-**Code or hands-on progression:** Single-request reference execution with deterministic trace IDs and explicit failures.
+Test page reuse, invalidation, cancellation and cross-request isolation.
 
-**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
+### EVOD-37
 
-## EVOU-27
+Separate TTFT, ITL and throughput; derive scheduling and quantization tradeoffs.
 
-**Worked example / exercise ladder:** Explain why a logged route is not a causal proof; identify missing provenance; propose a controlled intervention.
+Compare declared workloads with quality and latency distributions, not only peak tokens/sec.
 
-**Code or hands-on progression:** Trace-based ablation harness with a counterfactual baseline where well-defined.
+### EVOD-38
 
-**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
+Explain exactness conditions for a chosen speculative scheme and profile kernel bottlenecks.
 
-## EVOU-28
+Check distributional correctness where applicable and report quality, latency and memory.
 
-**Worked example / exercise ladder:** Reject an untested transition; preserve the old version; distinguish bounded validation from universal correctness.
+### EVOD-39
 
-**Code or hands-on progression:** Pending, validated, tested, accepted and rejected states with illegal-transition tests.
+Define composition contracts without collapsing state and KV representations.
 
-**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
+Execute a small heterogeneous plan with typed results, failure propagation and audit traces.
 
-## EVOU-42
+### EVOD-40
 
-**Worked example / exercise ladder:** Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
+Formulate a regulator hypothesis and compare established hybrid-memory and routing alternatives.
 
-**Code or hands-on progression:** Specify initial_state, step and forward in a future PyTorch reference; do not implement in this planning amendment.
+Test copying and streaming tradeoffs at matched total memory; report losses as well as wins.
 
-**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
+### EVOD-41
 
-## EVOU-43
+Derive an IR only from implemented mechanisms; prove one transformation preserves semantics.
 
-**Worked example / exercise ladder:** Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
+Lower a small expression plan to two backends with trace-equivalence tests.
 
-**Code or hands-on progression:** Ablate regulator and expression separately; report equivalence if the mechanism reduces to an established primitive.
+### EVOD-42
 
-**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
+Compare database planning to expression planning and state exactly where transaction semantics differ.
 
-## EVOU-44
+Cost two valid plans and expose a bad optimizer assumption using measured or synthetic labeled data.
 
-**Worked example / exercise ladder:** Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
+### EVOD-43
 
-**Code or hands-on progression:** Compare dense and structured state with declared parameter, compute and total-memory budgets.
+Specify a proposal state machine and separate learning-time changes from serving-time state.
 
-**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
+Test invalid proposals, lineage checks and rollback without uncontrolled self-modification.
 
-## EVOU-45
+### EVOD-44
 
-**Worked example / exercise ladder:** Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
+Define compatible artifacts and end-to-end failure semantics.
 
-**Code or hands-on progression:** Use task-appropriate symmetry controls; reject causal leakage; do not force proposal/verification or activation/inhibition metaphors.
+Build reproducible deployment examples with version mismatch and restart tests.
 
-**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
+### EVOD-45
 
-## EVOU-46
+Specify trust boundaries, tenant isolation and resource exhaustion limits.
 
-**Worked example / exercise ladder:** Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
+Test adversarial cancellation/reuse and unauthorized cross-tenant state access.
 
-**Code or hands-on progression:** Measure trace cost and usefulness; distinguish observed events from causal explanations; preserve failed proposals.
+### EVOD-46
 
-**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
+Derive communication and placement costs for recurrent state versus growing KV.
 
-## EVOU-47
+Compare declared multi-device layouts and failure scenarios without fabricated speedups.
 
-**Worked example / exercise ladder:** Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
+### EVOD-47
 
-**Code or hands-on progression:** Implement a plain causal Transformer reference before DNA-specific variants; compare full and incremental outputs.
+Separate measured data from analytical bounds; state synchronization and hardware assumptions.
 
-**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
+Produce reproducible profiles and latency distributions; report power only when measured.
 
-## EVOU-48
+### EVOD-48
 
-**Worked example / exercise ladder:** Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
+Define task-specific labels and leakage-resistant biological splits; no clinical inference from toy success.
 
-**Code or hands-on progression:** Use strong Transformer baselines, data-split checks, reverse-complement augmentation and symmetry controls.
+Evaluate a controlled genomic task with causal/symmetry checks and strong baselines.
 
-**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
+### EVOD-49
 
-## EVOU-29
+Define retention and exact-retrieval demands separately and account for external tools/memory.
 
-**Worked example / exercise ladder:** Audit a training loop; test frozen-structure behavior; report an inconclusive or negative outcome correctly.
+Compare family capabilities across algorithmic, language and agent tasks at declared budgets.
 
-**Code or hands-on progression:** Small PyTorch candidate with identical evaluation interface to Chapter 19; no large-run result invented.
+### EVOD-50
 
-**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
+Specify retention/adaptation objectives and distinguish in-context state from learned changes.
 
-## EVOU-49
+Run controlled sequential-task and population comparisons with rollback and lineage.
 
-**Worked example / exercise ladder:** Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
+### EVOD-51
 
-**Code or hands-on progression:** Plan evo_torch/dogma, hermon_dna, data, training, inference, causality, evaluation and benchmarks; interfaces shared only where meaningful.
+Operationalize capability axes without treating architectural resemblance as AGI evidence.
 
-**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
+Design held-out capability tests and document what would falsify a broad claim.
 
-## EVOU-50
+### EVOD-52
 
-**Worked example / exercise ladder:** Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
+Separate established mechanisms, implemented results, conjectures and rejected proposals.
 
-**Code or hands-on progression:** Test full versus stepped outputs, reset, masking, chunk boundaries and gradient parity; retain a sequential reference.
-
-**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
-
-## EVOU-30
-
-**Worked example / exercise ladder:** Trace a component failure; test parameter immutability; compare class and component diagrams.
-
-**Code or hands-on progression:** Reference runtime with backend adapter; inference must not silently train or accept structural edits.
-
-**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
-
-## EVOU-31
-
-**Worked example / exercise ladder:** Find a missing configuration field; distinguish matching filename from matching model; reject silent fallback.
-
-**Code or hands-on progression:** Round-trip serialization tests, schema validation and explicit incompatible-version errors.
-
-**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
-
-## EVOU-32
-
-**Worked example / exercise ladder:** Detect cross-request leakage; calculate capacity; explain why recurrent state and KV have different contracts.
-
-**Code or hands-on progression:** Small memory-manager simulation with isolation, eviction and reset tests.
-
-**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
-
-## EVOU-51
-
-**Worked example / exercise ladder:** Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
-
-**Code or hands-on progression:** Derive the engine from tested state semantics; no obligatory KV cache or borrowed Transformer prefill contract.
-
-**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
-
-## EVOU-52
-
-**Worked example / exercise ladder:** Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
-
-**Code or hands-on progression:** Test allocation, reset, reuse, clone, cancellation and cross-request isolation.
-
-**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
-
-## EVOU-53
-
-**Worked example / exercise ladder:** Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
-
-**Code or hands-on progression:** Test resume, branch isolation and prefix invalidation; benchmark copy and restore cost rather than asserting cheap continuation.
-
-**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
-
-## EVOU-54
-
-**Worked example / exercise ladder:** Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
-
-**Code or hands-on progression:** Compare tensorized independent transitions with single-request execution and declared arrival traces.
-
-**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
-
-## EVOU-55
-
-**Worked example / exercise ladder:** Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
-
-**Code or hands-on progression:** Require full-sequence versus incremental parity before optimization; pin positions, masks, dtype and cache layout.
-
-**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
-
-## EVOU-56
-
-**Worked example / exercise ladder:** Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
-
-**Code or hands-on progression:** Test allocation, fragmentation, copy-on-write, prefix validity, eviction and page reuse.
-
-**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
-
-## EVOU-57
-
-**Worked example / exercise ladder:** Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
-
-**Code or hands-on progression:** Use request timelines and UML sequence diagrams; test quality and parity within justified tolerances before timing.
-
-**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
-
-## EVOU-58
-
-**Worked example / exercise ladder:** Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
-
-**Code or hands-on progression:** Specify a common prepare/step envelope only where meaningful; never reinterpret DOGMA state as KV or vice versa.
-
-**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
-
-## EVOU-59
-
-**Worked example / exercise ladder:** Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
-
-**Code or hands-on progression:** Evaluate loss of historical detail, retrieval errors, quality and full resource use; no universal winner.
-
-**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
-
-## EVOU-33
-
-**Worked example / exercise ladder:** Calculate waiting times; identify starvation; compare a throughput gain with tail-latency cost.
-
-**Code or hands-on progression:** Discrete-event serving simulator with declared arrival traces; no production performance claim.
-
-**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
-
-## EVOU-34
-
-**Worked example / exercise ladder:** Reject unequal workloads; diagnose a tolerance failure; separate logical-event counts from elapsed time.
-
-**Code or hands-on progression:** Reference-versus-optimized harness with warm-up, synchronization and hardware/version records.
-
-**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
-
-## EVOU-60
-
-**Worked example / exercise ladder:** Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
-
-**Code or hands-on progression:** DOGMA candidates: transition, selective update, scan, regulation, mixing and strand interaction. Hermon: attention/KV, projection and precision. No native kernels before evidence.
-
-**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
-
-## EVOU-35
-
-**Worked example / exercise ladder:** Distinguish authentication from authorization; trace rollback state; redact a sensitive log.
-
-**Code or hands-on progression:** Local deployment diagram and failure-injection exercise; no live service or credentials required.
-
-**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
-
-## EVOU-36
-
-**Worked example / exercise ladder:** Separate bug, underpowered test and refuted claim; write a transparent negative-result report.
-
-**Code or hands-on progression:** Archive all declared runs, including crashes and null results; use synthetic records only when explicitly labeled.
-
-**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
-
-## EVOU-37
-
-**Worked example / exercise ladder:** Separate name, architecture and evidence; design a symmetry control; leave an unverifiable claim unresolved.
-
-**Code or hands-on progression:** Re-audit source, dataset splits, checkpoints and licenses before experiments; runnable substitutes are clearly labeled.
-
-**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
-
-## EVOU-61
-
-**Worked example / exercise ladder:** Trace the smallest case by hand; identify one failure condition; compare against the nearest conventional alternative before making an advantage claim.
-
-**Code or hands-on progression:** Compare next-token prediction, pointer tasks and long sequences; natural-language/code transfer is not presumed. Report weights, state, temporary/context memory, batch size, latency and throughput; power only if measured.
-
-**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
-
-## EVOU-38
-
-**Worked example / exercise ladder:** Identify hidden retraining; compare retention and transfer; report costs of population search.
-
-**Code or hands-on progression:** Two-task forgetting study with frozen controls and explicit adaptation budgets.
-
-**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
-
-## EVOU-39
-
-**Worked example / exercise ladder:** Reject a unit-test-to-AGI inference; propose disconfirming tests; state the limits of the chosen definition.
-
-**Code or hands-on progression:** Generate a scorecard from actual experiment records; unknown cells stay unknown.
-
-**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
-
-## EVOU-40
-
-**Worked example / exercise ladder:** Present the strongest bounded claim, a failed alternative and the next falsifying experiment.
-
-**Code or hands-on progression:** Release a small reproducible package with source, UML, tests, records and limitations; publication and rights gates remain explicit.
-
-**Solution requirement:** Fully solve the first concrete case; give a second partially worked case, then an independent task with answer notes. Ask the learner to explain one wrong answer.
-
-## Training-code route
-
-EVOU-03 manual parameter trials → EVOU-06 finite-difference gradient → EVOU-07 tiny network → EVOU-08 complete PyTorch loop → EVOU-09 sequence objective → EVOU-10–13 architecture-specific models → EVOU-19 common controls → EVOU-29 candidate training → EVOU-36 failures.
-
-## Inference-code route
-
-EVOU-03 fixed-parameter prediction → EVOU-08 no-update evaluation → EVOU-14 cache parity → EVOU-17–18 interpreter and service → EVOU-26 traced request → EVOU-30 runtime → EVOU-31 identity → EVOU-32–35 memory, scheduling, profiling and rollback.
-
-## Experiment progression
-
-Exact hand cases → independent checkers → untouched splits → repeated seeds → nearest conventional baselines → declared matched budgets → one-mechanism ablations → failed hypotheses → transfer. No training or benchmark is run in this planning milestone.
+Deliver a reproducible argument with baseline, ablation, uncertainty, artifact lineage and unsolved questions.

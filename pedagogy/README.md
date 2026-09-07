@@ -1,7 +1,12 @@
-# Canonical planning data
+# Planning data ownership
 
-curriculum.json is the editable chapter architecture. book-i-contract.json is the identical planned Book I exit contract shared by both repositories. The contract is not active evidence of teaching.
+Active deep edition:
 
-Run scripts/build_pedagogy.py from the repository root to regenerate maps and inventories. figure-inventory.json and animation-inventory.json are generated plans; their statuses explicitly distinguish uncreated assets. No manuscript chapters are generated.
+- deep-curriculum.json: canonical 52-chapter architecture, dependencies, depth tasks and prior-topic dispositions.
+- deep-book-i-contract.json: shared, versioned Book I exports; all remain planned-not-yet-taught.
+- deep-ch01-outline.json: eight detailed sections and eight figure briefs for the next Chapter 1.
+- deep-figure-inventory.json / deep-animation-inventory.json: generated plans, no finished assets.
 
-Every local prerequisite must precede its consumer. Book II imports refer only to named Book I contract chapters. Update both contract copies together; the paired repository check detects drift when both checkouts are available.
+Root BOOK_PLAN.md, COURSE_MAP.md, PREREQUISITE_GRAPH.md and related generated documents derive from these sources using scripts/build_deep_plan.py. The active book metadata points here. No script generates manuscript prose.
+
+Historical undergraduate data are retained unchanged: curriculum.json, book-i-contract.json, figure-inventory.json, animation-inventory.json, ch01-storyboard.json and ch01-terms.json. Do not use these to extend the deep edition. Their regression expectations are compared with the preserved Git commit, not the new root documents.

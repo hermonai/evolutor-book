@@ -1,0 +1,184 @@
+{
+  "chapter": "EVOD-01",
+  "title": "Why Genomic Computation?",
+  "status": "detailed-outline-only",
+  "scope": "Next execution writes this chapter; this milestone creates no manuscript, finished artwork or animation frames.",
+  "sizePolicy": "Let the argument determine length; a substantial 30–50-page treatment is acceptable, not a quota. The opening establishes the field and exact worked mechanisms without duplicating later full treatments.",
+  "sections": [
+    {
+      "number": 1,
+      "title": "Programs, neural models and genomes",
+      "purpose": "Begin with the real comparison: what is stored, selected, executed, persistent and changed? Ordinary software and neural systems can already be conditional; cells need molecular machinery, not DNA alone.",
+      "formalism": "Use separate typed lanes before a shared abstraction. A neural parameter tensor, a program and a physical genome are not interchangeable objects.",
+      "workedExample": "Compare a compiled program with dispatch, a conditional neural model and a regulated biological system; annotate where the analogy breaks.",
+      "figure": {
+        "id": "EVOD-01-F1",
+        "title": "Program, model and genome",
+        "grammar": "Three aligned lanes with distinct visual grammars and explicit execution machinery.",
+        "frames": [
+          "stored structure",
+          "context",
+          "active process",
+          "output or phenotype"
+        ],
+        "status": "planned-no-assets"
+      },
+      "sourceGate": "Read relevant primary sources in full for the claims used; distinguish historical details, original teaching examples and research proposals."
+    },
+    {
+      "number": 2,
+      "title": "Stored structure versus expressed computation",
+      "purpose": "Use a concrete library of computational modules and a context-dependent selection. Define the execution plan as a selected computation, not just a list of names.",
+      "formalism": "Provisional P_x=Reg(G,x), (y,Ω)=Exec(P_x,x); define G, x, plan type, y and trace Ω. Stateful cases require an explicit state argument.",
+      "workedExample": "Work a small deterministic two-module routing example with exact inputs, selected plan, output and trace; show a conventional implementation produces the same behavior.",
+      "figure": {
+        "id": "EVOD-01-F2",
+        "title": "Stored versus expressed computation",
+        "grammar": "Separate persistent module catalog, selected plan and execution trace; no claim of novelty from selection alone.",
+        "frames": [
+          "module catalog",
+          "context",
+          "selected plan",
+          "executed operations",
+          "result and trace"
+        ],
+        "status": "planned-no-assets"
+      },
+      "sourceGate": "Read relevant primary sources in full for the claims used; distinguish historical details, original teaching examples and research proposals."
+    },
+    {
+      "number": 3,
+      "title": "Regulation and expression as mechanisms",
+      "purpose": "Explain what controls selection and what operation becomes active. Compare if/else, dispatch, gates, mixture of experts, attention and query planning at mechanism level; defer model internals to Part II.",
+      "formalism": "Give domain/codomain and cost for the selector and executor. An ordinary dispatch equivalence is a useful negative result.",
+      "workedExample": "Trace two contexts through the same stored catalog; show changed selection without changing the catalog or claiming learning.",
+      "figure": {
+        "id": "EVOD-01-F3",
+        "title": "Regulation with visible alternatives",
+        "grammar": "Two contexts over one unchanged catalog; control arrows differ from data flow.",
+        "frames": [
+          "context A or B",
+          "control decision",
+          "selected transformation",
+          "state/result"
+        ],
+        "status": "planned-no-assets"
+      },
+      "sourceGate": "Read relevant primary sources in full for the claims used; distinguish historical details, original teaching examples and research proposals."
+    },
+    {
+      "number": 4,
+      "title": "Development, learning, adaptation and evolution",
+      "purpose": "Separate runtime state, learned parameters, generated structure and population change. Illustrate development as building a computational phenotype without claiming it is biological development.",
+      "formalism": "Candidate P=Dev(G,E); specify environment E and generated program P. Distinguish s_t, θ, structure and population as different changing objects.",
+      "workedExample": "Classify four updates by object, timescale, objective and inheritance; explain that relative timescales are design choices rather than universal laws.",
+      "figure": {
+        "id": "EVOD-01-F4",
+        "title": "Development and adaptation timescales",
+        "grammar": "Aligned state/parameter/structure/population timelines with explicit update triggers.",
+        "frames": [
+          "persistent description",
+          "developed structure",
+          "inference state changes",
+          "parameter update",
+          "structural or population proposal"
+        ],
+        "status": "planned-no-assets"
+      },
+      "sourceGate": "Read relevant primary sources in full for the claims used; distinguish historical details, original teaching examples and research proposals."
+    },
+    {
+      "number": 5,
+      "title": "Existing computer science already explains much",
+      "purpose": "Make the nearest baselines central: conditional execution, MoE, recurrent state, compilation, neural architecture search, evolutionary computation, query optimization and orchestration.",
+      "formalism": "Separate representational novelty from algorithmic novelty, expressivity, efficiency and measurable utility.",
+      "workedExample": "Construct a comparison table where a proposal is equivalent to dispatch, then state what additional semantics or evidence would be needed for a stronger claim.",
+      "figure": {
+        "id": "EVOD-01-F5",
+        "title": "Established alternatives",
+        "grammar": "Mechanism comparison matrix with supported correspondences and explicit non-equivalences.",
+        "frames": [
+          "proposed mechanism",
+          "closest baseline",
+          "equivalence test",
+          "remaining question"
+        ],
+        "status": "planned-no-assets"
+      },
+      "sourceGate": "Read relevant primary sources in full for the claims used; distinguish historical details, original teaching examples and research proposals."
+    },
+    {
+      "number": 6,
+      "title": "A research thesis with a falsifiable gap",
+      "purpose": "Frame Evolutor as investigation of selection, composition, development and adaptation across heterogeneous computation. Start with mechanisms; keep full provenance and repeated caveats in ledgers.",
+      "formalism": "Introduce a candidate cost vector for storage, regulation, execution, state, trace and adaptation; defer its formal complexity treatment.",
+      "workedExample": "Ask whether a proposed selective transformation improves a declared task at matched total resources; specify the result that would reject the proposal.",
+      "figure": {
+        "id": "EVOD-01-F6",
+        "title": "Research gap and test",
+        "grammar": "Mechanism → prediction → controlled test → support/rejection, with baseline in the same frame.",
+        "frames": [
+          "candidate mechanism",
+          "declared claim",
+          "matched comparison",
+          "outcome",
+          "revise or retain"
+        ],
+        "status": "planned-no-assets"
+      },
+      "sourceGate": "Read relevant primary sources in full for the claims used; distinguish historical details, original teaching examples and research proposals."
+    },
+    {
+      "number": 7,
+      "title": "DOGMA and Hermon DNA: two architecture families",
+      "purpose": "DOGMA is the non-Transformer DNA-native research line, not merely an RNN with biological names. Hermon DNA is the Transformer-based DNA line. Explain carried state versus attention-accessible cached representations as a first systems distinction.",
+      "formalism": "Candidate DOGMA (x_t,s_t)↦(s_{t+1},y_t), with prediction timing declared. Hermon consumes token x_t with prior cache and appends K/V for that token. No off-by-one cache convention.",
+      "workedExample": "Compare what persists in each family; bounded carried state does not imply infinite recall or constant total memory. Attention access does not guarantee exact retrieval.",
+      "figure": {
+        "id": "EVOD-01-F7",
+        "title": "Two families and their memory",
+        "grammar": "Separate candidate state layout and Transformer KV layout; weights, workspace and external memory shown separately.",
+        "frames": [
+          "DOGMA input/state",
+          "state transition",
+          "next state/output; Hermon input/prior KV",
+          "attention",
+          "appended KV/output"
+        ],
+        "status": "planned-no-assets"
+      },
+      "sourceGate": "Read relevant primary sources in full for the claims used; distinguish historical details, original teaching examples and research proposals."
+    },
+    {
+      "number": 8,
+      "title": "From theory to reference models, engines and runtime",
+      "purpose": "Show theory, model architecture, training, engine execution, orchestration and industrial serving as separate levels. Evolutor sits above DOGMA Engine and Hermon DNA Engine and may compose other modules.",
+      "formalism": "Define reference → parity → profile → optimization as engineering gates, not performance claims. Formal semantics and full model mathematics come later.",
+      "workedExample": "Give a concrete next-step research contract with baseline, implementation, tests and limits; provide technical conceptual and design exercises rather than syntax drills.",
+      "figure": {
+        "id": "EVOD-01-F8",
+        "title": "Research and engineering roadmap",
+        "grammar": "UML component/dependency view, with planned interfaces and no implied deployed service.",
+        "frames": [
+          "semantics",
+          "reference model",
+          "parity tests",
+          "profiled engine",
+          "Evolutor runtime",
+          "capability evaluation"
+        ],
+        "status": "planned-no-assets"
+      },
+      "sourceGate": "Read relevant primary sources in full for the claims used; distinguish historical details, original teaching examples and research proposals."
+    }
+  ],
+  "exercisePolicy": "Include a fully solved technical example, derivation, algorithm or proof task, implementation check, experimental/systems design task and research critique. Open problems get a rubric, not fabricated solutions.",
+  "codePlan": "Implement a small deterministic selection/execution/trace example and conventional baseline, with exact tests. It is an analogy experiment, not a DOGMA model, Transformer, training library or engine.",
+  "acceptance": [
+    "Chapter starts with the actual subject, not counters or a thermostat.",
+    "Definitions and abstraction boundaries are explicit; useful abstraction is not prohibited.",
+    "Every displayed formula has defined symbols, assumptions and interpretation.",
+    "Every figure has editable source and a Unicode TXT companion; scientific and final-page reviews remain required.",
+    "No novelty, performance, biomedical or AGI conclusion without corresponding evidence."
+  ]
+}

@@ -5,6 +5,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 
 def validate_book(book, root=ROOT):
+    if book.get("edition") == "4-deep":
+        raise ValueError("Deep edition is planning-only: no accepted deep manuscript. Use historical-pdf explicitly for the preserved prototype.")
     if book.get("status") != "chapter-one-production" or len(book.get("chapters", [])) != 1:
         raise ValueError("No accepted undergraduate manuscript chapters: this phase requires only the new Chapter 1.")
     chapter = book["chapters"][0]

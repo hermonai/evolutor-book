@@ -1,112 +1,137 @@
-# Evolutor: undergraduate-first architecture
+# Evolutor: deep technical edition
 
-Status: Chapter 1 internally reviewed development draft; all later units remain planned. No learner study, independent expert certification or new research-model experiment is claimed. Generated from [pedagogy/curriculum.json](pedagogy/curriculum.json). See [Chapter 1 storyboard](research/undergraduate-ch01-storyboard.md) for the six produced figures.
+Status: architecture and detailed outlines only; no new manuscript, final figures, animation frames, models, engines or experiments are delivered. Canonical source: [deep curriculum](pedagogy/deep-curriculum.json). Prior editions remain historical references, not the active teaching level.
 
-Target taxonomy: **DOGMA = non-Transformer DNA-native architecture + DOGMA Engine; Hermon DNA = Transformer-based DNA architecture + Hermon DNA Engine; Evolutor = research/theory/runtime above both.** These are research targets, not implementation evidence. See [taxonomy and lineage](research/architecture-taxonomy.md). Stable EVOU IDs differ from printed numbers after EVOU-11.
+DOGMA = non-Transformer DNA-native model + DOGMA Engine; Hermon DNA = Transformer-based DNA model + Hermon DNA Engine; Evolutor = broader genomic computation theory, research and eventual runtime above both.
 
-## Table of contents
+## Macro table of contents
 
-### I · Why genomic computation?
+### I · The research question
 
-1. **EVOU-01 — Programs, genomes and the question of Evolutor**. Why compare a genome with a program?
+1. **Why Genomic Computation?** (EVOD-01). programs; neural models; genomes; stored and expressed computation; development; adaptation.
 
-### II · Computation and machine-learning foundations
+### II · Learning and sequence-model foundations
 
-2. **EVOU-02 — Programs that choose and remember**. How can the same input produce a different answer after a different history?
-3. **EVOU-03 — Machine learning with one tiny model**. How can examples help set a rule's adjustable numbers?
-4. **EVOU-04 — Data, uncertainty and fair evaluation**. Why can a model look good and still fail on new examples?
-5. **EVOU-05 — Vectors, matrices and tensors as data containers**. How can one rule process several measurements together?
-6. **EVOU-06 — Slopes, gradients and improving a prediction**. Which small change would reduce the error?
-7. **EVOU-07 — Neural networks built one layer at a time**. Why put simple transformations in layers?
-8. **EVOU-08 — A complete small training loop in PyTorch**. What changes during training, and what stays fixed during inference?
+2. **Learning objectives, data and evaluation** (EVOD-02). prediction; likelihood; splits; uncertainty; controls; capacity.
 
-### III · How sequence models work
+3. **Differentiation, optimization and tensor programs** (EVOD-03). tensor shapes; gradients; autograd; optimization; numerical precision.
 
-9. **EVOU-09 — Tokens, embeddings and predicting the next symbol**. How do written symbols become numbers a model can use?
-10. **EVOU-10 — Recurrence: remembering one step at a time**. How can a model carry something from the previous symbol?
-11. **EVOU-11 — Gates and state-space models**. What should a compact state keep or forget?
-12. **EVOU-41 — Strong recurrent baselines and valid scans**. Which familiar mechanisms could already explain a candidate's behavior?
-13. **EVOU-12 — Attention as a weighted lookup**. Which earlier symbol should matter now?
-14. **EVOU-13 — From one attention head to a Transformer**. How do small attention operations form a useful model?
-15. **EVOU-14 — Caches, retrieval and external memory**. Why keep earlier work, and when should a system look something up?
+4. **Reproducible PyTorch training** (EVOD-04). datasets; batching; masking; optimizer; checkpoints; seeds.
 
-### IV · From biology to genomic computation
+5. **Tokenization and sequence representation** (EVOD-05). DNA tokens; k-mers; embeddings; positions; strand orientation.
 
-16. **EVOU-15 — If/else, dispatch, plugins and dynamic routing**. What already selects only part of a program?
-17. **EVOU-16 — Mixture of experts and learned routing**. Can the choice of a module itself be learned?
-18. **EVOU-17 — Source code, compilers, runtimes and interfaces**. What happens between writing a program and running it?
-19. **EVOU-18 — Services, databases, protocols and scheduling**. Why does serving several requests need more than a model?
-20. **EVOU-19 — Baselines, oracles and resource-matched experiments**. What would count as a fair improvement?
-21. **EVOU-20 — Regulation, expression and different timescales**. What changes within a cell, and what changes across generations?
-22. **EVOU-21 — Analogies that can fail**. What remains after comparing a biological idea with existing software?
-23. **EVOU-22 — Learning parameters and changing structure**. How does changing a number differ from changing a program?
-24. **EVOU-23 — Development as building a representation**. Can a compact description construct a larger program?
-25. **EVOU-24 — A minimal genomic-computation hypothesis**. What precise system are we proposing to test?
-26. **EVOU-25 — Classes, interfaces and a UML model**. How can the software structure express the proposed rules?
-27. **EVOU-26 — From a request to an expression trace**. Who talks to whom during one request?
-28. **EVOU-27 — Traces, credit and explanations**. Which component deserves credit, and what can a trace actually explain?
-29. **EVOU-28 — Structural proposals and their lifecycle**. When may a proposed edit become active?
+6. **Recurrent models and gated state** (EVOD-06). RNN; LSTM; GRU; state transition; retention; gradients.
 
-### V · DOGMA: non-Transformer DNA-native architecture
+7. **State-space models, selective updates and scans** (EVOD-07). linear recurrence; S4/S5; selective SSM; Mamba; RWKV; chunking.
 
-30. **EVOU-42 — DOGMA: candidate primitives and state semantics**. Can structured state support DNA-native computation without Transformer attention as its organizing mechanism?
-31. **EVOU-43 — DOGMA regulation and expressed transformations**. What exactly does regulation select and expression execute?
-32. **EVOU-44 — DOGMA modular state, locality and structural memory**. Does modular state help beyond a single carried vector?
-33. **EVOU-45 — DOGMA strands, complements and dual-state proposals**. Does a paired representation improve a declared task?
-34. **EVOU-46 — DOGMA traces and structural adaptation**. Does a trace reveal useful mechanism beyond ordinary activation logs?
+8. **Attention and content-addressed computation** (EVOD-08). Q/K/V; scores; masks; heads; softmax; retrieval.
 
-### VI · Hermon DNA: Transformer DNA architecture
+9. **Transformers and cached execution** (EVOD-09). residuals; normalization; MLP; positions; blocks; KV; prefill; decode.
 
-35. **EVOU-47 — Hermon DNA: a Transformer sequence model**. What remains recognizably Transformer-based before DNA-specific changes?
-36. **EVOU-48 — Hermon DNA: DNA-aware Transformer hypotheses**. Which DNA-specific change adds value beyond the plain Transformer?
+10. **Conditional computation and memory alternatives** (EVOD-10). dispatch; MoE; retrieval; external memory; dynamic graphs; hybrid models.
 
-### VII · Training systems and shared contracts
+### III · From biology to formal computational hypotheses
 
-37. **EVOU-29 — Training a candidate Evolutor model**. Does the proposed mechanism help beyond the taught baselines?
-38. **EVOU-49 — Shared PyTorch experiments without false equivalence**. What can both model families share without hiding their differences?
-39. **EVOU-50 — DOGMA training: sequential, chunked and scan forms**. When can a candidate transition be parallelized without changing its meaning?
-40. **EVOU-30 — An inference runtime with clear boundaries**. Which parts must run for one prediction?
-41. **EVOU-31 — Model identity, formats and checkpoints**. How do we know which model produced this result?
-42. **EVOU-32 — Managing recurrent state, KV and external memory**. How can several requests share hardware without sharing private state?
+11. **Regulation and expression across levels** (EVOD-11). biological regulation; stored modules; selection; execution; context.
 
-### VIII · DOGMA inference engine
+12. **Development and generated computational structure** (EVOD-12). genotype/phenotype; developmental encoding; compilation; program synthesis; NAS.
 
-43. **EVOU-51 — DOGMA Engine: state construction and native steps**. How does the engine execute the model's exact state machine?
-44. **EVOU-52 — DOGMA Engine: isolated state pools**. How can requests share hardware without sharing state?
-45. **EVOU-53 — DOGMA Engine: checkpoint, restore and prefix state**. Can a saved state resume the same computation?
-46. **EVOU-54 — DOGMA Engine: scheduling state transitions**. Which independent requests can take a step together?
+13. **Learning, structural adaptation and evolution** (EVOD-13). state change; parameter learning; structural learning; populations; selection.
 
-### IX · Hermon DNA inference engine
+14. **Typed genomic computation systems** (EVOD-14). alphabet; computational gene; genome; regulator; expression; state; trace.
 
-47. **EVOU-55 — Hermon DNA Engine: prefill and attention decode**. Why does one Transformer request have two execution phases?
-48. **EVOU-56 — Hermon DNA Engine: paged KV and prefix sharing**. How do logical positions map to reusable physical pages?
-49. **EVOU-57 — Hermon DNA Engine: continuous batching and precision**. How do request phases and numerical precision change serving?
+15. **Operational semantics and expression traces** (EVOD-15). configuration; transition; evaluation rule; effects; termination; trace.
 
-### X · Unified Evolutor runtime
+16. **Expression complexity and resource semantics** (EVOD-16). stored size; routing; active work; state; communication; trace; adaptation.
 
-50. **EVOU-58 — Evolutor runtime above two distinct engines**. What belongs in a shared runtime rather than either engine?
-51. **EVOU-59 — Hybrid memory as a testable Evolutor proposal**. When should information be compressed into state or kept addressable?
-52. **EVOU-33 — Batching, queues and latency**. Why can throughput improve while some users wait longer?
+17. **Traces, credit and mechanistic evidence** (EVOD-17). logging; causal interventions; credit assignment; structural proposals.
 
-### XI · Industrial engineering
+### IV · DOGMA: non-Transformer DNA-native computation
 
-53. **EVOU-34 — Parity, profiling and optimization**. How do we make it faster without changing what it computes?
-54. **EVOU-60 — Measured bottlenecks, native kernels and model formats**. Which optimization is justified by profiling and semantic parity?
-55. **EVOU-35 — Serving, observability and safe rollback**. How do we observe and recover a running service?
+18. **DOGMA primitives and state semantics** (EVOD-18). State; Regulator; Expression; Strand; Complement; Gate; Memory locus; Module; Trace.
 
-### XII · Applications and their evidence
+19. **DOGMA regulation and selective transformations** (EVOD-19). regulation; expression; conditional state update; routing; ablation.
 
-56. **EVOU-36 — Failed ideas as a source of knowledge**. What should we learn when the idea does not win?
-57. **EVOU-37 — DOGMA and Hermon DNA: taxonomy, lineage and comparative evidence**. Which architectural distinction survives beyond a project name?
-58. **EVOU-61 — Applications that stress different kinds of memory**. Which tasks reveal compression and addressability tradeoffs?
-59. **EVOU-38 — Transfer, continual learning and populations**. Does an improvement survive a changed task?
+20. **Structured memory, locality and timescales** (EVOD-20). local/global state; modular memory; regulatory state; fast/slow state; capacity.
 
-### XIII · Toward AGI: operational claims
+21. **Strands, complements and dual-state hypotheses** (EVOD-21). paired states; reverse complement; equivariance; causal streaming.
 
-60. **EVOU-39 — AGI claims and an operational scorecard**. What does a narrow result allow us to say about general intelligence?
+22. **DOGMA reference model and falsifiable research program** (EVOD-22). reference implementation; state trace; objective; baseline; ablation; negative evidence.
 
-### XIV · Failures, limits and open problems
+### V · Hermon DNA: Transformer-based DNA computation
 
-61. **EVOU-40 — Capstone: failures, limits and a reproducible research argument**. Can another reader reproduce both the result and the boundary of the claim?
+23. **Hermon DNA reference architecture** (EVOD-23). DNA tokenizer; Transformer blocks; output head; causal positions.
 
-Chapter count is provisional, not a promise of one semester. These are small teaching units, not equal-length lectures. The full two-book path can span multiple courses. No chapter requires an external prerequisite textbook.
+24. **DNA-aware Transformer mechanisms** (EVOD-24). strand embeddings; motifs; k-mers; multi-scale positions; sparse/long context; retrieval.
+
+### VI · Training systems and fair experiments
+
+25. **Shared experiments without false equivalence** (EVOD-25). data contracts; model interfaces; state types; losses; benchmarks.
+
+26. **Training/inference parity and parallel recurrence** (EVOD-26). sequential; chunked; scan; full sequence; incremental; gradients.
+
+27. **Optimization and memory-efficient training** (EVOD-27). mixed precision; accumulation; checkpointing; optimizer state; stability.
+
+28. **Distributed training and model artifacts** (EVOD-28). data/tensor/pipeline parallelism; communication; sharding; formats; provenance.
+
+29. **Benchmark design and comparative evidence** (EVOD-29). oracles; budgets; multi-seed evaluation; capacity controls; causality; transplant tests.
+
+### VII · DOGMA Engine: state-native inference
+
+30. **Runtime contracts and request lifecycles** (EVOD-30). request; model identity; state ownership; cancellation; streaming; errors.
+
+31. **DOGMA state construction and execution** (EVOD-31). prompt ingestion; native step; chunking; output head; state tracing.
+
+32. **DOGMA state pools and memory ownership** (EVOD-32). allocation; reset; reuse; clone; isolation; temporary buffers.
+
+33. **DOGMA checkpoints, branching and prefix state** (EVOD-33). checkpoint; restore; state clone; versioning; shared prefixes.
+
+34. **DOGMA batching and state-native kernels** (EVOD-34). state-transition batching; scheduling; scans; locality; kernel profiling.
+
+### VIII · Hermon DNA Engine: attention-native inference
+
+35. **Hermon DNA prefill, decode and KV state** (EVOD-35). prefill; decode; cache layout; positions; memory growth.
+
+36. **Paged KV, prefix sharing and allocation** (EVOD-36). pages; blocks; fragmentation; prefix cache; reference counting; eviction.
+
+37. **Continuous batching and precision** (EVOD-37). admission; prefill/decode scheduling; quantization; quality; tails.
+
+38. **Speculative decoding and attention kernels** (EVOD-38). draft/verify; acceptance; numerical parity; memory traffic; fused kernels.
+
+### IX · Evolutor: heterogeneous execution
+
+39. **Evolutor runtime above both engines** (EVOD-39). planner; router; adapters; tools; retrieval; symbolic modules; trace.
+
+40. **Hybrid compressed and addressable memory** (EVOD-40). compression; addressability; forgetting; retrieval; memory routing.
+
+41. **Compiler, IR and execution planning** (EVOD-41). IR; typing; optimization; lowering; backend legality; cost model.
+
+42. **Database engines as a systems comparison** (EVOD-42). parser; logical plan; optimizer; physical operators; buffer pool; transactions.
+
+43. **Structural adaptation and lifecycle governance** (EVOD-43). proposals; validation; evaluation; promotion; rollback; lineage.
+
+### X · Industrial engineering
+
+44. **Packaging, deployment and observable services** (EVOD-44). versioning; APIs; tracing; metrics; streaming; fault handling; rollback.
+
+45. **Multi-tenancy, isolation and security** (EVOD-45). ownership; quotas; untrusted inputs; tool authority; state leakage; threat model.
+
+46. **Distributed serving and state placement** (EVOD-46). replication; partitioning; tensor/pipeline parallelism; sharding; migration.
+
+47. **Profiling, performance and hardware backends** (EVOD-47). TTFT; ITL; throughput; memory; power; utilization; roofline intuition.
+
+### XI · Applications and capability research
+
+48. **Genomic sequence applications** (EVOD-48). regulatory sequence analysis; motifs; long context; strand symmetry; uncertainty.
+
+49. **Streaming, language, code and persistent agents** (EVOD-49). statistics; retrieval; copying; code; tools; persistent state; planning.
+
+50. **Continual learning and population adaptation** (EVOD-50). transfer; forgetting; structural search; populations; open-ended learning.
+
+51. **AGI capability hypotheses and limits** (EVOD-51). reasoning; planning; world models; transfer; tools; self-modification; generalization.
+
+### XII · Research synthesis
+
+52. **Failures, open problems and reproducible synthesis** (EVOD-52). failed mechanisms; causality leaks; capacity confounds; negative results; historical lineage.
+
+52 substantial chapters; counts follow coherent arguments rather than fixed page or lecture quotas. Chapter 1 previews the field; later chapters reconstruct mechanisms and proofs in depth. See DEEP_REDESIGN.md for assumed knowledge and reading routes.

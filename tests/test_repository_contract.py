@@ -21,6 +21,14 @@ def test_reset_deliverables_and_reviewed_chapter_manifest():
         assert (ROOT / path).is_file(), path
     manifest = (ROOT / "tex/chapters/manifest.tex").read_text()
     book = json.loads((ROOT / "book/book.json").read_text())
+    if book.get("edition") == "4-deep":
+        # No active deep entry point exists. The retained TeX manifest belongs to
+        # the immutable undergraduate entry point, whose consistency still matters.
+        assert book["chapters"] == [] and book["main"] is None
+        assert book["status"] == "architecture-only-no-manuscript"
+        anchor = book["preservedUndergraduateEdition"]["commit"]
+        book = json.loads(subprocess.check_output(
+            ["git", "show", anchor+":book/book.json"], cwd=ROOT, text=True))
     includes = re.findall(r"\\input\{([^}]+)\}", manifest)
     expected = [str(Path(chapter["source"]).relative_to("tex").with_suffix(""))
                 for chapter in book["chapters"]]

@@ -1,171 +1,121 @@
-# Evolutor: undergraduate-first architecture
+# Evolutor: deep technical edition
 
-Status: Chapter 1 internally reviewed development draft; all later units remain planned. No learner study, independent expert certification or new research-model experiment is claimed. Generated from [pedagogy/curriculum.json](pedagogy/curriculum.json). See [Chapter 1 storyboard](research/undergraduate-ch01-storyboard.md) for the six produced figures.
+Status: architecture and detailed outlines only; no new manuscript, final figures, animation frames, models, engines or experiments are delivered. Canonical source: [deep curriculum](pedagogy/deep-curriculum.json). Prior editions remain historical references, not the active teaching level.
 
-Target taxonomy: **DOGMA = non-Transformer DNA-native architecture + DOGMA Engine; Hermon DNA = Transformer-based DNA architecture + Hermon DNA Engine; Evolutor = research/theory/runtime above both.** These are research targets, not implementation evidence. See [taxonomy and lineage](research/architecture-taxonomy.md). Stable EVOU IDs differ from printed numbers after EVOU-11.
+DOGMA = non-Transformer DNA-native model + DOGMA Engine; Hermon DNA = Transformer-based DNA model + Hermon DNA Engine; Evolutor = broader genomic computation theory, research and eventual runtime above both.
 
-## Just-in-time disciplinary maps
+## Knowledge organization and reading routes
 
-These maps index where each discipline enters the course; arrows follow the reading order. Exact required edges are in PREREQUISITE_GRAPH.md. They are not detached prerequisite courses.
+### I · The research question
 
-## AI
+EVOD-01
 
-EVOU-03 → EVOU-07 → EVOU-09 → EVOU-13 → EVOU-14 → EVOU-16 → EVOU-21 → EVOU-36 → EVOU-38 → EVOU-39 → EVOU-40
+- EVOD-01: programs; neural models; genomes; stored and expressed computation; development; adaptation.
 
-- **EVOU-03**: machine learning; model; parameter; prediction; training; inference; loss.
-- **EVOU-07**: neural network; layer; activation; multilayer perceptron; MLP; backpropagation; convolution; CNN.
-- **EVOU-09**: token; vocabulary; embedding; next-token prediction; categorical distribution; softmax; cross-entropy.
-- **EVOU-13**: multi-head attention; residual connection; normalization; feed-forward network; Transformer; positional encoding.
-- **EVOU-14**: cache; key-value cache; KV cache; retrieval; external memory; index.
-- **EVOU-16**: mixture of experts; MoE; expert; load balancing; sparse activation.
-- **EVOU-21**: abstraction; mechanism; novelty claim; biological fidelity.
-- **EVOU-36**: negative result; confound; replication; stopping rule.
-- **EVOU-38**: transfer; continual learning; catastrophic forgetting; population composition; distribution shift.
-- **EVOU-39**: artificial general intelligence; AGI; capability scope; generalization claim; evidence scorecard.
-- **EVOU-40**: research artifact; replication package; claim retirement.
+### II · Learning and sequence-model foundations
 
-## ML
+EVOD-02 → EVOD-03 → EVOD-04 → EVOD-05 → EVOD-06 → EVOD-07 → EVOD-08 → EVOD-09 → EVOD-10
 
-EVOU-03 → EVOU-04 → EVOU-05 → EVOU-06 → EVOU-07 → EVOU-08 → EVOU-09 → EVOU-10 → EVOU-11 → EVOU-41 → EVOU-12 → EVOU-13 → EVOU-16 → EVOU-19 → EVOU-22 → EVOU-27 → EVOU-42 → EVOU-43 → EVOU-44 → EVOU-45 → EVOU-46 → EVOU-47 → EVOU-48 → EVOU-29 → EVOU-49 → EVOU-50 → EVOU-51 → EVOU-52 → EVOU-53 → EVOU-54 → EVOU-55 → EVOU-56 → EVOU-57 → EVOU-58 → EVOU-59 → EVOU-34 → EVOU-60 → EVOU-36 → EVOU-37 → EVOU-61 → EVOU-38
+- EVOD-02: prediction; likelihood; splits; uncertainty; controls; capacity.
+- EVOD-03: tensor shapes; gradients; autograd; optimization; numerical precision.
+- EVOD-04: datasets; batching; masking; optimizer; checkpoints; seeds.
+- EVOD-05: DNA tokens; k-mers; embeddings; positions; strand orientation.
+- EVOD-06: RNN; LSTM; GRU; state transition; retention; gradients.
+- EVOD-07: linear recurrence; S4/S5; selective SSM; Mamba; RWKV; chunking.
+- EVOD-08: Q/K/V; scores; masks; heads; softmax; retrieval.
+- EVOD-09: residuals; normalization; MLP; positions; blocks; KV; prefill; decode.
+- EVOD-10: dispatch; MoE; retrieval; external memory; dynamic graphs; hybrid models.
 
-- **EVOU-03**: machine learning; model; parameter; prediction; training; inference; loss.
-- **EVOU-04**: dataset; training split; validation split; test split; overfitting; mean; variance; confidence interval; data leakage.
-- **EVOU-05**: tensor; shape; batch dimension; broadcasting.
-- **EVOU-06**: derivative; partial derivative; gradient; chain rule; gradient descent; learning rate.
-- **EVOU-07**: neural network; layer; activation; multilayer perceptron; MLP; backpropagation; convolution; CNN.
-- **EVOU-08**: PyTorch; automatic differentiation; optimizer; epoch; checkpoint; device; random seed.
-- **EVOU-09**: token; vocabulary; embedding; next-token prediction; categorical distribution; softmax; cross-entropy.
-- **EVOU-10**: recurrent neural network; RNN; hidden state; unrolling; backpropagation through time; leaky integrator.
-- **EVOU-11**: gate; gated recurrent unit; GRU; state-space model; SSM; stability.
-- **EVOU-41**: finite-state machine; long short-term memory; LSTM; selective state update; associative scan; RWKV comparison.
-- **EVOU-12**: query; key; value; attention score; attention; causal mask; attention head.
-- **EVOU-13**: multi-head attention; residual connection; normalization; feed-forward network; Transformer; positional encoding.
-- **EVOU-16**: mixture of experts; MoE; expert; load balancing; sparse activation.
-- **EVOU-19**: baseline; oracle; ablation; capacity matching; profiling plan; experimental hypothesis; Markov assumption.
-- **EVOU-22**: pruning; architecture search; genetic programming; program synthesis; structural update.
-- **EVOU-27**: credit assignment; trace provenance; causal intervention.
-- **EVOU-42**: DOGMA target architecture; DOGMA transition contract.
-- **EVOU-43**: DOGMA regulator candidate; DOGMA expression candidate.
-- **EVOU-44**: DOGMA memory locus candidate; DOGMA multi-timescale state.
-- **EVOU-45**: DOGMA dual-state candidate; causal reverse-complement boundary.
-- **EVOU-46**: DOGMA trace contract; trace utility test.
-- **EVOU-47**: Hermon DNA target architecture; Transformer DNA reference contract.
-- **EVOU-48**: strand-aware embedding candidate; motif-aware attention candidate.
-- **EVOU-29**: candidate training contract; multi-timescale update; frozen structure control.
-- **EVOU-49**: dual-family training contract.
-- **EVOU-50**: DOGMA training-inference parity.
-- **EVOU-51**: DOGMA Engine; prompt ingestion.
-- **EVOU-52**: DOGMA state-slot lifecycle.
-- **EVOU-53**: prefix state cache; state checkpoint parity.
-- **EVOU-54**: state-transition batching.
-- **EVOU-55**: Hermon DNA Engine; prefill; attention decode.
-- **EVOU-56**: Hermon KV page table; Transformer prefix cache.
-- **EVOU-57**: Transformer batch lifecycle; quantization.
-- **EVOU-58**: heterogeneous model routing.
-- **EVOU-59**: compression-addressability hypothesis.
-- **EVOU-34**: parity; profiler; benchmark; warm-up; optimization.
-- **EVOU-60**: family-specific kernel gate; state-schema metadata.
-- **EVOU-36**: negative result; confound; replication; stopping rule.
-- **EVOU-37**: DNA model taxonomy; reverse-complement symmetry study; research-program name.
-- **EVOU-61**: cross-family workload matrix.
-- **EVOU-38**: transfer; continual learning; catastrophic forgetting; population composition; distribution shift.
+### III · From biology to formal computational hypotheses
 
-## genomic
+EVOD-11 → EVOD-12 → EVOD-13 → EVOD-14 → EVOD-15 → EVOD-16 → EVOD-17
 
-EVOU-01 → EVOU-41 → EVOU-20 → EVOU-21 → EVOU-22 → EVOU-23 → EVOU-24 → EVOU-28 → EVOU-42 → EVOU-43 → EVOU-44 → EVOU-45 → EVOU-46 → EVOU-47 → EVOU-48 → EVOU-29 → EVOU-49 → EVOU-50 → EVOU-51 → EVOU-52 → EVOU-53 → EVOU-54 → EVOU-55 → EVOU-56 → EVOU-57 → EVOU-58 → EVOU-59 → EVOU-60 → EVOU-37 → EVOU-61 → EVOU-38 → EVOU-40
+- EVOD-11: biological regulation; stored modules; selection; execution; context.
+- EVOD-12: genotype/phenotype; developmental encoding; compilation; program synthesis; NAS.
+- EVOD-13: state change; parameter learning; structural learning; populations; selection.
+- EVOD-14: alphabet; computational gene; genome; regulator; expression; state; trace.
+- EVOD-15: configuration; transition; evaluation rule; effects; termination; trace.
+- EVOD-16: stored size; routing; active work; state; communication; trace; adaptation.
+- EVOD-17: logging; causal interventions; credit assignment; structural proposals.
 
-- **EVOU-01**: biological gene versus computational gene; analogy; research program.
-- **EVOU-41**: finite-state machine; long short-term memory; LSTM; selective state update; associative scan; RWKV comparison.
-- **EVOU-20**: biological regulation versus routing; sequence transfer versus control; timescale.
-- **EVOU-21**: abstraction; mechanism; novelty claim; biological fidelity.
-- **EVOU-22**: pruning; architecture search; genetic programming; program synthesis; structural update.
-- **EVOU-23**: intermediate representation; IR; developmental program; compilation phase.
-- **EVOU-24**: computational genome; computational regulator; expression plan; operational semantics.
-- **EVOU-28**: UML state machine; proposal lifecycle; invariant; rollback.
-- **EVOU-42**: DOGMA target architecture; DOGMA transition contract.
-- **EVOU-43**: DOGMA regulator candidate; DOGMA expression candidate.
-- **EVOU-44**: DOGMA memory locus candidate; DOGMA multi-timescale state.
-- **EVOU-45**: DOGMA dual-state candidate; causal reverse-complement boundary.
-- **EVOU-46**: DOGMA trace contract; trace utility test.
-- **EVOU-47**: Hermon DNA target architecture; Transformer DNA reference contract.
-- **EVOU-48**: strand-aware embedding candidate; motif-aware attention candidate.
-- **EVOU-29**: candidate training contract; multi-timescale update; frozen structure control.
-- **EVOU-49**: dual-family training contract.
-- **EVOU-50**: DOGMA training-inference parity.
-- **EVOU-51**: DOGMA Engine; prompt ingestion.
-- **EVOU-52**: DOGMA state-slot lifecycle.
-- **EVOU-53**: prefix state cache; state checkpoint parity.
-- **EVOU-54**: state-transition batching.
-- **EVOU-55**: Hermon DNA Engine; prefill; attention decode.
-- **EVOU-56**: Hermon KV page table; Transformer prefix cache.
-- **EVOU-57**: Transformer batch lifecycle; quantization.
-- **EVOU-58**: heterogeneous model routing.
-- **EVOU-59**: compression-addressability hypothesis.
-- **EVOU-60**: family-specific kernel gate; state-schema metadata.
-- **EVOU-37**: DNA model taxonomy; reverse-complement symmetry study; research-program name.
-- **EVOU-61**: cross-family workload matrix.
-- **EVOU-38**: transfer; continual learning; catastrophic forgetting; population composition; distribution shift.
-- **EVOU-40**: research artifact; replication package; claim retirement.
+### IV · DOGMA: non-Transformer DNA-native computation
 
-## mathematics
+EVOD-18 → EVOD-19 → EVOD-20 → EVOD-21 → EVOD-22
 
-EVOU-04 → EVOU-05 → EVOU-06 → EVOU-10 → EVOU-11 → EVOU-12 → EVOU-24 → EVOU-39
+- EVOD-18: State; Regulator; Expression; Strand; Complement; Gate; Memory locus; Module; Trace.
+- EVOD-19: regulation; expression; conditional state update; routing; ablation.
+- EVOD-20: local/global state; modular memory; regulatory state; fast/slow state; capacity.
+- EVOD-21: paired states; reverse complement; equivariance; causal streaming.
+- EVOD-22: reference implementation; state trace; objective; baseline; ablation; negative evidence.
 
-- **EVOU-04**: dataset; training split; validation split; test split; overfitting; mean; variance; confidence interval; data leakage.
-- **EVOU-05**: tensor; shape; batch dimension; broadcasting.
-- **EVOU-06**: derivative; partial derivative; gradient; chain rule; gradient descent; learning rate.
-- **EVOU-10**: recurrent neural network; RNN; hidden state; unrolling; backpropagation through time; leaky integrator.
-- **EVOU-11**: gate; gated recurrent unit; GRU; state-space model; SSM; stability.
-- **EVOU-12**: query; key; value; attention score; attention; causal mask; attention head.
-- **EVOU-24**: computational genome; computational regulator; expression plan; operational semantics.
-- **EVOU-39**: artificial general intelligence; AGI; capability scope; generalization claim; evidence scorecard.
+### V · Hermon DNA: Transformer-based DNA computation
 
-## systems
+EVOD-23 → EVOD-24
 
-EVOU-01 → EVOU-02 → EVOU-08 → EVOU-41 → EVOU-14 → EVOU-15 → EVOU-17 → EVOU-18 → EVOU-19 → EVOU-23 → EVOU-25 → EVOU-26 → EVOU-27 → EVOU-28 → EVOU-42 → EVOU-43 → EVOU-44 → EVOU-45 → EVOU-46 → EVOU-47 → EVOU-48 → EVOU-49 → EVOU-50 → EVOU-30 → EVOU-31 → EVOU-32 → EVOU-51 → EVOU-52 → EVOU-53 → EVOU-54 → EVOU-55 → EVOU-56 → EVOU-57 → EVOU-58 → EVOU-59 → EVOU-33 → EVOU-34 → EVOU-60 → EVOU-35 → EVOU-61 → EVOU-40
+- EVOD-23: DNA tokenizer; Transformer blocks; output head; causal positions.
+- EVOD-24: strand embeddings; motifs; k-mers; multi-scale positions; sparse/long context; retrieval.
 
-- **EVOU-01**: biological gene versus computational gene; analogy; research program.
-- **EVOU-02**: persistent state; module; interface contract; conditional execution.
-- **EVOU-08**: PyTorch; automatic differentiation; optimizer; epoch; checkpoint; device; random seed.
-- **EVOU-41**: finite-state machine; long short-term memory; LSTM; selective state update; associative scan; RWKV comparison.
-- **EVOU-14**: cache; key-value cache; KV cache; retrieval; external memory; index.
-- **EVOU-15**: dispatch; plugin; router; dynamic routing; pure function; lookup cost.
-- **EVOU-17**: compiler; runtime; library; application programming interface; API; process; thread; memory.
-- **EVOU-18**: service; database; protocol; scheduler; query plan; latency; throughput; batch.
-- **EVOU-19**: baseline; oracle; ablation; capacity matching; profiling plan; experimental hypothesis; Markov assumption.
-- **EVOU-23**: intermediate representation; IR; developmental program; compilation phase.
-- **EVOU-25**: class; instance; method; composition; Unified Modeling Language; UML.
-- **EVOU-26**: UML sequence diagram; lifeline; message; executor.
-- **EVOU-27**: credit assignment; trace provenance; causal intervention.
-- **EVOU-28**: UML state machine; proposal lifecycle; invariant; rollback.
-- **EVOU-42**: DOGMA target architecture; DOGMA transition contract.
-- **EVOU-43**: DOGMA regulator candidate; DOGMA expression candidate.
-- **EVOU-44**: DOGMA memory locus candidate; DOGMA multi-timescale state.
-- **EVOU-45**: DOGMA dual-state candidate; causal reverse-complement boundary.
-- **EVOU-46**: DOGMA trace contract; trace utility test.
-- **EVOU-47**: Hermon DNA target architecture; Transformer DNA reference contract.
-- **EVOU-48**: strand-aware embedding candidate; motif-aware attention candidate.
-- **EVOU-49**: dual-family training contract.
-- **EVOU-50**: DOGMA training-inference parity.
-- **EVOU-30**: runtime component; backend; inference contract; UML component diagram.
-- **EVOU-31**: serialization; schema version; content hash; model identity; provenance.
-- **EVOU-32**: state pool; memory ownership; paged KV; eviction; isolation.
-- **EVOU-51**: DOGMA Engine; prompt ingestion.
-- **EVOU-52**: DOGMA state-slot lifecycle.
-- **EVOU-53**: prefix state cache; state checkpoint parity.
-- **EVOU-54**: state-transition batching.
-- **EVOU-55**: Hermon DNA Engine; prefill; attention decode.
-- **EVOU-56**: Hermon KV page table; Transformer prefix cache.
-- **EVOU-57**: Transformer batch lifecycle; quantization.
-- **EVOU-58**: heterogeneous model routing.
-- **EVOU-59**: compression-addressability hypothesis.
-- **EVOU-33**: continuous batching; admission control; backpressure; tail latency.
-- **EVOU-34**: parity; profiler; benchmark; warm-up; optimization.
-- **EVOU-60**: family-specific kernel gate; state-schema metadata.
-- **EVOU-35**: UML deployment diagram; observability; authentication; authorization; threat model; deployment rollback.
-- **EVOU-61**: cross-family workload matrix.
-- **EVOU-40**: research artifact; replication package; claim retirement.
+### VI · Training systems and fair experiments
 
-## AGI concept map
+EVOD-25 → EVOD-26 → EVOD-27 → EVOD-28 → EVOD-29
 
-EVOU-04 evaluation on new examples → EVOU-19 fair comparisons → EVOU-36 failure and uncertainty → EVOU-38 transfer → EVOU-39 operational AGI claims → EVOU-40 reproducible argument. AGI means artificial general intelligence; the full reader-facing introduction is reserved for EVOU-39, not smuggled into the opening as an assumed capability.
+- EVOD-25: data contracts; model interfaces; state types; losses; benchmarks.
+- EVOD-26: sequential; chunked; scan; full sequence; incremental; gradients.
+- EVOD-27: mixed precision; accumulation; checkpointing; optimizer state; stability.
+- EVOD-28: data/tensor/pipeline parallelism; communication; sharding; formats; provenance.
+- EVOD-29: oracles; budgets; multi-seed evaluation; capacity controls; causality; transplant tests.
+
+### VII · DOGMA Engine: state-native inference
+
+EVOD-30 → EVOD-31 → EVOD-32 → EVOD-33 → EVOD-34
+
+- EVOD-30: request; model identity; state ownership; cancellation; streaming; errors.
+- EVOD-31: prompt ingestion; native step; chunking; output head; state tracing.
+- EVOD-32: allocation; reset; reuse; clone; isolation; temporary buffers.
+- EVOD-33: checkpoint; restore; state clone; versioning; shared prefixes.
+- EVOD-34: state-transition batching; scheduling; scans; locality; kernel profiling.
+
+### VIII · Hermon DNA Engine: attention-native inference
+
+EVOD-35 → EVOD-36 → EVOD-37 → EVOD-38
+
+- EVOD-35: prefill; decode; cache layout; positions; memory growth.
+- EVOD-36: pages; blocks; fragmentation; prefix cache; reference counting; eviction.
+- EVOD-37: admission; prefill/decode scheduling; quantization; quality; tails.
+- EVOD-38: draft/verify; acceptance; numerical parity; memory traffic; fused kernels.
+
+### IX · Evolutor: heterogeneous execution
+
+EVOD-39 → EVOD-40 → EVOD-41 → EVOD-42 → EVOD-43
+
+- EVOD-39: planner; router; adapters; tools; retrieval; symbolic modules; trace.
+- EVOD-40: compression; addressability; forgetting; retrieval; memory routing.
+- EVOD-41: IR; typing; optimization; lowering; backend legality; cost model.
+- EVOD-42: parser; logical plan; optimizer; physical operators; buffer pool; transactions.
+- EVOD-43: proposals; validation; evaluation; promotion; rollback; lineage.
+
+### X · Industrial engineering
+
+EVOD-44 → EVOD-45 → EVOD-46 → EVOD-47
+
+- EVOD-44: versioning; APIs; tracing; metrics; streaming; fault handling; rollback.
+- EVOD-45: ownership; quotas; untrusted inputs; tool authority; state leakage; threat model.
+- EVOD-46: replication; partitioning; tensor/pipeline parallelism; sharding; migration.
+- EVOD-47: TTFT; ITL; throughput; memory; power; utilization; roofline intuition.
+
+### XI · Applications and capability research
+
+EVOD-48 → EVOD-49 → EVOD-50 → EVOD-51
+
+- EVOD-48: regulatory sequence analysis; motifs; long context; strand symmetry; uncertainty.
+- EVOD-49: statistics; retrieval; copying; code; tools; persistent state; planning.
+- EVOD-50: transfer; forgetting; structural search; populations; open-ended learning.
+- EVOD-51: reasoning; planning; world models; transfer; tools; self-modification; generalization.
+
+### XII · Research synthesis
+
+EVOD-52
+
+- EVOD-52: failed mechanisms; causality leaks; capacity confounds; negative results; historical lineage.
+
+Arrows here indicate reading order, not extra hard prerequisites. Use PREREQUISITE_GRAPH.md for minimal dependency closure. Domain abstractions are deliberate: explain the mapping, preserved properties and omitted phenomena.

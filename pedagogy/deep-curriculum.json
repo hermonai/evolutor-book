@@ -1,0 +1,2338 @@
+{
+  "schemaVersion": 1,
+  "book": "Evolutor",
+  "subtitle": "Genomic Computation, DNA-Native AI, and Adaptive Machine Intelligence",
+  "edition": "4-deep",
+  "status": "architecture-only-no-manuscript",
+  "branch": "astra-deep-rewrite",
+  "startingCommit": "af8de42e16c71024d3e228a57e1d4d87c8d87276",
+  "entryAssumptions": [
+    "Basic programming and algorithmic reasoning",
+    "Algebra, functions, sets and discrete mathematical maturity",
+    "Basic probability, vectors, matrices and first-year calculus",
+    "DNA Computing or demonstrated equivalent molecular/formal knowledge; named imports remain planned until taught"
+  ],
+  "depthPrinciple": "Full scientific and technical depth with straightforward explanation. Useful abstraction is welcome: motivate it, define it, work through it, and show what it preserves and omits. No artificial university-level ceiling.",
+  "plannedChapterCount": 52,
+  "architectureTaxonomy": {
+    "DOGMA": {
+      "family": "non-Transformer DNA-native",
+      "engine": "DOGMA Engine"
+    },
+    "Hermon DNA": {
+      "family": "Transformer-based DNA",
+      "engine": "Hermon DNA Engine"
+    },
+    "Evolutor": {
+      "role": "genomic computation theory, research and eventual runtime above both"
+    }
+  },
+  "chapters": [
+    {
+      "id": "EVOD-01",
+      "number": 1,
+      "part": "I · The research question",
+      "title": "Why Genomic Computation?",
+      "status": "planned-not-drafted",
+      "requires": [],
+      "book1Requires": [
+        "DNAD-30",
+        "DNAD-32"
+      ],
+      "topics": [
+        "programs",
+        "neural models",
+        "genomes",
+        "stored and expressed computation",
+        "development",
+        "adaptation"
+      ],
+      "math": "Use provisional typed selection/execution maps after a concrete module example; novelty remains a question.",
+      "exercise": "Compare conventional conditional execution with a proposed genomic organization and identify a falsifier.",
+      "visual": "Program/model/genome comparison and two-family roadmap",
+      "frames": [
+        "persistent structure",
+        "context",
+        "regulation",
+        "expression",
+        "execution",
+        "trace",
+        "possible adaptation"
+      ],
+      "evidenceGate": "Read primary sources and declare assumptions before drafting; no results or final figures produced in this milestone."
+    },
+    {
+      "id": "EVOD-02",
+      "number": 2,
+      "part": "II · Learning and sequence-model foundations",
+      "title": "Learning objectives, data and evaluation",
+      "status": "planned-not-drafted",
+      "requires": [
+        "EVOD-01"
+      ],
+      "book1Requires": [],
+      "topics": [
+        "prediction",
+        "likelihood",
+        "splits",
+        "uncertainty",
+        "controls",
+        "capacity"
+      ],
+      "math": "Derive a sequence likelihood and loss; separate training fit from held-out generalization.",
+      "exercise": "Construct a leakage-resistant split and hand-check loss and calibration on a tiny dataset.",
+      "visual": "Data lineage and objective",
+      "frames": [
+        "examples",
+        "prediction",
+        "loss",
+        "held-out check"
+      ],
+      "evidenceGate": "Read primary sources and declare assumptions before drafting; no results or final figures produced in this milestone."
+    },
+    {
+      "id": "EVOD-03",
+      "number": 3,
+      "part": "II · Learning and sequence-model foundations",
+      "title": "Differentiation, optimization and tensor programs",
+      "status": "planned-not-drafted",
+      "requires": [
+        "EVOD-02"
+      ],
+      "book1Requires": [],
+      "topics": [
+        "tensor shapes",
+        "gradients",
+        "autograd",
+        "optimization",
+        "numerical precision"
+      ],
+      "math": "Derive chain-rule gradients for a small network and annotate every dimension.",
+      "exercise": "Check autograd with finite differences and demonstrate numerical failure cases.",
+      "visual": "Tensor and gradient flow",
+      "frames": [
+        "forward values",
+        "loss",
+        "backward gradients",
+        "parameter update"
+      ],
+      "evidenceGate": "Read primary sources and declare assumptions before drafting; no results or final figures produced in this milestone."
+    },
+    {
+      "id": "EVOD-04",
+      "number": 4,
+      "part": "II · Learning and sequence-model foundations",
+      "title": "Reproducible PyTorch training",
+      "status": "planned-not-drafted",
+      "requires": [
+        "EVOD-02",
+        "EVOD-03"
+      ],
+      "book1Requires": [],
+      "topics": [
+        "datasets",
+        "batching",
+        "masking",
+        "optimizer",
+        "checkpoints",
+        "seeds"
+      ],
+      "math": "Relate code to the objective and masking assumptions; distinguish resumption from reproducibility.",
+      "exercise": "Implement a reference training loop with exact small cases and restart tests.",
+      "visual": "Training lifecycle",
+      "frames": [
+        "batch",
+        "forward",
+        "backward",
+        "update",
+        "evaluate",
+        "checkpoint"
+      ],
+      "evidenceGate": "Read primary sources and declare assumptions before drafting; no results or final figures produced in this milestone."
+    },
+    {
+      "id": "EVOD-05",
+      "number": 5,
+      "part": "II · Learning and sequence-model foundations",
+      "title": "Tokenization and sequence representation",
+      "status": "planned-not-drafted",
+      "requires": [
+        "EVOD-02",
+        "EVOD-04"
+      ],
+      "book1Requires": [
+        "DNAD-05",
+        "DNAD-25"
+      ],
+      "topics": [
+        "DNA tokens",
+        "k-mers",
+        "embeddings",
+        "positions",
+        "strand orientation"
+      ],
+      "math": "Derive vocabulary and sequence-length tradeoffs; state reverse-complement alignment conventions.",
+      "exercise": "Test tokenization round trips and orientation handling without future leakage.",
+      "visual": "Sequence to indexed tensor",
+      "frames": [
+        "sequence",
+        "tokens",
+        "embeddings",
+        "aligned targets"
+      ],
+      "evidenceGate": "Read primary sources and declare assumptions before drafting; no results or final figures produced in this milestone."
+    },
+    {
+      "id": "EVOD-06",
+      "number": 6,
+      "part": "II · Learning and sequence-model foundations",
+      "title": "Recurrent models and gated state",
+      "status": "planned-not-drafted",
+      "requires": [
+        "EVOD-03",
+        "EVOD-05"
+      ],
+      "book1Requires": [],
+      "topics": [
+        "RNN",
+        "LSTM",
+        "GRU",
+        "state transition",
+        "retention",
+        "gradients"
+      ],
+      "math": "Derive one-step and unrolled computations and identify vanishing/exploding gradient mechanisms.",
+      "exercise": "Compare recurrent baselines on copying and running statistics with matched controls.",
+      "visual": "Unrolled and stepwise state",
+      "frames": [
+        "token and state",
+        "gate/update",
+        "next state",
+        "prediction"
+      ],
+      "evidenceGate": "Read primary sources and declare assumptions before drafting; no results or final figures produced in this milestone."
+    },
+    {
+      "id": "EVOD-07",
+      "number": 7,
+      "part": "II · Learning and sequence-model foundations",
+      "title": "State-space models, selective updates and scans",
+      "status": "planned-not-drafted",
+      "requires": [
+        "EVOD-06"
+      ],
+      "book1Requires": [],
+      "topics": [
+        "linear recurrence",
+        "S4/S5",
+        "selective SSM",
+        "Mamba",
+        "RWKV",
+        "chunking"
+      ],
+      "math": "Derive an associative scan for a valid linear case and show where state-dependent nonlinearities break it.",
+      "exercise": "Test sequential/chunked/scan parity and review strong primary-source baselines.",
+      "visual": "Scan tree and recurrent trace",
+      "frames": [
+        "transition factors",
+        "composition",
+        "prefix states"
+      ],
+      "evidenceGate": "Read primary sources and declare assumptions before drafting; no results or final figures produced in this milestone."
+    },
+    {
+      "id": "EVOD-08",
+      "number": 8,
+      "part": "II · Learning and sequence-model foundations",
+      "title": "Attention and content-addressed computation",
+      "status": "planned-not-drafted",
+      "requires": [
+        "EVOD-03",
+        "EVOD-05"
+      ],
+      "book1Requires": [],
+      "topics": [
+        "Q/K/V",
+        "scores",
+        "masks",
+        "heads",
+        "softmax",
+        "retrieval"
+      ],
+      "math": "Derive shaped attention from weighted lookup; distinguish addressability from exact recall.",
+      "exercise": "Implement a small attention oracle and causal masking tests.",
+      "visual": "Keys, query scores and weighted values",
+      "frames": [
+        "query",
+        "key comparison",
+        "normalization",
+        "value mixture"
+      ],
+      "evidenceGate": "Read primary sources and declare assumptions before drafting; no results or final figures produced in this milestone."
+    },
+    {
+      "id": "EVOD-09",
+      "number": 9,
+      "part": "II · Learning and sequence-model foundations",
+      "title": "Transformers and cached execution",
+      "status": "planned-not-drafted",
+      "requires": [
+        "EVOD-04",
+        "EVOD-08"
+      ],
+      "book1Requires": [],
+      "topics": [
+        "residuals",
+        "normalization",
+        "MLP",
+        "positions",
+        "blocks",
+        "KV",
+        "prefill",
+        "decode"
+      ],
+      "math": "Derive a complete decoder block and full versus incremental equivalence under declared positions.",
+      "exercise": "Verify logits and K/V across full and cached execution.",
+      "visual": "Block diagram and cached token sequence",
+      "frames": [
+        "prompt",
+        "block computation",
+        "cached state",
+        "next step"
+      ],
+      "evidenceGate": "Read primary sources and declare assumptions before drafting; no results or final figures produced in this milestone."
+    },
+    {
+      "id": "EVOD-10",
+      "number": 10,
+      "part": "II · Learning and sequence-model foundations",
+      "title": "Conditional computation and memory alternatives",
+      "status": "planned-not-drafted",
+      "requires": [
+        "EVOD-06",
+        "EVOD-07",
+        "EVOD-09"
+      ],
+      "book1Requires": [],
+      "topics": [
+        "dispatch",
+        "MoE",
+        "retrieval",
+        "external memory",
+        "dynamic graphs",
+        "hybrid models"
+      ],
+      "math": "Separate routing cost, active computation and memory access; compare mechanisms without renaming them.",
+      "exercise": "Build an ordinary routed baseline and account for inactive parameter storage.",
+      "visual": "Dispatch and memory comparison",
+      "frames": [
+        "context",
+        "route",
+        "selected operator",
+        "output"
+      ],
+      "evidenceGate": "Read primary sources and declare assumptions before drafting; no results or final figures produced in this milestone."
+    },
+    {
+      "id": "EVOD-11",
+      "number": 11,
+      "part": "III · From biology to formal computational hypotheses",
+      "title": "Regulation and expression across levels",
+      "status": "planned-not-drafted",
+      "requires": [
+        "EVOD-01",
+        "EVOD-10"
+      ],
+      "book1Requires": [
+        "DNAD-30"
+      ],
+      "topics": [
+        "biological regulation",
+        "stored modules",
+        "selection",
+        "execution",
+        "context"
+      ],
+      "math": "Give distinct biological and software interpretations and a typed selection map.",
+      "exercise": "Compare a regulatory proposal to gates, dispatch and MoE with an explicit equivalence test.",
+      "visual": "Biology/software comparison with typed arrows",
+      "frames": [
+        "context",
+        "regulator",
+        "selected structure",
+        "execution"
+      ],
+      "evidenceGate": "Read primary sources and declare assumptions before drafting; no results or final figures produced in this milestone."
+    },
+    {
+      "id": "EVOD-12",
+      "number": 12,
+      "part": "III · From biology to formal computational hypotheses",
+      "title": "Development and generated computational structure",
+      "status": "planned-not-drafted",
+      "requires": [
+        "EVOD-10",
+        "EVOD-11"
+      ],
+      "book1Requires": [
+        "DNAD-30"
+      ],
+      "topics": [
+        "genotype/phenotype",
+        "developmental encoding",
+        "compilation",
+        "program synthesis",
+        "NAS"
+      ],
+      "math": "Formulate a candidate development map and compare it to established program/network generation.",
+      "exercise": "Generate a small executable structure and test whether development adds value over direct encoding.",
+      "visual": "Development stages and compiler analogy",
+      "frames": [
+        "persistent description",
+        "developmental process",
+        "executable structure"
+      ],
+      "evidenceGate": "Read primary sources and declare assumptions before drafting; no results or final figures produced in this milestone."
+    },
+    {
+      "id": "EVOD-13",
+      "number": 13,
+      "part": "III · From biology to formal computational hypotheses",
+      "title": "Learning, structural adaptation and evolution",
+      "status": "planned-not-drafted",
+      "requires": [
+        "EVOD-04",
+        "EVOD-11",
+        "EVOD-12"
+      ],
+      "book1Requires": [
+        "DNAD-30"
+      ],
+      "topics": [
+        "state change",
+        "parameter learning",
+        "structural learning",
+        "populations",
+        "selection"
+      ],
+      "math": "Specify which object changes, at what timescale, with what objective and inheritance rule.",
+      "exercise": "Contrast one state update, optimizer step, structural proposal and population generation.",
+      "visual": "Multiple timescales",
+      "frames": [
+        "inference state",
+        "parameter update",
+        "structural revision",
+        "population selection"
+      ],
+      "evidenceGate": "Read primary sources and declare assumptions before drafting; no results or final figures produced in this milestone."
+    },
+    {
+      "id": "EVOD-14",
+      "number": 14,
+      "part": "III · From biology to formal computational hypotheses",
+      "title": "Typed genomic computation systems",
+      "status": "planned-not-drafted",
+      "requires": [
+        "EVOD-10",
+        "EVOD-11",
+        "EVOD-12",
+        "EVOD-13"
+      ],
+      "book1Requires": [
+        "DNAD-16",
+        "DNAD-18",
+        "DNAD-32"
+      ],
+      "topics": [
+        "alphabet",
+        "computational gene",
+        "genome",
+        "regulator",
+        "expression",
+        "state",
+        "trace"
+      ],
+      "math": "Derive typed interfaces from examples; re-evaluate the old tuple rather than canonizing it.",
+      "exercise": "Build a minimal interpreter with types, invariants and a conventional baseline.",
+      "visual": "Typed module and state relations",
+      "frames": [
+        "input types",
+        "selected plan",
+        "legal execution",
+        "typed result"
+      ],
+      "evidenceGate": "Read primary sources and declare assumptions before drafting; no results or final figures produced in this milestone."
+    },
+    {
+      "id": "EVOD-15",
+      "number": 15,
+      "part": "III · From biology to formal computational hypotheses",
+      "title": "Operational semantics and expression traces",
+      "status": "planned-not-drafted",
+      "requires": [
+        "EVOD-14"
+      ],
+      "book1Requires": [],
+      "topics": [
+        "configuration",
+        "transition",
+        "evaluation rule",
+        "effects",
+        "termination",
+        "trace"
+      ],
+      "math": "Define a small-step semantics and prove a bounded correspondence with the reference interpreter.",
+      "exercise": "Compare exact transition traces; test invalid configurations and causal ordering.",
+      "visual": "State-transition rules and execution trace",
+      "frames": [
+        "configuration",
+        "permitted transition",
+        "trace event",
+        "next configuration"
+      ],
+      "evidenceGate": "Read primary sources and declare assumptions before drafting; no results or final figures produced in this milestone."
+    },
+    {
+      "id": "EVOD-16",
+      "number": 16,
+      "part": "III · From biology to formal computational hypotheses",
+      "title": "Expression complexity and resource semantics",
+      "status": "planned-not-drafted",
+      "requires": [
+        "EVOD-07",
+        "EVOD-09",
+        "EVOD-15"
+      ],
+      "book1Requires": [
+        "DNAD-04",
+        "DNAD-24"
+      ],
+      "topics": [
+        "stored size",
+        "routing",
+        "active work",
+        "state",
+        "communication",
+        "trace",
+        "adaptation"
+      ],
+      "math": "Reassess expression-size complexity against a cost vector with units and worst-case quantifiers.",
+      "exercise": "Construct a counterexample where fewer active modules cost more overall.",
+      "visual": "Cost decomposition and counterexample",
+      "frames": [
+        "stored system",
+        "selected execution",
+        "full resource ledger"
+      ],
+      "evidenceGate": "Read primary sources and declare assumptions before drafting; no results or final figures produced in this milestone."
+    },
+    {
+      "id": "EVOD-17",
+      "number": 17,
+      "part": "III · From biology to formal computational hypotheses",
+      "title": "Traces, credit and mechanistic evidence",
+      "status": "planned-not-drafted",
+      "requires": [
+        "EVOD-13",
+        "EVOD-15",
+        "EVOD-16"
+      ],
+      "book1Requires": [],
+      "topics": [
+        "logging",
+        "causal interventions",
+        "credit assignment",
+        "structural proposals"
+      ],
+      "math": "Distinguish observed activation traces from causal explanations and useful adaptation signals.",
+      "exercise": "Ablate trace-guided proposals against logging and random-selection controls.",
+      "visual": "Trace interventions",
+      "frames": [
+        "recorded execution",
+        "intervention",
+        "changed outcome",
+        "evidence"
+      ],
+      "evidenceGate": "Read primary sources and declare assumptions before drafting; no results or final figures produced in this milestone."
+    },
+    {
+      "id": "EVOD-18",
+      "number": 18,
+      "part": "IV · DOGMA: non-Transformer DNA-native computation",
+      "title": "DOGMA primitives and state semantics",
+      "status": "planned-not-drafted",
+      "requires": [
+        "EVOD-07",
+        "EVOD-14",
+        "EVOD-15",
+        "EVOD-16"
+      ],
+      "book1Requires": [],
+      "topics": [
+        "State",
+        "Regulator",
+        "Expression",
+        "Strand",
+        "Complement",
+        "Gate",
+        "Memory locus",
+        "Module",
+        "Trace"
+      ],
+      "math": "Define candidate primitives by type and transition; compare each with nearest recurrent or conditional baseline.",
+      "exercise": "Implement only a minimal candidate after its semantics; reject redundant biological terminology.",
+      "visual": "One-step candidate state machine",
+      "frames": [
+        "input and state",
+        "regulation",
+        "expressed transformation",
+        "new state",
+        "output"
+      ],
+      "evidenceGate": "Read primary sources and declare assumptions before drafting; no results or final figures produced in this milestone."
+    },
+    {
+      "id": "EVOD-19",
+      "number": 19,
+      "part": "IV · DOGMA: non-Transformer DNA-native computation",
+      "title": "DOGMA regulation and selective transformations",
+      "status": "planned-not-drafted",
+      "requires": [
+        "EVOD-10",
+        "EVOD-17",
+        "EVOD-18"
+      ],
+      "book1Requires": [],
+      "topics": [
+        "regulation",
+        "expression",
+        "conditional state update",
+        "routing",
+        "ablation"
+      ],
+      "math": "Derive candidate R/E/U maps and compare gates, selection and dispatch algebraically.",
+      "exercise": "Measure one-mechanism ablations with state/logit/gradient checks.",
+      "visual": "Regulation and transformation panels",
+      "frames": [
+        "context",
+        "control",
+        "selected transformation",
+        "state update"
+      ],
+      "evidenceGate": "Read primary sources and declare assumptions before drafting; no results or final figures produced in this milestone."
+    },
+    {
+      "id": "EVOD-20",
+      "number": 20,
+      "part": "IV · DOGMA: non-Transformer DNA-native computation",
+      "title": "Structured memory, locality and timescales",
+      "status": "planned-not-drafted",
+      "requires": [
+        "EVOD-07",
+        "EVOD-16",
+        "EVOD-18",
+        "EVOD-19"
+      ],
+      "book1Requires": [],
+      "topics": [
+        "local/global state",
+        "modular memory",
+        "regulatory state",
+        "fast/slow state",
+        "capacity"
+      ],
+      "math": "Specify ownership, updates, resets and capacity; no infinite-context or constant-total-memory claim.",
+      "exercise": "Test retention, interference and reset behavior at matched memory and parameter budgets.",
+      "visual": "State layout and update timescales",
+      "frames": [
+        "state partitions",
+        "selective updates",
+        "retained and lost information"
+      ],
+      "evidenceGate": "Read primary sources and declare assumptions before drafting; no results or final figures produced in this milestone."
+    },
+    {
+      "id": "EVOD-21",
+      "number": 21,
+      "part": "IV · DOGMA: non-Transformer DNA-native computation",
+      "title": "Strands, complements and dual-state hypotheses",
+      "status": "planned-not-drafted",
+      "requires": [
+        "EVOD-05",
+        "EVOD-18",
+        "EVOD-20"
+      ],
+      "book1Requires": [
+        "DNAD-05",
+        "DNAD-30"
+      ],
+      "topics": [
+        "paired states",
+        "reverse complement",
+        "equivariance",
+        "causal streaming"
+      ],
+      "math": "Separate offline symmetry from causal inference; formalize a candidate interaction and augmentation control.",
+      "exercise": "Detect reverse-complement future leakage; compare dual-state with augmentation and equivariant baselines.",
+      "visual": "Paired state with causal boundaries",
+      "frames": [
+        "forward context",
+        "paired proposal",
+        "allowed interaction",
+        "output"
+      ],
+      "evidenceGate": "Read primary sources and declare assumptions before drafting; no results or final figures produced in this milestone."
+    },
+    {
+      "id": "EVOD-22",
+      "number": 22,
+      "part": "IV · DOGMA: non-Transformer DNA-native computation",
+      "title": "DOGMA reference model and falsifiable research program",
+      "status": "planned-not-drafted",
+      "requires": [
+        "EVOD-04",
+        "EVOD-17",
+        "EVOD-19",
+        "EVOD-20",
+        "EVOD-21"
+      ],
+      "book1Requires": [],
+      "topics": [
+        "reference implementation",
+        "state trace",
+        "objective",
+        "baseline",
+        "ablation",
+        "negative evidence"
+      ],
+      "math": "Fix prediction timing after consumed tokens and precise state/logit contracts.",
+      "exercise": "Train a small candidate only after exact tests; retain losing hypotheses and failure reports.",
+      "visual": "Semantic reference and evidence loop",
+      "frames": [
+        "specified transition",
+        "reference",
+        "test",
+        "experiment",
+        "retain or reject"
+      ],
+      "evidenceGate": "Read primary sources and declare assumptions before drafting; no results or final figures produced in this milestone."
+    },
+    {
+      "id": "EVOD-23",
+      "number": 23,
+      "part": "V · Hermon DNA: Transformer-based DNA computation",
+      "title": "Hermon DNA reference architecture",
+      "status": "planned-not-drafted",
+      "requires": [
+        "EVOD-05",
+        "EVOD-09",
+        "EVOD-16"
+      ],
+      "book1Requires": [],
+      "topics": [
+        "DNA tokenizer",
+        "Transformer blocks",
+        "output head",
+        "causal positions"
+      ],
+      "math": "Specify a recognizably Transformer reference with all tensor shapes and attention semantics.",
+      "exercise": "Train a small controlled reference and test full/incremental parity.",
+      "visual": "DNA Transformer tensor pipeline",
+      "frames": [
+        "tokens",
+        "embeddings",
+        "attention blocks",
+        "output head"
+      ],
+      "evidenceGate": "Read primary sources and declare assumptions before drafting; no results or final figures produced in this milestone."
+    },
+    {
+      "id": "EVOD-24",
+      "number": 24,
+      "part": "V · Hermon DNA: Transformer-based DNA computation",
+      "title": "DNA-aware Transformer mechanisms",
+      "status": "planned-not-drafted",
+      "requires": [
+        "EVOD-10",
+        "EVOD-21",
+        "EVOD-23"
+      ],
+      "book1Requires": [
+        "DNAD-25",
+        "DNAD-30"
+      ],
+      "topics": [
+        "strand embeddings",
+        "motifs",
+        "k-mers",
+        "multi-scale positions",
+        "sparse/long context",
+        "retrieval"
+      ],
+      "math": "Define each modification as a testable change to the baseline, including symmetry and causality.",
+      "exercise": "Run one-factor ablations and matched-budget DNA-task controls; no biomedical success implied.",
+      "visual": "Baseline versus DNA-aware mechanism",
+      "frames": [
+        "baseline computation",
+        "proposed modification",
+        "controlled comparison"
+      ],
+      "evidenceGate": "Read primary sources and declare assumptions before drafting; no results or final figures produced in this milestone."
+    },
+    {
+      "id": "EVOD-25",
+      "number": 25,
+      "part": "VI · Training systems and fair experiments",
+      "title": "Shared experiments without false equivalence",
+      "status": "planned-not-drafted",
+      "requires": [
+        "EVOD-04",
+        "EVOD-22",
+        "EVOD-23",
+        "EVOD-24"
+      ],
+      "book1Requires": [],
+      "topics": [
+        "data contracts",
+        "model interfaces",
+        "state types",
+        "losses",
+        "benchmarks"
+      ],
+      "math": "Separate common evaluation interfaces from family-specific recurrent and KV states.",
+      "exercise": "Build compatible prepare/step contracts with explicit logits versus sampled tokens.",
+      "visual": "UML interface and two opaque state types",
+      "frames": [
+        "shared request",
+        "family adapter",
+        "typed state/result"
+      ],
+      "evidenceGate": "Read primary sources and declare assumptions before drafting; no results or final figures produced in this milestone."
+    },
+    {
+      "id": "EVOD-26",
+      "number": 26,
+      "part": "VI · Training systems and fair experiments",
+      "title": "Training/inference parity and parallel recurrence",
+      "status": "planned-not-drafted",
+      "requires": [
+        "EVOD-07",
+        "EVOD-09",
+        "EVOD-22",
+        "EVOD-23",
+        "EVOD-25"
+      ],
+      "book1Requires": [],
+      "topics": [
+        "sequential",
+        "chunked",
+        "scan",
+        "full sequence",
+        "incremental",
+        "gradients"
+      ],
+      "math": "State tolerances and valid equivalences; test outputs and internal state, not just loss.",
+      "exercise": "Compare state/logit/gradient trajectories and deliberately broken masks or scans.",
+      "visual": "Parity comparison across execution modes",
+      "frames": [
+        "reference trace",
+        "alternate execution",
+        "aligned comparison"
+      ],
+      "evidenceGate": "Read primary sources and declare assumptions before drafting; no results or final figures produced in this milestone."
+    },
+    {
+      "id": "EVOD-27",
+      "number": 27,
+      "part": "VI · Training systems and fair experiments",
+      "title": "Optimization and memory-efficient training",
+      "status": "planned-not-drafted",
+      "requires": [
+        "EVOD-03",
+        "EVOD-04",
+        "EVOD-25",
+        "EVOD-26"
+      ],
+      "book1Requires": [],
+      "topics": [
+        "mixed precision",
+        "accumulation",
+        "checkpointing",
+        "optimizer state",
+        "stability"
+      ],
+      "math": "Derive effective batch and memory accounting; distinguish recomputation from saved state.",
+      "exercise": "Measure loss/gradient drift, memory and restart fidelity under one optimization at a time.",
+      "visual": "Training memory and recomputation timeline",
+      "frames": [
+        "forward activations",
+        "checkpoint choice",
+        "backward recomputation"
+      ],
+      "evidenceGate": "Read primary sources and declare assumptions before drafting; no results or final figures produced in this milestone."
+    },
+    {
+      "id": "EVOD-28",
+      "number": 28,
+      "part": "VI · Training systems and fair experiments",
+      "title": "Distributed training and model artifacts",
+      "status": "planned-not-drafted",
+      "requires": [
+        "EVOD-25",
+        "EVOD-26",
+        "EVOD-27"
+      ],
+      "book1Requires": [],
+      "topics": [
+        "data/tensor/pipeline parallelism",
+        "communication",
+        "sharding",
+        "formats",
+        "provenance"
+      ],
+      "math": "Derive communication and memory consequences; identify model/state schema version boundaries.",
+      "exercise": "Specify small distributed parity and fault-recovery tests; benchmark only measured configurations.",
+      "visual": "UML deployment and communication schedule",
+      "frames": [
+        "sharded training",
+        "synchronized update",
+        "versioned checkpoint"
+      ],
+      "evidenceGate": "Read primary sources and declare assumptions before drafting; no results or final figures produced in this milestone."
+    },
+    {
+      "id": "EVOD-29",
+      "number": 29,
+      "part": "VI · Training systems and fair experiments",
+      "title": "Benchmark design and comparative evidence",
+      "status": "planned-not-drafted",
+      "requires": [
+        "EVOD-16",
+        "EVOD-17",
+        "EVOD-22",
+        "EVOD-24",
+        "EVOD-26",
+        "EVOD-27"
+      ],
+      "book1Requires": [],
+      "topics": [
+        "oracles",
+        "budgets",
+        "multi-seed evaluation",
+        "capacity controls",
+        "causality",
+        "transplant tests"
+      ],
+      "math": "Define estimands, uncertainty and a full resource vector before comparing families.",
+      "exercise": "Build a benchmark matrix including copying, retrieval, statistics, motifs and state-machine tasks.",
+      "visual": "Capability/resource matrix",
+      "frames": [
+        "hypothesis",
+        "matched tasks",
+        "repeated trials",
+        "bounded conclusion"
+      ],
+      "evidenceGate": "Read primary sources and declare assumptions before drafting; no results or final figures produced in this milestone."
+    },
+    {
+      "id": "EVOD-30",
+      "number": 30,
+      "part": "VII · DOGMA Engine: state-native inference",
+      "title": "Runtime contracts and request lifecycles",
+      "status": "planned-not-drafted",
+      "requires": [
+        "EVOD-15",
+        "EVOD-25",
+        "EVOD-26",
+        "EVOD-28"
+      ],
+      "book1Requires": [],
+      "topics": [
+        "request",
+        "model identity",
+        "state ownership",
+        "cancellation",
+        "streaming",
+        "errors"
+      ],
+      "math": "Specify prepare/step semantics and lifecycle invariants without assuming a cache type.",
+      "exercise": "Build a runtime skeleton only after model semantics; test request isolation and cancellation.",
+      "visual": "UML state and sequence diagrams",
+      "frames": [
+        "admit",
+        "prepare",
+        "step",
+        "finish or cancel",
+        "release"
+      ],
+      "evidenceGate": "Read primary sources and declare assumptions before drafting; no results or final figures produced in this milestone."
+    },
+    {
+      "id": "EVOD-31",
+      "number": 31,
+      "part": "VII · DOGMA Engine: state-native inference",
+      "title": "DOGMA state construction and execution",
+      "status": "planned-not-drafted",
+      "requires": [
+        "EVOD-18",
+        "EVOD-22",
+        "EVOD-26",
+        "EVOD-30"
+      ],
+      "book1Requires": [],
+      "topics": [
+        "prompt ingestion",
+        "native step",
+        "chunking",
+        "output head",
+        "state tracing"
+      ],
+      "math": "Derive engine transitions from the exact model; distinguish prompt ingestion from Transformer prefill.",
+      "exercise": "Compare token-by-token and valid chunked state construction against PyTorch.",
+      "visual": "DOGMA step sequence",
+      "frames": [
+        "prompt tokens",
+        "state construction",
+        "native transition",
+        "logits"
+      ],
+      "evidenceGate": "Read primary sources and declare assumptions before drafting; no results or final figures produced in this milestone."
+    },
+    {
+      "id": "EVOD-32",
+      "number": 32,
+      "part": "VII · DOGMA Engine: state-native inference",
+      "title": "DOGMA state pools and memory ownership",
+      "status": "planned-not-drafted",
+      "requires": [
+        "EVOD-20",
+        "EVOD-28",
+        "EVOD-30",
+        "EVOD-31"
+      ],
+      "book1Requires": [],
+      "topics": [
+        "allocation",
+        "reset",
+        "reuse",
+        "clone",
+        "isolation",
+        "temporary buffers"
+      ],
+      "math": "Define slot ownership and generation counters; separate persistent state from workspace and weights.",
+      "exercise": "Stress reuse and cancellation with cross-request leakage tests.",
+      "visual": "State-pool memory map",
+      "frames": [
+        "allocate",
+        "own",
+        "update",
+        "reset",
+        "reuse"
+      ],
+      "evidenceGate": "Read primary sources and declare assumptions before drafting; no results or final figures produced in this milestone."
+    },
+    {
+      "id": "EVOD-33",
+      "number": 33,
+      "part": "VII · DOGMA Engine: state-native inference",
+      "title": "DOGMA checkpoints, branching and prefix state",
+      "status": "planned-not-drafted",
+      "requires": [
+        "EVOD-28",
+        "EVOD-31",
+        "EVOD-32"
+      ],
+      "book1Requires": [],
+      "topics": [
+        "checkpoint",
+        "restore",
+        "state clone",
+        "versioning",
+        "shared prefixes"
+      ],
+      "math": "Specify semantic equivalence and invalidation for cached state snapshots.",
+      "exercise": "Measure clone/restore cost and reject tokenizer/model/schema mismatches.",
+      "visual": "Branching states and ownership",
+      "frames": [
+        "shared prefix",
+        "immutable snapshot",
+        "independent branches"
+      ],
+      "evidenceGate": "Read primary sources and declare assumptions before drafting; no results or final figures produced in this milestone."
+    },
+    {
+      "id": "EVOD-34",
+      "number": 34,
+      "part": "VII · DOGMA Engine: state-native inference",
+      "title": "DOGMA batching and state-native kernels",
+      "status": "planned-not-drafted",
+      "requires": [
+        "EVOD-07",
+        "EVOD-26",
+        "EVOD-31",
+        "EVOD-32",
+        "EVOD-33"
+      ],
+      "book1Requires": [],
+      "topics": [
+        "state-transition batching",
+        "scheduling",
+        "scans",
+        "locality",
+        "kernel profiling"
+      ],
+      "math": "Group only compatible transitions; gate native kernels on profiling and parity.",
+      "exercise": "Profile the reference, optimize one bottleneck and test state/logit parity and latency tails.",
+      "visual": "Scheduler timeline and kernel dataflow",
+      "frames": [
+        "queued states",
+        "compatible batch",
+        "kernel",
+        "independent next states"
+      ],
+      "evidenceGate": "Read primary sources and declare assumptions before drafting; no results or final figures produced in this milestone."
+    },
+    {
+      "id": "EVOD-35",
+      "number": 35,
+      "part": "VIII · Hermon DNA Engine: attention-native inference",
+      "title": "Hermon DNA prefill, decode and KV state",
+      "status": "planned-not-drafted",
+      "requires": [
+        "EVOD-09",
+        "EVOD-23",
+        "EVOD-26",
+        "EVOD-30"
+      ],
+      "book1Requires": [],
+      "topics": [
+        "prefill",
+        "decode",
+        "cache layout",
+        "positions",
+        "memory growth"
+      ],
+      "math": "Derive KV bytes as 2*B*L*T*H_KV*D_h*b under declared layout; include other memory separately.",
+      "exercise": "Validate full/cached logits and K/V before throughput measurements.",
+      "visual": "Tensor layout and request sequence",
+      "frames": [
+        "prompt",
+        "K/V construction",
+        "new query",
+        "updated cache"
+      ],
+      "evidenceGate": "Read primary sources and declare assumptions before drafting; no results or final figures produced in this milestone."
+    },
+    {
+      "id": "EVOD-36",
+      "number": 36,
+      "part": "VIII · Hermon DNA Engine: attention-native inference",
+      "title": "Paged KV, prefix sharing and allocation",
+      "status": "planned-not-drafted",
+      "requires": [
+        "EVOD-28",
+        "EVOD-30",
+        "EVOD-35"
+      ],
+      "book1Requires": [],
+      "topics": [
+        "pages",
+        "blocks",
+        "fragmentation",
+        "prefix cache",
+        "reference counting",
+        "eviction"
+      ],
+      "math": "Derive allocation overhead and shared-prefix ownership without assuming exact retrieval.",
+      "exercise": "Test page reuse, invalidation, cancellation and cross-request isolation.",
+      "visual": "Paged KV memory map",
+      "frames": [
+        "logical positions",
+        "physical pages",
+        "shared prefix",
+        "release"
+      ],
+      "evidenceGate": "Read primary sources and declare assumptions before drafting; no results or final figures produced in this milestone."
+    },
+    {
+      "id": "EVOD-37",
+      "number": 37,
+      "part": "VIII · Hermon DNA Engine: attention-native inference",
+      "title": "Continuous batching and precision",
+      "status": "planned-not-drafted",
+      "requires": [
+        "EVOD-27",
+        "EVOD-29",
+        "EVOD-35",
+        "EVOD-36"
+      ],
+      "book1Requires": [],
+      "topics": [
+        "admission",
+        "prefill/decode scheduling",
+        "quantization",
+        "quality",
+        "tails"
+      ],
+      "math": "Separate TTFT, ITL and throughput; derive scheduling and quantization tradeoffs.",
+      "exercise": "Compare declared workloads with quality and latency distributions, not only peak tokens/sec.",
+      "visual": "Request timeline and quantized layout",
+      "frames": [
+        "admit",
+        "schedule",
+        "decode batch",
+        "finish",
+        "reclaim"
+      ],
+      "evidenceGate": "Read primary sources and declare assumptions before drafting; no results or final figures produced in this milestone."
+    },
+    {
+      "id": "EVOD-38",
+      "number": 38,
+      "part": "VIII · Hermon DNA Engine: attention-native inference",
+      "title": "Speculative decoding and attention kernels",
+      "status": "planned-not-drafted",
+      "requires": [
+        "EVOD-26",
+        "EVOD-29",
+        "EVOD-35",
+        "EVOD-37"
+      ],
+      "book1Requires": [],
+      "topics": [
+        "draft/verify",
+        "acceptance",
+        "numerical parity",
+        "memory traffic",
+        "fused kernels"
+      ],
+      "math": "Explain exactness conditions for a chosen speculative scheme and profile kernel bottlenecks.",
+      "exercise": "Check distributional correctness where applicable and report quality, latency and memory.",
+      "visual": "Draft/verify timeline and kernel memory flow",
+      "frames": [
+        "draft tokens",
+        "target verification",
+        "accept/correct",
+        "continue"
+      ],
+      "evidenceGate": "Read primary sources and declare assumptions before drafting; no results or final figures produced in this milestone."
+    },
+    {
+      "id": "EVOD-39",
+      "number": 39,
+      "part": "IX · Evolutor: heterogeneous execution",
+      "title": "Evolutor runtime above both engines",
+      "status": "planned-not-drafted",
+      "requires": [
+        "EVOD-14",
+        "EVOD-15",
+        "EVOD-30",
+        "EVOD-34",
+        "EVOD-38"
+      ],
+      "book1Requires": [],
+      "topics": [
+        "planner",
+        "router",
+        "adapters",
+        "tools",
+        "retrieval",
+        "symbolic modules",
+        "trace"
+      ],
+      "math": "Define composition contracts without collapsing state and KV representations.",
+      "exercise": "Execute a small heterogeneous plan with typed results, failure propagation and audit traces.",
+      "visual": "UML components and sequence",
+      "frames": [
+        "request",
+        "planner",
+        "family/tool adapter",
+        "execution",
+        "trace"
+      ],
+      "evidenceGate": "Read primary sources and declare assumptions before drafting; no results or final figures produced in this milestone."
+    },
+    {
+      "id": "EVOD-40",
+      "number": 40,
+      "part": "IX · Evolutor: heterogeneous execution",
+      "title": "Hybrid compressed and addressable memory",
+      "status": "planned-not-drafted",
+      "requires": [
+        "EVOD-10",
+        "EVOD-16",
+        "EVOD-20",
+        "EVOD-29",
+        "EVOD-33",
+        "EVOD-36",
+        "EVOD-39"
+      ],
+      "book1Requires": [],
+      "topics": [
+        "compression",
+        "addressability",
+        "forgetting",
+        "retrieval",
+        "memory routing"
+      ],
+      "math": "Formulate a regulator hypothesis and compare established hybrid-memory and routing alternatives.",
+      "exercise": "Test copying and streaming tradeoffs at matched total memory; report losses as well as wins.",
+      "visual": "Dual memory layout and routing",
+      "frames": [
+        "context",
+        "state or addressable memory",
+        "regulator",
+        "output"
+      ],
+      "evidenceGate": "Read primary sources and declare assumptions before drafting; no results or final figures produced in this milestone."
+    },
+    {
+      "id": "EVOD-41",
+      "number": 41,
+      "part": "IX · Evolutor: heterogeneous execution",
+      "title": "Compiler, IR and execution planning",
+      "status": "planned-not-drafted",
+      "requires": [
+        "EVOD-12",
+        "EVOD-14",
+        "EVOD-15",
+        "EVOD-16",
+        "EVOD-39"
+      ],
+      "book1Requires": [],
+      "topics": [
+        "IR",
+        "typing",
+        "optimization",
+        "lowering",
+        "backend legality",
+        "cost model"
+      ],
+      "math": "Derive an IR only from implemented mechanisms; prove one transformation preserves semantics.",
+      "exercise": "Lower a small expression plan to two backends with trace-equivalence tests.",
+      "visual": "UML pipeline and typed IR",
+      "frames": [
+        "source",
+        "typed IR",
+        "optimized plan",
+        "backend execution"
+      ],
+      "evidenceGate": "Read primary sources and declare assumptions before drafting; no results or final figures produced in this milestone."
+    },
+    {
+      "id": "EVOD-42",
+      "number": 42,
+      "part": "IX · Evolutor: heterogeneous execution",
+      "title": "Database engines as a systems comparison",
+      "status": "planned-not-drafted",
+      "requires": [
+        "EVOD-10",
+        "EVOD-16",
+        "EVOD-30",
+        "EVOD-39",
+        "EVOD-41"
+      ],
+      "book1Requires": [],
+      "topics": [
+        "parser",
+        "logical plan",
+        "optimizer",
+        "physical operators",
+        "buffer pool",
+        "transactions"
+      ],
+      "math": "Compare database planning to expression planning and state exactly where transaction semantics differ.",
+      "exercise": "Cost two valid plans and expose a bad optimizer assumption using measured or synthetic labeled data.",
+      "visual": "Query-plan and runtime-plan comparison",
+      "frames": [
+        "logical request",
+        "candidate plans",
+        "cost choice",
+        "operator execution"
+      ],
+      "evidenceGate": "Read primary sources and declare assumptions before drafting; no results or final figures produced in this milestone."
+    },
+    {
+      "id": "EVOD-43",
+      "number": 43,
+      "part": "IX · Evolutor: heterogeneous execution",
+      "title": "Structural adaptation and lifecycle governance",
+      "status": "planned-not-drafted",
+      "requires": [
+        "EVOD-13",
+        "EVOD-17",
+        "EVOD-29",
+        "EVOD-39",
+        "EVOD-41"
+      ],
+      "book1Requires": [],
+      "topics": [
+        "proposals",
+        "validation",
+        "evaluation",
+        "promotion",
+        "rollback",
+        "lineage"
+      ],
+      "math": "Specify a proposal state machine and separate learning-time changes from serving-time state.",
+      "exercise": "Test invalid proposals, lineage checks and rollback without uncontrolled self-modification.",
+      "visual": "UML proposal lifecycle",
+      "frames": [
+        "propose",
+        "validate",
+        "compare",
+        "promote or reject",
+        "rollback"
+      ],
+      "evidenceGate": "Read primary sources and declare assumptions before drafting; no results or final figures produced in this milestone."
+    },
+    {
+      "id": "EVOD-44",
+      "number": 44,
+      "part": "X · Industrial engineering",
+      "title": "Packaging, deployment and observable services",
+      "status": "planned-not-drafted",
+      "requires": [
+        "EVOD-28",
+        "EVOD-30",
+        "EVOD-39",
+        "EVOD-43"
+      ],
+      "book1Requires": [],
+      "topics": [
+        "versioning",
+        "APIs",
+        "tracing",
+        "metrics",
+        "streaming",
+        "fault handling",
+        "rollback"
+      ],
+      "math": "Define compatible artifacts and end-to-end failure semantics.",
+      "exercise": "Build reproducible deployment examples with version mismatch and restart tests.",
+      "visual": "UML deployment and fault sequence",
+      "frames": [
+        "package",
+        "deploy",
+        "observe",
+        "recover or roll back"
+      ],
+      "evidenceGate": "Read primary sources and declare assumptions before drafting; no results or final figures produced in this milestone."
+    },
+    {
+      "id": "EVOD-45",
+      "number": 45,
+      "part": "X · Industrial engineering",
+      "title": "Multi-tenancy, isolation and security",
+      "status": "planned-not-drafted",
+      "requires": [
+        "EVOD-32",
+        "EVOD-36",
+        "EVOD-39",
+        "EVOD-44"
+      ],
+      "book1Requires": [],
+      "topics": [
+        "ownership",
+        "quotas",
+        "untrusted inputs",
+        "tool authority",
+        "state leakage",
+        "threat model"
+      ],
+      "math": "Specify trust boundaries, tenant isolation and resource exhaustion limits.",
+      "exercise": "Test adversarial cancellation/reuse and unauthorized cross-tenant state access.",
+      "visual": "Trust boundaries and ownership map",
+      "frames": [
+        "untrusted request",
+        "authorization",
+        "isolated execution",
+        "controlled result"
+      ],
+      "evidenceGate": "Read primary sources and declare assumptions before drafting; no results or final figures produced in this milestone."
+    },
+    {
+      "id": "EVOD-46",
+      "number": 46,
+      "part": "X · Industrial engineering",
+      "title": "Distributed serving and state placement",
+      "status": "planned-not-drafted",
+      "requires": [
+        "EVOD-28",
+        "EVOD-34",
+        "EVOD-38",
+        "EVOD-39",
+        "EVOD-44",
+        "EVOD-45"
+      ],
+      "book1Requires": [],
+      "topics": [
+        "replication",
+        "partitioning",
+        "tensor/pipeline parallelism",
+        "sharding",
+        "migration"
+      ],
+      "math": "Derive communication and placement costs for recurrent state versus growing KV.",
+      "exercise": "Compare declared multi-device layouts and failure scenarios without fabricated speedups.",
+      "visual": "UML deployment and communication timeline",
+      "frames": [
+        "route",
+        "place state",
+        "execute shards",
+        "aggregate",
+        "recover"
+      ],
+      "evidenceGate": "Read primary sources and declare assumptions before drafting; no results or final figures produced in this milestone."
+    },
+    {
+      "id": "EVOD-47",
+      "number": 47,
+      "part": "X · Industrial engineering",
+      "title": "Profiling, performance and hardware backends",
+      "status": "planned-not-drafted",
+      "requires": [
+        "EVOD-29",
+        "EVOD-34",
+        "EVOD-38",
+        "EVOD-44",
+        "EVOD-46"
+      ],
+      "book1Requires": [],
+      "topics": [
+        "TTFT",
+        "ITL",
+        "throughput",
+        "memory",
+        "power",
+        "utilization",
+        "roofline intuition"
+      ],
+      "math": "Separate measured data from analytical bounds; state synchronization and hardware assumptions.",
+      "exercise": "Produce reproducible profiles and latency distributions; report power only when measured.",
+      "visual": "Memory traffic, roofline and measured curves",
+      "frames": [
+        "workload",
+        "profile",
+        "bottleneck",
+        "optimized backend",
+        "parity check"
+      ],
+      "evidenceGate": "Read primary sources and declare assumptions before drafting; no results or final figures produced in this milestone."
+    },
+    {
+      "id": "EVOD-48",
+      "number": 48,
+      "part": "XI · Applications and capability research",
+      "title": "Genomic sequence applications",
+      "status": "planned-not-drafted",
+      "requires": [
+        "EVOD-24",
+        "EVOD-29",
+        "EVOD-40",
+        "EVOD-44",
+        "EVOD-47"
+      ],
+      "book1Requires": [
+        "DNAD-25",
+        "DNAD-26",
+        "DNAD-30",
+        "DNAD-31"
+      ],
+      "topics": [
+        "regulatory sequence analysis",
+        "motifs",
+        "long context",
+        "strand symmetry",
+        "uncertainty"
+      ],
+      "math": "Define task-specific labels and leakage-resistant biological splits; no clinical inference from toy success.",
+      "exercise": "Evaluate a controlled genomic task with causal/symmetry checks and strong baselines.",
+      "visual": "Genomic task, split and evidence map",
+      "frames": [
+        "sequence dataset",
+        "controlled prediction",
+        "biological interpretation limits"
+      ],
+      "evidenceGate": "Read primary sources and declare assumptions before drafting; no results or final figures produced in this milestone."
+    },
+    {
+      "id": "EVOD-49",
+      "number": 49,
+      "part": "XI · Applications and capability research",
+      "title": "Streaming, language, code and persistent agents",
+      "status": "planned-not-drafted",
+      "requires": [
+        "EVOD-29",
+        "EVOD-33",
+        "EVOD-40",
+        "EVOD-45",
+        "EVOD-47"
+      ],
+      "book1Requires": [],
+      "topics": [
+        "statistics",
+        "retrieval",
+        "copying",
+        "code",
+        "tools",
+        "persistent state",
+        "planning"
+      ],
+      "math": "Define retention and exact-retrieval demands separately and account for external tools/memory.",
+      "exercise": "Compare family capabilities across algorithmic, language and agent tasks at declared budgets.",
+      "visual": "Memory-demand and request timeline",
+      "frames": [
+        "stream",
+        "state or cache",
+        "task query",
+        "evaluated outcome"
+      ],
+      "evidenceGate": "Read primary sources and declare assumptions before drafting; no results or final figures produced in this milestone."
+    },
+    {
+      "id": "EVOD-50",
+      "number": 50,
+      "part": "XI · Applications and capability research",
+      "title": "Continual learning and population adaptation",
+      "status": "planned-not-drafted",
+      "requires": [
+        "EVOD-13",
+        "EVOD-29",
+        "EVOD-40",
+        "EVOD-43",
+        "EVOD-49"
+      ],
+      "book1Requires": [],
+      "topics": [
+        "transfer",
+        "forgetting",
+        "structural search",
+        "populations",
+        "open-ended learning"
+      ],
+      "math": "Specify retention/adaptation objectives and distinguish in-context state from learned changes.",
+      "exercise": "Run controlled sequential-task and population comparisons with rollback and lineage.",
+      "visual": "Task sequence and population lineage",
+      "frames": [
+        "old tasks",
+        "new task",
+        "adaptation",
+        "retention check"
+      ],
+      "evidenceGate": "Read primary sources and declare assumptions before drafting; no results or final figures produced in this milestone."
+    },
+    {
+      "id": "EVOD-51",
+      "number": 51,
+      "part": "XI · Applications and capability research",
+      "title": "AGI capability hypotheses and limits",
+      "status": "planned-not-drafted",
+      "requires": [
+        "EVOD-29",
+        "EVOD-43",
+        "EVOD-48",
+        "EVOD-49",
+        "EVOD-50"
+      ],
+      "book1Requires": [],
+      "topics": [
+        "reasoning",
+        "planning",
+        "world models",
+        "transfer",
+        "tools",
+        "self-modification",
+        "generalization"
+      ],
+      "math": "Operationalize capability axes without treating architectural resemblance as AGI evidence.",
+      "exercise": "Design held-out capability tests and document what would falsify a broad claim.",
+      "visual": "Capability/evidence matrix",
+      "frames": [
+        "mechanism",
+        "task evidence",
+        "transfer test",
+        "bounded claim"
+      ],
+      "evidenceGate": "Read primary sources and declare assumptions before drafting; no results or final figures produced in this milestone."
+    },
+    {
+      "id": "EVOD-52",
+      "number": 52,
+      "part": "XII · Research synthesis",
+      "title": "Failures, open problems and reproducible synthesis",
+      "status": "planned-not-drafted",
+      "requires": [
+        "EVOD-29",
+        "EVOD-43",
+        "EVOD-47",
+        "EVOD-48",
+        "EVOD-49",
+        "EVOD-50",
+        "EVOD-51"
+      ],
+      "book1Requires": [],
+      "topics": [
+        "failed mechanisms",
+        "causality leaks",
+        "capacity confounds",
+        "negative results",
+        "historical lineage"
+      ],
+      "math": "Separate established mechanisms, implemented results, conjectures and rejected proposals.",
+      "exercise": "Deliver a reproducible argument with baseline, ablation, uncertainty, artifact lineage and unsolved questions.",
+      "visual": "Claim-to-evidence and failure map",
+      "frames": [
+        "proposal",
+        "experiment",
+        "failure or support",
+        "revised theory"
+      ],
+      "evidenceGate": "Read primary sources and declare assumptions before drafting; no results or final figures produced in this milestone."
+    }
+  ],
+  "previousChapterAudit": [
+    {
+      "id": "EVOU-01",
+      "title": "Programs, genomes and the question of Evolutor",
+      "previousStatus": "internally-reviewed-draft",
+      "action": "ARCHIVE",
+      "destinations": [
+        "EVOD-01"
+      ],
+      "reason": "Preserve the complete beginner prototype; replace its intellectual entrance with a fresh technical Chapter 1. No prose is moved automatically."
+    },
+    {
+      "id": "EVOU-02",
+      "title": "Programs that choose and remember",
+      "previousStatus": "planned-not-drafted",
+      "action": "MERGE",
+      "destinations": [
+        "EVOD-10"
+      ],
+      "reason": "Retain the substantive topic in the named technical treatment; remove elementary rehearsal and re-audit claims, prerequisites and examples before drafting."
+    },
+    {
+      "id": "EVOU-03",
+      "title": "Machine learning with one tiny model",
+      "previousStatus": "planned-not-drafted",
+      "action": "MERGE",
+      "destinations": [
+        "EVOD-02",
+        "EVOD-03"
+      ],
+      "reason": "Retain the substantive topic in the named technical treatment; remove elementary rehearsal and re-audit claims, prerequisites and examples before drafting."
+    },
+    {
+      "id": "EVOU-04",
+      "title": "Data, uncertainty and fair evaluation",
+      "previousStatus": "planned-not-drafted",
+      "action": "MERGE",
+      "destinations": [
+        "EVOD-02",
+        "EVOD-29"
+      ],
+      "reason": "Retain the substantive topic in the named technical treatment; remove elementary rehearsal and re-audit claims, prerequisites and examples before drafting."
+    },
+    {
+      "id": "EVOU-05",
+      "title": "Vectors, matrices and tensors as data containers",
+      "previousStatus": "planned-not-drafted",
+      "action": "MERGE",
+      "destinations": [
+        "EVOD-03",
+        "EVOD-05"
+      ],
+      "reason": "Retain the substantive topic in the named technical treatment; remove elementary rehearsal and re-audit claims, prerequisites and examples before drafting."
+    },
+    {
+      "id": "EVOU-06",
+      "title": "Slopes, gradients and improving a prediction",
+      "previousStatus": "planned-not-drafted",
+      "action": "MERGE",
+      "destinations": [
+        "EVOD-03"
+      ],
+      "reason": "Retain the substantive topic in the named technical treatment; remove elementary rehearsal and re-audit claims, prerequisites and examples before drafting."
+    },
+    {
+      "id": "EVOU-07",
+      "title": "Neural networks built one layer at a time",
+      "previousStatus": "planned-not-drafted",
+      "action": "MERGE",
+      "destinations": [
+        "EVOD-03",
+        "EVOD-09"
+      ],
+      "reason": "Retain the substantive topic in the named technical treatment; remove elementary rehearsal and re-audit claims, prerequisites and examples before drafting."
+    },
+    {
+      "id": "EVOU-08",
+      "title": "A complete small training loop in PyTorch",
+      "previousStatus": "planned-not-drafted",
+      "action": "MERGE",
+      "destinations": [
+        "EVOD-04"
+      ],
+      "reason": "Retain the substantive topic in the named technical treatment; remove elementary rehearsal and re-audit claims, prerequisites and examples before drafting."
+    },
+    {
+      "id": "EVOU-09",
+      "title": "Tokens, embeddings and predicting the next symbol",
+      "previousStatus": "planned-not-drafted",
+      "action": "MERGE",
+      "destinations": [
+        "EVOD-05"
+      ],
+      "reason": "Retain the substantive topic in the named technical treatment; remove elementary rehearsal and re-audit claims, prerequisites and examples before drafting."
+    },
+    {
+      "id": "EVOU-10",
+      "title": "Recurrence: remembering one step at a time",
+      "previousStatus": "planned-not-drafted",
+      "action": "MERGE",
+      "destinations": [
+        "EVOD-06"
+      ],
+      "reason": "Retain the substantive topic in the named technical treatment; remove elementary rehearsal and re-audit claims, prerequisites and examples before drafting."
+    },
+    {
+      "id": "EVOU-11",
+      "title": "Gates and state-space models",
+      "previousStatus": "planned-not-drafted",
+      "action": "MERGE",
+      "destinations": [
+        "EVOD-06",
+        "EVOD-07"
+      ],
+      "reason": "Retain the substantive topic in the named technical treatment; remove elementary rehearsal and re-audit claims, prerequisites and examples before drafting."
+    },
+    {
+      "id": "EVOU-41",
+      "title": "Strong recurrent baselines and valid scans",
+      "previousStatus": "planned-not-drafted",
+      "action": "MERGE",
+      "destinations": [
+        "EVOD-07"
+      ],
+      "reason": "Retain the substantive topic in the named technical treatment; remove elementary rehearsal and re-audit claims, prerequisites and examples before drafting."
+    },
+    {
+      "id": "EVOU-12",
+      "title": "Attention as a weighted lookup",
+      "previousStatus": "planned-not-drafted",
+      "action": "MERGE",
+      "destinations": [
+        "EVOD-08"
+      ],
+      "reason": "Retain the substantive topic in the named technical treatment; remove elementary rehearsal and re-audit claims, prerequisites and examples before drafting."
+    },
+    {
+      "id": "EVOU-13",
+      "title": "From one attention head to a Transformer",
+      "previousStatus": "planned-not-drafted",
+      "action": "MERGE",
+      "destinations": [
+        "EVOD-09"
+      ],
+      "reason": "Retain the substantive topic in the named technical treatment; remove elementary rehearsal and re-audit claims, prerequisites and examples before drafting."
+    },
+    {
+      "id": "EVOU-14",
+      "title": "Caches, retrieval and external memory",
+      "previousStatus": "planned-not-drafted",
+      "action": "MERGE",
+      "destinations": [
+        "EVOD-09",
+        "EVOD-10",
+        "EVOD-40"
+      ],
+      "reason": "Retain the substantive topic in the named technical treatment; remove elementary rehearsal and re-audit claims, prerequisites and examples before drafting."
+    },
+    {
+      "id": "EVOU-15",
+      "title": "If/else, dispatch, plugins and dynamic routing",
+      "previousStatus": "planned-not-drafted",
+      "action": "MERGE",
+      "destinations": [
+        "EVOD-10"
+      ],
+      "reason": "Retain the substantive topic in the named technical treatment; remove elementary rehearsal and re-audit claims, prerequisites and examples before drafting."
+    },
+    {
+      "id": "EVOU-16",
+      "title": "Mixture of experts and learned routing",
+      "previousStatus": "planned-not-drafted",
+      "action": "MERGE",
+      "destinations": [
+        "EVOD-10"
+      ],
+      "reason": "Retain the substantive topic in the named technical treatment; remove elementary rehearsal and re-audit claims, prerequisites and examples before drafting."
+    },
+    {
+      "id": "EVOU-17",
+      "title": "Source code, compilers, runtimes and interfaces",
+      "previousStatus": "planned-not-drafted",
+      "action": "MERGE",
+      "destinations": [
+        "EVOD-14",
+        "EVOD-30",
+        "EVOD-41"
+      ],
+      "reason": "Retain the substantive topic in the named technical treatment; remove elementary rehearsal and re-audit claims, prerequisites and examples before drafting."
+    },
+    {
+      "id": "EVOU-18",
+      "title": "Services, databases, protocols and scheduling",
+      "previousStatus": "planned-not-drafted",
+      "action": "MERGE",
+      "destinations": [
+        "EVOD-30",
+        "EVOD-42",
+        "EVOD-44"
+      ],
+      "reason": "Retain the substantive topic in the named technical treatment; remove elementary rehearsal and re-audit claims, prerequisites and examples before drafting."
+    },
+    {
+      "id": "EVOU-19",
+      "title": "Baselines, oracles and resource-matched experiments",
+      "previousStatus": "planned-not-drafted",
+      "action": "MERGE",
+      "destinations": [
+        "EVOD-29"
+      ],
+      "reason": "Retain the substantive topic in the named technical treatment; remove elementary rehearsal and re-audit claims, prerequisites and examples before drafting."
+    },
+    {
+      "id": "EVOU-20",
+      "title": "Regulation, expression and different timescales",
+      "previousStatus": "planned-not-drafted",
+      "action": "MERGE",
+      "destinations": [
+        "EVOD-11",
+        "EVOD-13"
+      ],
+      "reason": "Retain the substantive topic in the named technical treatment; remove elementary rehearsal and re-audit claims, prerequisites and examples before drafting."
+    },
+    {
+      "id": "EVOU-21",
+      "title": "Analogies that can fail",
+      "previousStatus": "planned-not-drafted",
+      "action": "MERGE",
+      "destinations": [
+        "EVOD-11",
+        "EVOD-14"
+      ],
+      "reason": "Retain the substantive topic in the named technical treatment; remove elementary rehearsal and re-audit claims, prerequisites and examples before drafting."
+    },
+    {
+      "id": "EVOU-22",
+      "title": "Learning parameters and changing structure",
+      "previousStatus": "planned-not-drafted",
+      "action": "MERGE",
+      "destinations": [
+        "EVOD-13"
+      ],
+      "reason": "Retain the substantive topic in the named technical treatment; remove elementary rehearsal and re-audit claims, prerequisites and examples before drafting."
+    },
+    {
+      "id": "EVOU-23",
+      "title": "Development as building a representation",
+      "previousStatus": "planned-not-drafted",
+      "action": "MERGE",
+      "destinations": [
+        "EVOD-12"
+      ],
+      "reason": "Retain the substantive topic in the named technical treatment; remove elementary rehearsal and re-audit claims, prerequisites and examples before drafting."
+    },
+    {
+      "id": "EVOU-24",
+      "title": "A minimal genomic-computation hypothesis",
+      "previousStatus": "planned-not-drafted",
+      "action": "MERGE",
+      "destinations": [
+        "EVOD-14",
+        "EVOD-15"
+      ],
+      "reason": "Retain the substantive topic in the named technical treatment; remove elementary rehearsal and re-audit claims, prerequisites and examples before drafting."
+    },
+    {
+      "id": "EVOU-25",
+      "title": "Classes, interfaces and a UML model",
+      "previousStatus": "planned-not-drafted",
+      "action": "MERGE",
+      "destinations": [
+        "EVOD-14",
+        "EVOD-30",
+        "EVOD-39"
+      ],
+      "reason": "Retain the substantive topic in the named technical treatment; remove elementary rehearsal and re-audit claims, prerequisites and examples before drafting."
+    },
+    {
+      "id": "EVOU-26",
+      "title": "From a request to an expression trace",
+      "previousStatus": "planned-not-drafted",
+      "action": "MERGE",
+      "destinations": [
+        "EVOD-15",
+        "EVOD-30"
+      ],
+      "reason": "Retain the substantive topic in the named technical treatment; remove elementary rehearsal and re-audit claims, prerequisites and examples before drafting."
+    },
+    {
+      "id": "EVOU-27",
+      "title": "Traces, credit and explanations",
+      "previousStatus": "planned-not-drafted",
+      "action": "MERGE",
+      "destinations": [
+        "EVOD-17"
+      ],
+      "reason": "Retain the substantive topic in the named technical treatment; remove elementary rehearsal and re-audit claims, prerequisites and examples before drafting."
+    },
+    {
+      "id": "EVOU-28",
+      "title": "Structural proposals and their lifecycle",
+      "previousStatus": "planned-not-drafted",
+      "action": "MERGE",
+      "destinations": [
+        "EVOD-43"
+      ],
+      "reason": "Retain the substantive topic in the named technical treatment; remove elementary rehearsal and re-audit claims, prerequisites and examples before drafting."
+    },
+    {
+      "id": "EVOU-42",
+      "title": "DOGMA: candidate primitives and state semantics",
+      "previousStatus": "planned-not-drafted",
+      "action": "MERGE",
+      "destinations": [
+        "EVOD-18"
+      ],
+      "reason": "Retain the substantive topic in the named technical treatment; remove elementary rehearsal and re-audit claims, prerequisites and examples before drafting."
+    },
+    {
+      "id": "EVOU-43",
+      "title": "DOGMA regulation and expressed transformations",
+      "previousStatus": "planned-not-drafted",
+      "action": "MERGE",
+      "destinations": [
+        "EVOD-19"
+      ],
+      "reason": "Retain the substantive topic in the named technical treatment; remove elementary rehearsal and re-audit claims, prerequisites and examples before drafting."
+    },
+    {
+      "id": "EVOU-44",
+      "title": "DOGMA modular state, locality and structural memory",
+      "previousStatus": "planned-not-drafted",
+      "action": "MERGE",
+      "destinations": [
+        "EVOD-20"
+      ],
+      "reason": "Retain the substantive topic in the named technical treatment; remove elementary rehearsal and re-audit claims, prerequisites and examples before drafting."
+    },
+    {
+      "id": "EVOU-45",
+      "title": "DOGMA strands, complements and dual-state proposals",
+      "previousStatus": "planned-not-drafted",
+      "action": "MERGE",
+      "destinations": [
+        "EVOD-21"
+      ],
+      "reason": "Retain the substantive topic in the named technical treatment; remove elementary rehearsal and re-audit claims, prerequisites and examples before drafting."
+    },
+    {
+      "id": "EVOU-46",
+      "title": "DOGMA traces and structural adaptation",
+      "previousStatus": "planned-not-drafted",
+      "action": "MERGE",
+      "destinations": [
+        "EVOD-17",
+        "EVOD-22",
+        "EVOD-43"
+      ],
+      "reason": "Retain the substantive topic in the named technical treatment; remove elementary rehearsal and re-audit claims, prerequisites and examples before drafting."
+    },
+    {
+      "id": "EVOU-47",
+      "title": "Hermon DNA: a Transformer sequence model",
+      "previousStatus": "planned-not-drafted",
+      "action": "MERGE",
+      "destinations": [
+        "EVOD-23"
+      ],
+      "reason": "Retain the substantive topic in the named technical treatment; remove elementary rehearsal and re-audit claims, prerequisites and examples before drafting."
+    },
+    {
+      "id": "EVOU-48",
+      "title": "Hermon DNA: DNA-aware Transformer hypotheses",
+      "previousStatus": "planned-not-drafted",
+      "action": "MERGE",
+      "destinations": [
+        "EVOD-24"
+      ],
+      "reason": "Retain the substantive topic in the named technical treatment; remove elementary rehearsal and re-audit claims, prerequisites and examples before drafting."
+    },
+    {
+      "id": "EVOU-29",
+      "title": "Training a candidate Evolutor model",
+      "previousStatus": "planned-not-drafted",
+      "action": "MERGE",
+      "destinations": [
+        "EVOD-25",
+        "EVOD-27"
+      ],
+      "reason": "Retain the substantive topic in the named technical treatment; remove elementary rehearsal and re-audit claims, prerequisites and examples before drafting."
+    },
+    {
+      "id": "EVOU-49",
+      "title": "Shared PyTorch experiments without false equivalence",
+      "previousStatus": "planned-not-drafted",
+      "action": "MERGE",
+      "destinations": [
+        "EVOD-25"
+      ],
+      "reason": "Retain the substantive topic in the named technical treatment; remove elementary rehearsal and re-audit claims, prerequisites and examples before drafting."
+    },
+    {
+      "id": "EVOU-50",
+      "title": "DOGMA training: sequential, chunked and scan forms",
+      "previousStatus": "planned-not-drafted",
+      "action": "MERGE",
+      "destinations": [
+        "EVOD-26"
+      ],
+      "reason": "Retain the substantive topic in the named technical treatment; remove elementary rehearsal and re-audit claims, prerequisites and examples before drafting."
+    },
+    {
+      "id": "EVOU-30",
+      "title": "An inference runtime with clear boundaries",
+      "previousStatus": "planned-not-drafted",
+      "action": "MERGE",
+      "destinations": [
+        "EVOD-30"
+      ],
+      "reason": "Retain the substantive topic in the named technical treatment; remove elementary rehearsal and re-audit claims, prerequisites and examples before drafting."
+    },
+    {
+      "id": "EVOU-31",
+      "title": "Model identity, formats and checkpoints",
+      "previousStatus": "planned-not-drafted",
+      "action": "MERGE",
+      "destinations": [
+        "EVOD-28",
+        "EVOD-44"
+      ],
+      "reason": "Retain the substantive topic in the named technical treatment; remove elementary rehearsal and re-audit claims, prerequisites and examples before drafting."
+    },
+    {
+      "id": "EVOU-32",
+      "title": "Managing recurrent state, KV and external memory",
+      "previousStatus": "planned-not-drafted",
+      "action": "MERGE",
+      "destinations": [
+        "EVOD-32",
+        "EVOD-36",
+        "EVOD-40"
+      ],
+      "reason": "Retain the substantive topic in the named technical treatment; remove elementary rehearsal and re-audit claims, prerequisites and examples before drafting."
+    },
+    {
+      "id": "EVOU-51",
+      "title": "DOGMA Engine: state construction and native steps",
+      "previousStatus": "planned-not-drafted",
+      "action": "MERGE",
+      "destinations": [
+        "EVOD-31"
+      ],
+      "reason": "Retain the substantive topic in the named technical treatment; remove elementary rehearsal and re-audit claims, prerequisites and examples before drafting."
+    },
+    {
+      "id": "EVOU-52",
+      "title": "DOGMA Engine: isolated state pools",
+      "previousStatus": "planned-not-drafted",
+      "action": "MERGE",
+      "destinations": [
+        "EVOD-32"
+      ],
+      "reason": "Retain the substantive topic in the named technical treatment; remove elementary rehearsal and re-audit claims, prerequisites and examples before drafting."
+    },
+    {
+      "id": "EVOU-53",
+      "title": "DOGMA Engine: checkpoint, restore and prefix state",
+      "previousStatus": "planned-not-drafted",
+      "action": "MERGE",
+      "destinations": [
+        "EVOD-33"
+      ],
+      "reason": "Retain the substantive topic in the named technical treatment; remove elementary rehearsal and re-audit claims, prerequisites and examples before drafting."
+    },
+    {
+      "id": "EVOU-54",
+      "title": "DOGMA Engine: scheduling state transitions",
+      "previousStatus": "planned-not-drafted",
+      "action": "MERGE",
+      "destinations": [
+        "EVOD-34"
+      ],
+      "reason": "Retain the substantive topic in the named technical treatment; remove elementary rehearsal and re-audit claims, prerequisites and examples before drafting."
+    },
+    {
+      "id": "EVOU-55",
+      "title": "Hermon DNA Engine: prefill and attention decode",
+      "previousStatus": "planned-not-drafted",
+      "action": "MERGE",
+      "destinations": [
+        "EVOD-35"
+      ],
+      "reason": "Retain the substantive topic in the named technical treatment; remove elementary rehearsal and re-audit claims, prerequisites and examples before drafting."
+    },
+    {
+      "id": "EVOU-56",
+      "title": "Hermon DNA Engine: paged KV and prefix sharing",
+      "previousStatus": "planned-not-drafted",
+      "action": "MERGE",
+      "destinations": [
+        "EVOD-36"
+      ],
+      "reason": "Retain the substantive topic in the named technical treatment; remove elementary rehearsal and re-audit claims, prerequisites and examples before drafting."
+    },
+    {
+      "id": "EVOU-57",
+      "title": "Hermon DNA Engine: continuous batching and precision",
+      "previousStatus": "planned-not-drafted",
+      "action": "MERGE",
+      "destinations": [
+        "EVOD-37",
+        "EVOD-38"
+      ],
+      "reason": "Retain the substantive topic in the named technical treatment; remove elementary rehearsal and re-audit claims, prerequisites and examples before drafting."
+    },
+    {
+      "id": "EVOU-58",
+      "title": "Evolutor runtime above two distinct engines",
+      "previousStatus": "planned-not-drafted",
+      "action": "MERGE",
+      "destinations": [
+        "EVOD-39"
+      ],
+      "reason": "Retain the substantive topic in the named technical treatment; remove elementary rehearsal and re-audit claims, prerequisites and examples before drafting."
+    },
+    {
+      "id": "EVOU-59",
+      "title": "Hybrid memory as a testable Evolutor proposal",
+      "previousStatus": "planned-not-drafted",
+      "action": "MERGE",
+      "destinations": [
+        "EVOD-40"
+      ],
+      "reason": "Retain the substantive topic in the named technical treatment; remove elementary rehearsal and re-audit claims, prerequisites and examples before drafting."
+    },
+    {
+      "id": "EVOU-33",
+      "title": "Batching, queues and latency",
+      "previousStatus": "planned-not-drafted",
+      "action": "MERGE",
+      "destinations": [
+        "EVOD-34",
+        "EVOD-37"
+      ],
+      "reason": "Retain the substantive topic in the named technical treatment; remove elementary rehearsal and re-audit claims, prerequisites and examples before drafting."
+    },
+    {
+      "id": "EVOU-34",
+      "title": "Parity, profiling and optimization",
+      "previousStatus": "planned-not-drafted",
+      "action": "MERGE",
+      "destinations": [
+        "EVOD-26",
+        "EVOD-47"
+      ],
+      "reason": "Retain the substantive topic in the named technical treatment; remove elementary rehearsal and re-audit claims, prerequisites and examples before drafting."
+    },
+    {
+      "id": "EVOU-60",
+      "title": "Measured bottlenecks, native kernels and model formats",
+      "previousStatus": "planned-not-drafted",
+      "action": "MERGE",
+      "destinations": [
+        "EVOD-34",
+        "EVOD-38",
+        "EVOD-47"
+      ],
+      "reason": "Retain the substantive topic in the named technical treatment; remove elementary rehearsal and re-audit claims, prerequisites and examples before drafting."
+    },
+    {
+      "id": "EVOU-35",
+      "title": "Serving, observability and safe rollback",
+      "previousStatus": "planned-not-drafted",
+      "action": "MERGE",
+      "destinations": [
+        "EVOD-44",
+        "EVOD-45",
+        "EVOD-46"
+      ],
+      "reason": "Retain the substantive topic in the named technical treatment; remove elementary rehearsal and re-audit claims, prerequisites and examples before drafting."
+    },
+    {
+      "id": "EVOU-36",
+      "title": "Failed ideas as a source of knowledge",
+      "previousStatus": "planned-not-drafted",
+      "action": "MERGE",
+      "destinations": [
+        "EVOD-52"
+      ],
+      "reason": "Retain the substantive topic in the named technical treatment; remove elementary rehearsal and re-audit claims, prerequisites and examples before drafting."
+    },
+    {
+      "id": "EVOU-37",
+      "title": "DOGMA and Hermon DNA: taxonomy, lineage and comparative evidence",
+      "previousStatus": "planned-not-drafted",
+      "action": "MERGE",
+      "destinations": [
+        "EVOD-29",
+        "EVOD-52"
+      ],
+      "reason": "Retain the substantive topic in the named technical treatment; remove elementary rehearsal and re-audit claims, prerequisites and examples before drafting."
+    },
+    {
+      "id": "EVOU-61",
+      "title": "Applications that stress different kinds of memory",
+      "previousStatus": "planned-not-drafted",
+      "action": "MERGE",
+      "destinations": [
+        "EVOD-48",
+        "EVOD-49"
+      ],
+      "reason": "Retain the substantive topic in the named technical treatment; remove elementary rehearsal and re-audit claims, prerequisites and examples before drafting."
+    },
+    {
+      "id": "EVOU-38",
+      "title": "Transfer, continual learning and populations",
+      "previousStatus": "planned-not-drafted",
+      "action": "MERGE",
+      "destinations": [
+        "EVOD-50"
+      ],
+      "reason": "Retain the substantive topic in the named technical treatment; remove elementary rehearsal and re-audit claims, prerequisites and examples before drafting."
+    },
+    {
+      "id": "EVOU-39",
+      "title": "AGI claims and an operational scorecard",
+      "previousStatus": "planned-not-drafted",
+      "action": "MERGE",
+      "destinations": [
+        "EVOD-51"
+      ],
+      "reason": "Retain the substantive topic in the named technical treatment; remove elementary rehearsal and re-audit claims, prerequisites and examples before drafting."
+    },
+    {
+      "id": "EVOU-40",
+      "title": "Capstone: failures, limits and a reproducible research argument",
+      "previousStatus": "planned-not-drafted",
+      "action": "MERGE",
+      "destinations": [
+        "EVOD-52"
+      ],
+      "reason": "Retain the substantive topic in the named technical treatment; remove elementary rehearsal and re-audit claims, prerequisites and examples before drafting."
+    }
+  ]
+}

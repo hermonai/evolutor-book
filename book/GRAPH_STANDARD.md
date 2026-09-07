@@ -1,5 +1,7 @@
 # Shared graph and illustration standard
 
+Active deep edition: use the deep-prefixed inventories under pedagogy/ and CHAPTER_1_OUTLINE.md. Legacy renderer and Chapter 1/2 details below describe preserved implementations, not constraints forcing new figures into old layouts. Abstraction is allowed; declare its relationship to the molecular, mathematical or software mechanism. No deep artwork is produced by the planning milestone.
+
 Canonical top-level diagrams are UTF-8 .txt records with stable IDs, named nodes, typed Unicode arrows, evidence boundary, reading notes and failure path. They are not decorative ASCII box art. DATA → means transformation/dependency, not empirical proof. CONTROL ⇢ means a gate or review. HYPOTHESIS uses a dashed edge and must be explicitly labeled; it never inherits certainty from line style.
 
 The renderer in scripts/render_graphs.py produces SVG from these records. Generated SVGs are committed for browser viewing, with title/description and text labels; canonical text remains the accessible semantic alternative. Validate node IDs and edge endpoints before rendering. Top-level maps use two lanes, prerequisite arrows, cross-lane checks and feedback where appropriate. A diagram need not force feedback onto an acyclic process.

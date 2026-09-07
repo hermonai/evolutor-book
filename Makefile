@@ -1,7 +1,7 @@
 PYTHON ?= python3
 MAIN := undergraduate-evolutor
 
-.PHONY: graphs artifacts test pdf check-pdf manuscript-gate pedagogy
+.PHONY: graphs artifacts test pdf historical-pdf check-pdf manuscript-gate pedagogy
 
 pedagogy:
 	$(PYTHON) scripts/build_pedagogy.py --check
@@ -20,12 +20,14 @@ test:
 	$(PYTHON) -m pytest
 
 pdf: manuscript-gate
-	$(PYTHON) scripts/audit_undergraduate.py
-	$(PYTHON) scripts/build_undergraduate.py
+
+# Reproduce the preserved edition explicitly; never overwrite its committed PDF.
+historical-pdf:
+	$(PYTHON) scripts/audit_undergraduate.py --check
+	$(PYTHON) scripts/build_undergraduate.py --check
 	mkdir -p build/figures output/pdf
 	for figure in book/figures/undergraduate/*.svg; do rsvg-convert --format=pdf --output="build/figures/$$(basename "$$figure" .svg).pdf" "$$figure" || exit; done
 	cd tex && latexmk -xelatex -interaction=nonstopmode -halt-on-error -outdir=../build $(MAIN).tex
-	cp build/$(MAIN).pdf output/pdf/$(MAIN).pdf
 
 check-pdf: manuscript-gate
 	$(PYTHON) scripts/check_latex_log.py build/$(MAIN).log

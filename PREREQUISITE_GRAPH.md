@@ -1,324 +1,429 @@
-# Evolutor: undergraduate-first architecture
+# Evolutor: deep technical edition
 
-Status: Chapter 1 internally reviewed development draft; all later units remain planned. No learner study, independent expert certification or new research-model experiment is claimed. Generated from [pedagogy/curriculum.json](pedagogy/curriculum.json). See [Chapter 1 storyboard](research/undergraduate-ch01-storyboard.md) for the six produced figures.
+Status: architecture and detailed outlines only; no new manuscript, final figures, animation frames, models, engines or experiments are delivered. Canonical source: [deep curriculum](pedagogy/deep-curriculum.json). Prior editions remain historical references, not the active teaching level.
 
-Target taxonomy: **DOGMA = non-Transformer DNA-native architecture + DOGMA Engine; Hermon DNA = Transformer-based DNA architecture + Hermon DNA Engine; Evolutor = research/theory/runtime above both.** These are research targets, not implementation evidence. See [taxonomy and lineage](research/architecture-taxonomy.md). Stable EVOU IDs differ from printed numbers after EVOU-11.
+DOGMA = non-Transformer DNA-native model + DOGMA Engine; Hermon DNA = Transformer-based DNA model + Hermon DNA Engine; Evolutor = broader genomic computation theory, research and eventual runtime above both.
 
-## Canonical Unicode TXT dependency graph
+## Semantic TXT prerequisite graph
 
-Read A → B as: teach A before requiring it in B. Multiple incoming arrows mean all listed prerequisites. ENTRY means only the declared entry assumptions. Book I IDs are explicitly prefixed DNAU; they describe planned teaching, not competence already delivered by the old draft.
+A → B means that A supplies knowledge required by B; all incoming edges are required. It is not a molecular causal arrow. ENTRY is the explicit technical entry contract. Chapter 1 roadmaps preview later material without requiring it. DNAD imports are one-way from Book I; no reverse dependencies exist.
 
-```text
-DNAU-03 → EVOU-01 : prerequisite for Programs, genomes and the question of Evolutor
-DNAU-09 → EVOU-01 : prerequisite for Programs, genomes and the question of Evolutor
-DNAU-32 → EVOU-01 : prerequisite for Programs, genomes and the question of Evolutor
-EVOU-01 → EVOU-02 : prerequisite for Programs that choose and remember
-DNAU-03 → EVOU-02 : prerequisite for Programs that choose and remember
-DNAU-04 → EVOU-02 : prerequisite for Programs that choose and remember
-EVOU-02 → EVOU-03 : prerequisite for Machine learning with one tiny model
-DNAU-03 → EVOU-03 : prerequisite for Machine learning with one tiny model
-DNAU-34 → EVOU-03 : prerequisite for Machine learning with one tiny model
-EVOU-03 → EVOU-04 : prerequisite for Data, uncertainty and fair evaluation
-DNAU-12 → EVOU-04 : prerequisite for Data, uncertainty and fair evaluation
-EVOU-03 → EVOU-05 : prerequisite for Vectors, matrices and tensors as data containers
-DNAU-34 → EVOU-05 : prerequisite for Vectors, matrices and tensors as data containers
-EVOU-03 → EVOU-06 : prerequisite for Slopes, gradients and improving a prediction
-EVOU-04 → EVOU-06 : prerequisite for Slopes, gradients and improving a prediction
-EVOU-05 → EVOU-06 : prerequisite for Slopes, gradients and improving a prediction
-DNAU-08 → EVOU-06 : prerequisite for Slopes, gradients and improving a prediction
-DNAU-34 → EVOU-06 : prerequisite for Slopes, gradients and improving a prediction
-EVOU-05 → EVOU-07 : prerequisite for Neural networks built one layer at a time
-EVOU-06 → EVOU-07 : prerequisite for Neural networks built one layer at a time
-DNAU-03 → EVOU-07 : prerequisite for Neural networks built one layer at a time
-DNAU-34 → EVOU-07 : prerequisite for Neural networks built one layer at a time
-EVOU-04 → EVOU-08 : prerequisite for A complete small training loop in PyTorch
-EVOU-06 → EVOU-08 : prerequisite for A complete small training loop in PyTorch
-EVOU-07 → EVOU-08 : prerequisite for A complete small training loop in PyTorch
-DNAU-04 → EVOU-08 : prerequisite for A complete small training loop in PyTorch
-EVOU-05 → EVOU-09 : prerequisite for Tokens, embeddings and predicting the next symbol
-EVOU-07 → EVOU-09 : prerequisite for Tokens, embeddings and predicting the next symbol
-EVOU-08 → EVOU-09 : prerequisite for Tokens, embeddings and predicting the next symbol
-DNAU-02 → EVOU-09 : prerequisite for Tokens, embeddings and predicting the next symbol
-DNAU-12 → EVOU-09 : prerequisite for Tokens, embeddings and predicting the next symbol
-DNAU-33 → EVOU-09 : prerequisite for Tokens, embeddings and predicting the next symbol
-EVOU-02 → EVOU-10 : prerequisite for Recurrence: remembering one step at a time
-EVOU-06 → EVOU-10 : prerequisite for Recurrence: remembering one step at a time
-EVOU-08 → EVOU-10 : prerequisite for Recurrence: remembering one step at a time
-EVOU-09 → EVOU-10 : prerequisite for Recurrence: remembering one step at a time
-DNAU-28 → EVOU-10 : prerequisite for Recurrence: remembering one step at a time
-EVOU-05 → EVOU-11 : prerequisite for Gates and state-space models
-EVOU-10 → EVOU-11 : prerequisite for Gates and state-space models
-DNAU-28 → EVOU-11 : prerequisite for Gates and state-space models
-DNAU-34 → EVOU-11 : prerequisite for Gates and state-space models
-EVOU-10 → EVOU-41 : prerequisite for Strong recurrent baselines and valid scans
-EVOU-11 → EVOU-41 : prerequisite for Strong recurrent baselines and valid scans
-EVOU-05 → EVOU-12 : prerequisite for Attention as a weighted lookup
-EVOU-06 → EVOU-12 : prerequisite for Attention as a weighted lookup
-EVOU-09 → EVOU-12 : prerequisite for Attention as a weighted lookup
-DNAU-12 → EVOU-12 : prerequisite for Attention as a weighted lookup
-DNAU-34 → EVOU-12 : prerequisite for Attention as a weighted lookup
-EVOU-07 → EVOU-13 : prerequisite for From one attention head to a Transformer
-EVOU-08 → EVOU-13 : prerequisite for From one attention head to a Transformer
-EVOU-12 → EVOU-13 : prerequisite for From one attention head to a Transformer
-DNAU-34 → EVOU-13 : prerequisite for From one attention head to a Transformer
-EVOU-10 → EVOU-14 : prerequisite for Caches, retrieval and external memory
-EVOU-13 → EVOU-14 : prerequisite for Caches, retrieval and external memory
-DNAU-33 → EVOU-14 : prerequisite for Caches, retrieval and external memory
-EVOU-02 → EVOU-15 : prerequisite for If/else, dispatch, plugins and dynamic routing
-EVOU-04 → EVOU-15 : prerequisite for If/else, dispatch, plugins and dynamic routing
-DNAU-03 → EVOU-15 : prerequisite for If/else, dispatch, plugins and dynamic routing
-DNAU-04 → EVOU-15 : prerequisite for If/else, dispatch, plugins and dynamic routing
-DNAU-06 → EVOU-15 : prerequisite for If/else, dispatch, plugins and dynamic routing
-EVOU-04 → EVOU-16 : prerequisite for Mixture of experts and learned routing
-EVOU-08 → EVOU-16 : prerequisite for Mixture of experts and learned routing
-EVOU-13 → EVOU-16 : prerequisite for Mixture of experts and learned routing
-EVOU-15 → EVOU-16 : prerequisite for Mixture of experts and learned routing
-DNAU-06 → EVOU-16 : prerequisite for Mixture of experts and learned routing
-DNAU-34 → EVOU-16 : prerequisite for Mixture of experts and learned routing
-EVOU-02 → EVOU-17 : prerequisite for Source code, compilers, runtimes and interfaces
-EVOU-15 → EVOU-17 : prerequisite for Source code, compilers, runtimes and interfaces
-DNAU-04 → EVOU-17 : prerequisite for Source code, compilers, runtimes and interfaces
-DNAU-25 → EVOU-17 : prerequisite for Source code, compilers, runtimes and interfaces
-EVOU-14 → EVOU-18 : prerequisite for Services, databases, protocols and scheduling
-EVOU-17 → EVOU-18 : prerequisite for Services, databases, protocols and scheduling
-DNAU-03 → EVOU-18 : prerequisite for Services, databases, protocols and scheduling
-DNAU-35 → EVOU-18 : prerequisite for Services, databases, protocols and scheduling
-EVOU-04 → EVOU-19 : prerequisite for Baselines, oracles and resource-matched experiments
-EVOU-08 → EVOU-19 : prerequisite for Baselines, oracles and resource-matched experiments
-EVOU-11 → EVOU-19 : prerequisite for Baselines, oracles and resource-matched experiments
-EVOU-13 → EVOU-19 : prerequisite for Baselines, oracles and resource-matched experiments
-EVOU-16 → EVOU-19 : prerequisite for Baselines, oracles and resource-matched experiments
-EVOU-18 → EVOU-19 : prerequisite for Baselines, oracles and resource-matched experiments
-DNAU-06 → EVOU-19 : prerequisite for Baselines, oracles and resource-matched experiments
-DNAU-12 → EVOU-19 : prerequisite for Baselines, oracles and resource-matched experiments
-DNAU-24 → EVOU-19 : prerequisite for Baselines, oracles and resource-matched experiments
-DNAU-36 → EVOU-19 : prerequisite for Baselines, oracles and resource-matched experiments
-EVOU-01 → EVOU-20 : prerequisite for Regulation, expression and different timescales
-EVOU-10 → EVOU-20 : prerequisite for Regulation, expression and different timescales
-EVOU-19 → EVOU-20 : prerequisite for Regulation, expression and different timescales
-DNAU-13 → EVOU-20 : prerequisite for Regulation, expression and different timescales
-DNAU-32 → EVOU-20 : prerequisite for Regulation, expression and different timescales
-EVOU-15 → EVOU-21 : prerequisite for Analogies that can fail
-EVOU-16 → EVOU-21 : prerequisite for Analogies that can fail
-EVOU-18 → EVOU-21 : prerequisite for Analogies that can fail
-EVOU-19 → EVOU-21 : prerequisite for Analogies that can fail
-EVOU-20 → EVOU-21 : prerequisite for Analogies that can fail
-DNAU-32 → EVOU-21 : prerequisite for Analogies that can fail
-DNAU-36 → EVOU-21 : prerequisite for Analogies that can fail
-EVOU-06 → EVOU-22 : prerequisite for Learning parameters and changing structure
-EVOU-19 → EVOU-22 : prerequisite for Learning parameters and changing structure
-EVOU-21 → EVOU-22 : prerequisite for Learning parameters and changing structure
-DNAU-05 → EVOU-22 : prerequisite for Learning parameters and changing structure
-DNAU-06 → EVOU-22 : prerequisite for Learning parameters and changing structure
-DNAU-32 → EVOU-22 : prerequisite for Learning parameters and changing structure
-EVOU-17 → EVOU-23 : prerequisite for Development as building a representation
-EVOU-21 → EVOU-23 : prerequisite for Development as building a representation
-EVOU-22 → EVOU-23 : prerequisite for Development as building a representation
-DNAU-25 → EVOU-23 : prerequisite for Development as building a representation
-DNAU-31 → EVOU-23 : prerequisite for Development as building a representation
-DNAU-32 → EVOU-23 : prerequisite for Development as building a representation
-EVOU-19 → EVOU-24 : prerequisite for A minimal genomic-computation hypothesis
-EVOU-20 → EVOU-24 : prerequisite for A minimal genomic-computation hypothesis
-EVOU-21 → EVOU-24 : prerequisite for A minimal genomic-computation hypothesis
-EVOU-22 → EVOU-24 : prerequisite for A minimal genomic-computation hypothesis
-EVOU-23 → EVOU-24 : prerequisite for A minimal genomic-computation hypothesis
-DNAU-25 → EVOU-24 : prerequisite for A minimal genomic-computation hypothesis
-DNAU-32 → EVOU-24 : prerequisite for A minimal genomic-computation hypothesis
-DNAU-35 → EVOU-24 : prerequisite for A minimal genomic-computation hypothesis
-EVOU-17 → EVOU-25 : prerequisite for Classes, interfaces and a UML model
-EVOU-24 → EVOU-25 : prerequisite for Classes, interfaces and a UML model
-DNAU-03 → EVOU-25 : prerequisite for Classes, interfaces and a UML model
-EVOU-18 → EVOU-26 : prerequisite for From a request to an expression trace
-EVOU-25 → EVOU-26 : prerequisite for From a request to an expression trace
-DNAU-03 → EVOU-26 : prerequisite for From a request to an expression trace
-EVOU-06 → EVOU-27 : prerequisite for Traces, credit and explanations
-EVOU-19 → EVOU-27 : prerequisite for Traces, credit and explanations
-EVOU-26 → EVOU-27 : prerequisite for Traces, credit and explanations
-DNAU-12 → EVOU-27 : prerequisite for Traces, credit and explanations
-DNAU-36 → EVOU-27 : prerequisite for Traces, credit and explanations
-EVOU-22 → EVOU-28 : prerequisite for Structural proposals and their lifecycle
-EVOU-25 → EVOU-28 : prerequisite for Structural proposals and their lifecycle
-EVOU-27 → EVOU-28 : prerequisite for Structural proposals and their lifecycle
-DNAU-06 → EVOU-28 : prerequisite for Structural proposals and their lifecycle
-DNAU-32 → EVOU-28 : prerequisite for Structural proposals and their lifecycle
-EVOU-19 → EVOU-42 : prerequisite for DOGMA: candidate primitives and state semantics
-EVOU-24 → EVOU-42 : prerequisite for DOGMA: candidate primitives and state semantics
-EVOU-26 → EVOU-42 : prerequisite for DOGMA: candidate primitives and state semantics
-EVOU-28 → EVOU-42 : prerequisite for DOGMA: candidate primitives and state semantics
-EVOU-41 → EVOU-42 : prerequisite for DOGMA: candidate primitives and state semantics
-EVOU-15 → EVOU-43 : prerequisite for DOGMA regulation and expressed transformations
-EVOU-16 → EVOU-43 : prerequisite for DOGMA regulation and expressed transformations
-EVOU-21 → EVOU-43 : prerequisite for DOGMA regulation and expressed transformations
-EVOU-42 → EVOU-43 : prerequisite for DOGMA regulation and expressed transformations
-EVOU-22 → EVOU-44 : prerequisite for DOGMA modular state, locality and structural memory
-EVOU-28 → EVOU-44 : prerequisite for DOGMA modular state, locality and structural memory
-EVOU-42 → EVOU-44 : prerequisite for DOGMA modular state, locality and structural memory
-EVOU-43 → EVOU-44 : prerequisite for DOGMA modular state, locality and structural memory
-EVOU-19 → EVOU-45 : prerequisite for DOGMA strands, complements and dual-state proposals
-EVOU-41 → EVOU-45 : prerequisite for DOGMA strands, complements and dual-state proposals
-EVOU-43 → EVOU-45 : prerequisite for DOGMA strands, complements and dual-state proposals
-EVOU-44 → EVOU-45 : prerequisite for DOGMA strands, complements and dual-state proposals
-DNAU-11 → EVOU-45 : prerequisite for DOGMA strands, complements and dual-state proposals
-DNAU-32 → EVOU-45 : prerequisite for DOGMA strands, complements and dual-state proposals
-DNAU-34 → EVOU-45 : prerequisite for DOGMA strands, complements and dual-state proposals
-EVOU-27 → EVOU-46 : prerequisite for DOGMA traces and structural adaptation
-EVOU-28 → EVOU-46 : prerequisite for DOGMA traces and structural adaptation
-EVOU-43 → EVOU-46 : prerequisite for DOGMA traces and structural adaptation
-EVOU-44 → EVOU-46 : prerequisite for DOGMA traces and structural adaptation
-EVOU-45 → EVOU-46 : prerequisite for DOGMA traces and structural adaptation
-EVOU-09 → EVOU-47 : prerequisite for Hermon DNA: a Transformer sequence model
-EVOU-12 → EVOU-47 : prerequisite for Hermon DNA: a Transformer sequence model
-EVOU-13 → EVOU-47 : prerequisite for Hermon DNA: a Transformer sequence model
-EVOU-14 → EVOU-47 : prerequisite for Hermon DNA: a Transformer sequence model
-EVOU-19 → EVOU-47 : prerequisite for Hermon DNA: a Transformer sequence model
-EVOU-19 → EVOU-48 : prerequisite for Hermon DNA: DNA-aware Transformer hypotheses
-EVOU-47 → EVOU-48 : prerequisite for Hermon DNA: DNA-aware Transformer hypotheses
-DNAU-11 → EVOU-48 : prerequisite for Hermon DNA: DNA-aware Transformer hypotheses
-DNAU-32 → EVOU-48 : prerequisite for Hermon DNA: DNA-aware Transformer hypotheses
-DNAU-34 → EVOU-48 : prerequisite for Hermon DNA: DNA-aware Transformer hypotheses
-EVOU-08 → EVOU-29 : prerequisite for Training a candidate Evolutor model
-EVOU-19 → EVOU-29 : prerequisite for Training a candidate Evolutor model
-EVOU-24 → EVOU-29 : prerequisite for Training a candidate Evolutor model
-EVOU-27 → EVOU-29 : prerequisite for Training a candidate Evolutor model
-EVOU-28 → EVOU-29 : prerequisite for Training a candidate Evolutor model
-EVOU-46 → EVOU-29 : prerequisite for Training a candidate Evolutor model
-EVOU-48 → EVOU-29 : prerequisite for Training a candidate Evolutor model
-DNAU-34 → EVOU-29 : prerequisite for Training a candidate Evolutor model
-DNAU-36 → EVOU-29 : prerequisite for Training a candidate Evolutor model
-EVOU-08 → EVOU-49 : prerequisite for Shared PyTorch experiments without false equivalence
-EVOU-19 → EVOU-49 : prerequisite for Shared PyTorch experiments without false equivalence
-EVOU-29 → EVOU-49 : prerequisite for Shared PyTorch experiments without false equivalence
-EVOU-46 → EVOU-49 : prerequisite for Shared PyTorch experiments without false equivalence
-EVOU-48 → EVOU-49 : prerequisite for Shared PyTorch experiments without false equivalence
-EVOU-41 → EVOU-50 : prerequisite for DOGMA training: sequential, chunked and scan forms
-EVOU-42 → EVOU-50 : prerequisite for DOGMA training: sequential, chunked and scan forms
-EVOU-43 → EVOU-50 : prerequisite for DOGMA training: sequential, chunked and scan forms
-EVOU-49 → EVOU-50 : prerequisite for DOGMA training: sequential, chunked and scan forms
-EVOU-17 → EVOU-30 : prerequisite for An inference runtime with clear boundaries
-EVOU-26 → EVOU-30 : prerequisite for An inference runtime with clear boundaries
-EVOU-29 → EVOU-30 : prerequisite for An inference runtime with clear boundaries
-DNAU-03 → EVOU-30 : prerequisite for An inference runtime with clear boundaries
-DNAU-35 → EVOU-30 : prerequisite for An inference runtime with clear boundaries
-EVOU-29 → EVOU-31 : prerequisite for Model identity, formats and checkpoints
-EVOU-30 → EVOU-31 : prerequisite for Model identity, formats and checkpoints
-DNAU-33 → EVOU-31 : prerequisite for Model identity, formats and checkpoints
-DNAU-35 → EVOU-31 : prerequisite for Model identity, formats and checkpoints
-EVOU-14 → EVOU-32 : prerequisite for Managing recurrent state, KV and external memory
-EVOU-18 → EVOU-32 : prerequisite for Managing recurrent state, KV and external memory
-EVOU-30 → EVOU-32 : prerequisite for Managing recurrent state, KV and external memory
-EVOU-31 → EVOU-32 : prerequisite for Managing recurrent state, KV and external memory
-DNAU-35 → EVOU-32 : prerequisite for Managing recurrent state, KV and external memory
-EVOU-30 → EVOU-51 : prerequisite for DOGMA Engine: state construction and native steps
-EVOU-31 → EVOU-51 : prerequisite for DOGMA Engine: state construction and native steps
-EVOU-32 → EVOU-51 : prerequisite for DOGMA Engine: state construction and native steps
-EVOU-42 → EVOU-51 : prerequisite for DOGMA Engine: state construction and native steps
-EVOU-49 → EVOU-51 : prerequisite for DOGMA Engine: state construction and native steps
-EVOU-50 → EVOU-51 : prerequisite for DOGMA Engine: state construction and native steps
-EVOU-32 → EVOU-52 : prerequisite for DOGMA Engine: isolated state pools
-EVOU-51 → EVOU-52 : prerequisite for DOGMA Engine: isolated state pools
-EVOU-31 → EVOU-53 : prerequisite for DOGMA Engine: checkpoint, restore and prefix state
-EVOU-51 → EVOU-53 : prerequisite for DOGMA Engine: checkpoint, restore and prefix state
-EVOU-52 → EVOU-53 : prerequisite for DOGMA Engine: checkpoint, restore and prefix state
-EVOU-18 → EVOU-54 : prerequisite for DOGMA Engine: scheduling state transitions
-EVOU-32 → EVOU-54 : prerequisite for DOGMA Engine: scheduling state transitions
-EVOU-51 → EVOU-54 : prerequisite for DOGMA Engine: scheduling state transitions
-EVOU-52 → EVOU-54 : prerequisite for DOGMA Engine: scheduling state transitions
-EVOU-53 → EVOU-54 : prerequisite for DOGMA Engine: scheduling state transitions
-EVOU-14 → EVOU-55 : prerequisite for Hermon DNA Engine: prefill and attention decode
-EVOU-30 → EVOU-55 : prerequisite for Hermon DNA Engine: prefill and attention decode
-EVOU-31 → EVOU-55 : prerequisite for Hermon DNA Engine: prefill and attention decode
-EVOU-32 → EVOU-55 : prerequisite for Hermon DNA Engine: prefill and attention decode
-EVOU-47 → EVOU-55 : prerequisite for Hermon DNA Engine: prefill and attention decode
-EVOU-49 → EVOU-55 : prerequisite for Hermon DNA Engine: prefill and attention decode
-EVOU-32 → EVOU-56 : prerequisite for Hermon DNA Engine: paged KV and prefix sharing
-EVOU-55 → EVOU-56 : prerequisite for Hermon DNA Engine: paged KV and prefix sharing
-EVOU-18 → EVOU-57 : prerequisite for Hermon DNA Engine: continuous batching and precision
-EVOU-32 → EVOU-57 : prerequisite for Hermon DNA Engine: continuous batching and precision
-EVOU-55 → EVOU-57 : prerequisite for Hermon DNA Engine: continuous batching and precision
-EVOU-56 → EVOU-57 : prerequisite for Hermon DNA Engine: continuous batching and precision
-EVOU-25 → EVOU-58 : prerequisite for Evolutor runtime above two distinct engines
-EVOU-30 → EVOU-58 : prerequisite for Evolutor runtime above two distinct engines
-EVOU-31 → EVOU-58 : prerequisite for Evolutor runtime above two distinct engines
-EVOU-51 → EVOU-58 : prerequisite for Evolutor runtime above two distinct engines
-EVOU-54 → EVOU-58 : prerequisite for Evolutor runtime above two distinct engines
-EVOU-55 → EVOU-58 : prerequisite for Evolutor runtime above two distinct engines
-EVOU-57 → EVOU-58 : prerequisite for Evolutor runtime above two distinct engines
-EVOU-16 → EVOU-59 : prerequisite for Hybrid memory as a testable Evolutor proposal
-EVOU-19 → EVOU-59 : prerequisite for Hybrid memory as a testable Evolutor proposal
-EVOU-44 → EVOU-59 : prerequisite for Hybrid memory as a testable Evolutor proposal
-EVOU-48 → EVOU-59 : prerequisite for Hybrid memory as a testable Evolutor proposal
-EVOU-53 → EVOU-59 : prerequisite for Hybrid memory as a testable Evolutor proposal
-EVOU-56 → EVOU-59 : prerequisite for Hybrid memory as a testable Evolutor proposal
-EVOU-58 → EVOU-59 : prerequisite for Hybrid memory as a testable Evolutor proposal
-EVOU-18 → EVOU-33 : prerequisite for Batching, queues and latency
-EVOU-32 → EVOU-33 : prerequisite for Batching, queues and latency
-DNAU-12 → EVOU-33 : prerequisite for Batching, queues and latency
-DNAU-35 → EVOU-33 : prerequisite for Batching, queues and latency
-EVOU-19 → EVOU-34 : prerequisite for Parity, profiling and optimization
-EVOU-30 → EVOU-34 : prerequisite for Parity, profiling and optimization
-EVOU-32 → EVOU-34 : prerequisite for Parity, profiling and optimization
-EVOU-33 → EVOU-34 : prerequisite for Parity, profiling and optimization
-DNAU-35 → EVOU-34 : prerequisite for Parity, profiling and optimization
-DNAU-36 → EVOU-34 : prerequisite for Parity, profiling and optimization
-EVOU-31 → EVOU-60 : prerequisite for Measured bottlenecks, native kernels and model formats
-EVOU-34 → EVOU-60 : prerequisite for Measured bottlenecks, native kernels and model formats
-EVOU-50 → EVOU-60 : prerequisite for Measured bottlenecks, native kernels and model formats
-EVOU-54 → EVOU-60 : prerequisite for Measured bottlenecks, native kernels and model formats
-EVOU-57 → EVOU-60 : prerequisite for Measured bottlenecks, native kernels and model formats
-EVOU-58 → EVOU-60 : prerequisite for Measured bottlenecks, native kernels and model formats
-EVOU-28 → EVOU-35 : prerequisite for Serving, observability and safe rollback
-EVOU-31 → EVOU-35 : prerequisite for Serving, observability and safe rollback
-EVOU-33 → EVOU-35 : prerequisite for Serving, observability and safe rollback
-EVOU-34 → EVOU-35 : prerequisite for Serving, observability and safe rollback
-DNAU-35 → EVOU-35 : prerequisite for Serving, observability and safe rollback
-EVOU-29 → EVOU-36 : prerequisite for Failed ideas as a source of knowledge
-EVOU-34 → EVOU-36 : prerequisite for Failed ideas as a source of knowledge
-EVOU-35 → EVOU-36 : prerequisite for Failed ideas as a source of knowledge
-DNAU-12 → EVOU-36 : prerequisite for Failed ideas as a source of knowledge
-DNAU-36 → EVOU-36 : prerequisite for Failed ideas as a source of knowledge
-EVOU-11 → EVOU-37 : prerequisite for DOGMA and Hermon DNA: taxonomy, lineage and comparative evidence
-EVOU-13 → EVOU-37 : prerequisite for DOGMA and Hermon DNA: taxonomy, lineage and comparative evidence
-EVOU-29 → EVOU-37 : prerequisite for DOGMA and Hermon DNA: taxonomy, lineage and comparative evidence
-EVOU-31 → EVOU-37 : prerequisite for DOGMA and Hermon DNA: taxonomy, lineage and comparative evidence
-EVOU-36 → EVOU-37 : prerequisite for DOGMA and Hermon DNA: taxonomy, lineage and comparative evidence
-EVOU-46 → EVOU-37 : prerequisite for DOGMA and Hermon DNA: taxonomy, lineage and comparative evidence
-EVOU-48 → EVOU-37 : prerequisite for DOGMA and Hermon DNA: taxonomy, lineage and comparative evidence
-EVOU-54 → EVOU-37 : prerequisite for DOGMA and Hermon DNA: taxonomy, lineage and comparative evidence
-EVOU-57 → EVOU-37 : prerequisite for DOGMA and Hermon DNA: taxonomy, lineage and comparative evidence
-EVOU-58 → EVOU-37 : prerequisite for DOGMA and Hermon DNA: taxonomy, lineage and comparative evidence
-EVOU-60 → EVOU-37 : prerequisite for DOGMA and Hermon DNA: taxonomy, lineage and comparative evidence
-DNAU-11 → EVOU-37 : prerequisite for DOGMA and Hermon DNA: taxonomy, lineage and comparative evidence
-DNAU-34 → EVOU-37 : prerequisite for DOGMA and Hermon DNA: taxonomy, lineage and comparative evidence
-DNAU-36 → EVOU-37 : prerequisite for DOGMA and Hermon DNA: taxonomy, lineage and comparative evidence
-EVOU-19 → EVOU-61 : prerequisite for Applications that stress different kinds of memory
-EVOU-36 → EVOU-61 : prerequisite for Applications that stress different kinds of memory
-EVOU-37 → EVOU-61 : prerequisite for Applications that stress different kinds of memory
-EVOU-53 → EVOU-61 : prerequisite for Applications that stress different kinds of memory
-EVOU-57 → EVOU-61 : prerequisite for Applications that stress different kinds of memory
-EVOU-59 → EVOU-61 : prerequisite for Applications that stress different kinds of memory
-EVOU-60 → EVOU-61 : prerequisite for Applications that stress different kinds of memory
-EVOU-22 → EVOU-38 : prerequisite for Transfer, continual learning and populations
-EVOU-28 → EVOU-38 : prerequisite for Transfer, continual learning and populations
-EVOU-36 → EVOU-38 : prerequisite for Transfer, continual learning and populations
-EVOU-37 → EVOU-38 : prerequisite for Transfer, continual learning and populations
-DNAU-12 → EVOU-38 : prerequisite for Transfer, continual learning and populations
-DNAU-32 → EVOU-38 : prerequisite for Transfer, continual learning and populations
-DNAU-36 → EVOU-38 : prerequisite for Transfer, continual learning and populations
-EVOU-19 → EVOU-39 : prerequisite for AGI claims and an operational scorecard
-EVOU-36 → EVOU-39 : prerequisite for AGI claims and an operational scorecard
-EVOU-38 → EVOU-39 : prerequisite for AGI claims and an operational scorecard
-DNAU-36 → EVOU-39 : prerequisite for AGI claims and an operational scorecard
-EVOU-24 → EVOU-40 : prerequisite for Capstone: failures, limits and a reproducible research argument
-EVOU-35 → EVOU-40 : prerequisite for Capstone: failures, limits and a reproducible research argument
-EVOU-36 → EVOU-40 : prerequisite for Capstone: failures, limits and a reproducible research argument
-EVOU-37 → EVOU-40 : prerequisite for Capstone: failures, limits and a reproducible research argument
-EVOU-38 → EVOU-40 : prerequisite for Capstone: failures, limits and a reproducible research argument
-EVOU-39 → EVOU-40 : prerequisite for Capstone: failures, limits and a reproducible research argument
-EVOU-59 → EVOU-40 : prerequisite for Capstone: failures, limits and a reproducible research argument
-EVOU-61 → EVOU-40 : prerequisite for Capstone: failures, limits and a reproducible research argument
-DNAU-36 → EVOU-40 : prerequisite for Capstone: failures, limits and a reproducible research argument
-```
+DNAD-30 → EVOD-01 : prerequisite for Why Genomic Computation?
 
-## Cross-book handoff
+DNAD-32 → EVOD-01 : prerequisite for Why Genomic Computation?
 
-The versioned [Book I exit contract](pedagogy/book-i-contract.json) lists chapter-specific terms and exit tasks. Evolutor imports only those explicit chapter outcomes, and recalls them in a short bridge before use. Its present status is planned-not-yet-taught. Neither unit tests nor this graph activate that contract. If an imported outcome is removed, either restore it in Book I or teach it locally before use in Book II.
+EVOD-01 → EVOD-02 : prerequisite for Learning objectives, data and evaluation
+
+EVOD-02 → EVOD-03 : prerequisite for Differentiation, optimization and tensor programs
+
+EVOD-02 → EVOD-04 : prerequisite for Reproducible PyTorch training
+
+EVOD-03 → EVOD-04 : prerequisite for Reproducible PyTorch training
+
+EVOD-02 → EVOD-05 : prerequisite for Tokenization and sequence representation
+
+EVOD-04 → EVOD-05 : prerequisite for Tokenization and sequence representation
+
+DNAD-05 → EVOD-05 : prerequisite for Tokenization and sequence representation
+
+DNAD-25 → EVOD-05 : prerequisite for Tokenization and sequence representation
+
+EVOD-03 → EVOD-06 : prerequisite for Recurrent models and gated state
+
+EVOD-05 → EVOD-06 : prerequisite for Recurrent models and gated state
+
+EVOD-06 → EVOD-07 : prerequisite for State-space models, selective updates and scans
+
+EVOD-03 → EVOD-08 : prerequisite for Attention and content-addressed computation
+
+EVOD-05 → EVOD-08 : prerequisite for Attention and content-addressed computation
+
+EVOD-04 → EVOD-09 : prerequisite for Transformers and cached execution
+
+EVOD-08 → EVOD-09 : prerequisite for Transformers and cached execution
+
+EVOD-06 → EVOD-10 : prerequisite for Conditional computation and memory alternatives
+
+EVOD-07 → EVOD-10 : prerequisite for Conditional computation and memory alternatives
+
+EVOD-09 → EVOD-10 : prerequisite for Conditional computation and memory alternatives
+
+EVOD-01 → EVOD-11 : prerequisite for Regulation and expression across levels
+
+EVOD-10 → EVOD-11 : prerequisite for Regulation and expression across levels
+
+DNAD-30 → EVOD-11 : prerequisite for Regulation and expression across levels
+
+EVOD-10 → EVOD-12 : prerequisite for Development and generated computational structure
+
+EVOD-11 → EVOD-12 : prerequisite for Development and generated computational structure
+
+DNAD-30 → EVOD-12 : prerequisite for Development and generated computational structure
+
+EVOD-04 → EVOD-13 : prerequisite for Learning, structural adaptation and evolution
+
+EVOD-11 → EVOD-13 : prerequisite for Learning, structural adaptation and evolution
+
+EVOD-12 → EVOD-13 : prerequisite for Learning, structural adaptation and evolution
+
+DNAD-30 → EVOD-13 : prerequisite for Learning, structural adaptation and evolution
+
+EVOD-10 → EVOD-14 : prerequisite for Typed genomic computation systems
+
+EVOD-11 → EVOD-14 : prerequisite for Typed genomic computation systems
+
+EVOD-12 → EVOD-14 : prerequisite for Typed genomic computation systems
+
+EVOD-13 → EVOD-14 : prerequisite for Typed genomic computation systems
+
+DNAD-16 → EVOD-14 : prerequisite for Typed genomic computation systems
+
+DNAD-18 → EVOD-14 : prerequisite for Typed genomic computation systems
+
+DNAD-32 → EVOD-14 : prerequisite for Typed genomic computation systems
+
+EVOD-14 → EVOD-15 : prerequisite for Operational semantics and expression traces
+
+EVOD-07 → EVOD-16 : prerequisite for Expression complexity and resource semantics
+
+EVOD-09 → EVOD-16 : prerequisite for Expression complexity and resource semantics
+
+EVOD-15 → EVOD-16 : prerequisite for Expression complexity and resource semantics
+
+DNAD-04 → EVOD-16 : prerequisite for Expression complexity and resource semantics
+
+DNAD-24 → EVOD-16 : prerequisite for Expression complexity and resource semantics
+
+EVOD-13 → EVOD-17 : prerequisite for Traces, credit and mechanistic evidence
+
+EVOD-15 → EVOD-17 : prerequisite for Traces, credit and mechanistic evidence
+
+EVOD-16 → EVOD-17 : prerequisite for Traces, credit and mechanistic evidence
+
+EVOD-07 → EVOD-18 : prerequisite for DOGMA primitives and state semantics
+
+EVOD-14 → EVOD-18 : prerequisite for DOGMA primitives and state semantics
+
+EVOD-15 → EVOD-18 : prerequisite for DOGMA primitives and state semantics
+
+EVOD-16 → EVOD-18 : prerequisite for DOGMA primitives and state semantics
+
+EVOD-10 → EVOD-19 : prerequisite for DOGMA regulation and selective transformations
+
+EVOD-17 → EVOD-19 : prerequisite for DOGMA regulation and selective transformations
+
+EVOD-18 → EVOD-19 : prerequisite for DOGMA regulation and selective transformations
+
+EVOD-07 → EVOD-20 : prerequisite for Structured memory, locality and timescales
+
+EVOD-16 → EVOD-20 : prerequisite for Structured memory, locality and timescales
+
+EVOD-18 → EVOD-20 : prerequisite for Structured memory, locality and timescales
+
+EVOD-19 → EVOD-20 : prerequisite for Structured memory, locality and timescales
+
+EVOD-05 → EVOD-21 : prerequisite for Strands, complements and dual-state hypotheses
+
+EVOD-18 → EVOD-21 : prerequisite for Strands, complements and dual-state hypotheses
+
+EVOD-20 → EVOD-21 : prerequisite for Strands, complements and dual-state hypotheses
+
+DNAD-05 → EVOD-21 : prerequisite for Strands, complements and dual-state hypotheses
+
+DNAD-30 → EVOD-21 : prerequisite for Strands, complements and dual-state hypotheses
+
+EVOD-04 → EVOD-22 : prerequisite for DOGMA reference model and falsifiable research program
+
+EVOD-17 → EVOD-22 : prerequisite for DOGMA reference model and falsifiable research program
+
+EVOD-19 → EVOD-22 : prerequisite for DOGMA reference model and falsifiable research program
+
+EVOD-20 → EVOD-22 : prerequisite for DOGMA reference model and falsifiable research program
+
+EVOD-21 → EVOD-22 : prerequisite for DOGMA reference model and falsifiable research program
+
+EVOD-05 → EVOD-23 : prerequisite for Hermon DNA reference architecture
+
+EVOD-09 → EVOD-23 : prerequisite for Hermon DNA reference architecture
+
+EVOD-16 → EVOD-23 : prerequisite for Hermon DNA reference architecture
+
+EVOD-10 → EVOD-24 : prerequisite for DNA-aware Transformer mechanisms
+
+EVOD-21 → EVOD-24 : prerequisite for DNA-aware Transformer mechanisms
+
+EVOD-23 → EVOD-24 : prerequisite for DNA-aware Transformer mechanisms
+
+DNAD-25 → EVOD-24 : prerequisite for DNA-aware Transformer mechanisms
+
+DNAD-30 → EVOD-24 : prerequisite for DNA-aware Transformer mechanisms
+
+EVOD-04 → EVOD-25 : prerequisite for Shared experiments without false equivalence
+
+EVOD-22 → EVOD-25 : prerequisite for Shared experiments without false equivalence
+
+EVOD-23 → EVOD-25 : prerequisite for Shared experiments without false equivalence
+
+EVOD-24 → EVOD-25 : prerequisite for Shared experiments without false equivalence
+
+EVOD-07 → EVOD-26 : prerequisite for Training/inference parity and parallel recurrence
+
+EVOD-09 → EVOD-26 : prerequisite for Training/inference parity and parallel recurrence
+
+EVOD-22 → EVOD-26 : prerequisite for Training/inference parity and parallel recurrence
+
+EVOD-23 → EVOD-26 : prerequisite for Training/inference parity and parallel recurrence
+
+EVOD-25 → EVOD-26 : prerequisite for Training/inference parity and parallel recurrence
+
+EVOD-03 → EVOD-27 : prerequisite for Optimization and memory-efficient training
+
+EVOD-04 → EVOD-27 : prerequisite for Optimization and memory-efficient training
+
+EVOD-25 → EVOD-27 : prerequisite for Optimization and memory-efficient training
+
+EVOD-26 → EVOD-27 : prerequisite for Optimization and memory-efficient training
+
+EVOD-25 → EVOD-28 : prerequisite for Distributed training and model artifacts
+
+EVOD-26 → EVOD-28 : prerequisite for Distributed training and model artifacts
+
+EVOD-27 → EVOD-28 : prerequisite for Distributed training and model artifacts
+
+EVOD-16 → EVOD-29 : prerequisite for Benchmark design and comparative evidence
+
+EVOD-17 → EVOD-29 : prerequisite for Benchmark design and comparative evidence
+
+EVOD-22 → EVOD-29 : prerequisite for Benchmark design and comparative evidence
+
+EVOD-24 → EVOD-29 : prerequisite for Benchmark design and comparative evidence
+
+EVOD-26 → EVOD-29 : prerequisite for Benchmark design and comparative evidence
+
+EVOD-27 → EVOD-29 : prerequisite for Benchmark design and comparative evidence
+
+EVOD-15 → EVOD-30 : prerequisite for Runtime contracts and request lifecycles
+
+EVOD-25 → EVOD-30 : prerequisite for Runtime contracts and request lifecycles
+
+EVOD-26 → EVOD-30 : prerequisite for Runtime contracts and request lifecycles
+
+EVOD-28 → EVOD-30 : prerequisite for Runtime contracts and request lifecycles
+
+EVOD-18 → EVOD-31 : prerequisite for DOGMA state construction and execution
+
+EVOD-22 → EVOD-31 : prerequisite for DOGMA state construction and execution
+
+EVOD-26 → EVOD-31 : prerequisite for DOGMA state construction and execution
+
+EVOD-30 → EVOD-31 : prerequisite for DOGMA state construction and execution
+
+EVOD-20 → EVOD-32 : prerequisite for DOGMA state pools and memory ownership
+
+EVOD-28 → EVOD-32 : prerequisite for DOGMA state pools and memory ownership
+
+EVOD-30 → EVOD-32 : prerequisite for DOGMA state pools and memory ownership
+
+EVOD-31 → EVOD-32 : prerequisite for DOGMA state pools and memory ownership
+
+EVOD-28 → EVOD-33 : prerequisite for DOGMA checkpoints, branching and prefix state
+
+EVOD-31 → EVOD-33 : prerequisite for DOGMA checkpoints, branching and prefix state
+
+EVOD-32 → EVOD-33 : prerequisite for DOGMA checkpoints, branching and prefix state
+
+EVOD-07 → EVOD-34 : prerequisite for DOGMA batching and state-native kernels
+
+EVOD-26 → EVOD-34 : prerequisite for DOGMA batching and state-native kernels
+
+EVOD-31 → EVOD-34 : prerequisite for DOGMA batching and state-native kernels
+
+EVOD-32 → EVOD-34 : prerequisite for DOGMA batching and state-native kernels
+
+EVOD-33 → EVOD-34 : prerequisite for DOGMA batching and state-native kernels
+
+EVOD-09 → EVOD-35 : prerequisite for Hermon DNA prefill, decode and KV state
+
+EVOD-23 → EVOD-35 : prerequisite for Hermon DNA prefill, decode and KV state
+
+EVOD-26 → EVOD-35 : prerequisite for Hermon DNA prefill, decode and KV state
+
+EVOD-30 → EVOD-35 : prerequisite for Hermon DNA prefill, decode and KV state
+
+EVOD-28 → EVOD-36 : prerequisite for Paged KV, prefix sharing and allocation
+
+EVOD-30 → EVOD-36 : prerequisite for Paged KV, prefix sharing and allocation
+
+EVOD-35 → EVOD-36 : prerequisite for Paged KV, prefix sharing and allocation
+
+EVOD-27 → EVOD-37 : prerequisite for Continuous batching and precision
+
+EVOD-29 → EVOD-37 : prerequisite for Continuous batching and precision
+
+EVOD-35 → EVOD-37 : prerequisite for Continuous batching and precision
+
+EVOD-36 → EVOD-37 : prerequisite for Continuous batching and precision
+
+EVOD-26 → EVOD-38 : prerequisite for Speculative decoding and attention kernels
+
+EVOD-29 → EVOD-38 : prerequisite for Speculative decoding and attention kernels
+
+EVOD-35 → EVOD-38 : prerequisite for Speculative decoding and attention kernels
+
+EVOD-37 → EVOD-38 : prerequisite for Speculative decoding and attention kernels
+
+EVOD-14 → EVOD-39 : prerequisite for Evolutor runtime above both engines
+
+EVOD-15 → EVOD-39 : prerequisite for Evolutor runtime above both engines
+
+EVOD-30 → EVOD-39 : prerequisite for Evolutor runtime above both engines
+
+EVOD-34 → EVOD-39 : prerequisite for Evolutor runtime above both engines
+
+EVOD-38 → EVOD-39 : prerequisite for Evolutor runtime above both engines
+
+EVOD-10 → EVOD-40 : prerequisite for Hybrid compressed and addressable memory
+
+EVOD-16 → EVOD-40 : prerequisite for Hybrid compressed and addressable memory
+
+EVOD-20 → EVOD-40 : prerequisite for Hybrid compressed and addressable memory
+
+EVOD-29 → EVOD-40 : prerequisite for Hybrid compressed and addressable memory
+
+EVOD-33 → EVOD-40 : prerequisite for Hybrid compressed and addressable memory
+
+EVOD-36 → EVOD-40 : prerequisite for Hybrid compressed and addressable memory
+
+EVOD-39 → EVOD-40 : prerequisite for Hybrid compressed and addressable memory
+
+EVOD-12 → EVOD-41 : prerequisite for Compiler, IR and execution planning
+
+EVOD-14 → EVOD-41 : prerequisite for Compiler, IR and execution planning
+
+EVOD-15 → EVOD-41 : prerequisite for Compiler, IR and execution planning
+
+EVOD-16 → EVOD-41 : prerequisite for Compiler, IR and execution planning
+
+EVOD-39 → EVOD-41 : prerequisite for Compiler, IR and execution planning
+
+EVOD-10 → EVOD-42 : prerequisite for Database engines as a systems comparison
+
+EVOD-16 → EVOD-42 : prerequisite for Database engines as a systems comparison
+
+EVOD-30 → EVOD-42 : prerequisite for Database engines as a systems comparison
+
+EVOD-39 → EVOD-42 : prerequisite for Database engines as a systems comparison
+
+EVOD-41 → EVOD-42 : prerequisite for Database engines as a systems comparison
+
+EVOD-13 → EVOD-43 : prerequisite for Structural adaptation and lifecycle governance
+
+EVOD-17 → EVOD-43 : prerequisite for Structural adaptation and lifecycle governance
+
+EVOD-29 → EVOD-43 : prerequisite for Structural adaptation and lifecycle governance
+
+EVOD-39 → EVOD-43 : prerequisite for Structural adaptation and lifecycle governance
+
+EVOD-41 → EVOD-43 : prerequisite for Structural adaptation and lifecycle governance
+
+EVOD-28 → EVOD-44 : prerequisite for Packaging, deployment and observable services
+
+EVOD-30 → EVOD-44 : prerequisite for Packaging, deployment and observable services
+
+EVOD-39 → EVOD-44 : prerequisite for Packaging, deployment and observable services
+
+EVOD-43 → EVOD-44 : prerequisite for Packaging, deployment and observable services
+
+EVOD-32 → EVOD-45 : prerequisite for Multi-tenancy, isolation and security
+
+EVOD-36 → EVOD-45 : prerequisite for Multi-tenancy, isolation and security
+
+EVOD-39 → EVOD-45 : prerequisite for Multi-tenancy, isolation and security
+
+EVOD-44 → EVOD-45 : prerequisite for Multi-tenancy, isolation and security
+
+EVOD-28 → EVOD-46 : prerequisite for Distributed serving and state placement
+
+EVOD-34 → EVOD-46 : prerequisite for Distributed serving and state placement
+
+EVOD-38 → EVOD-46 : prerequisite for Distributed serving and state placement
+
+EVOD-39 → EVOD-46 : prerequisite for Distributed serving and state placement
+
+EVOD-44 → EVOD-46 : prerequisite for Distributed serving and state placement
+
+EVOD-45 → EVOD-46 : prerequisite for Distributed serving and state placement
+
+EVOD-29 → EVOD-47 : prerequisite for Profiling, performance and hardware backends
+
+EVOD-34 → EVOD-47 : prerequisite for Profiling, performance and hardware backends
+
+EVOD-38 → EVOD-47 : prerequisite for Profiling, performance and hardware backends
+
+EVOD-44 → EVOD-47 : prerequisite for Profiling, performance and hardware backends
+
+EVOD-46 → EVOD-47 : prerequisite for Profiling, performance and hardware backends
+
+EVOD-24 → EVOD-48 : prerequisite for Genomic sequence applications
+
+EVOD-29 → EVOD-48 : prerequisite for Genomic sequence applications
+
+EVOD-40 → EVOD-48 : prerequisite for Genomic sequence applications
+
+EVOD-44 → EVOD-48 : prerequisite for Genomic sequence applications
+
+EVOD-47 → EVOD-48 : prerequisite for Genomic sequence applications
+
+DNAD-25 → EVOD-48 : prerequisite for Genomic sequence applications
+
+DNAD-26 → EVOD-48 : prerequisite for Genomic sequence applications
+
+DNAD-30 → EVOD-48 : prerequisite for Genomic sequence applications
+
+DNAD-31 → EVOD-48 : prerequisite for Genomic sequence applications
+
+EVOD-29 → EVOD-49 : prerequisite for Streaming, language, code and persistent agents
+
+EVOD-33 → EVOD-49 : prerequisite for Streaming, language, code and persistent agents
+
+EVOD-40 → EVOD-49 : prerequisite for Streaming, language, code and persistent agents
+
+EVOD-45 → EVOD-49 : prerequisite for Streaming, language, code and persistent agents
+
+EVOD-47 → EVOD-49 : prerequisite for Streaming, language, code and persistent agents
+
+EVOD-13 → EVOD-50 : prerequisite for Continual learning and population adaptation
+
+EVOD-29 → EVOD-50 : prerequisite for Continual learning and population adaptation
+
+EVOD-40 → EVOD-50 : prerequisite for Continual learning and population adaptation
+
+EVOD-43 → EVOD-50 : prerequisite for Continual learning and population adaptation
+
+EVOD-49 → EVOD-50 : prerequisite for Continual learning and population adaptation
+
+EVOD-29 → EVOD-51 : prerequisite for AGI capability hypotheses and limits
+
+EVOD-43 → EVOD-51 : prerequisite for AGI capability hypotheses and limits
+
+EVOD-48 → EVOD-51 : prerequisite for AGI capability hypotheses and limits
+
+EVOD-49 → EVOD-51 : prerequisite for AGI capability hypotheses and limits
+
+EVOD-50 → EVOD-51 : prerequisite for AGI capability hypotheses and limits
+
+EVOD-29 → EVOD-52 : prerequisite for Failures, open problems and reproducible synthesis
+
+EVOD-43 → EVOD-52 : prerequisite for Failures, open problems and reproducible synthesis
+
+EVOD-47 → EVOD-52 : prerequisite for Failures, open problems and reproducible synthesis
+
+EVOD-48 → EVOD-52 : prerequisite for Failures, open problems and reproducible synthesis
+
+EVOD-49 → EVOD-52 : prerequisite for Failures, open problems and reproducible synthesis
+
+EVOD-50 → EVOD-52 : prerequisite for Failures, open problems and reproducible synthesis
+
+EVOD-51 → EVOD-52 : prerequisite for Failures, open problems and reproducible synthesis
+
+The [deep Book I contract](pedagogy/deep-book-i-contract.json) contains exact exit tasks. A planned link does not establish that a chapter has been taught. Qualified readers may demonstrate equivalent knowledge; otherwise follow the named chapters.

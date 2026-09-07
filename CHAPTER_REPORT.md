@@ -1,6 +1,6 @@
 # Chapter 1 development report
 
-> Preserved edition-2 document. This does not describe the active undergraduate-first edition. See [PEDAGOGICAL_REDESIGN.md](PEDAGOGICAL_REDESIGN.md); the new manuscript has no drafted chapters yet.
+> Preserved edition-2 document. This does not describe the active deep technical edition. See [DEEP_REDESIGN.md](DEEP_REDESIGN.md); the deep manuscript has no drafted chapters yet. Historical findings below are unchanged.
 
 Historical milestone: commit `0c1dfa6c1c1fa8e36899cd14c68f197f3015c72d`. The current build is described in [the Chapter 2 report](CHAPTER_02_REPORT.md).
 

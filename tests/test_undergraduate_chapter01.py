@@ -90,9 +90,9 @@ def test_printed_code_and_citations_use_real_sources():
     assert len(re.findall(r"\\item ",body))==16
 
 def test_pdf_build_and_textual_publication_contract():
-    subprocess.run(["make","pdf","PYTHON="+sys.executable],cwd=ROOT,check=True,capture_output=True)
+    subprocess.run(["make","historical-pdf","PYTHON="+sys.executable],cwd=ROOT,check=True,capture_output=True)
     name="undergraduate-dna-computing" if DNA else "undergraduate-evolutor"
-    pdf=ROOT/f"output/pdf/{name}.pdf"
+    pdf=ROOT/f"build/{name}.pdf"
     assert pdf.read_bytes().startswith(b"%PDF-")
     text=subprocess.check_output(["pdftotext",str(pdf),"-"],text=True)
     assert "Chapter 1 glossary" in text and "Bibliography" in text and "Index" in text

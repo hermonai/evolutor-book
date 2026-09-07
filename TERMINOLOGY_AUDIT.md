@@ -1,77 +1,64 @@
-# Evolutor: undergraduate-first architecture
+# Evolutor: deep technical edition
 
-Status: Chapter 1 internally reviewed development draft; all later units remain planned. No learner study, independent expert certification or new research-model experiment is claimed. Generated from [pedagogy/curriculum.json](pedagogy/curriculum.json). See [Chapter 1 storyboard](research/undergraduate-ch01-storyboard.md) for the six produced figures.
+Status: architecture and detailed outlines only; no new manuscript, final figures, animation frames, models, engines or experiments are delivered. Canonical source: [deep curriculum](pedagogy/deep-curriculum.json). Prior editions remain historical references, not the active teaching level.
 
-Target taxonomy: **DOGMA = non-Transformer DNA-native architecture + DOGMA Engine; Hermon DNA = Transformer-based DNA architecture + Hermon DNA Engine; Evolutor = research/theory/runtime above both.** These are research targets, not implementation evidence. See [taxonomy and lineage](research/architecture-taxonomy.md). Stable EVOU IDs differ from printed numbers after EVOU-11.
+DOGMA = non-Transformer DNA-native model + DOGMA Engine; Hermon DNA = Transformer-based DNA model + Hermon DNA Engine; Evolutor = broader genomic computation theory, research and eventual runtime above both.
 
-## First-encounter ledger
+## Domain terminology and notation plan
 
-This is a planned terminology inventory, not a finished glossary. Definitions, illustrations and glossary entries must be authored and checked with the chapter. A parser cannot discover every unknown word. Human noun/acronym audit remains mandatory, including terms inside captions, code and exercises.
+This is a teaching-location index, not a claim that every term is first encountered here. Entry mathematics and programming may be used directly. Expand domain acronyms, define symbols before substantive use, show shapes/units, and keep a selective glossary plus comprehensive index. Do not repeat basic vocabulary merely to pad a chapter. Chapter 1 previews are labeled as such.
 
-For each term: intuition → everyday example → labeled picture → precise definition → notation. The eventual digital glossary records short definition, first-use section, related terms and reciprocal chapter links; the print index records every substantive occurrence. No acronym appears before its expanded name and explanation.
-
-| First-use chapter | Terms to teach | Definition / illustration / glossary state |
-|---|---|---|
-| EVOU-01 | biological gene versus computational gene; analogy; research program | Produced; see Chapter 1 first-sentence audit |
-| EVOU-02 | persistent state; module; interface contract; conditional execution | Pending chapter production |
-| EVOU-03 | machine learning; model; parameter; prediction; training; inference; loss | Pending chapter production |
-| EVOU-04 | dataset; training split; validation split; test split; overfitting; mean; variance; confidence interval; data leakage | Pending chapter production |
-| EVOU-05 | tensor; shape; batch dimension; broadcasting | Pending chapter production |
-| EVOU-06 | derivative; partial derivative; gradient; chain rule; gradient descent; learning rate | Pending chapter production |
-| EVOU-07 | neural network; layer; activation; multilayer perceptron; MLP; backpropagation; convolution; CNN | Pending chapter production |
-| EVOU-08 | PyTorch; automatic differentiation; optimizer; epoch; checkpoint; device; random seed | Pending chapter production |
-| EVOU-09 | token; vocabulary; embedding; next-token prediction; categorical distribution; softmax; cross-entropy | Pending chapter production |
-| EVOU-10 | recurrent neural network; RNN; hidden state; unrolling; backpropagation through time; leaky integrator | Pending chapter production |
-| EVOU-11 | gate; gated recurrent unit; GRU; state-space model; SSM; stability | Pending chapter production |
-| EVOU-41 | finite-state machine; long short-term memory; LSTM; selective state update; associative scan; RWKV comparison | Pending chapter production |
-| EVOU-12 | query; key; value; attention score; attention; causal mask; attention head | Pending chapter production |
-| EVOU-13 | multi-head attention; residual connection; normalization; feed-forward network; Transformer; positional encoding | Pending chapter production |
-| EVOU-14 | cache; key-value cache; KV cache; retrieval; external memory; index | Pending chapter production |
-| EVOU-15 | dispatch; plugin; router; dynamic routing; pure function; lookup cost | Pending chapter production |
-| EVOU-16 | mixture of experts; MoE; expert; load balancing; sparse activation | Pending chapter production |
-| EVOU-17 | compiler; runtime; library; application programming interface; API; process; thread; memory | Pending chapter production |
-| EVOU-18 | service; database; protocol; scheduler; query plan; latency; throughput; batch | Pending chapter production |
-| EVOU-19 | baseline; oracle; ablation; capacity matching; profiling plan; experimental hypothesis; Markov assumption | Pending chapter production |
-| EVOU-20 | biological regulation versus routing; sequence transfer versus control; timescale | Pending chapter production |
-| EVOU-21 | abstraction; mechanism; novelty claim; biological fidelity | Pending chapter production |
-| EVOU-22 | pruning; architecture search; genetic programming; program synthesis; structural update | Pending chapter production |
-| EVOU-23 | intermediate representation; IR; developmental program; compilation phase | Pending chapter production |
-| EVOU-24 | computational genome; computational regulator; expression plan; operational semantics | Pending chapter production |
-| EVOU-25 | class; instance; method; composition; Unified Modeling Language; UML | Pending chapter production |
-| EVOU-26 | UML sequence diagram; lifeline; message; executor | Pending chapter production |
-| EVOU-27 | credit assignment; trace provenance; causal intervention | Pending chapter production |
-| EVOU-28 | UML state machine; proposal lifecycle; invariant; rollback | Pending chapter production |
-| EVOU-42 | DOGMA target architecture; DOGMA transition contract | Pending chapter production |
-| EVOU-43 | DOGMA regulator candidate; DOGMA expression candidate | Pending chapter production |
-| EVOU-44 | DOGMA memory locus candidate; DOGMA multi-timescale state | Pending chapter production |
-| EVOU-45 | DOGMA dual-state candidate; causal reverse-complement boundary | Pending chapter production |
-| EVOU-46 | DOGMA trace contract; trace utility test | Pending chapter production |
-| EVOU-47 | Hermon DNA target architecture; Transformer DNA reference contract | Pending chapter production |
-| EVOU-48 | strand-aware embedding candidate; motif-aware attention candidate | Pending chapter production |
-| EVOU-29 | candidate training contract; multi-timescale update; frozen structure control | Pending chapter production |
-| EVOU-49 | dual-family training contract | Pending chapter production |
-| EVOU-50 | DOGMA training-inference parity | Pending chapter production |
-| EVOU-30 | runtime component; backend; inference contract; UML component diagram | Pending chapter production |
-| EVOU-31 | serialization; schema version; content hash; model identity; provenance | Pending chapter production |
-| EVOU-32 | state pool; memory ownership; paged KV; eviction; isolation | Pending chapter production |
-| EVOU-51 | DOGMA Engine; prompt ingestion | Pending chapter production |
-| EVOU-52 | DOGMA state-slot lifecycle | Pending chapter production |
-| EVOU-53 | prefix state cache; state checkpoint parity | Pending chapter production |
-| EVOU-54 | state-transition batching | Pending chapter production |
-| EVOU-55 | Hermon DNA Engine; prefill; attention decode | Pending chapter production |
-| EVOU-56 | Hermon KV page table; Transformer prefix cache | Pending chapter production |
-| EVOU-57 | Transformer batch lifecycle; quantization | Pending chapter production |
-| EVOU-58 | heterogeneous model routing | Pending chapter production |
-| EVOU-59 | compression-addressability hypothesis | Pending chapter production |
-| EVOU-33 | continuous batching; admission control; backpressure; tail latency | Pending chapter production |
-| EVOU-34 | parity; profiler; benchmark; warm-up; optimization | Pending chapter production |
-| EVOU-60 | family-specific kernel gate; state-schema metadata | Pending chapter production |
-| EVOU-35 | UML deployment diagram; observability; authentication; authorization; threat model; deployment rollback | Pending chapter production |
-| EVOU-36 | negative result; confound; replication; stopping rule | Pending chapter production |
-| EVOU-37 | DNA model taxonomy; reverse-complement symmetry study; research-program name | Pending chapter production |
-| EVOU-61 | cross-family workload matrix | Pending chapter production |
-| EVOU-38 | transfer; continual learning; catastrophic forgetting; population composition; distribution shift | Pending chapter production |
-| EVOU-39 | artificial general intelligence; AGI; capability scope; generalization claim; evidence scorecard | Pending chapter production |
-| EVOU-40 | research artifact; replication package; claim retirement | Pending chapter production |
-
-Chapter 1 production overrides the planned inventory: see [its first-sentence audit](research/undergraduate-ch01-terminology.md), including locally defined preview terms and optional-code vocabulary. Later units deepen these ideas rather than assuming the full planned treatment has already occurred.
+| Chapter | Domain vocabulary / concepts |
+|---|---|
+| EVOD-01 | programs; neural models; genomes; stored and expressed computation; development; adaptation |
+| EVOD-02 | prediction; likelihood; splits; uncertainty; controls; capacity |
+| EVOD-03 | tensor shapes; gradients; autograd; optimization; numerical precision |
+| EVOD-04 | datasets; batching; masking; optimizer; checkpoints; seeds |
+| EVOD-05 | DNA tokens; k-mers; embeddings; positions; strand orientation |
+| EVOD-06 | RNN; LSTM; GRU; state transition; retention; gradients |
+| EVOD-07 | linear recurrence; S4/S5; selective SSM; Mamba; RWKV; chunking |
+| EVOD-08 | Q/K/V; scores; masks; heads; softmax; retrieval |
+| EVOD-09 | residuals; normalization; MLP; positions; blocks; KV; prefill; decode |
+| EVOD-10 | dispatch; MoE; retrieval; external memory; dynamic graphs; hybrid models |
+| EVOD-11 | biological regulation; stored modules; selection; execution; context |
+| EVOD-12 | genotype/phenotype; developmental encoding; compilation; program synthesis; NAS |
+| EVOD-13 | state change; parameter learning; structural learning; populations; selection |
+| EVOD-14 | alphabet; computational gene; genome; regulator; expression; state; trace |
+| EVOD-15 | configuration; transition; evaluation rule; effects; termination; trace |
+| EVOD-16 | stored size; routing; active work; state; communication; trace; adaptation |
+| EVOD-17 | logging; causal interventions; credit assignment; structural proposals |
+| EVOD-18 | State; Regulator; Expression; Strand; Complement; Gate; Memory locus; Module; Trace |
+| EVOD-19 | regulation; expression; conditional state update; routing; ablation |
+| EVOD-20 | local/global state; modular memory; regulatory state; fast/slow state; capacity |
+| EVOD-21 | paired states; reverse complement; equivariance; causal streaming |
+| EVOD-22 | reference implementation; state trace; objective; baseline; ablation; negative evidence |
+| EVOD-23 | DNA tokenizer; Transformer blocks; output head; causal positions |
+| EVOD-24 | strand embeddings; motifs; k-mers; multi-scale positions; sparse/long context; retrieval |
+| EVOD-25 | data contracts; model interfaces; state types; losses; benchmarks |
+| EVOD-26 | sequential; chunked; scan; full sequence; incremental; gradients |
+| EVOD-27 | mixed precision; accumulation; checkpointing; optimizer state; stability |
+| EVOD-28 | data/tensor/pipeline parallelism; communication; sharding; formats; provenance |
+| EVOD-29 | oracles; budgets; multi-seed evaluation; capacity controls; causality; transplant tests |
+| EVOD-30 | request; model identity; state ownership; cancellation; streaming; errors |
+| EVOD-31 | prompt ingestion; native step; chunking; output head; state tracing |
+| EVOD-32 | allocation; reset; reuse; clone; isolation; temporary buffers |
+| EVOD-33 | checkpoint; restore; state clone; versioning; shared prefixes |
+| EVOD-34 | state-transition batching; scheduling; scans; locality; kernel profiling |
+| EVOD-35 | prefill; decode; cache layout; positions; memory growth |
+| EVOD-36 | pages; blocks; fragmentation; prefix cache; reference counting; eviction |
+| EVOD-37 | admission; prefill/decode scheduling; quantization; quality; tails |
+| EVOD-38 | draft/verify; acceptance; numerical parity; memory traffic; fused kernels |
+| EVOD-39 | planner; router; adapters; tools; retrieval; symbolic modules; trace |
+| EVOD-40 | compression; addressability; forgetting; retrieval; memory routing |
+| EVOD-41 | IR; typing; optimization; lowering; backend legality; cost model |
+| EVOD-42 | parser; logical plan; optimizer; physical operators; buffer pool; transactions |
+| EVOD-43 | proposals; validation; evaluation; promotion; rollback; lineage |
+| EVOD-44 | versioning; APIs; tracing; metrics; streaming; fault handling; rollback |
+| EVOD-45 | ownership; quotas; untrusted inputs; tool authority; state leakage; threat model |
+| EVOD-46 | replication; partitioning; tensor/pipeline parallelism; sharding; migration |
+| EVOD-47 | TTFT; ITL; throughput; memory; power; utilization; roofline intuition |
+| EVOD-48 | regulatory sequence analysis; motifs; long context; strand symmetry; uncertainty |
+| EVOD-49 | statistics; retrieval; copying; code; tools; persistent state; planning |
+| EVOD-50 | transfer; forgetting; structural search; populations; open-ended learning |
+| EVOD-51 | reasoning; planning; world models; transfer; tools; self-modification; generalization |
+| EVOD-52 | failed mechanisms; causality leaks; capacity confounds; negative results; historical lineage |

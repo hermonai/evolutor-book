@@ -1,44 +1,33 @@
-# Canonical chapter production standard
+# Deep-edition chapter production standard
 
-Established after producing and rendering both undergraduate Chapter 1s on 6 September 2026. This records observed production lessons, not a template written before chapter experience.
+Active from 7 September 2026. This adapts lessons from the two rendered undergraduate prototypes; the old standard remains in Git. The new target is depth with straightforward explanation, not prerequisite-free prose.
 
-## Required sequence
+## Reasoning and content
 
-1. Inspect the branch, dirty state, approved title, prerequisites and preservation anchors.
-2. Read the relevant redesign and source material. Record access depth: an abstract supports a narrower use than a fully inspected paper.
-3. Approve a figure-specific storyboard internally **before prose**: question, prerequisite, objects, steps, caption, scientific risk and evidence. Internal approval is not independent validation.
-4. Draft fresh around that visual sequence. Start with objects and a hand trace. Define every term before substantive dependence. Identify title/objective previews honestly.
-5. Introduce symbols only after their quantities and operations are understood. The first worked example must be executable by hand.
-6. Keep code optional when the entry contract does not require programming. Include printed code from actual tested files, generate tables from it, and test independently specified expected cases.
-7. Generate editable vectors and semantic Unicode TXT companions. Do not treat a valid SVG as a reviewed illustration.
-8. Supply recognition, boundary, application and critical-thinking exercises with answers. State the acceptable scope of open research responses.
-9. Generate reciprocal glossary/section links from canonical definitions and add the print index. Audit prose, captions, code, exercises and answers, not just a vocabulary list.
-10. Review separately as an introductory learner, a returning general reader and each relevant specialist perspective. Label author-agent role reviews honestly. Keep real learner and independent expert checks open.
-11. Compile and render **every page**. Inspect final-size labels, grayscale distinctions, caption placement, page rhythm, references and index. Fix meaningful warnings and re-render changed pages.
-12. Update the claims ledger, candid production report and next prerequisite-complete scope. Run all regressions, preserve earlier editions and inspect the staged diff. Push only the authorized branch; no implicit main merge.
+1. Inspect the active branch, manuscript status, source history and dependency closure.
+2. Read primary sources to the depth required for each claim. Record access depth, edition/date and exact evidence; an abstract is not a full mechanistic reconstruction.
+3. Approve a figure-specific storyboard before prose. Identify the question, objects, semantics, changing/unchanged elements, caption and scientific risk.
+4. Open with the subject and a meaningful technical problem. Assume declared mathematics/programming; teach domain-specific mechanisms without elementary filler.
+5. Use abstraction wherever it clarifies the argument. Explain the map from example to formal object, what is preserved, and what is omitted. Define symbols, units, shapes and timing conventions before relying on them.
+6. Derive important equations and proofs through explicit intermediate reasoning. Include a worked example and an interpretation; do not substitute a figure for the derivation.
+7. Introduce algorithms and reference implementations only when they serve the subject. Include code from actual tested files, generate numerical tables from declared computations, and test independent expected cases. PyTorch is justified by the model, not branding.
+8. Produce original editable vectors and semantic Unicode TXT companions. Use scientific notation for molecules, UML for software, memory layouts for state and timelines for execution. No ASCII box art.
+9. Supply conceptual, derivation/proof, algorithmic, coding and experimental/systems-design exercises where appropriate, with worked solutions or explicit open-problem rubrics.
+10. Keep a selective glossary, substantive index, cross-references and primary bibliography. Audit notation and domain acronyms; do not require a glossary entry for every ordinary word.
+11. Review subject accuracy, mathematics, implementation, sources and explanation separately. Author-agent role reviews must not be represented as independent specialists or reader studies.
+12. Compile the distinct deep-edition LaTeX entry point and render every page. Inspect actual print-size labels, grayscale, captions, equation/code layout, references and index. Fix warnings and re-render changed pages.
+13. Record claims, negative results, limitations and next scope. Run full regressions and preservation checks. Commit only the scoped work and publish only when authorized.
 
-## Lessons actually observed in Chapter 1
+These are gates, not a rigid table of contents. A long proof, a mechanistic atlas chapter and an engine implementation can have different structures.
 
-- Two course-level figure placeholders were too coarse for production. Six concrete figures per opening worked here, but six is not a quota for later chapters.
-- A floating figure split a biological sentence. The introductory TeachingFigure macro now keeps artwork and caption together at the authored boundary. Later long figures may use carefully reviewed floats; no policy overrides actual page layout.
-- An arrow generated before the next panel was painted over. Connectors must survive the complete drawing order; an XML test cannot detect every occlusion.
-- A genotype picture could look like DNA acting alone. Put “cellular machinery required” and “conceptual, not measured” in the visual itself.
-- Source-linked code exposed the importance of exact case: the returned word on must not become On in an answer.
-- A glossary copied manually drifted after a definition-order correction. It is now generated from explicit Teach definitions with related-term links that do not recursively add glossary pages to occurrence lists.
-- Optional code and biological reminders introduce narrow previews before later full treatments. Record that refinement; do not pretend the entire original prerequisite has been delivered.
-- Title hyphenation and justified bibliography URLs needed correction despite a successful build.
-- “All tests pass” is evidence about these contracts, not scientific novelty, readability, external endorsement or intelligence.
+## Production lessons retained
 
-## Stable working assets
+The earlier page review found an arrow hidden by later-painted panels, a floating figure splitting a sentence, title hyphenation, awkward bibliography spacing and glossary drift. Check the final rendered page rather than assuming valid SVG or successful LaTeX implies clarity. Stable molecular identities and orientation matter more than a generic panel layout. Keep figures and captions together; carefully reviewed floats are acceptable.
 
-tex/undergraduate/preamble.tex defines the page system.
-scripts/build_undergraduate.py contains the small original SVG primitives and deterministic data generation.
-scripts/audit_undergraduate.py derives the glossary and first-sentence ledger.
-scripts/review_undergraduate.py renders pages/contact sheets, including grayscale.
-pedagogy/ch01-storyboard.json records the visual decisions.
+Source-linked code must match literal outputs and numerical conventions. A biology drawing must not imply DNA acts without cellular machinery. Color reinforces labels and line styles, never replaces them. Animation-like static panels are not exported animations.
 
-Avoid expanding this into a general illustration platform before later chapters demonstrate a need.
+## Deep-edition acceptance
 
-## Acceptance and remaining external gates
+A technically capable reader should be able to reconstruct the mechanism, derive the important relationship, execute or trace the reference model, and distinguish evidence from hypothesis. Internal checks cannot establish that a real reader succeeds. Independent review, reader observation, source/rights auditing and accessible publication structure remain open release gates.
 
-The canonical template is an internally reviewed development standard. Actual novice observation, independent subject review and tagged-PDF/accessibility work remain separate gates. The current PDFs are not tagged and are not claimed PDF/UA compliant. A linked SVG description and readable print layout do not substitute for accessible PDF structure.
+The current milestone contains no deep manuscript or PDF. All new chapters remain planned until a future chapter production record satisfies this standard.

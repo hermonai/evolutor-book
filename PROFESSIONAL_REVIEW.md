@@ -1,5 +1,7 @@
 # Professional-perspective review: Evolutor
 
+> Historical undergraduate-design review, retained as evidence of the earlier experiment. It is not the active audience policy. See DEEP_REDESIGN.md and REVIEW_GATES.md for the deep edition.
+
 Internal role simulation only; no named professional was consulted and no independent endorsement is claimed.
 
 | Perspective | Risk to accuracy or teaching | Architectural response | Still required during production |

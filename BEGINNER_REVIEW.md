@@ -1,5 +1,7 @@
 # Beginner review: Evolutor
 
+> Historical undergraduate-design review, retained as evidence of the earlier experiment. It is not the active audience policy. See DEEP_REDESIGN.md and REVIEW_GATES.md for the deep edition.
+
 This is an internal role-based walkthrough performed by the authoring assistant, not a panel of actual readers or separate agents. Status: revised architecture ready for user review; empirical readability remains untested.
 
 | Perspective | Where the old route loses them | Applied structural revision | Remaining check |

@@ -1,33 +1,24 @@
 # Evolutor
 
-From Genomic Computation to Adaptive Machine Intelligence
+Genomic Computation, DNA-Native AI, and Adaptive Machine Intelligence
 
-Active branch: astra-undergraduate-rewrite. **New undergraduate Chapter 1: internally reviewed development draft.** All later units remain planned (61 units in the current full curriculum). This is not a completed textbook or independent pedagogical validation.
+Active development branch: **astra-deep-rewrite**. The target is full technical and scientific depth with straightforward explanations, including useful abstraction. This is currently a **planning-only deep edition**: 52 substantial chapters are planned; none is drafted yet. No new deep PDF, model or engine is claimed.
 
-Read [the chapter source](tex/undergraduate/ch01.tex), [production report](CHAPTER_1_REPORT.md), [storyboard](research/undergraduate-ch01-storyboard.md), [contents](BOOK_PLAN.md) and [course map](COURSE_MAP.md).
+Start with [DEEP_REDESIGN.md](DEEP_REDESIGN.md), [contents](BOOK_PLAN.md), [Chapter 1 outline](CHAPTER_1_OUTLINE.md), [technical reset](TECHNICAL_LEVEL_RESET.md) and [redesign report](DEEP_REDESIGN_REPORT.md).
 
-**Target taxonomy: DOGMA = non-Transformer DNA-native; Hermon DNA = Transformer-based DNA; Evolutor = the higher-level research/runtime.** See [taxonomy and historical lineage](research/architecture-taxonomy.md). This is future design intent, not a claim about implemented engines.
-
-## Reproduce and inspect
-
-[Read the published Chapter 1 PDF](output/pdf/undergraduate-evolutor.pdf).
-
-Requires Python 3, pytest and the existing project test dependencies; XeLaTeX/latexmk, librsvg's rsvg-convert and Poppler. Pillow is needed only for page contact sheets.
+DOGMA = non-Transformer DNA-native model + DOGMA Engine; Hermon DNA = Transformer-based DNA model + Hermon DNA Engine; Evolutor = broader theory/research/runtime above both. These are target research roles, not evidence of implementation.\n\n## Validate the plan
 
 ```sh
+python3 scripts/build_deep_plan.py --check
 python3 scripts/build_pedagogy.py --check
-python3 scripts/audit_undergraduate.py --check
-python3 scripts/build_undergraduate.py --check
 python3 -m pytest
-make pdf
-make check-pdf
-python3 scripts/review_undergraduate.py
+make pedagogy
 ```
 
-The PDF is generated under output/pdf with a distinct undergraduate filename. Figures retain editable SVG and Unicode TXT sources. Printed code is included directly from the tested example. See [publication instructions](PUBLICATION_PLAN.md) and [chapter standard](CHAPTER_STANDARD.md).
+The default `make pdf` intentionally refuses to build until a new deep manuscript is accepted. `make historical-pdf` explicitly reproduces the preserved undergraduate prototype into build/, without replacing its committed PDF or treating it as the new edition. See [publication policy](PUBLICATION_PLAN.md).
 
-## Preservation
+## Previous editions
 
-The earlier two-chapter edition remains at astra-rewrite commit 58fa55a8097157d297be4afe21f146623048b875; main and historical snapshots are unchanged. Old chapter sources remain byte-identical and are excluded from the active manifest. Use the preserved commit to reproduce old PDFs. No force push, deletion, license or authorship change is part of this milestone.
+The undergraduate experiment is preserved at astra-undergraduate-rewrite commit af8de42e16c71024d3e228a57e1d4d87c8d87276. Its [source](tex/undergraduate/ch01.tex), [historical report](CHAPTER_1_REPORT.md) and [historical PDF](output/pdf/undergraduate-evolutor.pdf) remain available, but are not the active intellectual target. Earlier astra-rewrite and pre-reboot snapshots are unchanged. No main merge, deletion, license or authorship change is included.
 
-Reports and evidence ledgers distinguish current undergraduate work from earlier editions. Internal role reviews are not external endorsements; no new laboratory or research-model experiment is claimed.
+Active planning data use the deep- prefix under pedagogy/. The older unprefixed data are retained only for historical regression checks. Tests verify structure and preservation, not scientific novelty or successful reader learning.

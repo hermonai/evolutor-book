@@ -1,5 +1,11 @@
 # Shared textbook figure system
 
+## Active deep-edition policy (7 September 2026)
+
+Current plans are pedagogy/deep-figure-inventory.json and pedagogy/deep-animation-inventory.json. The unprefixed inventories and the undergraduate Chapter 1 conventions below are historical production evidence. The deep edition has no finished artwork yet.
+
+Useful abstraction is welcome: label the entities, relations and mapping to the mechanism. Extend the established visual grammar to chemical energy landscapes, reaction kinetics, proof/state diagrams, tensor dimensions, memory ownership, scheduling timelines and UML deployment. Mathematics and illustrations explain complementary aspects; neither replaces the other. Eight Chapter 1 figure briefs are planned in CHAPTER_1_OUTLINE.md, not drawn. Preserve storyboard-first sequences, editable source, Unicode TXT, contrast, captions and final-page review; do not preserve elementary examples or fixed figure quotas.
+
 Status: production specification; no new publication artwork is delivered in this architecture milestone.
 
 ## Purpose before drawing

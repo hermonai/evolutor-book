@@ -1,49 +1,26 @@
-# Review gates and next execution
+# Deep-edition review gates
 
-Date: 2026-09-06. Scope: architecture only.
+Date: 7 September 2026. Current scope: planning only.
 
-## Current disposition
+## Architecture gate
 
-The structural plan is submitted for user review. It has been reviewed internally using named reader and professional perspectives, not tested on actual students or endorsed by outside experts. Automated checks validate references, ordering, preservation and build isolation; they cannot establish that the prose will teach successfully.
+- Every prior planned/drafted topic has a KEEP/REWRITE/MERGE/MOVE TO PREFACE/ARCHIVE disposition and a destination.
+- The new chapter sequence has explicit prior dependencies, Book I imports, mechanisms, mathematics, implementation/assessment tasks and visual briefs.
+- No forward prerequisite, dependency cycle, missing import or DOGMA/Hermon inversion is accepted.
+- Useful abstraction is permitted and explained. Elementary syntax and arithmetic are not the intellectual entry.
+- Chapter 1 is a detailed outline only. Default PDF production is blocked; historical drafts and their assets remain byte-identical.
+- Plans, placeholder paths and animation candidates are not counted as delivered chapters or artwork.
 
-The next execution prompt, after architecture review, should authorize **only the new Chapter 1** in each requested book. No chapter is authorized by this planning document itself. Do not continue old Chapter 3. Keep unfinished research chapters as plans.
+## Internal review findings
 
-## Gate A — architecture, before drafting
+The first risk was replacing small beginner units with a long title list without changing substance. The plan now assigns every chapter a mathematical development and an observable technical task. The second risk was making the introductory experiment depend on chemistry chapters not yet read. The DNA opening supplies limited local operational explanations; later chapters explicitly deepen them. The third risk was treating all Book I outcomes as already delivered. The deep contract marks every export planned-not-yet-taught and allows demonstrated equivalent knowledge.
 
-- Every previous drafted/planned topic has a disposition.
-- Every new chapter has a prerequisite map, first-use terms, tangible question, math bridge, visual sequence and observable exit task.
-- No required forward dependency or cross-book cycle exists.
-- Book II imports only named Book I outcomes; each remains planned until actually taught.
-- Beginner and professional role critiques identify risks, changes and unresolved work.
-- User reviews the new route before the first new manuscript chapter begins.
+For Evolutor, conventional conditional computation is a central baseline, not an absence to be invented. Model semantics precede training parity and native engines. AGI capability research appears after models, systems and experiments. These are author-agent reviews, not external endorsements.
 
-## Gate B — each chapter production loop
+## Chapter gate for the next execution
 
-1. Audit prerequisites and recall them in a short opening bridge.
-2. State measurable learning objectives and a tangible opening question.
-3. Review the storyboard before prose.
-4. List new nouns and acronyms, including those inside captions and exercises.
-5. Read appropriate scientific/technical sources; separate facts, models and proposals.
-6. Work a concrete example by hand.
-7. Write layered prose with small sections.
-8. Build each equation from named quantities and a visual interpretation.
-9. Explain pseudocode and syntax before implementation.
-10. Produce vector figures from editable sources and TXT companions.
-11. Add animation keyframes only where motion improves the explanation.
-12. Provide graduated exercises, hints and solution notes.
-13. Update definitions, first-use locations, related terms, hyperlinks and index entries.
-14. Audit science, mathematics and code; run independent small-example checks.
-15. Review as a novice; then use real reader teach-back where feasible.
-16. Render actual pages and inspect every page plus detailed scientific/UML figures.
-17. Run regression, freshness, reference and isolation tests.
-18. Commit the scoped chapter; publish only within the user's authorization.
+Follow CHAPTER_STANDARD.md: source review → exact worked mechanisms and derivations → storyboards → manuscript and code → editable vectors/TXT → tests → scientific/mathematical/systems review → actual every-page PDF inspection. Keep methodology primarily in notes and ledgers so it supports rather than dominates the teaching.
 
-A chapter enters the active manuscript manifest only after these steps are recorded. “Figure can teach before equation,” “learner can explain equation from figure,” “learner can implement procedure,” and “learner can identify the unproven part” are four distinct checks.
+## Release gate
 
-## Gate C — release, not satisfied here
-
-Independent scientific and undergraduate-instruction review; actual beginner testing; full source/rights audit; complete glossary and index; accessible alternatives and rendered checks; reproducible experiments if claims depend on them; explicit authorship/license approval. No scientific, accessibility or pedagogical certification is inferred from passing tests.
-
-## Real-reader test protocol
-
-Recruit consenting readers from the intended backgrounds. For a chapter sample, ask them to explain the first paragraph, label the figure without the equation, derive the arithmetic from the picture, complete a fresh exercise, and name one limitation. Record unfamiliar words and where they first got lost. Do not coach during the diagnostic attempt. Then revise the teaching sequence and repeat on a new task. Define any numerical acceptance threshold before collecting results; no measured pass rate exists yet.
+Real technically capable readers, independent subject review, source/rights audit, accessible alternatives, reproducible empirical claims and full manuscript inspection. No learner results, expert endorsement or accessibility certification are claimed here.
