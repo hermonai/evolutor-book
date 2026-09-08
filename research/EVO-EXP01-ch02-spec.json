@@ -1,0 +1,14 @@
+{
+  "id": "EVO-EXP01-CH02-SMOKE",
+  "parent": "EVO-EXP01",
+  "registered": "2026-09-08, before implementation and execution",
+  "question": "Can the reference pipeline separate causal next-base prediction from deliberate future leakage and keep declared sequence groups disjoint?",
+  "hypothesis": "The causal reference is prefix-invariant, the future-reading control is not, and exact duplicate/reverse-complement and metadata conflict groups never cross folds.",
+  "models": ["fixed causal prefix-count reference", "deliberately future-reading negative control", "uniform logits"],
+  "data": "Locally generated iid DNA and small explicitly constructed sequence records; no external genomic dataset.",
+  "training_budget": "No optimizer or model training; bounded CPU reference evaluation only.",
+  "seeds": [11, 29, 47],
+  "metrics": ["prefix-logit maximum absolute difference", "nats per scored base", "perplexity", "bits per base", "group overlaps", "delay-oracle accuracy"],
+  "expected_falsifier": "A causal prefix changes beyond 1e-12 in float64 CPU; a deliberately leaky control is not detected; a declared conflict pair crosses folds; any non-finite output is accepted.",
+  "scope": "This smoke record does not complete the parent EVO-EXP01 training/benchmark proposal. Supplied seed-score examples are illustrative, not measured runs."
+}

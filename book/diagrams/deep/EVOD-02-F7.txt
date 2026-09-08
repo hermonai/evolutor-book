@@ -1,0 +1,31 @@
+EVOD-02-F7 — Equal parameter totals can hide different resources
+
+QUESTION
+Which variables did the comparison actually hold fixed?
+
+OBJECTS
+• Width
+• depth
+• state
+• KV
+• FFN
+• tokens
+• compute
+
+RELATION / MECHANISM
+Width; depth; state; KV; FFN; tokens; compute
+
+STATE TRANSITION
+Compute exact toy parameter totals; compare other dimensions
+
+INFERENCE
+Matching one budget defines one question, not complete fairness.
+
+BOUNDARY
+Parameter count is not an effective-capacity theorem.
+
+SOURCE
+Original parameter accounting; Chapter 1 memory contract
+
+EXECUTABLE EVIDENCE
+artifacts/deep/ch02-results.json; examples/deep/ch02.py

@@ -1,0 +1,28 @@
+EVOD-02-F6 — Random targets set an information floor
+
+QUESTION
+What does below-floor loss mean?
+
+OBJECTS
+• Uniform DNA source
+• expected log loss
+• finite sample
+• memorized training set
+
+RELATION / MECHANISM
+Uniform DNA source; expected log loss; finite sample; memorized training set
+
+STATE TRANSITION
+Derive H+KL; convert nats to bits and perplexity; separate expectation from sample
+
+INFERENCE
+Independent fresh targets give expected NLL at least ln 4.
+
+BOUNDARY
+A finite test score can fluctuate; repeated evaluation is not untouched evidence.
+
+SOURCE
+Original derivation; Zhang et al. random-label fitting anchor
+
+EXECUTABLE EVIDENCE
+artifacts/deep/ch02-results.json; examples/deep/ch02.py

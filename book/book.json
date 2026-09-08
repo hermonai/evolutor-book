@@ -2,7 +2,7 @@
   "title": "Evolutor",
   "subtitle": "Genomic Computation, DNA-Native AI, and Adaptive Machine Intelligence",
   "edition": "4-deep",
-  "status": "chapter-one-production",
+  "status": "chapter-two-production",
   "chapters": [
     {
       "id": "EVOD-01",
@@ -10,9 +10,16 @@
       "title": "Why Genomic Computation?",
       "source": "tex/deep/ch01.tex",
       "status": "internally-reviewed-draft"
+    },
+    {
+      "id": "EVOD-02",
+      "number": 2,
+      "title": "Learning objectives, data, tasks, and evaluation",
+      "source": "tex/deep/ch02.tex",
+      "status": "internally-reviewed-draft"
     }
   ],
-  "main": "tex/deep-evolutor.tex",
+  "main": "tex/deep-evolutor-ch01-02.tex",
   "graphs": [
     "book/figures/deep/EVOD-01-F1.svg",
     "book/figures/deep/EVOD-01-F2.svg",
@@ -23,7 +30,20 @@
     "book/figures/deep/EVOD-01-F7.svg",
     "book/figures/deep/EVOD-01-F8.svg",
     "book/figures/deep/EVOD-01-F9.svg",
-    "book/figures/deep/EVOD-01-F10.svg"
+    "book/figures/deep/EVOD-01-F10.svg",
+    "book/figures/deep/EVOD-02-F1.svg",
+    "book/figures/deep/EVOD-02-F2.svg",
+    "book/figures/deep/EVOD-02-F3.svg",
+    "book/figures/deep/EVOD-02-F4.svg",
+    "book/figures/deep/EVOD-02-F5.svg",
+    "book/figures/deep/EVOD-02-F6.svg",
+    "book/figures/deep/EVOD-02-F7.svg",
+    "book/figures/deep/EVOD-02-F8.svg",
+    "book/figures/deep/EVOD-02-F9.svg",
+    "book/figures/deep/EVOD-02-F10.svg",
+    "book/figures/deep/EVOD-02-F11.svg",
+    "book/figures/deep/EVOD-02-F12.svg",
+    "book/figures/deep/EVOD-02-F13.svg"
   ],
   "pedagogy": "pedagogy/deep-curriculum.json",
   "previousEdition": {
@@ -36,5 +56,11 @@
     "commit": "af8de42e16c71024d3e228a57e1d4d87c8d87276",
     "source": "tex/undergraduate/ch01.tex",
     "pdf": "output/pdf/undergraduate-evolutor.pdf"
+  },
+  "preservedDeepChapterOne": {
+    "commit": "b319a6abcc834e3630855556761e9ea5714cc3dd",
+    "source": "tex/deep/ch01.tex",
+    "main": "tex/deep-evolutor.tex",
+    "pdf": "output/pdf/deep-evolutor.pdf"
   }
 }

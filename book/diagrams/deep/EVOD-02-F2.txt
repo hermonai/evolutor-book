@@ -1,0 +1,28 @@
+EVOD-02-F2 — One base string, several prediction units
+
+QUESTION
+How does tokenization change the question?
+
+OBJECTS
+• Base tokens
+• overlapping k-mers
+• nonoverlapping chunks
+• BPE units
+
+RELATION / MECHANISM
+Base tokens; overlapping k-mers; nonoverlapping chunks; BPE units
+
+STATE TRANSITION
+Track shared bases and target shift; expose next-token shortcuts
+
+INFERENCE
+Token NLL is not automatically comparable across tokenizers.
+
+BOUNDARY
+Overlapping k-mers share most of the next target.
+
+SOURCE
+Original example; DNABERT-2 and HyenaDNA tokenization anchors
+
+EXECUTABLE EVIDENCE
+artifacts/deep/ch02-results.json; examples/deep/ch02.py

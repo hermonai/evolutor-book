@@ -23,10 +23,10 @@ def test_reset_deliverables_and_reviewed_chapter_manifest():
     book = json.loads((ROOT / "book/book.json").read_text())
     if book.get("edition") == "4-deep":
         # Check the canonical source independently; the old manifest remains frozen.
-        assert len(book["chapters"]) == 1
+        assert len(book["chapters"]) == 2
         assert book["chapters"][0]["source"] == "tex/deep/ch01.tex"
         assert r"\input{deep/ch01}" in (ROOT/book["main"]).read_text()
-        assert book["status"] == "chapter-one-production"
+        assert book["status"] == "chapter-two-production"
         anchor = book["preservedUndergraduateEdition"]["commit"]
         book = json.loads(subprocess.check_output(
             ["git", "show", anchor+":book/book.json"], cwd=ROOT, text=True))

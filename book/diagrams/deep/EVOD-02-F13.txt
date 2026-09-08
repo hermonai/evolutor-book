@@ -1,0 +1,29 @@
+EVOD-02-F13 — The experiment record is an executable boundary
+
+QUESTION
+How does a prespecified question become evidence?
+
+OBJECTS
+• Researcher
+• existing experiment spec
+• smoke runner
+• evaluator
+• result artifact
+
+RELATION / MECHANISM
+Researcher; existing experiment spec; smoke runner; evaluator; result artifact
+
+STATE TRANSITION
+Lock spec hash; run deterministic checks; emit results and limitations
+
+INFERENCE
+A completed smoke test does not mean the model research experiment is complete.
+
+BOUNDARY
+UML return arrows must not imply training or external review occurred.
+
+SOURCE
+EVO-EXP01 existing repository plan and new smoke record
+
+EXECUTABLE EVIDENCE
+artifacts/deep/ch02-results.json; examples/deep/ch02.py

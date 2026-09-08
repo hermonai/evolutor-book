@@ -1,5 +1,5 @@
 PYTHON ?= python3
-MAIN := deep-evolutor
+MAIN := deep-evolutor-ch01-02
 HISTORICAL_MAIN := undergraduate-evolutor
 export PATH := /Library/TeX/texbin:$(PATH)
 
@@ -23,6 +23,7 @@ test:
 
 deep-artifacts:
 	$(PYTHON) scripts/build_deep_chapter.py --check
+	$(PYTHON) scripts/build_deep_chapter02.py --check
 
 pdf: manuscript-gate deep-artifacts
 	mkdir -p build/deep-figures output/pdf

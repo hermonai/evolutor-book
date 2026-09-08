@@ -1,0 +1,28 @@
+EVOD-02-F8 — Three runs are not one typical run
+
+QUESTION
+What can a mean conceal?
+
+OBJECTS
+• Individual values 0.51,0.97,0.99
+• mean
+• spread
+• paired runs
+
+RELATION / MECHANISM
+Individual values 0.51,0.97,0.99; mean; spread; paired runs
+
+STATE TRANSITION
+Display every point; summarize; separate seed and test-sample uncertainty
+
+INFERENCE
+A wide three-point sample warrants diagnosis, not a confident mode claim.
+
+BOUNDARY
+Do not label supplied illustrative values as measured training results.
+
+SOURCE
+Illustrative values supplied in brief; Bouthillier et al.
+
+EXECUTABLE EVIDENCE
+artifacts/deep/ch02-results.json; examples/deep/ch02.py

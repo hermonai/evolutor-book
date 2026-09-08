@@ -51,7 +51,7 @@ def test_invalid_plans_are_rejected(defect):
     elif defect == "wrong-count":
         data["plannedChapterCount"] += 1
     elif defect == "active-chapter":
-        data["chapters"][1]["status"] = "internally-reviewed-draft"
+        data["chapters"][2]["status"] = "internally-reviewed-draft"
     elif defect in {"dogma","hermon"}:
         family = "DOGMA" if defect == "dogma" else "Hermon DNA"
         data["architectureTaxonomy"][family]["family"] = "reversed"
@@ -109,7 +109,8 @@ def test_shared_contract_matches_sibling_and_all_exports_remain_planned():
     if path.exists():
         assert json.loads(path.read_text()) == contract
     assert contract["chapters"][0]["status"] == "prototype-available"
-    assert all(c["status"] == "planned-not-yet-taught" for c in contract["chapters"][1:])
+    assert contract["chapters"][1]["status"] == "prototype-available"
+    assert all(c["status"] == "planned-not-yet-taught" for c in contract["chapters"][2:])
 
 def test_separate_model_engine_and_runtime_dependencies():
     data, _, _ = inputs()
@@ -138,20 +139,23 @@ def test_inventories_distinguish_produced_chapter_one_from_future_plans():
     figures=json.loads((ROOT/"pedagogy/deep-figure-inventory.json").read_text())
     animations=json.loads((ROOT/"pedagogy/deep-animation-inventory.json").read_text())
     assert len({f["id"] for f in figures})==len(figures)
-    assert len(figures)==len(inputs()[0]["chapters"])+9
-    assert all(f["status"]=="internally-reviewed-produced" for f in figures[:10])
-    assert all(f["status"]=="planned-no-assets" for f in figures[10:])
+    n=24 if inputs()[0]["book"]=="DNA Computing" else 23
+    assert len(figures)==len(inputs()[0]["chapters"])+n-2
+    assert all(f["status"]=="internally-reviewed-produced" for f in figures[:n])
+    assert all(f["status"]=="planned-no-assets" for f in figures[n:])
     assert animations[0]["status"]=="static-keyframes-produced-not-moving-media"
     assert all(f["sourceStatus"]=="created" for f in animations[0]["frames"])
-    assert all(a["status"]=="storyboard-candidate-no-assets" for a in animations[1:])
+    assert animations[1]["status"]=="static-keyframes-produced-not-moving-media"
+    assert all(a["status"]=="storyboard-candidate-no-assets" for a in animations[2:])
     assert (ROOT/"tex/deep/ch01.tex").exists()
-    assert not (ROOT/"tex/deep/ch02.tex").exists()
+    assert (ROOT/"tex/deep/ch02.tex").exists()
+    assert not (ROOT/"tex/deep/ch03.tex").exists()
 
-@pytest.mark.parametrize("defect", ["stale", "missing-manifest", "unreviewed-figure"])
+@pytest.mark.parametrize("defect", ["healthy", "stale", "missing-manifest", "unreviewed-figure"])
 def test_review_is_bound_to_actual_sources(tmp_path, defect):
     import shutil
     gate = module("hashed_gate", "scripts/require_active_manuscript.py")
-    review = json.loads((ROOT/"artifacts/deep/ch01-review.json").read_text())
+    review = json.loads((ROOT/"artifacts/deep/ch02-review.json").read_text())
     for path in review["reviewedSources"]:
         target = tmp_path/path
         target.parent.mkdir(parents=True, exist_ok=True)
@@ -160,12 +164,15 @@ def test_review_is_bound_to_actual_sources(tmp_path, defect):
         (tmp_path/"tex/deep/ch01.tex").write_text("changed after inspection")
     elif defect == "missing-manifest":
         review.pop("reviewedSources")
-    else:
+    elif defect == "unreviewed-figure":
         path = next(p for p in review["reviewedSources"] if p.endswith(".svg"))
         review["reviewedSources"].pop(path)
-    target = tmp_path/"artifacts/deep/ch01-review.json"
+    target = tmp_path/"artifacts/deep/ch02-review.json"
     target.parent.mkdir(parents=True, exist_ok=True)
     target.write_text(json.dumps(review))
     book = json.loads((ROOT/"book/book.json").read_text())
-    with pytest.raises(ValueError):
-        gate.validate_book(book, tmp_path)
+    if defect == "healthy":
+        assert gate.validate_book(book, tmp_path)
+    else:
+        with pytest.raises(ValueError):
+            gate.validate_book(book, tmp_path)

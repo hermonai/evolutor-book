@@ -8,7 +8,9 @@ ROOT=Path(__file__).resolve().parents[1]
 name="deep-dna-computing" if ROOT.name=="dna-computing-book" else "deep-evolutor"
 p=argparse.ArgumentParser()
 p.add_argument("--preview",action="store_true")
+p.add_argument("--chapter-one",action="store_true",help="Inspect the preserved Chapter 1 PDF")
 args=p.parse_args()
+if not args.chapter_one: name += "-ch01-02"
 pdf=ROOT/("build" if args.preview else "output/pdf")/(name+".pdf")
 out=ROOT/"tmp/pdfs"/name
 out.mkdir(parents=True,exist_ok=True)
@@ -27,7 +29,7 @@ for start in range(0,len(pages),4):
         draw.text((x,y-20),f"PDF page {start+i+1}",fill="black")
     sheet.save(out/f"contact-{start//4+1}.png")
     ImageOps.grayscale(sheet).save(out/f"grayscale-{start//4+1}.png")
-frames=sorted((ROOT/"animation").glob("*/frame-*.svg"))
+frames=sorted((ROOT/"animation").glob("*/frame-*.svg")) if args.chapter_one else sorted((ROOT/"animation").glob("*-02/*.svg"))
 for i,path in enumerate(frames):
     subprocess.run(["rsvg-convert","-o",str(out/f"frame-{i+1:02}.png"),str(path)],check=True)
 if frames:

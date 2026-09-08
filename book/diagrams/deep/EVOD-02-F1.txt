@@ -1,0 +1,29 @@
+EVOD-02-F1 — Five objects that must not be conflated
+
+QUESTION
+Where does a result get its meaning?
+
+OBJECTS
+• Dataset
+• task
+• objective
+• model
+• evaluation protocol
+
+RELATION / MECHANISM
+Dataset; task; objective; model; evaluation protocol
+
+STATE TRANSITION
+Fix allowed input and target; train; predict; evaluate against untouched examples
+
+INFERENCE
+A score is conditional on the whole protocol.
+
+BOUNDARY
+No arrow from a score directly to architectural superiority.
+
+SOURCE
+Original experiment semantics; DOME
+
+EXECUTABLE EVIDENCE
+artifacts/deep/ch02-results.json; examples/deep/ch02.py

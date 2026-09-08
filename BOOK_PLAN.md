@@ -1,6 +1,6 @@
 # Evolutor: deep technical edition
 
-Status: canonical deep Chapter 1 is an internally reviewed prototype; all later chapters remain plans. The undergraduate edition is frozen. No trained model, engine or wet-lab result is delivered. See [production report](DEEP_CHAPTER_1_REPORT.md) and [edition strategy](CANONICAL_EDITION_STRATEGY.md).
+Status: canonical deep Chapters 1–2 are internally reviewed development manuscripts; Chapter 3 onward remains planned. Prior editions and the Chapter 1-only PDF are preserved. No new wet-lab result, trained model or engine benchmark is delivered. See [Chapter 2 production report](DEEP_CHAPTER_2_REPORT.md).
 
 DOGMA = non-Transformer DNA-native model + DOGMA Engine; Hermon DNA = Transformer-based DNA model + Hermon DNA Engine; Evolutor = broader genomic computation theory, research and eventual runtime above both.
 
@@ -12,7 +12,7 @@ DOGMA = non-Transformer DNA-native model + DOGMA Engine; Hermon DNA = Transforme
 
 ### II · Learning and sequence-model foundations
 
-2. **Learning objectives, data and evaluation** (EVOD-02). prediction; likelihood; splits; uncertainty; controls; capacity.
+2. **Learning objectives, data, tasks, and evaluation** (EVOD-02). prediction; likelihood; splits; uncertainty; controls; capacity.
 
 3. **Differentiation, optimization and tensor programs** (EVOD-03). tensor shapes; gradients; autograd; optimization; numerical precision.
 

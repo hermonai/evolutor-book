@@ -1,0 +1,29 @@
+EVOD-02-F9 — Exact task semantics precede training
+
+QUESTION
+What must a delay benchmark really remember?
+
+OBJECTS
+• Sequence
+• lag
+• scored positions
+• oracle
+• shortcut control
+
+RELATION / MECHANISM
+Sequence; lag; scored positions; oracle; shortcut control
+
+STATE TRANSITION
+Compute delayed targets; vary lags and lengths; compare constant/current-token predictors
+
+INFERENCE
+An oracle makes correctness testable before learning begins.
+
+BOUNDARY
+A high score on correlated inputs may not establish delayed memory.
+
+SOURCE
+Original deterministic delay benchmark
+
+EXECUTABLE EVIDENCE
+artifacts/deep/ch02-results.json; examples/deep/ch02.py

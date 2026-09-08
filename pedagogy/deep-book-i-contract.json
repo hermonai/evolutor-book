@@ -1,9 +1,9 @@
 {
   "schemaVersion": 2,
-  "status": "chapter-one-prototype-available",
+  "status": "chapters-one-two-available",
   "sourceBranch": "astra-deep-rewrite",
   "sourceBook": "DNA Computing",
-  "activationRule": "DNAD-01 has a reviewed prototype and exercises, not independent reader validation. All other imports remain future teaching dependencies. Qualified readers may demonstrate equivalent knowledge. No Book II-to-Book I dependency.",
+  "activationRule": "DNAD-01 and DNAD-02 have internally reviewed development manuscripts and exercises, not independent reader validation. Later imports remain future teaching dependencies. Qualified readers may demonstrate equivalent knowledge. No Book II-to-Book I dependency.",
   "chapters": [
     {
       "id": "DNAD-01",
@@ -18,7 +18,7 @@
     },
     {
       "id": "DNAD-02",
-      "title": "Adleman's experiment: a mechanistic reconstruction",
+      "title": "Adleman's experiment: from graph to molecules",
       "topics": [
         "vertex and edge oligos",
         "annealing and ligation",
@@ -27,7 +27,7 @@
         "historical readout"
       ],
       "exitCheck": "Reconstruct each operation from the primary paper; simulate filter losses and missing witnesses.",
-      "status": "planned-not-yet-taught"
+      "status": "prototype-available"
     },
     {
       "id": "DNAD-03",

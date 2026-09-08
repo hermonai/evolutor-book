@@ -1,6 +1,6 @@
 # Evolutor: deep technical edition
 
-Status: canonical deep Chapter 1 is an internally reviewed prototype; all later chapters remain plans. The undergraduate edition is frozen. No trained model, engine or wet-lab result is delivered. See [production report](DEEP_CHAPTER_1_REPORT.md) and [edition strategy](CANONICAL_EDITION_STRATEGY.md).
+Status: canonical deep Chapters 1–2 are internally reviewed development manuscripts; Chapter 3 onward remains planned. Prior editions and the Chapter 1-only PDF are preserved. No new wet-lab result, trained model or engine benchmark is delivered. See [Chapter 2 production report](DEEP_CHAPTER_2_REPORT.md).
 
 DOGMA = non-Transformer DNA-native model + DOGMA Engine; Hermon DNA = Transformer-based DNA model + Hermon DNA Engine; Evolutor = broader genomic computation theory, research and eventual runtime above both.
 
@@ -82,14 +82,59 @@ Each primary visual below is a production brief, not a finished asset or a one-f
 5. Profiled engine.
 6. Capability evaluation.
 
-### EVOD-02 — Learning objectives, data and evaluation
+### EVOD-02 — Learning objectives, data, tasks, and evaluation
 
-**EVOD-02-F1 — Data lineage and objective**. Data lineage and objective
+**EVOD-02-F1 — Five objects that must not be conflated**. Dataset; task; objective; model; evaluation protocol
 
-1. examples.
-2. prediction.
-3. loss.
-4. held-out check.
+1. Fix allowed input and target; train; predict; evaluate against untouched examples.
+
+**EVOD-02-F2 — One base string, several prediction units**. Base tokens; overlapping k-mers; nonoverlapping chunks; BPE units
+
+1. Track shared bases and target shift; expose next-token shortcuts.
+
+**EVOD-02-F3 — Split biological relationships, not just rows**. Duplicate/reverse-complement records; metadata groups; connected components; folds
+
+1. Build conflict graph; union transitive groups; assign whole components.
+
+**EVOD-02-F4 — Teacher forcing without a future shortcut**. Input prefix positions; next-base targets; causal dependence mask
+
+1. Shift targets once; retain prefix; prohibit information from later inputs.
+
+**EVOD-02-F5 — Change the future, then compare the past outputs**. Original sequence; changed suffix; legal model; deliberately leaky control
+
+1. Clone; alter suffix; compare all prefix logits; repeat split points.
+
+**EVOD-02-F6 — Random targets set an information floor**. Uniform DNA source; expected log loss; finite sample; memorized training set
+
+1. Derive H+KL; convert nats to bits and perplexity; separate expectation from sample.
+
+**EVOD-02-F7 — Equal parameter totals can hide different resources**. Width; depth; state; KV; FFN; tokens; compute
+
+1. Compute exact toy parameter totals; compare other dimensions.
+
+**EVOD-02-F8 — Three runs are not one typical run**. Individual values 0.51,0.97,0.99; mean; spread; paired runs
+
+1. Display every point; summarize; separate seed and test-sample uncertainty.
+
+**EVOD-02-F9 — Exact task semantics precede training**. Sequence; lag; scored positions; oracle; shortcut control
+
+1. Compute delayed targets; vary lags and lengths; compare constant/current-token predictors.
+
+**EVOD-02-F10 — A balanced memory task matrix**. Delay/retrieval; parity/sum; key-value lookup; pointer chasing; motifs; routing
+
+1. Specify oracle and shortcut for each; balance addressable history and sufficient statistics.
+
+**EVOD-02-F11 — Removal and transplant answer different questions**. Full model; matched removal; baseline; transplanted mechanism
+
+1. Define metric direction; compare paired effects; retain data/tuning controls.
+
+**EVOD-02-F12 — Quality and execution are separate axes**. Cross entropy; accuracy/F1; calibration; latency; throughput; memory; parity
+
+1. Report quality/resource vector; independently compare engine outputs to reference.
+
+**EVOD-02-F13 — The experiment record is an executable boundary**. Researcher; existing experiment spec; smoke runner; evaluator; result artifact
+
+1. Lock spec hash; run deterministic checks; emit results and limitations.
 
 ### EVOD-03 — Differentiation, optimization and tensor programs
 

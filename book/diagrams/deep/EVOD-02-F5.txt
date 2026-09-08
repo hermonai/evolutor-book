@@ -1,0 +1,28 @@
+EVOD-02-F5 — Change the future, then compare the past outputs
+
+QUESTION
+How do we catch an information leak directly?
+
+OBJECTS
+• Original sequence
+• changed suffix
+• legal model
+• deliberately leaky control
+
+RELATION / MECHANISM
+Original sequence; changed suffix; legal model; deliberately leaky control
+
+STATE TRANSITION
+Clone; alter suffix; compare all prefix logits; repeat split points
+
+INFERENCE
+A finite intervention is behavioral evidence, not a universal proof.
+
+BOUNDARY
+One suffix edit can miss invariance-specific leakage; tolerance must reject NaN.
+
+SOURCE
+Existing evo_torch causality helper plus new reference controls
+
+EXECUTABLE EVIDENCE
+artifacts/deep/ch02-results.json; examples/deep/ch02.py

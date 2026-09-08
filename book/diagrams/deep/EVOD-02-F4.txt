@@ -1,0 +1,27 @@
+EVOD-02-F4 — Teacher forcing without a future shortcut
+
+QUESTION
+Which input predicts which target?
+
+OBJECTS
+• Input prefix positions
+• next-base targets
+• causal dependence mask
+
+RELATION / MECHANISM
+Input prefix positions; next-base targets; causal dependence mask
+
+STATE TRANSITION
+Shift targets once; retain prefix; prohibit information from later inputs
+
+INFERENCE
+Output at input position t predicts x at t+1.
+
+BOUNDARY
+Testing prefix invariance cannot detect a mis-shifted target alone.
+
+SOURCE
+Original factorization; Transformer causal semantics
+
+EXECUTABLE EVIDENCE
+artifacts/deep/ch02-results.json; examples/deep/ch02.py

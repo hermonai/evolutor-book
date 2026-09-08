@@ -1,0 +1,74 @@
+[
+  {
+    "sequence": "split",
+    "phase": 1,
+    "source": "split-01.svg",
+    "state": "Build conflict graph; union transitive groups; assign whole components",
+    "changed": "Visible molecular associations, input suffix, grouping or messages advance with phase.",
+    "motion": "none; static editable keyframe"
+  },
+  {
+    "sequence": "split",
+    "phase": 2,
+    "source": "split-02.svg",
+    "state": "Build conflict graph; union transitive groups; assign whole components",
+    "changed": "Visible molecular associations, input suffix, grouping or messages advance with phase.",
+    "motion": "none; static editable keyframe"
+  },
+  {
+    "sequence": "split",
+    "phase": 3,
+    "source": "split-03.svg",
+    "state": "Build conflict graph; union transitive groups; assign whole components",
+    "changed": "Visible molecular associations, input suffix, grouping or messages advance with phase.",
+    "motion": "none; static editable keyframe"
+  },
+  {
+    "sequence": "intervention",
+    "phase": 1,
+    "source": "intervention-01.svg",
+    "state": "Clone; alter suffix; compare all prefix logits; repeat split points",
+    "changed": "Visible molecular associations, input suffix, grouping or messages advance with phase.",
+    "motion": "none; static editable keyframe"
+  },
+  {
+    "sequence": "intervention",
+    "phase": 2,
+    "source": "intervention-02.svg",
+    "state": "Clone; alter suffix; compare all prefix logits; repeat split points",
+    "changed": "Visible molecular associations, input suffix, grouping or messages advance with phase.",
+    "motion": "none; static editable keyframe"
+  },
+  {
+    "sequence": "intervention",
+    "phase": 3,
+    "source": "intervention-03.svg",
+    "state": "Clone; alter suffix; compare all prefix logits; repeat split points",
+    "changed": "Visible molecular associations, input suffix, grouping or messages advance with phase.",
+    "motion": "none; static editable keyframe"
+  },
+  {
+    "sequence": "lifecycle",
+    "phase": 1,
+    "source": "lifecycle-01.svg",
+    "state": "Lock spec hash; run deterministic checks; emit results and limitations",
+    "changed": "Visible molecular associations, input suffix, grouping or messages advance with phase.",
+    "motion": "none; static editable keyframe"
+  },
+  {
+    "sequence": "lifecycle",
+    "phase": 2,
+    "source": "lifecycle-02.svg",
+    "state": "Lock spec hash; run deterministic checks; emit results and limitations",
+    "changed": "Visible molecular associations, input suffix, grouping or messages advance with phase.",
+    "motion": "none; static editable keyframe"
+  },
+  {
+    "sequence": "lifecycle",
+    "phase": 3,
+    "source": "lifecycle-03.svg",
+    "state": "Lock spec hash; run deterministic checks; emit results and limitations",
+    "changed": "Visible molecular associations, input suffix, grouping or messages advance with phase.",
+    "motion": "none; static editable keyframe"
+  }
+]

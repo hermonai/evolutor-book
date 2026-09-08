@@ -1,0 +1,31 @@
+EVOD-02-F12 — Quality and execution are separate axes
+
+QUESTION
+Can a model be better and an engine be wrong?
+
+OBJECTS
+• Cross entropy
+• accuracy/F1
+• calibration
+• latency
+• throughput
+• memory
+• parity
+
+RELATION / MECHANISM
+Cross entropy; accuracy/F1; calibration; latency; throughput; memory; parity
+
+STATE TRANSITION
+Report quality/resource vector; independently compare engine outputs to reference
+
+INFERENCE
+A Pareto comparison is not a single unexplained winner.
+
+BOUNDARY
+Toy timings are not production performance.
+
+SOURCE
+Original metric definitions; Guo calibration; PyTorch loss
+
+EXECUTABLE EVIDENCE
+artifacts/deep/ch02-results.json; examples/deep/ch02.py

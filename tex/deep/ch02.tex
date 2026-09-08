@@ -1,0 +1,290 @@
+\chapter{Learning objectives, data, tasks, and evaluation}\label{ch:e2}
+\Callout{The central question}{What information may a model use, what must it predict, and what observation would count against the proposed explanation of its success? We answer with exact indexing, deliberately broken predictors, relationship-aware splits, explicit budgets and executable reference tests before introducing new architectures.}
+
+\section{Five objects that a score cannot identify}
+A model is not a task. A DNA corpus is not an objective. A low loss is not, by itself, evidence for the mechanism named in an architecture diagram. To make a meaningful claim, separate five objects: data, task, model, training objective, and evaluation protocol with its metrics.
+
+\DeepFigure{EVOD-02-F1}{Five distinct objects in next-base prediction. A fixed predictor and a trained network can face the same task; one network can face several tasks. The score becomes evidence only after its data, information boundary, target construction and evaluation protocol are specified.}{fig:e2protocol}
+
+For example, a file of genomic sequences is data. Predicting the next nucleotide from the preceding prefix is a task. A smoothed prefix-frequency rule is a model, even though it has no learned weights. Mean negative log probability is an objective one could optimize. Mean held-out loss on a relationship-disjoint test set is an evaluation measurement. Changing any of these objects changes the question being answered.
+
+DOME organizes reporting around data, optimization, model and evaluation.\cite{e2dome} Our purpose is not to add forms for their own sake. It is to make experimental errors concrete enough to reproduce. A predictor that reads the answer from a future input position can achieve excellent loss without learning the intended causal task; we will construct exactly that failure.
+
+The taxonomy remains fixed throughout: DOGMA is a non-Transformer DNA-native architecture plus its non-Transformer engine; Hermon DNA is a Transformer-based DNA architecture plus its Transformer engine. Evolutor is the broader theory, research, compiler, runtime and orchestration framework above both. This chapter reports no new trained implementation of either family.
+
+\section{A learning problem includes a population and a procedure}
+For supervised data $D=\{(x_i,y_i)\}_{i=1}^{N}$, let $f_\theta$ predict from $x_i$. An empirical objective is
+\begin{equation}
+\widehat R_D(\theta)=\frac1N\sum_{i=1}^{N}
+\mathcal L(f_\theta(x_i),y_i),\qquad
+\theta^\star\in\arg\min_\theta\widehat R_D(\theta).
+\label{eq:e2risk}
+\end{equation}
+The parameter vector $\theta$ contains trainable quantities; $\mathcal L$ penalizes a prediction relative to its target. Optimization is a procedure intended to reduce the empirical objective. Equation~\ref{eq:e2risk} does not promise that an optimizer finds a global minimum or that such a minimum generalizes.
+
+The population risk is instead $R(\theta)=\mathbb E_{(X,Y)\sim P}[\mathcal L(f_\theta(X),Y)]$. The distribution $P$ includes how examples are sampled and what deployment population is intended. A held-out measurement estimates something about that population only if its sampling and information boundaries are appropriate. Overlapping windows from the same locus do not become independent biological examples merely because they occupy separate rows.
+
+Regularization, augmentation, early stopping and hyperparameter search are part of the learning procedure. A test score evaluates the selected procedure, not an architecture name in isolation. Repeatedly choosing designs against a finite validation set can overfit that selection criterion;\cite{e2cawley} looking at test scores while redesigning a model similarly turns the test into development information.
+
+\section{Autoregression is an information contract}
+\index{autoregression}\index{target alignment}
+For a sequence $x_1,\ldots,x_T$,
+\[
+p_\theta(x_{1:T})=\prod_{t=1}^{T}
+p_\theta(x_t\mid x_{<t}),\qquad
+\mathcal L_{\mathrm{seq}}=-\sum_{t=1}^{T}
+\ln p_\theta(x_t\mid x_{<t}).
+\]
+The first prediction needs an initial state or beginning-of-sequence convention. A recurrent state and a causally masked attention mechanism can both implement this factorization, but their code must expose only the allowed information.\cite{attention}
+
+\DeepFigure{EVOD-02-F4}{The implementation convention used here: input position $j$ predicts the next base. With zero-based arrays, inputs are the full sequence except its last token; targets are the full sequence except its first. Output $j$ may use inputs $0$ through $j$, but not input $j+1$, which contains its answer.}{fig:e2causal}
+
+For a full array $z_0,\ldots,z_T$, set $u_j=z_j$ and $y_j=z_{j+1}$, for $0\le j<T$. Then output $j$ may attend to input $j$ without leakage: that input is the previous symbol relative to its target. If targets were instead $z_j$ at the same position, allowing access to $u_j$ would reveal the answer. Thus a lower-triangular mask cannot be judged apart from target indexing.
+
+Teacher forcing supplies true earlier symbols during training. It does not authorize true future symbols. Padding masks, packed-sequence boundaries, state reset, preprocessing, pooling and retrieval can all violate the information contract even when the principal attention mask looks correct. A causal architecture family is not a proof that its surrounding pipeline is causal.
+
+\section{Tokenization changes the prediction problem}
+For canonical DNA strings, $\Sigma=\{A,C,G,T\}$. Real records can contain ambiguous bases; an experiment must declare whether they are excluded, masked, or represented with additional symbols. This chapter's executable examples reject anything outside the four-symbol alphabet.
+
+\DeepFigure{EVOD-02-F2}{Several tokenizations of the same six-base string. The variable-length segmentation is illustrative, not a fitted BPE vocabulary. Overlapping three-mers share two bases, so next-token prediction contains a built-in overlap advantage.}{fig:e2tokens}
+
+Single-base tokens keep the vocabulary small and retain one position per nucleotide; HyenaDNA is an example of work using single-nucleotide resolution.\cite{e2hyena} Fixed $k$-mers can have up to $4^k$ types. Stride matters: nonoverlapping $k$-mers shorten the sequence, whereas overlapping windows retain many positions and repeat information. DNABERT-2 illustrates genomic BPE tokenization,\cite{e2dnabert} but its masked-language task must not be treated as interchangeable with our autoregressive objective.
+
+Consider iid uniform DNA and overlapping three-mers. Given \texttt{ACG}, the next window must begin \texttt{CG}; only its last base is new. Its conditional entropy is $\ln4$, not $\ln64$. A predictor can look good on this task by exploiting overlap alone, with no biological structure learned. This is not necessarily implementation leakage: it is a property of the declared representation and task. It becomes misleading when interpreted as evidence of long-range genomic understanding.
+
+For variable-length tokens, comparing perplexities across tokenizers is generally invalid. The same raw string produces different numbers of prediction events. Report the summed negative log probability and the number of raw bases represented under a specified reversible coding and boundary convention. Tokenization rules must be fitted using permitted training data, not inferred from the held-out corpus.
+
+\section{Data families answer different questions}
+Natural genomic sequences test statistical structure in biological material under a chosen sampling distribution. Synthetic genomic-like sequences test designed regularities whose resemblance to nature must be stated. Independent random sequences are a sanity control. Algorithmic sequences isolate exact computation. Natural language, code and agent trajectories provide different kinds of context, targets and feedback.
+
+A motif task may measure local recognition while saying little about long-term memory. A delay task can stress exact retrieval without biological realism. Agent trajectories introduce action-dependent observations and may require policy evaluation rather than ordinary iid classification. Good evaluation does not force these data types into one score; it states which uncertainty each one reduces.
+
+Tokenizing genomic text in a digital network is not itself molecular computation. The companion DNA Computing book studies physical molecular representations and operations. Here nucleotide strings are data processed by software. Genomic architecture terminology does not supply evidence of biological fidelity, cross-domain transfer or general intelligence.
+
+\section{Split relationships before splitting rows}
+\index{data leakage}\index{conflict component}\index{reverse complement}
+Random row assignment is unsafe when rows are related. In genomics, possible relations include overlapping coordinates, exact duplicates, reverse complements, homologous sequences, shared loci, species and phylogenetic proximity. The appropriate exclusion relation depends on the claim: unseen-window interpolation within a known genome is not the same question as transfer to an unseen species.
+
+Similarity-aware splitting methods such as SpanSeq make this issue explicit.\cite{e2spanseq} No universal identity threshold guarantees independence for every biological task. A chromosome-held-out split can prevent coordinate overlap yet still leave homologous sequences across folds. A species split can still include close evolutionary relatives.
+
+\DeepFigure{EVOD-02-F3}{Conflict relations must be closed transitively before assignment. Record a1 is the exact reverse complement of a2; a2 and b1 share declared locus metadata. All three must remain together even though a1 and b1 need not match exactly. The displayed fold assignment is actual output of the reference splitter.}{fig:e2split}
+
+Construct a conflict graph $H=(R,C)$ over records. An edge means the two records must not cross folds. If folds have no conflict edge between them, every connected component lies entirely within one fold: along a path, membership must remain equal at each edge. This is why independently grouping duplicates and loci after an initial split is insufficient.
+
+Our splitter unions two relations: exact/reverse-complement sequence identity, using $\min(s,\operatorname{RC}(s))$, and explicitly declared metadata groups. It assigns complete connected components with a deterministic seed-dependent order. Sorting stable IDs makes the result invariant to input row order. Large components can prevent exact target fold ratios; the code rejects fewer than three components rather than pretending to create three independent nonempty folds.
+
+The guarantee is intentionally narrow. The code does not detect homology, coordinate overlap or phylogenetic proximity. Those relations must be computed or supplied before splitting. Sequence-specific preprocessing, augmentation and tokenizer training must also respect the final folds. A perfect conflict-graph algorithm cannot enforce an edge that was never recorded.
+
+\section{The random-data entropy control}
+\index{entropy control}
+Let the next target $Y$ be independent of the permitted context $C$ and uniform on $V$ symbols. For any predictive distribution $q(\cdot\mid C)$ that depends only on permitted information,
+\begin{align}
+\mathbb E[-\ln q(Y\mid C)]
+&=\ln V+
+\mathbb E_C\!\left[D_{\mathrm{KL}}(U_V\Vert q(\cdot\mid C))\right]\\
+&\ge\ln V.
+\label{eq:e2entropy}
+\end{align}
+This follows by adding and subtracting $\ln(1/V)$ in the expected log score. If $q$ assigns zero probability to a possible target, its loss is infinite, which does not violate the bound. For iid uniform DNA, the optimum is $\ln4\approx1.386294$ nats/base, or exactly two bits/base.
+
+\DeepFigure{EVOD-02-F6}{The iid entropy control separates expected valid prediction from invalid information access. Uniform logits give exactly $\ln4$ loss for every supplied canonical target. The deliberately future-reading predictor has much smaller measured loss because the answer is available to it.}{fig:e2entropy}
+
+The bound is about expectation on fresh independent targets. A finite test sample can favor a nonuniform predictor by chance. Repeated selection on that test sample can exploit its noise. A network can also memorize random training labels,\cite{e2zhang} which is compatible with being unable to predict new independent labels. Training loss below $\ln4$ is therefore not, alone, a causality diagnosis.
+
+A sustained large advantage on genuinely fresh iid data should trigger an audit of target shift, future access, overlapping-token construction, reuse of random sequences, class frequencies, and scoring masks. The entropy control is a falsification instrument under explicit assumptions, not a theorem that natural genomes are incompressible.
+
+\section{Intervene on future tokens}
+\index{causality}\index{finite intervention}
+Suppose two inputs agree through position $t$. A causal output sequence should satisfy
+\[
+f(u)_{\le t}=f(u')_{\le t}
+\quad\text{whenever}\quad u_{\le t}=u'_{\le t},
+\]
+with suitable numerical tolerance in an implementation. Change only the suffix, recompute, and measure
+\[
+\Delta_t=\max\left|f(u)_{\le t}-f(u')_{\le t}\right|.
+\]
+
+\DeepFigure{EVOD-02-F5}{A finite behavioral intervention. The prefix remains fixed, the future changes, and prefix logits are compared. The displayed toy results use deterministic float64 CPU references; every tested boundary gives zero for PrefixCounts and eight for FutureCopy.}{fig:e2intervention}
+
+The repository already provides \texttt{prefix\_intervention\_error}. It adds one modulo vocabulary size to every suffix token, runs the model in evaluation mode, and compares prefix logits. This chapter hardens that helper: nonfinite values cannot pass, malformed outputs are rejected, and original per-module train/eval modes are restored even if evaluation raises.
+
+The helper is intended for deterministic, stateless forward calls of the supplied reference models. A stateful runtime must reset or clone its state for the two calls. Stochastic modules require controlled randomness or a distributional comparison; disabling dropout is not a cure for arbitrary hidden randomness. For large mixed-precision models, tolerance must be justified by the numeric path, scale and a no-intervention control, not chosen after seeing a violation.
+
+The following wrapper tests every nontrivial boundary. It is extracted from \texttt{examples/deep/ch02.py}; the full source supplies its imports and the shared helper. The float64 reference tolerance is $10^{-12}$, not a universal tolerance for other model implementations.
+\begin{minipage}{\linewidth}
+\VerbatimInput[fontsize=\scriptsize,numbers=left,frame=single]{deep/ch02-intervention_suite.py}
+\end{minipage}
+
+Passing a finite set of interventions is necessary evidence, not a universal proof. A noncausal function can be insensitive to the particular suffix change; for example, it may depend on a suffix property preserved by that transformation. Test different suffixes, boundaries, sequence lengths, batches and masking modes, and inspect the computational graph. A deliberately leaky negative control establishes that the test can detect at least one relevant failure.
+
+\section{Why gradients alone are not enough}
+A derivative such as $\partial f_t/\partial u_{t+1}$ probes local sensitivity where that derivative exists. Tiny weights, saturation, quantization, discrete branching, detached tensors and poorly conditioned numeric paths can make a local gradient zero or uninformative while finite future changes alter behavior.
+
+For a simple counterexample, a function can return one value when a future token equals A and another otherwise. The token ID is discrete; a derivative with respect to that ID is not the behavior we need to test. A detached future-dependent tensor provides another software counterexample: automatic differentiation sees no gradient path even though the forward result still depends on the future.
+
+Finite intervention directly tests the relevant behavior, but it too samples only selected cases. The strongest causal argument combines a structural information-flow proof with executable interventions and negative controls. Neither a small gradient nor one zero difference should be promoted into an unconditional guarantee.
+
+\section{A CPU reference experiment with a known failure}
+The registered child record \texttt{EVO-EXP01-CH02-SMOKE} extends the existing EVO-EXP01 pipeline experiment. Its question, seeds and falsifiers were written before execution. No optimizer steps, trained DOGMA model, Hermon model, or GPU run are involved.
+
+Run \texttt{python examples/deep/ch02.py} from the repository root with PyTorch installed. The recorded reference environment uses torch 2.10.0 on CPU. The JSON output includes individual seeds, split membership, metrics, intervention differences, an exact delay example and the specification hash.
+
+For each seed 11, 29 and 47, generate eight independent sequences of 33 uniform DNA tokens. Inputs and next-base targets each have 32 positions. Uniform logits score all 256 targets at exactly $\ln4$. \texttt{PrefixCounts} uses cumulative observed base counts plus one pseudocount per class and emits their logarithms. Softmax normalizes these into a predictive distribution; the reference has no fitted parameters.
+
+The deliberately invalid \texttt{FutureCopy} reads input $j+1$ to predict target $j$ and places logit 8 on that symbol, zero elsewhere. Its probability on the target is
+\[
+\frac{e^8}{e^8+3},\qquad
+\mathcal L=\ln(1+3e^{-8})\approx0.001005882.
+\]
+The last output is excluded because no next input token exists there. Consequently this negative control scores 248 targets, while the ordinary baseline summaries score 256. These are diagnostic displays, not a fair model ranking; comparative averages must use the same mask and denominator.
+
+\begin{center}
+\input{deep/ch02-results}
+\end{center}
+
+The finite-intervention suite tests seven boundaries on a fixed eight-token input. PrefixCounts gives $\Delta_t=0$ at every boundary; FutureCopy gives $\Delta_t=8$. Excellent leaked-target loss and failed causality are therefore visible in the same executable example.
+
+The result artifact records the specification hash and torch version. Seeds here vary synthetic evaluation data, not training initialization. The parent EVO-EXP01 training study remains NOT RUN. Reproducing a CPU reference diagnostic is a smaller achievement than reproducing a trained-model benchmark, and it is useful precisely because its truth conditions are explicit.
+
+\section{Capacity is a vector of confounds}
+Equal parameter count does not imply equal representational width, memory access, train-time work or inference state. Report trainable parameters, embedding width, depth, state dimension, attention heads, KV heads, FFN width, context length and cache/state precision where applicable. Also report shared or tied parameters and any externally retrieved memory.
+
+\DeepFigure{EVOD-02-F7}{Different matching strategies control different variables. Parameter matching, width matching, state/cache matching, token matching, compute matching and wall-time matching are separate experimental choices, not interchangeable definitions of fairness.}{fig:e2capacity}
+
+For an intentionally stripped-down example with vocabulary $V$, width $d$, untied input/output embeddings and no biases, a single recurrent matrix gives
+\[
+P_{\mathrm{rec}}=2Vd+d^2.
+\]
+A toy attention block with four $d$-by-$d$ projections and a two-matrix FFN of width $m$ gives
+\[
+P_{\mathrm{attn}}=2Vd+4d^2+2dm.
+\]
+At $V=4,d=16,m=32$, the counts are 384 and 2,176. These are declared toy formulas, not the parameter counts of a complete GRU, DOGMA model or Transformer. Their purpose is to show how the same width leaves different parameter budgets.
+
+Conversely, solving for widths under one common parameter budget produces different representation dimensions. Fixed recurrent state and addressable KV history also provide different memory interfaces even when their byte budgets match. A useful study therefore uses more than one controlled comparison and reports the residual mismatches rather than claiming one scalar has removed every confound.
+
+\section{Baselines, removal tests and transplants}
+\index{ablation}\index{transplant test}
+Begin with a trivial baseline: uniform class probabilities or the majority class under the correct split. Add a task-aware heuristic, such as smoothed prefix frequencies. Then include standard architecture baselines with competent tuning. Potential DOGMA comparisons include GRU/LSTM, state-space, Mamba-like and RWKV-like families; potential Hermon DNA comparisons include ordinary Transformers and relevant genomic models. A family's name does not establish that a particular implementation is strong or task-compatible.\cite{mamba}
+
+\DeepFigure{EVOD-02-F11}{Removal and transplant experiments ask different questions. Removing a component tests its contribution inside a particular system. Adding it to another baseline tests whether an effect transfers. Budget replacement, retraining policy and paired uncertainty determine what either contrast can support.}{fig:e2ablation}
+
+Let $Q$ be a higher-is-better metric and $X$ a component. The difference $Q(M)-Q(M\setminus X)$ is interpretable only after defining the intervention. Removing $X$ at inference from a trained system measures reliance under that disruption. Retraining without $X$ measures performance of a different learning procedure. Replacing $X$ with an equally sized generic block asks whether its structure matters beyond budget.
+
+A transplant compares $B+X$ with $B$. A transferred improvement supports a portable contribution under those conditions. Failure to transfer can reflect an interaction with the original architecture, optimization or task; it does not prove universal uselessness. Use paired data splits and seeds when appropriate, and compute uncertainty on per-pair differences rather than comparing overlapping marginal error bars by eye.
+
+\section{Seeds reveal outcomes, not just a mean}
+For scores $m_1,\ldots,m_k$, preserve individual values and report summaries suited to the question:
+\[
+\bar m=\frac1k\sum_i m_i,\qquad
+s=\sqrt{\frac{\sum_i(m_i-\bar m)^2}{k-1}}.
+\]
+The sample standard deviation describes dispersion among these runs. It is not automatically a confidence interval for an architecture's universal performance. Data sampling, initialization, optimizer stochasticity, tuning choices and hardware behavior can contribute different variance sources.\cite{e2variance}
+
+\DeepFigure{EVOD-02-F8}{The supplied illustrative values 0.51, 0.97 and 0.99 have mean 0.8233, median 0.97 and sample standard deviation about 0.2715. Their individual positions show what the mean hides. These are not measured training runs and are too few to establish bimodality.}{fig:e2seeds}
+
+One possible explanation is one failed optimization run and two successful runs, but the numbers alone do not prove that explanation. Inspect learning curves, failure traces and additional prespecified runs. If optimization failure is part of the method's behavior, silently discarding that run changes the estimand. Distinguish infrastructure failures from valid but poor outcomes using rules established before results are seen.
+
+Fixed seeds assist rerunning one environment; they do not guarantee identical outcomes across releases, devices or every nondeterministic operation.\cite{e2torchrandom} Record the implementation, environment and input hashes as well as the seed. For genomic test uncertainty, resampling highly related windows independently can understate uncertainty; the resampling unit should reflect the data-generating relationships.
+
+\section{Loss, perplexity and bits: keep the denominator}
+\index{cross entropy}\index{perplexity}\index{bits per base}
+For target distribution $p$ and prediction $q$,
+\[
+H(p,q)=-\sum_xp(x)\ln q(x).
+\]
+For observed target indices, empirical cross entropy is mean negative log probability. With $N$ scored events, $\mathcal L=-N^{-1}\sum_i\ln q(y_i\mid c_i)$. Perplexity is $\exp(\mathcal L)$: the exponential of the average surprise, not an average of per-batch perplexities.
+
+If one event represents one base, bits per base are $\mathcal L/\ln2$. More generally, if scored tokens represent $B$ raw bases,
+\[
+\mathrm{BPB}=\frac{-\sum_i\ln q(y_i\mid c_i)}{B\ln2}.
+\]
+Boundary symbols, padding, ambiguous bases and overlapped encodings need a declared convention. An overlapping-window token score is not automatically a lossless coding rate per raw base.
+
+Suppose one batch has ten scored positions with mean loss 1 and another has ninety with mean loss 2. The combined loss is $(10+180)/100=1.9$, not 1.5. Compute total negative log likelihood and total valid-target count, then divide and exponentiate. For distributed evaluation, aggregate both totals across workers before the final conversion.
+
+The reference accepts finite logits of shape $[B,T,V]$ and integer targets of shape $[B,T]$. PyTorch cross entropy applies the log-softmax internally; passing normalized probabilities as though they were logits changes the computation.\cite{e2torchce}
+\begin{minipage}{\linewidth}
+\VerbatimInput[fontsize=\scriptsize,numbers=left,frame=single]{deep/ch02-token_metrics.py}
+\end{minipage}
+
+This small function scores every supplied position and has no padding argument. A production evaluator needs an explicit valid-target mask and a declared empty-mask policy. Returning a convenient zero for no scored targets would make a missing evaluation look perfect.
+
+\section{Accuracy, calibration and systems measurements}
+Accuracy counts correct argmax decisions; it does not distinguish confidence 0.51 from 0.99 on a correct binary decision. For imbalanced classification, precision and recall separate false-positive and false-negative behavior, and
+\[
+F_1=\frac{2TP}{2TP+FP+FN}
+\]
+requires a declared policy when the denominator is zero. Macro, micro and per-class reporting answer different aggregation questions. Thresholds and any calibration transform must be chosen using permitted development data, not optimized on the final test labels.
+
+Calibration asks whether stated probabilities correspond to observed frequencies under the evaluated population. It is distinct from accuracy;\cite{e2calibration} a high-accuracy classifier can be overconfident. Calibration summaries also depend on binning, sample size and distribution shift, so report their construction rather than treating one number as an invariant property.
+
+\DeepFigure{EVOD-02-F12}{Predictive quality, confidence quality, systems performance and engine fidelity are distinct axes. A faithful optimized engine can execute a weak model correctly; a strong model can be executed incorrectly. Neither capability nor parity can be inferred from speed alone.}{fig:e2metrics}
+
+Retrieval accuracy should specify what is retrieved, top-$k$ versus exact match, and the candidate pool. Latency needs batch size, sequence lengths, prefill versus decode, synchronization and warm-up policy. Throughput needs a unit such as scored bases or generated tokens per second. Runtime memory needs peak versus steady-state and inclusion of weights, cache, workspace and allocator overhead.
+
+Report a vector such as $(Q,L,U,R)$ for quality, latency, throughput and runtime memory. Engine parity is an additional correctness axis: compare the same weights and inputs against a trusted implementation under justified numeric tolerances. Do not infer latency from a parameter formula or an architecture label; this chapter runs no performance benchmark.
+
+\section{Exact synthetic tasks before learned solutions}
+An algorithmic task should have an exact oracle before training. For delay $\ell$, define $y_t=x_{t-\ell}$ only at positions $t\ge\ell$. The first $\ell$ positions are unscored, not assigned a convenient default label.
+
+\DeepFigure{EVOD-02-F9}{Delay-two oracle on six inputs. Each scored target points to an exact earlier symbol. The first two outputs are excluded because their source positions do not exist. This is a past-retrieval task, not next-base language modeling.}{fig:e2oracle}
+
+For \texttt{ACGTAC} and lag two, scored positions 2,3,4,5 have targets \texttt{ACGT}. On iid four-symbol inputs, a context-free guess has expected accuracy $1/4$ on these targets, while the exact oracle reaches one. The full-history Bayes predictor can be perfect, so the random next-base entropy lower bound does not apply to this different task.
+
+Test lag one, near-maximum lag, repeated symbols, invalid lag, different lengths and target alignment. An oracle is necessary but not sufficient: its generator can still leak labels through length, frequency, position or output history. A balanced binary parity task, for example, should not accidentally make one class dominate through its sampling scheme.
+
+\section{Balanced memory tasks and shortcut audits}
+\DeepFigure{EVOD-02-F10}{A memory suite separates exact retrieval, compressed statistics, associative lookup, dependent lookup and local/state-conditioned recognition. Different tasks expose different memory interfaces. No result for one row establishes superiority on the whole matrix.}{fig:e2tasks}
+
+Copy and delay test recovery of specified past symbols. Parity and running sum test compact sufficient statistics. A finite-state-machine task tests state transitions. Associative retrieval tests key-conditioned recall and must define duplicate-key semantics, such as first-write, last-write or unique-key-only. Pointer lookup is one addressed retrieval; pointer chasing requires repeated dependent retrievals and should vary chain depth. Motif recognition and conditional routing test pattern-dependent behavior but can admit count or position shortcuts.
+
+For each generator ask whether position, sequence length, token frequency, reused examples, output history or future context reveals the answer. Permuting nuisance positions while preserving the correct answer can expose position shortcuts. Balancing labels conditional on length can remove a length proxy. Holding out key identities or relationship components tests a different claim from holding out randomly generated rows.
+
+DOGMA-style carried state and Hermon-style addressable history should face both compressed-statistic and exact-retrieval tasks. A fixed-state model may represent a running statistic compactly without retaining every token. A history-addressable model may retrieve an old symbol conveniently while paying cache costs. Testing only the task favored by one interface would answer a narrower question than a general memory comparison.
+
+For length extrapolation, train at lengths up to $T_{\mathrm{train}}$ and evaluate beyond it, but specify what changes: absolute delay, relative delay, number of keys, pointer depth, distractors or output length. Keeping delay fixed while increasing irrelevant suffix length is not the same stress as increasing retrieval distance. One successful synthetic extrapolation does not establish general intelligence.
+
+\section{Budgets and the experiment lifecycle}
+Before a model comparison, fix or report tokens seen, optimizer steps, batch size, optimizer and learning-rate schedule, tuning budget, hardware, precision and stopping rule. Equal steps with different batch sizes are not equal data exposure. Equal tokens are not equal FLOPs. Equal wall time can confound architecture with implementation maturity.
+
+\DeepFigure{EVOD-02-F13}{UML-style sequence for the actual Chapter 2 child record: a frozen specification drives fixed reference predictions, evaluation and a hashed result artifact. There is no trainer message because this diagnostic performs no training. The parent training study remains unrun.}{fig:e2lifecycle}
+
+The existing research program defines EVO-EXP01 through EVO-EXP05. This chapter adds a scoped child to EVO-EXP01, not a competing experiment registry. Its question is whether the reference pipeline distinguishes causal prediction from deliberate future access while keeping declared record conflicts inside folds. Falsifiers include a nonzero causal difference above the declared reference tolerance, an undetected negative control, cross-fold declared conflicts, and accepting nonfinite outputs.
+
+Freeze the specification before running, and record amendments as new versions rather than rewriting the initial hypothesis to fit the observed result. A hash binds a result to exact specification bytes; it does not prove the specification was scientifically wise. Mechanism claims still need valid tasks, controls, measurements and skeptical alternatives.
+
+The next chapter is \emph{Differentiation, optimization and tensor programs}. It derives how parameters are updated and how tensor computations implement those updates. Later chapters can then introduce sequence models without losing the distinction between a new mechanism, a correctly executed program and convincing evidence of improvement.
+
+\section{Exercises}
+\begin{enumerate}
+\item Derive Equation~\ref{eq:e2entropy}. Explain why it does not prohibit fitting a finite random training set.
+\item Write inputs and targets for \texttt{ACGTA}. Which input positions may output 2 use under this chapter's zero-based convention?
+\item Derive the next-token entropy of overlapping three-mers on iid uniform DNA. Compare with nonoverlapping three-mers.
+\item Build a three-record transitive conflict example. Explain why splitting exact duplicates and metadata groups independently is insufficient.
+\item Implement a future-dependent function with zero automatic gradient to its future input. Which finite intervention would detect it?
+\item Why might adding one modulo four to every suffix token miss a future-dependent function? Propose an additional intervention.
+\item At $V=4,d=16,m=32$, derive the two toy parameter counts. List three remaining confounds after matching either count.
+\item Interpret the supplied values 0.51, 0.97 and 0.99. What additional evidence is needed before calling the distribution bimodal?
+\item Combine ten scored targets with mean loss 1 and ninety with mean loss 2. Convert the aggregate to perplexity and BPB for base tokens.
+\item Define an associative-retrieval oracle with duplicate keys and audit two shortcuts. Specify an extrapolation test.
+\item Design a removal and a transplant experiment for a proposed routing component, including budgets and a falsifier.
+\item A fast engine differs from reference logits while the model's task accuracy is high. Which claims remain supported, and which fail?
+\end{enumerate}
+
+\section{Worked solutions}
+\begin{enumerate}
+\item Conditional on each permitted context, add and subtract $-\ln(1/V)$ in the uniform target expectation. The residual is $D_{\mathrm{KL}}(U_V\Vert q)$, which is nonnegative. Memorization uses information about already observed training targets; the bound concerns independent fresh targets under the allowed context.
+\item Inputs are \texttt{ACGT}, targets \texttt{CGTA}. Output 2 predicts T and may use input positions 0,1,2, namely A,C,G. Input position 3 is T and would reveal that target. A diagonal-inclusive causal mask is consistent with this shift.
+\item Given the current overlapping three-mer, two bases of the next token are known and one is uniform, so conditional entropy is $\ln4$. A fresh nonoverlapping three-mer contains three independent bases and has entropy $3\ln4=\ln64$. The token-level numbers concern different amounts of new information.
+\item Let a1 and a2 be reverse complements and a2 and b1 share a locus. The first relation requires a1 and a2 together; the second requires a2 and b1 together; hence all three belong together. Assigning the two group systems independently can satisfy one relation while violating the other.
+\item A forward computation using a detached future embedding can affect the output while cutting the automatic-gradient path. Change the actual future token and recompute the prefix output from a reset state. The finite output difference, not the detached gradient, exposes the dependence.
+\item A function depending on equality of two future tokens is unchanged when both are incremented modulo four. Change only one suffix position, use independently resampled suffixes, and vary intervention lengths. Even these are finite checks; structural analysis is still needed.
+\item Embeddings contribute $2Vd=128$. The recurrent matrix adds 256, totaling 384. Four attention projections add 1,024 and the FFN adds another 1,024, totaling 2,176. Matching parameters leaves memory access, state/cache bytes, depth, optimization and compute per token uncontrolled.
+\item The mean is 0.8233, median 0.97 and sample standard deviation about 0.2715. One poor outcome is visible, but a three-point sample cannot establish the generating distribution's modes or cause. More prespecified runs, learning curves and failure diagnostics are needed.
+\item Aggregate loss is 1.9 nats/base. Perplexity is $e^{1.9}\approx6.686$ and BPB is $1.9/\ln2\approx2.741$. The loss exceeds the uniform-DNA reference because these hypothetical predictions are worse calibrated to their targets. Exponentiating each batch first and averaging gives a different, inappropriate aggregate.
+\item One valid rule is last-write-wins: scan key--value writes in order, overwrite that key's stored value, then return the final value for the query key. Generate duplicate keys deliberately and define missing-query behavior. Balance query identity and position; prevent value frequency from predicting the answer. Extrapolate number of stored keys and retrieval distance separately.
+\item Compare a full system with a retrained budget-matched generic routing replacement, using paired splits/seeds and equal declared tuning resources. Separately add the proposed component to a standard baseline with a matched added budget. A prespecified lack of improvement on the mechanism-targeted task, or gains explained by a generic replacement, weakens the proposed mechanism claim.
+\item High task accuracy supports only the evaluated model/protocol result, subject to its own controls. Engine parity fails if differences exceed justified tolerance on the stated contract. Speed can still be measured, but it does not establish a correct accelerated implementation. Test the engine on identical weights and inputs before attributing model behavior to faithful execution.
+\end{enumerate}

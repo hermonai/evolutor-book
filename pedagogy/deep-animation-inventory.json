@@ -51,6 +51,69 @@
     "policy": "Decide at chapter storyboard review whether motion adds information; preserve static and reduced-motion versions."
   },
   {
+    "id": "EVOD-02-A1",
+    "chapter": "EVOD-02",
+    "status": "static-keyframes-produced-not-moving-media",
+    "frames": [
+      {
+        "number": 1,
+        "action": "split phase 1",
+        "sourceStatus": "created",
+        "source": "split-01.svg"
+      },
+      {
+        "number": 2,
+        "action": "split phase 2",
+        "sourceStatus": "created",
+        "source": "split-02.svg"
+      },
+      {
+        "number": 3,
+        "action": "split phase 3",
+        "sourceStatus": "created",
+        "source": "split-03.svg"
+      },
+      {
+        "number": 4,
+        "action": "intervention phase 1",
+        "sourceStatus": "created",
+        "source": "intervention-01.svg"
+      },
+      {
+        "number": 5,
+        "action": "intervention phase 2",
+        "sourceStatus": "created",
+        "source": "intervention-02.svg"
+      },
+      {
+        "number": 6,
+        "action": "intervention phase 3",
+        "sourceStatus": "created",
+        "source": "intervention-03.svg"
+      },
+      {
+        "number": 7,
+        "action": "lifecycle phase 1",
+        "sourceStatus": "created",
+        "source": "lifecycle-01.svg"
+      },
+      {
+        "number": 8,
+        "action": "lifecycle phase 2",
+        "sourceStatus": "created",
+        "source": "lifecycle-02.svg"
+      },
+      {
+        "number": 9,
+        "action": "lifecycle phase 3",
+        "sourceStatus": "created",
+        "source": "lifecycle-03.svg"
+      }
+    ],
+    "plannedDirectory": "animation/evod-02/",
+    "policy": "Decide at chapter storyboard review whether motion adds information; preserve static and reduced-motion versions."
+  },
+  {
     "id": "EVOD-04-A1",
     "chapter": "EVOD-04",
     "status": "storyboard-candidate-no-assets",

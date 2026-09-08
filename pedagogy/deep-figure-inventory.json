@@ -153,18 +153,159 @@
   },
   {
     "id": "EVOD-02-F1",
-    "title": "Data lineage and objective",
-    "grammar": "Data lineage and objective",
+    "title": "Five objects that must not be conflated",
+    "grammar": "Dataset; task; objective; model; evaluation protocol",
     "frames": [
-      "examples",
-      "prediction",
-      "loss",
-      "held-out check"
+      "Fix allowed input and target; train; predict; evaluate against untouched examples"
     ],
-    "status": "planned-no-assets",
+    "status": "internally-reviewed-produced",
     "chapter": "EVOD-02",
     "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
-    "reviewStatus": "not-drawn-not-reviewed"
+    "reviewStatus": "author-agent-reviewed"
+  },
+  {
+    "id": "EVOD-02-F2",
+    "title": "One base string, several prediction units",
+    "grammar": "Base tokens; overlapping k-mers; nonoverlapping chunks; BPE units",
+    "frames": [
+      "Track shared bases and target shift; expose next-token shortcuts"
+    ],
+    "status": "internally-reviewed-produced",
+    "chapter": "EVOD-02",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "author-agent-reviewed"
+  },
+  {
+    "id": "EVOD-02-F3",
+    "title": "Split biological relationships, not just rows",
+    "grammar": "Duplicate/reverse-complement records; metadata groups; connected components; folds",
+    "frames": [
+      "Build conflict graph; union transitive groups; assign whole components"
+    ],
+    "status": "internally-reviewed-produced",
+    "chapter": "EVOD-02",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "author-agent-reviewed"
+  },
+  {
+    "id": "EVOD-02-F4",
+    "title": "Teacher forcing without a future shortcut",
+    "grammar": "Input prefix positions; next-base targets; causal dependence mask",
+    "frames": [
+      "Shift targets once; retain prefix; prohibit information from later inputs"
+    ],
+    "status": "internally-reviewed-produced",
+    "chapter": "EVOD-02",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "author-agent-reviewed"
+  },
+  {
+    "id": "EVOD-02-F5",
+    "title": "Change the future, then compare the past outputs",
+    "grammar": "Original sequence; changed suffix; legal model; deliberately leaky control",
+    "frames": [
+      "Clone; alter suffix; compare all prefix logits; repeat split points"
+    ],
+    "status": "internally-reviewed-produced",
+    "chapter": "EVOD-02",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "author-agent-reviewed"
+  },
+  {
+    "id": "EVOD-02-F6",
+    "title": "Random targets set an information floor",
+    "grammar": "Uniform DNA source; expected log loss; finite sample; memorized training set",
+    "frames": [
+      "Derive H+KL; convert nats to bits and perplexity; separate expectation from sample"
+    ],
+    "status": "internally-reviewed-produced",
+    "chapter": "EVOD-02",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "author-agent-reviewed"
+  },
+  {
+    "id": "EVOD-02-F7",
+    "title": "Equal parameter totals can hide different resources",
+    "grammar": "Width; depth; state; KV; FFN; tokens; compute",
+    "frames": [
+      "Compute exact toy parameter totals; compare other dimensions"
+    ],
+    "status": "internally-reviewed-produced",
+    "chapter": "EVOD-02",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "author-agent-reviewed"
+  },
+  {
+    "id": "EVOD-02-F8",
+    "title": "Three runs are not one typical run",
+    "grammar": "Individual values 0.51,0.97,0.99; mean; spread; paired runs",
+    "frames": [
+      "Display every point; summarize; separate seed and test-sample uncertainty"
+    ],
+    "status": "internally-reviewed-produced",
+    "chapter": "EVOD-02",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "author-agent-reviewed"
+  },
+  {
+    "id": "EVOD-02-F9",
+    "title": "Exact task semantics precede training",
+    "grammar": "Sequence; lag; scored positions; oracle; shortcut control",
+    "frames": [
+      "Compute delayed targets; vary lags and lengths; compare constant/current-token predictors"
+    ],
+    "status": "internally-reviewed-produced",
+    "chapter": "EVOD-02",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "author-agent-reviewed"
+  },
+  {
+    "id": "EVOD-02-F10",
+    "title": "A balanced memory task matrix",
+    "grammar": "Delay/retrieval; parity/sum; key-value lookup; pointer chasing; motifs; routing",
+    "frames": [
+      "Specify oracle and shortcut for each; balance addressable history and sufficient statistics"
+    ],
+    "status": "internally-reviewed-produced",
+    "chapter": "EVOD-02",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "author-agent-reviewed"
+  },
+  {
+    "id": "EVOD-02-F11",
+    "title": "Removal and transplant answer different questions",
+    "grammar": "Full model; matched removal; baseline; transplanted mechanism",
+    "frames": [
+      "Define metric direction; compare paired effects; retain data/tuning controls"
+    ],
+    "status": "internally-reviewed-produced",
+    "chapter": "EVOD-02",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "author-agent-reviewed"
+  },
+  {
+    "id": "EVOD-02-F12",
+    "title": "Quality and execution are separate axes",
+    "grammar": "Cross entropy; accuracy/F1; calibration; latency; throughput; memory; parity",
+    "frames": [
+      "Report quality/resource vector; independently compare engine outputs to reference"
+    ],
+    "status": "internally-reviewed-produced",
+    "chapter": "EVOD-02",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "author-agent-reviewed"
+  },
+  {
+    "id": "EVOD-02-F13",
+    "title": "The experiment record is an executable boundary",
+    "grammar": "Researcher; existing experiment spec; smoke runner; evaluator; result artifact",
+    "frames": [
+      "Lock spec hash; run deterministic checks; emit results and limitations"
+    ],
+    "status": "internally-reviewed-produced",
+    "chapter": "EVOD-02",
+    "sourcePlan": "Editable SVG/TikZ/Graphviz/PlantUML as appropriate + Unicode TXT companion",
+    "reviewStatus": "author-agent-reviewed"
   },
   {
     "id": "EVOD-03-F1",

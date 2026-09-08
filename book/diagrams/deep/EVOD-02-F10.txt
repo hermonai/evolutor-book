@@ -1,0 +1,30 @@
+EVOD-02-F10 — A balanced memory task matrix
+
+QUESTION
+Which task favors which representation?
+
+OBJECTS
+• Delay/retrieval
+• parity/sum
+• key-value lookup
+• pointer chasing
+• motifs
+• routing
+
+RELATION / MECHANISM
+Delay/retrieval; parity/sum; key-value lookup; pointer chasing; motifs; routing
+
+STATE TRANSITION
+Specify oracle and shortcut for each; balance addressable history and sufficient statistics
+
+INFERENCE
+Compare different memory demands under declared budgets.
+
+BOUNDARY
+Synthetic extrapolation is not general intelligence or biological function.
+
+SOURCE
+Original benchmark design; established model-family anchors
+
+EXECUTABLE EVIDENCE
+artifacts/deep/ch02-results.json; examples/deep/ch02.py

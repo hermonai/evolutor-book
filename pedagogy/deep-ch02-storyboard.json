@@ -1,0 +1,239 @@
+{
+  "chapter": "EVOD-02",
+  "title": "Learning objectives, data, tasks, and evaluation",
+  "status": "storyboard-approved-before-prose",
+  "approval": "Author-agent design review, 2026-09-08; scientific acceptance remains pending.",
+  "figures": [
+    {
+      "id": "EVOD-02-F1",
+      "kind": "protocol",
+      "title": "Five objects that must not be conflated",
+      "readerQuestion": "Where does a result get its meaning?",
+      "mechanism": "Dataset; task; objective; model; evaluation protocol",
+      "objects": [
+        "Dataset",
+        "task",
+        "objective",
+        "model",
+        "evaluation protocol"
+      ],
+      "sequence": "Fix allowed input and target; train; predict; evaluate against untouched examples",
+      "evidenceSource": "Original experiment semantics; DOME",
+      "captionThesis": "A score is conditional on the whole protocol.",
+      "misleadingInterpretation": "No arrow from a score directly to architectural superiority."
+    },
+    {
+      "id": "EVOD-02-F2",
+      "kind": "tokens",
+      "title": "One base string, several prediction units",
+      "readerQuestion": "How does tokenization change the question?",
+      "mechanism": "Base tokens; overlapping k-mers; nonoverlapping chunks; BPE units",
+      "objects": [
+        "Base tokens",
+        "overlapping k-mers",
+        "nonoverlapping chunks",
+        "BPE units"
+      ],
+      "sequence": "Track shared bases and target shift; expose next-token shortcuts",
+      "evidenceSource": "Original example; DNABERT-2 and HyenaDNA tokenization anchors",
+      "captionThesis": "Token NLL is not automatically comparable across tokenizers.",
+      "misleadingInterpretation": "Overlapping k-mers share most of the next target."
+    },
+    {
+      "id": "EVOD-02-F3",
+      "kind": "split",
+      "title": "Split biological relationships, not just rows",
+      "readerQuestion": "Why can disjoint record IDs still leak?",
+      "mechanism": "Duplicate/reverse-complement records; metadata groups; connected components; folds",
+      "objects": [
+        "Duplicate/reverse-complement records",
+        "metadata groups",
+        "connected components",
+        "folds"
+      ],
+      "sequence": "Build conflict graph; union transitive groups; assign whole components",
+      "evidenceSource": "Original exact-group algorithm; SpanSeq; DataSAIL abstract",
+      "captionThesis": "The declared grouping relation determines what separation guarantees.",
+      "misleadingInterpretation": "Exact reverse-complement grouping does not detect homology."
+    },
+    {
+      "id": "EVOD-02-F4",
+      "kind": "causal",
+      "title": "Teacher forcing without a future shortcut",
+      "readerQuestion": "Which input predicts which target?",
+      "mechanism": "Input prefix positions; next-base targets; causal dependence mask",
+      "objects": [
+        "Input prefix positions",
+        "next-base targets",
+        "causal dependence mask"
+      ],
+      "sequence": "Shift targets once; retain prefix; prohibit information from later inputs",
+      "evidenceSource": "Original factorization; Transformer causal semantics",
+      "captionThesis": "Output at input position t predicts x at t+1.",
+      "misleadingInterpretation": "Testing prefix invariance cannot detect a mis-shifted target alone."
+    },
+    {
+      "id": "EVOD-02-F5",
+      "kind": "intervention",
+      "title": "Change the future, then compare the past outputs",
+      "readerQuestion": "How do we catch an information leak directly?",
+      "mechanism": "Original sequence; changed suffix; legal model; deliberately leaky control",
+      "objects": [
+        "Original sequence",
+        "changed suffix",
+        "legal model",
+        "deliberately leaky control"
+      ],
+      "sequence": "Clone; alter suffix; compare all prefix logits; repeat split points",
+      "evidenceSource": "Existing evo_torch causality helper plus new reference controls",
+      "captionThesis": "A finite intervention is behavioral evidence, not a universal proof.",
+      "misleadingInterpretation": "One suffix edit can miss invariance-specific leakage; tolerance must reject NaN."
+    },
+    {
+      "id": "EVOD-02-F6",
+      "kind": "entropy",
+      "title": "Random targets set an information floor",
+      "readerQuestion": "What does below-floor loss mean?",
+      "mechanism": "Uniform DNA source; expected log loss; finite sample; memorized training set",
+      "objects": [
+        "Uniform DNA source",
+        "expected log loss",
+        "finite sample",
+        "memorized training set"
+      ],
+      "sequence": "Derive H+KL; convert nats to bits and perplexity; separate expectation from sample",
+      "evidenceSource": "Original derivation; Zhang et al. random-label fitting anchor",
+      "captionThesis": "Independent fresh targets give expected NLL at least ln 4.",
+      "misleadingInterpretation": "A finite test score can fluctuate; repeated evaluation is not untouched evidence."
+    },
+    {
+      "id": "EVOD-02-F7",
+      "kind": "capacity",
+      "title": "Equal parameter totals can hide different resources",
+      "readerQuestion": "Which variables did the comparison actually hold fixed?",
+      "mechanism": "Width; depth; state; KV; FFN; tokens; compute",
+      "objects": [
+        "Width",
+        "depth",
+        "state",
+        "KV",
+        "FFN",
+        "tokens",
+        "compute"
+      ],
+      "sequence": "Compute exact toy parameter totals; compare other dimensions",
+      "evidenceSource": "Original parameter accounting; Chapter 1 memory contract",
+      "captionThesis": "Matching one budget defines one question, not complete fairness.",
+      "misleadingInterpretation": "Parameter count is not an effective-capacity theorem."
+    },
+    {
+      "id": "EVOD-02-F8",
+      "kind": "seeds",
+      "title": "Three runs are not one typical run",
+      "readerQuestion": "What can a mean conceal?",
+      "mechanism": "Individual values 0.51,0.97,0.99; mean; spread; paired runs",
+      "objects": [
+        "Individual values 0.51,0.97,0.99",
+        "mean",
+        "spread",
+        "paired runs"
+      ],
+      "sequence": "Display every point; summarize; separate seed and test-sample uncertainty",
+      "evidenceSource": "Illustrative values supplied in brief; Bouthillier et al.",
+      "captionThesis": "A wide three-point sample warrants diagnosis, not a confident mode claim.",
+      "misleadingInterpretation": "Do not label supplied illustrative values as measured training results."
+    },
+    {
+      "id": "EVOD-02-F9",
+      "kind": "oracle",
+      "title": "Exact task semantics precede training",
+      "readerQuestion": "What must a delay benchmark really remember?",
+      "mechanism": "Sequence; lag; scored positions; oracle; shortcut control",
+      "objects": [
+        "Sequence",
+        "lag",
+        "scored positions",
+        "oracle",
+        "shortcut control"
+      ],
+      "sequence": "Compute delayed targets; vary lags and lengths; compare constant/current-token predictors",
+      "evidenceSource": "Original deterministic delay benchmark",
+      "captionThesis": "An oracle makes correctness testable before learning begins.",
+      "misleadingInterpretation": "A high score on correlated inputs may not establish delayed memory."
+    },
+    {
+      "id": "EVOD-02-F10",
+      "kind": "tasks",
+      "title": "A balanced memory task matrix",
+      "readerQuestion": "Which task favors which representation?",
+      "mechanism": "Delay/retrieval; parity/sum; key-value lookup; pointer chasing; motifs; routing",
+      "objects": [
+        "Delay/retrieval",
+        "parity/sum",
+        "key-value lookup",
+        "pointer chasing",
+        "motifs",
+        "routing"
+      ],
+      "sequence": "Specify oracle and shortcut for each; balance addressable history and sufficient statistics",
+      "evidenceSource": "Original benchmark design; established model-family anchors",
+      "captionThesis": "Compare different memory demands under declared budgets.",
+      "misleadingInterpretation": "Synthetic extrapolation is not general intelligence or biological function."
+    },
+    {
+      "id": "EVOD-02-F11",
+      "kind": "ablation",
+      "title": "Removal and transplant answer different questions",
+      "readerQuestion": "Is the effect due to a mechanism or the whole package?",
+      "mechanism": "Full model; matched removal; baseline; transplanted mechanism",
+      "objects": [
+        "Full model",
+        "matched removal",
+        "baseline",
+        "transplanted mechanism"
+      ],
+      "sequence": "Define metric direction; compare paired effects; retain data/tuning controls",
+      "evidenceSource": "Original controlled-comparison reasoning",
+      "captionThesis": "An ablation effect is conditional on the changed training system.",
+      "misleadingInterpretation": "Removing a component also changes optimization, capacity and runtime."
+    },
+    {
+      "id": "EVOD-02-F12",
+      "kind": "metrics",
+      "title": "Quality and execution are separate axes",
+      "readerQuestion": "Can a model be better and an engine be wrong?",
+      "mechanism": "Cross entropy; accuracy/F1; calibration; latency; throughput; memory; parity",
+      "objects": [
+        "Cross entropy",
+        "accuracy/F1",
+        "calibration",
+        "latency",
+        "throughput",
+        "memory",
+        "parity"
+      ],
+      "sequence": "Report quality/resource vector; independently compare engine outputs to reference",
+      "evidenceSource": "Original metric definitions; Guo calibration; PyTorch loss",
+      "captionThesis": "A Pareto comparison is not a single unexplained winner.",
+      "misleadingInterpretation": "Toy timings are not production performance."
+    },
+    {
+      "id": "EVOD-02-F13",
+      "kind": "lifecycle",
+      "title": "The experiment record is an executable boundary",
+      "readerQuestion": "How does a prespecified question become evidence?",
+      "mechanism": "Researcher; existing experiment spec; smoke runner; evaluator; result artifact",
+      "objects": [
+        "Researcher",
+        "existing experiment spec",
+        "smoke runner",
+        "evaluator",
+        "result artifact"
+      ],
+      "sequence": "Lock spec hash; run deterministic checks; emit results and limitations",
+      "evidenceSource": "EVO-EXP01 existing repository plan and new smoke record",
+      "captionThesis": "A completed smoke test does not mean the model research experiment is complete.",
+      "misleadingInterpretation": "UML return arrows must not imply training or external review occurred."
+    }
+  ]
+}

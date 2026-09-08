@@ -3,7 +3,7 @@
   "book": "Evolutor",
   "subtitle": "Genomic Computation, DNA-Native AI, and Adaptive Machine Intelligence",
   "edition": "4-deep",
-  "status": "chapter-one-production",
+  "status": "chapter-two-production",
   "canonicalEditionStrategy": "Only astra-deep-rewrite advances; undergraduate frozen for later derivatives.",
   "branch": "astra-deep-rewrite",
   "startingCommit": "af8de42e16c71024d3e228a57e1d4d87c8d87276",
@@ -66,8 +66,8 @@
       "id": "EVOD-02",
       "number": 2,
       "part": "II · Learning and sequence-model foundations",
-      "title": "Learning objectives, data and evaluation",
-      "status": "planned-not-drafted",
+      "title": "Learning objectives, data, tasks, and evaluation",
+      "status": "internally-reviewed-draft",
       "requires": [
         "EVOD-01"
       ],

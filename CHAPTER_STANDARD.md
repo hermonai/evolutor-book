@@ -30,7 +30,13 @@ Source-linked code must match literal outputs and numerical conventions. A biolo
 
 A technically capable reader should be able to reconstruct the mechanism, derive the important relationship, execute or trace the reference model, and distinguish evidence from hypothesis. Internal checks cannot establish that a real reader succeeds. Independent review, reader observation, source/rights auditing and accessible publication structure remain open release gates.
 
-Chapter 1 now supplies the first deep production example; all later chapters remain planned. See DEEP_CHAPTER_1_REPORT.md and artifacts/deep/ch01-review.json. Only the deep edition advances; the undergraduate prototype is frozen.
+Chapters 1–2 supply deep production examples. See their production reports and source-bound review records under artifacts/deep/. Only the deep edition advances; the undergraduate prototype and previous PDFs are frozen.
+
+## Repeatable production safeguards
+
+Extract whole tested functions into printed listings; fragile line ranges can silently show the wrong code after an edit. Generate numerical tables from the same result artifact used by tests. Check each caption against the actual mechanism and asset, not just an existing filename. Keep physical molecule multiplicity distinct from digital set membership, and test representation boundaries independently.
+
+Include a known failure or negative control when a diagnostic could otherwise pass vacuously. State masks, denominators, units and independence assumptions beside numerical claims. Extend cumulative releases with distinct entry points and filenames; retain prior review records unchanged and bind each new acceptance to all reused and newly reviewed inputs.
 
 ## Lessons from the canonical Chapter 1 production
 

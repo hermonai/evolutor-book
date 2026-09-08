@@ -1,0 +1,28 @@
+EVOD-02-F11 — Removal and transplant answer different questions
+
+QUESTION
+Is the effect due to a mechanism or the whole package?
+
+OBJECTS
+• Full model
+• matched removal
+• baseline
+• transplanted mechanism
+
+RELATION / MECHANISM
+Full model; matched removal; baseline; transplanted mechanism
+
+STATE TRANSITION
+Define metric direction; compare paired effects; retain data/tuning controls
+
+INFERENCE
+An ablation effect is conditional on the changed training system.
+
+BOUNDARY
+Removing a component also changes optimization, capacity and runtime.
+
+SOURCE
+Original controlled-comparison reasoning
+
+EXECUTABLE EVIDENCE
+artifacts/deep/ch02-results.json; examples/deep/ch02.py

@@ -1,0 +1,28 @@
+EVOD-02-F3 — Split biological relationships, not just rows
+
+QUESTION
+Why can disjoint record IDs still leak?
+
+OBJECTS
+• Duplicate/reverse-complement records
+• metadata groups
+• connected components
+• folds
+
+RELATION / MECHANISM
+Duplicate/reverse-complement records; metadata groups; connected components; folds
+
+STATE TRANSITION
+Build conflict graph; union transitive groups; assign whole components
+
+INFERENCE
+The declared grouping relation determines what separation guarantees.
+
+BOUNDARY
+Exact reverse-complement grouping does not detect homology.
+
+SOURCE
+Original exact-group algorithm; SpanSeq; DataSAIL abstract
+
+EXECUTABLE EVIDENCE
+artifacts/deep/ch02-results.json; examples/deep/ch02.py

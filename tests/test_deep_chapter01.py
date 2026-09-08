@@ -15,6 +15,7 @@ ROOT=Path(__file__).resolve().parents[1]
 DNA=ROOT.name=="dna-computing-book"
 PREFIX="DNAD-01" if DNA else "EVOD-01"
 NAME="deep-dna-computing" if DNA else "deep-evolutor"
+NAME += "-ch01-02"
 
 def module(name,path):
     spec=importlib.util.spec_from_file_location(name,ROOT/path)
@@ -70,7 +71,8 @@ def test_chapter_citations_figures_labels_and_exercises_are_closed():
     assert "\\input{deep/ch01-code}" in body
     excerpts=(ROOT/"tex/deep/ch01-code.tex").read_text()
     assert "\\VerbatimInput" in excerpts and "../examples/deep/ch01.py" in excerpts
-    assert not (ROOT/"tex/deep/ch02.tex").exists()
+    assert (ROOT/"tex/deep/ch02.tex").exists()
+    assert not (ROOT/"tex/deep/ch03.tex").exists()
 
 def test_deep_pdf_build_and_text_contract():
     subprocess.run(["make","pdf","PYTHON="+sys.executable],cwd=ROOT,check=True,capture_output=True)
