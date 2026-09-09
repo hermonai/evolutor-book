@@ -4,9 +4,9 @@
 
 This directory is prepublication work. It is deliberately outside the accepted source paths so the Chapter 2 review cannot certify Chapter 3 implicitly. The published book still contains Chapters 1–2, unchanged.
 
-Read the [manuscript](manuscript.md), [source ledger](sources.md), [12-figure storyboard](storyboard.json), [executable reference](reference.py) and [computed results](results.json). Four storyboard figures currently have original editable SVG and semantic TXT companions in figures/. The other eight remain plans, not produced artwork.
+Read the [manuscript](manuscript.md), [source ledger](sources.md), [12-figure storyboard](storyboard.json), [executable reference](reference.py) and [computed results](results.json). Eight storyboard figures now have original editable SVG and semantic TXT companions in figures/. The other four remain plans, not produced artwork. Numerical companions include chart values and trace observations.
 
-The first core contains approximately 2400 words across 12 numbered sections and six exercises with worked reasoning. It has not undergone cumulative LaTeX/page review and should not be labeled a complete Chapter 3.
+The expanded core contains approximately 3352 whitespace-delimited words across 12 numbered sections and twelve exercises with worked reasoning. It has not undergone cumulative LaTeX/page review and should not be labeled a complete Chapter 3.
 
 ## Reproduce from the repository root
 

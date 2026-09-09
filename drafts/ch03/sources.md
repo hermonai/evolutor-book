@@ -13,6 +13,10 @@ Consulted 9 September 2026. Official documentation is pinned to version 2.10 to 
 
 ## Original numerical and mathematical examples
 
+### Second-pass evidence check
+
+Rechecked the pinned autograd mechanics section on leaf-gradient accumulation. The new figures use generated per-row logit adjoints and count-weighted microbatch gradients. The component-wise bias proof, maximum-shift cancellation (including tied maxima), cube-root perturbation balance and two accumulation-loop identities are explicit pedagogical derivations, not quotations or new algorithm claims. Tests compare both accumulation implementations at fixed parameters, validate tied-logit value/gradient behavior, and expose a batch-centering counterexample where partitioning changes the forward function. These tests establish only the stated finite cases.
+
 The 3-by-2 input fixture, complete matrix-gradient derivation, explicit broadcast reductions, detached-operand negative control, step-size sweep, stable-logit example and scalar-quadratic traces are original small teaching examples. The forward primitives are shared across manual and automatic differentiation; the hand reverse equations, finite differences and zero-parameter golden case supply different checks.
 
 Parameters and targets are fixed in code. One rate (0.1) is declared for a single toy update; no optimizer tuning or held-out selection is performed. Quadratic rates 0.1, 0.5 and 0.6 are selected analytically to lie below, at and above the known stability boundary. There is no trained-model experiment or architecture comparison to register as completed in the parent experiment ledger.

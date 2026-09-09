@@ -1,17 +1,19 @@
-# Chapter 3 progress: executable foundations
+# Chapter 3 progress: illustrated reasoning and executable checks
 
 9 September 2026. **Working draft, not publication acceptance.**
 
-The next chapter, **Differentiation, optimization and tensor programs**, now has [a substantive first manuscript](drafts/ch03/manuscript.md), [source-access notes](drafts/ch03/sources.md), a 12-figure storyboard, four original editable SVG/TXT figure pairs, runnable reference code and computed results. All eight produced figures across the two books were rendered and visually inspected for readable labels, correct directions, formulas and declared numerical axes. This is figure review, not PDF page review.
+**Differentiation, optimization and tensor programs** now has an expanded [manuscript](drafts/ch03/manuscript.md) of approximately 3352 whitespace-delimited words, eight original editable SVG figures with semantic TXT companions, and twelve exercises with worked reasoning. The 12-figure storyboard has four mechanisms still awaiting artwork. All eight newly produced figures across the two books were rendered and visually inspected; a chart annotation was moved off its data line and reverse-gradient arrows were made explicit. This is figure review, not PDF page review.
 
-The reference implements a fixed smooth tensor network, hand-derived matrix gradients, autograd and finite-difference comparisons, PyTorch gradcheck, a detached negative control, a stable loss and analytically chosen stable/unstable quadratic steps. Tests include non-square shapes, noncontiguous views, broadcast reduction, unequal microbatches, gradient accumulation and nonfinite-input rejection. One declared toy update is arithmetic evidence, not a trained-model experiment.
+The new material derives shared-bias accumulation component by component, explains finite-difference scale and stable cross entropy (including tied maxima), and proves the count-weighted microbatch identity. Tests cover each new numerical artifact, tied-logit gradients, both accumulation-loop implementations, and a batch-centering counterexample where partitioning changes the function.
 
-The current publication metadata, Chapter 1–2 manuscript sources, acceptance records and public branches are not advanced by this draft. Existing PDFs are preserved. The regression build previously rewrote the current PDF as a side effect of testing; its test now builds in a temporary copy and asserts that the original PDFs remain unchanged. No acceptance gate or scientific review flag was weakened.
+Numerical charts and the decision trace come from the executable results. Their TXT companions include the underlying values, with units and boundaries kept explicit. No ASCII box art or generated bitmap substitutes for the editable scientific figures.
 
-## Verification and remaining work
+## Verification
 
-The full suite passes **202 tests**, including the real PDF build in an isolated copy. The accepted source gate still passes and the original publication PDFs remain byte-identical. No tests were disabled to accommodate the draft.
+The full suite passes **206 tests**, including **35 working-draft tests**, the publication build in an isolated temporary copy, and source/PDF preservation checks. The accepted Chapters 1–2 source hashes and original published PDF bytes remain unchanged. No acceptance gate was weakened.
 
-The user's illustration direction is incorporated into CHAPTER_STANDARD.md for both books: explain biological mechanisms with scientifically grounded structures and reaction sequences, and algorithmic mechanisms with states, transformations and data flow. The first revision replaces text-only prefix summaries with explicit directed path histories and replaces the stacked gradient-rule list with a forward/reverse computation diagram. Both revised figures were rendered and inspected.
+The code, prose, figures and tests are a local Chapter 3 development checkpoint. Publication metadata still activates exactly two chapters. No new PDF, moving animation, laboratory experiment, trained-model result or independent review is claimed.
 
-Complete the remaining eight figures per book, unresolved source/proof work, extended exercises and publication apparatus before promoting Chapter 3. No new PDF, moving animation, laboratory result, model benchmark or independent scientific review is claimed.
+## Remaining production work
+
+Complete the last four storyboard mechanisms, unresolved source/proof work described at the end of the manuscript, and the LaTeX references, glossary and index. Scientific and mathematical review plus every-page inspection must precede a new cumulative release and acceptance record. Older editions, branches and PDFs remain preserved.

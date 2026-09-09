@@ -21,7 +21,12 @@ def test_working_artifacts_and_diagram_contract():
         assert (ROOT / "drafts/ch03" / name).read_text() == content, name
     storyboard = json.loads((ROOT / "drafts/ch03/storyboard.json").read_text())
     assert len(storyboard["figures"]) == 12
-    for figure in storyboard["figures"][:4]:
+    produced = [f for f in storyboard["figures"] if f["status"] == "produced-draft-svg-txt"]
+    assert len(produced) == 8
+    manuscript = (ROOT / "drafts/ch03/manuscript.md").read_text()
+    assert manuscript.count("**Solution:**") == 12
+    for figure in produced:
+        assert "figures/" + figure["id"] + ".svg" in manuscript
         folder = ROOT / "drafts/ch03/figures"
         svg = ET.fromstring((folder / (figure["id"] + ".svg")).read_text())
         assert svg.attrib["aria-labelledby"] == "title desc"
@@ -124,6 +129,52 @@ def test_loss_stability_gradient_matches_cross_entropy():
     a = torch.autograd.grad(M.stable_nll(z, y), z)[0]
     b = torch.autograd.grad(F.cross_entropy(z, y), z)[0]
     assert torch.allclose(a, b, atol=1e-14)
+
+
+def test_tied_maximum_preserves_smooth_cross_entropy_gradient():
+    z = torch.zeros((1, 3), dtype=torch.float64, requires_grad=True)
+    y = torch.tensor([1])
+    loss = M.stable_nll(z, y)
+    gradient = torch.autograd.grad(loss, z)[0]
+    assert float(loss.detach()) == pytest.approx(math.log(3), abs=1e-14)
+    assert torch.allclose(gradient, torch.tensor([[1/3, -2/3, 1/3]], dtype=torch.float64), atol=1e-14)
+    assert torch.autograd.gradcheck(lambda q: M.stable_nll(q, y), (z,))
+
+
+def test_accumulation_artifact_exposes_each_shared_contribution():
+    result = M.accumulation_diagnostics()
+    x, y, p = M.fixture()
+    leaves = tuple(t.clone().requires_grad_() for t in p)
+    w, b, u, c = leaves
+    z = torch.tanh(x @ w + b) @ u + c
+    e, dc = torch.autograd.grad(F.cross_entropy(z, y), (z, c))
+    assert torch.allclose(torch.tensor(result["mean_loss_logit_adjoints"], dtype=torch.float64), e, atol=1e-14)
+    assert torch.allclose(torch.tensor(result["bias_gradient"], dtype=torch.float64), dc, atol=1e-14)
+    assert result["weighted_max_abs_error"] < 1e-14
+    assert result["unweighted_max_abs_error"] > .1
+
+
+def test_two_accumulation_loops_equal_full_gradient():
+    x, y, parameters = M.fixture()
+    expected = M.autodiff_gradients(x, y, parameters)
+    for use_sum in (False, True):
+        leaves = tuple(t.clone().requires_grad_() for t in parameters)
+        for start, end in ((0, 1), (1, 3)):
+            loss = M.objective(x[start:end], y[start:end], leaves)
+            weight = (end-start) if use_sum else (end-start)/3
+            (weight * loss).backward()
+        actual = tuple(p.grad/3 if use_sum else p.grad for p in leaves)
+        assert M.maximum_error(expected, actual) < 1e-14
+
+
+def test_partitioning_batch_dependent_function_changes_forward_values():
+    x = torch.tensor([[0.], [2.], [4.]], dtype=torch.float64)
+    center = lambda v: v - v.mean(0)
+    full = center(x)
+    partitioned = torch.cat([center(x[:1]), center(x[1:])])
+    assert torch.equal(full, torch.tensor([[-2.], [0.], [2.]], dtype=torch.float64))
+    assert torch.equal(partitioned, torch.tensor([[0.], [-1.], [1.]], dtype=torch.float64))
+    assert not torch.equal(full, partitioned)
 
 
 def test_backward_accumulates_until_cleared():

@@ -135,6 +135,25 @@ def cancellation_example():
     return values
 
 
+def accumulation_diagnostics():
+    """Expose per-use adjoints and unequal-batch weights on the fixed fixture."""
+    x, y, parameters = fixture()
+    w, b, u, c = parameters
+    logits = torch.tanh(x @ w + b) @ u + c
+    error = (logits.softmax(1) - F.one_hot(y, u.shape[1])) / len(y)
+    full = manual_gradients(x, y, parameters)
+    first = manual_gradients(x[:1], y[:1], parameters)
+    rest = manual_gradients(x[1:], y[1:], parameters)
+    weighted = tuple((a + 2*b)/3 for a, b in zip(first, rest))
+    wrong = tuple((a + b)/2 for a, b in zip(first, rest))
+    return {"mean_loss_logit_adjoints": error.tolist(),
+            "bias_gradient": error.sum(0).tolist(),
+            "microbatch_target_counts": [1, 2],
+            "microbatch_mean_bias_gradients": [first[-1].tolist(), rest[-1].tolist()],
+            "weighted_max_abs_error": maximum_error(full, weighted),
+            "unweighted_max_abs_error": maximum_error(full, wrong)}
+
+
 def results():
     x, y, parameters = fixture()
     manual = manual_gradients(x, y, parameters)
@@ -161,7 +180,7 @@ def results():
             "extreme_logits": {"naive_exp_finite": bool(torch.isfinite(extreme.exp()).all()),
                 "stable_nll": float(stable_nll(extreme, target)),
                 "torch_nll": float(F.cross_entropy(extreme, target))},
-            "cancellation": cancellation_example()}
+            "cancellation": cancellation_example(), "accumulation": accumulation_diagnostics()}
 
 
 if __name__ == "__main__":

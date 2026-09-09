@@ -22,7 +22,7 @@
       "captionThesis": "Every operation has an explicit shape and a reverse counterpart.",
       "evidenceSource": "Original fixed tensor fixture",
       "misleadingInterpretation": "Equal shapes do not guarantee correct semantics.",
-      "status": "selected-for-first-draft"
+      "status": "produced-draft-svg-txt"
     },
     {
       "id": "EVOD-03-F2",
@@ -40,7 +40,7 @@
       "captionThesis": "Reused values receive the sum of all downstream contributions.",
       "evidenceSource": "Baydin section 3; original derivation",
       "misleadingInterpretation": "A computation DAG is not necessarily the model's information-flow guarantee.",
-      "status": "selected-for-first-draft"
+      "status": "produced-draft-svg-txt"
     },
     {
       "id": "EVOD-03-F3",
@@ -57,7 +57,7 @@
       "captionThesis": "Agreement at smooth finite inputs is evidence with a stated scope.",
       "evidenceSource": "PyTorch 2.10 gradcheck; original tests",
       "misleadingInterpretation": "Agreement does not prove the objective or dataset is correct.",
-      "status": "selected-for-first-draft"
+      "status": "produced-draft-svg-txt"
     },
     {
       "id": "EVOD-03-F4",
@@ -73,7 +73,7 @@
       "captionThesis": "The gradient is local information; step size determines stability.",
       "evidenceSource": "Original scalar quadratic derivation",
       "misleadingInterpretation": "One stable quadratic is not convergence evidence for a neural architecture.",
-      "status": "selected-for-first-draft"
+      "status": "produced-draft-svg-txt"
     },
     {
       "id": "EVOD-03-F5",
@@ -81,16 +81,16 @@
       "title": "Broadcast backward is a sum",
       "readerQuestion": "Where does a shared bias collect contributions?",
       "objects": [
-        "Batch rows",
-        "shared b",
-        "gradient per use",
-        "reduced gradient"
+        "Shared projection bias c[1]",
+        "three batch rows",
+        "mean-loss logit adjoints E[i,1]",
+        "summed bias gradient"
       ],
       "mechanism": "Accumulate row contributions onto one parameter",
       "captionThesis": "Forward sharing requires reverse summation, not arbitrary averaging.",
       "evidenceSource": "Original matrix differential proof",
       "misleadingInterpretation": "Loss normalization and broadcast reduction are separate operations.",
-      "status": "planned-no-assets"
+      "status": "produced-draft-svg-txt"
     },
     {
       "id": "EVOD-03-F6",
@@ -107,7 +107,7 @@
       "captionThesis": "Algebraic equality does not imply numerical equality.",
       "evidenceSource": "PyTorch numerical accuracy and CrossEntropyLoss; original examples",
       "misleadingInterpretation": "Stability is not immunity to all nonfinite inputs.",
-      "status": "planned-no-assets"
+      "status": "produced-draft-svg-txt"
     },
     {
       "id": "EVOD-03-F7",
@@ -123,7 +123,7 @@
       "captionThesis": "Batch weighting must match the objective from Chapter 2.",
       "evidenceSource": "PyTorch autograd; original toy control",
       "misleadingInterpretation": "Equal averaging of unequal batches changes the loss.",
-      "status": "planned-no-assets"
+      "status": "produced-draft-svg-txt"
     },
     {
       "id": "EVOD-03-F8",
@@ -136,11 +136,11 @@
         "subtraction roundoff",
         "error curve"
       ],
-      "mechanism": "Sweep powers of ten against a smooth analytic derivative",
+      "mechanism": "Sweep five declared central-difference steps against the hand-derived gradients of the fixed smooth network",
       "captionThesis": "The useful h range depends on scale and precision.",
       "evidenceSource": "Original Taylor derivation; PyTorch numerical accuracy",
       "misleadingInterpretation": "A specific optimum is not portable across dtypes and functions.",
-      "status": "planned-no-assets"
+      "status": "produced-draft-svg-txt"
     },
     {
       "id": "EVOD-03-F9",

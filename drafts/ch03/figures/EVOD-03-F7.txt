@@ -1,0 +1,29 @@
+EVOD-03-F7: Repeated backward calls accumulate
+
+QUESTION
+When should gradients be cleared?
+
+OBJECTS
+Parameter grad buffer
+microbatch sums
+total target count
+
+RELATION / MECHANISM
+Accumulate sums then normalize once using the declared denominator
+
+INFERENCE
+Batch weighting must match the objective from Chapter 2.
+
+BOUNDARY
+Equal averaging of unequal batches changes the loss.
+
+SOURCE
+PyTorch autograd; original toy control
+
+STATUS
+Working-draft figure; not part of the accepted PDF.
+
+NUMERICAL OBSERVATIONS
+Target counts: [1,2]. Full gradient: (g_A + 2g_B)/3.
+Weighted maximum absolute error: 5.117434e-17.
+Equal-mean maximum absolute error: 1.635069e-01.

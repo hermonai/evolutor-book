@@ -1,0 +1,32 @@
+EVOD-03-F8: Roundoff competes with truncation
+
+QUESTION
+Why not use an arbitrarily tiny finite-difference step?
+
+OBJECTS
+Step h
+central-difference truncation
+subtraction roundoff
+error curve
+
+RELATION / MECHANISM
+Sweep five declared central-difference steps against the hand-derived gradients of the fixed smooth network
+
+INFERENCE
+The useful h range depends on scale and precision.
+
+BOUNDARY
+A specific optimum is not portable across dtypes and functions.
+
+SOURCE
+Original Taylor derivation; PyTorch numerical accuracy
+
+STATUS
+Working-draft figure; not part of the accepted PDF.
+
+NUMERICAL OBSERVATIONS
+h=1.0e-09: maximum absolute gradient error=1.179863e-07.
+h=1.0e-07: maximum absolute gradient error=1.387708e-09.
+h=1.0e-05: maximum absolute gradient error=1.466991e-11.
+h=1.0e-03: maximum absolute gradient error=2.396172e-08.
+h=1.0e-01: maximum absolute gradient error=2.390271e-04.

@@ -1,0 +1,31 @@
+EVOD-03-F5: Broadcast backward is a sum
+
+QUESTION
+Where does a shared bias collect contributions?
+
+OBJECTS
+Shared projection bias c[1]
+three batch rows
+mean-loss logit adjoints E[i,1]
+summed bias gradient
+
+RELATION / MECHANISM
+Accumulate row contributions onto one parameter
+
+INFERENCE
+Forward sharing requires reverse summation, not arbitrary averaging.
+
+BOUNDARY
+Loss normalization and broadcast reduction are separate operations.
+
+SOURCE
+Original matrix differential proof
+
+STATUS
+Working-draft figure; not part of the accepted PDF.
+
+NUMERICAL OBSERVATIONS
+Row 0, coordinate 1: E=+0.0993425347.
+Row 1, coordinate 1: E=+0.0984436464.
+Row 2, coordinate 1: E=-0.2264421250.
+Summed bias gradient, coordinate 1: -0.0286559439.

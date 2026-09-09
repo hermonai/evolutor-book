@@ -1,0 +1,30 @@
+EVOD-03-F6: Stable softmax cross entropy
+
+QUESTION
+Why does naive exponentiation fail?
+
+OBJECTS
+Large logits
+maximum shift
+log-sum-exp
+target index
+
+RELATION / MECHANISM
+Subtract row maximum before exponentiating; compare equivalent objectives
+
+INFERENCE
+Algebraic equality does not imply numerical equality.
+
+BOUNDARY
+Stability is not immunity to all nonfinite inputs.
+
+SOURCE
+PyTorch numerical accuracy and CrossEntropyLoss; original examples
+
+STATUS
+Working-draft figure; not part of the accepted PDF.
+
+NUMERICAL OBSERVATIONS
+Logits: [1000,1001,999]. Target index: 1. Maximum: 1001.
+Shifted logits: [-1,0,-2].
+Stable cross entropy: 0.4076059644.
