@@ -1,0 +1,25 @@
+EVOD-03-F3: Three routes to the same derivative
+
+QUESTION
+What makes a gradient check meaningful?
+
+OBJECTS
+Hand derivation
+autograd
+central differences
+detached negative control
+
+RELATION / MECHANISM
+Compute all three, scan step sizes, expose intentional failure
+
+INFERENCE
+Agreement at smooth finite inputs is evidence with a stated scope.
+
+BOUNDARY
+Agreement does not prove the objective or dataset is correct.
+
+SOURCE
+PyTorch 2.10 gradcheck; original tests
+
+STATUS
+Working-draft figure; not part of the accepted PDF.

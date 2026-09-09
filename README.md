@@ -10,6 +10,8 @@ DOGMA = non-Transformer DNA-native model + DOGMA Engine; Hermon DNA = Transforme
 
 ## Build and verify
 
+Chapter 3 is underway as a separate [working draft](drafts/ch03/README.md); see [progress and remaining review](DEEP_CHAPTER_3_PROGRESS.md). It is not yet included in the published PDF.
+
 ```sh
 python3 examples/deep/ch01.py
 python3 examples/deep/ch02.py

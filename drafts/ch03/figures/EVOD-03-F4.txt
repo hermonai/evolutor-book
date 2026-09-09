@@ -1,0 +1,24 @@
+EVOD-03-F4: Correct gradients can still diverge
+
+QUESTION
+Why can a gradient step increase loss?
+
+OBJECTS
+Quadratic curvature
+step size
+coordinate update factor
+
+RELATION / MECHANISM
+Compare eta lambda below, equal to, and above two
+
+INFERENCE
+The gradient is local information; step size determines stability.
+
+BOUNDARY
+One stable quadratic is not convergence evidence for a neural architecture.
+
+SOURCE
+Original scalar quadratic derivation
+
+STATUS
+Working-draft figure; not part of the accepted PDF.

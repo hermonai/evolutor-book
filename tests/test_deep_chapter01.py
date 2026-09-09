@@ -74,16 +74,23 @@ def test_chapter_citations_figures_labels_and_exercises_are_closed():
     assert (ROOT/"tex/deep/ch02.tex").exists()
     assert not (ROOT/"tex/deep/ch03.tex").exists()
 
-def test_deep_pdf_build_and_text_contract():
-    subprocess.run(["make","pdf","PYTHON="+sys.executable],cwd=ROOT,check=True,capture_output=True)
-    pdf=ROOT/f"output/pdf/{NAME}.pdf"
+def test_deep_pdf_build_and_text_contract(tmp_path):
+    import shutil
+    published = {p: p.read_bytes() for p in (ROOT/"output/pdf").glob("*.pdf")}
+    # The real publication recipe runs, but its copy step must not rewrite a release.
+    work = tmp_path/ROOT.name
+    shutil.copytree(ROOT, work, ignore=shutil.ignore_patterns(
+        ".git", "build", "tmp", "__pycache__", ".pytest_cache", ".venv"))
+    subprocess.run(["make","pdf","PYTHON="+sys.executable],cwd=work,check=True,capture_output=True)
+    assert all(path.read_bytes() == data for path, data in published.items())
+    pdf=work/f"output/pdf/{NAME}.pdf"
     assert pdf.read_bytes().startswith(b"%PDF-")
     text=subprocess.check_output(["pdftotext",str(pdf),"-"],text=True)
     for phrase in ("Chapter 1 glossary","Bibliography","Index"):
         assert phrase in text
     assert "??" not in text
     assert all(f"Figure 1.{i}:" in text for i in range(1,11))
-    log=(ROOT/f"build/{NAME}.log").read_text()
+    log=(work/f"build/{NAME}.log").read_text()
     assert not re.search(r"Overfull|Underfull|undefined references|undefined citations|Missing character",log)
 
 if DNA:

@@ -1,0 +1,216 @@
+{
+  "chapter": "EVOD-03",
+  "title": "Differentiation, optimization and tensor programs",
+  "status": "working-draft-storyboard-approved-before-prose",
+  "date": "2026-09-09",
+  "approval": "Author-agent design review; not scientific acceptance or publication approval.",
+  "figures": [
+    {
+      "id": "EVOD-03-F1",
+      "kind": "shapes",
+      "title": "Shapes are part of the equation",
+      "readerQuestion": "Where does each dimension go?",
+      "objects": [
+        "X[B,D]",
+        "W[D,H]",
+        "b[H]",
+        "H[B,H]",
+        "U[H,V]",
+        "logits[B,V]"
+      ],
+      "mechanism": "Matrix multiply, broadcast, tanh, project, score",
+      "captionThesis": "Every operation has an explicit shape and a reverse counterpart.",
+      "evidenceSource": "Original fixed tensor fixture",
+      "misleadingInterpretation": "Equal shapes do not guarantee correct semantics.",
+      "status": "selected-for-first-draft"
+    },
+    {
+      "id": "EVOD-03-F2",
+      "kind": "reverse",
+      "title": "Reverse accumulation is local accounting",
+      "readerQuestion": "How do all parameters receive gradients?",
+      "objects": [
+        "Loss adjoint",
+        "logit error",
+        "projection gradients",
+        "tanh derivative",
+        "bias reduction"
+      ],
+      "mechanism": "Seed scalar loss with one and propagate vector-Jacobian products",
+      "captionThesis": "Reused values receive the sum of all downstream contributions.",
+      "evidenceSource": "Baydin section 3; original derivation",
+      "misleadingInterpretation": "A computation DAG is not necessarily the model's information-flow guarantee.",
+      "status": "selected-for-first-draft"
+    },
+    {
+      "id": "EVOD-03-F3",
+      "kind": "checks",
+      "title": "Three routes to the same derivative",
+      "readerQuestion": "What makes a gradient check meaningful?",
+      "objects": [
+        "Hand derivation",
+        "autograd",
+        "central differences",
+        "detached negative control"
+      ],
+      "mechanism": "Compute all three, scan step sizes, expose intentional failure",
+      "captionThesis": "Agreement at smooth finite inputs is evidence with a stated scope.",
+      "evidenceSource": "PyTorch 2.10 gradcheck; original tests",
+      "misleadingInterpretation": "Agreement does not prove the objective or dataset is correct.",
+      "status": "selected-for-first-draft"
+    },
+    {
+      "id": "EVOD-03-F4",
+      "kind": "steps",
+      "title": "Correct gradients can still diverge",
+      "readerQuestion": "Why can a gradient step increase loss?",
+      "objects": [
+        "Quadratic curvature",
+        "step size",
+        "coordinate update factor"
+      ],
+      "mechanism": "Compare eta lambda below, equal to, and above two",
+      "captionThesis": "The gradient is local information; step size determines stability.",
+      "evidenceSource": "Original scalar quadratic derivation",
+      "misleadingInterpretation": "One stable quadratic is not convergence evidence for a neural architecture.",
+      "status": "selected-for-first-draft"
+    },
+    {
+      "id": "EVOD-03-F5",
+      "kind": "shared",
+      "title": "Broadcast backward is a sum",
+      "readerQuestion": "Where does a shared bias collect contributions?",
+      "objects": [
+        "Batch rows",
+        "shared b",
+        "gradient per use",
+        "reduced gradient"
+      ],
+      "mechanism": "Accumulate row contributions onto one parameter",
+      "captionThesis": "Forward sharing requires reverse summation, not arbitrary averaging.",
+      "evidenceSource": "Original matrix differential proof",
+      "misleadingInterpretation": "Loss normalization and broadcast reduction are separate operations.",
+      "status": "planned-no-assets"
+    },
+    {
+      "id": "EVOD-03-F6",
+      "kind": "loss",
+      "title": "Stable softmax cross entropy",
+      "readerQuestion": "Why does naive exponentiation fail?",
+      "objects": [
+        "Large logits",
+        "maximum shift",
+        "log-sum-exp",
+        "target index"
+      ],
+      "mechanism": "Subtract row maximum before exponentiating; compare equivalent objectives",
+      "captionThesis": "Algebraic equality does not imply numerical equality.",
+      "evidenceSource": "PyTorch numerical accuracy and CrossEntropyLoss; original examples",
+      "misleadingInterpretation": "Stability is not immunity to all nonfinite inputs.",
+      "status": "planned-no-assets"
+    },
+    {
+      "id": "EVOD-03-F7",
+      "kind": "accumulation",
+      "title": "Repeated backward calls accumulate",
+      "readerQuestion": "When should gradients be cleared?",
+      "objects": [
+        "Parameter grad buffer",
+        "microbatch sums",
+        "total target count"
+      ],
+      "mechanism": "Accumulate sums then normalize once using the declared denominator",
+      "captionThesis": "Batch weighting must match the objective from Chapter 2.",
+      "evidenceSource": "PyTorch autograd; original toy control",
+      "misleadingInterpretation": "Equal averaging of unequal batches changes the loss.",
+      "status": "planned-no-assets"
+    },
+    {
+      "id": "EVOD-03-F8",
+      "kind": "precision",
+      "title": "Roundoff competes with truncation",
+      "readerQuestion": "Why not use an arbitrarily tiny finite-difference step?",
+      "objects": [
+        "Step h",
+        "central-difference truncation",
+        "subtraction roundoff",
+        "error curve"
+      ],
+      "mechanism": "Sweep powers of ten against a smooth analytic derivative",
+      "captionThesis": "The useful h range depends on scale and precision.",
+      "evidenceSource": "Original Taylor derivation; PyTorch numerical accuracy",
+      "misleadingInterpretation": "A specific optimum is not portable across dtypes and functions.",
+      "status": "planned-no-assets"
+    },
+    {
+      "id": "EVOD-03-F9",
+      "kind": "discrete",
+      "title": "Differentiating a selected computation",
+      "readerQuestion": "What happens to routing decisions?",
+      "objects": [
+        "Discrete selector",
+        "executed branch",
+        "continuous branch parameters"
+      ],
+      "mechanism": "Separate selected-branch derivatives from selection changes",
+      "captionThesis": "Autograd of the executed branch is not a derivative through arbitrary discrete choices.",
+      "evidenceSource": "PyTorch autograd; original counterexample",
+      "misleadingInterpretation": "No claim that genomic structural search is solved by ordinary backprop.",
+      "status": "planned-no-assets"
+    },
+    {
+      "id": "EVOD-03-F10",
+      "kind": "optimizers",
+      "title": "Objective, gradient and update are distinct",
+      "readerQuestion": "Where do optimizer state and regularization enter?",
+      "objects": [
+        "Gradient",
+        "momentum state",
+        "decay",
+        "update",
+        "new parameters"
+      ],
+      "mechanism": "Track state before and after one declared optimizer step",
+      "captionThesis": "An update rule adds semantics beyond differentiation.",
+      "evidenceSource": "PyTorch SGD; optimizer sources to expand before publication",
+      "misleadingInterpretation": "Do not mix coupled L2 and decoupled decay formulas.",
+      "status": "planned-no-assets"
+    },
+    {
+      "id": "EVOD-03-F11",
+      "kind": "state",
+      "title": "A gradient test needs a controlled computation",
+      "readerQuestion": "What invalidates a central-difference comparison?",
+      "objects": [
+        "RNG",
+        "state reset",
+        "detached buffers",
+        "dtype",
+        "nonsmooth input"
+      ],
+      "mechanism": "Hold state fixed; perturb just one coordinate; restore inputs",
+      "captionThesis": "Numerical checks compare the same function only under controlled conditions.",
+      "evidenceSource": "Original test contract",
+      "misleadingInterpretation": "Finite checks are neither general causality proofs nor universal numerical certification.",
+      "status": "planned-no-assets"
+    },
+    {
+      "id": "EVOD-03-F12",
+      "kind": "next",
+      "title": "From a local update to a reproducible training run",
+      "readerQuestion": "What remains for Chapter 4?",
+      "objects": [
+        "Dataset iterator",
+        "optimizer",
+        "checkpoint",
+        "evaluation split",
+        "restart state"
+      ],
+      "mechanism": "Compose verified local semantics with a controlled training lifecycle",
+      "captionThesis": "A validated tiny update is not an experiment demonstrating generalization.",
+      "evidenceSource": "Current curriculum; Chapter 2 evidence contract",
+      "misleadingInterpretation": "No DOGMA/Hermon training or engine claim.",
+      "status": "planned-no-assets"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+EVOD-03-F1: Shapes are part of the equation
+
+QUESTION
+Where does each dimension go?
+
+OBJECTS
+X[B,D]
+W[D,H]
+b[H]
+H[B,H]
+U[H,V]
+logits[B,V]
+
+RELATION / MECHANISM
+Matrix multiply, broadcast, tanh, project, score
+
+INFERENCE
+Every operation has an explicit shape and a reverse counterpart.
+
+BOUNDARY
+Equal shapes do not guarantee correct semantics.
+
+SOURCE
+Original fixed tensor fixture
+
+STATUS
+Working-draft figure; not part of the accepted PDF.

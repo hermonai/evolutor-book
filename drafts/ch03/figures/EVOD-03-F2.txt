@@ -1,0 +1,26 @@
+EVOD-03-F2: Reverse accumulation is local accounting
+
+QUESTION
+How do all parameters receive gradients?
+
+OBJECTS
+Loss adjoint
+logit error
+projection gradients
+tanh derivative
+bias reduction
+
+RELATION / MECHANISM
+Seed scalar loss with one and propagate vector-Jacobian products
+
+INFERENCE
+Reused values receive the sum of all downstream contributions.
+
+BOUNDARY
+A computation DAG is not necessarily the model's information-flow guarantee.
+
+SOURCE
+Baydin section 3; original derivation
+
+STATUS
+Working-draft figure; not part of the accepted PDF.

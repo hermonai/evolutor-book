@@ -22,6 +22,12 @@ These are gates, not a rigid table of contents. A long proof, a mechanistic atla
 
 ## Production lessons retained
 
+### Mechanism-first textbook illustrations
+
+Whenever a relationship is difficult to follow in prose, show the mechanism itself. For biology, use scientifically grounded structures, strand orientation, spatial organization and successive reaction states. For algorithms, use graph structure, evolving state, explicit transformations and directed data or gradient flow. A panel containing only a restated paragraph is not a substitute for an explanatory illustration.
+
+Use an original, professional textbook visual language: editable SVG, consistent typography and spacing, restrained semantic colors, labeled arrows, meaningful visual hierarchy, self-contained captions and semantic TXT companions. Render and inspect the artwork at its intended reading size. Biology diagrams must distinguish physical bonds from recognition and association; algorithm diagrams must distinguish control, data, state and evidence. Introduce molecular illustrations only when a biological mechanism is actually being explained, not as decoration for software.
+
 The earlier page review found an arrow hidden by later-painted panels, a floating figure splitting a sentence, title hyphenation, awkward bibliography spacing and glossary drift. Check the final rendered page rather than assuming valid SVG or successful LaTeX implies clarity. Stable molecular identities and orientation matter more than a generic panel layout. Keep figures and captions together; carefully reviewed floats are acceptable.
 
 Source-linked code must match literal outputs and numerical conventions. A biology drawing must not imply DNA acts without cellular machinery. Color reinforces labels and line styles, never replaces them. Animation-like static panels are not exported animations.
