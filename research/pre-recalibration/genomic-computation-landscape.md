@@ -13,17 +13,3 @@ The biological source of an analogy and the novelty of its software translation 
 | Expression traces | Record actual activated computation | Execution logs, profiling, causal tracing | Better structural credit assignment than these controls |
 
 Relevant starting sources: [source register](primary-sources.md), especially E-S04, E-S06–E-S09. Biological mechanisms still need chapter-level primary citations. The strongest default explanation is ordinary conditional computation with biological names. The program must defeat that explanation experimentally or use ordinary names.
-
----
-
-# Genomic computation versus genomic prediction
-
-2026-09-10 · bounded author audit, not independent review.
-
-| Domain | Chapter home | Mechanism / current finding | Limit / action |
-| --- | --- | --- | --- |
-| Caduceus | 7,21,24,29 | Published bidirectional, reverse-complement-equivariant Mamba-derived sequence modelling. | Prior art for symmetry; not a causal next-token baseline without task alignment. |
-| CrossDNA | 21,24,29 | A 2026 primary abstract describes explicit cross-strand communication with recurrent and sliding-window-attention components. | Abstract-level novelty conflict; no independent reproduction or performance adoption. |
-| DOGMA / Hermon DNA | 18–24 | Target identities preserved; current teaching fixtures are not either architecture. | Do not fill unknown mechanism or memory complexity with invented answers. |
-
-Evidence and access depth: [source ledger](scientific-recalibration-sources.md).

@@ -1,0 +1,106 @@
+Scientific prerequisite spine (canonical dependencies)
+
+EVOD-01 ⇐ entry
+  Book I imports: DNAD-30, DNAD-32
+EVOD-02 ⇐ EVOD-01
+  Book I imports: none
+EVOD-03 ⇐ EVOD-02
+  Book I imports: none
+EVOD-04 ⇐ EVOD-02, EVOD-03
+  Book I imports: none
+EVOD-05 ⇐ EVOD-02, EVOD-04
+  Book I imports: DNAD-05, DNAD-25
+EVOD-06 ⇐ EVOD-03, EVOD-05
+  Book I imports: none
+EVOD-07 ⇐ EVOD-06
+  Book I imports: none
+EVOD-08 ⇐ EVOD-03, EVOD-05
+  Book I imports: none
+EVOD-09 ⇐ EVOD-04, EVOD-08
+  Book I imports: none
+EVOD-10 ⇐ EVOD-06, EVOD-07, EVOD-09
+  Book I imports: none
+EVOD-11 ⇐ EVOD-01, EVOD-10
+  Book I imports: DNAD-30
+EVOD-12 ⇐ EVOD-10, EVOD-11
+  Book I imports: DNAD-30
+EVOD-13 ⇐ EVOD-04, EVOD-11, EVOD-12
+  Book I imports: DNAD-30
+EVOD-14 ⇐ EVOD-10, EVOD-11, EVOD-12, EVOD-13
+  Book I imports: DNAD-16, DNAD-18, DNAD-32
+EVOD-15 ⇐ EVOD-14
+  Book I imports: none
+EVOD-16 ⇐ EVOD-07, EVOD-09, EVOD-15
+  Book I imports: DNAD-04, DNAD-24
+EVOD-17 ⇐ EVOD-13, EVOD-15, EVOD-16
+  Book I imports: none
+EVOD-18 ⇐ EVOD-07, EVOD-14, EVOD-15, EVOD-16
+  Book I imports: none
+EVOD-19 ⇐ EVOD-10, EVOD-17, EVOD-18
+  Book I imports: none
+EVOD-20 ⇐ EVOD-07, EVOD-16, EVOD-18, EVOD-19
+  Book I imports: none
+EVOD-21 ⇐ EVOD-05, EVOD-18, EVOD-20
+  Book I imports: DNAD-05, DNAD-30
+EVOD-22 ⇐ EVOD-04, EVOD-17, EVOD-19, EVOD-20, EVOD-21
+  Book I imports: none
+EVOD-23 ⇐ EVOD-05, EVOD-09, EVOD-16
+  Book I imports: none
+EVOD-24 ⇐ EVOD-10, EVOD-21, EVOD-23
+  Book I imports: DNAD-25, DNAD-30
+EVOD-25 ⇐ EVOD-04, EVOD-22, EVOD-23, EVOD-24
+  Book I imports: none
+EVOD-26 ⇐ EVOD-07, EVOD-09, EVOD-22, EVOD-23, EVOD-25
+  Book I imports: none
+EVOD-27 ⇐ EVOD-03, EVOD-04, EVOD-25, EVOD-26
+  Book I imports: none
+EVOD-28 ⇐ EVOD-25, EVOD-26, EVOD-27
+  Book I imports: none
+EVOD-29 ⇐ EVOD-16, EVOD-17, EVOD-22, EVOD-24, EVOD-26, EVOD-27
+  Book I imports: none
+EVOD-30 ⇐ EVOD-15, EVOD-25, EVOD-26, EVOD-28
+  Book I imports: none
+EVOD-31 ⇐ EVOD-18, EVOD-22, EVOD-26, EVOD-30
+  Book I imports: none
+EVOD-32 ⇐ EVOD-20, EVOD-28, EVOD-30, EVOD-31
+  Book I imports: none
+EVOD-33 ⇐ EVOD-28, EVOD-31, EVOD-32
+  Book I imports: none
+EVOD-34 ⇐ EVOD-07, EVOD-26, EVOD-31, EVOD-32, EVOD-33
+  Book I imports: none
+EVOD-35 ⇐ EVOD-09, EVOD-23, EVOD-26, EVOD-30
+  Book I imports: none
+EVOD-36 ⇐ EVOD-28, EVOD-30, EVOD-35
+  Book I imports: none
+EVOD-37 ⇐ EVOD-27, EVOD-29, EVOD-35, EVOD-36
+  Book I imports: none
+EVOD-38 ⇐ EVOD-26, EVOD-29, EVOD-35, EVOD-37
+  Book I imports: none
+EVOD-39 ⇐ EVOD-14, EVOD-15, EVOD-30, EVOD-34, EVOD-38
+  Book I imports: none
+EVOD-40 ⇐ EVOD-10, EVOD-16, EVOD-20, EVOD-29, EVOD-33, EVOD-36, EVOD-39
+  Book I imports: none
+EVOD-41 ⇐ EVOD-12, EVOD-14, EVOD-15, EVOD-16, EVOD-39
+  Book I imports: none
+EVOD-42 ⇐ EVOD-10, EVOD-16, EVOD-30, EVOD-39, EVOD-41
+  Book I imports: none
+EVOD-43 ⇐ EVOD-13, EVOD-17, EVOD-29, EVOD-39, EVOD-41
+  Book I imports: none
+EVOD-44 ⇐ EVOD-28, EVOD-30, EVOD-39, EVOD-43
+  Book I imports: none
+EVOD-45 ⇐ EVOD-32, EVOD-36, EVOD-39, EVOD-44
+  Book I imports: none
+EVOD-46 ⇐ EVOD-28, EVOD-34, EVOD-38, EVOD-39, EVOD-44, EVOD-45
+  Book I imports: none
+EVOD-47 ⇐ EVOD-29, EVOD-34, EVOD-38, EVOD-44, EVOD-46
+  Book I imports: none
+EVOD-48 ⇐ EVOD-24, EVOD-29, EVOD-40, EVOD-44, EVOD-47
+  Book I imports: DNAD-25, DNAD-26, DNAD-30, DNAD-31
+EVOD-49 ⇐ EVOD-29, EVOD-33, EVOD-40, EVOD-45, EVOD-47
+  Book I imports: none
+EVOD-50 ⇐ EVOD-13, EVOD-29, EVOD-40, EVOD-43, EVOD-49
+  Book I imports: none
+EVOD-51 ⇐ EVOD-29, EVOD-43, EVOD-48, EVOD-49, EVOD-50
+  Book I imports: none
+EVOD-52 ⇐ EVOD-29, EVOD-43, EVOD-47, EVOD-48, EVOD-49, EVOD-50, EVOD-51
+  Book I imports: none

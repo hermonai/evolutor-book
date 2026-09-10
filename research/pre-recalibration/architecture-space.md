@@ -18,17 +18,3 @@ These are comparison families, not an equal-performance claim.
 | World models / agents / neuro-symbolic systems | Predictive state plus programs/tools | Planning/composition controls | Modular adaptive controller | Tool/environment information advantage |
 
 Active inference, meta-learning and continual learning are further reading tracks, not interchangeable backbone families. E-S01–E-S11 anchor selected rows; linear-attention, LSTM, GNN, CRN and active-inference primary audits remain open. No family is assigned to DOGMA or Hermon DNA by branding.
-
----
-
-# Three research layers with unknowns preserved
-
-2026-09-10 · bounded author audit, not independent review.
-
-| Domain | Chapter home | Mechanism / current finding | Limit / action |
-| --- | --- | --- | --- |
-| DOGMA | 18–22,30–34 | Representation → local operators → regulation → state → output is a research map. | Derive the operator contract; test equivalence to RNN/SSM and absence of hidden attention before novelty claims. |
-| Hermon DNA | 23–24,35–38 | Baseline Transformer → one genomic intervention → ablation → reference inference. | Keep generic attention/KV machinery visually separate from the tested intervention. |
-| Evolutor | 39–43 | Evidence registry, selection and adaptation above heterogeneous models. | Demonstrate value over a simpler experiment runner before adding orchestration complexity. |
-
-Evidence and access depth: [source ledger](scientific-recalibration-sources.md).
