@@ -15,7 +15,9 @@ def module(name, path):
     spec.loader.exec_module(result)
     return result
 
-PLAN = module("deep_plan", "scripts/build_deep_plan.py")
+# Current progress overlays the frozen accepted generator; its source hash is
+# still checked by the preservation tests below.
+PLAN = module("deep_plan", "scripts/build_textbook_plan.py")
 
 def inputs():
     return tuple(json.loads((ROOT/p).read_text()) for p in (

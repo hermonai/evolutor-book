@@ -1,0 +1,50 @@
+\usepackage{fontspec}
+\setmainfont{texgyrepagella-regular.otf}[BoldFont=texgyrepagella-bold.otf,ItalicFont=texgyrepagella-italic.otf,BoldItalicFont=texgyrepagella-bolditalic.otf]
+\setsansfont{texgyreheros-regular.otf}[BoldFont=texgyreheros-bold.otf]
+\setmonofont{DejaVuSansMono.ttf}[Scale=0.9]
+\usepackage[a4paper,inner=25mm,outer=25mm,top=23mm,bottom=25mm]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{xcolor,graphicx,booktabs,longtable,array,fancyvrb,needspace,titlesec,caption}
+\usepackage{ragged2e}
+\AtBeginDocument{\raggedright}
+\newcolumntype{P}[1]{>{\raggedright\arraybackslash}p{#1}}
+\captionsetup{hypcap=false,justification=raggedright,singlelinecheck=false}
+\usepackage{makeidx}
+\makeindex
+\usepackage{xurl,hyperref}
+\definecolor{BookBlue}{HTML}{173A55}
+\definecolor{BookPale}{HTML}{EDF5FA}
+\hypersetup{colorlinks=true,linkcolor=BookBlue,citecolor=BookBlue,urlcolor=BookBlue,hypertexnames=false}
+\usepackage{fancyhdr}
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\sffamily\BookTitle}
+\fancyhead[R]{\small\sffamily Canonical deep edition / Chapter 1}
+\fancyfoot[C]{\thepage}
+\setlength{\headheight}{15pt}
+\setlength{\parskip}{5pt}
+\setlength{\parindent}{0pt}
+\setlength{\emergencystretch}{2em}
+\clubpenalty=10000 \widowpenalty=10000
+\raggedbottom
+\titleformat{\chapter}[display]{\raggedright\hyphenpenalty=10000\color{BookBlue}\sffamily\bfseries}{\large CHAPTER \thechapter}{8pt}{\huge}
+\titlespacing*{\chapter}{0pt}{0pt}{18pt}
+\titleformat{\section}{\Large\sffamily\bfseries\color{BookBlue}}{\thesection}{0.7em}{}
+\titlespacing*{\section}{0pt}{16pt}{8pt}
+\titleformat{\subsection}{\large\sffamily\bfseries\color{BookBlue}}{\thesubsection}{0.7em}{}
+\newtheorem{proposition}{Proposition}[chapter]
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[chapter]
+\newcommand{\Callout}[2]{\par\medskip\noindent\colorbox{BookPale}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{\raggedright\vspace{5pt}\textbf{\sffamily\color{BookBlue}#1}\par\smallskip #2\par\vspace{5pt}}}\par\medskip}
+\newcommand{\DeepFigure}[3]{\par\medskip\noindent\begin{minipage}{\linewidth}\centering\includegraphics[width=\linewidth]{../build/deep-figures/#1.pdf}\captionof{figure}{#2}\label{#3}\end{minipage}\par\medskip}
+\newcommand{\Term}[1]{\textbf{#1}\index{#1}}
+\newcommand{\Code}[1]{\VerbatimInput[fontsize=\footnotesize,numbers=left,numbersep=5pt,frame=single]{#1}}
+
+\usepackage{fvextra,tikz}
+\usetikzlibrary{arrows.meta,positioning,calc}
+\DefineVerbatimEnvironment{verbatim}{Verbatim}{breaklines,fontsize=\footnotesize}
+\providecommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\providecommand{\passthrough}[1]{#1}
+\newcounter{none}
+\newcommand{\NativeFigure}[3]{\par\medskip\noindent\begin{minipage}{\linewidth}\centering\resizebox{\linewidth}{!}{\input{textbook/figures/#1.tex}}\captionof{figure}{#2}\label{#3}\end{minipage}\par\medskip}
+\fancyhead[R]{\small\sffamily Textbook review / Chapters 1--3}
+\setcounter{tocdepth}{1}

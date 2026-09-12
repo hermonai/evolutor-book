@@ -1,0 +1,16 @@
+\begin{tikzpicture}[font=\sffamily\small,>=Stealth]
+\node[draw=BookBlue,fill=BookPale,minimum width=18mm,minimum height=10mm] (w) at (0,1) {$w=3$};
+\node[draw=BookBlue,fill=BookPale,minimum width=18mm,minimum height=10mm] (x) at (0,-1) {$x=2$};
+\node[circle,draw=BookBlue,minimum size=12mm] (mul) at (3,0) {$\times$};
+\node[draw=BookBlue,fill=BookPale,minimum width=24mm,minimum height=12mm] (sq) at (6.3,0) {$\frac12a^2$};
+\node (loss) at (9,0) {$L=18$};
+\draw[->,thick,BookBlue] (w.east)--(mul.north west);
+\draw[->,thick,BookBlue] (x.east)--(mul.south west);
+\draw[->,thick,BookBlue] (mul)--node[above]{$a=6$}(sq);
+\draw[->,thick,BookBlue] (sq)--(loss);
+\draw[->,dashed,BookBlue,thick] (loss.north)--++(0,1.8)-|node[pos=.25,above]{$\bar L=1$}(sq.north);
+\draw[->,dashed,BookBlue,thick] (sq.south)--++(0,-1.3)-|node[pos=.25,below]{$\bar a=6$}(mul.south);
+\draw[->,dashed,BookBlue,thick] (mul.north)--++(0,2.8)-|node[pos=.5,above]{$\bar w=6\cdot2=12$}(w.north);
+\draw[->,dashed,BookBlue,thick] (mul.south east)--(3.6,-2.8)-|(x.south);
+\node[text=BookBlue] at (1,-3.2) {$\bar x=6\cdot3=18$};
+\end{tikzpicture}

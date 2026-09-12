@@ -1,0 +1,53 @@
+\section{Differentiate one scalar program before a tensor network}
+Chapter 2 separated a declared objective from evidence that it measures the
+intended capability. Now freeze the objective and ask a local question: which
+operation transmits a change in one parameter to the loss?
+
+Begin with two scalars, not an automatic differentiation interface:
+\begin{equation}
+x=2,\qquad w=3,\qquad a=wx,\qquad L=\tfrac12a^2.
+\end{equation}
+The forward values are $a=6$ and $L=18$. At the multiply, either input can
+change the result. At the square, the local rate of loss change is $a$.
+The reverse calculation must follow those dependencies, not the order in
+which variable names happen to appear in a source file.
+
+\NativeFigure{scalar-pullback}{Solid arrows carry forward values. Dashed arrows
+carry reverse sensitivities. Both inputs enter multiplication independently;
+the reverse pass produces a separate derivative for each input.}{fig:textbook-pullback}
+
+Write a bar over a quantity to denote the derivative of the final loss with
+respect to it. Starting from $\bar L=1$, the chain rule gives
+\begin{align}
+\bar a&=\bar L\,a=6,\\
+\bar w&=\bar a\,x=12,\\
+\bar x&=\bar a\,w=18.
+\end{align}
+These are not three gradients that should be averaged. They are derivatives
+with respect to three different variables. The input $x$ can be fixed data
+while its mathematical derivative is still well defined. Computing $\bar x$
+does not imply that the optimizer updates the data.
+
+\textbf{Prediction problem.} Update only $w$ with learning rate $.01$.
+What are the new weight and loss for the same fixed input?
+
+\textbf{Worked answer.} The update is $w'=3-.01(12)=2.88$.
+The new loss is $\frac12(2\cdot2.88)^2=16.5888$. The loss decreases in this
+particular smooth example. A computed gradient does not guarantee improvement
+for an arbitrary finite learning rate or on a different evaluation dataset.
+
+We can check the derivative without reusing the chain-rule program:
+\begin{equation}
+\frac{L(w+h)-L(w-h)}{2h}
+=\frac{2(w+h)^2-2(w-h)^2}{2h}=4w=12.
+\end{equation}
+The equality is exact in real arithmetic for this quadratic and nonzero $h$.
+Floating-point evaluation introduces subtraction and rounding error. Both
+evaluations must use the same input and state; changing either means we are
+subtracting values of different functions.
+
+The matrix derivation that follows is this same calculation with shared
+parameters, indexed sums and explicit shapes. A broadcast bias receives
+contributions from several rows, so its reverse rule sums those contributions.
+A nonlinear operation multiplies by its local derivative. Tensor notation
+compresses these relationships; it does not replace their explanation.

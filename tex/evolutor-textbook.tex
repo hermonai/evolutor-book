@@ -1,0 +1,45 @@
+\documentclass[11pt,oneside,openany]{book}
+\newcommand{\BookTitle}{Evolutor}
+\input{textbook/preamble.tex}
+\begin{document}
+\frontmatter
+\begin{titlepage}
+\color{BookBlue}\sffamily\vspace*{24mm}
+{\fontsize{36}{42}\selectfont\bfseries Evolutor\par}
+\vspace{12mm}{\Large Genomic Computation: Theory, Models, and Systems\par}
+\vspace{14mm}\rule{\linewidth}{.8pt}\par
+\vspace{7mm}{\large Define the mechanism. Derive the result. Test the claim.\par}
+\vfill{\large LaTeX-first textbook review\par}
+\vspace{5mm}Chapters 1--3 / September 2026\par
+New combined review candidate; prior accepted editions preserved.
+\end{titlepage}
+\chapter*{How to read this revision}
+\addcontentsline{toc}{chapter}{How to read this revision}
+Begin with the concrete example, predict its behavior, then check the derivation
+and executable reference. Figures show mechanisms and evidence boundaries,
+not merely names connected by arrows. Worked solutions distinguish a closed
+calculation from an open scientific investigation.
+
+Chapters 1 and 2 retain their accepted authored LaTeX without changing their
+reviewed files. Chapter 3 is now an editable LaTeX manuscript, with its original
+vector figures, worked solutions and a new native TikZ bridge from the preceding
+chapter. The build does not export prose from Markdown. Research notes and
+historical Markdown reviews remain available as evidence, not authoring inputs.
+
+This is a first series-style revision, not a claim of independent specialist
+review or a complete book. Its pedagogical structure is original: concrete
+problem, explicit assumptions, derivation, implementation, counterexample,
+evidence and next question. No biological result, trained-model capability or
+industrial performance claim is established merely by a teaching diagram.
+
+\tableofcontents
+\mainmatter
+\input{deep/ch01}
+\input{deep/ch02}
+\input{textbook/ch03}
+\backmatter
+\input{deep/glossary}
+\input{deep/ch02-glossary}
+\input{deep/references-ch01-02}
+\printindex
+\end{document}
