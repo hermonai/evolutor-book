@@ -2,7 +2,7 @@
 
 Canonical active edition: **astra-deep-rewrite**. Deep science and engineering, straightforward explanations, useful abstraction.
 
-Chapters 1–2 are internally reviewed development manuscripts. Chapter 2 — **Learning objectives, data, tasks, and evaluation** — adds 13 original editable SVG figures with semantic TXT companions, nine static keyframes, executable reference code and twelve exercises with worked solutions. The 52-chapter architecture remains; Chapter 3 onward is planned.
+Chapters 1–2 are internally reviewed development manuscripts. Chapter 2 — **Learning objectives, data, tasks, and evaluation** — adds 13 original editable SVG figures with semantic TXT companions, nine static keyframes, executable reference code and twelve exercises with worked solutions. The 52-chapter architecture remains; Chapter 3 is a standalone review candidate and Chapter 4 onward is planned.
 
 Read the [Chapters 1–2 PDF](output/pdf/deep-evolutor-ch01-02.pdf), [Chapter 2 source](tex/deep/ch02.tex), [Chapter 2 production report](DEEP_CHAPTER_2_REPORT.md), [edition strategy](CANONICAL_EDITION_STRATEGY.md), [book plan](BOOK_PLAN.md) and [chapter standard](CHAPTER_STANDARD.md). The [Chapter 1-only PDF](output/pdf/deep-evolutor.pdf) and [its production report](DEEP_CHAPTER_1_REPORT.md) are preserved unchanged.
 
@@ -10,7 +10,7 @@ DOGMA = non-Transformer DNA-native model + DOGMA Engine; Hermon DNA = Transforme
 
 ## Build and verify
 
-Chapter 3 is underway as a separate [working draft](drafts/ch03/README.md); see [progress and remaining review](DEEP_CHAPTER_3_PROGRESS.md). It is not yet included in the published PDF.
+Chapter 3 now has a standalone [review edition](drafts/ch03/README.md), with twelve editable SVG/TXT figures and a page-inspected PDF. See the [review report and release gates](DEEP_CHAPTER_3_REVIEW_REPORT.md). It is not yet included in the accepted cumulative PDF.
 
 ```sh
 python3 examples/deep/ch01.py

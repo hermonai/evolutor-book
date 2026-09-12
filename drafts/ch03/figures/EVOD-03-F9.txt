@@ -1,0 +1,28 @@
+EVOD-03-F9: Differentiating a selected computation
+
+QUESTION
+What happens to routing decisions?
+
+OBJECTS
+Discrete selector
+executed branch
+continuous branch parameters
+
+RELATION / MECHANISM
+Separate selected-branch derivatives from selection changes
+
+INFERENCE
+Autograd of the executed branch is not a derivative through arbitrary discrete choices.
+
+BOUNDARY
+No claim that genomic structural search is solved by ordinary backprop.
+
+SOURCE
+PyTorch autograd; original counterexample
+
+STATUS
+Working-draft figure; not part of the accepted PDF.
+
+SEMANTIC TXT GRAPH
+Promoter occupancy ⇢ biological initiation control; analogy only.
+r<0 ⇒ f=−1; r≥0 ⇒ f=2. At zero central difference is 3/(2h), not a finite derivative.

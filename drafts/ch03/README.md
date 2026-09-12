@@ -1,26 +1,39 @@
-# Chapter 3 working draft
+# Chapter 3 review candidate
 
 **Differentiation, optimization and tensor programs**
 
-This directory is prepublication work. It is deliberately outside the accepted source paths so the Chapter 2 review cannot certify Chapter 3 implicitly. The published book still contains Chapters 1–2, unchanged.
+This is a standalone review candidate, not a newly accepted cumulative edition.
+The accepted Chapters 1-2 and their recorded source/PDF hashes remain unchanged.
 
-Read the [manuscript](manuscript.md), [source ledger](sources.md), [12-figure storyboard](storyboard.json), [executable reference](reference.py) and [computed results](results.json). Eight storyboard figures now have original editable SVG and semantic TXT companions in figures/. The other four remain plans, not produced artwork. Numerical companions include chart values and trace observations.
+The [manuscript](manuscript.md) now has twelve original editable SVG figures,
+each with a semantic TXT companion, plus twelve exercises with worked solutions,
+a selected glossary, primary-source notes and executable examples.
 
-The expanded core contains approximately 3352 whitespace-delimited words across 12 numbered sections and twelve exercises with worked reasoning. It has not undergone cumulative LaTeX/page review and should not be labeled a complete Chapter 3.
+Read the [source ledger](sources.md), [storyboard](storyboard.json),
+[reference implementation](reference.py), [reference results](results.json),
+[boundary diagnostics](completion_diagnostics.py) and
+[diagnostic results](completion-results.json). Biology and software are explicitly
+distinguished; schematic molecules do not constitute a calibrated laboratory model.
 
-## Reproduce from the repository root
+## Reproduce
+
+Use Python 3.13 with the repository dependencies installed; the verified PyTorch
+version is 2.10.0. Building requires Pandoc, XeLaTeX, rsvg-convert and Poppler;
+the Mac PDF style uses Times New Roman, Arial and Menlo. Page rendering also uses Pillow.
 
 ```sh
-python3 drafts/ch03/reference.py
 python3 drafts/ch03/build_assets.py --check
-python3 -m pytest tests/test_ch03_working_draft.py
-python3 -m pytest
+python3 -m pytest -o addopts='' -q
+python3 drafts/ch03/build_review.py --render
 ```
 
-Python 3.13.6 was used for the recorded run. The numerical reference requires PyTorch; recorded version 2.10.0, CPU float64.
+The isolated builder writes the Chapter 3 review PDF under output/pdf/, renders
+every page under tmp/pdfs/ch03-review/ and records source hashes under
+build/ch03-review/. It never invokes the accepted cumulative PDF recipe.
+Figures remain editable vectors in the PDF. Appendix A reproduces tested boundary
+diagnostics directly from source; Appendix B includes the access-depth source ledger.
 
-The first full regression run passed 202 tests, including 31 working-draft tests. A subsequent preservation fix makes the existing PDF build test run the real recipe in a temporary repository copy, rather than overwrite a published PDF. The final preservation run is recorded in [the progress report](../../DEEP_CHAPTER_3_PROGRESS.md).
-
-## Next production pass
-
-Complete the outstanding source/proof work stated at the end of the manuscript; produce and inspect the remaining figure mechanisms; expand the exercise set; then add a distinct cumulative LaTeX entry point and new PDF filename. Scientific review and every-page inspection must precede any new acceptance manifest. Do not edit old acceptance hashes merely to admit an unfinished chapter.
+See [the review report](../../DEEP_CHAPTER_3_REVIEW_REPORT.md) for checks, author
+visual-review evidence, limitations and the next bounded step. Independent
+scientific review and cumulative integration/index/bibliography remain release
+gates. Future chapter manuscripts are not generated in this checkpoint.

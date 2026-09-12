@@ -1,0 +1,30 @@
+EVOD-03-F11: A gradient test needs a controlled computation
+
+QUESTION
+What invalidates a central-difference comparison?
+
+OBJECTS
+RNG
+state reset
+detached buffers
+dtype
+nonsmooth input
+
+RELATION / MECHANISM
+Hold state fixed; perturb just one coordinate; restore inputs
+
+INFERENCE
+Numerical checks compare the same function only under controlled conditions.
+
+BOUNDARY
+Finite checks are neither general causality proofs nor universal numerical certification.
+
+SOURCE
+Original test contract
+
+STATUS
+Working-draft figure; not part of the accepted PDF.
+
+SEMANTIC TXT GRAPH
+Hold s=3 in both L(θ+h;s) and L(θ−h;s): derivative ≈10.
+Changing the second state to 4 gives ≈−5489; this compares different functions.

@@ -57,7 +57,7 @@ def master(dna):
         body=txt(450,38,title,25,"bold","middle")
         body+=txt(450,77,"Simplified bacterial transcription control; not a universal gene-regulation circuit.",18,anchor="middle")
         for y,label,blocked in [(151,"A  Promoter occupied: initiation inhibited",True),(307,"B  Promoter accessible: initiation may occur",False)]:
-            body+=txt(30,y-30,label,21,"bold")
+            body+=txt(30,y-45 if blocked else y-30,label,21,"bold")
             body+=line(75,y+25,820,y+25,width=5,arrow=False)
             body+=line(75,y+47,820,y+47,color=GREEN,width=5,arrow=False)
             for x in range(85,820,25): body+=line(x,y+27,x,y+45,color=GRAY,width=1,arrow=False)

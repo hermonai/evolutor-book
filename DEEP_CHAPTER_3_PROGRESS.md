@@ -1,5 +1,9 @@
 # Chapter 3 progress: illustrated reasoning and executable checks
 
+Historical checkpoint. The [12 September review report](DEEP_CHAPTER_3_REVIEW_REPORT.md)
+supersedes the production counts below: all twelve figures and a standalone,
+page-inspected Chapter 3 review PDF are now available. Cumulative acceptance remains open.
+
 9 September 2026. **Working draft, not publication acceptance.**
 
 **Differentiation, optimization and tensor programs** now has an expanded [manuscript](drafts/ch03/manuscript.md) of approximately 3352 whitespace-delimited words, eight original editable SVG figures with semantic TXT companions, and twelve exercises with worked reasoning. The 12-figure storyboard has four mechanisms still awaiting artwork. All eight newly produced figures across the two books were rendered and visually inspected; a chart annotation was moved off its data line and reverse-gradient arrows were made explicit. This is figure review, not PDF page review.

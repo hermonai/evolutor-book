@@ -1,4 +1,20 @@
-# Chapter 3 source ledger: first technical core
+# Chapter 3 source ledger
+
+## Review-candidate extension, 12 September 2026
+
+The historical entries below describe the first two passes. The current
+extension now implements momentum and two boundary controls, superseding the
+earlier statements that these were unproduced.
+
+- [PyTorch 2.10 SGD](https://docs.pytorch.org/docs/2.10/generated/torch.optim.SGD.html): rechecked the first-buffer-equals-gradient convention, retained momentum and dampening behavior. The implemented example has zero dampening and weight decay. Two updates are compared with a hand-computed golden trace and a reset-state counterexample; no Adam result is claimed.
+- [PyTorch 2.10 autograd mechanics](https://docs.pytorch.org/docs/2.10/notes/autograd.html): rechecked the nondifferentiability conventions. The hard selector example is an original piecewise function. Tests distinguish the gradient of selected branch parameters from a derivative through the Boolean predicate.
+- Alberts et al., [How Genetic Switches Work](https://www.ncbi.nlm.nih.gov/books/NBK26872/), Molecular Biology of the Cell, 4th edition (2002): relevant bacterial transcription-control discussion read for the simplified repressor/promoter illustration. This mechanism motivates conditional computation; it is not evidence that a protein occupancy event is an exact binary gate or provides a software gradient rule.
+
+The fixed-state versus changed-state finite-difference example is original and
+analytically checkable. RNG replay is explained as a requirement, not reported
+as an implemented stochastic-model experiment. All twelve figures are now
+produced. Full optimizer coverage, trained-model results and independent
+scientific review remain outside this checkpoint.
 
 Consulted 9 September 2026. Official documentation is pinned to version 2.10 to match the observed CPU runtime, PyTorch 2.10.0. Search results for moving stable/main documentation were not treated as the specification for that installed version.
 

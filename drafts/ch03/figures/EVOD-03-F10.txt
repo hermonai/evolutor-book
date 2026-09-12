@@ -1,0 +1,30 @@
+EVOD-03-F10: Objective, gradient and update are distinct
+
+QUESTION
+Where do optimizer state and regularization enter?
+
+OBJECTS
+Gradient
+momentum state
+decay
+update
+new parameters
+
+RELATION / MECHANISM
+Track state before and after one declared optimizer step
+
+INFERENCE
+An update rule adds semantics beyond differentiation.
+
+BOUNDARY
+Do not mix coupled L2 and decoupled decay formulas.
+
+SOURCE
+PyTorch SGD; optimizer sources to expand before publication
+
+STATUS
+Working-draft figure; not part of the accepted PDF.
+
+SEMANTIC TXT GRAPH
+θ=1 ⇢ g=1 ⇢ v=1 ⇢ θ=0.9; retain v.
+θ=0.9 ⇢ g=0.9 ⇢ v=1.8 ⇢ θ=0.72; no decay or dampening.

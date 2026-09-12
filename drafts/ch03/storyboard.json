@@ -156,7 +156,7 @@
       "captionThesis": "Autograd of the executed branch is not a derivative through arbitrary discrete choices.",
       "evidenceSource": "PyTorch autograd; original counterexample",
       "misleadingInterpretation": "No claim that genomic structural search is solved by ordinary backprop.",
-      "status": "planned-no-assets"
+      "status": "produced-draft-svg-txt"
     },
     {
       "id": "EVOD-03-F10",
@@ -174,7 +174,7 @@
       "captionThesis": "An update rule adds semantics beyond differentiation.",
       "evidenceSource": "PyTorch SGD; optimizer sources to expand before publication",
       "misleadingInterpretation": "Do not mix coupled L2 and decoupled decay formulas.",
-      "status": "planned-no-assets"
+      "status": "produced-draft-svg-txt"
     },
     {
       "id": "EVOD-03-F11",
@@ -192,7 +192,7 @@
       "captionThesis": "Numerical checks compare the same function only under controlled conditions.",
       "evidenceSource": "Original test contract",
       "misleadingInterpretation": "Finite checks are neither general causality proofs nor universal numerical certification.",
-      "status": "planned-no-assets"
+      "status": "produced-draft-svg-txt"
     },
     {
       "id": "EVOD-03-F12",
@@ -210,7 +210,7 @@
       "captionThesis": "A validated tiny update is not an experiment demonstrating generalization.",
       "evidenceSource": "Current curriculum; Chapter 2 evidence contract",
       "misleadingInterpretation": "No DOGMA/Hermon training or engine claim.",
-      "status": "planned-no-assets"
+      "status": "produced-draft-svg-txt"
     }
   ]
 }

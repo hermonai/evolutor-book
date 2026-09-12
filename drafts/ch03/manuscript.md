@@ -1,6 +1,6 @@
 # Chapter 3. Differentiation, optimization and tensor programs
 
-Working draft, 9 September 2026. This is an expanded technical core, not an accepted publication chapter. Chapters 1–2 remain the published build. Figure identifiers below belong to draft assets.
+Review candidate, 12 September 2026. This standalone chapter includes twelve original figures and executable checks. It is not yet an accepted cumulative publication chapter. The accepted Chapters 1–2 remain unchanged. Figure labels are stable manuscript asset IDs.
 
 ## 3.1 From a declared objective to a local change
 
@@ -250,7 +250,117 @@ There are two consistent implementations. Accumulate the gradients of each sum l
 
 The premise about the *same* per-target losses matters. Batch-dependent operations, changing hidden state or different random draws can change the function when the batch is partitioned. In that case count weighting alone does not establish equivalence. Empty masked microbatches require special handling too: zero valid targets contribute a zero sum, but their mean is undefined. Our fixed reference has neither batch-dependent layers nor empty batches, so its weighted identity has a precisely declared scope.
 
-## 3.12 Exercises with worked reasoning
+## 3.12 A biological motivation is not a derivative definition
+
+Regulatory binding can affect transcription initiation, as the textbook
+[genetic-switch discussion](https://www.ncbi.nlm.nih.gov/books/NBK26872/)
+explains. A computational proposal must then specify its own operator. It must
+not infer differentiability from a biological name.
+
+![A biological control mechanism and a discontinuous software selector have different semantics.](figures/EVOD-03-F9.svg)
+
+**EVOD-03-F9.** The upper panel is a simplified bacterial mechanism. The lower
+panel is an intentionally discontinuous mathematical example, not a biochemical
+response curve. Their connection is a research question, not an equivalence.
+
+Consider f(r)=2 when r is nonnegative and f(r)=−1 otherwise. Away from zero,
+f is locally constant and its ordinary derivative is zero. At zero its left
+and right limits disagree, so there is no classical derivative. A central
+difference across the boundary gives
+
+\[
+\frac{f(h)-f(-h)}{2h}=\frac{3}{2h},\qquad h>0,
+\]
+
+which diverges as h shrinks. This is not floating-point noise: the underlying
+function is discontinuous. A nonzero number returned by a numerical checker
+does not make a useful derivative exist.
+
+Now replace the constants by trainable a and b. For a fixed branch, a loss can
+differentiate with respect to the selected parameter while assigning no
+contribution to the unselected one. That is a different question from how the
+loss changes when the branch choice changes. Our PyTorch check makes this
+explicit with `where`: the selected value receives its ordinary sensitivity,
+while the Boolean comparison does not create a differentiable path to r.
+
+Later DOGMA research must decide how structural choices are proposed and
+evaluated. A smooth relaxation, a surrogate derivative and discrete search are
+different algorithms with different evidence obligations. This chapter adopts
+none as a validated genomic innovation. It establishes the boundary that their
+training claims must respect.
+
+## 3.13 Optimizer state changes the update, not the derivative
+
+Plain gradient descent uses the current derivative directly. Momentum retains
+information from earlier derivatives, so a reproducible update must include
+optimizer state as well as parameters. For the declared PyTorch SGD settings,
+the first buffer equals the first gradient; later steps use
+
+\[
+v_k=\mu v_{k-1}+g_k,\qquad
+\theta_k=\theta_{k-1}-\eta v_k.
+\]
+
+![Two momentum steps expose the retained buffer and the resulting parameter values.](figures/EVOD-03-F10.svg)
+
+**EVOD-03-F10.** For L(θ)=θ²/2, initial θ=1, η=.1 and μ=.9, the first gradient
+and buffer are both one, producing θ=.9. The second gradient is .9, but the
+buffer becomes 1.8, producing θ=.72. These are CPU float64 arithmetic checks,
+not a training benchmark.
+
+The executable fixture compares the local derivation with `torch.optim.SGD`,
+using zero dampening and zero weight decay. It does not mix regularization into
+the objective or assume that every optimizer initializes its state identically.
+The [versioned SGD documentation](https://docs.pytorch.org/docs/2.10/generated/torch.optim.SGD.html)
+specifies that convention. Restoring only θ=.9 and discarding the buffer would
+make the next first-step buffer .9 and yield θ=.81 instead. The visible parameter
+value at a checkpoint is therefore insufficient to identify the training state.
+
+## 3.14 Control the state in a numerical comparison
+
+For L(θ;s)=(θ+s)², the derivative with respect to θ **at fixed s** is 2(θ+s).
+At θ=2 and s=3 it equals ten. If both finite-difference evaluations hold s=3,
+they compare the same scalar function at nearby parameters.
+
+![A state drift between evaluations turns a derivative test into a comparison of different functions.](figures/EVOD-03-F11.svg)
+
+**EVOD-03-F11.** With h=.001, the controlled difference is approximately ten.
+Changing the second evaluation's state to four instead gives about −5489.
+The large discrepancy diagnoses an uncontrolled comparison, not a derivative
+implementation defect in the quadratic.
+
+The calculation explains the failure. The uncontrolled numerator contains a
+finite difference between two states, not only an O(h) difference between nearby
+parameters. Dividing that extra difference by 2h magnifies it. Reducing h can
+therefore make the diagnostic look worse even in exact arithmetic. RNG draws,
+mutable recurrent state, counters and batch-dependent statistics can cause
+analogous problems. They must be replayed or explicitly incorporated into the
+function being differentiated. These controls are separate from the future-token
+interventions that test causality.
+
+## 3.15 The handoff to a reproducible training run
+
+![A training lifecycle combines distinct data, derivative, update and restart obligations.](figures/EVOD-03-F12.svg)
+
+**EVOD-03-F12.** The figure is Chapter 4's contract, not an implemented
+end-to-end DOGMA or Hermon DNA training system. Parameters, optimizer state,
+relevant model state, random state and data position can all matter at restart.
+
+Chapter 3 has established local claims: the declared smooth fixture has matching
+manual, automatic and numerical derivatives; known failures are detectable;
+normalization and state conventions affect updates. Chapter 4 must compose those
+facts with a data pipeline, explicit masking, held-out evaluation and a restart
+test. Lower training loss alone cannot establish genomic usefulness. A model can
+optimize a shortcut, memorize related sequences across splits or exploit forbidden
+future information while satisfying every derivative check here.
+
+This is why these mathematical foundations belong in Evolutor. They provide
+tests that can reject a proposed genomic mechanism before its interpretation
+becomes an elaborate architecture story. DOGMA remains the non-Transformer
+DNA-native research track; Hermon DNA remains Transformer-based. Neither is
+established by the small neural network used in this chapter.
+
+## 3.16 Exercises with worked reasoning
 
 1. **Bias reduction.** Why sum the per-row projection errors for \(\nabla_cL\)? **Solution:** The same scalar bias coordinate contributes with derivative one to that coordinate in every row. The chain rule adds these contributions. Mean-loss normalization already entered the row errors.
 2. **A symmetry check.** Why must each row of the logit gradient sum to zero? **Solution:** Both its predicted distribution and one-hot target sum to one; their difference sums to zero. This agrees with invariance to adding a constant to all logits in that row.
@@ -268,4 +378,17 @@ The premise about the *same* per-target losses matters. Batch-dependent operatio
 
 ## Publication work still required
 
-Complete the remaining four storyboard figures, expand optimizer-state and nonsmooth/discrete semantics with directly verified primary sources, add stateful derivative cases, and integrate the LaTeX apparatus. Twelve exercises now have worked reasoning; scientific, mathematical and rendered-page review must still precede activation in the published book. DOGMA remains the non-Transformer DNA-native model/engine line; Hermon DNA remains Transformer-based; Evolutor is the broader framework. None is trained or benchmarked by this draft.
+All twelve storyboard figures are now produced. Momentum, discrete-selection
+and state-control diagnostics extend the executable reference. The standalone
+review edition includes a glossary, source list and tested code appendix;
+cumulative LaTeX integration and independent scientific review remain release
+gates. No trained DOGMA/Hermon model or specialized engine is claimed.
+
+## Selected glossary
+
+**Adjoint:** reverse-mode sensitivity of the scalar objective to an intermediate.
+**Broadcast reduction:** summation over uses of a shared value in the reverse pass.
+**Optimizer state:** retained update-rule information distinct from parameters.
+**Discrete selector:** a branch choice whose change need not have a classical derivative.
+**Controlled function:** the same inputs, auxiliary state and randomness except
+for the coordinate deliberately perturbed in a numerical check.

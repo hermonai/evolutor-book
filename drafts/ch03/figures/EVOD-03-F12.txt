@@ -1,0 +1,30 @@
+EVOD-03-F12: From a local update to a reproducible training run
+
+QUESTION
+What remains for Chapter 4?
+
+OBJECTS
+Dataset iterator
+optimizer
+checkpoint
+evaluation split
+restart state
+
+RELATION / MECHANISM
+Compose verified local semantics with a controlled training lifecycle
+
+INFERENCE
+A validated tiny update is not an experiment demonstrating generalization.
+
+BOUNDARY
+No DOGMA/Hermon training or engine claim.
+
+SOURCE
+Current curriculum; Chapter 2 evidence contract
+
+STATUS
+Working-draft figure; not part of the accepted PDF.
+
+SEMANTIC TXT GRAPH
+dataset / split ⇢ forward / loss ⇢ backward ⇢ update ⇢ checkpoint.
+Chapter 4: replay parameters, optimizer, relevant state, RNG and data cursor.

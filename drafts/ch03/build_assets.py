@@ -10,6 +10,9 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 from build_deep_chapter import txt, rect, line, circle, panel, envelope, BLUE, GREEN, RED, GRAY
+sys.path.insert(0, str(HERE))
+from finish_figures import render_extra, semantic_lines
+from completion_diagnostics import results as completion_results
 
 
 def load_reference():
@@ -428,12 +431,15 @@ def outputs():
     model = load_reference()
     result = model.results()
     emitted = {"results.json": json.dumps(result, indent=2, allow_nan=False) + "\n"}
-    for index, figure in enumerate(storyboard["figures"][:8]):
+    completion = completion_results(ROOT.name == "dna-computing-book")
+    emitted["completion-results.json"] = json.dumps(completion, indent=2, allow_nan=False) + "\n"
+    for index, figure in enumerate(storyboard["figures"]):
         if index < 4:
             draw = dna_figure if ROOT.name == "dna-computing-book" else evo_figure
         else:
             draw = dna_next_figure if ROOT.name == "dna-computing-book" else evo_next_figure
-        body, height = draw(figure["kind"], result)
+        body, height = (draw(figure["kind"], result) if index < 8
+                        else render_extra(figure["kind"], completion))
         spec = {**figure, "teachingPurpose": figure["captionThesis"],
                 "limit": figure["misleadingInterpretation"]}
         emitted["figures/" + figure["id"] + ".svg"] = envelope(spec, body, height)
@@ -447,6 +453,8 @@ def outputs():
             "SOURCE\n" + figure["evidenceSource"],
             "STATUS\nWorking-draft figure; not part of the accepted PDF."]) + "\n"
         observed = numerical_observations(figure["kind"], result)
+        if index >= 8:
+            companion += "\nSEMANTIC TXT GRAPH\n" + "\n".join(semantic_lines(figure["kind"])) + "\n"
         if observed:
             companion += "\nNUMERICAL OBSERVATIONS\n" + "\n".join(observed) + "\n"
         emitted["figures/" + figure["id"] + ".txt"] = companion

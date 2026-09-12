@@ -1,0 +1,24 @@
+{
+  "status": "CPU float64 teaching diagnostics, not a trained genomic model",
+  "momentum": [
+    {
+      "before": 1.0,
+      "gradient": 1.0,
+      "buffer": 1.0,
+      "after": 0.9
+    },
+    {
+      "before": 0.9,
+      "gradient": 0.9,
+      "buffer": 1.8,
+      "after": 0.72
+    }
+  ],
+  "branch": {
+    "left": -1.0,
+    "right": 2.0,
+    "central_difference": 1500.0
+  },
+  "fixed_state_difference": 9.999999999994458,
+  "changed_state_difference": -5489.000000000005
+}

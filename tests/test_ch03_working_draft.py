@@ -22,7 +22,7 @@ def test_working_artifacts_and_diagram_contract():
     storyboard = json.loads((ROOT / "drafts/ch03/storyboard.json").read_text())
     assert len(storyboard["figures"]) == 12
     produced = [f for f in storyboard["figures"] if f["status"] == "produced-draft-svg-txt"]
-    assert len(produced) == 8
+    assert len(produced) == 12
     manuscript = (ROOT / "drafts/ch03/manuscript.md").read_text()
     assert manuscript.count("**Solution:**") == 12
     for figure in produced:
