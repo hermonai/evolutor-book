@@ -1,0 +1,12 @@
+\begin{tikzpicture}
+\node[note,font=\bfseries\sffamily] at (6.7,3.9) {Reduce sums and counts, not the displayed means};
+\foreach \x/\n/\loss in {2.8/2/{\log 4},10.6/6/{\log 2}}{
+ \node[note] at (\x,3.1) {$\n$ targets; each loss $=\loss$};
+ \foreach \i in {1,...,\n} \fill[Blue!25] (\x-1.4+.4*\i,2.3) rectangle +(.28,.35);
+}
+\draw[flow] (2.8,1.9)--(5.6,.9);
+\draw[flow] (10.6,1.9)--(7.8,.9);
+\node[note] at (6.7,.4) {$L=(2\log4+6\log2)/8=(5/4)\log2$};
+\node[note,Red] at (6.7,-.5) {Wrong equal mean: $(\log4+\log2)/2=(3/2)\log2$};
+\node[smallnote] at (6.7,-1.3) {Both expressions are valid objectives, but only the first weights every target equally.};
+\end{tikzpicture}

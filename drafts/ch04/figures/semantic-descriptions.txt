@@ -1,0 +1,42 @@
+CHAPTER 4: SEMANTIC FIGURE COMPANIONS
+Native vector plates are accompanied by structured text rather than character-box diagrams.
+
+FIGURE 4.1 / split.tex
+Question: Where must the train/validation boundary be placed?
+Objects: Source sequence groups and their derived overlapping windows.
+Relation: Windows and reverse-complement variants retain their source-group membership.
+Forbidden transition: Assigning sibling derivations from the same source to opposite evaluation splits.
+Inference: Split source groups before generating derived rows.
+Boundary: The actual toy guard checks row IDs and exact sequence/reverse-complement duplicates only; it does not implement homology clustering or prove biological independence.
+
+FIGURE 4.2 / tokens.tex
+Question: Which tensor positions contribute to a next-base objective?
+Source ACGT: Inputs A,C,G; targets C,G,T; three scored positions.
+Source AN: Input A followed by padding; unspecified target N and padding targets ignored.
+Relation: Target positions are shifted one original position relative to inputs.
+Inference: Input unknown, input padding, and ignored targets are distinct states.
+Boundary: Tensor cells are digital representations, not molecular structures; the model predicts canonical classes only.
+
+FIGURE 4.3 / objective.tex
+Question: How should unequal target counts be combined?
+Objects: Two-target group with mean ln(4); six-target group with mean ln(2).
+Correct token weighting: Sum 2 ln(4)+6 ln(2), divide by 8; result (5/4) ln(2).
+Different objective: Average the two group means; result (3/2) ln(2).
+Inference: The denominator specifies which units receive equal weight.
+Boundary: Exact arithmetic example; gradient accumulation equivalence additionally requires compatible forward behavior.
+
+FIGURE 4.4 / transition.tex
+Question: When is the supported training snapshot taken?
+Operations: Select data, forward computation, backward differentiation, optimizer update, gradient clearing, checkpoint serialization.
+Cut: After a whole update and advancement of its data cursor/counter, with no partial gradients.
+Persistent dependencies: Parameters, momentum, current epoch permutation, next cursor, sampler random state, dropout random state.
+Inference: The next transition depends on more than weights.
+Boundary: A logical snapshot cut, not atomic durable filesystem storage; no in-flight batches, workers, distributed execution, or mid-accumulation restoration are implemented.
+
+FIGURE 4.5 / restart.tex
+Question: Which omitted state changes an interrupted run?
+Experiment: Train eight updates; checkpoint after update two; resume and compare with uninterrupted reference.
+Axis: Maximum absolute parameter difference, dimensionless numeric model coordinates.
+Controls: Complete snapshot equals zero; missing momentum about 0.219024; missing dropout RNG about 0.139356; wrong cursor about 0.261059.
+Inference: A passing restart test should preserve the trajectory and reject plausible omissions.
+Boundary: Measured on this synthetic CPU float64 PyTorch 2.10.0 example; not a universal cross-platform guarantee.

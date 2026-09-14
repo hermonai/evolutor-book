@@ -1,0 +1,132 @@
+{
+  "scope": "synthetic one-base-context CPU teaching model; not a genomic benchmark",
+  "torch_version": "2.10.0",
+  "config": {
+    "batch_size": 2,
+    "width": 8,
+    "dropout": 0.25,
+    "lr": 0.15,
+    "momentum": 0.9,
+    "dtype": "float64",
+    "device": "cpu",
+    "alphabet": "ACGTN",
+    "pad": 5,
+    "ignore": -100
+  },
+  "corpus_sha256": "4fcccd68c79ddcf67dacbeb3dfb97fec492d8c07dec1c750b61aed8176953364",
+  "train_rows": 6,
+  "validation_rows": 2,
+  "parameter_count": 84,
+  "uniform_logits": {
+    "scored_targets": 3,
+    "mean_loss": 1.3862943611198906
+  },
+  "training": [
+    {
+      "update": 1,
+      "epoch": 0,
+      "ids": [
+        "train-c",
+        "train-d"
+      ],
+      "scored_targets": 8,
+      "loss": 1.5308169454164422
+    },
+    {
+      "update": 2,
+      "epoch": 0,
+      "ids": [
+        "train-e",
+        "train-a"
+      ],
+      "scored_targets": 13,
+      "loss": 1.5619568540880964
+    },
+    {
+      "update": 3,
+      "epoch": 0,
+      "ids": [
+        "train-f",
+        "train-b"
+      ],
+      "scored_targets": 11,
+      "loss": 1.3296191830833428
+    },
+    {
+      "update": 4,
+      "epoch": 1,
+      "ids": [
+        "train-e",
+        "train-a"
+      ],
+      "scored_targets": 13,
+      "loss": 1.4239172389446308
+    },
+    {
+      "update": 5,
+      "epoch": 1,
+      "ids": [
+        "train-b",
+        "train-f"
+      ],
+      "scored_targets": 11,
+      "loss": 1.346724885519733
+    },
+    {
+      "update": 6,
+      "epoch": 1,
+      "ids": [
+        "train-d",
+        "train-c"
+      ],
+      "scored_targets": 8,
+      "loss": 1.0612302336399093
+    },
+    {
+      "update": 7,
+      "epoch": 2,
+      "ids": [
+        "train-c",
+        "train-d"
+      ],
+      "scored_targets": 8,
+      "loss": 0.97289694471107
+    },
+    {
+      "update": 8,
+      "epoch": 2,
+      "ids": [
+        "train-e",
+        "train-a"
+      ],
+      "scored_targets": 13,
+      "loss": 1.0418599324567777
+    }
+  ],
+  "validation": {
+    "before": 1.5231781051097824,
+    "after": 1.1722703718117475
+  },
+  "restart": {
+    "complete": {
+      "max_parameter_error": 0.0,
+      "same_batch_trace": true,
+      "same_loss_trace": true
+    },
+    "missing_optimizer": {
+      "max_parameter_error": 0.21902372034168596,
+      "same_batch_trace": true,
+      "same_loss_trace": false
+    },
+    "missing_rng": {
+      "max_parameter_error": 0.13935551224338802,
+      "same_batch_trace": true,
+      "same_loss_trace": false
+    },
+    "missing_cursor": {
+      "max_parameter_error": 0.26105857502731455,
+      "same_batch_trace": false,
+      "same_loss_trace": false
+    }
+  }
+}

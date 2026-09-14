@@ -1,0 +1,16 @@
+\begin{tikzpicture}
+\node[note,anchor=west] at (0,3.3) {Biological source groups};
+\foreach \y/\lab/\col in {2.3/group 1/Blue,.5/group 2/Green}{
+ \draw[line width=9pt,\col!30] (.2,\y)--(5.7,\y);
+ \node[smallnote,anchor=east] at (0,\y) {\lab};
+ \foreach \x in {.5,2.2,3.9} \draw[\col,thick] (\x,\y-.35) rectangle + (1.2,.7);
+}
+\draw[flow] (6,2.3)--(8,2.3);
+\draw[flow] (6,.5)--(8,.5);
+\node[note,draw=Blue,fill=Pale,text width=4cm,minimum height=.8cm] at (10.5,2.3) {training partition};
+\node[note,draw=Green,fill=green!6,text width=4cm,minimum height=.8cm] at (10.5,.5) {validation partition};
+\draw[Red,dashed,-{Stealth},thick] (4.5,2)--(8.4,.6);
+\node[Red,font=\Large\bfseries] at (6.5,1.15) {$\times$};
+\node[smallnote,Red] at (6.5,-.35) {Forbidden: move a sibling window or copied reverse complement across the split};
+\node[smallnote] at (6.5,-1.1) {The reference checks IDs and exact/RC identity only. Real homology grouping requires additional evidence.};
+\end{tikzpicture}

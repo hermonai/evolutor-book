@@ -1,0 +1,17 @@
+\begin{tikzpicture}[x=1cm,y=1cm]
+\foreach \x/\t in {3/0,5/1,7/2} \node[smallnote] at (\x,4.3) {position \t};
+\foreach \y/\name in {3.5/input ACGT,2.3/target ACGT,.6/input AN,-.6/target AN}
+ \node[smallnote,anchor=east] at (1.7,\y) {\name};
+\foreach \x/\a/\b in {3/A/C,5/C/G,7/G/T}{
+ \node[draw=Blue,fill=Pale,minimum width=1.4cm,minimum height=.7cm,note] at (\x,3.5) {\a};
+ \node[draw=Green,fill=green!6,minimum width=1.4cm,minimum height=.7cm,note] at (\x,2.3) {\b};
+ \draw[flow] (\x,3.1)--(\x,2.7);
+}
+\foreach \x/\a/\b in {3/A/ignore N,5/PAD/ignore PAD,7/PAD/ignore PAD}{
+ \node[draw=gray,fill=Pale,minimum width=1.4cm,minimum height=.7cm,note] at (\x,.6) {\a};
+ \node[draw=gray,dashed,minimum width=1.8cm,minimum height=.7cm,smallnote] at (\x,-.6) {\b};
+}
+\node[note,anchor=west,align=left] at (8.5,2.8) {Three scored targets\\in this whole batch};
+\node[note,anchor=west,align=left] at (8.5,.0) {Padding and ambiguity\\do not enlarge the denominator};
+\node[smallnote] at (6.8,-1.5) {Each arrow means a prediction from the current input base. It does not mean biological copying.};
+\end{tikzpicture}

@@ -1,0 +1,36 @@
+{
+  "pdf": "output/pdf/evolutor-ch04-review.pdf",
+  "pages": 16,
+  "sha256": "c9cd483d4566c779c0d4896f27878b70bb4740b70f5b5cddd895ad52e413248d",
+  "status": "standalone authored-LaTeX review candidate; no acceptance promotion",
+  "sources": {
+    "drafts/ch04/README.md": "2a23384ff0667fbeda93353951e1a800504b0257d3c01557c04341acc9098f41",
+    "drafts/ch04/STORYBOARD.md": "54f4d3fb1ebe99930dd2a56cec702b84984baa544bbbad475f17a938ce28c341",
+    "drafts/ch04/build.py": "4a08e06f832179ba8de28e7cd50252696fc45b7e08f2c71670a1c9236263134a",
+    "drafts/ch04/figures/objective.tex": "25862ab003988916677206970db4e704ed87dcb173b0884c57f21b29e7c43c6a",
+    "drafts/ch04/figures/restart.tex": "fbd4c48e97397cfe844f0d0fa017b0d5c7e19eaad82e1d9e723f82d84b8d5afb",
+    "drafts/ch04/figures/semantic-descriptions.txt": "3e4a556697b58f74c40fdfbc30321239b1cddf62672baf8c6d6daf0e1cba15b9",
+    "drafts/ch04/figures/split.tex": "37730b0eaf43f58a04bfb5bbaac5ebfd65c7cf7a4ff051fa93f1034e55fb8182",
+    "drafts/ch04/figures/tokens.tex": "16ab134e8321e6ae4e31abdd85497040783e4685835b8040e3d78654d37d347b",
+    "drafts/ch04/figures/transition.tex": "fe1742369883d26e691dba356f1d5b21ea99d340bf7abb9e5b1e925725be18f0",
+    "drafts/ch04/manuscript.tex": "4a179239cfa6c4733d558a5edd9e73a7a5f0608f088e0a15950b206f8af3fc87",
+    "drafts/ch04/reference.py": "7427a993943f9a29d9791d8c989eb17454e508e696f5ef5f9852ec46984f7639",
+    "drafts/ch04/results.json": "5110c549cdbb7cfbba1c5836a5baedb83355c4f5846421dfd0c2e159d958d2c2",
+    "drafts/ch04/review.tex": "03b6f275f6a0f33784aeb447589639faa14fe22e4ffe4738469d32f49b150ab4",
+    "drafts/ch04/sources.tex": "5f7697e9eff9eaba786b05200dacddd6ff4282265392ef50928353106ad7d88f"
+  },
+  "reviewedOn": "2026-09-14",
+  "reviewType": "author technical, editorial, and visual review; not independent specialist acceptance",
+  "allPagesInspected": true,
+  "grayscaleReview": "All pages rendered and inspected in grayscale contact sheets; mechanism and code pages also inspected at page scale",
+  "figures": 5,
+  "exercises": 12,
+  "pdfWordsOutsidePage": 0,
+  "unresolvedReferenceMarkers": 0,
+  "scope": "Synthetic one-base-context CPU float64 predictor; not a genomic capability benchmark",
+  "openGates": [
+    "independent specialist review",
+    "reader feedback",
+    "cumulative integration, cross-chapter index and bibliography"
+  ]
+}

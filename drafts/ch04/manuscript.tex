@@ -1,0 +1,273 @@
+\chapter{Reproducible PyTorch training}
+\label{ch:training}
+
+\section{The weights are identical. Why does training diverge?}
+
+Two copies of a model have exactly the same parameter tensors. Both receive the same next batch. One was running before an interruption; the other was rebuilt from a saved weight file. Predict: must their next updates agree?
+
+No. If the optimizer uses momentum, its next update also depends on a history-dependent buffer. If the model uses dropout, its next forward pass depends on random state. If the restarted data iterator selects a different batch, even the input assumption fails. A training computation has more state than its weights.
+
+This chapter builds a small experiment in which that statement is directly testable. We train a one-base-context predictor on synthetic DNA strings, interrupt it after a completed update, and compare the resumed trajectory with an uninterrupted run. We then intentionally omit state and measure the resulting disagreement.
+
+The model is small enough to inspect completely: 84 stored scalar parameters, CPU execution, and float64 arithmetic. It is not a genomic benchmark, an implemented DOGMA architecture, or a Hermon DNA result. DOGMA remains the non-Transformer DNA-native research track; Hermon DNA names the Transformer-based track; Evolutor is the broader research framework. A careful training contract is useful to all of them, but a working toy component is not evidence that the larger research systems exist or work.
+
+\section{A dataset small enough to understand}
+
+\subsection{Specify the objects before choosing a loader}
+
+Our data consist of named strings. The six training rows and two validation rows are fixed before training:
+
+\begin{center}\small
+\begin{tabular}{lll}
+\toprule Split & Row identity & Sequence\\\midrule
+Training & train-a & \texttt{ACGTACGT}\\
+Training & train-b & \texttt{ACGTT}\\
+Training & train-c & \texttt{TTACGN}\\
+Training & train-d & \texttt{CGTAC}\\
+Training & train-e & \texttt{GATTACA}\\
+Training & train-f & \texttt{TGCATGCA}\\\midrule
+Validation & valid-a & \texttt{ACGACG}\\
+Validation & valid-b & \texttt{TTGCA}\\\bottomrule
+\end{tabular}
+\end{center}
+
+Each name is part of the data identity, not a biological annotation. The strings were constructed for this example. They do not represent independent donors, chromosomes, species, or experimentally characterized regulatory elements. The validation score therefore measures prediction on these held-out synthetic rows only.
+
+The input alphabet is \texttt{A,C,G,T,N}, encoded as integers 0 through 4. Here \texttt{N} means an unspecified input base, not a fifth canonical base. Padding uses a separate input ID, 5. Output classes are only the four canonical bases. Targets that would be \texttt{N}, and positions added solely for padding, receive the sentinel $-100$ and are excluded from scoring.
+
+The distinction is deliberate. An unknown input can still provide context for predicting a known next base. An unknown \emph{target} does not provide a canonical answer against which to score this four-class predictor. Padding, by contrast, is an artifact of rectangular batching, not an observed biological symbol.
+
+\subsection{Split source groups before deriving windows}
+
+\Plate{split}{Partition source groups before creating overlapping windows or reverse-complement variants. The two sequence strips and their derived windows illustrate shared origin; crossed red links mark forbidden cross-split assignment of siblings. This is a data-lineage rule, not a depiction of molecular transport or an implemented homology-clustering algorithm.}{fig:split}
+
+If nearby windows from the same source appear on both sides of a split, a validation score can reflect recognition of shared sequence rather than the intended generalization. Reverse-complement augmentation can create a similar bookkeeping problem: changing orientation does not create a new independent origin.
+
+Our executable guard checks disjoint row identities and excludes exact sequence or reverse-complement duplicates across splits. It canonicalizes a string using the lexicographically smaller of the string and its reverse complement. That is an exact duplicate check only. It does not detect distant homology, shared organisms, overlapping coordinates, or batch effects. The diagram states a stronger design principle for future real datasets; the code implements the narrow checks that can actually be established for this toy corpus.
+
+The checkpoint also stores a SHA-256 digest of the ordered training rows. A changed sequence, row identity, or row order is rejected on restoration. A digest detects a change in the serialized data identity; it does not prove the biological validity or independence of that data.
+
+\section{Turn a sequence into an explicit prediction task}
+
+\subsection{Shift first, then pad}
+
+For a sequence $s_0,s_1,\ldots,s_{L-1}$ of length $L\geq2$, construct inputs $x_t=s_t$ and targets $y_t=s_{t+1}$ for $0\leq t<L-1$. Thus \texttt{ACGT} becomes input \texttt{ACG} and target \texttt{CGT}. The last original base supplies a target, not another input position with an invented target.
+
+\Plate{tokens}{Exact alignment and scoring. The row \texttt{ACGT} contributes three canonical next-base targets. The row \texttt{AN} contributes no scored target: its real next base is unspecified, and its remaining cells are padding. Input \texttt{N}, input padding, and ignored targets have distinct roles. These are digital tensor cells, not chemical structures.}{fig:tokens}
+
+The collator pads each batch to the maximum input length in that batch, producing integer tensors $X,Y\in\mathbb Z^{B\times T}$. The model returns real logits $Z\in\mathbb R^{B\times T\times4}$. Here $B$ is the number of rows, $T$ is padded sequence length, and 4 is the number of output classes. Tensor dimensions are counts, not physical units.
+
+The model we use is deliberately weaker than a full sequence model. Its prediction at position $t$ depends only on $x_t$, not on the entire prefix $x_0,\ldots,x_t$. It cannot learn a motif that requires several earlier positions. This restriction makes causality easy to test and prevents architecture complexity from obscuring the training mechanics.
+
+\subsection{Derive the loss and its denominator}
+
+For logits $z_{b,t,k}$, the canonical-base probability is
+\begin{equation}
+p_\theta(k\mid x_{b,t})=
+\frac{\exp z_{b,t,k}}{\sum_{j=0}^{3}\exp z_{b,t,j}}.
+\end{equation}
+Define $m_{b,t}=1$ when the target is a known canonical base and 0 otherwise. If $C=\sum_{b,t}m_{b,t}>0$, the unweighted token-mean cross-entropy is
+\begin{equation}
+\mathcal L=\frac{S}{C},\qquad
+S=-\sum_{b,t:m_{b,t}=1}\ln p_\theta(y_{b,t}\mid x_{b,t}).
+\label{eq:loss}
+\end{equation}
+Natural logarithms express this information loss in nats per scored target. The denominator counts scored targets, not batch rows, padded cells, or all raw characters.
+
+The implementation requests summed cross-entropy with an ignored target index, then divides by its independently counted non-ignored targets. This matches the unweighted class-index loss contract documented for PyTorch 2.10~\cite{ce}. We do not use class weights or label smoothing; those choices would require their own normalization audit.
+
+For the illustrated batch, uniform logits imply probability $1/4$ for each class. Exactly three targets are scored, so $S=3\ln4$ and $\mathcal L=\ln4\approx1.3862943611$. This is a \Term{golden case}: an answer known independently of optimization that tests the implementation's meaning.
+
+For a scored position, differentiating the softmax cross-entropy gives
+\begin{equation}
+\frac{\partial\mathcal L}{\partial z_{b,t,k}}
+=\frac{p_\theta(k\mid x_{b,t})-\mathbf1[k=y_{b,t}]}{C}.
+\label{eq:grad}
+\end{equation}
+For an ignored position, the derivative is zero. The reference tests check this distinction directly. Ignoring target loss and setting an embedding's padding row are different operations; one does not substitute for the other.
+
+If $C=0$, the mean is undefined. Our code raises an error before backward or optimizer update. It does not replace the denominator with one and silently declare a successful zero-loss update. This is a fail-stop policy, not transaction rollback: if an epoch transition has already drawn a new permutation, that sampler action is not undone by the exception.
+
+\subsection{Why averaging averages can be wrong}
+
+\Plate{objective}{Two groups contribute unequal numbers of scored targets. Combining summed losses and dividing by the total count gives $(5/4)\ln2$. Averaging the two group means gives $(3/2)\ln2$, which weights groups equally rather than targets equally. The discrepancy is a change of objective, not floating-point noise.}{fig:objective}
+
+Let group 1 contain two targets with mean loss $\ln4$ and group 2 contain six targets with mean loss $\ln2$. Their token mean is
+\begin{equation}
+\frac{2\ln4+6\ln2}{8}=\frac54\ln2,
+\end{equation}
+whereas the mean of means is $(\ln4+\ln2)/2=(3/2)\ln2$.
+
+The same issue appears in validation aggregation and gradient accumulation. To reproduce one large token-mean batch using microbatches, sum each microbatch's loss contribution with the shared total target count as denominator. Then call the optimizer once. Equivalence also requires compatible forward behavior: dropout masks or batch-dependent normalization can make differently shaped executions disagree even when the loss algebra is correct. Our gradient-accumulation test disables dropout and uses a model with no batch normalization.
+
+There is a subtler distinction. Uniformly sampling \emph{rows} and using a token mean within each variable-length batch does not in general produce an unbiased gradient of the full-corpus token mean. A short row's targets can receive greater expected weight than a long row's. Our reference defines a specific batch-normalized training procedure; it does not claim an unbiased global-token estimator. Evaluation, in contrast, explicitly sums all validation token losses before dividing by their total count. If unbiased token sampling is the research objective, use an appropriate token-sampling or weighting design and test that separate contract.
+
+\Needspace{10\baselineskip}
+\section{One complete training transition}
+
+\subsection{The 84-parameter predictor}
+
+The model embeds each of six input IDs into eight real coordinates, applies $\tanh$, applies dropout with probability 0.25 during training, and maps the result to four logits. In symbols,
+\begin{equation}
+z=W\,\operatorname{Dropout}(\tanh E[x])+b,
+\end{equation}
+with $E\in\mathbb R^{6\times8}$, $W\in\mathbb R^{4\times8}$, and $b\in\mathbb R^4$. The stored parameter count is $48+32+4=84$. The padding embedding row is present in that count even though its ordinary lookup gradient is suppressed by the padding configuration.
+
+This architecture has no attention, recurrence, convolution, or representation of a whole prefix. It is a small conditional-distribution learner, not a molecular simulation. Its biological alphabet gives us realistic masking and data-identity questions without claiming biological capability.
+
+\subsection{Momentum is state}
+
+We use stochastic gradient descent with learning rate $\eta=0.15$, momentum $\mu=0.9$, and no weight decay or Nesterov term. With zero initial momentum and gradient $g_u$ at update $u$, the relevant recurrence is
+\begin{equation}
+v_u=\mu v_{u-1}+g_u,\qquad
+\theta_{u+1}=\theta_u-\eta v_u. \label{eq:momentum}
+\end{equation}
+For the first nonempty update, the buffer equals that update's gradient, consistent with the chosen optimizer configuration. Model parameters $\theta$ and buffer $v$ jointly determine the next parameter state.
+
+Suppose $v_{u-1}\ne0$ at an interruption. Restoring $\theta_u$ but resetting the buffer to zero changes the next update by $\eta\mu v_{u-1}$ even if the new gradient happens to be identical. Once parameters differ, future gradients can differ too. This explains why a checkpoint of weights alone is suitable for some inference uses but incomplete for exact continuation of this optimizer.
+
+\Plate{transition}{The supported checkpoint boundary is after a complete optimizer update, gradient clearing, and advancement of the data cursor and update counter. The lower state inventory supplies dependencies for the next transition. The dashed cut is a logical boundary in this teaching program, not a guarantee of atomic filesystem persistence. Checkpointing mid-backward or mid-accumulation is outside this implementation.}{fig:transition}
+
+The update routine selects row indices, collates them, enters training mode, clears old gradients, computes $S/C$, runs backward, applies the optimizer, clears gradients again, and advances its cursor and update counter. Clearing at both boundaries makes the supported snapshot state unambiguous: no partial accumulated gradients need to be restored.
+
+The sampler uses a separate seeded generator. It produces one permutation of the six row indices per epoch, with batches of two rows. The cursor points to the next unread position of the current permutation. At the end of a permutation, the next step draws a fresh permutation and advances the epoch counter. Saving only the seed would reconstruct the beginning of this random stream, not necessarily the current stream position.
+
+\section{Evaluation has two independent switches}
+
+Training versus evaluation mode and gradient recording answer different questions:
+
+\begin{center}\small
+\begin{tabular}{lll}
+\toprule Module mode & Autograd context & Meaning in this model\\\midrule
+\texttt{train()} & enabled & Dropout active; gradients recorded\\
+\texttt{train()} & \texttt{no\_grad()} & Dropout active; no gradient recording\\
+\texttt{eval()} & enabled & Dropout inactive; gradients can be recorded\\
+\texttt{eval()} & \texttt{no\_grad()} & Dropout inactive; no gradient recording\\\bottomrule
+\end{tabular}
+\end{center}
+
+Our validation routine uses the last row, combines loss sums and target counts, and then restores the model's previous mode. The test suite checks that this routine leaves parameters, the CPU random state, and the original module mode unchanged. It also checks that no parameter gradients appear.
+
+This matters operationally. A validation pass that accidentally consumes the dropout random stream can perturb the next training step. A pass that leaves the model in evaluation mode can disable the intended training stochasticity. The safe behavior is a tested contract, not the mere presence of a method named \texttt{evaluate}.
+
+\section{A checkpoint is a serialized continuation state}
+
+\subsection{What this implementation saves}
+
+A \Term{checkpoint} is useful when it captures what is needed to perform the \emph{next} supported transition. For this program, the state includes:
+
+\begin{enumerate}
+\item Model parameters and optimizer state, including momentum buffers.
+\item The current permutation, its cursor, epoch, and completed-update count.
+\item The sampler generator state and the CPU PyTorch random state used by dropout.
+\item Schema version, training configuration, ordered-corpus digest, and exact PyTorch version string.
+\end{enumerate}
+
+PyTorch's saving tutorial distinguishes model state from optimizer state and warns that an in-memory state dictionary can refer to changing tensors~\cite{save}. Our method serializes the snapshot immediately to a byte buffer. Continuing the original run therefore cannot mutate the already serialized snapshot. The test suite explicitly verifies this property.
+
+The byte buffer is not a production durable checkpoint file. We do not implement temporary-file replacement, filesystem synchronization, remote-object checksums, crash recovery, or concurrent-writer coordination. A correct in-memory snapshot and crash-safe persistence are separate engineering obligations.
+
+\subsection{Restoration order matters}
+
+Restoration first verifies schema, configuration, corpus digest, and runtime version. It then constructs a new run, loads model and optimizer state, restores sampler state and cursor information, and restores the CPU random state \emph{last}. Construction initializes parameters and therefore consumes randomness. Restoring the random state before construction would allow construction to consume the very stream positions intended for resumed training.
+
+The loader uses \texttt{weights\_only=True} with the tensor-and-primitive payload produced by this program. That is not a claim that arbitrary external files are trustworthy. The example restores its own local snapshots and provides no general untrusted-artifact validation system.
+
+An incompatible corpus is rejected even if its tensor shapes happen to fit. Continuing with altered data may be a legitimate new experiment, but it is not exact continuation of the recorded one. A production system should make such a change explicit rather than disguising it as an identical resume.
+
+\subsection{Reproducibility has a boundary}
+
+Setting a seed specifies an initial random state. Saving generator state specifies a later position in a random stream. Neither alone fixes every possible platform-dependent behavior. PyTorch's versioned reproducibility notes explicitly limit guarantees across versions and platforms~\cite{random}. Accordingly, our claim is scoped to the tested CPU float64 environment with PyTorch 2.10.0 and one execution thread.
+
+The example has no GPU kernels, distributed collectives, data-loader workers, automatic mixed precision, scheduler, gradient scaler, or asynchronous prefetch queue. Such components would add state and possibly nondeterministic operations. Listing them as future obligations is more useful than asserting a universal guarantee based on a small CPU test.
+
+\section{Measure the restart, including negative controls}
+
+\subsection{The short training trace}
+
+We initialize once, evaluate the two fixed validation rows, execute exactly eight updates, and evaluate again. The eight-update budget is declared in advance; it is not chosen by selecting the best validation point. The generated trace is:
+
+\begin{center}\input{\Generated/training.tex}\end{center}
+
+The variable target counts arise from unequal sequence lengths and the ignored \texttt{N} target. Training loss is measured on the batch before its parameter update. It need not decrease monotonically across different batches with different dropout realizations.
+
+The full validation token mean changes from approximately 1.523178 to 1.172270 nats per target. This is a descriptive result on two synthetic rows, not an estimate of genomic generalization or evidence of a new architecture's superiority. The recorded JSON contains the full precision trace, batch identities, configuration, and corpus digest.
+
+\subsection{A falsifiable exact-restart test}
+
+Interrupt the reference run after update 2. Serialize it, continue the original to update 8, and separately restore the snapshot and execute the same number of remaining updates. Compare parameter tensors, batch identities, loss traces, and optimizer tensors. Then repeat while deliberately omitting momentum, the dropout random state, or the correct cursor.
+
+\Plate{restart}{Measured restart errors in the synthetic CPU experiment. The complete snapshot produces zero maximum absolute parameter difference after eight updates. Removing momentum, omitting the dropout random state, or resetting the cursor produces distinct nonzero discrepancies. Values are generated from the executable negative controls, not hand-positioned illustrative bars.}{fig:restart}
+
+\begin{center}\small\input{\Generated/restart.tex}\end{center}
+
+The missing-momentum run still reads the same rows, but its losses and parameters diverge. The missing-random-state run also reads the same rows, isolating a different dependency. Resetting the cursor changes the rows themselves. These controls demonstrate that the test can detect several plausible restoration errors rather than merely checking that loading raises no exception.
+
+The automated tests repeat exact restart at every cut after updates 1 through 7, including cuts at epoch boundaries. They compare final parameter values, optimizer state, row traces, and loss traces. Those are the tested equivalences; the experiment is not a proof about every possible model, interruption point, or execution platform.
+
+\section{Exercises with worked answers}
+
+\begin{enumerate}
+\item \textbf{Alignment.} Write the input and target arrays for \texttt{ACGT}.\par
+\textit{Answer.} Input IDs are $(0,1,2)$ and target IDs $(1,2,3)$. There are three predictions, not four. Appending an invented target for the last base changes the task.
+
+\item \textbf{Unknown bases.} What happens for \texttt{NAC}?\par
+\textit{Answer.} Inputs are $(4,0)$ and targets $(0,1)$. Both targets are scored: an unspecified input does not invalidate a known next-base label under this declared policy. For \texttt{AN}, the sole target is ignored.
+
+\item \textbf{Golden loss.} Compute loss and one gradient coordinate for uniform four-class logits with three scored targets.\par
+\textit{Answer.} The mean is $\ln4$. At a scored position, the correct-class derivative is $(1/4-1)/3=-1/4$ and each other-class derivative is $1/12$. An ignored position has zero derivative.
+
+\item \textbf{Weighted aggregation.} Combine a two-target group with mean $\ln4$ and a six-target group with mean $\ln2$.\par
+\textit{Answer.} The token mean is $(2\ln4+6\ln2)/8=(5/4)\ln2$. The mean of group means is a different objective, $(3/2)\ln2$.
+
+\item \textbf{Counterexample: global token weighting.} Uniformly choose one of a one-target row and a nine-target row, then optimize its row mean. Is this the full-corpus token mean in expectation?\par
+\textit{Answer.} No. Each row receives probability $1/2$, whereas the global token mean weights the rows $1/10$ and $9/10$. This counterexample explains why batch normalization of variable-length rows is not automatically unbiased token sampling.
+
+\item \textbf{Momentum.} If the previous buffer is $v=2$, the new gradient is $g=1$, $\mu=0.9$, and $\eta=0.15$, compare the parameter changes with and without restored momentum.\par
+\textit{Answer.} Restored momentum gives $v'=2.8$ and change $-0.42$. Reset momentum gives $v'=1$ and change $-0.15$. The discrepancy is $0.27$ before any later feedback through gradients.
+
+\item \textbf{Mode switches.} Does \texttt{no\_grad()} disable dropout?\par
+\textit{Answer.} No. It controls gradient recording. Module evaluation mode disables dropout in this model. The switches are orthogonal, as the mode table shows.
+
+\item \textbf{Snapshot aliasing.} Why not keep only \texttt{saved = model.state\_dict()} and continue training?\par
+\textit{Answer.} The resulting dictionary can reference live parameter storage. A later use may observe updated values rather than the intended earlier snapshot. Serialize immediately or make a suitable deep copy; the reference chooses immediate serialization.
+
+\item \textbf{Random state.} Why is restoring the CPU random state the final restoration operation?\par
+\textit{Answer.} Constructing the model initializes parameters and consumes random numbers. Restoring the intended continuation stream before construction would advance it prematurely.
+
+\item \textbf{Empty target set.} Should a batch containing only unknown targets perform a momentum-only update?\par
+\textit{Answer.} Not under this chapter's contract. Its mean objective is undefined, and the implementation raises before the optimizer step. A policy that intentionally performs some other transition would need a different explicit specification and tests.
+
+\item \textbf{Data leakage.} Does an exact reverse-complement duplicate check establish a biologically independent validation split?\par
+\textit{Answer.} No. It can reject exact equivalent strings, but cannot establish independence of overlapping loci, related organisms, homologous sequences, or experimental batches. Those require appropriate source metadata and study design.
+
+\item \textbf{Investigation.} Extend the restart experiment to a scheduler or gradient accumulation.\par
+\textit{Rubric, ten points.} Award two points each for a precise checkpoint boundary; an inventory of new mutable state; an uninterrupted/resumed comparison; an intentional missing-state control; and a declared environment plus reproducible test. For mid-accumulation restoration, partial gradients and accumulation counters must be addressed, not just the scheduler's scalar learning rate.
+\end{enumerate}
+
+\section{Read the implementation as a contract}
+
+The complete runnable companion is \path{drafts/ch04/reference.py}; its tests are in \path{tests/test_ch04_reference.py}. The following listings are extracted from the tested source at build time. Methods belong to the \texttt{Run} class and use its module's constants, imports, and helper functions. These are source excerpts, not separate standalone programs.
+
+\subsection{Alignment and target masking}
+\Listing{collate}
+\Listing{masked_loss}
+\subsection{A completed update}
+\Listing{Run-step}
+\subsection{Serialization and restoration}
+\Listing{Run-checkpoint}
+\Listing{Run-restore}
+
+\section{Selective glossary and the next question}
+
+\begin{description}
+\item[\Term{Scored target}] A position whose known label contributes to the declared objective.
+\item[\Term{Token mean}] Sum of per-target losses divided by the number of scored targets.
+\item[\Term{Data lineage}] The source relationships among rows, windows, and derived variants.
+\item[\Term{Momentum buffer}] Optimizer memory that carries information from earlier gradients.
+\item[Checkpoint] A snapshot sufficient for the next supported training transition.
+\item[\Term{Exact replay}] Equality under a specified execution environment and tested comparison contract, not a universal cross-platform guarantee.
+\item[\Term{Negative control}] An intentionally broken condition used to show that a verification procedure can detect the corresponding failure.
+\end{description}
+
+We have made a small training run understandable, interruptible, and testable. The next question is not how to rename this baseline as a richer architecture. It is what additional representation, computation, and evidence are needed when predictions should depend on longer genomic context. Each added capability must preserve an explicit objective, a valid data boundary, and a verifiable continuation state.

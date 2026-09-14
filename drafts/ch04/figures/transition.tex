@@ -1,0 +1,11 @@
+\begin{tikzpicture}
+\foreach \x/\label in {0/select data,2.4/forward,4.8/backward,7.2/update,9.6/clear grads,12/checkpoint}{
+ \node[note,draw=Blue,fill=Pale,text width=1.8cm,minimum height=.85cm] at (\x,2.5) {\label};
+}
+\foreach \x in {1.05,3.45,5.85,8.25,10.65} \draw[flow] (\x,2.5)--+(.3,0);
+\draw[Red,dashed,thick] (10.85,1)--(10.85,3.7);
+\node[smallnote,Red] at (10.85,4.2) {declared cut};
+\node[note,draw=gray,text width=12cm,minimum height=1cm] at (6,.1) {Persistent state: parameters, momentum, epoch order, next cursor, sampler RNG and dropout RNG};
+\draw[flow,dashed] (12,2)--(12,.7);
+\node[smallnote] at (6,-1) {At the cut, one whole update is complete and gradients are cleared. No in-flight batch is serialized.};
+\end{tikzpicture}
