@@ -1,0 +1,51 @@
+\renewcommand{\bibname}{Sources and reading notes}
+\begin{thebibliography}{9}
+\bibitem{blelloch} Guy E. Blelloch.
+\emph{Prefix Sums and Their Applications}, author-hosted chapter.
+\url{https://www.cs.cmu.edu/~guyb/papers/Ble93.pdf}.
+Definitions, parallel implementation discussion, and first-order recurrence
+reduction in Sections 1.1, 1.2, and 1.4 inspected on 19 September 2026.
+Our numerical pairs, recursive implementation, diagrams, and tests are original.
+
+\bibitem{mamba} Albert Gu and Tri Dao (2024 version).
+Mamba: Linear-Time Sequence Modeling with Selective State Spaces.
+\url{https://arxiv.org/html/2312.00752v2}.
+Sections 2 and 3 inspected on 19 September 2026: discretization, LTI
+recurrence/convolution, input selection, and the scan execution rationale.
+No reported accuracy, throughput, or GPU-memory benchmark is reproduced.
+Our reference is not the paper's full architecture or fused kernel.
+
+\bibitem{s4} Albert Gu, Karan Goel, and Christopher R\'e.
+Efficiently Modeling Long Sequences with Structured State Spaces.
+\url{https://arxiv.org/abs/2111.00396}.
+Abstract and bibliographic record inspected on 20 September 2026.
+Used only for the high-level S4 identity and structured-parameterization
+distinction, not a full technical reconstruction.
+
+\bibitem{s5} Jimmy T. H. Smith, Andrew Warrington, and Scott W. Linderman.
+Simplified State Space Layers for Sequence Modeling.
+\url{https://arxiv.org/abs/2208.04933}.
+Abstract and bibliographic record inspected on 20 September 2026.
+Used for the multi-input, multi-output layer and parallel-scan distinction.
+No S5 implementation or benchmark replication is claimed.
+
+\bibitem{rwkv} Bo Peng and collaborators.
+RWKV: Reinventing RNNs for the Transformer Era.
+\url{https://arxiv.org/abs/2305.13048}.
+Original-paper record, abstract, and Section 3.1's architecture description
+inspected on 20 September 2026, including
+\url{https://arxiv.org/html/2305.13048v2}.
+Used for architectural orientation, not claims about later RWKV versions.
+\end{thebibliography}
+
+\section*{Pedagogy and evidence}
+The author companion overview and chapter map for Sebastian Raschka's
+\emph{Build a Large Language Model (From Scratch)} informed the general
+derive--implement--test progression:
+\url{https://www.sebastianraschka.com/llms-from-scratch/}.
+The full commercial text was not inspected. Prose, reference code,
+worked examples, and vector figures in this chapter are original.
+
+Correct affine-scan arithmetic is not a trained model, a demonstration of
+genomic capability, or a performance benchmark. Author technical and
+visual review remains distinct from independent specialist and reader review.

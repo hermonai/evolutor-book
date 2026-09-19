@@ -1,0 +1,3 @@
+Two homogeneous decay coordinates
+
+From initial value one and zero drive, curves exp(-step) and exp(-0.1 step) compare retention at internal intervals of length one. Line styles distinguish coordinates in grayscale. The horizontal coordinate is not seconds or base pairs, and retention is not measured learned ability.

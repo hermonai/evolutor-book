@@ -1,0 +1,3 @@
+Affine recurrence dependency contract
+
+Previous state is multiplied coordinatewise by retention a; write b is added. Current input and parameters produce a and b without a dependency on the previous recurrent state in this teaching layer. Readout is a separate map. Dashed gate arrow controls multiplication; solid arrows carry values. State N is computational, not a physical genomic quantity.

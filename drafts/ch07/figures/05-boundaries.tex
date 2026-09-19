@@ -1,0 +1,9 @@
+\begin{tikzpicture}[font=\small\sffamily,box/.style={draw=Blue,fill=Pale,rounded corners,align=center,minimum width=2.8cm,minimum height=.9cm}]
+\foreach \y/\title/\pair/\result in {4/Padding/{$(1,0)$}/{$h_{\rm out}=h_{\rm in}$},2/Record start/{$(0,b_t)$}/{$h_{\rm out}=b_t$},0/Chunk continuation/{$(a_t,b_t)$}/{$h_{\rm out}=a_th_{\rm in}+b_t$}}{
+\node[anchor=east] at (1,\y) {\title};
+\node (in\y) at (2.2,\y) {$h_{\rm in}$};
+\node[box] (map\y) at (5.2,\y) {\pair};
+\node[box,minimum width=4.5cm] (out\y) at (10,\y) {\result};
+\draw[flow] (in\y)--(map\y)--(out\y);}
+\node[smallnote] at (6,-1.3) {Padding holds state; record boundaries remove prior-record information.\\Chunking within a record preserves the actual carry value. Loss masking is separate.};
+\end{tikzpicture}

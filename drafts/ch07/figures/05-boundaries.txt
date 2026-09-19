@@ -1,0 +1,3 @@
+Same shape, three state policies
+
+Padding uses identity (1,0) and leaves the state unchanged. Reset before consuming a record's current input uses (0,b), removing previous-record information but keeping the current write. A chunk continuation uses normal (a,b) with actual carry. Loss masks and coefficient-network buffers are separate contracts.

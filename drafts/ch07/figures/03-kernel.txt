@@ -1,0 +1,3 @@
+Why time invariance produces a shared causal kernel
+
+Four by four lower triangular matrix has entry 0.5^(row-column) on and below the diagonal, zero above. Columns are inputs x_j and rows outputs y_t. Equal lags have equal coefficients with zero initial state and unit gains. Input-dependent transitions generally remove this fixed-kernel structure.

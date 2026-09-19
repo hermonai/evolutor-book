@@ -1,0 +1,424 @@
+\chapter{State-space models, selective updates and scans}
+
+A recurrence appears to demand one update after another. Before computing
+$h_4$, surely we must compute $h_3$, then $h_2$, then $h_1$?
+That is true of one way to execute the recurrence. It is not always true
+of the underlying computation. Sometimes a whole interval can be
+represented by a small summary that composes with the summary of another
+interval.
+
+This chapter builds that summary from first principles. We begin with a
+scalar state, derive a causal convolution, introduce input-dependent
+updates, and implement a tree-based prefix computation. We then test
+forward values, gradients, padding, and chunk boundaries. The result is
+a reference implementation of diagonal affine scans, not a reproduction
+of Mamba, S4, S5, or RWKV, and not a trained genomic model.
+
+We assume Chapter 6's distinction between a numerical state and its
+gradient history, and Chapter 5's sequence representation contract.
+The new mathematics is exponential decay and associative composition.
+The important conceptual distinction is between \emph{linear in the
+previous state} and \emph{linear in the entire input sequence}.
+
+\section{Start with a state whose arithmetic is visible}
+
+Consider the scalar update
+\begin{equation}
+ h_t=a_t h_{t-1}+b_t.
+ \label{eq:affine}
+\end{equation}
+The pair $(a_t,b_t)$ describes a function: multiply the incoming state
+by $a_t$, then add $b_t$. The additive term may already include an
+input projection. For several independent state coordinates, multiplication
+is elementwise and $a_t,b_t,h_t\in\mathbb R^N$.
+
+Here is a four-step example with $h_0=2$. Predict the final state before
+reading the last column. The second step is an identity update; it
+should not erase or advance the stored value.
+\begin{center}\input{\Generated/results-table.tex}\end{center}
+The states are $2,2,2.5,1$. Columns $P_t,Q_t$ summarize the entire prefix:
+$h_t=P_th_0+Q_t$. We will derive those columns rather than accepting
+them as another execution trace.
+
+\Listing{sequential}
+
+The reference uses shape $[T,N]$ for one sequence, with initial state
+$[N]$. A batch adds an independent leading batch dimension; no sequence
+should share another row's state. The implementation validates shapes,
+finite inputs, dtype, and device. An empty sequence returns an empty
+state sequence. Its incoming state remains the caller's carry value.
+
+\Plate{01-state-update}{One diagonal affine state update. Retention and input-derived write values meet at an addition; a separate readout maps state to output. Shapes and dependencies are explicit. These are computational states, not biological concentrations or genes.}{fig:update}
+
+A full sequence model needs more than this recurrence: input representation,
+mixing across channels, nonlinear transformations, readout, loss, and a
+training procedure. We deliberately isolate one operation so its numerical
+meaning can be checked before adding those layers.
+
+\section{Derive a stable discrete update from continuous time}
+
+For one coordinate, let an internal continuous state satisfy
+\begin{equation}
+ \frac{dh}{ds}=-\lambda h+u,\qquad \lambda>0.
+ \label{eq:continuous}
+\end{equation}
+Hold $u$ constant over an interval of length $\Delta$.
+Multiplication by the integrating factor $e^{\lambda s}$ gives
+$\frac{d}{ds}(e^{\lambda s}h)=e^{\lambda s}u$.
+Integrating over that interval yields
+\begin{equation}
+ h_{\rm new}=e^{-\lambda\Delta}h_{\rm old}
+       +\frac{1-e^{-\lambda\Delta}}{\lambda}u.
+ \label{eq:zoh}
+\end{equation}
+This is \Term{zero-order hold} discretization: constant input on the
+interval, exact integration of this linear system on that interval.
+It is not the same as a forward Euler step,
+$h_{\rm new}=(1-\lambda\Delta)h_{\rm old}+\Delta u$.
+
+For $\lambda\Delta=3$, Euler's homogeneous multiplier is $-2$:
+successive steps alternate sign and grow. The exact multiplier is
+$e^{-3}\approx0.0498$, a contraction. The continuous system was stable;
+the wrong step approximation introduced the instability.
+
+\Listing{zoh}
+
+The function uses \texttt{expm1} to compute the small difference
+$e^z-1$ accurately. For very small positive $\Delta$, the write gain
+approaches $\Delta$. At $\Delta=0$, the pair is exactly $(1,0)$:
+no internal time passes and no input is written. We require $\lambda>0$;
+the $\lambda=0$ limiting case is an integrator and needs an explicit
+branch rather than division by zero.
+
+\Plate{02-timescales}{Computed homogeneous retention for two positive decay rates at unit intervals. Each curve starts from the same state and has zero drive. Different coordinates can represent different timescales; long retention alone does not establish useful memory or biological understanding.}{fig:timescales}
+
+For a learned sequence model, $s$ and $\Delta$ can be internal computational
+coordinates. They need not represent physical seconds or genomic base pairs.
+Changing tokenization changes what one sequence step means. A mathematical
+decay constant should not be described as a measured biochemical lifetime.
+
+In a vector system the familiar notation is
+$\dot h=Ah+Bx$, $y=Ch$, with a discretized update
+$h_t=\bar A h_{t-1}+\bar Bx_t$. Our derivation covers a diagonal negative
+$A$ and a scalar drive per coordinate. General matrix exponentials and
+structured parameterizations require additional numerical machinery.
+The S4 paper introduces a structured sequence-model construction, not
+merely a new name for any exponentially decaying scalar \cite{s4}.
+
+\section{Expand a fixed recurrence into a convolution}
+
+Freeze the coefficients: $a_t=a$, $b_t=gx_t$, and let $y_t=ch_t$.
+For zero initial state,
+\begin{align}
+ h_1&=gx_1,\\
+ h_2&=agx_1+gx_2,\\
+ h_3&=a^2gx_1+agx_2+gx_3.
+\end{align}
+In general,
+\begin{equation}
+ y_t=\sum_{j=1}^t cga^{t-j}x_j,\qquad K_\ell=cga^\ell.
+ \label{eq:convolution}
+\end{equation}
+The coefficient depends on lag $t-j$, not the absolute positions.
+This is a causal \Term{linear time-invariant} convolution. It gives
+another way to compute the same transformation when the entire input
+is available.
+
+\Listing{convolution_form}
+
+This direct implementation intentionally costs $O(T^2)$; it is an
+independent, readable oracle rather than a fast convolution kernel.
+For $a=0.5$, $g=c=1$, and $x=(1,2,-1,3)$, both execution forms yield
+$(1,2.5,0.25,3.125)$. With a nonzero $h_0$, Eq.~\ref{eq:convolution}
+also needs the term $ca^t h_0$. Omitting it is a state-contract error.
+
+\Plate{03-kernel}{A causal kernel for $a=0.5$ and unit input/readout gain. The lower-triangular coefficients depend only on lag. The diagram shows why future inputs are excluded and why fixed coefficients allow a shared convolution kernel.}{fig:kernel}
+
+A diagonal $N$-coordinate state produces a sum of exponential kernels,
+$K_\ell=\sum_n c_n g_n a_n^\ell$. Those coordinates may encode different
+decay rates or, in other parameterizations, oscillations. Their sum
+can represent richer filters than any individual coordinate.
+Efficient kernel computation, parameter initialization, and numerical
+conditioning are separate questions from this algebraic equivalence.
+
+\section{Make updates selective without making them state dependent}
+
+Suppose $\Delta_t$ is computed from the current input:
+\begin{equation}
+ \Delta_t=\operatorname{softplus}(W_\Delta x_t+b_\Delta),
+ \quad a_t=e^{-\lambda\Delta_t},
+ \quad b_t=\frac{1-a_t}{\lambda}u_t.
+\end{equation}
+The update remains affine in $h_{t-1}$, but its coefficients change with
+the input. Small $\Delta_t$ retains state and weakens the write.
+Large $\Delta_t$ forgets the old state and moves toward $u_t/\lambda$.
+It does not generally reset the state to zero.
+
+\Listing{selected_coefficients}
+
+Our small example reuses a projection for the drive and interval selection
+to keep the calculation inspectable. That choice is a teaching simplification,
+not the parameterization of a published architecture. Each coefficient
+depends on $x_t$ and fixed parameters, not on the unknown previous recurrent
+state. All coefficients can therefore be formed before scanning this layer.
+They can be nonlinear functions of the input without breaking that property.
+
+Why does a fixed convolution no longer suffice? Expanding the variable
+recurrence gives
+\begin{equation}
+ h_t=\left(\prod_{k=1}^t a_k\right)h_0+
+      \sum_{j=1}^t\left(\prod_{k=j+1}^t a_k\right)b_j.
+ \label{eq:variable}
+\end{equation}
+The contribution of input $j$ depends on intervening inputs through the
+$a_k$. There is generally no single lag-only kernel shared across
+sequences. Even the one-step map
+$y(x)=(1-e^{-\operatorname{softplus}(x)})x$ fails
+$y(2x)=2y(x)$, so it is not a linear operator on the input.
+
+Mamba's selective SSM makes certain state-space parameters input dependent
+and uses scan-based execution; its architecture and hardware-aware
+implementation add further mechanisms \cite{mamba}. We use the principle
+to motivate an original toy, not to claim equivalent accuracy or speed.
+
+Contrast this with Chapter 6's GRU: its gates and candidate depend
+nonlinearly on $h_{t-1}$. The GRU's next affine-looking pair cannot
+generally be precomputed independently of earlier states. Function
+composition is always associative abstractly, but composing arbitrary
+nonlinear functions need not yield a small, cheaply evaluable summary.
+The useful property here is closure in a fixed-size family of affine maps.
+
+\section{Compose intervals, preserving chronological order}
+
+Let an earlier interval map $h$ to $ah+b$, and a later interval map
+its input to $ch+d$. The composition is
+\begin{equation}
+ c(ah+b)+d=(ca)h+(cb+d).
+\end{equation}
+Define the chronological binary operation
+\begin{equation}
+ (a,b)\star(c,d)=(ca,cb+d).
+ \label{eq:compose}
+\end{equation}
+The first argument occurs earlier in time. This convention is important:
+some software APIs reverse the argument order while expressing the
+same functional composition.
+
+\Listing{compose}
+
+For three pairs $(a,b),(c,d),(e,f)$, either parenthesization gives
+\begin{equation}
+ (eca,\ ecb+ed+f).
+\end{equation}
+Thus $\star$ is associative over exact real arithmetic. Its identity
+is $(1,0)$. It is not commutative: $(0.5,1)\star(0.25,2)$ gives
+$(0.125,2.25)$, while reversing them gives $(0.125,2)$.
+Changing the grouping is legal; changing the order changes the sequence.
+
+For vectors with diagonal transitions, the products are elementwise.
+For dense matrices the same argument uses ordered matrix multiplication.
+Associativity survives, but composing dense transitions costs much more
+than composing diagonal ones. A proof of parallelizability does not
+remove the cost of the operator used inside the scan.
+
+\section{Compute every prefix with a tree}
+
+An inclusive \Term{prefix scan} returns each prefix composition:
+$p_1$, $p_1\star p_2$, and so on. Blelloch develops scans and reductions
+of recurrences to associative operations \cite{blelloch}.
+Our implementation first composes adjacent pairs, recursively scans those
+pair summaries, then fills the intermediate prefixes.
+
+For eight inputs, the recursive sizes are $8,4,2,1$. At the size-eight
+level we form four pair summaries. The recursive result gives prefixes
+ending at positions 2, 4, 6, and 8. Position 1 is already known;
+positions 3, 5, and 7 each require one more composition. Nothing is
+reordered, and no future coefficient participates in an earlier prefix.
+
+\Plate{04-scan-tree}{A four-element inclusive scan. The reduction combines adjacent intervals; reconstruction supplies the missing prefix ending at element three. Labels identify the interval represented by each summary. The arithmetic is associative, but chronological order remains fixed.}{fig:scan}
+
+\Listing{prefix_pairs}
+\Listing{parallel_form}
+
+If prefix $t$ is $(P_t,Q_t)$, applying it to the initial state produces
+$P_t\odot h_0+Q_t$. Keeping $h_0$ outside the prefix recursion makes
+nonzero initial-state handling explicit and supports chunk summaries.
+It also exposes a common bug: returning only $Q_t$ accidentally assumes
+zero initial state.
+
+For $T\geq2$, our number of pair compositions satisfies
+\begin{equation}
+ W(T)=\lfloor T/2\rfloor+
+      \lfloor(T-1)/2\rfloor+W(\lfloor T/2\rfloor),\quad W(1)=0.
+\end{equation}
+Hence $W(T)<2T$. For $T=8$, the count is 11, not the seven
+compositions needed merely to reduce to one final summary. A scan
+returns all prefixes, so it solves a larger output problem.
+
+The dependency depth is $O(\log T)$ when independent nodes at each level
+are executed concurrently. \emph{This Python reference does not do that.}
+Its loops execute on the host; the tensor operations expose the dependency
+structure but are not a fused accelerator kernel. The algorithm has
+linear arithmetic work for fixed state width, but these measurements
+do not establish wall-clock speedups.
+
+\section{Check gradients and finite-precision equivalence}
+
+Changing parenthesization can change floating-point rounding.
+Associativity is a real-arithmetic identity, not a promise of bitwise
+equality between execution orders. We compare CPU float64 outputs with
+tolerances, including empty, odd-length, and non-power-of-two sequences.
+Every prefix is checked, not only the last one.
+
+The tests compare gradients of a squared-output loss with respect to
+all $a_t$, $b_t$, and $h_0$. They also apply finite-difference gradient
+checking to the scan and to the input-dependent coefficient path.
+This catches a hidden detachment that could preserve the forward result
+while changing the learned model.
+
+For fixed coefficients, the direct state sensitivity is
+\begin{equation}
+ \frac{\partial h_t}{\partial h_0}=\prod_{k=1}^t a_k.
+\end{equation}
+When coefficients depend on inputs, input gradients additionally traverse
+the functions producing $a_k$ and $b_k$. Treating those coefficients as
+constants during differentiation would train a different computation.
+Our out-of-place construction preserves those paths.
+
+Positive decay and nonnegative intervals keep $0<a_t\leq1$ in exact
+arithmetic. This bounds the homogeneous retention path but does not
+bound every output or gradient: the drive, readout, projections, and
+their derivatives also matter. Extremely long products can underflow.
+Testing modest float64 examples establishes a reference, not universal
+mixed-precision stability.
+
+\section{Make padding, reset, and carry algebraic}
+
+For finite inputs, padding that must not advance state is the identity
+pair $(1,0)$. It preserves the incoming state exactly at the mathematical
+level. Feeding a zero token through learned projections need not produce
+that pair. Loss masking remains separate: padded outputs must not become
+valid targets merely because their state was held.
+
+A record boundary that resets the incoming state to zero \emph{before}
+the current input's update replaces $(a_t,b_t)$ by $(0,b_t)$.
+Then $h_t=b_t$, with no contribution from the preceding record.
+Resetting after the update would instead discard the current input.
+At a chunk boundary within one record, carry the final state; do not
+insert either padding or reset.
+
+\Plate{05-boundaries}{Three different boundary contracts expressed as affine maps. Padding is identity, record reset removes the incoming-state term, and chunk carry preserves the actual boundary state. These operations can have identical tensor shapes while representing different computations.}{fig:boundaries}
+
+Full and chunked execution match when coefficients, token positions,
+model parameters, and initial-state policy match. A coefficient network
+with a local causal convolution would also need its own boundary buffer;
+carrying only the SSM state would then be insufficient. A change in
+parameters between chunks creates the same stale-state issue discussed
+in Chapter 6. These details become explicit runtime contracts later.
+
+\section{Place the mechanism in the broader architecture}
+
+S4, S5, Mamba, and RWKV should not be collapsed into one model merely
+because they use recurrence. S4 develops structured state-space sequence
+models. S5 uses a multi-input, multi-output state-space layer and parallel
+scan. The original Mamba combines selective state spaces with an
+architecture and a hardware-aware execution strategy. The original
+RWKV paper presents a recurrent language-model architecture with its own
+time-mixing and channel-mixing construction \cite{s4,s5,mamba,rwkv}.
+These are high-level distinctions; this chapter does not reproduce
+their benchmark results or implement their complete blocks.
+
+For Evolutor, the reusable lesson is a legality test:
+can an interval's effect be represented in a fixed-size family whose
+composition is associative and affordable? If yes, a compiler may have
+sequential, chunked, and scan execution choices. If not, a label such as
+state model does not make those transformations legal.
+
+DOGMA remains the non-Transformer DNA-native research direction;
+Hermon DNA remains the Transformer-based direction. Neither identity
+is established by giving a generic diagonal recurrence a biological name.
+Claims about genomic usefulness require tasks, appropriate data splits,
+baselines, and mechanism-specific interventions.
+
+Run the reference and tests:
+\begin{Verbatim}[fontsize=\small]
+python3 drafts/ch07/reference.py
+python3 -m pytest -q tests/test_ch07_reference.py
+\end{Verbatim}
+Chapter 8 changes the question from how to compress history into a
+fixed-dimensional state to how to address stored content through attention.
+Chapter 26 will revisit scan parity at model scale, with training,
+precision, and runtime boundaries included.
+
+\section{Exercises with worked solutions}
+
+\subsection*{1. Trace an identity}
+Apply $(0.5,1)$ and then $(1,0)$ to $h_0=2$.
+\textbf{Solution:} the first state is 2; the identity leaves it at 2.
+An identity step is not a reset to zero.
+
+\subsection*{2. Reverse two updates}
+Compare $(0.5,1)\star(0.25,2)$ with the reversed order.
+\textbf{Solution:} the multipliers both equal 0.125, but the writes
+are 2.25 and 2. Associativity permits regrouping, not permutation.
+
+\subsection*{3. Audit Euler stability}
+For $\lambda=2$ and $\Delta=1$, compare Euler and exact retention.
+\textbf{Solution:} Euler gives $-1$, while the exact multiplier is
+$e^{-2}\approx0.1353$. Euler does not decay in magnitude in this case.
+
+\subsection*{4. Recover a limiting gain}
+Show that $(1-e^{-\lambda\Delta})/\lambda\to\Delta$ as
+$\lambda\Delta\to0$ with fixed positive $\lambda$.
+\textbf{Solution:} expand the exponential:
+$1-e^{-\lambda\Delta}=\lambda\Delta+O(\Delta^2)$.
+The implementation uses \texttt{expm1} to preserve this small difference.
+
+\subsection*{5. Restore a nonzero initial state}
+Which term is missing from a zero-state convolution when $h_0\ne0$?
+\textbf{Solution:} add $ca^t h_0$ to output $y_t$ for fixed coefficients.
+The prefix form handles this as $P_th_0+Q_t$ before readout.
+
+\subsection*{6. Find the hidden nonlinearity}
+Why can a model be affine in state but nonlinear in inputs?
+\textbf{Solution:} the coefficient functions may depend nonlinearly on
+the input. Holding those coefficients fixed is a conditional linear
+calculation, not a claim that the entire input-output map is linear.
+
+\subsection*{7. Count a scan}
+How many compositions does our size-eight scan perform?
+\textbf{Solution:} $(4+3)+(2+1)+(1+0)=11$.
+A final-only reduction needs seven, but does not return every prefix.
+
+\subsection*{8. Check an odd length}
+At length five, where does the final prefix come from?
+\textbf{Solution:} scan the two complete adjacent pairs, then compose
+the prefix covering positions 1--4 with the original fifth pair.
+No fake padded input is needed.
+
+\subsection*{9. Detect a gradient bug}
+The scan matches sequential outputs but its coefficient network has
+zero gradients. What should be tested?
+\textbf{Solution:} compare parameter and input gradients and check for
+detachment or conversion to Python numbers between coefficient creation
+and scanning. Forward parity alone cannot expose all such errors.
+
+\subsection*{10. Encode a reset}
+Which pair resets to zero before applying the current write $b_t$?
+\textbf{Solution:} $(0,b_t)$. The new state is $b_t$.
+Using $(0,0)$ would discard the current write too.
+
+\subsection*{11. Challenge a speed claim}
+Does logarithmic dependency depth prove this Python code is faster?
+\textbf{Solution:} no. It specifies a parallel schedule's potential
+depth, not available processors, kernel overhead, memory traffic, or
+measured latency. Report both theoretical work and actual execution.
+
+\subsection*{12. Design a fair memory comparison}
+How would you compare a selective recurrence with attention on DNA?
+\textbf{Worked rubric:} align tokenization, targets, splits, training
+budgets, and evaluation distances. Test state reset and causality;
+separate synthetic retention from learned accuracy. Measure inference
+memory and latency under declared batch and sequence lengths. Include
+negative controls for selection and readout rather than attributing
+every improvement to recurrence.

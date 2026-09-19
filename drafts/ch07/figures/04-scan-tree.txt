@@ -1,0 +1,3 @@
+Compose adjacent intervals without reordering
+
+Pairs p1,p2 combine to p1:2 and p3,p4 to p3:4. Combine these to p1:4. Reconstruct missing p1:3 by composing p1:2 with p3. The four requested prefixes are p1,p1:2,p1:3,p1:4. Solid edges are reduction; dashed edges reconstruct. This is a computational DAG, not a claim that the Python loops execute concurrently.

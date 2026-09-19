@@ -1,0 +1,19 @@
+\begin{tikzpicture}[font=\small\sffamily]
+\node[smallnote] at (3.7,4.4) {Input column $j$};
+\foreach \j in {1,2,3,4}{
+\node at ({1.7+1.4*\j},3.7) {$x_{\j}$};
+\node at (1.3,{3.7-.8*\j}) {$y_{\j}$};}
+\foreach \i in {1,2,3,4}{
+\foreach \j in {1,2,3,4}{
+\pgfmathtruncatemacro{\allowed}{\j<=\i}
+\ifnum\allowed=1
+\fill[Blue!12] ({1+1.4*\j},{3.3-.8*\i}) rectangle ({2.4+1.4*\j},{4.1-.8*\i});
+\pgfmathsetmacro{\kernelvalue}{pow(.5,\i-\j)}
+\node at ({1.7+1.4*\j},{3.7-.8*\i}) {\pgfmathprintnumber[precision=3]{\kernelvalue}};
+\else
+\node[text=gray] at ({1.7+1.4*\j},{3.7-.8*\i}) {0};
+\fi}}
+\node[smallnote,anchor=west,text width=4cm] at (8.5,2.5) {Same lag, same coefficient\\$K_{t-j}=0.5^{t-j}$\\Only $j\leq t$ contributes};
+\node[smallnote,anchor=west,text width=4cm] at (8.5,.7) {Input-dependent coefficients\\generally remove this\\fixed-kernel structure};
+\node[smallnote] at (4,-.5) {Zero initial state; unit write and readout gains};
+\end{tikzpicture}

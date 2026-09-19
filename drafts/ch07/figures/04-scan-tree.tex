@@ -1,0 +1,13 @@
+\begin{tikzpicture}[font=\small\sffamily,box/.style={draw=Blue,fill=Pale,rounded corners,minimum width=2cm,minimum height=.65cm,align=center}]
+\foreach \i in {1,2,3,4}{\node[box] (p\i) at ({3*(\i-1)},4) {$p_{\i}$};}
+\node[box] (p12) at (1.5,2.5) {$p_{1:2}=p_1\star p_2$};
+\node[box] (p34) at (7.5,2.5) {$p_{3:4}=p_3\star p_4$};
+\draw[flow] (p1)--(p12); \draw[flow] (p2)--(p12);
+\draw[flow] (p3)--(p34); \draw[flow] (p4)--(p34);
+\node[box] (all) at (4.5,1) {$p_{1:4}=p_{1:2}\star p_{3:4}$};
+\draw[flow] (p12)--(all); \draw[flow] (p34)--(all);
+\node[box,draw=Green,fill=Green!8] (p13) at (1.5,-.5) {$p_{1:3}=p_{1:2}\star p_3$};
+\draw[flow,dashed,Green] (p12)--(p13);
+\draw[flow,dashed,Green] (p3.north)--(6,5)--(-1.5,5)--(-1.5,-.5)--(p13.west);
+\node[smallnote,anchor=west,text width=5cm] at (5,-.7) {All prefixes: $p_1,p_{1:2},p_{1:3},p_{1:4}$\\Solid: reduce adjacent intervals\\Dashed: reconstruct missing prefix};
+\end{tikzpicture}

@@ -1,0 +1,9 @@
+\begin{tikzpicture}
+\begin{axis}[width=13cm,height=5.7cm,xmin=0,xmax=40,ymin=0,ymax=1.05,
+xlabel={Unit internal intervals},ylabel={Retained fraction},xtick={0,10,20,30,40},
+legend style={at={(.5,1.04)},anchor=south,font=\small,draw=none,legend columns=2},
+tick label style={font=\small},label style={font=\small}]
+\input{\Generated/memory-plot.tex}
+\legend{$\lambda=1$,$\lambda=0.1$}
+\end{axis}
+\end{tikzpicture}

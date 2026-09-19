@@ -1,0 +1,15 @@
+\begin{tikzpicture}[font=\small\sffamily,box/.style={draw=Blue,fill=Pale,rounded corners,align=center,minimum height=.8cm},op/.style={circle,draw=Blue,fill=white,minimum size=.6cm}]
+\node (h) at (.3,2) {$h_{t-1}$};
+\node[op] (times) at (4,2) {$\times$};
+\node[op] (plus) at (8,2) {$+$};
+\node (out) at (11,2) {$h_t\in\mathbb R^N$};
+\draw[flow] (h)--(times)--(plus)--(out);
+\node[box] (a) at (4,3.5) {Retention $a_t$\\$[N]$};
+\node[box] (b) at (8,3.5) {Write $b_t$\\$[N]$};
+\draw[flow,dashed,Green] (a)--(times); \draw[flow] (b)--(plus);
+\node[box] (x) at (6,5) {Current input $x_t$ and parameters};
+\draw[flow] (x)--(a); \draw[flow] (x)--(b);
+\node[box] (read) at (11,.2) {Readout $C h_t$};
+\draw[flow] (out)--(read);
+\node[smallnote] at (4,.2) {No coefficient arrow from $h_{t-1}$\\in this input-selected affine layer};
+\end{tikzpicture}
