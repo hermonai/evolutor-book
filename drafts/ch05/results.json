@@ -1,0 +1,214 @@
+{
+  "scope": "deterministic representation examples, no trained genomic model",
+  "sequence": "ACGTACG",
+  "kmer_ACG": 6,
+  "record": {
+    "vocabulary_sha256": "8947660dfc9d159a7a7b9f9ea9dbe1240e860a0327038efc0f0916e7ca02f981",
+    "mode": "disjoint",
+    "tokens": [
+      {
+        "id": 29,
+        "start": 0,
+        "stop": 3
+      },
+      {
+        "id": 72,
+        "start": 3,
+        "stop": 6
+      },
+      {
+        "id": 5,
+        "start": 6,
+        "stop": 7
+      }
+    ]
+  },
+  "tokens": {
+    "overlap": [
+      {
+        "text": "ACG",
+        "start": 0,
+        "stop": 3
+      },
+      {
+        "text": "CGT",
+        "start": 1,
+        "stop": 4
+      },
+      {
+        "text": "GTA",
+        "start": 2,
+        "stop": 5
+      },
+      {
+        "text": "TAC",
+        "start": 3,
+        "stop": 6
+      },
+      {
+        "text": "ACG",
+        "start": 4,
+        "stop": 7
+      }
+    ],
+    "disjoint": [
+      {
+        "text": "ACG",
+        "start": 0,
+        "stop": 3
+      },
+      {
+        "text": "TAC",
+        "start": 3,
+        "stop": 6
+      },
+      {
+        "text": "G",
+        "start": 6,
+        "stop": 7
+      }
+    ]
+  },
+  "safe_examples": [
+    [
+      "ACG",
+      "T",
+      3
+    ],
+    [
+      "CGT",
+      "A",
+      4
+    ],
+    [
+      "GTA",
+      "C",
+      5
+    ],
+    [
+      "TAC",
+      "G",
+      6
+    ]
+  ],
+  "rc": "CGTACGT",
+  "rc_disjoint": [
+    {
+      "text": "CGT",
+      "start": 0,
+      "stop": 3
+    },
+    {
+      "text": "ACG",
+      "start": 3,
+      "stop": 6
+    },
+    {
+      "text": "T",
+      "start": 6,
+      "stop": 7
+    }
+  ],
+  "vocabulary_rows": [
+    {
+      "k": 1,
+      "full_kmers": 4,
+      "with_tails_and_specials": 7,
+      "disjoint_tokens_1000": 1000,
+      "overlap_tokens_1000": 1000,
+      "embedding_bytes_d64_float32": 1792
+    },
+    {
+      "k": 2,
+      "full_kmers": 16,
+      "with_tails_and_specials": 23,
+      "disjoint_tokens_1000": 500,
+      "overlap_tokens_1000": 999,
+      "embedding_bytes_d64_float32": 5888
+    },
+    {
+      "k": 3,
+      "full_kmers": 64,
+      "with_tails_and_specials": 87,
+      "disjoint_tokens_1000": 334,
+      "overlap_tokens_1000": 998,
+      "embedding_bytes_d64_float32": 22272
+    },
+    {
+      "k": 6,
+      "full_kmers": 4096,
+      "with_tails_and_specials": 5463,
+      "disjoint_tokens_1000": 167,
+      "overlap_tokens_1000": 995,
+      "embedding_bytes_d64_float32": 1398528
+    }
+  ],
+  "vocabulary_sha256_k3": "8947660dfc9d159a7a7b9f9ea9dbe1240e860a0327038efc0f0916e7ca02f981",
+  "embedding": {
+    "ids": [
+      [
+        0,
+        2,
+        0,
+        4
+      ]
+    ],
+    "vectors": [
+      [
+        [
+          0.0,
+          1.0,
+          2.0
+        ],
+        [
+          6.0,
+          7.0,
+          8.0
+        ],
+        [
+          0.0,
+          1.0,
+          2.0
+        ],
+        [
+          12.0,
+          13.0,
+          14.0
+        ]
+      ]
+    ],
+    "one_hot_matches": true,
+    "gradient": [
+      [
+        2.0,
+        2.0,
+        2.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        1.0,
+        1.0,
+        1.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0
+      ]
+    ],
+    "padding_value": [
+      12.0,
+      13.0,
+      14.0
+    ]
+  }
+}

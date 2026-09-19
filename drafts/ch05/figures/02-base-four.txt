@@ -1,0 +1,1 @@
+Original arithmetic plate. Horner encoding A,C,G digits0,1,2 gives accumulator0,1,6. Inverse divmod6/4 gives1 remainder2;1/4 gives0 remainder1;0/4 gives0 remainder0. Reverse remainders to0,1,2. Fixed width3 preserves leading A. Raw ID6 differs from model ID29.

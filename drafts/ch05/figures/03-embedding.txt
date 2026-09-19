@@ -1,0 +1,1 @@
+Assigned5x3 embedding rows A0=(0,1,2),C1=(3,4,5),G2=(6,7,8),T3=(9,10,11),PAD4=(12,13,14). Input IDs0,2,0,4 gather A,G,A,PAD. Sum-loss gradient A row2each,G row1each,PAD zero due explicit padding_idx4; PAD forward values remain nonzero. Illustrative row scheme differs from retained-tail vocabulary.

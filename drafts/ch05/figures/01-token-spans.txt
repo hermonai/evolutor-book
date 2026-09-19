@@ -1,0 +1,1 @@
+Base axis 0..7 for ACGTACG. Five stride-one width-three intervals [0,3) ACG, [1,4) CGT, [2,5) GTA, [3,6) TAC, [4,7) ACG. Disjoint intervals [0,3) ACG, [3,6) TAC, [6,7) G retain the short tail. Bars describe source coverage, not bonds.

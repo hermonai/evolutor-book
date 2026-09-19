@@ -1,0 +1,19 @@
+\begin{tikzpicture}[font=\small\sffamily,x=1.2cm]
+\node[smallnote,anchor=west] at (0,3.55) {Original disjoint tokens: ACGTACG};
+\foreach \a/\b/\txt in {0/3/ACG,3/6/TAC,6/7/G}{
+\draw[fill=Blue!8,draw=Blue] (\a,2.5) rectangle (\b,3.1);
+\node at ({(\a+\b)/2},2.8) {\txt};}
+\node[smallnote,anchor=west,text width=4cm] at (7.6,2.8) {Spans $[0,3)$,\\$[3,6)$, $[6,7)$};
+\draw[flow] (3.5,2.3)--(3.5,1.8);
+\node[smallnote,anchor=west] at (0,1.4) {Reverse chunk order and reverse-complement each chunk};
+\foreach \a/\b/\txt in {0/1/C,1/4/GTA,4/7/CGT}{
+\draw[fill=Gold!30,draw=Blue] (\a,.35) rectangle (\b,.95);
+\node at ({(\a+\b)/2},.65) {\txt};}
+\node[smallnote,anchor=west,text width=4cm] at (7.6,.65) {Sequence correct;\\partition differs};
+\draw[flow] (3.5,.15)--(3.5,-.35);
+\node[smallnote,anchor=west] at (0,-.7) {Re-tokenize from the reverse strand's origin};
+\foreach \a/\b/\txt in {0/3/CGT,3/6/ACG,6/7/T}{
+\draw[fill=Green!9,draw=Green] (\a,-1.8) rectangle (\b,-1.2);
+\node at ({(\a+\b)/2},-1.5) {\txt};}
+\node[smallnote,anchor=west,text width=4cm] at (7.6,-1.5) {Declared disjoint\\policy restored};
+\end{tikzpicture}

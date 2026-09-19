@@ -1,0 +1,379 @@
+\chapter{Tokenization and sequence representation}
+
+A model does not receive a DNA molecule, or even a string. It receives
+numbers whose meaning comes from a representation contract. Before we
+train a larger model, we must be able to explain every integer, every
+tensor axis, and every base visible at a prediction step.
+
+Our running sequence is \texttt{ACGTACG}. We will turn it into tokens,
+integer IDs, and embedding vectors, then reconstruct it exactly. Along the
+way we will build two negative controls: an overlapping-token objective
+that partly reveals its own answer, and a strand transformation that breaks
+when token boundaries are treated as biological boundaries.
+
+The approach is implementation-first: predict a tiny result, derive it,
+write the function, and test a counterexample. The programs and illustrations
+are original. The author-maintained companion to Raschka's book informed
+this read--implement--exercise progression, not our wording or figures
+\cite{raschka}.
+
+\section{Decide what a token means}
+
+For base-level tokens, the sequence becomes seven tokens:
+\texttt{A}, \texttt{C}, \texttt{G}, \texttt{T}, \texttt{A}, \texttt{C},
+\texttt{G}. A \Term{k-mer} is a contiguous word of $k$ bases. For $k=3$,
+we have at least two reasonable segmentations:
+\begin{itemize}
+\item overlapping windows: \texttt{ACG}, \texttt{CGT}, \texttt{GTA},
+\texttt{TAC}, \texttt{ACG};
+\item disjoint chunks with the short tail retained: \texttt{ACG},
+\texttt{TAC}, \texttt{G}.
+\end{itemize}
+Both preserve the sequence if their decoding rules are known. They are
+not interchangeable inputs to the same prediction objective.
+
+\Plate{01-token-spans}{Three representations of \texttt{ACGTACG}. Colored bars denote source intervals, not chemical bonds. Overlapping windows share bases; disjoint chunks retain the terminal one-base token. Every token carries a half-open interval in the original sequence.}{fig:spans}
+
+For a length-$L$ sequence with $L\geq k$, stride-one full windows give
+\begin{equation}
+T_{\mathrm{overlap}}=L-k+1.
+\end{equation}
+Disjoint chunks with a retained tail give
+\begin{equation}
+T_{\mathrm{disjoint}}=\left\lceil L/k\right\rceil.
+\end{equation}
+Our implementation additionally preserves short nonempty records with
+$L<k$ as one short token; empty records produce none. The first formula
+does not describe that fallback. Naming the edge case is better than forcing
+a negative token count into a formula written for a different domain.
+
+Each \texttt{Token} contains \texttt{text}, \texttt{start}, and
+\texttt{stop}. Offsets count bases, not bytes or token positions.
+\Listing{tokenize}
+
+We accept uppercase canonical A/C/G/T only. Ambiguity symbols are rejected,
+not silently mapped to a universal unknown token. Such a mapping would be
+lossy: N, R, and a malformed character would become indistinguishable.
+An ambiguity-aware extension should preserve the sets introduced in
+DNA Computing Chapter 5 and explicitly define how the model consumes them.
+
+\section{Build an integer code from first principles}
+
+Assign digits $d(A)=0$, $d(C)=1$, $d(G)=2$, and $d(T)=3$. For a fixed-width
+word $w=w_0\ldots w_{k-1}$, its base-four ID is
+\begin{equation}
+\mathrm{id}_k(w)=\sum_{j=0}^{k-1}d(w_j)4^{k-1-j}.
+\label{eq:id}
+\end{equation}
+For \texttt{ACG}, this is $0\cdot16+1\cdot4+2=6$.
+There are exactly $4^k$ fixed-width words and IDs $0$ through $4^k-1$.
+The ID orders symbols; it does not measure biochemical similarity.
+
+\Plate{02-base-four}{Encoding and decoding the same word. Horner's rule accumulates ID 6 from digits 0, 1, 2. Repeated division by four recovers remainders 2, 1, 0; reversing them restores ACG. Declared width preserves the leading A.}{fig:id}
+
+\Listing{encode_kmer}
+\Listing{decode_kmer}
+
+The decoder needs $k$. ID zero could mean \texttt{A}, \texttt{AA}, or
+\texttt{AAA} at different widths. A representation that discards width
+cannot recover leading zero digits. Our tests enumerate every word for
+$k=1,2,3,4$ and verify both directions of the bijection.
+
+\subsection{A model vocabulary is not the raw k-mer code}
+
+The teaching vocabulary reserves IDs 0, 1, and 2 for PAD, BOS, and EOS.
+It then lists all one-base words, all two-base words, and so on through
+width $k$, in base-four order. This policy retains every possible short tail.
+For a width-$j$ word, the model ID is
+\begin{equation}
+\mathrm{model\_id}(w)
+=3+\sum_{r=1}^{j-1}4^r+\mathrm{id}_j(w).
+\label{eq:model-id}
+\end{equation}
+At $k=3$, \texttt{ACG} therefore has model ID $3+4+16+6=29$,
+not 6. \texttt{TAC} has ID 72 and the short token \texttt{G} has ID 5.
+Our disjoint record stores IDs $[29,72,5]$ alongside spans
+$[0,3)$, $[3,6)$, and $[6,7)$.
+
+Special symbols are reserved here; the sequence encoder does not insert
+BOS or EOS, and the sequence decoder rejects all special IDs. A later
+batching layer can add controls, but it must remove or interpret them
+before calling this sequence-only decoder. Reserving an ID and actually
+emitting it are different design decisions.
+
+\section{Make the round trip enforce a contract}
+
+For non-overlapping tokens, concatenation looks sufficient. For overlapping
+tokens, it would duplicate bases: \texttt{ACG} followed by \texttt{CGT}
+must reconstruct \texttt{ACGT}, not \texttt{ACGCGT}.
+Offsets tell us exactly how much overlap should agree.
+
+\Listing{reconstruct}
+
+The function checks that each token extends a gap-free prefix, that its
+declared length matches its text, and that overlapping bases agree.
+For example, \texttt{ACG} at $[0,3)$ followed by \texttt{CTT} at $[1,4)$
+must fail: the shared region is \texttt{CG} in the first token but
+\texttt{CT} in the second. A decoder that simply takes the final character
+would conceal the inconsistency.
+
+This low-level function accepts any consistent extending spans. The higher
+level \texttt{decode\_record} also checks that the decoded tokens equal the
+declared overlap or disjoint segmentation of the reconstructed sequence.
+It rejects mismatched vocabulary identities and control IDs. The record
+therefore specifies not just a string, but how that string became model input.
+
+We hash a canonical serialization of alphabet order, $k$, tail policy, and
+the ordered vocabulary. The digest is an identity check, not authentication
+against a malicious party. Store the mode and offsets in the record too.
+Two vocabularies with equal size can give the same embedding row completely
+different meanings; shape compatibility alone is not checkpoint compatibility.
+
+\section{Count the representation cost}
+
+With retained short words and three special symbols, vocabulary size is
+\begin{equation}
+V(k)=3+\sum_{j=1}^{k}4^j
+=3+\frac{4^{k+1}-4}{3}.
+\end{equation}
+A float32 embedding table with width $D$ requires $4V(k)D$ bytes for its
+parameter values. This excludes gradients, optimizer state, activations,
+and allocation overhead.
+
+\begin{center}\small\input{\Generated/resources.tex}\end{center}
+
+The table uses $L=1000$ and $D=64$. At $k=6$, a disjoint representation
+has 167 tokens instead of 1000, but the retained-tail vocabulary has 5,463
+entries instead of seven at $k=1$. Its embedding values occupy 1,398,528
+bytes. Overlapping width-six windows still have 995 tokens: a larger
+vocabulary has barely shortened the sequence at all.
+
+This is a parameter accounting exercise, not a throughput benchmark.
+For an architecture with dense all-pairs attention, reducing token count
+can reduce a quadratic interaction term; other costs scale differently.
+A recurrent model, a convolution, and a state-space model have different
+resource profiles. Tokenization should be evaluated against the actual
+architecture and objective, not declared superior from one column.
+
+\section{An embedding is a row lookup}
+
+Let $E\in\mathbb{R}^{V\times D}$ be a learned table and let integer IDs
+$I\in\{0,\ldots,V-1\}^{B\times T}$ index its rows. The output is
+\begin{equation}
+X_{b,t,:}=E_{I_{b,t},:},
+\qquad X\in\mathbb{R}^{B\times T\times D}.
+\label{eq:embedding}
+\end{equation}
+Equivalently, if $Q_{b,t,:}$ is one-hot over the vocabulary, the forward
+calculation is $X_{b,t,:}=Q_{b,t,:}E$. We normally avoid materializing $Q$:
+integer lookup expresses the operation without the mostly-zero tensor.
+PyTorch documents the same input/output shape convention \cite{torch-embedding}.
+
+\Plate{03-embedding}{A tiny lookup with repeated IDs. A is selected twice, so both positions receive the same row before positional information is added. Under a sum loss, its lookup gradients accumulate twice. PAD's assigned nonzero vector illustrates why a padding-gradient rule is not an attention or loss mask.}{fig:embedding}
+
+For this isolated demonstration only, use the smaller ID scheme
+A=0, C=1, G=2, T=3, PAD=4. It is deliberately separate from the retained-tail
+vocabulary above. Set $E$ to the numbers 0 through 14 in a $5\times3$
+matrix and look up $I=[0,2,0,4]$. The output is
+\begin{equation}
+X=
+\begin{bmatrix}
+0&1&2\\6&7&8\\0&1&2\\12&13&14
+\end{bmatrix}.
+\end{equation}
+These assigned values make the calculation inspectable. They are not learned
+biochemical coordinates or evidence that A and C differ by a distance of three.
+
+\Listing{embedding_example}
+
+For a scalar loss $\mathcal L=\sum X$, an ordinary row receives one unit
+of gradient per occurrence in every feature:
+\begin{equation}
+\frac{\partial\mathcal L}{\partial E_{v,d}}
+=\sum_{b,t:I_{b,t}=v}1,
+\end{equation}
+except for the explicit padding rule. The row gradients in our example
+are $[2,2,2]$, $[0,0,0]$, $[1,1,1]$, $[0,0,0]$, and $[0,0,0]$.
+
+The last row deserves close attention. PyTorch's \texttt{padding\_idx}
+suppresses its gradient contribution from embedding lookup; it does not
+force an explicitly supplied weight row to zero \cite{torch-embedding}.
+Our PAD output remains $[12,13,14]$. Newly initialized
+\texttt{nn.Embedding} padding rows default to zero, but that initialization
+is not a universal guarantee about supplied weights or downstream operations.
+
+The one-hot multiplication matches the \emph{forward values} here, not the
+custom padding backward rule. Backpropagating through plain one-hot matrix
+multiplication would give the selected PAD row a gradient too. A padding
+ID also does not automatically mask attention, recurrent state updates, or
+the training loss. Chapter 4's valid-target mask remains necessary.
+
+\section{Track which bases a prediction can see}
+
+Suppose the current input token is \texttt{ACG} and the next overlapping
+token is \texttt{CGT}. Two of the three target bases, \texttt{CG}, are
+already present in the input. This is not necessarily an invalid objective,
+but its score must not be interpreted as predicting three unseen bases.
+
+\Plate{04-target-reach}{The information boundary is a base coordinate. ACG ends at boundary 3. The next overlapping token CGT contains two already-observed bases and only one new base. Predicting the base at index 3 makes the unit of novelty explicit. A token-level causal mask cannot remove information already inside an input token.}{fig:reach}
+
+Under an illustrative independent uniform base process, a fresh three-base
+word has entropy $3\log 4=\log64$ nats. Conditional on the preceding
+overlapping word, two bases are fixed; only the new base is uncertain, so
+the conditional entropy is $\log4$. This is an analytical toy result,
+not an empirical estimate of genomic entropy. Comparing those two losses
+without the conditioning context would exaggerate the improvement.
+
+For a transparent baseline, let each window predict the next unseen base.
+Our function returns its input word, the target base, and the target index:
+\Listing{safe_next_base_examples}
+
+For the running sequence, the examples are
+\texttt{ACG}$\to$\texttt{T} at 3,
+\texttt{CGT}$\to$\texttt{A} at 4,
+\texttt{GTA}$\to$\texttt{C} at 5, and
+\texttt{TAC}$\to$\texttt{G} at 6.
+The terminal \texttt{ACG} has no next-base target and is omitted.
+This defines local training pairs; it does not yet implement a full
+sequence model, its batching, or its evaluation split.
+
+A useful negative control changes a future base while holding the prefix
+fixed. The input representation for a prediction must remain unchanged.
+Our test changes the base at index 3 and verifies that the first input token
+is still \texttt{ACG} while its target changes. If a tokenizer were allowed
+to include that base inside the current token, a later causal mask would
+not repair the leak.
+
+The same reasoning applies to masked-token objectives: masking one k-mer
+may leave its bases visible inside neighboring overlapping k-mers. Define
+the intended hidden base interval first, then remove every input feature
+that reveals it. Also split raw records or biological groups before making
+windows; random window splitting can put near-duplicates across evaluation
+boundaries. Representation correctness is necessary but does not establish
+evaluation independence.
+
+\section{Reverse the strand, then reconsider the boundaries}
+
+For full stride-one windows of width $k$ and $L\geq k$, reversing the token
+order and reverse-complementing each token produces the windows of the
+reverse-complemented sequence. A span $[a,b)$ becomes $[L-b,L-a)$,
+as derived in DNA Computing Chapter 5.
+
+\Plate{05-strand-boundaries}{Reverse complementation changes the sequence coordinate system. With overlapping full windows, reversing window order and each window's bases works. With disjoint chunks and a short tail, that operation leaves the short chunk at the front; re-tokenizing from the new origin gives different boundaries.}{fig:strand}
+
+For our length-seven sequence, disjoint tokens are
+\texttt{ACG|TAC|G}. Reversing token order and complementing gives
+\texttt{C|GTA|CGT}. Concatenation correctly yields \texttt{CGTACGT},
+but disjoint re-tokenization from the new origin yields
+\texttt{CGT|ACG|T}. The sequence is right and the segmentation is wrong.
+Token boundaries are a software choice, not covalent breaks in DNA.
+
+Token index alone is also insufficient to identify a base position.
+An overlapping width-three token at index $j$ starts at base $j$;
+a disjoint full-width token at index $j$ starts at $3j$. Preserve base
+spans and decide whether positions describe starts, centers, or something
+else before adding positional features. A position-aware embedding can
+distinguish equal tokens in different locations; the lookup table alone cannot.
+
+Finally, consider \Term{canonicalization}: store the lexicographically
+smaller of $s$ and $\operatorname{rc}(s)$. It merges \texttt{AAA} and
+\texttt{TTT}. That may be suitable for a strand-invariant identity task,
+but it loses orientation unless we keep a flip flag. Direction-dependent
+labels must be transformed consistently. Even with a flag, a model that
+never receives or uses it cannot learn two different labels for identical
+canonicalized inputs. Palindromic ties use a deterministic no-flip convention.
+
+\section{A representation checklist before training}
+
+The completed artifact includes strict alphabet validation, fixed-width
+integer codes, two segmentation policies, retained tails, offset-checked
+reconstruction, vocabulary identity checks, an embedding gradient example,
+and causal-reach tests. To reproduce the golden results and test the contracts:
+\begin{Verbatim}[fontsize=\small]
+python3 drafts/ch05/reference.py
+python3 -m pytest tests/test_ch05_reference.py
+\end{Verbatim}
+The computed record is saved in \path{drafts/ch05/results.json}.
+
+Before reusing the data with Chapter 6's recurrent models, answer four
+questions. Can every record round-trip exactly? Does a checkpoint agree
+on what each row means? Does each target lie beyond the allowed input
+boundary? Are strand-dependent labels and coordinates still aligned?
+Training cannot recover information a representation has discarded.
+
+These examples do not train a genomic foundation model. DOGMA remains the
+non-Transformer DNA-native research direction; Hermon DNA denotes the
+Transformer-based direction; Evolutor is the broader framework. Tokenization
+contracts apply to either architecture without proving either system exists
+as a trained or validated biological model.
+
+\Needspace{10\baselineskip}
+\section{Exercises with worked solutions}
+
+\subsection*{1. Predict the tail}
+Tokenize \texttt{ACGTA} disjointly at $k=3$.
+\textbf{Solution:} \texttt{ACG} at $[0,3)$ and \texttt{TA} at $[3,5)$.
+Dropping the tail loses two bases; padding is a different policy requiring
+its own length or mask metadata.
+
+\subsection*{2. Encode without a table}
+Find the raw width-three ID of \texttt{TGA}.
+\textbf{Solution:} $3\cdot16+2\cdot4+0=56$. Its model ID in our retained-tail
+vocabulary is $23+56=79$.
+
+\subsection*{3. Recover leading zeros}
+Decode ID 1 at widths one and three.
+\textbf{Solution:} \texttt{C} and \texttt{AAC}. The integer alone does not
+encode width.
+
+\subsection*{4. Detect inconsistent overlap}
+Why reject \texttt{ACG} at $[0,3)$ followed by \texttt{CTT} at $[1,4)$?
+\textbf{Solution:} shared bases should be \texttt{CG} but the second token
+claims \texttt{CT}. Taking only the new suffix would hide the disagreement.
+
+\subsection*{5. Count vocabulary entries}
+Compute the retained-tail vocabulary for $k=2$.
+\textbf{Solution:} $3+4+16=23$. At embedding width 64 in float32, parameter
+values occupy $23\cdot64\cdot4=5{,}888$ bytes, excluding training state.
+
+\subsection*{6. Follow a repeated lookup}
+For IDs $[2,2,2]$ and a sum loss, what gradient reaches row 2?
+\textbf{Solution:} three in every feature, unless that row is the declared
+padding index. Repeated lookup shares parameters; it does not create three
+independent rows.
+
+\subsection*{7. Separate padding mechanisms}
+Does a zero-gradient padding row imply padding cannot affect a model?
+\textbf{Solution:} no. Its forward vector can be nonzero, positional features
+can alter it, and downstream operations still need appropriate masks.
+Lookup-gradient suppression is not a universal padding exclusion rule.
+
+\subsection*{8. Measure novelty}
+How many unseen bases are in the next stride-one width-six token?
+\textbf{Solution:} one; five overlap. Under independent uniform bases,
+its conditional uncertainty is $\log4$, not $\log4096$ nats.
+
+\subsection*{9. Audit a causal mask}
+A token covering $[0,3)$ is used to predict base 2. Can a token-level
+causal mask fix the problem? \textbf{Solution:} no. Base 2 is already inside
+the token. Change token reach or move the target beyond the token's stop.
+
+\subsection*{10. Reverse an uneven partition}
+Reverse-complement the tokens \texttt{ACG|TAC|G}, then re-tokenize.
+\textbf{Solution:} transformed chunks \texttt{C|GTA|CGT} concatenate
+correctly, but the new disjoint partition is \texttt{CGT|ACG|T}.
+
+\subsection*{11. Preserve directional labels}
+A dataset labels \texttt{AAA} and \texttt{TTT} differently. What happens
+after canonicalization without orientation metadata?
+\textbf{Solution:} both become \texttt{AAA}. A deterministic predictor sees
+identical inputs with incompatible labels. Keep and use orientation, transform
+labels appropriately, or choose a genuinely strand-invariant task.
+
+\subsection*{12. Specify a checkpoint contract}
+What must accompany embedding weights?
+\textbf{Worked rubric:} vocabulary ordering and identity, alphabet policy,
+special-ID meaning, segmentation and tail policy, positional convention,
+architecture dimensions, and preprocessing version. Shape checks are necessary
+but insufficient. Add a golden raw-sequence-to-ID example and reject a
+deliberately permuted vocabulary even when its dimensions match.

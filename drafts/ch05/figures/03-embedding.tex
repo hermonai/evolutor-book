@@ -1,0 +1,20 @@
+\begin{tikzpicture}[font=\small\sffamily]
+\node[smallnote] at (2,4) {Assigned table $E$: $5\times3$};
+\foreach \i/\name/\a/\b/\c in {0/A/0/1/2,1/C/3/4/5,2/G/6/7/8,3/T/9/10/11,4/PAD/12/13/14}{
+\pgfmathsetmacro{\y}{3.3-.72*\i}
+\node[anchor=east,font=\footnotesize] at (.4,\y) {\name\ (\i)};
+\draw[fill=Blue!6,draw=Blue!35] (.55,\y-.3) rectangle (3.45,\y+.3);
+\node at (2,\y) {\a\qquad\b\qquad\c};}
+\node[smallnote] at (6,4) {IDs: $[0,2,0,4]$};
+\foreach \i/\a/\b/\c in {0/0/1/2,1/6/7/8,2/0/1/2,3/12/13/14}{
+\pgfmathsetmacro{\y}{3.3-.72*\i}
+\draw[fill=Green!8,draw=Green!50] (4.55,\y-.3) rectangle (7.45,\y+.3);
+\node at (6,\y) {\a\qquad\b\qquad\c};}
+\draw[flow] (3.5,3.3)--(4.5,3.3);
+\draw[flow] (3.5,1.86)--(4.5,2.58);
+\draw[flow] (3.5,3.3) to[out=-20,in=160] (4.5,1.86);
+\draw[flow] (3.5,.42)--(4.5,1.14);
+\node[smallnote,anchor=west,text width=4.6cm] at (8.3,3.1) {Loss = sum of outputs\\A row: gradient $(2,2,2)$\\G row: gradient $(1,1,1)$};
+\node[smallnote,anchor=west,text width=4.6cm] at (8.3,1.1) {PAD index = 4\\Lookup gradient = zero\\Forward vector $\ne$ zero};
+\node[smallnote] at (6,-.65) {This isolated five-row demonstration uses a separate base-only ID scheme.};
+\end{tikzpicture}

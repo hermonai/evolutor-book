@@ -1,0 +1,17 @@
+\begin{tikzpicture}[font=\small\sffamily,x=1.4cm]
+\fill[Blue!6] (0,-1.8) rectangle (3,3);
+\fill[Gold!20] (3,-1.8) rectangle (6.6,3);
+\draw[dashed,Red,thick] (3,-1.8)--(3,3);
+\foreach \i/\b in {0/A,1/C,2/G,3/T,4/A,5/C,6/G}{
+\node at (\i+.35,2.35) {\b};}
+\node[smallnote] at (1.5,3.45) {Observed bases};
+\node[smallnote] at (4.8,3.45) {Future bases};
+\draw[fill=Blue!12,draw=Blue] (0,1.25) rectangle (3,1.85);
+\node at (1.5,1.55) {Input ACG: $[0,3)$};
+\draw[fill=Green!12,draw=Green] (1,.15) rectangle (4,.75);
+\node at (2.5,.45) {Next token CGT};
+\draw[<->,Green,thick] (1,-.15)--(3,-.15);
+\node[smallnote] at (1.8,-.65) {C and G are\\already visible};
+\draw[flow,Red] (3.35,.05)--(3.35,-.8);
+\node[draw=Red,fill=white,smallnote] at (4.5,-1.2) {Safe target: T at index 3\\one unseen base};
+\end{tikzpicture}

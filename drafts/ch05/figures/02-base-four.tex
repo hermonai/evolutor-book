@@ -1,0 +1,13 @@
+\begin{tikzpicture}[font=\small\sffamily]
+\node[smallnote,anchor=west] at (0,3) {Encode: $v\leftarrow4v+d$, starting with $v=0$};
+\foreach \x/\b/\d/\v in {1/A/0/0,5/C/1/1,9/G/2/6}{
+\node[draw=Blue,fill=Blue!8,minimum width=2.6cm,minimum height=1.1cm,align=center] at (\x,1.8) {\b\ $\mapsto d=\d$\\new $v=\v$};}
+\draw[flow] (2.4,1.8)--(3.5,1.8); \draw[flow] (6.4,1.8)--(7.5,1.8);
+\node[draw,fill=Gold!30,align=center] at (12.1,1.8) {Raw ID\\6};
+\draw[flow] (10.4,1.8)--(11.3,1.8);
+\node[smallnote,anchor=west] at (0,.4) {Decode at declared width 3: repeated division by four};
+\foreach \x/\txt in {1/{6=4(1)+2},5/{1=4(0)+1},9/{0=4(0)+0}}{
+\node[draw=Green,fill=Green!7,minimum width=2.9cm,minimum height=.8cm] at (\x,-.55) {$\txt$};}
+\draw[flow] (2.5,-.55)--(3.45,-.55); \draw[flow] (6.5,-.55)--(7.45,-.55);
+\node[smallnote] at (5,-1.7) {Remainders: 2, 1, 0 \quad $\rightarrow$ reverse \quad 0, 1, 2 \quad $\rightarrow$ A C G};
+\end{tikzpicture}

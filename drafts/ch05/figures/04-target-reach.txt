@@ -1,0 +1,1 @@
+Prefix boundary3 after ACG. Next overlapping CGT spans[1,4), sharing C,G already observed; only T at index3 is new. Safe pair ACG -> T targets coordinate3. Token-level masking cannot remove information already embedded within current input. Independent-uniform toy conditional entropy ln4 versus fresh3mer ln64.

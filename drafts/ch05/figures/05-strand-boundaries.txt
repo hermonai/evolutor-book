@@ -1,0 +1,1 @@
+ACGTACG disjoint partition ACG|TAC|G. Reversing chunks and reverse-complementing each gives C|GTA|CGT, preserving sequence CGTACGT but not disjoint boundaries from origin. Retokenizing gives CGT|ACG|T. Short tail moves to front under naive chunk transform; biological sequence has no token boundaries.
