@@ -1,0 +1,1 @@
+ThreecausalstepsinputA,C,G at1,2,3 withstatesh1,h2,h3andsametheta. AfterinputAreadouttargetC,afterCtargetG,afterGtargetT. Solidarrowsarecomputationdependencies; h0declaredinitialstate. BatchtensorinputsB,T,D;stateB,H;readoutB,4.

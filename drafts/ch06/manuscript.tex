@@ -1,0 +1,395 @@
+\chapter{Recurrent models and gated state}
+
+Read the bases A, C, G, T one at a time. After the last base arrives,
+what information about the first base is still available? A fixed-width
+window answers by retaining a specified recent interval. A recurrent model
+instead maintains a state that it updates at every step. The state is a
+learned representation of history, not an automatically lossless copy of it.
+
+This chapter builds recurrent arithmetic from scratch. We first expose the
+state transition, then add gates, then test what changes at padding and
+chunk boundaries. The main implementation is a manually written GRU cell,
+checked against PyTorch in both forward values and gradients. A smaller
+scalar recurrence gives exact numbers that can be verified without a library.
+
+We assume Chapter 5's embedding shapes and Chapter 4's loss and gradient
+conventions. All numerical probes use assigned weights or synthetic inputs.
+They establish properties of the computation, not trained genomic capability.
+
+\section{Unroll one state transition}
+
+Let $x_t\in\mathbb R^D$ be the embedding of the base arriving at step $t$,
+and let $h_{t-1}\in\mathbb R^H$ be the previous hidden state.
+A simple \Term{recurrent neural network} updates
+\begin{equation}
+h_t=\tanh(W_xx_t+W_hh_{t-1}+b),
+\label{eq:rnn}
+\end{equation}
+where $W_x\in\mathbb R^{H\times D}$, $W_h\in\mathbb R^{H\times H}$,
+and $b\in\mathbb R^H$. The hyperbolic tangent acts elementwise.
+The same parameters are reused at every step.
+
+\Plate{01-unroll}{A causal recurrence unrolled over three observed bases. Each state uses the current embedding and the previous state; the shared transition parameters do not become separate trainable copies. A readout after observing A predicts the next base, C. Arrows show computation dependencies, not biological reactions.}{fig:unroll}
+
+For a batch, the code stores $x$ as $[B,T,D]$ and each state as $[B,H]$.
+The mathematical column-vector multiplication becomes
+\texttt{F.linear(x, weight, bias)} for batch rows: PyTorch applies the
+transpose of the stored $[H,D]$ matrix to those rows.
+Confusing tensor storage with the mathematical map is a common source of
+accidentally transposed weights.
+
+For next-base prediction, a readout produces
+\begin{equation}
+\ell_t=W_yh_t+b_y\in\mathbb R^4,\qquad
+p(s_{t+1}\mid s_{1:t})=\operatorname{softmax}(\ell_t).
+\end{equation}
+The state at step $t$ has already consumed $s_t$. Scoring it against
+$s_t$ would let it predict a base present in its own input. A unidirectional
+recurrence is causal only relative to correctly aligned inputs and targets.
+
+We begin each independent record with a declared initial state, here zero.
+Two adjacent records in a data loader are not adjacent pieces of one genome
+unless the data contract says so. Carrying state across unrelated records
+creates an undeclared input channel.
+
+\section{Why the gradient can lose the distant past}
+
+For a single example, define
+$a_t=W_xx_t+W_hh_{t-1}+b$. Differentiating Eq.~\ref{eq:rnn} gives
+\begin{equation}
+J_t=\frac{\partial h_t}{\partial h_{t-1}}
+=\operatorname{diag}(1-h_t^2)W_h.
+\end{equation}
+The influence of an earlier state on a later one is a product:
+\begin{equation}
+\frac{\partial h_T}{\partial h_k}
+=J_TJ_{T-1}\cdots J_{k+1}.
+\label{eq:jacobian-product}
+\end{equation}
+Repeated contractions can suppress a signal; expanding directions can
+amplify it. Saturated tanh coordinates contribute small local derivatives.
+The foundational LSTM paper motivates gated memory through this
+long-range gradient problem \cite{lstm-original}.
+
+A scalar linear recurrence makes the product visible without nonlinear
+complications. If $h_t=\alpha h_{t-1}$, then
+$h_T=\alpha^T h_0$ and $\partial h_T/\partial h_0=\alpha^T$.
+For $\alpha=0.5$, ten steps retain $1/1024$ of a perturbation; for
+$\alpha=1.1$, amplification grows with the number of steps.
+Increasing a learning rate does not restore information removed by the
+forward state or turn a badly conditioned Jacobian product into a stable one.
+
+Shared weights also receive contributions from multiple time steps.
+A gradient with respect to $W_h$ is not merely the final state's local
+derivative: each earlier occurrence of the same parameter can affect later
+states. Our chunk experiment will expose what happens when some of these
+paths are deliberately cut.
+
+\section{Separate retention, writing, and reading}
+
+A modern \Term{long short-term memory} cell carries two vectors,
+hidden output $h_t$ and cell state $c_t$, both in $\mathbb R^H$.
+Let the input gate $i_t$, forget gate $f_t$, and output gate $o_t$ be
+sigmoid outputs, and let $g_t$ be a tanh candidate:
+\begin{align}
+i_t&=\sigma(W_{xi}x_t+W_{hi}h_{t-1}+b_i),\\
+f_t&=\sigma(W_{xf}x_t+W_{hf}h_{t-1}+b_f),\\
+g_t&=\tanh(W_{xg}x_t+W_{hg}h_{t-1}+b_g),\\
+o_t&=\sigma(W_{xo}x_t+W_{ho}h_{t-1}+b_o).
+\end{align}
+The state update is
+\begin{equation}
+c_t=f_t\odot c_{t-1}+i_t\odot g_t,\qquad
+h_t=o_t\odot\tanh(c_t).
+\label{eq:lstm}
+\end{equation}
+Here $\odot$ is elementwise multiplication. These are the modern
+forget-gate equations used by PyTorch's unprojected cell \cite{lstm-api},
+not a claim that every feature of this variant appeared in the 1997 paper.
+
+\Plate{02-lstm}{Separate LSTM state paths. The forget gate scales retained cell contents; the input gate scales a candidate write; their sum updates the cell. The output gate controls the exposed tanh-transformed state. Dashed arrows deliver gate values, while solid arrows carry state or candidate values. This diagram omits peepholes and projections.}{fig:lstm}
+
+Take one coordinate with $c_{t-1}=2$, $f_t=0.75$, $i_t=0.2$,
+$g_t=-0.5$, and $o_t=0.6$. Retention contributes 1.5, writing contributes
+$-0.1$, and $c_t=1.4$. The output is $0.6\tanh(1.4)\approx0.531$.
+The cell contents and the exposed output are not the same number.
+
+Holding gates and candidate fixed, the direct derivative along the cell
+path is $\partial c_t/\partial c_{t-1}=f_t$ coordinatewise.
+If $f_t$ remains near one and writes are small, that path can preserve
+information. But the \emph{total} derivative also includes paths through
+$h_{t-1}$ and the gates. A direct retention path is not a theorem that
+all gradients remain constant or that a trained model will learn the desired memory.
+
+\Listing{lstm_step}
+
+The code packs four gate blocks in the order input, forget, candidate,
+output. It accepts two bias vectors because PyTorch stores input-side and
+hidden-side biases separately. Their sum plays the role of each $b$ above.
+Changing packing order preserves tensor shapes while changing the model.
+The parity tests therefore compare actual values, not just dimensions.
+
+\section{Build a GRU cell and name its convention}
+
+A \Term{gated recurrent unit} keeps a single state vector. In the
+PyTorch convention used here, reset and update gates are
+\begin{align}
+r_t&=\sigma(W_{xr}x_t+b_{xr}+W_{hr}h_{t-1}+b_{hr}),\\
+z_t&=\sigma(W_{xz}x_t+b_{xz}+W_{hz}h_{t-1}+b_{hz}),
+\end{align}
+and the candidate and update are
+\begin{align}
+n_t&=\tanh\left(W_{xn}x_t+b_{xn}
+ +r_t\odot(W_{hn}h_{t-1}+b_{hn})\right),\\
+h_t&=(1-z_t)\odot n_t+z_t\odot h_{t-1}.
+\label{eq:gru}
+\end{align}
+Thus a large $z_t$ retains the old state in this convention.
+Some presentations attach the symbol $z$ to the opposite mixing weight;
+read the equation rather than memorizing the gate name \cite{gru-api}.
+
+\Plate{03-gru}{The implemented GRU candidate and state merge. Reset acts after the hidden projection, including its bias. The update gate chooses coordinatewise retention versus candidate contribution. A separate numerical counterexample shows that resetting before a matrix multiplication generally produces different values.}{fig:gru}
+
+For each coordinate, the final update is a convex combination of the
+candidate and previous state because a sigmoid lies between zero and one.
+That fact bounds the new coordinate between those two values; it does not
+bound every derivative of the state-dependent gates.
+
+\Listing{gru_step}
+
+The implementation splits the input and hidden affine projections into
+three blocks ordered reset, update, candidate. The two candidate projections
+must remain separate until reset has been applied. Adding all affine
+outputs and then splitting would lose the information needed to apply
+the reset only to the hidden-side candidate contribution.
+
+\subsection{Reset-before and reset-after are not algebraic rearrangements}
+
+PyTorch documents a difference from the original GRU formulation:
+its reset is applied to the projected hidden state, rather than before
+that projection \cite{gru-variant}. Generally,
+\begin{equation}
+r\odot(Wh+b)\ne W(r\odot h)+b.
+\end{equation}
+For $h=(1,2)$, $r=(0.2,0.8)$, zero bias, and
+\begin{equation}
+W=\begin{bmatrix}1&1\\1&-1\end{bmatrix},
+\end{equation}
+reset-after gives $(0.6,-0.8)$ whereas reset-before gives $(1.8,-1.4)$.
+Both programs can execute and have identical tensor shapes. Only a
+convention-aware numerical test detects the mismatch.
+
+This is why a checkpoint needs more than dimensions and vocabulary identity.
+It also needs an architecture definition: gate order, bias convention,
+activation functions, and where each gate acts. The name GRU is insufficient
+to guarantee parameter interchangeability across implementations.
+
+\section{Verify forward values and backward paths}
+
+Our reference artifact assigns deterministic weights.
+It compares our GRU step with the library's \texttt{GRUCell}. The test checks the
+output and gradients of a squared-output loss with respect to inputs,
+previous state, both weight matrices, and both biases.
+The tolerance is $10^{-12}$ in CPU float64; no bitwise cross-hardware
+guarantee is implied.
+
+There are three complementary checks. A hand case sets all weights and
+biases to zero: both gates become 0.5, the candidate becomes zero, and the
+new state is half the old state. Library parity tests the full packed
+implementation. Numerical finite-difference gradient checking tests the
+derivatives independently of a second handwritten backward formula.
+
+Forward parity alone is not enough. A misplaced detach can preserve every
+output while removing gradient paths. Conversely, a finite-difference
+check on one scalar output is not evidence that a data pipeline masks
+padding correctly. Tests should mirror distinct claims.
+
+For $D=4$ and $H=8$, a cell with two bias vectors has
+$g(HD+H^2+2H)$ parameters, where $g$ is the number of packed gate blocks.
+That gives 112 for a simple tanh cell, 336 for a GRU, and 448 for an LSTM.
+LSTM additionally carries both $h$ and $c$ at runtime. Parameter count is
+not a benchmark of speed, accuracy, or useful biological memory.
+
+\section{Measure a controlled retention path}
+
+Freeze a GRU update gate to scalar $z$ and set its candidate to zero.
+Then $h_t=zh_{t-1}$ and both the state and its direct sensitivity decay
+as $z^t$ when $h_0=1$. A half-life in \Term{token steps} satisfies
+\begin{equation}
+z^\tau=\tfrac12,\qquad
+\tau=\frac{\ln(1/2)}{\ln z},\quad 0<z<1.
+\end{equation}
+For $z=0.5,0.9,0.99$, half-lives are approximately 1, 6.58, and
+68.97 steps. At 100 steps, the retained factors are approximately
+$7.89\times10^{-31}$, $2.66\times10^{-5}$, and 0.366.
+
+\Plate{04-retention}{Computed retention powers for fixed gates and zero candidate, on a logarithmic vertical scale. This isolates one memory path, not a trained model's total Jacobian. The companion dependency sketch marks additional state-dependent gate paths that the simplified calculation holds fixed.}{fig:retention}
+
+The time unit is part of the interpretation. A hundred base tokens span
+100 bases; a hundred disjoint width-six tokens typically span 600 bases.
+An overlapping tokenizer advances differently again. A gate half-life
+cannot be reported as a genomic distance without the representation contract.
+
+Nor is a slowly decaying state automatically useful. It can preserve an
+irrelevant feature, mix several signals destructively, or fail to expose
+stored information to the readout. These probes isolate retention mechanics;
+learning useful memory requires a task, data split, objective, and evaluation.
+
+\section{Batch sequences without advancing padded time}
+
+Our scan consumes $x$ of shape $[B,T,D]$ and a valid-length vector.
+At a valid step, each row updates normally. Beyond its length, the row
+retains its previous state. This is a state-update mask, separate from
+the target-loss mask introduced earlier.
+
+\Listing{scan_gru}
+
+The output at padded positions repeats the last valid state; it is not
+automatically a zero vector. A downstream loss must still ignore invalid
+targets. A zero input is not a substitute for holding the state: recurrent
+weights and biases can change the state even when the input vector is zero.
+
+The implementation computes candidates before selecting valid rows.
+Its padding tests use finite values. A mask does not generally sanitize NaNs
+introduced inside unselected computations, especially during backward
+propagation; validate inputs rather than relying on masking to repair them.
+
+An empty time dimension returns an empty output sequence and the unchanged
+initial state. A zero-length row in a nonempty batch likewise remains at its
+initial state. Lengths must be integer counts between zero and the available
+number of steps.
+
+\section{Carry, detach, and reset mean different things}
+
+Consider the scalar recurrence
+\begin{equation}
+h_t=ah_{t-1}+x_t,\quad
+a=0.5,\quad h_0=0,\quad x=(1,2,3,4).
+\label{eq:scalar}
+\end{equation}
+Its successive states are $1$, $2.5$, $4.25$, and $6.125$.
+Split the computation after step two. Carrying $h_2=2.5$ into the next
+chunk preserves the result. Replacing it with zero does not.
+
+\Plate{05-chunks}{Three chunk-boundary policies. Carry keeps both numerical state and its gradient history. Detach carries the same value but cuts backward paths through the boundary. Reset replaces that value with zero and changes the forward computation. Record boundaries and truncated training boundaries therefore require different policies.}{fig:chunks}
+
+\Listing{chunk_experiment}
+
+With full history, the final state expands to
+$h_4=a^3x_1+a^2x_2+ax_3+x_4$. Hence
+\begin{equation}
+\frac{\partial h_4}{\partial x}=(a^3,a^2,a,1)
+=(0.125,0.25,0.5,1)
+\end{equation}
+and
+\begin{equation}
+\frac{\partial h_4}{\partial a}
+=3a^2x_1+2ax_2+x_3=5.75.
+\end{equation}
+If we detach $h_2$, the second chunk treats 2.5 as a constant:
+$h_4=a(a\cdot2.5+3)+4$. Its derivative with respect to the shared $a$
+is $2a\cdot2.5+3=5.5$, and the first two input gradients are zero.
+Resetting instead gives $h_4=a\cdot3+4=5.5$, with derivative 3.
+
+\begin{center}\small\input{\Generated/results-table.tex}\end{center}
+
+This is \Term{truncated backpropagation} in its most inspectable form:
+detachment limits credit assignment, not necessarily the numerical
+history carried forward. It is not equivalent to full-sequence training.
+Our demonstration keeps parameters fixed while scanning. If an optimizer
+updates weights between chunks, a carried state was computed under earlier
+weights; that is another distinction from a single full unroll.
+
+For inference with fixed parameters, correctly carried GRU state produces
+the same outputs as an uninterrupted scan in our tests. Across independent
+records, reset instead. Across padded steps, hold. A single generic
+state-clearing rule cannot implement all three boundaries correctly.
+
+\section{What this chapter builds, and what comes next}
+
+Run the reference probes and tests:
+\begin{Verbatim}[fontsize=\small]
+python3 drafts/ch06/reference.py
+python3 -m pytest tests/test_ch06_reference.py
+\end{Verbatim}
+The artifact covers manual GRU and modern LSTM cells, state masking,
+streaming equivalence, finite-difference checks, fixed-gate retention,
+and a detachment counterexample. It does not train or benchmark a genomic
+language model. DOGMA remains the non-Transformer DNA-native research
+direction, Hermon DNA the Transformer-based direction, and Evolutor the
+broader framework.
+
+A sequential scan uses a fixed-size state, but nonlinear state dependence
+creates a dependency from one step to the next. Chapter 7 asks which state
+transitions can be reorganized into efficient scans and how selective
+state-space models change the design tradeoffs. The question is no longer
+whether there is memory, but how it is represented, updated, and computed.
+
+\Needspace{10\baselineskip}
+\section{Exercises with worked solutions}
+
+\subsection*{1. Align the target}
+After consuming A, C, G, which base does the final readout predict?
+\textbf{Solution:} the next base after G, not G itself. The state has
+already received the G embedding.
+
+\subsection*{2. Derive a scalar gradient}
+For $h_t=0.8h_{t-1}$, find $\partial h_{10}/\partial h_0$.
+\textbf{Solution:} $0.8^{10}\approx0.1074$. This is exact for the fixed
+linear recurrence, not for a learned nonlinear gate.
+
+\subsection*{3. Trace an LSTM coordinate}
+Use $c=2$, $f=0.75$, $i=0.2$, $g=-0.5$, $o=0.6$.
+\textbf{Solution:} the new cell is $1.5-0.1=1.4$ and the hidden output
+is about 0.531. The output gate does not erase the underlying cell by
+merely hiding part of its readout.
+
+\subsection*{4. Interpret the update gate}
+In Eq.~\ref{eq:gru}, what happens as $z$ approaches one?
+\textbf{Solution:} the previous state is retained. Approaching zero
+instead chooses the candidate. State the convention when comparing equations.
+
+\subsection*{5. Find a shape-preserving bug}
+Swap the reset and update blocks in packed weights.
+\textbf{Solution:} tensor dimensions still match, but the equations change.
+Forward and backward parity with a nontrivial assigned-weight case should fail.
+
+\subsection*{6. Test reset order}
+Evaluate the chapter's $W$, $r$, and $h$ counterexample.
+\textbf{Solution:} $Wh=(3,-1)$ gives reset-after $(0.6,-0.8)$;
+$r\odot h=(0.2,1.6)$ gives reset-before $(1.8,-1.4)$.
+
+\subsection*{7. Count parameters}
+Find the GRU parameter count for $D=4,H=8$ with both biases.
+\textbf{Solution:} $3(32+64+16)=336$. Excluding one bias vector would
+change the count and potentially the checkpoint convention.
+
+\subsection*{8. Convert a memory horizon}
+What base distance corresponds to 50 disjoint full-width six-mer steps?
+\textbf{Solution:} 300 bases. Do not reuse that conversion for stride-one
+overlapping windows, which advance one base per step.
+
+\subsection*{9. Explain padding drift}
+Why can feeding zero embeddings through padded steps change final state?
+\textbf{Solution:} recurrent projections and biases remain active.
+Hold the row's state explicitly and mask invalid targets separately.
+
+\clearpage
+\subsection*{10. Separate value and gradient}
+Why do full carry and detachment both yield 6.125 but different gradients?
+\textbf{Solution:} detachment preserves the boundary's numerical value
+while treating it as constant for backward propagation. It removes paths
+from the final loss through the first chunk.
+
+\subsection*{11. Prevent cross-record leakage}
+A loader places two unrelated sequences consecutively in the same batch row.
+\textbf{Solution:} reset state at the record boundary. Detaching alone
+retains the earlier record's numerical information.
+
+\subsection*{12. Design a memory evaluation}
+How would you test learned long-range genomic dependencies?
+\textbf{Worked rubric:} define the biological target, split related records
+appropriately, vary dependency distance, compare local-window baselines,
+audit strand and position conventions, and report uncertainty across runs.
+Separate synthetic retention probes from learned-task accuracy and from
+biological generalization.

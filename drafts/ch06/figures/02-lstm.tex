@@ -1,0 +1,18 @@
+\begin{tikzpicture}[font=\small\sffamily,
+op/.style={circle,draw=Blue,fill=white,minimum size=.65cm},
+gate/.style={draw=Green,fill=Green!10,minimum width=1.1cm,minimum height=.6cm}]
+\node (old) at (.5,3) {$c_{t-1}$}; \node[op] (mul) at (3,3) {$\times$};
+\node[op] (sum) at (7,3) {$+$}; \node (new) at (10,3) {$c_t$};
+\draw[flow,line width=1.5pt] (old)--(mul)--(sum)--(new);
+\node[gate] (f) at (3,1) {$f_t$}; \draw[flow,dashed,Green] (f)--(mul);
+\node[op] (write) at (7,1) {$\times$};
+\node[gate] (i) at (5,1) {$i_t$}; \node[gate] (g) at (7,-.6) {$g_t$};
+\draw[flow,dashed,Green] (i)--(write); \draw[flow] (g)--(write)--(sum);
+\node[draw=Blue,fill=Pale] (tanh) at (11,1.7) {$\tanh$};
+\node[op] (out) at (11,-.1) {$\times$}; \node[gate] (o) at (9,-.1) {$o_t$};
+\draw[flow] (new)-|(tanh); \draw[flow] (tanh)--(out);
+\draw[flow,dashed,Green] (o)--(out);
+\node (h) at (13,-.1) {$h_t$}; \draw[flow] (out)--(h);
+\node[smallnote] at (6.7,4.2) {Retain $f_t\odot c_{t-1}$ \quad + \quad write $i_t\odot g_t$};
+\node[smallnote] at (6.7,-1.8) {Gates and candidate depend on $(x_t,h_{t-1})$; those affine paths are omitted.\\Solid: value path. Dashed: gate value controlling multiplication.};
+\end{tikzpicture}

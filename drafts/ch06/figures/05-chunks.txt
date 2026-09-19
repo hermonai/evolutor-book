@@ -1,0 +1,1 @@
+Scalarh=a*h+x,a.5,x1..4. Carryh2=2.5 final6.125 gradparameter5.75. Detachsameboundaryvalue final6.125 grad5.5 andprefixinputgradzero. Resetboundary0 final5.5 grad3. Soliddataarrows right;dashedgradientleft;detachbar blocksgradientonly. Paddingholdandrecordresetaredistinct.

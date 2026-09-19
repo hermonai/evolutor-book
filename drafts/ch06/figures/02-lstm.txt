@@ -1,0 +1,1 @@
+LSTMcellstateoldc flows throughforgetmultiply toadd,newc. Candidate g passesinputgatemultiply intoadd. Newc passes tanh andoutputgatemultiply tohiddenh. Gatesdependonx,hprevious; omittedaffinepathsdeclared. Directcellpathderivativef when gatesfixedisnotfullJacobian.

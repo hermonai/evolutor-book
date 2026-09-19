@@ -1,0 +1,12 @@
+\begin{tikzpicture}
+\begin{semilogyaxis}[width=10.5cm,height=6cm,xmin=0,xmax=100,ymin=1e-32,ymax=2,
+xlabel={Token steps},ylabel={State and direct sensitivity},
+xtick={0,20,40,60,80,100},ytick={1,1e-8,1e-16,1e-24,1e-32},
+legend style={at={(.5,1.04)},anchor=south,font=\small,draw=none,legend columns=3},
+tick label style={font=\small},label style={font=\small}]
+\input{\Generated/retention-plot.tex}
+\legend{$z=0.5$,$z=0.9$,$z=0.99$}
+\end{semilogyaxis}
+\node[smallnote,anchor=west,text width=3.1cm] at (10.5,3.5) {Isolated path:\\$h_{t-1}\to h_t$\\factor $z$};
+\node[smallnote,anchor=west,text width=3.1cm] at (10.5,1.4) {Full model also has:\\$h_{t-1}\to z_t$\\$h_{t-1}\to n_t$\\then into $h_t$};
+\end{tikzpicture}

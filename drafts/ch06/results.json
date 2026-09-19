@@ -1,0 +1,183 @@
+{
+  "scope": "assigned cell weights and synthetic memory probes; no trained genomic model",
+  "parity": {
+    "max_forward_error": 5.551115123125783e-17,
+    "max_gradient_error": 1.1102230246251565e-16
+  },
+  "states": [
+    [
+      [
+        0.3152518058932524,
+        0.31034377010146685
+      ],
+      [
+        0.49864413120508067,
+        0.4997986689040096
+      ],
+      [
+        0.5765548616106533,
+        0.6244771557488442
+      ],
+      [
+        0.6389626673704412,
+        0.7096337232866303
+      ]
+    ]
+  ],
+  "streaming_max_error": 0.0,
+  "chunks": {
+    "full": {
+      "final": 6.125,
+      "input_gradient": [
+        0.125,
+        0.25,
+        0.5,
+        1.0
+      ],
+      "parameter_gradient": 5.75
+    },
+    "detach": {
+      "final": 6.125,
+      "input_gradient": [
+        0.0,
+        0.0,
+        0.5,
+        1.0
+      ],
+      "parameter_gradient": 5.5
+    },
+    "reset": {
+      "final": 5.5,
+      "input_gradient": [
+        0.0,
+        0.0,
+        0.5,
+        1.0
+      ],
+      "parameter_gradient": 3.0
+    }
+  },
+  "retention": [
+    {
+      "z": 0.5,
+      "steps": 1,
+      "state": 0.5,
+      "gradient": 0.5
+    },
+    {
+      "z": 0.5,
+      "steps": 5,
+      "state": 0.03125,
+      "gradient": 0.03125
+    },
+    {
+      "z": 0.5,
+      "steps": 10,
+      "state": 0.0009765625,
+      "gradient": 0.0009765625
+    },
+    {
+      "z": 0.5,
+      "steps": 50,
+      "state": 8.881784197001252e-16,
+      "gradient": 8.881784197001252e-16
+    },
+    {
+      "z": 0.5,
+      "steps": 100,
+      "state": 7.888609052210118e-31,
+      "gradient": 7.888609052210118e-31
+    },
+    {
+      "z": 0.9,
+      "steps": 1,
+      "state": 0.9,
+      "gradient": 0.9
+    },
+    {
+      "z": 0.9,
+      "steps": 5,
+      "state": 0.5904900000000002,
+      "gradient": 0.5904900000000002
+    },
+    {
+      "z": 0.9,
+      "steps": 10,
+      "state": 0.34867844010000015,
+      "gradient": 0.34867844010000015
+    },
+    {
+      "z": 0.9,
+      "steps": 50,
+      "state": 0.00515377520732012,
+      "gradient": 0.00515377520732012
+    },
+    {
+      "z": 0.9,
+      "steps": 100,
+      "state": 2.6561398887587544e-05,
+      "gradient": 2.6561398887587544e-05
+    },
+    {
+      "z": 0.99,
+      "steps": 1,
+      "state": 0.99,
+      "gradient": 0.99
+    },
+    {
+      "z": 0.99,
+      "steps": 5,
+      "state": 0.9509900498999999,
+      "gradient": 0.9509900498999999
+    },
+    {
+      "z": 0.99,
+      "steps": 10,
+      "state": 0.9043820750088043,
+      "gradient": 0.9043820750088043
+    },
+    {
+      "z": 0.99,
+      "steps": 50,
+      "state": 0.6050060671375365,
+      "gradient": 0.6050060671375365
+    },
+    {
+      "z": 0.99,
+      "steps": 100,
+      "state": 0.36603234127322926,
+      "gradient": 0.36603234127322926
+    }
+  ],
+  "half_lives": [
+    {
+      "z": 0.5,
+      "steps": 1.0
+    },
+    {
+      "z": 0.9,
+      "steps": 6.578813478960585
+    },
+    {
+      "z": 0.99,
+      "steps": 68.96756393652842
+    }
+  ],
+  "parameter_counts": [
+    {
+      "cell": "RNN",
+      "gates": 1,
+      "parameters_D4_H8": 112
+    },
+    {
+      "cell": "GRU",
+      "gates": 3,
+      "parameters_D4_H8": 336
+    },
+    {
+      "cell": "LSTM",
+      "gates": 4,
+      "parameters_D4_H8": 448
+    }
+  ]
+}

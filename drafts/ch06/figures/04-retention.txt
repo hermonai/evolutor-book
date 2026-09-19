@@ -1,0 +1,1 @@
+Generatedz^ncurves fixedz .5,.9,.99 zerocandidate initial1; bothstateandsensitivity. Logy showsdecayacross100steps. Side dependency textstatesadditionalhidden-to-gateandcandidatepathsnotheldfixedinfullmodel. DirectpathnotfullJacobianorlearningguarantee.

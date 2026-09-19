@@ -1,0 +1,11 @@
+\begin{tikzpicture}[font=\small\sffamily]
+\foreach \x/\t/\base/\targetbase in {2/1/A/C,6/2/C/G,10/3/G/T}{
+\node[draw=Blue,fill=Pale,rounded corners,minimum width=2.5cm,minimum height=.9cm] (s\t) at (\x,2) {$h_{\t}=F_\theta(x_{\t},h_{\t-1})$};
+\node[draw=Green,fill=Green!8] (x\t) at (\x,0) {$x_{\t}$: \base};
+\node[draw=Red,fill=Red!6,smallnote] (y\t) at (\x,4) {Next-base readout\\target: \targetbase};
+\draw[flow] (x\t)--(s\t); \draw[flow] (s\t)--(y\t);}
+\node (h0) at (-.2,2) {$h_0$};
+\draw[flow] (h0)--(s1); \draw[flow] (s1)--(s2); \draw[flow] (s2)--(s3);
+\node[smallnote] at (6,5.2) {Shared $\theta$ across all steps; state edges carry history};
+\node[smallnote] at (6,-1) {Inputs $[B,T,D]$\qquad current state $[B,H]$\qquad next-base logits $[B,4]$};
+\end{tikzpicture}

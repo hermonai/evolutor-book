@@ -1,0 +1,42 @@
+\renewcommand{\bibname}{Sources and reading notes}
+\begin{thebibliography}{9}
+\addcontentsline{toc}{chapter}{Sources and reading notes}
+\bibitem{lstm-original}
+Sepp Hochreiter and Jürgen Schmidhuber (1997). Long Short-Term Memory.
+\emph{Neural Computation} 9(8), 1735--1780.
+\url{https://www.bioinf.jku.at/publications/older/2604.pdf}.
+Introduction and early gradient-transport discussion inspected on
+19 September 2026. Cited for motivation, not as the source of every feature
+in a modern forget-gate cell. No reported experimental performance is reproduced.
+
+\bibitem{lstm-api}
+PyTorch 2.10 documentation. \texttt{LSTMCell}.
+\url{https://docs.pytorch.org/docs/2.10/generated/torch.nn.LSTMCell.html}.
+Equations, input/state shapes, and parameter layout inspected.
+Our implementation follows the documented modern unprojected, no-peephole cell.
+
+\bibitem{gru-api}
+PyTorch 2.10 documentation. \texttt{GRUCell}.
+\url{https://docs.pytorch.org/docs/2.10/generated/torch.nn.GRUCell.html}.
+Gate equations, state convention, and packed weight/bias shapes inspected.
+Local parity checks use PyTorch 2.10.0, CPU float64, and assigned weights.
+
+\bibitem{gru-variant}
+PyTorch 2.10 documentation. \texttt{GRU}, implementation note.
+\url{https://docs.pytorch.org/docs/2.10/generated/torch.nn.GRU.html}.
+The reset-before versus reset-after distinction was inspected explicitly.
+Our matrix counterexample and diagrams are original.
+\end{thebibliography}
+
+\section*{Teaching and evidence boundaries}
+All API sources were inspected on 19 September 2026.
+The author companion to Sebastian Raschka's
+\emph{Build a Large Language Model (From Scratch)} informed the general
+read--derive--implement--test progression:
+\url{https://www.sebastianraschka.com/llms-from-scratch/}.
+Only the companion overview and chapter map were inspected, not the full
+commercial text. Prose, code, examples, and vector figures are original.
+
+Synthetic retention curves and assigned cell weights do not establish a
+trained DNA model, task performance, or biological generalization. Author
+review remains distinct from independent specialist and reader review.
