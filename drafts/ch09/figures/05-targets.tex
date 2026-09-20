@@ -1,0 +1,15 @@
+\begin{tikzpicture}[x=1.45cm,y=1cm]
+\foreach \i/\tok/\rec in {0/0/A,1/1/A,2/2/A,3/3/B,4/4/B,5/0/pad,6/0/pad}{
+\node[draw=Blue,fill=Pale,minimum width=.8cm,minimum height=.65cm] at (\i,0) {$\tok$};
+\node[smallnote] at (\i,.7) {\rec};
+\node[smallnote] at (\i,-1.35) {$\ell_{\i}$};
+}
+\foreach \i/\j in {0/1,1/2,3/4}{\draw[flow,Green] (\i,-1) --(\j,-.4);}
+\foreach \i/\j in {2/3,4/5,5/6}{
+\draw[Red,dashed,-{Stealth}] (\i,-1)--(\j,-.4);
+\node[Red] at ({(\i+\j)/2},-.7) {$\times$};}
+\node[note] at (3,-2.2) {Three legal targets: token 1, token 2, token 4.\\
+Loss denominator = 3, not 7 and not 6.};
+\node[smallnote] at (3,-3) {$\ell_t$ is the logit vector at input position $t$, predicting token $t+1$.\\
+A causal attention mask and a target-validity mask do different jobs.};
+\end{tikzpicture}

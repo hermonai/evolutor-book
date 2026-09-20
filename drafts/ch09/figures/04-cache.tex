@@ -1,0 +1,14 @@
+\begin{tikzpicture}[box/.style={draw=Blue,fill=Pale,rounded corners,note,text width=3.4cm,minimum height=1cm}]
+\node[note] (x) at (0,1.6) {Current tokens + absolute positions};
+\node[box] (b1) at (0,0) {Block 1\\Pre-LN attention\\Pre-LN FFN};
+\node[box] (b2) at (0,-2.1) {Block 2\\Pre-LN attention\\Pre-LN FFN};
+\node[note] (out) at (0,-3.5) {Final LN + vocabulary projection};
+\draw[flow] (x)--(b1);\draw[flow] (b1)--(b2);\draw[flow] (b2)--(out);
+\foreach \y/\l in {0/1,-2.1/2}{
+\node[draw=Green,fill=Green!5,note,text width=4.1cm,minimum height=1cm] (c\l) at (7.8,\y) {Layer \l\ cache: $K^{(\l)},V^{(\l)}$\\$[H,P,d]$\\appends to $[H,P+T,d]$};
+\draw[flow,Green] (c\l.west) to[bend right=15] node[above,smallnote] {read past} (b\l.east);
+\draw[flow] (b\l.east) to[bend right=15] node[below,smallnote] {append current} (c\l.west);
+}
+\node[smallnote] at (3,-4.4) {Caches have equal history length but different contents.\\
+Keep autograd links for training-parity tests; reset histories between records.};
+\end{tikzpicture}

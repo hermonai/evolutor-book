@@ -1,0 +1,1 @@
+A sinusoidal position pair is a point on a circle; adding a fixed absolute-position offset rotates each frequency pair by a corresponding fixed angle. The cache already owns positions zero through two, so new positions are three and four rather than zero and one. This proves a coordinate identity, not trained length extrapolation.

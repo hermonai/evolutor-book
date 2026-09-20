@@ -1,0 +1,1 @@
+Seven input slots contain tokens 0,1,2 in record A, tokens 3,4 in record B, then two padding slots. Each logit vector predicts the following token. Legal target edges are positions zero to one, one to two, and three to four. The record-boundary edge two to three and both edges into/within padding are excluded. The final logit has no next target. Mean loss divides by three.

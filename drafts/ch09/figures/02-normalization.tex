@@ -1,0 +1,16 @@
+\begin{tikzpicture}[x=1.45cm,y=.9cm]
+\node[note,anchor=east] at (-.7,0) {$x$};
+\node[note,anchor=east] at (-.7,-1.2) {$c=x-\mu$};
+\node[note,anchor=east] at (-.7,-2.4) {$z=c/r$};
+\foreach \i/\a/\b/\c in {0/1/-1.5/-1.3416,1/2/-.5/-.4472,2/3/.5/.4472,3/4/1.5/1.3416}{
+\node[draw=Blue,fill=Pale,minimum width=1.4cm,minimum height=.65cm] at (\i,0) {$\a$};
+\node[draw=Green,minimum width=1.4cm,minimum height=.65cm] at (\i,-1.2) {$\b$};
+\node[draw=Blue,minimum width=1.4cm,minimum height=.65cm,font=\small] at (\i,-2.4) {$\c$};
+\draw[flow] (\i,-.4)--(\i,-.8);\draw[flow] (\i,-1.6)--(\i,-2);}
+\node[note,anchor=west] at (4.3,0) {$\mu=2.5$};
+\node[note,anchor=west] at (4.3,-1.2) {$v=1.25$};
+\node[note,anchor=west] at (4.3,-2.4) {$r=\sqrt{1.25+10^{-5}}$};
+\draw[flow] (-.4,.8)--(3.5,.8) node[midway,above,smallnote] {feature axis of one token};
+\node[smallnote] at (3,-3.7) {Backward: subtract mean sensitivity, then a component along $z$.\\
+A constant input shift vanishes exactly; positive $\epsilon$ retains some scale sensitivity.};
+\end{tikzpicture}

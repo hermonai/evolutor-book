@@ -1,0 +1,233 @@
+\chapter{Assembling a Transformer block}
+\label{ch:block}
+
+A working attention function is not yet a Transformer. It retrieves information from other positions, but it does not specify how that information modifies a persistent representation, how feature scales are controlled, how positions enter, or how predictions become a training objective. Those interfaces are the subject of this chapter.
+
+Begin with a useful prediction test. If both learned residual branches output zero, should a block return its input exactly, or a normalized version of it? Our \emph{pre-normalized} block must return its input. This small test will distinguish two superficially similar computational graphs before we train anything.
+
+We will assemble a two-block reference with model width $D=4$, two attention heads, feed-forward width $F=8$, and a five-symbol synthetic vocabulary. The dimensions are small enough to audit every parameter. Symbols are abstract IDs, not a claim to model DNA. Within this book's taxonomy, Hermon is the Transformer-based direction and DOGMA is the non-Transformer direction. This chapter develops a component of the former, not comparative evidence that it is superior.
+
+\section{Name the residual stream and the two branches}
+\index{residual stream}\index{pre-normalization}
+Let $X\in\mathbb R^{T\times D}$ be the current representations of $T$ token positions. With deterministic evaluation for now, define
+\begin{align}
+U&=X+\operatorname{Attn}\bigl(\operatorname{LN}_1(X)\bigr),\\
+Y&=U+\operatorname{FFN}\bigl(\operatorname{LN}_2(U)\bigr). \label{eq:block}
+\end{align}
+Every branch returns the same shape as its residual input. The two LayerNorm operations have different learned affine parameters. The attention branch mixes positions; the feed-forward branch applies the same feature transformation independently at each position.
+
+\Plate{01-residual}{The chosen pre-normalized block. Normalization is inside each learned branch, while the identity paths carry the residual representations around those branches. Two additions preserve width $D$. Dropout, when enabled in this reference, acts on each branch output before its addition.}{fig:residual}
+
+The original Transformer paper used normalization after residual addition \cite{vaswani}. Moving it inside the branch changes both forward values and gradients. Pre-normalization is an explicit architecture choice, not the definition of all Transformers. Xiong and colleagues studied the importance of this placement \cite{xiong}; we use the distinction without importing their initialization theory as a guarantee about our small model.
+
+For one sublayer $u=x+f(N(x))$, treating $x$ as a column vector for differential notation,
+\begin{equation}
+J_u=I+J_fJ_N,\qquad
+\bar x=\bar u+J_N^\top J_f^\top\bar u. \label{eq:residualgrad}
+\end{equation}
+The bar denotes the derivative of a scalar loss with respect to a variable. The first term bypasses both learned transformation and normalization. It is a gradient route, not a proof that the total gradient cannot vanish: another term may oppose it.
+
+Set $f=0$. Then $u=x$ and $\bar x=\bar u$ exactly. A post-normalized operation $u=N(x+f(x))$ instead gives $u=N(x)$ under the same zero-branch condition. Our test zeros attention's output projection and the FFN's second projection, including their biases, and verifies identity values and identity input gradients through the whole block.
+
+\section{Layer normalization operates along features}
+\index{LayerNorm}\index{population variance}
+For a single token vector $x\in\mathbb R^D$, define
+\begin{align}
+\mu&=\frac1D\sum_{j=1}^D x_j,&
+c_j&=x_j-\mu,\\
+v&=\frac1D\sum_j c_j^2,&
+r&=\sqrt{v+\epsilon},\\
+z_j&=c_j/r,&
+N(x)_j&=\gamma_jz_j+\beta_j. \label{eq:norm}
+\end{align}
+Here $\epsilon>0$ stabilizes the denominator, and $\gamma,\beta\in\mathbb R^D$ are learned scale and shift. Variance divides by $D$, not $D-1$; this matches the LayerNorm operation documented by PyTorch \cite{layernorm}. Each token uses its own feature statistics. No future token or other record contributes to its mean.
+
+With $x=(1,2,3,4)$, $\mu=2.5$ and $v=1.25$. For $\epsilon=10^{-5},\gamma=\mathbf1,\beta=\mathbf0$, the normalized values are approximately
+$(-1.341635,-0.447212,0.447212,1.341635)$. These are computed values, not manually chosen activations.
+
+\Plate{02-normalization}{The four-feature normalization calculation. Subtracting a common mean and dividing by one token-specific scale couples that token's features, not its time positions. Positive $\epsilon$ is included in the displayed numbers and in the backward derivation.}{fig:norm}
+\Listing{layer_norm}
+
+Adding a constant $a$ to every feature changes $\mu$ by $a$, leaving $c$, $v$, and $z$ unchanged. That is exact shift invariance. Scaling every feature by a positive $a$ gives
+\begin{equation}
+z(ax)=\frac{ac}{\sqrt{a^2v+\epsilon}},
+\end{equation}
+which is not exactly $z(x)$ when $\epsilon>0$. The often-used intuition that normalization removes scale must retain this qualification. After affine scaling, even the output mean and variance need not be zero and one.
+
+\subsection{Derive the backward pass instead of memorizing it}
+\index{vector-Jacobian product}
+Let $g_j=\bar y_j\gamma_j$, where $y=N(x)$. Mean subtraction gives
+$dc_j=dx_j-D^{-1}\sum_k dx_k$. Since $\sum_j c_j=0$,
+\begin{equation}
+dv=\frac2D\sum_j c_j\,dx_j,\qquad
+dr=\frac{1}{Dr}\sum_j c_j\,dx_j.
+\end{equation}
+Differentiate $z_j=c_j/r$:
+\begin{equation}
+dz_j=\frac{dx_j-\operatorname{mean}(dx)}{r}
+-\frac{c_j}{Dr^3}\sum_k c_k\,dx_k.
+\end{equation}
+Multiplying by $g_j$, summing over $j$, and collecting coefficients of each $dx_k$ yields
+\begin{equation}
+\bar x=\frac1r\left[g-\operatorname{mean}(g)\mathbf1
+-z\,\operatorname{mean}(g\odot z)\right]. \label{eq:normgrad}
+\end{equation}
+The affine derivatives are $\bar\beta=\sum_t\bar y_t$ and
+$\bar\gamma=\sum_t\bar y_t\odot z_t$, with sums over token positions in this reference. The code below exposes the input vector-Jacobian product; autograd computes all parameter gradients during model training.
+\Listing{norm_vjp}
+
+The components of $\bar x$ sum to zero, consistent with exact constant-shift invariance. But the centered direction is not generally an exact null direction:
+\begin{equation}
+J_zc=\frac{\epsilon}{r^3}c.
+\end{equation}
+This follows by substituting $dx=c$ into the differential and using $\sum_j c_j^2=Dv$. It also explains why setting $\epsilon$ to zero to make an algebraic argument prettier changes the operation.
+
+For a constant input, $c=0$ and $r=\sqrt{\epsilon}$. Output is $\beta$, while input perturbations can still have nonzero derivatives. Our tests include this case, finite-difference gradient checking, and direct forward/backward comparison with PyTorch's implementation.
+
+\section{Give position an absolute coordinate}
+\index{positional encoding}
+Causal masking restricts which keys are visible, but it does not itself supply an explicit numerical position vector. We choose additive sinusoidal positions to make coordinate handling inspectable. This is one position scheme among many.
+
+For even width $D$, frequency pair $i=0,\ldots,D/2-1$, and absolute position $t$, let
+\begin{equation}
+\omega_i=10000^{-2i/D},\qquad
+P_{t,2i}=\sin(\omega_it),\quad
+P_{t,2i+1}=\cos(\omega_it).
+\end{equation}
+The input stream is $X_t=E[\mathrm{token}_t]+P_t$, with learned embedding table $E\in\mathbb R^{V\times D}$. This reference does not multiply embeddings by $\sqrt D$; the convention is deliberately explicit. For $D=4$, the frequencies are $1$ and $0.01$.
+
+\begin{center}\input{\Generated/position-table.tex}\end{center}
+\Listing{positions}
+
+A fixed displacement $\delta$ has a useful exact relation:
+\begin{equation}
+\begin{bmatrix}
+\sin(\theta+\phi)\\ \cos(\theta+\phi)
+\end{bmatrix}
+=
+\begin{bmatrix}
+\cos\phi&\sin\phi\\-\sin\phi&\cos\phi
+\end{bmatrix}
+\begin{bmatrix}\sin\theta\\\cos\theta\end{bmatrix},
+\qquad \phi=\omega_i\delta.
+\end{equation}
+This follows from the angle-addition identities. The original Transformer paper motivates its sinusoidal construction with fixed-offset relationships \cite{vaswani}. Our rotation test verifies the arithmetic; it does not prove that trained attention extrapolates to unseen lengths.
+
+\Plate{03-positions}{Position as a coordinate, not a chunk-local index. Each sinusoidal pair rotates under a fixed displacement. When three positions are cached, the next two tokens occupy positions 3 and 4. Resetting them to 0 and 1 changes the model inputs even if the causal mask remains correct.}{fig:positions}
+
+\section{Integrate attention and a nonlinear feature branch}
+\index{feed-forward sublayer}\index{GELU}
+Chapter 8 derived attention's normalized retrieval and masking. Now its projections become owned parameters of a block. With $H$ heads and $d=D/H$, our combined projection matrix has shape $D\times3D$. After projection, reshape $[T,3D]$ into $[T,3,H,d]$ and transpose each component to $[H,T,d]$.
+
+Each head scores all legal cached and current keys, whose shape is $[H,S,d]$. The weights have shape $[H,T,S]$. Multiplication by values gives $[H,T,d]$, transposed and joined into $[T,D]$ before output projection. Below is the complete helper rather than a call that hides cache ownership.
+\Listing{multihead}
+
+Boolean true means an \emph{allowed} edge in this helper. Empty query rows receive zero attention weights. The output projection bias, residual stream, and FFN can still produce nonzero padded-position outputs; the loss must independently exclude invalid targets. Custom packed masks are supplied explicitly for full-sequence execution. Default cached execution assumes one continuous record with valid tokens.
+
+The feature branch is
+\begin{equation}
+\operatorname{FFN}(x)=\operatorname{GELU}(xW_1+b_1)W_2+b_2,
+\end{equation}
+where $W_1\in\mathbb R^{D\times F}$, $W_2\in\mathbb R^{F\times D}$,
+$b_1\in\mathbb R^F$, and $b_2\in\mathbb R^D$. GELU is $a\Phi(a)$, where $\Phi$ is the standard normal cumulative distribution function \cite{gelu}; the code requests its non-tanh approximation mode. Differentiation gives
+\begin{equation}
+\frac{d}{da}\bigl[a\Phi(a)\bigr]=\Phi(a)+a\varphi(a),
+\end{equation}
+with $\varphi$ the normal density.
+
+Without a nonlinear activation, the two affine transformations collapse to a single affine map with weight $W_1W_2$. Expanding to width $F$ would then not create this nonlinear feature interaction. With row-vector conventions, the local Jacobian is represented by
+$W_1\operatorname{diag}(\operatorname{GELU}'(a))W_2$.
+\Listing{feed_forward}
+\Listing{block}
+
+The optional dropout is placed only at the two residual-branch outputs. We omit attention-weight dropout and FFN-hidden dropout. These are architecture choices. When dropout is disabled, the reference can be matched to PyTorch's pre-normalized \texttt{TransformerEncoderLayer} with GELU, affine biases, identical weights, and a causal mask \cite{encoder}. The test compares output, input gradient, and every block-parameter gradient. Transposing linear weights and inverting boolean mask polarity are explicit parts of that comparison.
+
+\subsection{Count parameters by ownership}
+For this block, QKV weights contribute $3D^2$, attention output weights $D^2$, and FFN weights $2DF$. Biases contribute $3D+D+F+D$, while two affine normalizations contribute $4D$. Total:
+\begin{equation}
+P_{\mathrm{block}}=4D^2+2DF+9D+F.
+\end{equation}
+At $D=4,F=8$, this is $172$. Two blocks use $344$ parameters. Add $VD=20$ embeddings, a final affine normalization with $2D=8$, and an untied output head with $DV+V=25$. The complete reference has $397$ learned scalars, checked against actual tensor sizes.
+
+This is a parameter count, not training memory. Optimizer state, activations, attention matrices, gradients, temporary buffers, and the number of bytes per scalar are separate quantities.
+
+\section{Carry one cache per block}
+\index{cache equivalence}\index{layer ownership}
+For fixed weights, consistent absolute positions, and deterministic causal execution, past states do not change when future tokens are appended. Attention cannot read the future; normalization and the FFN act separately per token; residual addition is also local. Inducting through the two blocks preserves that property. Each block can therefore retain its projected past keys and values.
+
+Crucially, block 2 receives the \emph{output of block 1}. Its keys are projected from its own normalized input, not copied from block 1's key cache. Equal cache dimensions do not imply equal meaning.
+
+\Plate{04-cache}{Two block-local histories. Each cache is derived from that block's normalized inputs and grows along its sequence dimension. Current representations pass through block 1 before entering block 2. Reading a past cache and appending current projections are different operations; neither permits interchanging caches between layers.}{fig:cache}
+
+\Listing{model}
+The wrapper infers the positional offset from cache length. The optional override exists to construct a deliberate wrong-position counterexample; normal cached execution leaves it unset. The code checks that cache histories have the same length across blocks. Callers must retain parameter identity, record identity, dtype/device compatibility, and the intended position scheme; equal lengths alone do not establish those contracts.
+
+For tokens $(0,1,2,3,4)$, the tests compare one full pass with five single-token chunks and partitions $2+3$ and $3+2$. They compare vocabulary logits and gradients with respect to every learned tensor. The caches use immutable concatenation without detaching, so backpropagation can follow the same past projections as in the full computation.
+
+An inference runtime may use preallocated buffers and no autograd history. That is a different storage implementation, not a reason to detach caches in a training-gradient comparison. Repeated concatenation here copies memory and is intentionally not an optimized serving path.
+
+\subsection{Make the wrong implementation fail visibly}
+With the fixed seeded parameters, resetting the second chunk's positions to zero produces a maximum logit error of about $0.66348$. Correct full/chunk differences are below the test tolerance. The negative control demonstrates that the test is capable of detecting a broken interface; it is not a benchmark result.
+
+Dropout introduces another boundary. A random mask changes individual forward values even when its expectation preserves a branch's scale. PyTorch's functional dropout takes an explicit \texttt{training} flag \cite{dropout}. Our wrapper passes that flag and the tests confirm that evaluation disables dropout even if its configured probability is nonzero. Two training runs with different random seeds differ.
+
+Even resetting a random seed does not automatically align masks across different chunk partitions: call order and tensor shapes change random-number consumption. Full/chunk parity should first be established with dropout disabled, or with a separately specified mechanism for matching masks by absolute position. Deterministic parity is not a claim that all training executions commute with rechunking.
+
+\section{Shift targets and count only legal prediction edges}
+\index{next-token objective}\index{padding mask}\index{record boundary}
+A logit vector $\ell_t\in\mathbb R^V$ at input position $t$ predicts token $s_{t+1}$. Let $u_t$ mark a valid token and $r_t$ be a unique record identifier. Define the legal target indicator
+\begin{equation}
+m_t=u_tu_{t+1}[r_t=r_{t+1}],\qquad 0\leq t<T-1.
+\end{equation}
+The objective is
+\begin{equation}
+\mathcal L=-\frac1M\sum_{t=0}^{T-2}m_t
+\log\operatorname{softmax}(\ell_t)_{s_{t+1}},
+\qquad M=\sum_t m_t>0. \label{eq:loss}
+\end{equation}
+This mask answers which predictions enter the objective. The attention mask separately answers which inputs can influence each prediction. Either can be wrong while the other is correct.
+
+\Plate{05-targets}{Target alignment across two records and padding. Three legal adjacent-token edges remain. The record boundary and padding edges do not enter the objective; the final input position has no next token. A mean over all seven slots would dilute the gradient by using the wrong denominator.}{fig:targets}
+\Listing{next_token_loss}
+
+For uniform logits over five symbols, every legal target contributes $\log5$. Mean loss is still $\log5$, whether there are three legal edges or thirty. For one legal target class, the logit gradient is $(p-y)/M$. The unit test uses exactly three legal edges, checks a target-coordinate gradient of $-0.8/3$, and checks zero logit gradients at excluded positions. A batch with no legal targets raises an error rather than yielding a misleading zero loss.
+
+An invalid position can retain nonzero hidden states without harming valid outputs if all information and target masks are correct. Conversely, zeroing padding embeddings alone does not prevent invalid targets or cross-record attention. Record IDs must identify records, not a class label shared by unrelated sequences.
+
+\section{Run a small, inspectable training experiment}
+\index{synthetic training}
+The executable experiment uses one sequence $(0,1,2,3,0,1,2,3,0)$ followed by one invalid padding slot. It therefore has eight legal targets. The model uses two blocks, $397$ parameters, a fixed local initialization seed, CPU float64 arithmetic, and full-batch gradient descent with step size $0.1$. No held-out generalization claim is attached to this repeated pattern.
+
+\Listing{training_trace}
+Initialization and parameter traversal are provided by \texttt{parameters} and \texttt{leaves} in the same reference file. Each step computes a new forward graph, differentiates the mean valid-target loss, updates every parameter under \texttt{no\_grad}, and clears its gradient. The last trace row is evaluated after the thirtieth update; it is not a thirty-first update.
+
+\begin{center}
+\input{\Generated/training-table.tex}
+\end{center}
+\Plate{06-training}{Computed training-set loss for the explicitly specified synthetic sequence. Each point uses the same eight-target mean. The trace tests the assembled learning path; it contains no held-out performance measurement.}{fig:training}
+The computed loss falls from approximately $1.67643$ to $1.06779$. This confirms that the assembled graph supports learning on the specified training sample. It does not establish genomic capability, superiority to recurrence, or useful out-of-distribution behavior.
+
+Reproduce the data with \texttt{python3 drafts/ch09/build.py --assets-only} and the checks with \texttt{python3 -m pytest tests/test\_ch09\_reference.py}. The tests cover mathematical identities, a matched library implementation, full/chunk equivalence, legal information flow, objective alignment, and deliberately broken positions. Each check protects a different interface.
+
+\section{What is now assembled, and what remains}
+The reference contains embeddings, explicit positions, two causal pre-normalized blocks, a final normalization, an untied vocabulary head, and a valid-target training objective. It still excludes batching infrastructure, optimized caches, production precision, distributed execution, and evaluation on biological data.
+
+This separation matters for Evolutor: a compiler or runtime cannot infer legal transformations from component names. It needs tensor shapes, parameter ownership, information-flow rules, and state lifetime. A rewrite that preserves a single attention call may still break position handling or the objective after composition.
+
+Chapter 10 introduces conditional computation: when only selected subcomponents run, how are routing decisions, resource budgets, and gradients defined and tested? The dense block here provides the baseline against which that additional mechanism must be explained.
+
+\section{Exercises with worked reasoning}
+\begin{enumerate}
+\item \textbf{Zero branches.} What does the pre-normalized block return if both residual branches are zero? \emph{Solution:} $Y=X$ and the input Jacobian is identity. Post-normalization need not preserve $X$.
+\item \textbf{Normalize a token.} Find mean and variance of $(1,2,3,4)$. \emph{Solution:} $2.5$ and $1.25$ using divisor four. Include $\epsilon$ before taking the square root.
+\item \textbf{Find an exact invariance.} Why does $\sum_j\bar x_j=0$? \emph{Solution:} adding a constant to all input features leaves normalization unchanged. Equation~\ref{eq:normgrad} also sums directly to zero.
+\item \textbf{Keep epsilon honest.} Is centered scale direction $c$ an exact null direction? \emph{Solution:} not generally: $J_zc=\epsilon c/r^3$.
+\item \textbf{Position offset.} A cache contains seven tokens and the new chunk has three. \emph{Solution:} new absolute positions are 7, 8, 9, not 0, 1, 2.
+\item \textbf{Remove nonlinearity.} Replace GELU by identity. \emph{Solution:} the FFN becomes affine with weight $W_1W_2$ and bias $b_1W_2+b_2$.
+\item \textbf{Count ownership.} Evaluate $4D^2+2DF+9D+F$ for $D=4,F=8$. \emph{Solution:} $64+64+36+8=172$ parameters per block.
+\item \textbf{Separate cache identity.} Why cannot block 2 reuse block 1's keys? \emph{Solution:} its keys have different projections and inputs; identical shapes do not imply identical values or semantics.
+\item \textbf{Check target denominator.} Use the seven-slot example in Figure~\ref{fig:targets}. \emph{Solution:} three targets remain, so uniform five-way loss is $\log5$ and a target logit derivative is $-0.8/3$.
+\item \textbf{Distinguish masks.} Does excluding a cross-record target prevent cross-record attention? \emph{Solution:} no; attention requires its own record-boundary mask.
+\item \textbf{Challenge parity.} A cached test detaches old values and compares only logits. \emph{Solution:} it may pass forward parity while breaking parameter gradients. Compare the same scalar objective's gradients before claiming training equivalence.
+\item \textbf{Design an evaluation.} Does the synthetic loss curve justify choosing Hermon over DOGMA? \emph{Rubric:} no. Specify matched tasks, held-out biological data, leakage controls, budgets, baselines, uncertainty, and failure cases. Arithmetic correctness is a prerequisite, not comparative capability evidence.
+\end{enumerate}

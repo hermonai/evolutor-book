@@ -1,0 +1,1 @@
+Pre-normalized block. Input X follows an identity bypass and a normalized attention branch; addition creates U. U then follows another identity bypass and a separately normalized feed-forward branch; addition creates Y. All residual endpoints have shape T by D. Normalization is inside each branch, not after its sum. The two LayerNorm instances have distinct affine parameters.

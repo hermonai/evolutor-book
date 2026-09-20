@@ -1,0 +1,21 @@
+\begin{tikzpicture}[box/.style={draw=Blue,fill=Pale,rounded corners,text width=2.8cm,minimum height=.7cm,note}]
+\node[note] (x) at (0,0) {$X\ [T,D]$};
+\node[box] (n1) at (0,-1.2) {$\mathrm{LN}_1$};
+\node[box] (att) at (0,-2.4) {Causal multi-head\\attention};
+\node[draw=Blue,circle,inner sep=2pt] (a1) at (0,-3.7) {$+$};
+\node[note] (u) at (0,-4.4) {$U\ [T,D]$};
+\node[box] (n2) at (5,-1.2) {$\mathrm{LN}_2$};
+\node[box] (ff) at (5,-2.4) {Feature-wise FFN};
+\node[draw=Blue,circle,inner sep=2pt] (a2) at (5,-3.7) {$+$};
+\node[note] (y) at (5,-4.4) {$Y\ [T,D]$};
+\draw[flow] (x)--(n1);\draw[flow] (n1)--(att);\draw[flow] (att)--(a1);
+\draw[flow] (a1)--(u);
+\draw[flow] (x.west)--(-2,0)--(-2,-3.7)--(a1.west);
+\draw[flow] (u.east)--(2.5,-4.4)--(2.5,0)--(5,0)--(n2);
+\draw[flow] (n2)--(ff);\draw[flow] (ff)--(a2);\draw[flow] (a2)--(y);
+\draw[flow] (5,0)--(7.3,0)--(7.3,-3.7)--(a2.east);
+\node[smallnote,rotate=90] at (-2.3,-1.9) {identity path};
+\node[smallnote,rotate=90] at (7.65,-1.9) {identity path};
+\node[smallnote] at (2.5,-5.4) {Normalize branch inputs; preserve the residual stream.\\
+Each normalization has its own learned scale and shift.};
+\end{tikzpicture}

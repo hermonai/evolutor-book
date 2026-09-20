@@ -11,9 +11,9 @@ for current authoring progress. Do not regenerate archived editions merely
 to change their progress labels.
 
 Chapters 1-2 retain their internal acceptance records. Chapter 3 has standalone
-and combined LaTeX review candidates. Chapters 4-8 have isolated authored-LaTeX
+and combined LaTeX review candidates. Chapters 4-9 have isolated authored-LaTeX
 review candidates with code, vector figures, and worked solutions.
-Chapter 9 is the next unwritten chapter in this authoring sequence.
+Chapter 10 is the next unwritten chapter in this authoring sequence.
 Independent specialist review and cumulative integration are still open.
 
 ## Give each architectural layer a distinct responsibility
@@ -55,7 +55,7 @@ Keep the sequence-model explanation general and use DNA examples only where
 their semantics are explicit. Biology figures should depict real mechanisms;
 algorithm figures should expose computation, not imply molecular causation.
 
-## Next chapter brief: assembling a Transformer block
+## Chapter 9 scope (standalone candidate): assembling a Transformer block
 
 Integrate Chapter 8 attention with position handling, normalization,
 residual paths, and a feed-forward sublayer. Trace one token through a
@@ -67,6 +67,16 @@ through the entire block, and a small training objective with shifted
 targets and padding excluded from loss. Include failures caused by
 inconsistent positions and accidentally active dropout. Hardware benchmarks
 and biological capability claims remain outside the reference's scope.
+
+## Next chapter brief: conditional computation and routing
+
+Extend the dense block with a minimal explicitly defined routing mechanism.
+Separate router scores, discrete expert selection, capacity constraints, and
+weighted outputs. Derive which gradients exist for fixed selections and which
+decisions are nondifferentiable. Test dense-reference equivalence, dropped-token
+accounting, tie-breaking, and expert permutation. Keep load balance, routing
+costs, and measured hardware throughput distinct. Biological analogy is not
+an implementation or capability claim.
 
 ## Quality gates before widening the manuscript
 
