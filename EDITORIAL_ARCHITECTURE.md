@@ -11,9 +11,9 @@ for current authoring progress. Do not regenerate archived editions merely
 to change their progress labels.
 
 Chapters 1-2 retain their internal acceptance records. Chapter 3 has standalone
-and combined LaTeX review candidates. Chapters 4-7 have isolated authored-LaTeX
+and combined LaTeX review candidates. Chapters 4-8 have isolated authored-LaTeX
 review candidates with code, vector figures, and worked solutions.
-Chapter 8 is the next unwritten chapter in this authoring sequence.
+Chapter 9 is the next unwritten chapter in this authoring sequence.
 Independent specialist review and cumulative integration are still open.
 
 ## Give each architectural layer a distinct responsibility
@@ -36,7 +36,7 @@ scan composition (7), then content-addressed history (8). The reader should
 understand why an attention cache is a different representation before
 implementing a complete Transformer in Chapter 9.
 
-## Next chapter brief: attention and content addressing
+## Chapter 8 scope (standalone candidate): attention and content addressing
 
 Start with a small hand-computed retrieval problem. Introduce query, key,
 value, score scaling, masking, normalization, and weighted aggregation in
@@ -54,6 +54,19 @@ systems chapters.
 Keep the sequence-model explanation general and use DNA examples only where
 their semantics are explicit. Biology figures should depict real mechanisms;
 algorithm figures should expose computation, not imply molecular causation.
+
+## Next chapter brief: assembling a Transformer block
+
+Integrate Chapter 8 attention with position handling, normalization,
+residual paths, and a feed-forward sublayer. Trace one token through a
+complete, explicitly chosen pre-normalized block. State tensor shapes and
+parameter ownership; distinguish architecture choices from universal rules.
+
+Test residual and normalization derivatives, causal full/chunk parity
+through the entire block, and a small training objective with shifted
+targets and padding excluded from loss. Include failures caused by
+inconsistent positions and accidentally active dropout. Hardware benchmarks
+and biological capability claims remain outside the reference's scope.
 
 ## Quality gates before widening the manuscript
 

@@ -21,7 +21,10 @@ Run from the repository root:
 
 Dependencies: Python 3.10+, PyTorch (tested with 2.10.0), pytest, Pillow for
 contact sheets, XeLaTeX/latexmk, Poppler, and fonts declared in review.tex.
-The build creates output/pdf/evolutor-ch05-review.pdf and previews under
+The build creates output/pdf/evolutor-ch05-review-v2.pdf and previews under
+
+Revision 2 centralizes the recurring pedagogy and review disclosure in
+tex/frontmatter/about-this-book.tex. Earlier PDF and review records are retained.
 tmp/pdfs/ch05-review/; these outputs are local, not tracked in Git.
 
 The manuscript is authored directly in LaTeX. Whole tested functions become

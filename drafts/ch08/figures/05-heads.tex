@@ -1,0 +1,11 @@
+\begin{tikzpicture}[font=\small\sffamily]
+\node[draw=Blue,fill=Pale,rounded corners,align=center] (x) at (1.3,3.8) {Projected tensor\\$[B,T,HD]$};
+\node[draw=Blue,fill=Pale,rounded corners,align=center] (reshape) at (5,3.8) {Split feature axis\\$[B,T,H,D]$};
+\node[draw=Blue,fill=Pale,rounded corners,align=center] (trans) at (9,3.8) {Transpose axes\\$[B,H,T,D]$};
+\draw[flow] (x)--(reshape);\draw[flow] (reshape)--(trans);
+\node[draw=Green,fill=Green!8,rounded corners,align=center] (attn) at (9,1.8) {Attention per head\\$[B,H,T,D_v]$};
+\node[draw=Blue,fill=Pale,rounded corners,align=center] (merge) at (5,1.8) {Transpose and merge\\$[B,T,HD_v]$};
+\node[draw=Blue,fill=Pale,rounded corners,align=center] (out) at (1.3,1.8) {Output projection\\$[B,T,D_{\rm model}]$};
+\draw[flow] (trans)--(attn);\draw[flow] (attn)--(merge);\draw[flow] (merge)--(out);
+\node[smallnote] at (5,.4) {Reshaping alone does not exchange the head and time axes.\\Each layer owns its own keys and values; queries need not persist.};
+\end{tikzpicture}

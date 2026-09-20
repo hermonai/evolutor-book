@@ -14,7 +14,7 @@ import sys
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 DNA = False  # book identity must survive a checkout directory rename
-NAME = ("dna-computing" if DNA else "evolutor") + "-ch05-review"
+NAME = ("dna-computing" if DNA else "evolutor") + "-ch05-review-v2"
 BUILD = ROOT / "build/ch05"
 
 

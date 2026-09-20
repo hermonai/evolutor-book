@@ -1,0 +1,251 @@
+\chapter{Attention and content addressing}
+\label{ch:attention}
+
+Chapter 7 compressed a sequence into a recurrent state and used an associative scan to compute a particular recurrence. This chapter asks a different question: what if each position could retrieve a mixture of information from explicitly retained earlier positions? The resulting operation is \Term{attention}. Its central mechanism is content-dependent addressing, not another name for a recurrent update.
+
+We will build the operation from one query, two keys, and two values; derive its gradients; establish which information is allowed to flow; and implement a cache whose chunked results agree with full-sequence computation. The reference uses small CPU float64 tensors so that arithmetic and failure cases are inspectable. No training run or biological performance claim is hidden inside the examples.
+
+Within this book's taxonomy, DOGMA denotes the non-Transformer branch and Hermon the Transformer branch. Attention is a component needed to understand the latter, not evidence that it is always preferable to a state-based architecture. A fair comparison requires a task, data split, resource budget, and evaluation protocol.
+
+\section{Separate the address from the retrieved content}
+\index{query, key, and value}
+
+Suppose a query is the scalar $q=\ln2$, the two keys are $k_1=1$, $k_2=0$, and their values are
+\begin{equation}
+v_1=(3,0),\qquad v_2=(0,6).
+\end{equation}
+The dot-product scores are $(\ln2,0)$. Exponentiating and normalizing gives weights $(2/3,1/3)$, so the retrieved vector is
+\begin{equation}
+o=\tfrac23(3,0)+\tfrac13(0,6)=(2,2).
+\label{eq:tiny}
+\end{equation}
+Before reading the implementation, predict what changes if the second value becomes $(0,12)$. The weights stay the same, because keys determine compatibility with the query; the output becomes $(2,4),$ because values determine the retrieved content.
+
+\Plate{01-retrieval}{A complete two-key retrieval. Query--key compatibility determines normalized weights; the values supply content. The output is a weighted combination, not the selected key itself. Shapes and numbers make the addressing and retrieval stages independently checkable.}{fig:retrieval}
+
+In a learned model the query, key, and value commonly come from different projections of token representations. They need not encode literal questions, database identifiers, or human-interpretable facts. Those names describe their mathematical roles.
+
+\subsection{Write the shapes before the equation}
+\index{tensor shapes}
+
+For $L$ query positions, $S$ key positions, key width $D$, and value width $D_v$, let
+\begin{equation}
+Q\in\mathbb R^{L\times D},\quad K\in\mathbb R^{S\times D},
+\quad V\in\mathbb R^{S\times D_v}.
+\end{equation}
+The score matrix has one row per query and one column per key:
+\begin{equation}
+Z=\frac{QK^\top}{\sqrt D},\quad
+P=\operatorname{softmax}_{\rm row}(Z),\quad O=PV.
+\label{eq:attention}
+\end{equation}
+Consequently $P$ has shape $[L,S]$ and $O$ has shape $[L,D_v]$. Query length need not equal key length. This becomes essential when a new chunk attends to an existing history.
+
+Scaled dot-product attention and multiple projected heads follow the original Transformer formulation \cite{vaswani}. Here we isolate the operation before surrounding it with residual connections, normalization, positional representations, and a feed-forward network.
+
+\subsection{Why scale, and why subtract the maximum?}
+\index{softmax scaling}
+
+Under a simplified initialization model, let the $D$ products $q_dk_d$ be independent, zero-mean, and have variance one. Then
+\begin{equation}
+\operatorname{Var}\left(\sum_{d=1}^{D}q_dk_d\right)=D.
+\end{equation}
+Dividing by $\sqrt D$ restores variance one. This motivates the scale: increasing feature width should not automatically drive logits toward more saturated softmax distributions. It is not a theorem that learned queries and keys stay independent or unit variance.
+
+For any finite scalar $a$ and nonempty allowed set $A$,
+\begin{equation}
+p_j=\frac{e^{z_j-a}}{\sum_{r\in A}e^{z_r-a}},\quad j\in A.
+\end{equation}
+The common factor cancels. Taking $a=\max_{r\in A}z_r$ keeps the largest exponent at zero, avoiding unnecessary overflow. The normalized weights are nonnegative and sum to one; each raw output row lies in the convex hull of its allowed value vectors. A later learned output projection or residual addition need not preserve that geometric restriction.
+
+\section{A mask is an information-flow contract}
+\index{record boundary}
+
+In \Term{causal attention}, query position $i$ may use key positions $j\leq i$. The current token is visible because its representation predicts a later target in an autoregressive objective. If the target alignment instead asks it to predict the same visible token, a triangular mask does not repair the resulting label leakage.
+
+For packed records we also require matching record identity and valid, nonpadding positions. Let $r_i$ be a unique identifier for the record containing position $i$, and let $u_i$ indicate validity. Define
+\begin{equation}
+A_{ij}=(j\leq i)\land(r_i=r_j)\land u_i\land u_j.
+\label{eq:mask}
+\end{equation}
+Identifiers must be unique per record, not merely class labels reused by unrelated sequences. Otherwise equal labels would incorrectly open a path between records.
+
+\Listing{packed_mask}
+
+\Plate{02-mask}{A packed causal mask for records A and B followed by padding. A filled dot permits an edge; a cross blocks it. Causality, record separation, and query/key validity are separate requirements. The padding query has no permitted keys and receives an explicitly defined zero attention output.}{fig:mask}
+
+The example uses IDs $(0,0,1,1,2)$ and validity $(1,1,1,1,0)$. The second A query sees both A keys. The first B query sees itself but neither A key. The padding row sees nothing.
+
+For a DNA masked-reconstruction objective, bidirectional context may be intentional. Causality is not a universal biological requirement: the learning objective determines permitted information. Record boundaries and held-out-data boundaries still need independent protection.
+
+\subsection{Mask before normalization, not after it}
+\index{masked softmax}
+
+Suppose two allowed scores are both zero and one forbidden score is 1000. The correct allowed weights are $(1/2,1/2)$. If we first normalize all three logits, essentially all probability goes to the forbidden key. Setting its weight to zero afterward leaves almost no mass on either legal key. The error is in the denominator, not merely in a forbidden contribution to the output.
+
+Masked softmax therefore excludes disallowed entries from normalization. A further edge case is a row with no allowed keys. Softmax of an all-negative-infinity row is undefined. We choose a clear policy: return all-zero weights, zero output, and zero gradients through that row. This is not a probability distribution; it is a sentinel behavior for an inactive query.
+
+\Listing{masked_softmax}
+
+The temporary safe scores avoid evaluating an undefined all-masked softmax. The final selection removes every forbidden weight, including every weight in an empty row. In an active row, forbidden logits are replaced before softmax and cannot influence its denominator. The helper also rejects a physically empty key dimension and nonfinite input scores rather than silently propagating invalid values.
+
+\Listing{attention}
+
+A zero raw attention output does not guarantee a zero whole-block output. An output-projection bias or residual stream can contribute nonzero values. Nor does this mask automatically remove padding from the loss: the training objective must apply its own valid-target mask.
+
+\section{Derive the gradient through retrieval}
+\index{attention gradient}
+
+Understanding a forward weighted average is only half the mechanism. Training adjusts both what is stored in the values and how the query addresses it. For one nonempty row, softmax has derivative
+\begin{equation}
+\frac{\partial p_i}{\partial z_j}=p_i(\delta_{ij}-p_j).
+\end{equation}
+Substitute this into $o=\sum_i p_iv_i$:
+\begin{align}
+\frac{\partial o}{\partial z_j}
+&=\sum_i v_ip_i(\delta_{ij}-p_j)\\
+&=p_jv_j-p_j\sum_i p_iv_i
+=p_j(v_j-o).
+\label{eq:gradient}
+\end{align}
+Increasing one score shifts the output toward that key's value relative to the current mixture. If all allowed values are identical, changing the addressing weights cannot change the output: every score derivative is zero. If $p_j$ is tiny, its score gradient is suppressed even when its value differs substantially from the mixture.
+
+\Plate{03-gradient}{Backward sensitivity follows the retrieval mechanism. The derivative with respect to one score depends on both its probability and its value's difference from the current output. Identical values make addressing changes invisible; a tiny probability suppresses local score sensitivity.}{fig:gradient}
+
+\subsection{The matrix backward pass}
+
+Let $\overline O$ denote the loss gradient at the output. The chain rule gives
+\begin{align}
+\overline V&=P^\top\overline O,&
+\overline P&=\overline O V^\top,\\
+\overline Z&=P\odot
+\left(\overline P-\operatorname{rowsum}(P\odot\overline P)\right),\\
+\overline Q&=\overline ZK/\sqrt D,&
+\overline K&=\overline Z^\top Q/\sqrt D.
+\label{eq:backward}
+\end{align}
+The row sum is broadcast across each row. Forbidden entries have zero gradient because their scores cannot change the masked weights. The inactive-row policy also gives zero gradients. Autograd executes this chain rule for our tensor program; the equations explain what should be checked.
+
+An attention weight alone is therefore not a complete attribution of a model prediction. Values, downstream projections, residual paths, and other layers affect the final output. Even within one head, Equation~\ref{eq:gradient} shows why weight magnitude and output sensitivity are different quantities.
+
+\subsection{Test with more than one oracle}
+
+The test suite uses four complementary checks. First, the hand example fixes both weights and output. Second, finite-difference gradient checking tests the local derivative of the implemented operation. Third, PyTorch's scaled-dot-product attention supplies a separate forward and backward comparison with explicit masks and dropout probability zero. Finally, counterexamples perturb forbidden future or cross-record entries and require earlier valid outputs to remain unchanged.
+
+The local reference was checked with PyTorch 2.10.0 on CPU float64. In the documented API, boolean true means an allowed attention edge; evaluation requires explicitly setting \texttt{dropout\_p=0.0} when no dropout is wanted \cite{sdpa}. Other backends and precisions can have numerical differences. Agreement in this configuration is an arithmetic check, not a hardware benchmark or a proof that every deployment shares identical rounding.
+
+\section{Cache keys and values without changing the computation}
+
+For fixed parameters, consistent positional representations, and causal computation without stochastic dropout, earlier layer representations do not change when future tokens are appended. At the first layer, a past query cannot read future keys. Its output is therefore unchanged. Applying the same argument layer by layer establishes the property for a causal stack.
+
+This explains a \Term{KV cache}: retain each layer's past projected keys and values and append new ones. A current query reads those retained vectors. Past queries need not be stored merely to compute the new output. This argument fails if model parameters change, past tokens change, positions are reassigned, or the computation uses noncausal context.
+
+Our reference receives already computed Q, K, and V. It does not implement a positional encoding or a complete multilayer decoder. The caller must compute position-dependent projections consistently and clear the cache at record boundaries.
+
+\subsection{The rectangular-mask trap}
+\index{offset causal mask}
+
+Suppose the cache has $P=3$ past positions and the new chunk has $L=2$ queries. The queries are at absolute positions 3 and 4, while the five keys are at positions 0 through 4. The correct rule is
+\begin{equation}
+A_{ij}=(j\leq P+i),\quad 0\leq i<L,\quad 0\leq j<P+L.
+\label{eq:offset}
+\end{equation}
+The first query sees four keys; the second sees five. A naive upper-left triangle on a $2\times5$ array instead exposes only one and two keys.
+
+\Listing{offset_mask}
+
+\Plate{04-cache}{Chunked attention uses absolute positions. Three cached keys precede two new keys. The first new query sees positions 0--3; the second sees 0--4. A triangular rule based only on local row indices would incorrectly hide most of the available history.}{fig:cache}
+
+PyTorch 2.10 documents upper-left alignment for its non-square \texttt{is\_causal=True} behavior \cite{sdpa}. That flag is not a substitute for the explicit offset mask in this cache layout. Our negative-control test deliberately makes the naive call and confirms a different answer from the correctly aligned computation.
+
+\Listing{cached_chunk}
+
+The cache uses immutable concatenation so that the demonstration preserves autograd links to previous keys and values. A production inference cache would normally use allocated storage and controlled writes; repeated concatenation copies memory and is not an optimized serving implementation. Detaching cached tensors would preserve forward values but alter training gradients, so it must not be introduced into a backward-parity test without changing the intended contract.
+
+\subsection{Full-sequence and chunked equivalence}
+\index{cache parity}
+
+The tests process the same five positions as one chunk, five single-position chunks, and partitions $2+3$ and $3+2$. Concatenated outputs must match full causal attention. Backpropagating the same output objective must also produce matching gradients for Q, K, and V. This tests both the offset rule and preservation of graph connectivity.
+
+The comparison assumes a single record, fixed input tensors, and nonempty chunks. It does not establish numerical identity for a full decoder that changes precision or kernel between prefill and decode. A correct attention cache is a necessary component, not a complete serving system.
+
+\section{Multiple heads: preserve feature ownership}
+\index{multi-head attention}
+
+Several attention heads apply the retrieval mechanism in different projected feature subspaces. For a projected tensor $X$ of shape $[B,T,H D]$, each token's final dimension contains $H$ consecutive groups of $D$ features. Splitting heads requires two distinct operations:
+\begin{equation}
+[B,T,HD]\ \longrightarrow\ [B,T,H,D]\
+\longrightarrow\ [B,H,T,D].
+\end{equation}
+The first operation groups features; the second swaps the head and time axes. Directly reshaping to $[B,H,T,D]$ would preserve the flat element order but assign elements to the wrong token/head coordinates.
+
+\Listing{split_heads}
+\Listing{merge_heads}
+
+\Plate{05-heads}{Multiple heads preserve token and feature ownership through reshape, transpose, per-head retrieval, and inverse transpose. Concatenation restores the feature axis before the learned output projection. Head splitting is an axis transformation, not an arbitrary rearrangement of the same element count.}{fig:heads}
+
+If the model width is $d_{\rm model}$, query and key projections can have shape $[d_{\rm model},HD]$, and a value projection $[d_{\rm model},HD_v]$. After independent head outputs are merged to $[B,T,HD_v]$, an output matrix of shape $[HD_v,d_{\rm model}]$ maps back to the residual width.
+
+A useful indexing test assigns distinct integers to every input element and verifies
+\begin{equation}
+X_{\rm split}[b,h,t,d]=X[b,t,hD+d].
+\end{equation}
+A round trip alone is weaker: an incorrect split and its equally incorrect inverse could still cancel each other.
+
+\section{Count storage separately from work}
+\index{attention complexity}
+
+For a full sequence of length $T$, our materialized score matrix contains $T^2$ entries per head. Only $T(T+1)/2$ causal query--key pairs are allowed, but the reference still allocates the dense matrix. For key and value width 64, a single head's cache stores $2T\cdot64$ scalars:
+
+\begin{center}\input{\Generated/results-table.tex}\end{center}
+
+These counts omit batch size, layers, other activations, and the bytes per scalar. Multiply by the appropriate factors before estimating memory. A cache stores retained keys and values; it does not store the entire attention matrix for each future query.
+
+With one new query and $T$ retained keys, scoring requires work proportional to $TD$ and the value mixture proportional to $TD_v$. Caching avoids recomputing old projections and other past activations; it does not make a new query's full-history retrieval constant-time. Generating a growing sequence still accumulates a quadratic number of attention pairs.
+
+The function also returns all weights for teaching and inspection. Memory-efficient fused implementations need not materialize that full matrix. This reference therefore cannot support claims about their throughput or memory use.
+
+\section{Assemble the next level only after the contracts hold}
+
+The operation now has explicit input shapes, normalized retrieval, legal information paths, gradients, cache positions, and head ownership. The next chapter will assemble these pieces with positional representations, normalization, residual paths, and a feed-forward sublayer into a Transformer block.
+
+The design lesson applies to genomic modeling without turning a software diagram into a biological mechanism. Attention edges are permitted information paths between representations; they are not measured biochemical interactions. To argue that a model learns useful genomic dependencies, we will need an objective and evidence beyond an attractive attention map.
+
+Run \texttt{python3 -m pytest tests/test\_ch08\_reference.py} and regenerate computed masks and tables with \texttt{python3 drafts/ch08/build.py --assets-only}. Inspect the negative controls as carefully as the passing examples: they show what a plausible implementation can get wrong.
+
+\section{Exercises with worked reasoning}
+
+\begin{enumerate}
+\item \textbf{Separate key and value roles.} Double the second value in Equation~\ref{eq:tiny}.
+\emph{Solution:} weights remain $(2/3,1/3)$; output becomes $(2,4)$. The query and keys did not change.
+\item \textbf{Shift every score.} Add 100 to both logits. What changes?
+\emph{Solution:} nothing mathematically. The common exponential factor cancels; stable evaluation subtracts a common maximum.
+\item \textbf{Check the scale argument.} Under the stated independence assumptions, what is the variance after division by $\sqrt D$?
+\emph{Solution:} $D/D=1$. Correlated learned features need not satisfy the assumptions.
+\item \textbf{Break post-softmax masking.} Use legal scores $(0,0)$ and forbidden score 1000.
+\emph{Solution:} correct legal weights are $(1/2,1/2)$. Normalizing all scores first gives the forbidden entry almost all mass; deleting it afterward does not repair the legal weights.
+\item \textbf{Define an empty row.} Should its weights sum to one?
+\emph{Solution:} not under our inactive-query policy. They sum to zero, and output and gradients are zero. This is a defined sentinel, not a distribution.
+\item \textbf{Prevent record leakage.} Two unrelated records share class label 7. Can that label be their mask identity?
+\emph{Solution:} no. Use unique record IDs; otherwise equality admits cross-record edges.
+\item \textbf{Find a zero score gradient.} Let all allowed values equal $v$.
+\emph{Solution:} $o=v$, so $p_j(v_j-o)=0$ for every allowed score. Addressing changes cannot alter identical content.
+\item \textbf{Construct an offset row.} With four cached positions, which keys can the first query in a two-position chunk see?
+\emph{Solution:} keys 0 through 4. The query is at absolute position 4, not local position 0.
+\item \textbf{Invalidate a cache.} Why not reuse old keys after updating projection weights?
+\emph{Solution:} the cached vectors represent old parameters. Recomputed full attention would use different keys and values.
+\item \textbf{Track a head feature.} For $D=3$, where does head 2, feature 1 come from?
+\emph{Solution:} input feature $2\cdot3+1=7$ at the same batch and time indices, using zero-based indexing.
+\item \textbf{Count cache scalars.} Take $T=256$ and $D=D_v=64$ for one head.
+\emph{Solution:} $2\cdot256\cdot64=32768$ scalars. At four bytes each this is 131072 bytes, before layers, batches, or allocator overhead.
+\item \textbf{Set a comparison standard.} Does passing cache parity show that attention outperforms the preceding recurrence on DNA?
+\emph{Solution:} no. It establishes an implementation property. A capability comparison needs matched data, objectives, resource accounting, independent evaluation, and uncertainty estimates.
+\end{enumerate}
+
+\section*{Selective glossary}
+\addcontentsline{toc}{section}{Selective glossary}
+\textbf{Query:} a vector used to score compatibility with keys.
+\textbf{Key:} an address vector associated with a value.
+\textbf{Value:} the content vector mixed into the output.
+\textbf{Causal mask:} an information-flow rule preventing use of future positions.
+\textbf{KV cache:} retained projected keys and values reused by later queries under a fixed computation contract.

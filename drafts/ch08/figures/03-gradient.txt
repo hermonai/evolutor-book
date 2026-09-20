@@ -1,0 +1,3 @@
+Figure 8.3
+
+Score-to-output gradient: softmax Jacobian contracts with value deviations; masked coordinates have zero probability and gradient. Show why a large weight is not a biological causal explanation.

@@ -1,0 +1,8 @@
+\begin{tikzpicture}[font=\small\sffamily]
+\begin{scope}[shift={(1,3)}]
+\input{\Generated/packed_mask.tex}
+\foreach \j/\lab in {0/A0,1/A1,2/B0,3/B1,4/pad}{\node[font=\footnotesize] at (\j*.64,.6) {\lab};\node[font=\footnotesize,anchor=east] at (-.45,-\j*.55) {\lab};}
+\end{scope}
+\node[smallnote,anchor=west,align=left] at (5,2) {Row: query. Column: key.\\$\bullet$: allowed, $\times$: blocked.\\A and B are distinct records.\\No edge crosses the record boundary.\\The padding query has no allowed key.};
+\node[smallnote] at (4,-.3) {$M_{ij}=[j\leq i]\,[r_i=r_j]\,[\mathrm{valid}_i]\,[\mathrm{valid}_j]$};
+\end{tikzpicture}

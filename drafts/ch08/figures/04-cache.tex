@@ -1,0 +1,9 @@
+\begin{tikzpicture}[font=\small\sffamily]
+\node[text=Blue,anchor=west] at (0,4) {Old cache: positions 0,1,2\qquad Append: positions 3,4};
+\foreach \j in {0,1,2,3,4}{
+\node[draw=Blue,fill=Pale,minimum width=1.4cm,minimum height=.6cm] at (1.5*\j+.7,3) {$K_{\j},V_{\j}$};}
+\draw[Red,thick] (4.5,2.55)--(4.5,3.45);
+\begin{scope}[shift={(.5,1.1)}]\input{\Generated/offset_mask.tex}\end{scope}
+\node[smallnote,anchor=west] at (4.3,.8) {Query 3 can see keys 0--3.\\Query 4 can see keys 0--4.\\Mask uses $j\leq P+i$, with $P=3$.};
+\node[smallnote] at (3.5,-.4) {Rows belong to absolute positions 3 and 4, not 0 and 1.};
+\end{tikzpicture}

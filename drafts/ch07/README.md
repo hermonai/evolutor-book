@@ -14,7 +14,10 @@ From the repository root:
 
 Python 3.10+, pytest, Pillow, XeLaTeX/latexmk, Poppler, and the fonts in
 review.tex are required. The reference also requires PyTorch; local verification uses 2.10.0 CPU float64.
-The local gitignored PDF is output/pdf/evolutor-ch07-review.pdf.
+The local gitignored PDF is output/pdf/evolutor-ch07-review-v2.pdf.
+
+Revision 2 centralizes the recurring pedagogy and review disclosure in
+tex/frontmatter/about-this-book.tex. Earlier PDF and review records are retained.
 The builder generates tables and plots from reference.py and extracts whole
 functions for code listings. It does not convert Markdown into manuscript prose.
 

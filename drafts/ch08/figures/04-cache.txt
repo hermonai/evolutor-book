@@ -1,0 +1,3 @@
+Figure 8.4
+
+Cache timeline: old keys/values, append a two-token chunk, and offset-causal query rows. Show absolute positions; a rectangular upper-left causal mask is the wrong cache mask.

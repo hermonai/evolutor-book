@@ -1,0 +1,3 @@
+Figure 8.2
+
+Packed causal mask: explicit 5-by-5 allowed/blocked matrix for two records plus padding. Color plus symbols distinguish allowed edges. Empty rows use an explicitly zero-output policy, not softmax over all minus infinity.

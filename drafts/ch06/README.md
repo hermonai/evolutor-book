@@ -15,7 +15,10 @@ Run from this repository root:
 
 Dependencies: Python 3.10+, pytest, Pillow, PyTorch 2.10.0, XeLaTeX/latexmk,
 Poppler, and the fonts declared in review.tex. Generated PDFs live in
-output/pdf/evolutor-ch06-review.pdf; page previews in tmp/pdfs/ch06-review/.
+output/pdf/evolutor-ch06-review-v2.pdf; page previews in tmp/pdfs/ch06-review/.
+
+Revision 2 centralizes the recurring pedagogy and review disclosure in
+tex/frontmatter/about-this-book.tex. Earlier PDF and review records are retained.
 These generated outputs are local and gitignored.
 
 The builder extracts whole tested functions and generates tables/plots; it

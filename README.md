@@ -1,5 +1,10 @@
 # Evolutor
 
+The shared [About this book note](tex/frontmatter/about-this-book.tex) owns
+the pedagogical acknowledgment and general evidence/review policy. It is
+authored front matter for one-time inclusion in the next integrated edition;
+chapter-specific assumptions and source notes remain in their chapters.
+
 New authoring uses the [LaTeX-first Chapters 1–3 textbook candidate](tex/evolutor-textbook.tex),
 with a worked first-principles opening, native TikZ mechanisms and retained
 reviewed vector figures. See [revision scope and build commands](TEXTBOOK_REVISION.md)
@@ -9,7 +14,7 @@ This is a new review candidate; the accepted Chapters 1–2 and their hashes rem
 
 Canonical active edition: **astra-deep-rewrite**. Deep science and engineering, straightforward explanations, useful abstraction.
 
-Chapters 1–2 are internally reviewed development manuscripts. Chapter 2 — **Learning objectives, data, tasks, and evaluation** — adds 13 original editable SVG figures with semantic TXT companions, nine static keyframes, executable reference code and twelve exercises with worked solutions. The 52-chapter architecture remains; Chapter 3 has standalone and combined LaTeX review candidates. [Chapter 4: Reproducible PyTorch training](drafts/ch04/README.md) is now an isolated authored-LaTeX review candidate with five vector plates, an exact-restart experiment, and twelve worked exercises. [Chapter 5: Tokenization and sequence representation](drafts/ch05/README.md) adds five original mechanism plates, implementation-first derivations, tested code, and twelve worked exercises. [Chapter 6: Recurrent models and gated state](drafts/ch06/README.md) adds five vector figures, tested numerical models, and twelve worked exercises. [Chapter 7: State-space models, selective updates and scans](drafts/ch07/README.md) adds five mechanism figures, independent numerical checks, and twelve worked exercises. Chapter 8 is next; cumulative acceptance has not advanced.
+Chapters 1–2 are internally reviewed development manuscripts. Chapter 2 — **Learning objectives, data, tasks, and evaluation** — adds 13 original editable SVG figures with semantic TXT companions, nine static keyframes, executable reference code and twelve exercises with worked solutions. The 52-chapter architecture remains; Chapter 3 has standalone and combined LaTeX review candidates. [Chapter 4: Reproducible PyTorch training](drafts/ch04/README.md) is now an isolated authored-LaTeX review candidate with five vector plates, an exact-restart experiment, and twelve worked exercises. [Chapter 5: Tokenization and sequence representation](drafts/ch05/README.md) adds five original mechanism plates, implementation-first derivations, tested code, and twelve worked exercises. [Chapter 6: Recurrent models and gated state](drafts/ch06/README.md) adds five vector figures, tested numerical models, and twelve worked exercises. [Chapter 7: State-space models, selective updates and scans](drafts/ch07/README.md) adds five mechanism figures, independent numerical checks, and twelve worked exercises. [Chapter 8: Attention and content addressing](drafts/ch08/README.md) adds five algorithm plates, masked attention and cache references, gradient checks, and twelve worked exercises. Chapter 9 is next; cumulative acceptance has not advanced.
 
 The [current editorial architecture](EDITORIAL_ARCHITECTURE.md) defines chapter responsibilities, prerequisites, evidence gates, and the next integration milestone. Use it for current authoring progress; generated historical plans retain their acceptance-snapshot status.
 

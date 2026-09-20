@@ -1,12 +1,12 @@
 {
-  "pdf": "output/pdf/evolutor-ch05-review-v2.pdf",
+  "pdf": "output/pdf/evolutor-ch05-review.pdf",
   "pages": 14,
-  "sha256": "2415d4b99f5e395d7187f3ddf913a32eeefa380aa3d87f777012060538a94071",
+  "sha256": "a63bf8eaaca92074b304ae7daca4ce1ed89afb57e8a9b46091db960062a833d7",
   "status": "standalone authored-LaTeX review candidate; no acceptance promotion",
   "sources": {
-    "drafts/ch05/README.md": "8fdd1f5ce4e3d3f446f9c2b04072ff3b145117d225a71811656765db336aa613",
+    "drafts/ch05/README.md": "b3661c49db639dbf7769bb8d7839c0519b8fe42fb220879df8118ffb7579fccf",
     "drafts/ch05/STORYBOARD.md": "9fe9027abd3c275ef340ad8848698aae5398827be816b80413751990e956f097",
-    "drafts/ch05/build.py": "d0cd83af8c19810ad6c9ba11f44866cb0c048eefd61ac3700c5162efaa110e4b",
+    "drafts/ch05/build.py": "8f5a38e3bb8bc178a887cebc0610199c790312afcf65dd3f815a01fc3439f605",
     "drafts/ch05/figures/01-token-spans.tex": "fdba5b335c09ce74e6e62a363278d982684997d8e91bf8bf54f2e6ff8ea0efa5",
     "drafts/ch05/figures/01-token-spans.txt": "0406c2af419222deae6be6f23ec711e446cac77dd6675b7dbe57b35a3102b7d9",
     "drafts/ch05/figures/02-base-four.tex": "cc46f2d619b7458227cf917df4dfeace68ca91e32238e77513becd3da98a81ae",
@@ -17,24 +17,17 @@
     "drafts/ch05/figures/04-target-reach.txt": "1410cb9c61b726e2a10ce7de5fedc94277a176d4f4bb263e3f86a2e0cc3b1857",
     "drafts/ch05/figures/05-strand-boundaries.tex": "16da1e6e0da739abe92646bceea400a7da6ca9154cb39df2d07280f295f0488e",
     "drafts/ch05/figures/05-strand-boundaries.txt": "093a44a4a7a83179a85bacd1a9acefc9c5287f393fc8656b966992905c0ca106",
-    "drafts/ch05/manuscript.tex": "6ce55fc0d6e3e4f7ce699a41216297b7fa37dde7fa3b707a964d33f290ea9de3",
+    "drafts/ch05/manuscript.tex": "eb60409fa085a4b31009d7880e93013f6afd884dd2a30beb45681ce73f9a0a5a",
     "drafts/ch05/reference.py": "bf1509efaa08a2af27fd137a0f8ec7579aba381ff87f7ad22d8f9395e6517a6a",
     "drafts/ch05/results.json": "56a0395f7dd834fbcebc3d2c372dca06b7f0ea9f6d49435016c9bf128f6449f9",
     "drafts/ch05/review.tex": "9a346b5ef1cf326bcfa38488eabd55765c7aa0527acb5ec0433a0207765c8caf",
-    "drafts/ch05/sources.tex": "37f4f3187c53921fdb07345dc7ebc9efa9e56ac9b6954475ad264062d50c618c"
+    "drafts/ch05/sources.tex": "7e87a03a13dae40870b6d05f243d9cc3c24ad99b9a329191b4a310421726d91e"
   },
-  "reviewedOn": "2026-09-20",
-  "validation": {
-    "generatedArtifactsCheck": "passed",
-    "pdfWordsOutsidePage": 0,
-    "unresolvedReferenceMarkers": 0,
-    "fullSuitePassed": 359,
-    "fullSuiteSkipped": 0,
-    "priorEditionPreservationTests": "passed"
-  },
-  "reviewType": "author technical, editorial and visual review; not independent specialist acceptance",
+  "reviewedOn": "2026-09-19",
+  "validation": {"fullSuitePassed": 291, "fullSuiteSkipped": 0, "generatedArtifactsCheck": "passed", "priorEditionPreservationTests": "passed"},
+  "reviewType": "author technical, editorial, and visual review; not independent specialist acceptance",
   "allPagesInspected": true,
-  "grayscaleReview": "All revised pages inspected in color and grayscale contact sheets; revised source page also inspected individually at page scale. Prior technical/figure checks are retained in the archived v1 review record.",
+  "grayscaleReview": "All pages inspected in grayscale contact sheets; color pages and mechanism/code pages also inspected at page scale. Orphan heading and crowded molecular annotations corrected before final review.",
   "figures": 5,
   "exercises": 12,
   "pdfWordsOutsidePage": 0,
@@ -45,24 +38,5 @@
     "independent specialist review",
     "reader feedback",
     "cumulative integration, cross-chapter index and bibliography"
-  ],
-  "inspectedPhysicalPages": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12,
-    13,
-    14
-  ],
-  "revision": 2,
-  "supersedes": "artifacts/deep/ch05-review-v1.json",
-  "revisionReason": "Consolidate general pedagogical acknowledgment and evidence policy in book frontmatter; retain chapter-specific scientific evidence and limitations."
+  ]
 }

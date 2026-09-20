@@ -1,0 +1,10 @@
+\begin{tikzpicture}[font=\small\sffamily]
+\node[draw=Blue,fill=Pale,rounded corners,align=center] (score) at (1.5,3) {Score $z_j$};
+\node[draw=Blue,fill=Pale,rounded corners,align=center] (soft) at (5,3) {Softmax\\$p_j$};
+\node[draw=Blue,fill=Pale,rounded corners,align=center] (mix) at (8.8,3) {Mixture\\$o=\sum_jp_jv_j$};
+\draw[flow] (score)--(soft);\draw[flow] (soft)--(mix);
+\draw[flow,Red] (mix.south) to[bend left=20] node[below,smallnote] {$\partial o/\partial z_j=p_j(v_j-o)$}(score.south);
+\node[draw=Green,fill=Green!8,rounded corners,align=center] at (2.3,.1) {If $v_j=o$\\score changes have zero local effect};
+\node[draw=Green,fill=Green!8,rounded corners,align=center] at (8.2,.1) {If key $j$ is masked\\$p_j=0$ and its score gradient is zero};
+\node[smallnote] at (5,-1.1) {The derivative is a vector when the value has several coordinates.\\Large attention weight alone is not a causal attribution.};
+\end{tikzpicture}
