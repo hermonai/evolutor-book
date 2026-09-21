@@ -1,0 +1,378 @@
+\chapter{Conditional computation and routing}
+\label{ch:routing}
+
+Six tokens choose among three feed-forward networks. Each network has two available slots. Six tokens, six slots: should every token fit?
+
+No. If their choices are $(0,0,0,2,1,1)$, expert 0 receives three requests while expert 2 receives one. A spare slot at expert 2 does not help the third token requesting expert 0 unless the routing policy permits reassignment. A capacity budget is not a guarantee of balanced demand.
+
+Chapter 9 assembled a dense Transformer block. Every valid token used the same feed-forward parameters. Here we replace only that branch with conditional expert execution, then make selection, admission, weighting, gradients, and state ownership explicit. Our small reference is not a Switch Transformer training reproduction or an optimized distributed runtime. Its purpose is to reveal the contracts a future Evolutor implementation must preserve.
+
+\section{Separate scoring, selection, admission, and weighting}
+\index{mixture of experts}\index{router}\index{top-1 selection}
+Let $Z\in\mathbb R^{T\times D}$ contain the branch inputs for $T$ token positions.
+There are $E$ experts, each mapping $\mathbb R^D$ to $\mathbb R^D$. A router
+$R\in\mathbb R^{D\times E}$ produces logits $H=ZR$. For token $t$,
+\begin{equation}
+p_{tj}=\frac{\exp(h_{tj})}{\sum_{r=0}^{E-1}\exp(h_{tr})},
+\qquad k_t=\arg\max_j p_{tj}. \label{eq:route}
+\end{equation}
+Expert indices start at zero. Probabilities sum to one over experts, not tokens.
+Softmax is evaluated by the library's numerically stable operation. A row-wise
+constant shift in logits leaves the probabilities unchanged.
+
+Top-1 selection chooses one expert index. It does not yet grant a capacity slot.
+Let $v_t$ indicate a valid token and $a_t$ indicate admission. Our policy visits
+tokens in their input order, excludes invalid positions, and admits a token if
+its selected expert has fewer than $C$ occupied slots. It never reroutes overflow.
+The branch result is
+\begin{equation}
+b_t=a_t p_{t k_t} E_{k_t}(z_t),\qquad y_t=u_t+b_t. \label{eq:branch}
+\end{equation}
+$u_t$ is the residual representation being updated. A dropped branch leaves
+$y_t=u_t$; it does not remove the token from the sequence or from a later loss.
+
+This separation follows the useful top-1, probability-weighted expert mechanism
+described by Fedus, Zoph, and Shazeer \cite{switch}. Our deterministic
+first-arrival implementation and test cases are deliberately small. We do not
+inherit that paper's training, hardware, or quality results.
+
+\Plate{01-routing}{Six fully specified probability rows. The selected experts request $(3,2,1)$ slots; capacity two gives admitted counts $(2,2,1)$. Token 2 is rejected after tokens 0 and 1 occupy expert 0. The vacant slot at expert 2 remains vacant under this no-rerouting policy.}{fig:routing}
+\begin{center}\input{\Generated/trace-table.tex}\end{center}
+
+\subsection{Ties and padding are part of the definition}
+If logits tie, a result must still be chosen. This reference uses the first
+maximal expert index, matching the documented \texttt{torch.argmax} convention
+\cite{argmax}. A tie is not broken by a random coin or by the least loaded
+expert. Those would be different policies with different reproducibility
+requirements.
+
+An invalid padding position may have logits and a selected index in the
+intermediate tensors, but it consumes no slot, contributes no expert branch,
+and does not enter the load-balancing denominator. Attention validity and
+next-token target validity remain the separate Chapter 9 contracts.
+
+The implementation returns both \emph{demand} before admission and occupied
+\emph{used} slots after admission. In a continued cohort, used counts include
+earlier chunks, while demand reports only the current call.
+\Listing{plan}
+
+The Python loop exposes control flow but synchronizes scalar decisions with the
+host. It is intended for transparent CPU tests, not GPU throughput. Real
+dispatch kernels can implement the same policy through prefix counts and
+indexed communication. They must first agree on exactly which policy they are
+implementing.
+
+\section{Gather only admitted rows, then restore token identity}
+\index{dispatch}\index{gather and scatter}\index{expert parameters}
+Each expert is a feed-forward network:
+\begin{equation}
+E_j(z)=\operatorname{GELU}(zW_{1j}+b_{1j})W_{2j}+b_{2j}.
+\end{equation}
+$W_1$ has stacked shape $[E,D,F]$, $b_1$ has $[E,F]$, $W_2$ has $[E,F,D]$,
+and $b_2$ has $[E,D]$, where $F$ is hidden width. These are independent
+parameter sets. The word expert describes ownership and conditional use; it
+does not establish meaningful specialization before training and evaluation.
+\Listing{expert}
+
+For expert $j$, form the ordered row index set
+\begin{equation}
+I_j=\{t:\ a_t=1,\ k_t=j\}.
+\end{equation}
+Gather $Z[I_j]$ with shape $[|I_j|,D]$, evaluate only that expert on those rows,
+multiply row $t$ by $p_{tj}$, and scatter into the original token positions.
+Top-1 admission makes the $I_j$ disjoint, so no token receives two writes.
+A top-$k$ extension would require accumulation, not blindly reusing this
+single-write assumption.
+
+\Plate{02-dispatch}{From token-major inputs to expert minibatches and back. Expert 0 receives rows 0 and 1; expert 1 receives rows 4 and 5; expert 2 receives row 3. The output preserves original token order, including a zero branch at row 2. The formulas use the probabilities in Figure \ref{fig:routing}.}{fig:dispatch}
+\Listing{dispatch}
+
+The zero initialization retains a zero-valued autograd connection to inputs and
+router probabilities. This lets an all-overflow batch backpropagate zero branch
+gradients instead of failing because the output has no computational graph.
+An expert that is never executed can have an unused gradient represented as
+\texttt{None}. In comparisons, the tests interpret that as zero sensitivity,
+not as proof that every optimizer treats an absent gradient identically to an
+explicit zero tensor.
+
+\subsection{Construct a deliberately expensive oracle}
+\index{dense oracle}
+A correctness oracle evaluates \emph{every} expert at every token, producing
+$V\in\mathbb R^{T\times E\times D}$. Define
+\begin{equation}
+G_{tj}=a_t[\,k_t=j\,]p_{tj},\qquad
+B_{td}=\sum_j G_{tj}V_{tjd}. \label{eq:denseoracle}
+\end{equation}
+This formula and sparse dispatch should agree on values and derivatives when
+the routing plan is the same. The oracle wastes expert work but makes the
+weighted sum easy to inspect.
+\Listing{dense_oracle}
+
+The tests compare outputs, input gradients, logit gradients, and all stacked
+expert-parameter gradients at capacities $0,1,2,6$. A separate exact table tests
+the plan itself. Sharing a plan between two execution paths does not verify
+selection or admission, which is why both kinds of check are required.
+
+An expert permutation provides another test. Away from ties, permute logit
+columns and the corresponding expert weights together. The physical result
+should stay the same. At ties, the first-index rule intentionally depends on
+index order, so unrestricted permutation invariance is not promised.
+
+\section{Differentiate the chosen computation, not a fictional smooth selector}
+\index{routing gradient}\index{discrete decisions}
+Within a region where $k_t$ and $a_t$ do not change, consider one admitted token
+and write $b=p_k E_k(z)$. For upstream sensitivity
+$\overline b=\partial\mathcal L/\partial b$, define the scalar
+$s=\overline b^\top E_k(z)$. The softmax derivative is
+\begin{equation}
+\frac{\partial p_k}{\partial h_j}=p_k(\mathbf1_{j=k}-p_j).
+\end{equation}
+The chain rule then gives
+\begin{equation}
+\frac{\partial\mathcal L}{\partial h_j}
+=a\,s\,p_k(\mathbf1_{j=k}-p_j). \label{eq:routergrad}
+\end{equation}
+Even an unselected expert's \emph{router logit} can receive a gradient because
+it participates in the softmax denominator. That is different from evaluating
+the unselected expert network or updating its weights through this token's
+task loss.
+
+For the expert parameters, the upstream sensitivity is scaled by $a p_k$.
+For router weights, $\overline R=Z^\top\overline H$. For the input $z$, one
+path passes through the selected expert and another through $h=zR$:
+\begin{equation}
+\overline z=a p_k J_{E_k}^{\top}\overline b
++R\,\overline h
+\end{equation}
+when writing individual feature sensitivities as column vectors. The dimensions
+are $R:D\times E$, $\overline h:E$, and $\overline z:D$. In the complete block,
+normalization and the identity residual add their own previously derived paths.
+
+\Plate{03-gradient}{A routing boundary with no capacity pressure. For logits $(s,0)$ and constant expert outputs $2$ and $-1$, the selected output has smooth pieces but a jump at $s=0$. First-index ties choose expert 0, giving output 1 exactly at the boundary. The open circle marks the other branch's limiting value, $-0.5$.}{fig:gradient}
+
+The argmax operation does not supply an ordinary derivative describing how a
+small parameter change swaps experts. Away from a boundary it is locally
+constant; at a tie the selected function may be discontinuous, as in
+Figure \ref{fig:gradient}. Our autograd path differentiates the chosen smooth
+piece and does not invent a straight-through estimator for the discrete
+decision. Finite-difference checks use scores safely away from ties.
+
+\subsection{Why top-1 renormalization can erase a learning path}
+Suppose an implementation selects one expert and then renormalizes over only
+the selected set. Its gate becomes
+\begin{equation}
+\widetilde p_k=\frac{p_k}{p_k}=1.
+\end{equation}
+The output is now $E_k(z)$. Away from selection boundaries, the task-loss
+gradient through the router scores vanishes. This is not equivalent to
+Equation \ref{eq:branch}. It might be a deliberate architecture with a separate
+router objective, but it cannot silently replace probability weighting.
+
+One test uses logits $(1,0,-1)$ and scalar expert value $2$. It checks
+Equation \ref{eq:routergrad} directly, then verifies that the renormalized
+expression has zero logit gradient. This negative control proves the test can
+detect the missing router path. Gradient correctness is more informative here
+than merely observing that the code runs.
+
+\section{Capacity creates state and grouping semantics}
+\index{capacity}\index{cohort}\index{chunk equivalence}
+Let $d_j=\sum_t v_t[\,k_t=j\,]$ be demand in one cohort, with initially empty
+slots. Under the stated policy,
+\begin{equation}
+q_j=\min(d_j,C),\quad
+A=\sum_j q_j,\quad
+D_{\mathrm{drop}}=T_v-A,\quad
+U=EC-A, \label{eq:account}
+\end{equation}
+where $T_v=\sum_t v_t$ is the valid-token count. $q_j$ counts admitted tokens,
+$A$ counts all admitted tokens, and $U$ counts unused slots. Demand is not
+admitted load, and neither is total physical device work.
+
+For $d=(3,2,1)$ and $C=2$, $A=5$, $D_{\mathrm{drop}}=1$, and $U=1$.
+Increasing total capacity helps only when it changes a constrained expert's
+available slots. Our capacity sweep is computed, not a hardware measurement.
+\Plate{05-capacity}{Demand, overflow, and unused capacity are different quantities. At two slots per expert, one token is dropped despite one unused slot. Increasing capacity to three admits all six; further capacity adds unused slots under the same deterministic demand. Lines connect discrete integer-capacity cases.}{fig:capacity}
+\begin{center}\input{\Generated/capacity-table.tex}\end{center}
+
+A common family of designs sets capacity from a factor times average demand;
+the Switch paper describes this trade-off \cite{switch}. For a concrete
+integer policy one might choose $C=\lceil cT_v/E\rceil$. This reference instead
+accepts $C$ explicitly so rounding and cohort size cannot remain hidden.
+Changing $T_v$ or the capacity factor can change the forward computation.
+
+\subsection{Resetting counters is not a harmless implementation detail}
+Process the six-token example as a full cohort, then split after token 1. The
+first two tokens both select expert 0 and fill it. If the second call starts
+with fresh counters, token 2 is now admitted. If it receives the used counts
+$(2,0,0)$, token 2 remains an overflow and the original result is recovered.
+
+\Plate{04-cohort}{Capacity history under rechunking. Token logits and expert weights remain fixed. Resetting counters at the split changes admission of token 2; carrying used counts with the same capacity and order preserves the full-cohort decision. These counters are not an attention KV cache.}{fig:cohort}
+
+The code copies incoming counters rather than mutating the caller's list.
+Parity requires the same cohort, capacity, token order, logits, and parameters.
+Carrying counters alone cannot repair logits changed by incorrect position or
+attention handling. Nor does this demonstration establish an optimized
+autoregressive cache implementation.
+
+This reveals a boundary of Chapter 9's token-local FFN argument. Expert scoring
+is token-local, but capacity admission couples tokens through a shared resource.
+Reordering the first three tokens changes which one is dropped. Combining
+otherwise isolated records into one capacity cohort can make one record's
+admission depend on another record's demand, even if attention is correctly
+record-masked.
+
+With fixed capacity and first-arrival order, later tokens cannot change earlier
+admissions. But computing capacity from a changing total length or selecting
+admitted tokens by a global score ranking can introduce different dependencies.
+A runtime must document grouping and admission order before claiming causal
+or chunk-equivalent execution. If full-sequence training and token-at-a-time
+inference use different capacity conventions, matching attention alone does
+not prove model equivalence.
+
+\section{Load balancing is an objective, not a certificate}
+\index{load balancing}\index{auxiliary loss}
+Use pre-admission demand fractions and mean router probabilities over valid
+tokens:
+\begin{equation}
+f_j=\frac{1}{T_v}\sum_t v_t[\,k_t=j\,],\qquad
+P_j=\frac{1}{T_v}\sum_t v_t p_{tj}.
+\end{equation}
+A Switch-style auxiliary term is
+\begin{equation}
+\mathcal L_{\mathrm{bal}}=\alpha E\sum_j f_jP_j,\qquad \alpha\ge0. \label{eq:balance}
+\end{equation}
+The assignment fractions $f_j$ are discrete and treated as fixed in the local
+gradient. The probabilities $P_j$ are differentiable. Counting requests before
+overflow matters: an overloaded expert should not look less demanded merely
+because some requests were rejected.
+\Listing{balance_loss}
+
+Apply the softmax derivative and collect terms for a valid token:
+\begin{align}
+\frac{\partial\mathcal L_{\mathrm{bal}}}{\partial h_{tj}}
+&=\frac{\alpha E}{T_v}\sum_r f_r p_{tr}
+(\mathbf1_{r=j}-p_{tj})\\
+&=\frac{\alpha E}{T_v}p_{tj}
+\left(f_j-\sum_r f_rp_{tr}\right). \label{eq:balancegrad}
+\end{align}
+The tests compare this formula with autograd. An invalid token contributes no
+term; a call with zero valid tokens raises an error rather than dividing by
+zero. A dropped token can still receive an auxiliary router gradient even
+though its expert branch contributed no task-loss gradient.
+
+If $f_j=P_j=1/E$, Equation \ref{eq:balance} equals $\alpha$.
+But this numeric value is not proof of uniform hard assignments. Set every
+logit to zero. Then $P_j=1/E$, while first-index ties send every request to
+expert 0, giving $f=(1,0,\ldots,0)$. The same loss value $\alpha$ appears.
+Its gradient need not be zero. Therefore log actual demand, admissions, and
+overflow along with the scalar loss. An attractive auxiliary-loss curve does
+not certify balanced execution, expert specialization, or useful prediction.
+
+\section{Replace the feed-forward branch in the existing block}
+\index{pre-normalization}\index{residual stream}
+The integration keeps Chapter 9's attention and normalizations:
+\begin{align}
+U&=X+\operatorname{Attn}(\operatorname{LN}_1(X)),\\
+Z&=\operatorname{LN}_2(U),\\
+Y_t&=U_t+a_t p_{t k_t}E_{k_t}(Z_t).
+\end{align}
+Our wrapper reuses \texttt{drafts/ch09/reference.py} for LayerNorm and attention
+instead of reprinting a subtly different implementation. The review record
+binds that reused source hash as well as the new chapter. The example fixes
+two attention heads and disables dropout.
+\Listing{sparse_block}
+
+The full-compute oracle is also inserted at this same branch location. Tests
+compare the integrated outputs and gradients through attention, normalization,
+router, experts, and inputs. At zero capacity, the result must be exactly
+$U$, not $X$ and not a zero tensor: the attention branch has already run.
+
+There is also an exact dense limit. With one expert, its softmax probability
+is one; if capacity admits all valid tokens and its weights equal the old FFN,
+the unpadded no-dropout block equals Chapter 9's dense block. Increasing to
+several experts changes the function and training problem; it does not merely
+speed up the same already trained dense network.
+
+\section{Count arithmetic without promising speed}
+\index{multiply-accumulate count}\index{active parameters}
+Ignoring bias additions and nonlinearities, one expert evaluation on one token
+uses approximately $2DF$ multiply-accumulates (MACs). If $A$ tokens are admitted,
+expert work is $2ADF$. Scoring all $T$ positions costs $TDE$ MACs in our
+implementation, including padded positions whose scores are later ignored.
+An all-expert oracle uses $2TEDF$ expert MACs.
+\Listing{cost}
+
+At $T=6,E=3,D=4,F=8,A=5$, the router uses $72$ MACs and admitted experts
+use $320$, versus $1152$ expert MACs in the deliberately expensive oracle.
+But the original \emph{single dense FFN} uses only $384$ MACs on six tokens.
+The routed arithmetic total $392$ already exceeds that dense baseline, before
+dispatch overhead. Confusing an all-expert oracle with the original dense
+baseline would manufacture a misleading speedup story.
+
+The experts store
+\begin{equation}
+E(2DF+F+D)=3(64+8+4)=228
+\end{equation}
+parameters, plus $DE=12$ router weights in this bias-free router. Stored
+parameters, active arithmetic, optimizer state, and communication are separate
+budgets. In a distributed design, gathering activations, transfers between
+devices, imbalanced expert batches, synchronization, and padding can dominate
+wall-clock time. None is measured by these MAC formulas.
+
+Dropping work also changes the function. A low operation count obtained by
+rejecting all tokens is not a successful optimization of a model that should
+have evaluated their branches. Compare quality and semantics at matched
+admission policies before measuring systems performance.
+
+\section{What the reference establishes}
+Run \texttt{python3 drafts/ch10/build.py --assets-only} to regenerate the
+tables and \texttt{python3 -m pytest tests/test\_ch10\_reference.py} to run the
+checks. The evidence covers a declared top-1 policy, literal routing examples,
+forward/backward equivalence, deterministic ties, padding exclusion,
+counter history, and a dense one-expert limit. It contains no genomic training
+result or hardware benchmark.
+
+Conditional expert routing is not itself biological regulation. In Evolutor's
+taxonomy, Hermon is the Transformer-based direction and DOGMA the
+non-Transformer direction; this chapter supplies a software mechanism that
+must be specified and evaluated in any architecture that uses it. The upcoming
+Chapters 1--10 integration pass will reconcile these execution contracts.
+The next substantive biology-to-semantics chapter must explain which
+biological observations motivate which abstractions, and where that mapping
+fails.
+
+\section{Exercises with worked reasoning}
+\begin{enumerate}
+\item \textbf{Count before running.} Demand is $(3,2,1)$ and $C=2$.
+\emph{Solution:} admit $(2,2,1)$, drop one, leave one slot unused.
+\item \textbf{Overflow output.} What remains for a dropped token?
+\emph{Solution:} the incoming residual $u_t$, not a deleted token or necessarily the block's original $x_t$.
+\item \textbf{Find the gate.} A chosen expert returns $(2,-1)$ and its probability is $0.7$.
+\emph{Solution:} branch $(1.4,-0.7)$ before residual addition.
+\item \textbf{Unselected logit.} Why can it receive a gradient?
+\emph{Solution:} it changes the selected probability through the softmax denominator; it does not imply the unselected expert ran.
+\item \textbf{Renormalization.} Differentiate $p_k/p_k$ within a fixed top-1 choice.
+\emph{Solution:} the quotient is identically one, so its derivative is zero.
+\item \textbf{Rechunking.} Split the example after token 1 and reset counters.
+\emph{Solution:} token 2 changes from dropped to admitted. Carry $(2,0,0)$ with fixed capacity to preserve this policy.
+\item \textbf{Tie permutation.} Can arbitrary expert relabeling preserve the result at an exact tie?
+\emph{Solution:} not with index-based tie-breaking unless expert identity and tie order are also preserved.
+\item \textbf{Load certificate.} Uniform probabilities give loss $\alpha$. Must hard demand be balanced?
+\emph{Solution:} no; identical logits route every token to expert 0 under first-index ties.
+\item \textbf{Dense limit.} State sufficient conditions for the original FFN result.
+\emph{Solution:} one expert with matching weights, probability one, no overflow, matching valid inputs, attention and normalization, and no dropout.
+\item \textbf{Arithmetic baseline.} Compare $72+320$ MACs with the original dense FFN's $384$.
+\emph{Solution:} the routed count is eight larger; comparison with an all-expert oracle does not establish a dense-model speedup.
+\item \textbf{Independent check.} Why is sparse/dense equality alone insufficient?
+\emph{Solution:} both may share a wrong plan. Test explicit selection, demand, admitted IDs and capacity history independently.
+\item \textbf{Evaluation design.} Does adding experts improve a genomic model?
+\emph{Rubric:} specify held-out biological tasks, leakage controls, matched training and inference grouping, dropped-token rates, parameter and compute budgets, baselines, uncertainty, and measured hardware results. A working dispatch function answers none of these empirical questions by itself.
+\end{enumerate}
+
+\section*{Selective glossary}
+\addcontentsline{toc}{section}{Selective glossary}
+\textbf{Cohort:} tokens sharing one capacity budget and admission order.
+\textbf{Demand:} requests before capacity rejection.
+\textbf{Admission:} permission to execute the selected expert.
+\textbf{Gate:} scalar weighting of an executed expert's output.
+\textbf{Dispatch:} movement or indexing of token representations into and out of expert batches.

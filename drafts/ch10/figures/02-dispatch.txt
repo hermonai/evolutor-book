@@ -1,0 +1,1 @@
+Gather token rows [0,1] for expert 0, [4,5] for expert 1 and [3] for expert 2. Evaluate only these minibatches, multiply each output by its selected probability, then scatter by original token ID. Token 2 receives a zero expert branch but retains its incoming residual representation.

@@ -1,0 +1,95 @@
+{
+  "trace": [
+    {
+      "token": 0,
+      "expert": 0,
+      "gate": 0.8,
+      "admitted": true
+    },
+    {
+      "token": 1,
+      "expert": 0,
+      "gate": 0.7,
+      "admitted": true
+    },
+    {
+      "token": 2,
+      "expert": 0,
+      "gate": 0.6,
+      "admitted": false
+    },
+    {
+      "token": 3,
+      "expert": 2,
+      "gate": 0.7,
+      "admitted": true
+    },
+    {
+      "token": 4,
+      "expert": 1,
+      "gate": 0.75,
+      "admitted": true
+    },
+    {
+      "token": 5,
+      "expert": 1,
+      "gate": 0.8,
+      "admitted": true
+    }
+  ],
+  "sweep": [
+    {
+      "capacity": 0,
+      "admitted": 0,
+      "dropped": 6,
+      "unused": 0
+    },
+    {
+      "capacity": 1,
+      "admitted": 3,
+      "dropped": 3,
+      "unused": 0
+    },
+    {
+      "capacity": 2,
+      "admitted": 5,
+      "dropped": 1,
+      "unused": 1
+    },
+    {
+      "capacity": 3,
+      "admitted": 6,
+      "dropped": 0,
+      "unused": 3
+    },
+    {
+      "capacity": 4,
+      "admitted": 6,
+      "dropped": 0,
+      "unused": 6
+    }
+  ],
+  "demand": [
+    3,
+    2,
+    1
+  ],
+  "admitted": [
+    2,
+    2,
+    1
+  ],
+  "balance": 0.011083333333333334,
+  "tied_balance": 0.009999999999999998,
+  "tied_demand": [
+    6,
+    0,
+    0
+  ],
+  "cost": {
+    "router_macs": 72,
+    "expert_macs": 320,
+    "all_expert_macs": 1152,
+    "expert_parameters": 228
+  }
+}

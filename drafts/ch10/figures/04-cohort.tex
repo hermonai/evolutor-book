@@ -1,0 +1,13 @@
+\begin{tikzpicture}[x=1.25cm,y=.8cm]
+\foreach \i/\j in {0/0,1/0,2/0,3/2,4/1,5/1}{
+\node[smallnote] at (\i,1.3) {token \i};
+\node[note] at (\i,.6) {$E_{\j}$};}
+\foreach \y/\label in {-.5/Full cohort,-1.7/Reset counters,-2.9/Carry counters}{
+\node[left,note] at (-.6,\y) {\label};
+\foreach \i in {0,...,5}{
+\node[draw=Green,fill=Green!8,note,minimum width=.85cm] at (\i,\y) {keep};}}
+\foreach \y in {-.5,-2.9}{
+\node[draw=Red,fill=white,text=Red,note,minimum width=.85cm] at (2,\y) {drop};}
+\draw[gray,dashed] (1.5,1.8)--(1.5,-3.5);
+\node[smallnote] at (3,-4.2) {Split after token 1. Fixed capacity $C=2$.\\After first chunk: used slots $(2,0,0)$. Resetting admits token 2 incorrectly.};
+\end{tikzpicture}

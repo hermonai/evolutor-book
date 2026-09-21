@@ -1,0 +1,1 @@
+Six probability rows choose experts 0,0,0,2,1,1. Selected probabilities are 0.80,0.70,0.60,0.70,0.75,0.80. With capacity 2 per expert and first-arrival admission, token 2 is rejected. Demand is (3,2,1); admitted counts are (2,2,1). Empty capacity at expert 2 cannot serve token 2 without a different policy.

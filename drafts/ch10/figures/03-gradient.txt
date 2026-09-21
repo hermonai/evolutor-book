@@ -1,0 +1,1 @@
+For logits (s,0), constant expert outputs 2 and minus 1, and no overflow, the chosen output is minus 1/(1+exp(s)) for s below zero and 2/(1+exp(-s)) for s at least zero. At the tie, expert 0 gives output 1; the left limit is minus 0.5. Smooth piecewise gate gradients do not differentiate the discrete jump. Renormalizing a singleton selected gate to one erases its router gradient.

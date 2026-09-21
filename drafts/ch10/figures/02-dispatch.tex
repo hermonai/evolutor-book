@@ -1,0 +1,16 @@
+\begin{tikzpicture}[x=.85cm,y=.8cm]
+\node[note] at (1,1.2) {Input row IDs};
+\foreach \i in {0,...,5}{\node[draw=Blue,fill=Pale,note,minimum width=.7cm] (t\i) at (1,-\i*.85) {\i};}
+\node[draw=Blue,note,minimum width=3cm,minimum height=.8cm] (e0) at (6,-.5) {$E_0$: rows $[0,1]$};
+\node[draw=Green,note,minimum width=3cm,minimum height=.8cm] (e1) at (6,-2.5) {$E_1$: rows $[4,5]$};
+\node[draw=Red,note,minimum width=3cm,minimum height=.8cm] (e2) at (6,-4.2) {$E_2$: row $[3]$};
+\draw[flow] (t0.east)--(e0.west);\draw[flow] (t1.east)--(e0.west);
+\draw[flow,Green] (t4.east)--(e1.west);\draw[flow,Green] (t5.east)--(e1.west);
+\draw[flow,Red] (t3.east)--(e2.west);
+\node[smallnote,text=Red] at (3,-1.7) {2: skipped};
+\node[note] at (12,1.2) {Scattered branch};
+\foreach \i/\v in {0/{.80E_0(z_0)},1/{.70E_0(z_1)},2/0,3/{.70E_2(z_3)},4/{.75E_1(z_4)},5/{.80E_1(z_5)}}{
+\node[draw=gray,note,minimum width=3cm] at (12,-\i*.85) {$\v$};}
+\draw[flow] (8,.1)--(10,.1) node[midway,above,smallnote] {scatter by ID};
+\node[smallnote] at (7,-5.7) {Expert minibatches have different lengths. Token order is restored, not sorted by expert.\\Add this branch to the residual stream; a zero branch does not delete token 2.};
+\end{tikzpicture}

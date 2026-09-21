@@ -1,0 +1,11 @@
+\begin{tikzpicture}
+\begin{axis}[width=9cm,height=5.2cm,xmin=0,xmax=4,ymin=0,ymax=7,
+xlabel={Slots per expert $C$},ylabel={Count},
+xtick={0,1,2,3,4},legend style={font=\footnotesize,at={(.98,.98)},anchor=north east}]
+\input{\Generated/capacity-plot.tex}
+\legend{Admitted tokens,Dropped tokens,Unused slots}
+\end{axis}
+\node[note,align=left] at (11.5,3.2) {Six valid tokens\\Three experts\\Demand $(3,2,1)$};
+\node[note,align=left] at (11.5,1) {At $C=2$:\\5 admitted\\1 dropped\\1 unused slot};
+\node[smallnote] at (6,-1.9) {Total available capacity can equal token count while one expert still overflows.\\An unused slot at another expert does not admit a token unless the policy reroutes it.};
+\end{tikzpicture}

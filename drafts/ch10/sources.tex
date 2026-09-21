@@ -1,0 +1,25 @@
+\chapter*{Sources and further reading}
+\addcontentsline{toc}{chapter}{Sources and further reading}
+Access checked 21 September 2026. Sections 2.1--2.2 of the Switch paper,
+including its routing, capacity and auxiliary-loss equations, were inspected
+in the JMLR PDF. The PyTorch 2.10 argmax description was inspected for tie
+behavior. The local CPU float64 reference reuses the Chapter 9 normalization
+and attention implementation, which is included in the reviewed source closure.
+
+The deterministic policy, six-token traces, negative controls, gradient
+derivations, and cost comparisons are teaching artifacts. They do not
+reproduce Switch's distributed implementation, training experiments or
+performance claims.
+
+\begingroup
+\let\chapter\section
+\begin{thebibliography}{9}
+\bibitem{switch} W. Fedus, B. Zoph, and N. Shazeer.
+\emph{Switch Transformers: Scaling to Trillion Parameter Models with Simple and Efficient Sparsity}.
+Journal of Machine Learning Research 23(120), 1--39 (2022), sections 2.1--2.2.
+\url{https://www.jmlr.org/papers/v23/21-0998.html}.
+\bibitem{argmax} PyTorch contributors. \emph{torch.argmax}, version 2.10,
+first-maximal-index semantics.
+\url{https://docs.pytorch.org/docs/2.10/generated/torch.argmax.html}.
+\end{thebibliography}
+\endgroup

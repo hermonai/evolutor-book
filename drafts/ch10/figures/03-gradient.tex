@@ -1,0 +1,15 @@
+\begin{tikzpicture}
+\begin{axis}[width=7cm,height=5cm,xmin=-3,xmax=3,ymin=-1.1,ymax=2.1,
+xlabel={Score difference $s$},ylabel={Branch output},
+title={Two constant experts: $2$ and $-1$},title style={font=\small\sffamily}]
+\addplot[Red,thick,domain=-3:-.001,samples=50] {-1/(1+exp(x))};
+\addplot[Blue,thick,domain=0:3,samples=50] {2/(1+exp(-x))};
+\addplot[gray,dashed] coordinates {(0,-.5) (0,1)};
+\addplot[only marks,Blue] coordinates {(0,1)};
+\addplot[only marks,mark=o,Red] coordinates {(0,-.5)};
+\end{axis}
+\node[note,align=left] at (10,3.5) {Scores $(s,0)$; top-1 routing\\ties choose expert 0\\no capacity overflow};
+\node[note,align=left] at (10,1.7) {Within a fixed choice:\\$y=p_kE_k(z)$\\differentiate $p_k$ and $E_k$};
+\node[note,align=left,text=Red] at (10,0) {Wrong renormalization:\\$p_k/p_k=1$\\removes the router path};
+\node[smallnote] at (6,-1.9) {A smooth softmax does not make the selected-expert function globally smooth.\\Finite-difference checks must avoid switching surfaces.};
+\end{tikzpicture}

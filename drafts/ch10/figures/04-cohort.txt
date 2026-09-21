@@ -1,0 +1,1 @@
+Compare full routing, two chunks with reset counters, and two chunks with carried counters. Split after token 1. Resetting permits token 2, whereas full and carried-counter execution reject it. Capacity remains 2, token order and logits stay fixed, and initial second-chunk used counts are (2,0,0).

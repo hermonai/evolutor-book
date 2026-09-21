@@ -1,0 +1,16 @@
+\begin{tikzpicture}[x=1.35cm,y=.65cm]
+\foreach \j in {0,1,2}{\node[note] at (\j,1) {$E_{\j}$};}
+\foreach \i/\a/\b/\c/\chosen in {0/.80/.15/.05/0,1/.70/.20/.10/0,2/.60/.30/.10/0,3/.10/.20/.70/2,4/.15/.75/.10/1,5/.10/.80/.10/1}{
+\node[left,smallnote] at (-.6,-\i) {Token \i};
+\foreach \j/\v in {0/\a,1/\b,2/\c}{
+\draw[gray!50] (\j-.45,-\i-.4) rectangle (\j+.45,-\i+.4);
+\node[note] at (\j,-\i) {\v};}
+\draw[Blue,very thick] (\chosen-.45,-\i-.4) rectangle (\chosen+.45,-\i+.4);}
+\node[note,align=left] at (5.4,0) {Top-1 demand: $(3,2,1)$\\Capacity: 2 per expert};
+\foreach \j/\a/\b in {0/0/1,1/4/5,2/3/empty}{
+\node[note] at (4+\j,-2) {$E_{\j}$};
+\node[draw=Blue,fill=Pale,note,minimum width=1cm] at (4+\j,-3) {\a};
+\node[draw=Blue,fill=Pale,note,minimum width=1cm] at (4+\j,-4) {\b};}
+\node[note,text=Red] at (5.2,-5.5) {Token 2 overflows; no rerouting};
+\node[smallnote] at (2.8,-7) {Boxes in the probability matrix mark selection. Slots mark admission.\\The selected probability still scales each admitted expert output.};
+\end{tikzpicture}

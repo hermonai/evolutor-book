@@ -1,0 +1,1 @@
+For six valid tokens and demand (3,2,1), capacities 0 through 4 produce admitted counts 0,3,5,6,6; dropped counts 6,3,1,0,0; unused slots 0,0,1,3,6. Total slots do not imply balanced demand. This is a count model, not measured runtime or throughput.

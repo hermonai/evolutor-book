@@ -1,6 +1,6 @@
 # Editorial architecture and release roadmap
 
-Updated 20 September 2026. This is the current execution map, not a claim
+Updated 21 September 2026. This is the current execution map, not a claim
 that every planned chapter is written or independently reviewed.
 
 ## One manuscript, distinct review stages
@@ -11,9 +11,10 @@ for current authoring progress. Do not regenerate archived editions merely
 to change their progress labels.
 
 Chapters 1-2 retain their internal acceptance records. Chapter 3 has standalone
-and combined LaTeX review candidates. Chapters 4-9 have isolated authored-LaTeX
+and combined LaTeX review candidates. Chapters 4-10 have isolated authored-LaTeX
 review candidates with code, vector figures, and worked solutions.
-Chapter 10 is the next unwritten chapter in this authoring sequence.
+Chapter 11 is the next unwritten chapter. The next milestone is the planned
+Chapters 1-10 integration candidate, before widening the manuscript.
 Independent specialist review and cumulative integration are still open.
 
 ## Give each architectural layer a distinct responsibility
@@ -68,7 +69,7 @@ targets and padding excluded from loss. Include failures caused by
 inconsistent positions and accidentally active dropout. Hardware benchmarks
 and biological capability claims remain outside the reference's scope.
 
-## Next chapter brief: conditional computation and routing
+## Chapter 10 scope (standalone candidate): conditional computation and routing
 
 Extend the dense block with a minimal explicitly defined routing mechanism.
 Separate router scores, discrete expert selection, capacity constraints, and
@@ -77,6 +78,15 @@ decisions are nondifferentiable. Test dense-reference equivalence, dropped-token
 accounting, tie-breaking, and expert permutation. Keep load balance, routing
 costs, and measured hardware throughput distinct. Biological analogy is not
 an implementation or capability claim.
+
+## Next milestone: integrate Chapters 1-10
+
+Audit record validity, tensor notation, normalization conventions, routing
+cohorts, gradient history, and source closure before Chapter 11 regulation and
+expression across levels. Separate biological regulation from expert routing.
+Build a new cumulative entry point with unified bibliography and index; retain
+standalone candidates and accepted editions unchanged. Do not promote acceptance
+without independent review and the existing release gates.
 
 ## Quality gates before widening the manuscript
 
