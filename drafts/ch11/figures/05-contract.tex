@@ -1,0 +1,11 @@
+\begin{tikzpicture}[x=.9cm,y=.8cm]
+\node[draw=Blue,note,fill=Pale] (def) at (0,2.4) {Stored definition\\fixed rates};
+\node[draw=Blue,note] (ctx) at (4,2.4) {Context\\$u,r,a,\Delta$};
+\node[draw=Blue,note,fill=Gold] (upd) at (4,0) {Exact state update};
+\node[draw=Blue,dashed,thick,note] (st) at (0,0) {Owned state\\$(m_0,p_0)$};
+\node[draw=Blue,dashed,thick,note] (out) at (9,0) {Next state\\$(m_1,p_1)$};
+\draw[flow] (def)--(upd); \draw[flow] (ctx)--(upd);
+\draw[flow] (st)--(upd); \draw[flow] (upd)--(out);
+\node[smallnote,align=left] at (9,2.4) {Closed source, one minute:\\cold $(0,0)\mapsto(0,0)$\\warm $(2,8)\mapsto(.736,6.761)$};
+\node[smallnote] at (4,-1.4) {Same definition and context do not imply the same result.};
+\end{tikzpicture}

@@ -1,0 +1,154 @@
+{
+  "rewrite": [
+    "S",
+    "SG",
+    "SGGG",
+    "SGGGGGGG"
+  ],
+  "graph": [
+    {
+      "id": 1,
+      "op": "affine",
+      "inputs": [
+        0
+      ],
+      "width": 2,
+      "parameter": "shared"
+    },
+    {
+      "id": 2,
+      "op": "affine",
+      "inputs": [
+        1
+      ],
+      "width": 2,
+      "parameter": "shared"
+    },
+    {
+      "id": 3,
+      "op": "add",
+      "inputs": [
+        0,
+        2
+      ],
+      "width": 2,
+      "parameter": ""
+    },
+    {
+      "id": 4,
+      "op": "affine",
+      "inputs": [
+        3
+      ],
+      "width": 2,
+      "parameter": "shared"
+    },
+    {
+      "id": 5,
+      "op": "affine",
+      "inputs": [
+        4
+      ],
+      "width": 2,
+      "parameter": "shared"
+    },
+    {
+      "id": 6,
+      "op": "add",
+      "inputs": [
+        3,
+        5
+      ],
+      "width": 2,
+      "parameter": ""
+    },
+    {
+      "id": 7,
+      "op": "add",
+      "inputs": [
+        0,
+        6
+      ],
+      "width": 2,
+      "parameter": ""
+    }
+  ],
+  "output": [
+    [
+      0.8640741573440747,
+      -0.5415895212459532
+    ]
+  ],
+  "costs": [
+    {
+      "depth": 0,
+      "affine_calls": 1,
+      "adds": 0,
+      "nodes": 1,
+      "owners": 1,
+      "parameters": 20,
+      "matrix_macs_per_row": 16,
+      "independent_parameters": 20
+    },
+    {
+      "depth": 1,
+      "affine_calls": 2,
+      "adds": 1,
+      "nodes": 3,
+      "owners": 1,
+      "parameters": 20,
+      "matrix_macs_per_row": 32,
+      "independent_parameters": 40
+    },
+    {
+      "depth": 2,
+      "affine_calls": 4,
+      "adds": 3,
+      "nodes": 7,
+      "owners": 1,
+      "parameters": 20,
+      "matrix_macs_per_row": 64,
+      "independent_parameters": 80
+    },
+    {
+      "depth": 3,
+      "affine_calls": 8,
+      "adds": 7,
+      "nodes": 15,
+      "owners": 1,
+      "parameters": 20,
+      "matrix_macs_per_row": 128,
+      "independent_parameters": 160
+    },
+    {
+      "depth": 4,
+      "affine_calls": 16,
+      "adds": 15,
+      "nodes": 31,
+      "owners": 1,
+      "parameters": 20,
+      "matrix_macs_per_row": 256,
+      "independent_parameters": 320
+    },
+    {
+      "depth": 5,
+      "affine_calls": 32,
+      "adds": 31,
+      "nodes": 63,
+      "owners": 1,
+      "parameters": 20,
+      "matrix_macs_per_row": 512,
+      "independent_parameters": 640
+    },
+    {
+      "depth": 6,
+      "affine_calls": 64,
+      "adds": 63,
+      "nodes": 127,
+      "owners": 1,
+      "parameters": 20,
+      "matrix_macs_per_row": 1024,
+      "independent_parameters": 1280
+    }
+  ]
+}

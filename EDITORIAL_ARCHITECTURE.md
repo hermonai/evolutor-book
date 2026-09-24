@@ -1,6 +1,6 @@
 # Editorial architecture and release roadmap
 
-Updated 21 September 2026. This is the current execution map, not a claim
+Updated 24 September 2026. This is the current execution map, not a claim
 that every planned chapter is written or independently reviewed.
 
 ## One manuscript, distinct review stages
@@ -11,10 +11,11 @@ for current authoring progress. Do not regenerate archived editions merely
 to change their progress labels.
 
 Chapters 1-2 retain their internal acceptance records. Chapter 3 has standalone
-and combined LaTeX review candidates. Chapters 4-10 have isolated authored-LaTeX
+and combined LaTeX review candidates. Chapters 4-12 have isolated authored-LaTeX
 review candidates with code, vector figures, and worked solutions.
-Chapter 11 is the next unwritten chapter. The next milestone is the planned
-Chapters 1-10 integration candidate, before widening the manuscript.
+Chapter 13 is the next unwritten chapter. Chapters 11-12 were authored at the
+reader's explicit request while the Chapters 1-10 integration milestone remains
+pending. These standalone candidates do not substitute for that integration.
 Independent specialist review and cumulative integration are still open.
 
 ## Give each architectural layer a distinct responsibility
@@ -79,11 +80,26 @@ accounting, tie-breaking, and expert permutation. Keep load balance, routing
 costs, and measured hardware throughput distinct. Biological analogy is not
 an implementation or capability claim.
 
-## Next milestone: integrate Chapters 1-10
+## Chapter 11 scope (standalone candidate): regulation and expression across levels
+
+Connect explicitly assumed promoter occupancies to exact two-stage RNA/protein
+dynamics. Derive the equal-loss-rate limit, test against an independent numerical
+integrator, and demonstrate delayed responses and protein-only non-identifiability.
+Separate biological state, software state and hard expert selection.
+
+## Chapter 12 scope (standalone candidate): development and generated computational structure
+
+Construct a budgeted parallel rewrite and a typed recursive graph compiler.
+Derive node, parameter and arithmetic counts; validate dependencies before
+execution. Check forward and backward equivalence against a recursive oracle,
+and show why shared-parameter gradients sum across uses. Structural validity
+is distinct from trained capability or empirical architectural superiority.
+
+## Pending milestone: integrate Chapters 1-10
 
 Audit record validity, tensor notation, normalization conventions, routing
-cohorts, gradient history, and source closure before Chapter 11 regulation and
-expression across levels. Separate biological regulation from expert routing.
+cohorts, gradient history, and source closure, including the interfaces now
+used by Chapters 11-12. Separate biological regulation from expert routing.
 Build a new cumulative entry point with unified bibliography and index; retain
 standalone candidates and accepted editions unchanged. Do not promote acceptance
 without independent review and the existing release gates.

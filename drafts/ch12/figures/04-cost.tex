@@ -1,0 +1,9 @@
+\begin{tikzpicture}
+\begin{axis}[width=10cm,height=5.3cm,xlabel={Construction depth $d$},
+ylabel={Scalar parameters},ymode=log,log basis y=2,xmin=0,xmax=6,
+legend pos=north west,xtick={0,...,6}]
+\input{\Generated/cost-plot.tex}
+\legend{Shared,Independent}
+\end{axis}
+\node[smallnote] at (4,-1.7) {Width $D=4$; both policies execute $2^d$ affine calls per row};
+\end{tikzpicture}

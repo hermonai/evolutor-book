@@ -1,0 +1,10 @@
+\begin{tikzpicture}
+\begin{axis}[width=11cm,height=5.4cm,xlabel={Time (min)},ylabel={Concentration (nM)},
+xmin=0,xmax=12,ymin=0,ymax=8,legend pos=north east]
+\input{\Generated/response-plot.tex}
+\legend{RNA,Protein}
+\draw[dotted,thick] (axis cs:4,0)--(axis cs:4,8);
+\node[font=\small,anchor=north west] at (axis cs:4.2,7.8) {source closes};
+\end{axis}
+\node[smallnote] at (4.5,-1.6) {Assigned mean-dynamics model; not single-cell measurements};
+\end{tikzpicture}

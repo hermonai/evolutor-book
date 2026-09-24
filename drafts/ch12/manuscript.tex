@@ -1,0 +1,304 @@
+\chapter{Development and generated computational structure}
+A stored specification says: apply a construction rule twice, use width
+two, and share the affine parameters. How many actual operations exist?
+How many parameter arrays exist? Are those the same question?
+
+They are not. A compact description can expand into a large graph, and
+many operation occurrences can refer to one parameter owner. This chapter
+builds that distinction into an executable compiler and checks both forward
+values and gradients against a separate recursive interpreter.
+
+Chapter 11 modeled changing amounts within a fixed mechanism. Here the
+construction process changes the number and arrangement of computational
+operations before numerical execution. The biological term development is
+a motivation for asking about generated structure, not a claim that the
+compiler reproduces embryogenesis or that its parameters are genes.
+
+\section{Three maps, not one biological metaphor}
+\index{developmental encoding}\index{genotype and phenotype}
+Write a stored specification as $g$, construction context as $c$, and
+construction procedure as $\mathcal D$. It produces a typed graph
+$G=\mathcal D(g,c)$. Parameter initialization assigns tensors $\theta$
+to owners in $G$, and execution computes
+\begin{equation}
+ y=\operatorname{Run}(G,\theta,x).
+\end{equation}
+Changing $g$, changing $\theta$, changing carried state, and changing $x$
+are different interventions. The first may alter graph structure; the second
+changes numerical behavior inside a fixed graph; the latter two can change a
+result without changing either structure or learned parameters.
+
+Calling $g$ a genotype and $G$ a phenotype is therefore only a restricted
+analogy. Biological development includes chemistry, spatial organization,
+mechanics, environmental interactions and history not present in this map.
+For software, the value of the analogy is a testable separation between a
+stored description and a realized structure.
+
+Parallel rewriting provides one precise example of such a separation.
+Prusinkiewicz and Lindenmayer introduce simultaneous replacement of symbols
+in L-systems and distinguish it from sequential rewriting~\cite{abop}.
+We use a small original teaching rule set rather than reproducing their
+plant models or figures.
+
+\section{Make a construction step atomic}
+\index{parallel rewriting}
+Take alphabet $\{S,G\}$, initial word $S$, and rules
+$S\mapsto SG$, $G\mapsto GG$. In one generation, replace every symbol
+in the \emph{old} word and concatenate the replacements in order.
+\begin{center}\input{\Generated/rewrite-table.tex}\end{center}
+\Plate{01-rewrite}{Parent-to-child provenance under simultaneous rewriting.
+Each old symbol produces two new symbols. All parents in one row are read
+before the next row exists. These are abstract construction states, not
+cell types or an experimentally observed lineage.}{fig:rewrite}
+\Listing{rewrite}
+The function makes the timing convention explicit by creating a new string.
+An in-place loop that immediately rewrites newly inserted symbols would
+not be one generation of this system. The size guard checks the total
+replacement length before allocating the next word.
+
+Let $s_d,g_d$ be symbol counts after generation $d$. The rules imply
+\begin{equation}
+ \begin{bmatrix}s_{d+1}\\g_{d+1}\end{bmatrix}
+ =\begin{bmatrix}1&0\\1&2\end{bmatrix}
+ \begin{bmatrix}s_d\\g_d\end{bmatrix},\qquad (s_0,g_0)=(1,0).
+\end{equation}
+Thus $s_d=1$ and $g_{d+1}=1+2g_d$, giving $g_d=2^d-1$ by induction.
+Total word length is $2^d$. A short rule does not imply a small realization.
+Our budget counts symbols, not biological cells, bytes of a full model,
+or elapsed time.
+
+The string example has syntax but not yet numerical semantics. Interpreting
+each symbol as a neural layer without defining inputs, outputs and ownership
+would leave the central question unanswered. We next specify a different
+recursive construction whose meaning is fully executable.
+
+\section{Define the graph before writing the compiler}
+\index{recursive module}\index{residual connection}
+Inputs are row-vector batches $x\in\mathbb R^{B\times D}$.
+An affine-activation occurrence is
+\begin{equation}
+ H_\theta(x)=\tanh(xW+b),\qquad
+ W\in\mathbb R^{D\times D},\quad b\in\mathbb R^D.
+\end{equation}
+The bias broadcasts over the batch axis only. Define a depth-$d$ module
+recursively, with separate left and right occurrences:
+\begin{align}
+ R_{0,q}(x)&=H_{\theta_q}(x),\\
+ R_{d,q}(x)&=x+R_{d-1,qR}\bigl(R_{d-1,qL}(x)\bigr),\qquad d>0.
+\end{align}
+The path $q$ records construction provenance, not a tensor index. Left
+execution precedes right execution because the right child consumes the
+left child's result. The parent residual adds its own incoming $x$,
+not an arbitrary intermediate.
+\Plate{02-expansion}{The depth-two graph with values numbered in execution
+order. Four affine-activation occurrences and three residual additions
+implement the recursive definition. Skip edges retain the correct parent
+input. Reusing a definition does not remove any shown evaluation.}{fig:expansion}
+
+There are two parameter policies. Under \emph{shared} ownership, all leaves
+refer to the same $(W,b)$. Under \emph{independent} ownership, each leaf path
+owns distinct tensors of the same shape. Identical initial tensor values
+do not make independent owners into shared owners.
+
+The compact specification consists of depth, width and ownership policy.
+Construction is deterministic and occurs outside differentiation.
+No architecture search has taken place: choosing one valid graph is not
+searching for a graph that performs well.
+
+\section{Emit a typed, topologically ordered program}
+\index{compiler}\index{single assignment}
+Each emitted Node has a fresh integer ID, an operation, input IDs,
+an output width, and an optional parameter-owner key. Value zero denotes
+the external input. The node sequence is an SSA-like representation:
+each ID is assigned once, and every input must already exist.
+The immutable Node data class is defined alongside the reference.
+\Listing{compile_program}
+The nested emitter returns an output ID, not a computed tensor.
+At a leaf it creates an affine occurrence; otherwise it first emits the
+left subtree, then the right subtree consuming the left output, then a
+residual addition with the original source. Construction path labels such
+as \texttt{rootLR} keep distinct occurrences identifiable.
+\begin{center}\input{\Generated/graph-table.tex}\end{center}
+For depth two and width two, the table contains four affine calls and three
+additions. Nodes 1, 2, 4 and 5 share an owner in the displayed configuration.
+Node 6 adds values 3 and 5, while node 7 adds values 0 and 6.
+Confusing those residual sources would still produce shape-correct output,
+but the wrong function.
+
+\section{Reject illegal structure before running tensors}
+\index{type checking}
+The validator maintains known value widths and parameter-owner shapes.
+Every affine node has one already-defined input of the same width;
+every add has two already-defined inputs matching its output width.
+A shared owner must have one consistent width.
+\Listing{validate}
+\Plate{05-validation}{Structural contracts distinguish legal residual
+addition from a width mismatch and a forward/self reference. The reference
+requires topological order, so it rejects forward edges even if a different
+ordering could make a graph acyclic. Type validity does not establish the
+desired numerical semantics or task quality.}{fig:validation}
+
+These checks prevent accidental broadcasting and dangling dependencies.
+They do not prove a compiler emitted the intended graph. For example,
+adding the wrong width-$D$ value can pass all type checks.
+That is why we separately test graph execution against an interpreter of
+the mathematical recursion.
+
+Biological feedback is not represented by inserting a cycle into this
+same-step DAG. A feedback model needs state, timing and an update rule:
+for example, a previous-time value as an explicit external input.
+Finite unrolling then produces an acyclic execution graph whose depth
+means time steps. Our construction depth means nested structure instead.
+Equal-shaped diagrams can hide different time semantics.
+
+\section{Run the graph and preserve gradient ownership}
+\index{parameter sharing}\index{automatic differentiation}
+Execution stores a tensor for each value ID. An affine occurrence fetches
+its owner's tensors; an addition fetches its input values. The runtime
+checks actual parameter shapes and requires the owner set to match exactly.
+\Listing{execute}
+The simple dictionary intentionally retains intermediate values. It is
+not an optimized allocator, fused kernel, or memory-efficient training
+runtime. CPU float64 tests isolate semantic mistakes before systems work.
+
+The separate interpreter follows the recursion without inspecting the
+compiled node list:
+\Listing{recursive_oracle}
+Tests compare values, input gradients and every parameter gradient at
+depths zero through three under both ownership policies. A finite-difference
+check adds another independent gradient diagnostic. An order-swap negative
+test uses distinct leaf parameters so that exchanging left and right
+cannot pass by symmetry.
+
+\Plate{03-sharing}{Two operation occurrences can read one parameter owner
+or two independent owners. Shared backward contributions add into the same
+gradient. Drawing one stored tensor does not mean only one forward call;
+drawing two equal tensors does not make them one owner.}{fig:sharing}
+
+Let an expanded graph have leaf parameters $\theta_1,\ldots,\theta_L$.
+For a tied model set $\theta_i=\theta$ for every $i$.
+The chain rule gives
+\begin{equation}
+ \frac{d\mathcal L_{\mathrm{tied}}}{d\theta}
+ =\sum_{i=1}^{L}
+   \left.\frac{\partial\mathcal L}{\partial\theta_i}
+   \right|_{\theta_1=\cdots=\theta_L=\theta}.
+\end{equation}
+Each partial derivative includes all downstream dependencies from that
+occurrence. It is not merely a local derivative with the rest of the graph
+discarded. Our test clones one owner's initial values into independent
+owners, verifies equal forward results, then sums the independent gradients
+and compares with the tied gradient. A deliberate comparison with just one
+occurrence's gradient fails, catching overwrite instead of accumulation.
+
+After an optimizer update, the two ownership policies generally diverge:
+the shared parameter receives the sum, while each independent parameter
+receives its own contribution. Thus shared and initially equal independent
+models are different training systems even if their first outputs match.
+
+\section{Count the expanded structure, not the description}
+\index{resource accounting}
+Let $L_d$ count affine calls and $A_d$ additions.
+The construction gives $L_0=1,A_0=0$ and
+$L_d=2L_{d-1}$, $A_d=2A_{d-1}+1$. Hence
+\begin{equation}
+ L_d=2^d,\qquad A_d=2^d-1,\qquad N_d=2^{d+1}-1.
+\end{equation}
+The compiler checks $N_d$ against a budget before recursion.
+This prevents a tiny request from silently expanding into an enormous
+program. It also restricts the reference's admissible depth explicitly.
+
+The number of scalar parameters is $D^2+D$ under sharing and
+$2^d(D^2+D)$ without sharing. In either case, affine matrix work per
+input row is $2^dD^2$ multiply-accumulates, excluding bias additions,
+nonlinearities and residual operations.
+\Listing{costs}
+\begin{center}\input{\Generated/cost-table.tex}\end{center}
+\Plate{04-cost}{At width four, sharing keeps scalar parameter count at
+20 while independent ownership doubles it with each depth increment.
+Both graphs still execute $2^d$ affine calls per row. These counts are
+properties of the reference, not measured speed or memory benchmarks.}{fig:cost}
+
+At depth six, the graph has 127 nodes and 64 affine calls. It stores
+20 shared parameters or 1280 independent parameters, but both execute
+1024 matrix multiply-accumulates per row. A compact specification or small
+parameter bank does not eliminate expanded computation.
+
+Could common-subexpression elimination remove repeated shared calls?
+Not merely because they share $W,b$: each call generally receives a
+different input value. Memoization needs equal operation \emph{and}
+equal relevant inputs/state, with compatible side-effect semantics.
+Likewise, depth reduction requires a proof of functional equivalence,
+not a diagram with repeated labels.
+
+The deterministic initializer gives reproducible owner-key ordering and
+a local random generator:
+\Listing{parameter_bank}
+An exact restart in a trained extension would also need optimizer state,
+data order, random-generator state, and the compiled specification.
+Rebuilding a different sharing policy from the same numerical arrays
+would not reproduce the original optimization process.
+
+\section{Separate construction correctness from empirical discovery}
+We have proved bounds, rejected malformed programs, and compared execution
+with a recursive oracle. None of those tests establishes that the generated
+architecture is useful for genomic prediction. A search method would need
+a space of specifications, proposal or mutation rules, an evaluation
+budget, selection criteria and held-out assessment. Training a chosen
+graph and searching over graphs are separate sources of cost and bias.
+
+To compare direct and generated encodings fairly, record description size,
+expanded graph size, unique parameters, active computation, search trials,
+training budget and evaluation leakage controls. A compact encoding may
+restrict the search space beneficially or exclude the needed architecture.
+Either outcome must be measured on a declared task.
+
+In Evolutor's taxonomy, this compiler is a general structural reference,
+not DOGMA Engine, Hermon DNA Engine, or a demonstrated genomic controller.
+Biological resemblance provides possible design questions; explicit semantics
+and independent task evidence determine what a resulting system actually does.
+The next conceptual step is to describe typed modules and interactions at
+larger scope without conflating structural generation, dynamic regulation
+and numerical learning.
+
+\clearpage
+\section{Exercises with worked reasoning}
+\begin{enumerate}
+\item \textbf{Parallel step.} Rewrite SG once.
+ \emph{Solution:} SGGG, reading both old symbols before replacing either.
+\item \textbf{Growth.} Prove $g_d=2^d-1$.
+ \emph{Solution:} base $g_0=0$; $1+2(2^d-1)=2^{d+1}-1$.
+\item \textbf{Budget.} Can a seven-symbol limit reach generation three?
+ \emph{Solution:} no; the next word needs eight symbols and is rejected.
+\item \textbf{Shape.} Give the affine input, weight and bias shapes.
+ \emph{Solution:} $B\times D$, $D\times D$, and $D$, respectively.
+\item \textbf{Residual source.} At depth two, why does node 6 add node 3?
+ \emph{Solution:} node 3 is the input to the right depth-one module.
+\item \textbf{Owner count.} At depth three, compare policies.
+ \emph{Solution:} eight affine occurrences; one shared owner or eight separate owners.
+\item \textbf{Gradient.} Why is one occurrence's gradient insufficient?
+ \emph{Solution:} a tied parameter influences every occurrence; chain-rule
+ contributions sum over all uses.
+\item \textbf{Equivalence.} Do initially equal independent weights stay equal?
+ \emph{Solution:} generally no; their per-occurrence gradients differ.
+\item \textbf{Counts.} At depth six and width four, report work and parameters.
+ \emph{Solution:} 64 calls, 1024 matrix MACs per row, 20 shared or 1280
+ independent scalar parameters.
+\item \textbf{Caching.} Why not cache every call with the same owner key?
+ \emph{Solution:} its input tensors generally differ; ownership is not value identity.
+\item \textbf{Feedback.} How could delayed feedback enter an acyclic program?
+ \emph{Solution:} expose previous-time state as input and specify update order;
+ unroll time explicitly instead of inserting an unexplained same-step cycle.
+\item \textbf{Evaluation.} Compare generated versus direct architectures.
+ \emph{Rubric:} control search and training budgets, graph/parameter/compute
+ size, initialization, task splits and uncertainty; include a counterexample
+ showing a useful architecture excluded by the chosen grammar.
+\end{enumerate}
+\section*{Selective glossary}
+\addcontentsline{toc}{section}{Selective glossary}
+\textbf{Construction context:} values supplied while generating structure.
+\textbf{Occurrence:} one operation use in an expanded graph.
+\textbf{Owner:} identity of stored parameter tensors shared by uses.
+\textbf{Topological order:} inputs precede their consumers.
+\textbf{Structural validity:} satisfaction of graph/type rules, distinct
+from semantic correctness and predictive usefulness.

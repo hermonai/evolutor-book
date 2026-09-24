@@ -1,0 +1,12 @@
+\begin{tikzpicture}[x=1cm,y=.8cm]
+\node[circle,draw=Blue,fill=Gold] (s0) at (3.5,3) {S};
+\node[circle,draw=Blue,fill=Gold] (s1) at (1.5,1.5) {S};
+\node[circle,draw=Blue,fill=Pale] (g1) at (5.5,1.5) {G};
+\foreach \id/\x/\lab in {a/0/S,b/3/G,c/5/G,d/7/G}
+ \node[circle,draw=Blue] (\id) at (\x,0) {\lab};
+\draw[flow] (s0)--(s1); \draw[flow] (s0)--(g1);
+\draw[flow] (s1)--(a); \draw[flow] (s1)--(b);
+\draw[flow] (g1)--(c); \draw[flow] (g1)--(d);
+\node[note,align=left,anchor=west] at (8,1.5) {$S\mapsto SG$\\$G\mapsto GG$\\[4pt]Read one row;\\construct the next.};
+\node[smallnote] at (3.5,-1) {Abstract symbols and provenance, not literal cell lineage};
+\end{tikzpicture}

@@ -1,0 +1,246 @@
+\chapter{Regulation and expression across levels}
+Two cells can carry the same gene and encounter the same present signal,
+yet contain different amounts of its protein. A model that chooses one
+stored function from the current input cannot explain that difference unless
+it also represents history. This is the first useful boundary between
+biological regulation and Chapter 10's instantaneous expert routing.
+
+We will connect a promoter-state model to RNA and protein dynamics,
+derive a reproducible update, and ask which parameters observations can
+identify. Then we will extract a software contract without claiming that a
+neural module is a molecule. All numbers are assigned teaching values,
+not measurements or an Evolutor biological-performance result.
+
+\section{Stored sequence is not executed function}
+\index{regulation}\index{expression}\index{promoter}
+DNA supplies a substrate and information within cellular machinery.
+Transcription requires machinery interacting with DNA; translation requires
+RNA, ribosomes and other resources. Existing RNA and protein can persist
+after production changes. Protein abundance is distinct from protein
+activity, which may depend on localization, partners or chemical state.
+These distinctions make \emph{turning a gene on} ambiguous: does it mean
+promoter occupancy, RNA synthesis, RNA abundance, protein synthesis,
+protein abundance, or a downstream effect?
+
+Our setting is a simplified bacterial promoter with one overlapping repressor
+site. Simultaneous polymerase/repressor occupancy is excluded.
+Garcia and Phillips analyze such a three-state simple-repression motif under
+quasi-equilibrium and promoter-occupancy assumptions~\cite{garcia}.
+We use that limited starting point, not their fitted parameters or experimental
+performance.
+\Plate{01-promoter}{Empty, polymerase-bound and repressor-bound promoter
+states. The overlapping binding region explains exclusion in this model.
+DNA remains present in all states; only polymerase-bound occupancy is assigned
+transcriptional activity. Molecular silhouettes are schematic.}{fig:promoter}
+
+\section{Normalize states before interpreting a gate}
+\index{statistical weight}
+Assign dimensionless weights $1,u,r$ to the three states. These summarize
+effective availability and binding preference relative to an empty promoter.
+They are not probabilities until normalized:
+\begin{equation}
+ Z=1+u+r,\qquad P_{\emptyset}=Z^{-1},\quad
+ P_{\mathrm{pol}}=u/Z,\quad P_{\mathrm{rep}}=r/Z.
+\end{equation}
+If transcription is proportional to polymerase occupancy, the ratio with
+and without repressor is, for $u>0$,
+\begin{equation}
+ f(r)=\frac{u/(1+u+r)}{u/(1+u)}=\frac{1+u}{1+u+r}.
+\end{equation}
+Only for $u\ll1$ is $f(r)\approx1/(1+r)$ a suitable approximation.
+At $u=0$ both transcription rates vanish: the measured ratio is undefined,
+even though the simplified expression has a finite limit.
+\Listing{occupancy}
+\begin{center}\input{\Generated/occupancy-table.tex}\end{center}
+At $u=0.2,r=1$, active probability is $1/11$ and fold change is $6/11$.
+Confusing these quantities changes the interpretation of an experiment.
+The code scales weights before summation to avoid overflow when two finite
+weights are very large.
+
+Unlike a generic softmax, the alternatives here are specified physical
+configurations. But many possible states and processes have been omitted.
+A cooperative mechanism needs its allowed configurations and weights;
+raising $r$ to an arbitrary power does not itself derive cooperativity.
+A fitted response curve need not uniquely identify a mechanism.
+
+\section{Track production, retention and removal}
+\index{transcription}\index{translation}\index{turnover}
+Let $m(t),p(t)$ be coarse-grained RNA and protein concentrations in assigned
+nM units. Time is minutes, RNA production $s(t)$ is nM/min,
+translation $k$ is $\mathrm{min}^{-1}$, and effective loss rates
+$\gamma_m,\gamma_p>0$ are $\mathrm{min}^{-1}$. With fixed volume and
+first-order removal, define
+\begin{align}
+ \dot m&=s(t)-\gamma_m m,\\
+ \dot p&=km-\gamma_p p.
+\end{align}
+Translation does not consume RNA in this model. Each RNA can support repeated
+production; degradation and dilution enter separately through effective loss.
+This mean-concentration model omits discrete fluctuations and does not
+describe each individual cell.
+\Plate{02-expression}{The objects behind the two-stage model. Polymerase
+uses DNA to synthesize RNA; a ribosome uses RNA while a peptide grows.
+Loss removes RNA and protein from their respective pools. This coarse
+bacterial mechanism omits detailed resources and regulatory factors.}{fig:expression}
+
+Introduce $\alpha$ in nM/min and a competent-promoter fraction
+$a(t)\in[0,1]$, then set
+\begin{equation}
+ s(t)=\alpha a(t)\frac{u(t)}{1+u(t)+r(t)}.
+\end{equation}
+Occupancy is conditioned on the competent subpopulation. The product treats
+$a$ as separately supplied; it is not a derivation of chromatin accessibility
+or a universal bacterial rule. Gene copy number and fixed-volume conversion
+are absorbed into $\alpha$. Altering them changes the model.
+
+\section{Solve a constant-input interval}
+\index{exact propagation}
+Hold all coefficients fixed for duration $\Delta$, and set $m_*=s/\gamma_m$.
+Multiplying the RNA equation by $e^{\gamma_m t}$ and integrating yields
+\begin{equation}
+ m(\Delta)=m_*+(m_0-m_*)e^{-\gamma_m\Delta}.
+\end{equation}
+For protein, use the integrating factor $e^{\gamma_p t}$:
+\begin{align}
+ p(\Delta)&=p_0e^{-\gamma_p\Delta}
+  +k\int_0^\Delta e^{-\gamma_p(\Delta-\tau)}m(\tau)\,d\tau\\
+ &=p_0e^{-\gamma_p\Delta}
+  +k\left[m_*\frac{1-e^{-\gamma_p\Delta}}{\gamma_p}
+    +(m_0-m_*)J(\Delta)\right],
+\end{align}
+where
+\begin{equation}
+ J(\Delta)=\begin{cases}
+ \displaystyle\frac{e^{-\gamma_m\Delta}-e^{-\gamma_p\Delta}}
+ {\gamma_p-\gamma_m},&\gamma_p\ne\gamma_m,\\[6pt]
+ \Delta e^{-\gamma_m\Delta},&\gamma_p=\gamma_m.
+ \end{cases}
+\end{equation}
+At equal rates, the integrand's $\tau$ dependence cancels. The apparent
+singularity is removable, not a physical divergence.
+
+For $g=|\gamma_p-\gamma_m|>0$, rewrite
+$J=e^{-\min(\gamma_m,\gamma_p)\Delta}(1-e^{-g\Delta})/g$.
+This avoids subtracting nearly equal exponentials and avoids a large
+positive exponential. The implementation uses \texttt{expm1} for
+$1-e^{-x}$. An exact mathematical formula still needs floating-point tests.
+\Listing{expression_step}
+The immutable \texttt{State} stores RNA/protein concentrations; immutable
+\texttt{Definition} stores four rate parameters. Both live in
+\texttt{reference.py}. The context wrapper is:
+\Listing{regulated_step}
+There is no winner selection or capacity budget here. The wrapper updates
+a continuous state. Multiple intervals equal one long interval only with
+unchanged input and parameters, additive durations, and carried state.
+Tests verify this semigroup property and compare with an independent
+small-step fourth-order Runge--Kutta integration.
+
+\section{A stopped source can leave a rising output}
+\index{memory}\index{step response}
+Take $\alpha=12,u=0.2,r=0,a=1,k=2,\gamma_m=1,\gamma_p=0.5$,
+so $s=2$. Start at zero and set $a=0$ after four minutes, retaining
+the RNA/protein state. The reference uses exact quarter-minute updates:
+\Listing{simulate}
+\Plate{03-response}{RNA and protein under an assigned four-minute production
+pulse. RNA falls after closure, but protein briefly continues rising because
+surviving RNA still drives translation. Solid and dashed lines encode the
+two quantities independently of color.}{fig:response}
+At four minutes, $m\approx1.96337,p\approx5.98116$. Immediately after
+closure, $\dot m=-1.96337$ nM/min, yet
+$\dot p=2(1.96337)-0.5(5.98116)\approx0.93616$ nM/min.
+Rising protein does not establish current transcriptional activity.
+
+Setting derivatives to zero for constant source gives
+$m_*=s/\gamma_m$ and $p_*=ks/(\gamma_m\gamma_p)$:
+\Listing{steady_state}
+The assigned steady state is $(2,8)$ nM. Closing its source for one minute
+gives approximately $(0.73576,6.76146)$, whereas zero initial state under
+the identical closed context stays zero. Context alone cannot determine
+abundance. Production history is part of the computational state.
+
+\section{A perfect output trajectory can remain ambiguous}
+\index{identifiability}\index{intervention}
+Consider three parameter sets, all with $\gamma_p=0.5$:
+A has $(s,k,\gamma_m)=(2,2,1)$; B has $(1,4,1)$; C has $(4,2,2)$.
+All have $p_*=8$. A and C approach it differently, so a transient can
+distinguish them. But A and B have identical protein trajectories from
+zero despite different RNA trajectories.
+\begin{center}\input{\Generated/identifiability-table.tex}\end{center}
+\Plate{04-identifiability}{A and C share a steady protein value but differ
+during the transient. A and B coincide throughout: their transcription--translation
+product and loss rates match. RNA observations can separate A from B.}{fig:identifiability}
+For any $c>0$, replace $s$ by $s/c$, $k$ by $ck$, and $m_0$ by $m_0/c$.
+The RNA solution is divided by $c$, preserving $km(t)$.
+With unchanged $p_0$, the entire protein solution is unchanged.
+More precise protein measurements cannot remove this structural ambiguity.
+RNA measurements, an independent translation constraint, or an intervention
+that breaks the symmetry are needed.
+
+Low protein therefore does not uniquely establish transcriptional repression.
+RNA turnover, translation, protein turnover and history offer alternatives.
+A genomic predictor should name its output and the evidence that distinguishes
+these explanations. Predictive association and mechanistic intervention are
+different tests.
+
+\section{Extract a typed software hypothesis}
+\index{state ownership}\index{biological analogy}
+Separate a stored definition, context, eligibility, evolving state and executed
+effect. A definition is not a state; eligibility need not guarantee admission
+under a compute budget; abundance need not equal activity; an output is not
+the specification. One variable called a gene cannot safely stand for all five.
+\Plate{05-contract}{Equal present context with different initial state
+produces different next state. Solid arrows are update dependencies.
+Dashed boundaries mark state owned by one simulated system, not global
+state shared across unrelated records.}{fig:contract}
+
+Chapter 10's gate weights a current-token expert branch under cohort and
+capacity rules. This chapter retains material/state after the source closes.
+Naming both mechanisms regulation does not make their semantics equivalent.
+A regulation-inspired software experiment must specify update time, reset
+boundaries, parameter ownership, observations and interventions. Accidental
+state carryover between unrelated genomic records is leakage, not useful memory.
+
+These are research hypotheses above either Evolutor direction: Hermon DNA
+remains Transformer-based and DOGMA remains non-Transformer.
+The scalar model establishes no biological capability for either.
+A useful next study would compare stateful and stateless predictors with
+matched data and compute budgets, held-out interventions and explicit
+reset ablations. Chapter 12 asks a different question: how can a compact
+specification generate a larger computational structure before execution?
+
+\clearpage
+\section{Exercises with worked reasoning}
+\begin{enumerate}
+\item \textbf{Normalization.} Weights $(1,.2,1)$ give which active probability?
+ \emph{Solution:} $.2/2.2=1/11$.
+\item \textbf{Fold change.} Is $1/11$ the fold change?
+ \emph{Solution:} no; divide by unrepressed $1/6$ to obtain $6/11$.
+\item \textbf{Zero polymerase.} Interpret $u=0$.
+ \emph{Solution:} no active occupancy; the ratio of zero rates is undefined.
+\item \textbf{Units.} Check $km$.
+ \emph{Solution:} $\mathrm{min}^{-1}\cdot\mathrm{nM}=\mathrm{nM/min}$.
+\item \textbf{Equal rates.} With both loss rates one, $s=2,k=3$ and zero
+ state, derive $p(t)$. \emph{Solution:} $6[1-(1+t)e^{-t}]$.
+\item \textbf{Steady state.} Find the pulse's active-source equilibrium.
+ \emph{Solution:} $(2,8)$ nM.
+\item \textbf{Delayed peak.} Why can protein rise after source closure?
+ \emph{Solution:} $km$ can still exceed $\gamma_p p$.
+\item \textbf{Memory.} Compare cold and warm states one minute after closure.
+ \emph{Solution:} $(0,0)$ versus approximately $(.73576,6.76146)$.
+\item \textbf{Ambiguity.} Can protein-only time series distinguish A and B?
+ \emph{Solution:} no; the scaling symmetry preserves all those observations.
+\item \textbf{Chunking.} When does two-step propagation equal one step?
+ \emph{Solution:} same held coefficients, additive durations and carried state.
+\item \textbf{Independent check.} Why also compare against RK4?
+ \emph{Solution:} the printed formula and its implementation might share a mistake.
+\item \textbf{Study design.} Test a regulation-inspired predictor.
+ \emph{Rubric:} name quantities, reset boundaries, matched baselines,
+ intervention splits, uncertainty and competing explanations.
+\end{enumerate}
+\section*{Selective glossary}
+\addcontentsline{toc}{section}{Selective glossary}
+\textbf{Occupancy:} probability of a molecular configuration.
+\textbf{Expression:} a process whose measured level must be specified.
+\textbf{Turnover:} effective removal from a modeled pool.
+\textbf{Identifiability:} distinct parameters imply distinguishable observations.
+\textbf{Context:} supplied update conditions, distinct from carried state.

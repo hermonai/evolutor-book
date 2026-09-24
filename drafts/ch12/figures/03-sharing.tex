@@ -1,0 +1,15 @@
+\begin{tikzpicture}[x=.9cm,y=.8cm]
+\node[draw=Blue,fill=Gold,note] (w) at (2,2) {one owner $\theta$};
+\node[draw=Blue,note] (a) at (0,0) {use 1};
+\node[draw=Blue,note] (b) at (4,0) {use 2};
+\draw[flow] (w)--(a); \draw[flow] (w)--(b);
+\draw[flow,Red,bend left=25] (a) to node[left,font=\small] {$g_1$} (w);
+\draw[flow,Red,bend right=25] (b) to node[right,font=\small] {$g_2$} (w);
+\node[smallnote] at (2,-1) {shared gradient: $g_1+g_2$};
+\node[draw=Blue,fill=Pale,note] (wa) at (8,2) {$\theta_1$};
+\node[draw=Blue,fill=Pale,note] (wb) at (11,2) {$\theta_2$};
+\node[draw=Blue,note] (aa) at (8,0) {use 1};
+\node[draw=Blue,note] (bb) at (11,0) {use 2};
+\draw[flow] (wa)--(aa); \draw[flow] (wb)--(bb);
+\node[smallnote] at (9.5,-1) {separate owners; separate updates};
+\end{tikzpicture}

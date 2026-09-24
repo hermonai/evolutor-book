@@ -1,0 +1,13 @@
+\begin{tikzpicture}[x=1cm,y=.7cm]
+\node[note,anchor=west] at (0,3) {Legal: $D+D\to D$};
+\node[draw=Blue,note] (a) at (1,1.7) {$v_0:D$};
+\node[draw=Blue,note] (b) at (1,.3) {$v_2:D$};
+\node[circle,draw=Blue] (sum) at (4,1) {$+$};
+\draw[flow] (a)--(sum); \draw[flow] (b)--(sum);
+\node[note,anchor=west] at (6,3) {Reject: width mismatch or missing input};
+\node[draw=Red,note] (bad) at (8,1.7) {$D+2D$};
+\node[draw=Red,note] (cyc) at (8,.2) {$v_1=v_0+v_1$};
+\node[smallnote,anchor=west] at (10,1.7) {no implicit broadcast};
+\node[smallnote,anchor=west] at (10,.2) {$v_1$ not yet defined};
+\node[smallnote] at (6,-1) {Fresh IDs, known inputs, matching shapes; then test semantics separately.};
+\end{tikzpicture}

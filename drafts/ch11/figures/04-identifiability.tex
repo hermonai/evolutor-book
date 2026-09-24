@@ -1,0 +1,8 @@
+\begin{tikzpicture}
+\begin{axis}[width=9cm,height=5cm,xlabel={Time (min)},ylabel={Protein (nM)},
+xmin=0,xmax=8,ymin=0,ymax=8.5,legend pos=south east]
+\input{\Generated/identifiability-plot.tex}
+\legend{A and B,C}
+\end{axis}
+\node[smallnote,align=left,anchor=west] at (8,2) {All reach $p_*=8$.\\A and B: same curve,\\different RNA.\\C: faster RNA response.};
+\end{tikzpicture}

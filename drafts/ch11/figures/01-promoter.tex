@@ -1,0 +1,15 @@
+\begin{tikzpicture}[x=.8cm,y=.8cm]
+\foreach \x/\lab/\w in {0/Empty/1,5/Polymerase/$u$,10/Repressor/$r$}{
+ \draw[Blue,very thick] (\x,0)--(\x+3.4,0);
+ \draw[Blue,very thick] (\x,-.35)--(\x+3.4,-.35);
+ \foreach \d in {.2,.5,...,3.2}\draw[Blue!50] (\x+\d,0)--(\x+\d,-.35);
+ \fill[Gold,opacity=.6] (\x+.8,-.5) rectangle (\x+2.6,.15);
+ \node[note] at (\x+1.7,1.6) {\lab};
+ \node[smallnote] at (\x+1.7,-1) {weight \w};}
+\draw[fill=Green!20,draw=Green,thick] (5.8,.1) .. controls (5.4,1.5) and (8.1,1.6) .. (7.7,.1)--cycle;
+\node[smallnote] at (6.7,.65) {RNAP};
+\draw[Red,thick,->] (7.3,.2) .. controls (8.1,.7) and (8.3,.5) .. (8.8,.9);
+\draw[fill=Red!20,draw=Red,thick,rounded corners=3mm] (10.8,.1) rectangle (12.5,1.1);
+\node[smallnote] at (11.65,.6) {repressor};
+\node[smallnote] at (6.7,-1.8) {Shaded DNA: overlapping binding region; double occupancy excluded.};
+\end{tikzpicture}

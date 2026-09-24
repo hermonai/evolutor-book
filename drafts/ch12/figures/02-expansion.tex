@@ -1,0 +1,14 @@
+\begin{tikzpicture}[x=1.4cm,y=.8cm]
+\node[note] (x) at (0,1) {$x=v_0$};
+\foreach \id/\pos/\lab in {1/1/H,2/2/H,3/3/+,4/4/H,5/5/H,6/6/+,7/7/+}
+ \node[draw=Blue,fill=Pale,minimum size=7mm,font=\sffamily] (n\id) at (\pos,1) {\lab};
+\draw[flow] (x)--(n1);
+\foreach \a/\b in {1/2,2/3,3/4,4/5,5/6,6/7}\draw[flow] (n\a)--(n\b);
+\draw[flow] (x.north)--(0,2.3)--(3,2.3)--(n3.north);
+\draw[flow] (n3.north)--(3,3)--(6,3)--(n6.north);
+\draw[flow] (x.south)--(0,-.5)--(7,-.5)--(n7.south);
+\foreach \i in {1,...,6}\node[smallnote] at (\i,.35) {$v_{\i}$};
+\node[smallnote] at (7.4,.35) {$v_7$};
+\node[smallnote] at (3.5,3.6) {Depth two: four affine-activation calls, three parent residuals};
+\node[smallnote] at (3.5,-1.2) {$H(x)=\tanh(xW+b)$; arrows carry values, not construction rules};
+\end{tikzpicture}

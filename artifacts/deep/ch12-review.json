@@ -1,0 +1,61 @@
+{
+  "pdf": "output/pdf/evolutor-ch12-review.pdf",
+  "pages": 14,
+  "sha256": "f51ba5dfadd51b68b9d5b9a89e3ae47578b26c99840b9ae8c756d1cfc5d27165",
+  "status": "standalone authored-LaTeX review candidate; no acceptance promotion",
+  "sources": {
+    "drafts/ch12/README.md": "567e3f6bf433e04c3b70bf307120f64543ec9303f36d03ee741e2f234d8563e7",
+    "drafts/ch12/STORYBOARD.md": "aa2e215adf3f6b713267bd63fe3f4ced27ddd542f6a8eb3467bdc68d6547100a",
+    "drafts/ch12/build.py": "8cbd76f36bc18141bae536bad7edeacd8379ea36ac504c8db5707f75b38cc7df",
+    "drafts/ch12/figures/01-rewrite.tex": "17bd7223f04200cdddb9d3e1185901fbf7446b405c5f6db5057aac213ca18bda",
+    "drafts/ch12/figures/01-rewrite.txt": "dfb845c9aaebfc9adcf93486e0e60787e30ebb9bbf3da9f1ab728c35e50570a2",
+    "drafts/ch12/figures/02-expansion.tex": "d571623081a8ffd0c45d74be29fc081ea63ea53cada1ca60a058438ee38af914",
+    "drafts/ch12/figures/02-expansion.txt": "84a08fb73d39fe9b7c8d86f6331d28fe6ca4c7812baa1d86c372c9a3c000b1c1",
+    "drafts/ch12/figures/03-sharing.tex": "3554b74a76cb31075cf32fc0f0a6a181c880bae45048b7f8d10f9a567295cd15",
+    "drafts/ch12/figures/03-sharing.txt": "e0e2161fd152fba4c04d55969bb9613a44c1f3652bc02949c21754e462506fb4",
+    "drafts/ch12/figures/04-cost.tex": "9de75536a00588de614b9bc176480371518a3e5deac59a81e647fb46098cc673",
+    "drafts/ch12/figures/04-cost.txt": "119708d9151c8446f7f2a727d2d02e8837ae11bcffd690e46c4ca8014448489b",
+    "drafts/ch12/figures/05-validation.tex": "c017bd47a52bbf024322118c58aaaeb0398f529091c9cf0be56663f8b930fb46",
+    "drafts/ch12/figures/05-validation.txt": "d4104fb0bea0fbb5d1be9e273c3decd78ebf14875f1174cf85153d29d47f2703",
+    "drafts/ch12/manuscript.tex": "460da6b927c13125574567d21f26e3c08ea48858051140dda3f607f4100ed8f2",
+    "drafts/ch12/reference.py": "cdb2af5ed3984eb933b410dc95ed5bc7fa09a06eac41e8fc9c000c98fcf9f5f3",
+    "drafts/ch12/results.json": "69c4d7c1db5dc209b0edf298e340a91c2b33e6a5f093cbf605e9cbc6f93e7807",
+    "drafts/ch12/review.tex": "5498b2108fdf8068e0691796af7a7097fe278c4d9d0e2a40d72d03654dbcebaf",
+    "drafts/ch12/sources.tex": "ec5788aebfa78f97287676dfbb379757f54ce3abc85355152b1421aa96e0578f"
+  },
+  "reviewedOn": "2026-09-24",
+  "reviewType": "author technical, editorial and visual review; not independent specialist acceptance",
+  "allPagesInspected": true,
+  "inspectedPhysicalPages": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14
+  ],
+  "grayscaleReview": "All pages inspected in color and grayscale; all figure and code-listing pages, sources and index also inspected individually at page scale. Corrected label collisions and residual-arrow labels re-inspected after rebuilding.",
+  "figures": 5,
+  "exercises": 12,
+  "openGates": [
+    "independent specialist review",
+    "reader feedback",
+    "cumulative integration, cross-chapter index and bibliography"
+  ],
+  "validation": {
+    "generatedArtifactsCheck": "passed",
+    "pdfWordsOutsidePage": 0,
+    "unresolvedReferenceMarkers": 0,
+    "fullSuitePassed": 439,
+    "fullSuiteSkipped": 0,
+    "priorEditionPreservationTests": "passed"
+  }
+}
