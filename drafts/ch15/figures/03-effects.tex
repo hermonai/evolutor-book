@@ -1,0 +1,11 @@
+\begin{tikzpicture}[x=1cm,y=1cm]
+\node[note] at (1.3,2.5) {initial\\$(s,n)=(0,3)$};
+\node[draw,fill=Pale,note] (a) at (5,3.2) {add reads $n=3$};
+\node[draw,fill=Pale,note] (b) at (9,3.2) {decrement writes $n=2$};
+\draw[flow] (a)--(b);\node[note] at (9,2.4) {result $(3,2)$};
+\node[draw,fill=Gold,note] (c) at (5,.8) {decrement writes $n=2$};
+\node[draw,fill=Gold,note] (d) at (9,.8) {add reads $n=2$};
+\draw[flow] (c)--(d);\node[note] at (9,0) {result $(2,2)$};
+\draw[flow] (2.5,2.5)--(a.west);\draw[flow] (2.5,2.3)--(c.west);
+\node[note,Red] at (5.5,-.7) {Same types, different values: read/write order is observable.};
+\end{tikzpicture}

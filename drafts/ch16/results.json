@@ -1,0 +1,282 @@
+{
+  "routing": [
+    {
+      "name": "ragged",
+      "stored_parameters": 1056,
+      "active_expert_parameters": 512,
+      "router_macs": 128,
+      "useful_expert_macs": 1024,
+      "executed_expert_macs": 1024,
+      "dropped_assignments": 0,
+      "dispatch_bytes": 256
+    },
+    {
+      "name": "padded",
+      "stored_parameters": 1056,
+      "active_expert_parameters": 512,
+      "router_macs": 128,
+      "useful_expert_macs": 1024,
+      "executed_expert_macs": 4096,
+      "dropped_assignments": 0,
+      "dispatch_bytes": 256
+    },
+    {
+      "name": "capped",
+      "stored_parameters": 1056,
+      "active_expert_parameters": 512,
+      "router_macs": 128,
+      "useful_expert_macs": 768,
+      "executed_expert_macs": 2048,
+      "dropped_assignments": 1,
+      "dispatch_bytes": 192
+    }
+  ],
+  "memory": [
+    {
+      "order": [
+        "a",
+        "b",
+        "c",
+        "d",
+        "y"
+      ],
+      "peak": 300,
+      "trace": [
+        {
+          "node": "a",
+          "allocated": 200,
+          "after": 200
+        },
+        {
+          "node": "b",
+          "allocated": 300,
+          "after": 200
+        },
+        {
+          "node": "c",
+          "allocated": 210,
+          "after": 110
+        },
+        {
+          "node": "d",
+          "allocated": 120,
+          "after": 20
+        },
+        {
+          "node": "y",
+          "allocated": 30,
+          "after": 10
+        }
+      ]
+    },
+    {
+      "order": [
+        "a",
+        "c",
+        "b",
+        "d",
+        "y"
+      ],
+      "peak": 210,
+      "trace": [
+        {
+          "node": "a",
+          "allocated": 200,
+          "after": 200
+        },
+        {
+          "node": "c",
+          "allocated": 210,
+          "after": 110
+        },
+        {
+          "node": "b",
+          "allocated": 210,
+          "after": 110
+        },
+        {
+          "node": "d",
+          "allocated": 120,
+          "after": 20
+        },
+        {
+          "node": "y",
+          "allocated": 30,
+          "after": 10
+        }
+      ]
+    }
+  ],
+  "buffer": [
+    {
+      "size": 1,
+      "capacity": 1,
+      "actual": 1,
+      "potential": 1,
+      "amortized": 2,
+      "total": 1
+    },
+    {
+      "size": 2,
+      "capacity": 2,
+      "actual": 2,
+      "potential": 2,
+      "amortized": 3,
+      "total": 3
+    },
+    {
+      "size": 3,
+      "capacity": 4,
+      "actual": 3,
+      "potential": 2,
+      "amortized": 3,
+      "total": 6
+    },
+    {
+      "size": 4,
+      "capacity": 4,
+      "actual": 1,
+      "potential": 4,
+      "amortized": 3,
+      "total": 7
+    },
+    {
+      "size": 5,
+      "capacity": 8,
+      "actual": 5,
+      "potential": 2,
+      "amortized": 3,
+      "total": 12
+    },
+    {
+      "size": 6,
+      "capacity": 8,
+      "actual": 1,
+      "potential": 4,
+      "amortized": 3,
+      "total": 13
+    },
+    {
+      "size": 7,
+      "capacity": 8,
+      "actual": 1,
+      "potential": 6,
+      "amortized": 3,
+      "total": 14
+    },
+    {
+      "size": 8,
+      "capacity": 8,
+      "actual": 1,
+      "potential": 8,
+      "amortized": 3,
+      "total": 15
+    },
+    {
+      "size": 9,
+      "capacity": 16,
+      "actual": 9,
+      "potential": 2,
+      "amortized": 3,
+      "total": 24
+    },
+    {
+      "size": 10,
+      "capacity": 16,
+      "actual": 1,
+      "potential": 4,
+      "amortized": 3,
+      "total": 25
+    },
+    {
+      "size": 11,
+      "capacity": 16,
+      "actual": 1,
+      "potential": 6,
+      "amortized": 3,
+      "total": 26
+    },
+    {
+      "size": 12,
+      "capacity": 16,
+      "actual": 1,
+      "potential": 8,
+      "amortized": 3,
+      "total": 27
+    },
+    {
+      "size": 13,
+      "capacity": 16,
+      "actual": 1,
+      "potential": 10,
+      "amortized": 3,
+      "total": 28
+    },
+    {
+      "size": 14,
+      "capacity": 16,
+      "actual": 1,
+      "potential": 12,
+      "amortized": 3,
+      "total": 29
+    },
+    {
+      "size": 15,
+      "capacity": 16,
+      "actual": 1,
+      "potential": 14,
+      "amortized": 3,
+      "total": 30
+    },
+    {
+      "size": 16,
+      "capacity": 16,
+      "actual": 1,
+      "potential": 16,
+      "amortized": 3,
+      "total": 31
+    }
+  ],
+  "roofline": [
+    {
+      "intensity": 0.1,
+      "throughput": 1.0
+    },
+    {
+      "intensity": 0.2,
+      "throughput": 2.0
+    },
+    {
+      "intensity": 0.5,
+      "throughput": 5.0
+    },
+    {
+      "intensity": 1,
+      "throughput": 10.0
+    },
+    {
+      "intensity": 2,
+      "throughput": 20.0
+    },
+    {
+      "intensity": 5,
+      "throughput": 50.0
+    },
+    {
+      "intensity": 10,
+      "throughput": 100.0
+    },
+    {
+      "intensity": 20,
+      "throughput": 100.0
+    },
+    {
+      "intensity": 50,
+      "throughput": 100.0
+    },
+    {
+      "intensity": 100,
+      "throughput": 100.0
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+Question: How can rare expensive operations have bounded aggregate cost?
+Objects and arrow semantics: Trace buffer capacity staircase (slots) and per-append movement count (copies plus one write), generated from the tested model for events 1 through 8. Solid steps and dashed markers distinguish series without relying on color.
+Change/invariant and caption claim: Unused capacity changes potential; copying is counted on resize.
+Scientific risk: Amortized cost is not worst-case latency.

@@ -1,0 +1,12 @@
+\begin{tikzpicture}[x=1cm,y=1cm]
+\node[note] (p) at (1,3) {trusted program\\and initial state};
+\node[draw,fill=Pale,note] (s) at (5,3) {derive expected\\transition};
+\node[draw,diamond,aspect=2,note] (c) at (9,3) {equal?};
+\node[note] (e) at (9,.8) {recorded event\\before / after};
+\draw[flow] (p)--(s);\draw[flow] (s)--(c);\draw[flow] (e)--(c);
+\draw[flow] (c)--node[right,note]{yes}(9,4.4)--(5,4.4)--(s);
+\node[note] at (6.3,4.7) {advance checkpoint};
+\draw[flow,Red] (c)--node[above,note]{no}(11.5,3);
+\node[note,Red] at (11.4,2.3) {reject};
+\node[note] at (5.5,-.2) {Valid prefix $\ne$ completed execution. Check the final halt separately.};
+\end{tikzpicture}

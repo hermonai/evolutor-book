@@ -1,0 +1,4 @@
+Question: What is one execution step?
+Objects and arrow semantics: Instruction tape, program counter, integer environment and event stream.
+Change/invariant and caption claim: One step changes exactly the registers and control position stated by its rule.
+Scientific risk: Software state is not a biological cell.

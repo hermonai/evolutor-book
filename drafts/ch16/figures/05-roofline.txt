@@ -1,0 +1,4 @@
+Question: Which bottleneck can a cost estimate suggest?
+Objects and arrow semantics: Arithmetic-intensity versus attainable-throughput upper envelope with bandwidth and compute limits.
+Change/invariant and caption claim: The lower bound on time is the maximum of compute and transfer bounds.
+Scientific risk: No hardware prediction without measured effective rates and actual traffic.

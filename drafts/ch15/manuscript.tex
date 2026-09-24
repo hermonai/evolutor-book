@@ -1,0 +1,262 @@
+\chapter{Operational semantics and expression traces}
+A program adds the integers from $N$ down to 1. For $N=3$, its answer should
+be 6. But suppose an optimizer decrements the counter before adding it.
+The program is still well typed, every instruction is legal, and the answer
+becomes 3. Types alone did not preserve the computation.
+
+Chapter 14 defined typed instructions and snapshot-based state ownership.
+Here we expose execution one transition at a time. We use scalar integer
+registers to make control and effects visible without tensor-library details.
+This is a new, explicitly sequential teaching machine, not a silent change
+to Chapter 14's snapshot semantics. Its instruction alphabet is deliberately
+small enough to derive, implement and exhaustively trace.
+
+\section{Specify configurations before instructions}
+\index{configuration}\index{operational semantics}
+A program $P$ is an immutable tuple of instructions. A configuration
+\begin{equation}
+ C=(p,\rho)
+\end{equation}
+contains a program counter $p$ and an environment $\rho$ mapping register names
+to mathematical integers. The program is fixed during a run. The counter
+selects the next instruction, not the number of instructions already executed.
+An event records the instruction and its before/after configurations.
+
+\Listing{Configuration}
+The helper \texttt{configuration} validates integer values and stores register
+pairs in sorted order, making snapshots immutable and comparisons deterministic.
+Python integers avoid fixed-width overflow in this reference; their arithmetic
+and storage are not constant cost for arbitrarily large values.
+\Plate{01-machine}{A configuration points to one instruction and stores register
+values. The step relation reads both and returns a new configuration plus an
+event. No biological process is implied by the term expression.}{fig:machine}
+
+We use five instruction forms:
+\begin{center}
+\begin{tabular}{ll}\toprule
+Instruction & Effect\\\midrule
+$\operatorname{add}(a,b)$ & $\rho(a)\gets\rho(a)+\rho(b)$; advance\\
+$\operatorname{dec}(a)$ & $\rho(a)\gets\rho(a)-1$; advance\\
+$\operatorname{jump}(j)$ & set counter to $j$\\
+$\operatorname{jz}(a,j)$ & branch to $j$ if $\rho(a)=0$, otherwise advance\\
+$\operatorname{halt}$ & return a halted outcome\\\bottomrule
+\end{tabular}
+\end{center}
+The complete program is validated before execution: every register exists,
+each instruction has the right arity, and every branch target is a valid index.
+This prevents a disabled or unvisited branch from hiding malformed code.
+\Listing{validate}
+Validation is not termination analysis. A legal self-jump can execute forever,
+and a legal final non-halt instruction can fall off the program.
+
+\section{Derive the small-step relation}
+\index{small-step relation}\index{effects}
+Write $C\xrightarrow{e}_P C'$ when executing the selected instruction produces
+event $e$ and next configuration $C'$. For an addition,
+\begin{equation}
+ \frac{P[p]=\operatorname{add}(a,b)}
+ {(p,\rho)\longrightarrow
+ (p+1,\rho[a\mapsto\rho(a)+\rho(b)])}.
+ \label{eq:addstep}
+\end{equation}
+All right-hand-side values are read from the old environment; if $a=b$, this
+doubles the old value. Registers not named by the update remain unchanged.
+For zero-branch,
+\begin{equation}
+ p'=\begin{cases}j&\rho(a)=0,\\p+1&\rho(a)\ne0.\end{cases}
+ \label{eq:branch}
+\end{equation}
+For decrement, the new value is $\rho(a)-1$, including negative results.
+Halting is a terminal action, not ordinary fallthrough. The implementation
+uses counter $|P|$ as a halted checkpoint, together with a separate status.
+
+\Listing{step}
+
+There is at most one applicable rule for a validated instruction and environment.
+Thus the machine is deterministic: the same program and configuration produce
+the same next configuration and event. The argument depends on exact integer
+operations and a fixed program. Random routing, asynchronous external effects
+or floating-point nondeterminism would require additional semantics.
+
+The public runner validates inputs; \texttt{step} is an internal primitive
+assuming that validation. It cannot safely execute arbitrary unvalidated tuple
+structures merely because its body is short.
+
+\section{A loop invariant proves the result; a ranking function proves termination}
+\index{loop invariant}\index{ranking function}
+The program has indices 0 through 4:
+\[
+\begin{array}{rll}
+0&\operatorname{jz}(n,4)&\text{check completion}\\
+1&\operatorname{add}(s,n)&\text{accumulate current counter}\\
+2&\operatorname{dec}(n)&\text{decrease counter}\\
+3&\operatorname{jump}(0)&\text{return to check}\\
+4&\operatorname{halt}&\text{finish}.
+\end{array}
+\]
+Initialize $n=N\geq0$, $s=0$. At each visit to index 0, the invariant is
+\begin{equation}
+ s+\frac{n(n+1)}2=\frac{N(N+1)}2,\qquad 0\leq n\leq N.
+ \label{eq:sum}
+\end{equation}
+Initially it is immediate. One body iteration replaces $(s,n)$ by
+$(s+n,n-1)$. Substitution gives
+\[
+ s+n+\frac{(n-1)n}{2}=s+\frac{n(n+1)}2,
+\]
+so the invariant is preserved at the next loop head.
+When $n=0$, it implies $s=N(N+1)/2$.
+
+\Plate{02-loop}{The guarded loop checks zero before changing state.
+The rank $n$ decreases once per body traversal. It need not decrease on the
+guard or back edge individually.}{fig:loop}
+
+Correctness on termination does not itself prove termination. At loop heads
+with $n>0$, rank $n$ is a nonnegative integer that decreases strictly after a
+body. It therefore reaches zero after exactly $N$ bodies.
+Each body cycle executes four instructions, followed by a final zero check
+and halt, so
+\begin{equation}
+ T(N)=4N+2.
+ \label{eq:steps}
+\end{equation}
+If $N<0$, decrement moves away from zero. The program remains syntactically
+valid but the precondition for this termination proof fails.
+The runner accepts integer states generally; the summation contract requires
+the caller to enforce $N\geq0$.
+
+\begin{center}\input{\Generated/trace.tex}\end{center}
+This generated trace for $N=3$ reaches $s=6$ in fourteen transitions.
+An event is recorded for the halt instruction too. Changing that convention
+would change the exact cost formula.
+
+\section{Fuel bounds observation, not the program's meaning}
+\index{fuel}\index{termination}
+\Listing{run}
+The runner returns one of three statuses. \texttt{halt} means an explicit halt
+was executed. \texttt{exhausted} means the provided transition budget was used
+without observing halt. \texttt{error} means no valid next instruction exists
+after a step, such as falling beyond the last non-halt instruction.
+Malformed programs are rejected before running, rather than being classified
+as a runtime outcome.
+
+\Plate{05-outcomes}{A bounded run separates an explicit halt, an invalid next
+step and budget exhaustion. Exhaustion preserves a checkpoint that can be
+resumed; it is not a proof of divergence.}{fig:outcomes}
+
+For a valid initial configuration, zero fuel returns an empty trace and
+exhaustion. Fuel $4N+1$ stops just before the halt instruction in the summation
+example; $4N+2$ observes it. A self-jump also exhausts any finite fuel supply,
+but these equal statuses do not imply equal termination behavior.
+
+The bound controls transitions, not memory or wall-clock time. Integer sizes,
+event storage and validation cost are outside its count. The implementation
+is not a sandbox for executing untrusted programs; it interprets a fixed,
+small instruction alphabet and performs no external I/O.
+
+A resumable checkpoint contains the counter and complete register environment.
+Run seven steps at $N=4$, then resume the checkpoint for eleven more:
+the concatenated event sequence equals the eighteen-step uninterrupted run.
+This follows by determinism and can be tested at every split before halt.
+A checkpoint after halt is terminal; the public API does not restart it as
+an ordinary instruction.
+
+\section{Well-typed transformations can violate effects}
+\index{read-write dependency}\index{optimization legality}
+Compare $\operatorname{add}(s,n);\operatorname{dec}(n)$ with the reverse order.
+At $(s,n)=(0,3)$ they yield $(3,2)$ and $(2,2)$.
+Both preserve integer types. They differ because addition reads $n$ while
+decrement writes $n$.
+\Plate{03-effects}{Reordering a read across a write changes the result.
+The dependency arrow is an ordering constraint, not a data tensor.
+Equal types and equal instruction counts do not establish equivalence.}{fig:effects}
+
+For two pure deterministic state updates $A,B$ with read sets $R_A,R_B$
+and write sets $W_A,W_B$, a sufficient noninterference condition is
+\begin{equation}
+ W_A\cap(R_B\cup W_B)=\varnothing,\qquad
+ W_B\cap(R_A\cup W_A)=\varnothing.
+ \label{eq:commute}
+\end{equation}
+Under these assumptions neither update changes values the other observes
+or writes, so the two orders commute. This is sufficient, not necessary:
+some overlapping arithmetic updates commute for algebraic reasons.
+
+Control effects and observability also matter. Exchanging two independent
+register updates can preserve the final environment while changing a full
+instruction trace. If the specification exposes every event, trace equality
+is stronger than final-value equality. A compiler must declare which
+observations it preserves: results, exceptions, I/O, state, or a specified
+projection of a trace.
+
+Modern MLIR structured-control-flow documentation makes region arguments,
+conditions and yielded values explicit \cite{mlir}. StableHLO likewise states
+dataflow execution ordering and uses token dependencies for side effects
+\cite{stablehlo}. These are relevant production design patterns, not evidence
+that this register machine implements either representation.
+
+\section{Replay checks a claim rather than trusting a log}
+\index{trace replay}
+An event stores before counter, instruction, before registers, after counter
+and after registers. Semantic replay recomputes the expected event from the
+current configuration, compares the entire record, and advances only on equality.
+\Listing{replay}
+\Plate{04-replay}{A replay checker recomputes each transition from trusted program
+and initial state. It compares the claimed event with the expected event.
+A plausible final answer alone cannot certify the intervening trace.}{fig:replay}
+
+Duplicating or changing an event is detected when the next event no longer
+matches the derived transition. A valid prefix is still a valid partial trace:
+replay does not claim completion unless the caller separately checks that its
+last event is halt and its final configuration agrees with the reported result.
+Removing an entire suffix can therefore preserve replay validity while destroying
+a completeness claim.
+
+The trace is not cryptographically authenticated. An adversary who changes
+the program, initial state and all events consistently can produce another valid
+trace. Retain content identities and an external trust mechanism when provenance
+matters. A textual version label does not supply either automatically.
+
+Tests compare the summation result with $N(N+1)/2$ for $N=0,\ldots,50$,
+check exact fuel boundaries, resume a split run, replay its events and reject
+a tampered record. Negative controls include a self-loop, a reordered body,
+undefined registers, invalid jumps and fallthrough without halt.
+
+\section{Exercises with worked answers}
+\begin{enumerate}
+\item \textbf{Predict.} Run $N=0$. \emph{Answer:} Zero check and halt execute;
+$s=0$, with two transitions.
+\item \textbf{Derive.} Prove Equation~\ref{eq:sum}. \emph{Answer:} The body adds $n$
+and replaces its triangular remainder by $(n-1)n/2$; the total is unchanged.
+\item \textbf{Terminate.} Why is $n$ a valid rank only at loop heads?
+\emph{Answer:} It decreases across each complete body, but not on every control step.
+\item \textbf{Count.} Give exact fuel for $N=10$. \emph{Answer:} $4(10)+2=42$.
+\item \textbf{Distinguish.} Does exhausted fuel prove an infinite loop?
+\emph{Answer:} No; the summation run with one step too little fuel is a counterexample.
+\item \textbf{Precondition.} What fails for $N=-1$?
+\emph{Answer:} The nonnegative rank premise; successive decrements never reach zero.
+\item \textbf{Effects.} Reorder the loop's add and decrement.
+\emph{Answer:} The new sum is $N(N-1)/2$, although the final counter is still zero.
+\item \textbf{Aliasing.} Interpret $\operatorname{add}(s,s)$.
+\emph{Answer:} Read the old value twice and store $2s$, not a sequentially updated
+right-hand side.
+\item \textbf{Replay.} Can a valid prefix establish completion?
+\emph{Answer:} No; require a final halt and agreement with the claimed final state.
+\item \textbf{Implement.} Test every split of a finite run.
+\emph{Rubric:} Resume counter and complete environment, compare concatenated events,
+handle zero-length prefixes, and treat a halted checkpoint as terminal.
+\item \textbf{Optimize.} State what observations a scheduler preserves.
+\emph{Rubric:} Specify final values, effects and trace projection; test a read/write
+conflict and an independent pair. Do not equate output parity with full trace parity.
+\item \textbf{Budget.} Why is fuel not a memory sandbox?
+\emph{Answer:} Integer payloads and retained events can grow; one logical step
+does not impose a byte or time limit.
+\end{enumerate}
+\section{Terms and the next contract}
+A \Term{configuration} is the machine's current counter and environment.
+A \Term{small step} is one rule application. A \Term{ranking function} proves
+progress toward termination. \Term{Observational equivalence} depends on which
+outcomes are visible. A \Term{checkpoint} retains enough state to resume.
+README commands reproduce the reference and its tables.
+The next chapter attaches resource ledgers to executions without confusing
+a logical step with arithmetic work, peak memory or measured latency.

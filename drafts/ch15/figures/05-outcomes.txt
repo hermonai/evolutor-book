@@ -1,0 +1,4 @@
+Question: What is the difference between halt, error and fuel exhaustion?
+Objects and arrow semantics: Labeled terminal outcomes branching from a step boundary; resumable snapshot for exhaustion.
+Change/invariant and caption claim: A bounded run returns a partial trace without claiming a total result.
+Scientific risk: A step budget is not a memory or wall-clock sandbox.

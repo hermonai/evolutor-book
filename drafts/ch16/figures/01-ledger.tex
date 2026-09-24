@@ -1,0 +1,10 @@
+\begin{tikzpicture}[x=1cm,y=1cm]
+\node[draw,fill=Pale,note] (w) at (5,3.3) {one parameter owner $W$};
+\foreach \x/\id in {1/a,5/b,9/c}{
+\node[draw,note] (\id) at (\x,1.8) {call \id};
+\draw[flow,dashed] (w)--(\id);}
+\node[note] at (1,.6) {stored: count $W$ once};
+\node[note] at (7,.6) {arithmetic: count all three calls};
+\draw[Blue!40] (-.2,0)--(10.5,0);
+\node[note] at (5,-.7) {Bytes depend on transfers; peak memory depends on lifetimes.\\Trace storage depends on retained event payloads.};
+\end{tikzpicture}

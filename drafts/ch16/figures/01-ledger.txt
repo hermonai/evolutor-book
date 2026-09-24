@@ -1,0 +1,4 @@
+Question: Why is activated parameter count not total cost?
+Objects and arrow semantics: Explicit separate ledgers for parameters, arithmetic, routing decisions, bytes and trace events.
+Change/invariant and caption claim: Owners deduplicate stored weights; calls still incur repeated work.
+Scientific risk: Symbolic accounting is not measured latency.

@@ -1,0 +1,4 @@
+Question: When does sparse routing save less than expected?
+Objects and arrow semantics: Dense/sparse token-expert incidence matrices and a padded capacity grid.
+Change/invariant and caption claim: Padding and routing can add executed work beyond useful work.
+Scientific risk: This is an accounting example, not a kernel performance claim.

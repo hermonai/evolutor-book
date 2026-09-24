@@ -1,0 +1,285 @@
+\chapter{Expression complexity and resource semantics}
+A system stores four experts but routes each token to one. Has it reduced
+inference cost by a factor of four? Only if we know what is counted.
+The router still runs; weights still occupy storage; padded execution may
+evaluate empty slots; moving representations may dominate arithmetic.
+A sparse logical graph is not a measured speedup.
+
+Chapter 15 gave executions an exact transition semantics. Here we attach
+explicit resource models to computations. We use integer ledgers and a tiny
+dependency graph, not GPU timings. The purpose is to make a cost claim
+falsifiable: a reader should be able to identify both the counted work and the
+work omitted by the model.
+
+\section{A resource is a vector with units, not one adjective}
+\index{resource semantics}\index{cost model}
+For an execution trace $\tau$, define separate components
+\begin{equation}
+ C(\tau)=(P,\ M,\ R,\ D,\ H,\ J).
+\end{equation}
+Here $P$ counts stored scalar parameters, $M$ multiply-accumulate operations
+(MACs), $R$ routing decisions, $D$ communicated bytes under a stated interface,
+$H$ peak live buffer bytes, and $J$ retained events.
+These quantities cannot be added without conversion factors and a purpose.
+A weighted objective $w^\top C$ introduces policy weights; it is not a universal
+physical cost.
+
+\Plate{01-ledger}{Resource ledgers have different units and aggregation rules.
+Shared ownership can deduplicate stored parameters while repeated calls still
+perform arithmetic. Peak memory is a maximum over live sets, not a sum over
+the entire trace.}{fig:ledger}
+
+For additive events, $M(\tau_1\tau_2)=M(\tau_1)+M(\tau_2)$.
+Peak storage needs the intermediate live state, so it cannot generally be
+computed from two isolated peaks alone. Parameter storage counts unique owners,
+not appearances in an instruction list. These distinctions prevent a repeated
+shared module from being mistaken for either free work or duplicated weights.
+
+Every ledger needs a boundary. Does memory include optimizer state, activations,
+input storage, allocator fragmentation and kernel scratch space? Does communication
+count one-way payload, both directions, padding or protocol overhead?
+We will answer narrowly before computing anything.
+
+\section{Derive an expert ledger from tensor dimensions}
+\index{mixture of experts}\index{multiply-accumulate}
+Consider $B$ tokens of width $d$, $E$ experts, hidden width $h$, and top-$k$
+routing without repeated expert IDs per token. Each expert has bias-free
+matrices $W_1\in\mathbb R^{d\times h}$ and
+$W_2\in\mathbb R^{h\times d}$. The router has $W_R\in\mathbb R^{d\times E}$.
+Thus stored parameter count is
+\begin{equation}
+ P=2Edh+dE.
+ \label{eq:params}
+\end{equation}
+We count each multiply-accumulate as one MAC, including accumulation initialized
+at zero. Applying one expert to one token costs $2dh$ MACs, while router
+logits cost $BdE$ MACs. Selection, activation, normalization and aggregation
+are outside this MAC count and must not be assumed free in elapsed time.
+
+Without drops or padding, useful expert work is
+\begin{equation}
+ M_{\rm useful}=2Bkdh.
+ \label{eq:useful}
+\end{equation}
+If only $U$ unique experts are called, their expert parameter count is $2Udh$.
+This is an active-owner count, not the number of parameters stored in the model
+and not a guarantee those bytes are fetched just once.
+
+Suppose each expert is allocated $C$ token slots. With dense padded kernels
+over every expert's slots, executed expert work is
+\begin{equation}
+ M_{\rm padded}=2ECdh.
+ \label{eq:padded}
+\end{equation}
+Let $n_e$ count requested assignments to expert $e$. Accepted work uses
+$\min(n_e,C)$ assignments, and dropped assignments total
+$\sum_e\max(0,n_e-C)$. The reference drops overflow in input order; different
+admission policies change which tokens lose work.
+
+\Plate{02-routing}{Four tokens request experts 0,0,0,1. A padded grid reserves
+slots for every expert, including unused ones. Capacity two drops one request
+to expert 0; it is not merely an implementation detail if output semantics
+depend on that assignment.}{fig:routing}
+\Listing{routing_cost}
+
+For $B=4,E=4,d=8,h=16,k=1$, the model stores 1056 scalars:
+1024 expert and 32 router parameters. Router work is 128 MACs.
+The two used experts own 512 scalars. Generated expert-work counts are
+\begin{center}\input{\Generated/routing.tex}\end{center}
+The padded $C=4$ case executes four times the useful expert MACs. The $C=2$
+case drops one assignment yet still executes more expert MACs than the ragged
+case. Fewer accepted assignments can coexist with more executed work.
+
+For a float32 dispatch interface that sends each accepted width-$d$ activation
+and receives one width-$d$ result, payload bytes are
+\begin{equation}
+ D=2\cdot4d\sum_e\min(n_e,C),
+ \label{eq:bytes}
+\end{equation}
+using $n_e$ when capacity is unbounded. The ragged example gives 256 bytes.
+This excludes parameter transfer, routing metadata, collective overhead and
+padding on the wire. Local assignments may need no inter-device traffic at all;
+the formula describes a declared all-remote payload model, not measured network load.
+
+\section{Liveness turns a graph into a memory calculation}
+\index{liveness}\index{scheduling}
+Consider dependencies $a=f(x)$, $b=g(x)$, $c=u(a)$, $d=v(b)$,
+$y=w(c,d)$. Let $x,a,b$ each occupy 100 abstract bytes and $c,d,y$ each
+occupy 10. These are invented allocation sizes, not tensor measurements.
+Inputs count as live from the beginning. Outputs remain live at the end.
+Each result is allocated before last-use operands are released.
+
+A legal schedule must execute a node after its dependencies. Two legal choices are
+\[
+ S_1=(a,b,c,d,y),\qquad S_2=(a,c,b,d,y).
+\]
+For $S_1$, allocating $b$ temporarily leaves $x,a,b$ live: 300 bytes.
+For $S_2$, computing $c$ permits release of $a$ before allocating $b$:
+the peak is 210 bytes. Both schedules execute every operation exactly once.
+
+\Plate{03-liveness}{The same dependency graph admits different legal buffer
+lifetimes. The interleaved schedule shortens the lifetime of a large intermediate.
+Allocation occurs before last-use release, so the peak includes both old
+operands and a newly allocated result.}{fig:liveness}
+
+\Listing{peak_live}
+
+The companion's \texttt{validate\_layout} checks declarations and schedule
+membership before execution. The algorithm initializes remaining-use counts
+from all dependency edges.
+After a node runs, decrement each operand's count and release non-output operands
+whose count reaches zero. Multiple uses of the same operand in one node count
+as separate uses but do not allocate duplicate buffers.
+A node with no future users is released immediately unless declared an output.
+Unused initial inputs remain retained in this narrow contract.
+
+To validate the implementation independently, tests enumerate all legal
+topological schedules and compute interval overlap from producer and last-user
+indices. Both methods must agree; enumerated peaks range from 210 to 300 bytes.
+An invalid schedule is rejected rather than assigned an artificially small peak.
+
+This analysis omits aliasing, in-place updates, recomputation, asynchronous
+execution, allocator reuse and operator workspace. An actual runtime may save
+or spend more memory. In-place reuse is legal only when alias and effect
+conditions hold; overwriting an operand before its final consumer changes the
+computation. Checkpointing can lower retained activation memory by recomputing
+values, changing both the arithmetic ledger and the schedule.
+
+\section{Amortized cost explains totals without hiding spikes}
+\index{amortized analysis}\index{potential function}
+A trace recorder appends events to a dynamic buffer. Start with size $n=0$
+and capacity $c=0$. If full, allocate capacity $\max(1,2c)$ and copy all $n$
+old events, then write the new event. Count one unit per event copy or append;
+allocation overhead and variable-size event payload are excluded.
+
+An append normally costs one unit. When the old buffer is full at size $n>0$,
+it costs $n+1$. The next append can therefore be expensive even if average
+cost remains bounded.
+Define a nonnegative potential over reachable buffer states:
+\begin{equation}
+ \Phi(n,c)=2n-c.
+\end{equation}
+At empty state it is zero. After the first allocation it is one; after later
+doublings it is two; between doublings it rises by two per append.
+The amortized cost is
+\begin{equation}
+ \widehat a_i=a_i+\Phi_i-\Phi_{i-1}.
+ \label{eq:amort}
+\end{equation}
+For a non-resizing append, $\widehat a_i=1+2=3$.
+For a resize with old $c=n>0$, old potential is $n$ and new potential is 2,
+so $\widehat a_i=(n+1)+2-n=3$.
+The first append has amortized cost 2.
+
+\Plate{04-potential}{A doubling buffer trades occasional copy bursts for bounded
+aggregate work. The potential records prepaid work in the proof; it is not
+stored energy or a measured device counter.}{fig:potential}
+\Listing{trace_buffer}
+\begin{center}\input{\Generated/buffer.tex}\end{center}
+
+Summing Equation~\ref{eq:amort} telescopes:
+\begin{equation}
+ \sum_{i=1}^{N}a_i
+ =\sum_{i=1}^{N}\widehat a_i+\Phi_0-\Phi_N
+ \leq 3N.
+ \label{eq:aggregate}
+\end{equation}
+Nonnegative final potential is essential to the bound. Tests check every prefix
+through 128 events, not only powers of two.
+
+Modern cost-aware verification work explicitly relates a program's behavior
+to its resource accounting \cite{potential}. Our dynamic-buffer example is
+an original small application of the potential method, not an implementation
+of an automatic resource-analysis tool.
+An amortized bound is neither a probabilistic average over workloads nor a
+worst-case per-event latency bound. A latency-sensitive recorder may preallocate,
+chunk storage or stream events; each alternative changes the contract.
+
+The Chapter 15 trace contains complete environments, not fixed-size events.
+If each event stores $r$ registers of up to $b$ bits, its payload scales as
+$O(rb)$ before serialization overhead. The buffer's copy-count model cannot
+be reported directly as total bytes or constant-time logging.
+
+\section{A performance envelope is a hypothesis to measure}
+\index{arithmetic intensity}\index{roofline}
+Let $F$ be counted floating-point operations, $D$ actual bytes transferred
+across one specified memory boundary, $P_{\max}$ an attainable compute ceiling
+in operations per second, and $\beta$ an attainable bandwidth in bytes per
+second. Ignoring overlap overhead and other bottlenecks yields the necessary bound
+\begin{equation}
+ t\geq\max\left(\frac{F}{P_{\max}},\frac D\beta\right).
+ \label{eq:time}
+\end{equation}
+For $D>0$, intensity $I=F/D$ gives
+\begin{equation}
+ \frac Ft\leq\min(P_{\max},\beta I).
+ \label{eq:roof}
+\end{equation}
+The crossover is $I^*=P_{\max}/\beta$. Below it, bandwidth limits this
+two-resource envelope; above it, compute does. Counting a MAC as two operations
+is a reporting convention and must be stated consistently.
+
+\Plate{05-roofline}{An illustrative envelope with compute ceiling 100 Gop/s and
+bandwidth 10 GB/s has crossover 10 operations/byte. These assigned values are
+not a hardware benchmark or a prediction for either Evolutor model direction.}{fig:roofline}
+
+Equation~\ref{eq:time} is a lower bound on time, not a promise that either resource
+can be saturated. Launch overhead, dependency chains, synchronization,
+small matrices and communication can make observed time much larger.
+Do not insert the dispatch-only byte count from Equation~\ref{eq:bytes}
+as total device-memory traffic without evidence: it crosses a different boundary.
+
+Current PyTorch profiler documentation provides execution activity and memory
+recording, and limits its FLOP estimates to supported operations \cite{profiler}.
+Use profiling to test a specified hypothesis after validating output parity.
+Declare warm-up, input shapes, dtype, device, synchronization, compilation state,
+sample count and uncertainty. Do not compare an eager reference with a compiled
+candidate and attribute every difference to the mathematical architecture.
+
+A useful experimental sequence is: establish semantics; predict the ledger;
+measure actual operators and traffic; identify the gap; change one implementation
+choice; rerun correctness and measurements. This turns a resource estimate into
+an engineering question rather than an industrial performance claim.
+
+\section{Exercises with worked answers}
+\begin{enumerate}
+\item \textbf{Count.} Recompute stored parameters for $E=4,d=8,h=16$.
+\emph{Answer:} $2Edh+dE=1024+32=1056$.
+\item \textbf{Separate.} Why are 512 active expert scalars not the model size?
+\emph{Answer:} Only two experts are called, but all four plus router remain stored.
+\item \textbf{Derive.} What is ragged expert work for four top-1 tokens?
+\emph{Answer:} $2(4)(1)(8)(16)=1024$ MACs, excluding router and non-MAC work.
+\item \textbf{Padding.} What does capacity four execute?
+\emph{Answer:} $2(4)(4)(8)(16)=4096$ expert MACs under all-expert dense padding.
+\item \textbf{Overflow.} How many assignments are dropped with loads $(3,1,0,0)$
+and capacity two? \emph{Answer:} One; capacity does not change the fact that its
+omitted contribution can change the output.
+\item \textbf{Units.} Verify the ragged dispatch payload.
+\emph{Answer:} Four accepted calls times two directions times eight float32 scalars
+times four bytes gives 256 bytes.
+\item \textbf{Schedule.} Why is $a,c,b,d,y$ better for the example's peak?
+\emph{Answer:} It releases 100-byte $a$ after producing 10-byte $c$ before
+allocating $b$, reducing the peak from 300 to 210.
+\item \textbf{Oracle.} Independently check liveness.
+\emph{Rubric:} Enumerate legal orders, assign allocation/last-use intervals,
+include initial inputs and final outputs, and compare peaks at allocation boundaries.
+\item \textbf{Potential.} Bound total append/copy work.
+\emph{Answer:} Telescoping and $\Phi_N\geq0$ give at most $3N$ counted units.
+\item \textbf{Latency.} Does amortized cost three bound every append by three?
+\emph{Answer:} No; appending to a full capacity-eight buffer copies eight old events
+and writes one, costing nine.
+\item \textbf{Envelope.} Find crossover for 100 Gop/s and 10 GB/s.
+\emph{Answer:} Ten operations/byte. Consistent decimal giga units cancel.
+\item \textbf{Experiment.} Design an honest sparse-versus-dense comparison.
+\emph{Rubric:} Match output contract, token cohort, precision and hardware; count
+router, padding, transfers and compilation; validate parity; report repeated
+timings and memory, including failures and dropped assignments.
+\end{enumerate}
+\section{Terms and next scope}
+A \Term{cost model} chooses counted events and units.
+The \Term{liveness} of a value depends on its future consumers.
+An \Term{amortized cost} bounds aggregate sequences using a proof, not timing.
+The \Term{arithmetic intensity} is operations per byte across a specified boundary.
+Using \Term{padding} can turn sparse useful work into denser executed work.
+The README reproduces all ledgers. Later engine chapters can replace these
+assumptions with measurements; they must preserve the semantic contracts first.

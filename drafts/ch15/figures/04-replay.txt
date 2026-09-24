@@ -1,0 +1,4 @@
+Question: What makes a trace checkable?
+Objects and arrow semantics: Before-state and instruction feed a transition checker; recorded after-state is compared, not trusted.
+Change/invariant and caption claim: Semantic replay catches tampering or mismatched input.
+Scientific risk: No cryptographic authenticity or durable transaction guarantee.

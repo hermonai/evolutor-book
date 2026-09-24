@@ -1,0 +1,10 @@
+\begin{tikzpicture}[x=1cm,y=1cm]
+\node[draw,note,fill=Pale] (c) at (1,2) {validated\\checkpoint};
+\node[draw,note,double] (h) at (8,3.7) {halt\\explicit instruction};
+\node[draw,note] (f) at (8,2) {exhausted\\resume is possible};
+\node[draw,note,Red] (e) at (8,.3) {error\\invalid next counter};
+\draw[flow] (c)--node[above,sloped,note]{halt observed}(h);
+\draw[flow] (c)--node[above,note]{budget used}(f);
+\draw[flow,Red] (c)--node[below,sloped,note]{step cannot proceed}(e);
+\node[note] at (5,-.6) {Malformed instructions are rejected before these runtime outcomes.};
+\end{tikzpicture}

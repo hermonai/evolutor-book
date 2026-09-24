@@ -1,6 +1,6 @@
 # Editorial architecture and release roadmap
 
-Updated 24 September 2026. This is the current execution map, not a claim
+Updated 25 September 2026. This is the current execution map, not a claim
 that every planned chapter is written or independently reviewed.
 
 ## One manuscript, distinct review stages
@@ -11,9 +11,9 @@ for current authoring progress. Do not regenerate archived editions merely
 to change their progress labels.
 
 Chapters 1-2 retain their internal acceptance records. Chapter 3 has standalone
-and combined LaTeX review candidates. Chapters 4-14 have isolated authored-LaTeX
+and combined LaTeX review candidates. Chapters 4-16 have isolated authored-LaTeX
 review candidates with code, vector figures, and worked solutions.
-Chapter 15 is the next unwritten chapter. Chapters 11-14 were authored at the
+Chapter 17 is the next unwritten chapter. Chapters 11-16 were authored at the
 reader's explicit request while the Chapters 1-10 integration milestone remains
 pending. These standalone candidates do not substitute for that integration.
 Independent specialist review and cumulative integration are still open.
@@ -111,11 +111,25 @@ against a state snapshot, reject malformed candidates before arithmetic, and
 test state isolation and failure atomicity. Distinguish a compact trace from a
 replay-complete record and a teaching interpreter from a production engine.
 
+## Chapter 15 scope (standalone candidate): operational semantics and expression traces
+
+Define a deterministic sequential register machine with explicit effects.
+Prove a loop invariant and ranking argument; distinguish halt, fuel exhaustion
+and invalid execution. Test split-run equivalence and replay against the
+transition semantics, while separating semantic consistency from authentication.
+
+## Chapter 16 scope (standalone candidate): expression complexity and resource semantics
+
+Count parameters, arithmetic, communication, live storage and traces under
+explicit conventions. Compare useful and padded expert work, enumerate legal
+buffer schedules and derive a potential-method bound. Treat roofline arithmetic
+as a model bound, not an observed performance benchmark.
+
 ## Pending milestone: integrate Chapters 1-10
 
 Audit record validity, tensor notation, normalization conventions, routing
 cohorts, gradient history, and source closure, including the interfaces now
-used by Chapters 11-14. Separate biological regulation from expert routing.
+used by Chapters 11-16. Separate biological regulation from expert routing.
 Build a new cumulative entry point with unified bibliography and index; retain
 standalone candidates and accepted editions unchanged. Do not promote acceptance
 without independent review and the existing release gates.

@@ -1,0 +1,4 @@
+Question: Why does reordering two well-typed operations fail?
+Objects and arrow semantics: Two read/write dependency schedules; explicit counterexample values.
+Change/invariant and caption claim: Effects constrain scheduling beyond value types.
+Scientific risk: Do not claim general compiler legality from one example.

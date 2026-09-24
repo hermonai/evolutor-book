@@ -1,0 +1,19 @@
+\begin{tikzpicture}[x=1cm,y=1cm]
+\node[note] at (2.5,3.8) {$a,b,c,d,y$: peak 300 bytes};
+\node[note] at (8.8,3.8) {$a,c,b,d,y$: peak 210 bytes};
+\foreach \x/\lab in {0/x,1/a,2/b,3/c,4/d,5/y}\node[smallnote] at (\x,3.2) {\lab};
+\draw[Blue,line width=3pt] (0,2.7)--(2,2.7);
+\draw[Green,line width=3pt] (1,2.2)--(3,2.2);
+\draw[Red,line width=3pt] (2,1.7)--(4,1.7);
+\draw[Blue,line width=3pt] (3,1.2)--(5,1.2);
+\draw[Green,line width=3pt] (4,.7)--(5,.7);
+\draw[Red,dashed] (2,0)--(2,3);
+\foreach \x/\lab in {6.5/x,7.5/a,8.5/c,9.5/b,10.5/d,11.5/y}\node[smallnote] at (\x,3.2) {\lab};
+\draw[Blue,line width=3pt] (6.5,2.7)--(9.5,2.7);
+\draw[Green,line width=3pt] (7.5,2.2)--(8.5,2.2);
+\draw[Red,line width=3pt] (9.5,1.7)--(10.5,1.7);
+\draw[Blue,line width=3pt] (8.5,1.2)--(11.5,1.2);
+\draw[Green,line width=3pt] (10.5,.7)--(11.5,.7);
+\foreach \y/\lab in {2.7/x,2.2/a,1.7/b,1.2/c,.7/d}\node[smallnote,anchor=east] at (-.3,\y) {$\lab$};
+\node[note] at (5.5,-.5) {Bars: allocation through final use. Output $y$ remains live.};
+\end{tikzpicture}

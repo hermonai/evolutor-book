@@ -1,0 +1,11 @@
+\begin{tikzpicture}[x=1cm,y=1cm]
+\foreach \y/\i/\op in {3/0/jz n 4,2.4/1/add s n,1.8/2/dec n,1.2/3/jump 0,.6/4/halt}{
+\draw[Blue,fill=Pale] (0,\y) rectangle ++(3,.5);
+\node[smallnote,anchor=west] at (.1,\y+.25) {\i: \texttt{\op}};}
+\draw[flow] (4.2,2.65)--(3.1,2.65);
+\node[note] at (4.8,3.4) {counter $p=1$};
+\node[draw,fill=Gold,note,minimum width=2.8cm,minimum height=1.2cm] (env) at (5,1.3) {$\rho$: $n=3,\ s=0$};
+\node[draw,fill=Pale,note,minimum width=3cm,minimum height=1.2cm] (out) at (10,1.3) {$p'=2$\\$n'=3,\ s'=3$};
+\draw[flow] (env)--node[above,note]{one step}(out);
+\node[note] at (6,-.2) {Event: before/after values and selected instruction.};
+\end{tikzpicture}

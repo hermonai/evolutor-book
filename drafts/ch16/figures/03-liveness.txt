@@ -1,0 +1,4 @@
+Question: Why can two legal schedules have different memory peaks?
+Objects and arrow semantics: Dependency diamond and buffer lifetime timelines for two schedules.
+Change/invariant and caption claim: Last-use release changes peak live bytes while arithmetic stays constant.
+Scientific risk: Inputs, outputs and allocate-before-free convention must be explicit.

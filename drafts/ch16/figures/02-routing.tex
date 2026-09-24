@@ -1,0 +1,17 @@
+\begin{tikzpicture}[x=.8cm,y=.7cm]
+\node[note] at (2,5) {requests};
+\node[note] at (9,5) {capacity 2: executed slots};
+\foreach \e in {0,1,2,3}{
+\node[smallnote] at (\e+.5,4.2) {$e=\e$};
+\node[smallnote] at (\e+7.5,4.2) {$e=\e$};
+\foreach \t in {0,1,2,3}\draw[Blue!40] (\e,3-\t) rectangle ++(1,1);
+\foreach \s in {0,1}\draw[Blue,fill=Pale] (\e+7,3-\s) rectangle ++(1,1);}
+\foreach \t in {0,1,2}\fill[Green!55] (.12,3-\t+.12) rectangle ++(.76,.76);
+\fill[Green!55] (1.12,.12) rectangle ++(.76,.76);
+\foreach \y in {2,3}\fill[Green!55] (7.12,\y+.12) rectangle ++(.76,.76);
+\fill[Green!55] (8.12,3.12) rectangle ++(.76,.76);
+\draw[Red,thick] (.1,1.1)--(.9,1.9) (.1,1.9)--(.9,1.1);
+\draw[flow] (4.4,2.5)--(6.4,2.5);
+\node[note] at (9,.5) {3 useful / 8 executed slots};
+\node[note] at (5.5,-1) {Filled: useful assignment. Cross: dropped. Pale: padded work.};
+\end{tikzpicture}

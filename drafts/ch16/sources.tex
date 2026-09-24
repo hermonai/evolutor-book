@@ -1,0 +1,21 @@
+\section*{Sources and evidence}
+\addcontentsline{toc}{section}{Sources and evidence}
+The routing ledger, schedule comparison, buffer derivation, numerical examples
+and tests are original. The cost-aware verification comparison uses the author's
+exposition of his research, inspected through its potential and telescoping
+arguments on 24--25 September 2026. It does not claim an implementation of the
+associated formal-verification system. PyTorch profiler API documentation was
+checked on 25 September 2026; the stable URL resolved to version 2.14.
+No hardware measurements were collected. The roofline constants are assigned
+illustrative values, and dispatch payload is not total memory traffic.
+\begingroup\let\chapter\section
+\begin{thebibliography}{9}
+\bibitem{potential} H. Grodin.
+\emph{Amortized Analysis as a Cost-Aware Abstraction Function}.
+CMU CSD research exposition, 14 May 2025.
+\url{https://www.cs.cmu.edu/~csd-phd-blog/2025/amortized-abstraction/}.
+\bibitem{profiler} PyTorch contributors.
+\emph{torch.profiler}, PyTorch 2.14 documentation.
+API descriptions for activities, profile\_memory and with\_flops.
+\url{https://docs.pytorch.org/docs/2.14/profiler.html}.
+\end{thebibliography}\endgroup

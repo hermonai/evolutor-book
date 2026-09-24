@@ -1,0 +1,4 @@
+Question: Why does the summation loop terminate?
+Objects and arrow semantics: Control-flow graph with guarded branch, accumulating body and decreasing counter.
+Change/invariant and caption claim: Ranking function decreases once per body, not on every edge.
+Scientific risk: Fuel exhaustion is not divergence proof.

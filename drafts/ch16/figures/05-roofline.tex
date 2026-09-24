@@ -1,0 +1,9 @@
+\begin{tikzpicture}
+\begin{loglogaxis}[width=11cm,height=5.5cm,xlabel={Intensity (operations/byte)},
+ylabel={Throughput ceiling (Gop/s)},xmin=.1,xmax=100,ymin=1,ymax=150,grid=major]
+\input{\Generated/roofline-plot.tex}
+\draw[dashed,Red] (axis cs:10,1)--(axis cs:10,100);
+\node[anchor=west,font=\small] at (axis cs:.2,50) {bandwidth bound};
+\node[anchor=north,font=\small] at (axis cs:35,90) {compute bound};
+\end{loglogaxis}
+\end{tikzpicture}
