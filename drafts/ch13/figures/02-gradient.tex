@@ -1,0 +1,24 @@
+\begin{tikzpicture}[x=1cm,y=1cm]
+\foreach \shift/\title in {0/Training,7/Validation}{
+ \begin{scope}[xshift=\shift cm]
+ \node[note] at (2.5,4.2) {\textbf{\title}};
+ \draw[flow] (.3,1.7)--(5,1.7) node[right,smallnote] {$x_1$};
+ \draw[flow] (2.6,-.3)--(2.6,3.6) node[right,smallnote] {$x_2$};
+ \node[smallnote] at (1.1,1.4) {$-1$};
+ \node[smallnote] at (4.1,1.4) {$+1$};
+ \node[smallnote] at (2.3,.2) {$-1$};
+ \node[smallnote] at (2.3,3.2) {$+1$};
+ \foreach \x/\y/\t in {1.1/.2/{-2},4.1/3.2/{+2}}{
+  \fill[Blue] (\x,\y) circle (.1);
+  \node[smallnote] at (\x,\y-.4) {$y=\t$};
+ }
+ \end{scope}
+}
+\draw[Blue,dashed] (.7,-.2)--(4.5,3.6);
+\foreach \x/\y/\t in {8.1/3.2/{-2},11.1/.2/{+2}}{
+ \draw[Green,thick] (\x,\y) circle (.12);
+ \node[smallnote] at (\x,\y-.4) {$y=\t$};
+}
+\node[smallnote] at (2.6,-1) {Only the diagonal is observed};
+\node[smallnote] at (10,-1) {Off-diagonal cases disambiguate};
+\end{tikzpicture}

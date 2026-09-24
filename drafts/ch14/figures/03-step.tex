@@ -1,0 +1,16 @@
+\begin{tikzpicture}[x=1cm,y=1cm]
+\node[note,anchor=west] at (0,3.6) {\textbf{One expression step with snapshot semantics}};
+\node[note] (x) at (1,2) {$x=(1,2)$};
+\node[note,draw=Blue,circle] (s) at (4,2) {$\times2$};
+\node[note,draw=Blue,circle] (a) at (8,2) {$+$};
+\node[note] (y) at (12,2) {$y=(2,4)$};
+\draw[flow] (x)--(s);
+\draw[flow] (s)--node[above,smallnote]{$u=(2,4)$}(a);
+\draw[flow] (a)--(y);
+\node[note,draw=Green] (old) at (8,.3) {$h_t=(0,0)$};
+\draw[flow,Green] (old)--node[right,smallnote]{read}(a);
+\node[note,draw=Blue] (next) at (12,.3) {$h_{t+1}=(2,4)$};
+\draw[flow,dashed] (y)--node[right,smallnote]{propose}(next);
+\node[smallnote,align=left] at (3,.2) {Validate all inputs first.\\Adopt returned state only\\after complete success.};
+\node[smallnote] at (7,-1) {Solid: data. Dashed: proposed state. Caller-owned arrays are unchanged.};
+\end{tikzpicture}

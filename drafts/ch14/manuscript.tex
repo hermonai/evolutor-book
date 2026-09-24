@@ -1,0 +1,285 @@
+\chapter{Typed genomic computation systems}
+Two arrays both have shape $2\times2$. In the first, rows are samples and
+columns are features. In the second, rows are features and columns are
+samples. A shape-only interface accepts one where it expects the other.
+The matrix operation can run and return plausible numbers while answering
+the wrong question.
+
+This chapter builds a small language in which a computational candidate
+declares its input meanings, operations, parameter owners and state effects.
+We then execute a two-instruction genome, inspect its trace, and reject
+malformed variants before numerical work. The word \emph{genomic} names
+an Evolutor research abstraction here; these are software instructions,
+not DNA molecules, biological genes or a trained genomic model.
+
+Prerequisites are Chapter 12's graph construction and Chapter 13's
+separation of structure, parameters and transient state. The deliverable is
+an inspectable typed reference interpreter. Production compilation,
+distributed effects, automatic differentiation and deployment are not
+silently included.
+
+\section{Start with a contract that shapes alone cannot express}
+\index{semantic axis}
+Define a tensor type as
+\begin{equation}
+ \tau=(A,S,d),
+ \qquad A=(a_1,\ldots,a_r),\quad S=(s_1,\ldots,s_r),
+ \label{eq:type}
+\end{equation}
+where $A$ lists semantic axis names, $S$ lists positive integer sizes,
+$d$ is an element type and $r$ is rank. In this reference, names within a
+type are distinct and $d=\texttt{float64}$. We allow rank-zero scalar types
+but no zero-size or dynamic-size axes. Those are scope choices, not claims
+that empty or dynamic tensors are invalid in general.
+
+Type equality requires all three fields to agree in order. Thus a tensor
+whose axes are \texttt{(sample, feature)} is not interchangeable with one
+whose axes are \texttt{(feature, sample)}, even when both have sizes
+$(2,2)$ and dtype \texttt{float64}.
+An explicit transpose can convert both values and their types.
+Relabeling metadata without transposing data is not that conversion.
+
+\Plate{01-types}{Equal shape does not imply equal meaning. An explicit
+transpose changes the array and swaps its semantic axes. The direct
+connection is rejected by exact type matching even though a shape-only
+runtime could execute it.}{fig:types}
+
+\Listing{TensorType}
+
+A NumPy array does not carry these semantic names. The runtime checks shape,
+dtype and finiteness; the caller supplies the truthful semantic declaration.
+The type system can check consistent use of that declaration, not prove
+that a file labeled \texttt{feature} actually contains the intended features.
+This trust boundary belongs beside the type definition.
+
+\section{Define the alphabet and the computational gene}
+\index{identity bypass}
+Our operation alphabet is deliberately small:
+\begin{equation}
+ \Sigma=\{\texttt{scale},\texttt{accumulate}\}.
+\end{equation}
+A \Term{computational gene} is an immutable instruction record
+$g=(\mathrm{id},\mathrm{op},\mathrm{src},\mathrm{dst},\tau,\mathrm{owner})$.
+The record names a source register and a fresh destination, declares their
+common type, and identifies an external parameter or state owner.
+A \Term{genome} is an ordered tuple $(g_1,\ldots,g_L)$.
+It is not yet an unordered graph or a self-modifying program.
+
+\Listing{Gene}
+
+For \texttt{scale}, the owner names a finite scalar parameter $p$:
+$y=px$. For \texttt{accumulate}, it names a state tensor $h$ of type $\tau$:
+$y=x+h$ and a proposed next state $h'=y$. State has no trainable update rule
+in this chapter. Parameter values are read-only during expression.
+
+\Plate{02-genome}{A genome owns an ordered collection of immutable
+instruction records. Genes reference external parameter or state owners;
+they do not duplicate those objects. Regulator decisions select whether
+each instruction uses its active operation or its declared bypass.}{fig:genome}
+
+Separate \Term{regulation} from instruction validity. Our regulator provides
+one explicit Boolean decision per gene per expression step. When disabled,
+either operation returns a copy of its input; an accumulating gene also
+leaves its state unchanged. This identity bypass is part of the language
+contract. Other languages might omit an output or return zeros, but cannot
+leave that choice implicit. A disabled malformed gene is still rejected:
+regulation is not a way to hide an invalid instruction.
+
+The example genome contains
+\[
+ g_1:\ u=\texttt{scale}_{\mathrm{gain}}(x),\qquad
+ g_2:\ y=\texttt{accumulate}_{\mathrm{memory}}(u).
+\]
+Here $x,u,y,h\in\mathbb R^2$ share axis \texttt{feature},
+$\mathrm{gain}=2$, and initial memory is $(0,0)$.
+
+\section{Type checking as an environment transformation}
+\index{type preservation}\index{state ownership}
+Let $\Gamma$ map defined value names to their tensor types, $\Theta$ contain
+declared parameter owners, and $\Delta$ map state owners to tensor types.
+A scale instruction is well-formed when
+\begin{equation}
+ \Gamma(\mathrm{src})=\tau,\quad
+ \mathrm{dst}\notin\operatorname{dom}\Gamma,\quad
+ \mathrm{owner}\in\Theta.
+\end{equation}
+It extends the environment with
+$\Gamma'=\Gamma[\mathrm{dst}\mapsto\tau]$.
+An accumulation additionally requires
+$\Delta(\mathrm{owner})=\tau$ and no earlier instruction writing that state
+owner in this expression. Gene identities must also be unique.
+
+These are \Term{single static assignment} (SSA) value names: a value name
+is defined once. State ownership is a different constraint. Many genes
+may read the same scalar parameter; this reference permits only one
+writer to each state owner. A more expressive language could order multiple
+writes explicitly, but merely listing them in a file would not specify
+whether each reads the old or newly updated state.
+
+\Listing{check_genome}
+\Plate{04-rejection}{The type environment grows only after an instruction
+passes its checks. Missing producers, incompatible semantic axes, reused
+destinations and undeclared owners fail before arithmetic. State-writer
+conflicts are checked independently of value-name uniqueness.}{fig:rejection}
+
+The checking pass is linear in instruction count under expected constant-time
+dictionary operations, apart from type comparisons proportional to rank.
+This is a logical work estimate, not a compiler benchmark.
+
+A small preservation argument explains why the checks matter. Assume all
+inputs satisfy their declared types. A finite scalar multiplication preserves
+shape, axis interpretation and element dtype in this reference; addition of
+equal-typed arrays does likewise. Bypass copies the input. Each successful
+instruction therefore produces a value of its declared type. By induction,
+all defined values remain well-typed. Floating-point overflow can still
+violate finiteness, so the runtime checks each result and fails rather than
+committing invalid state. Type correctness is not numerical stability.
+
+\section{Expression has a snapshot and a commit boundary}
+\index{snapshot semantics}\index{aliasing}
+For one expression step, the environment consists of input values,
+parameter values, a state snapshot and regulator decisions. Evaluation
+reads only the old snapshot $h_t$ while producing a proposed $h_{t+1}$.
+The caller adopts the returned state only after successful completion.
+The input arrays and caller-owned state arrays are never mutated.
+
+\Plate{03-step}{The two-instruction example reads a stable state snapshot.
+With input $(1,2)$ and gain 2, the first step proposes state $(2,4)$ and
+the second proposes $(4,8)$. Disabling accumulation on the third step
+bypasses to $(2,4)$ while retaining memory $(4,8)$.}{fig:step}
+
+The public \texttt{express} function checks the complete genome, exact
+input/state key sets, all runtime values, scalar parameters and an explicit
+Boolean decision for every gene. It then calls this internal evaluator.
+Calling the helper directly bypasses validation and is not a supported
+untrusted-input entry point.
+
+\Listing{evaluate_checked}
+\begin{center}\input{\Generated/step-table.tex}\end{center}
+
+No mutation is committed if an exception occurs midway. This is an
+\Term{atomic state transition} at the reference API boundary, not a durable
+database transaction. It offers no process-crash recovery, cross-worker
+consensus or protection against concurrent mutation by the caller.
+The snapshot contract assumes no external thread changes the arrays or
+parameters during a call.
+
+Why copy output into next state? If the returned output and returned state
+shared writable storage, a caller changing its output buffer could change
+future model behavior. The reference tests that mutating a returned value
+does not mutate the returned state or original input.
+
+Why read \texttt{states}, not \texttt{next\_state}? This makes snapshot
+semantics explicit. Our one-writer restriction keeps the small language
+simple, but the distinction remains essential when later languages
+introduce more complex read/write dependencies.
+
+\section{A trace is evidence only if it identifies the experiment}
+\index{trace!replay}
+The reference emits a compact per-gene trace containing the supplied genome
+version, gene identity, enabled decision and numeric output. This is enough
+to inspect our small worked example, not enough to replay an arbitrary
+experiment without its external context.
+
+\Plate{05-trace}{Replay needs the genome, inputs, parameter values,
+initial state, regulator decisions and execution rules. The compact
+reference trace records only a subset of this context. A version string
+is a label, not a content hash or tamper-evident signature.}{fig:trace}
+
+A practical replay record should bind immutable content identities for
+the genome, type declarations, parameter snapshot, input batch, initial
+state and regulator policy or realized decisions. Also record numeric
+precision, operator implementations, random seeds and environment.
+For stochastic operations, a seed alone may be insufficient if kernel
+scheduling changes random-number consumption.
+
+Reproducibility has levels. A semantic replay can agree within a tolerance;
+a bitwise replay must agree exactly. Neither proves biological usefulness.
+A trace can establish that a specified program ran on specified data, while
+an external evaluation must establish whether its answers are good.
+
+\section{Current compiler practice and the research boundary}
+\index{compiler!legality}
+The current StableHLO specification defines programs using typed functions
+and operations, with tensor shapes and element types; it also distinguishes
+token values used for ordering \cite{stablehlo}. That separation is relevant
+to the distinction between data and effects here. Our named semantic axes,
+gene records and snapshot policy are original teaching choices, not
+StableHLO syntax or a compatible dialect.
+
+The industry-facing lesson is to make interfaces machine-checkable before
+attempting optimization. A lowering must preserve not only array shapes but
+also state-update order, parameter sharing, bypass semantics and failure
+behavior. Fusing two operations can be invalid if the unfused program rejects
+a nonfinite intermediate while the fused program hides it. Reordering
+stateful operations can change results even when their arithmetic costs match.
+
+Evolutor remains the broader research/compiler/runtime direction above
+DOGMA (non-Transformer DNA-native model plus DOGMA Engine) and Hermon DNA
+(Transformer-based DNA model plus Hermon DNA Engine). This chapter supplies
+neither engine. It supplies a small contract against which future compiler
+transformations and runtime implementations can be tested.
+
+\section{Exercises with worked answers}
+\begin{enumerate}
+\item \textbf{Type mismatch.} Can two $2\times2$ arrays be incompatible?
+\textit{Answer:} Yes. Reversing \texttt{sample} and \texttt{feature} changes
+the declared meaning despite equal dimensions.
+\item \textbf{Conversion.} Is changing axis labels sufficient to transpose?
+\textit{Answer:} No. Transpose changes the coordinate map of the data as
+well as the type. Metadata-only relabeling can assert a false interpretation.
+\item \textbf{Environment.} Why must a destination be fresh?
+\textit{Answer:} SSA avoids ambiguous value versions. Reusing \texttt{x}
+could conceal whether later instructions read the original or overwritten value.
+\item \textbf{State.} Compute two steps with input $(1,2)$, gain 2 and
+initial state zero. \textit{Answer:} Each scale gives $(2,4)$.
+Accumulation yields states $(2,4)$ then $(4,8)$.
+\item \textbf{Bypass.} Disable accumulation on the next step.
+\textit{Answer:} Output is the scaled input $(2,4)$; memory remains $(4,8)$.
+Disabled does not mean output zero or memory reset.
+\item \textbf{Ownership.} Can two scale genes share one parameter owner?
+\textit{Answer:} Yes; both read the same scalar. Two accumulating genes
+cannot share one state owner under this reference's one-writer rule.
+\item \textbf{Negative control.} A disabled gene has an undeclared owner.
+Should it pass? \textit{Answer:} No. Genome validity is checked independently
+of today's regulator decisions.
+\item \textbf{Numerics.} Can a well-typed scale fail at runtime?
+\textit{Answer:} Yes. Finite inputs and a finite parameter can overflow
+their product. The finite-result check rejects it without mutating caller state.
+\item \textbf{Aliasing.} Why copy the accumulated output into next state?
+\textit{Answer:} Otherwise a later caller mutation of the output array could
+alter stored memory through a shared buffer.
+\item \textbf{Replay.} Is the version string alone sufficient?
+\textit{Answer:} No. Bind content, values, decisions and execution rules.
+A mutable label identifies no immutable artifact.
+\item \textbf{Extension.} Add an explicit transpose instruction.
+\textit{Rubric:} Validate a rank permutation; derive output axes and sizes;
+transpose the value consistently; reject duplicate/out-of-range axes;
+test inverse permutation and a same-shape semantic mismatch.
+\item \textbf{Compiler test.} Propose a legality test for fusion.
+\textit{Rubric:} Compare outputs, proposed state, bypass decisions,
+parameter sharing and failures against the reference. Include nonfinite
+intermediates, disabled genes and rejected ownership conflicts.
+State the numerical tolerance and what it cannot prove.
+\end{enumerate}
+
+\section{The next step is an operational semantics}
+\textbf{Reproduce the chapter.} From the repository root, run
+\texttt{python3 drafts/ch14/build.py --assets-only}, then
+\texttt{python3 -m pytest tests/test\_ch14\_reference.py}.
+The first command regenerates \texttt{results.json}, tables, plots and literal
+code listings; the tests compare the implementation with independent
+oracles and explicit failure cases. Run the builder without
+\texttt{--assets-only} to compile this review PDF.
+
+The alphabet, instruction records, type environment, regulator decisions,
+state snapshot and trace now have distinct meanings. This prevents a
+biological analogy from standing in for an executable specification.
+
+\textbf{Working vocabulary.} A tensor type declares axes, sizes and dtype;
+a computational gene names an operation and its dependencies; a genome
+orders genes; expression executes one regulated step; SSA versions values;
+ownership identifies shared resources; atomic return separates proposed
+from adopted state. Chapter 15 will turn these contracts into explicit
+transition rules and expression traces, then ask which different execution
+orders are genuinely equivalent.

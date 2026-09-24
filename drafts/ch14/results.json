@@ -1,0 +1,100 @@
+{
+  "steps": [
+    {
+      "tick": 0,
+      "enabled": true,
+      "output": [
+        2.0,
+        4.0
+      ],
+      "state": [
+        2.0,
+        4.0
+      ],
+      "trace": [
+        {
+          "version": "teaching-v1",
+          "gene": "g1",
+          "enabled": true,
+          "output": [
+            2.0,
+            4.0
+          ]
+        },
+        {
+          "version": "teaching-v1",
+          "gene": "g2",
+          "enabled": true,
+          "output": [
+            2.0,
+            4.0
+          ]
+        }
+      ]
+    },
+    {
+      "tick": 1,
+      "enabled": true,
+      "output": [
+        4.0,
+        8.0
+      ],
+      "state": [
+        4.0,
+        8.0
+      ],
+      "trace": [
+        {
+          "version": "teaching-v1",
+          "gene": "g1",
+          "enabled": true,
+          "output": [
+            2.0,
+            4.0
+          ]
+        },
+        {
+          "version": "teaching-v1",
+          "gene": "g2",
+          "enabled": true,
+          "output": [
+            4.0,
+            8.0
+          ]
+        }
+      ]
+    },
+    {
+      "tick": 2,
+      "enabled": false,
+      "output": [
+        2.0,
+        4.0
+      ],
+      "state": [
+        4.0,
+        8.0
+      ],
+      "trace": [
+        {
+          "version": "teaching-v1",
+          "gene": "g1",
+          "enabled": true,
+          "output": [
+            2.0,
+            4.0
+          ]
+        },
+        {
+          "version": "teaching-v1",
+          "gene": "g2",
+          "enabled": false,
+          "output": [
+            2.0,
+            4.0
+          ]
+        }
+      ]
+    }
+  ]
+}

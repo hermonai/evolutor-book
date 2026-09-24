@@ -1,0 +1,328 @@
+\chapter{Learning, structural adaptation and evolution}
+A model can change its answer without changing its weights. It can change
+its weights without changing its architecture. It can change its architecture
+without becoming a population undergoing selection. Calling all three
+processes \emph{adaptation} is acceptable in conversation, but inadequate
+for implementing an experiment.
+
+We will build a small structural search whose task is deliberately
+transparent. Two observed features agree during training. Only one remains
+predictive when that agreement is broken. The learner fits the training
+set almost perfectly using either feature. Can a search over feature
+masks identify the robust representation? Which data choose the winner,
+and which pieces of a parent's implementation does a child inherit?
+
+Prerequisites are gradients and evaluation from Chapters 2--4, transient
+state from Chapter 6, and generated graphs from Chapter 12. The example is
+a deterministic two-feature regression problem, not evidence of genomic
+capability or a general architecture-search advantage.
+
+\section{Four objects and four update contracts}
+\index{state update}\index{structural proposal}
+Write a candidate as $(G,\theta)$, where $G$ is a computational structure
+and $\theta$ its trainable parameters. Let $h_t$ denote transient state
+during an input sequence and $\mathcal P_g$ a population at generation $g$.
+A useful separation is
+\begin{align}
+ h_{t+1}&=f_{G,\theta}(h_t,x_t), &&\text{state update},\\
+ \theta_{k+1}&=U_G(\theta_k,D_{\mathrm{train}}),&&\text{parameter learning},\\
+ G'&=M(G,\xi),&&\text{structural proposal},\\
+ \mathcal P_{g+1}&=\mathcal S(\mathcal P_g,\mathcal C_g,E),&&\text{selection}.
+ \label{eq:clocks}
+\end{align}
+Here $t$ is an input step, $k$ an optimization step, $\xi$ a proposal choice,
+$\mathcal C_g$ candidate offspring and $E$ an evaluation procedure.
+These indices name causal boundaries; they need not correspond to
+universally separated wall-clock times.
+
+\Plate{01-clocks}{State, parameters, structure and population have distinct
+owners and update events. A state trajectory occurs under one parameter
+version; a training run occurs under one structural contract. The example
+uses explicit resets at these boundaries.}{fig:clocks}
+
+An attention cache changing during inference is not parameter learning.
+Turning an expert on for one token is not necessarily structural learning:
+the graph may already contain all experts and a fixed routing rule.
+A rewritten graph is a structural proposal even before anyone has measured
+its usefulness. Evolution requires an inheritance/variation/selection
+process over candidates, not merely an operation named \texttt{mutate}.
+
+Biological inheritance motivates vocabulary but does not license an
+identity claim. A software mask has no cell machinery, metabolism or
+reproductive ecology. We will use \Term{genotype} only as a declared
+encoding of a computational candidate, with its interpretation specified.
+
+\section{A two-feature problem that exposes the difference}
+\index{gradient descent}\index{spurious feature}
+Take training rows $(-1,-1)$ and $(1,1)$, with target $y=2x_1$.
+The validation set contains all four sign combinations
+$(x_1,x_2)\in\{-1,1\}^2$, still with $y=2x_1$.
+All features and targets are dimensionless synthetic values.
+
+A binary mask $m=(m_1,m_2)$ defines the active structure:
+\begin{equation}
+ \widehat y=x^\top(m\odot w),\qquad
+ L_{\mathrm{train}}(w;m)=\frac1N\|X(m\odot w)-y\|_2^2.
+ \label{eq:model}
+\end{equation}
+$X\in\mathbb R^{N\times2}$, $w,m\in\mathbb R^2$ and $y\in\mathbb R^N$.
+The mask is held fixed during gradient descent. We do not differentiate
+through its discrete selection.
+
+\Plate{02-gradient}{Training samples lie on $x_2=x_1$, so either coordinate
+can explain them. The validation grid breaks that correlation while
+retaining $y=2x_1$. The experiment tests a specified shift, not all possible
+future distributions.}{fig:features}
+
+Let $r=X(m\odot w)-y$. Since changing $w_j$ changes predictions by
+$m_jX_{:,j}$, differentiation gives
+\begin{equation}
+ \nabla_wL=\frac2N m\odot(X^\top r).
+ \label{eq:gradient}
+\end{equation}
+An inactive coordinate receives zero gradient. Starting all weights at
+zero therefore keeps inactive entries zero. That storage convention avoids
+hidden inherited values becoming active after a later mask change.
+
+The reference uses 40 full-batch updates with learning rate $\eta=0.1$.
+For a fixed mask the Hessian is
+$H=(2/N)\operatorname{diag}(m)X^\top X\operatorname{diag}(m)$.
+On every positive-eigenvalue mode, gradient descent contracts when
+$0<\eta<2/\lambda_{\max}(H)$. Zero-eigenvalue directions are unidentifiable
+and retain their initialization. For mask 11, $\lambda_{\max}=4$;
+the chosen rate satisfies the bound.
+
+\Listing{fit}
+
+\section{Derive a numerical oracle without running the loop}
+For a single active feature, the training loss is $(w-2)^2$.
+One update is $w_{k+1}=w_k-0.2(w_k-2)=0.8w_k+0.4$.
+With $w_0=0$, solve the geometric recurrence:
+\begin{equation}
+ w_k=2(1-0.8^k).
+ \label{eq:oneweight}
+\end{equation}
+Either feature obtains the same training loss because the training columns
+are identical.
+
+For mask 11, symmetry and zero initialization keep $w_1=w_2=a$.
+Each component's gradient is $2(2a-2)$, giving
+$a_{k+1}=0.6a_k+0.4$ and
+\begin{equation}
+ a_k=1-0.6^k.
+ \label{eq:twoweights}
+\end{equation}
+These formulas are independent oracles for the iterative implementation,
+including its gradient scaling and initialization.
+
+On the validation grid, $\mathbb E[x_1x_2]=0$ and
+$\mathbb E[x_1^2]=\mathbb E[x_2^2]=1$. Hence
+\begin{equation}
+ L_{\mathrm{valid}}=(m_1w_1-2)^2+(m_2w_2)^2.
+ \label{eq:validation}
+\end{equation}
+At convergence, masks 10, 01 and 11 have validation losses 0, 8 and 2.
+The all-zero predictor has loss 4. Perfect training fit does not identify
+the causal feature; the deliberately chosen validation intervention supplies
+information absent from the training set.
+
+We select by
+\begin{equation}
+ J(m)=L_{\mathrm{valid}}(w_{40}(m);m)+0.05\|m\|_0.
+ \label{eq:score}
+\end{equation}
+The second term penalizes active features, not weight magnitude. Its units
+match squared target units per active feature. It is a declared preference,
+not a calibrated hardware cost.
+
+\begin{center}\input{\Generated/candidate-table.tex}\end{center}
+
+The dense representation fits the training set better at step 40, yet the
+one-feature 10 mask wins the declared validation objective. Nothing here
+establishes that sparse models generally outperform dense ones.
+
+\section{Selection needs a reproducible lineage}
+\index{search!budget}
+Our \Term{elitist search} retains the best candidate among a parent and
+its one-bit mutations. Generation zero evaluates only parent 01.
+At the next generation, candidates are 01, 00 and 11; 11 wins.
+Its next neighborhood contains 11, 01 and 10; 10 wins.
+All weights are freshly trained from zero for every evaluation, including
+the parent. Ties use lexicographic mask order, never completion order.
+
+\Listing{select}
+\Plate{03-lineage}{The lineage inherits masks only. Each candidate receives
+the same 40-step training recipe, followed by the same validation objective.
+Dashed descent edges encode structural inheritance; no trained weight
+crosses them in this experiment.}{fig:lineage}
+
+\begin{center}\input{\Generated/history-table.tex}\end{center}
+\Listing{evolve}
+
+This is a $(1+\lambda)$ population-selection scheme with one survivor,
+not a diverse many-survivor population. The parent remains eligible,
+so deterministic reevaluation under a fixed objective cannot worsen the
+best score. Noise, changing data or changed evaluation budgets break that
+argument. A monotone validation score also says nothing about test
+performance.
+
+Equal step counts are not equal compute. A candidate with two active
+features performs more useful scalar products than one with one feature;
+our NumPy representation still stores both columns. This reference isolates
+optimization budget and semantics, not actual sparse-kernel efficiency.
+A serious comparison should report candidate evaluations, training steps,
+data exposures, active parameter count, measured compute and wall time.
+Caching repeated candidates could save work, but the cache key must include
+data, initialization, training recipe and code version, not just the mask.
+
+\section{Inheritance is a mapping, not a file copy}
+\index{inheritance!parameter map}
+An alternative policy can inherit trained weights. For a stable feature
+coordinate $i$, define
+\begin{equation}
+ w_i'=\begin{cases}
+ w_i,&m_i=m_i'=1,\\
+ 0,&\text{otherwise}.
+ \end{cases}
+ \label{eq:inherit}
+\end{equation}
+A newly enabled feature starts at zero; a disabled feature's stored weight
+is cleared. The policy needs a stable meaning for coordinate $i$.
+Equal vector lengths are not enough if features were reordered or replaced.
+
+\Listing{inherit}
+\Plate{05-inheritance}{The inherited coordinate keeps its value, the newly
+enabled coordinate starts at zero, and transient sequence state resets.
+This is an alternative policy, not the policy used to generate the search
+table. Optimizer state would require a separate inheritance rule.}{fig:inheritance}
+
+Weight inheritance changes the experiment: candidates no longer begin
+from an equally trained state. It may accelerate search, but inherited
+quality and structural quality become coupled. Momentum buffers, adaptive
+optimizer statistics, random-number state, normalization statistics and
+data order must also be addressed. Copying a weight without its optimizer
+history is a different algorithm from copying both.
+
+In terminology often used for computational evolution, a \Term{Baldwinian}
+evaluation can let within-candidate learning affect fitness without
+inheriting its learned weights; a \Term{Lamarckian} variant can transmit them.
+These labels are useful policy shorthand here, not claims about biological
+mechanisms. Always publish the actual state map.
+
+\section{Search uses up evaluation information}
+\index{validation!adaptive reuse}\index{multiple testing}
+The validation set participates in selection and is therefore part of
+the search process. It is not an untouched final test. Our complete
+four-point grid is an exhaustive check of one synthetic condition;
+we report no separate generalization estimate.
+
+For intuition, suppose $K$ independent null candidates each have probability
+$\alpha$ of a misleading apparent improvement. Then
+\begin{equation}
+ \Pr(\text{at least one false positive})=1-(1-\alpha)^K.
+ \label{eq:multiple}
+\end{equation}
+At $\alpha=0.05$ and $K=20$, this is approximately 0.642.
+The calculation is a model of repeated testing, not a calibrated error
+rate for adaptive architecture search. Candidates and their errors are
+usually dependent; repeated querying can also make later candidates
+depend on earlier validation results.
+
+\Plate{04-budget}{A larger search increases the chance of finding an
+apparently favorable null result under the stated independent-test model.
+Training, selection and final assessment must retain distinct roles.
+The curve is illustrative probability arithmetic, not measured search
+performance.}{fig:searchbudget}
+
+Use an untouched final set only after freezing the selection procedure.
+For genomic tasks, split by the scientifically relevant unit rather than
+assuming random windows are independent; related sequences and shared
+sources can leak information. Predeclare the task, grouping rule, baselines,
+search budget, stopping rule and uncertainty analysis. Repeating seeds
+does not repair a systematically leaked split.
+
+\section{A current frontier: evaluator-driven program evolution}
+AlphaEvolve's 2025 technical report describes an LLM proposing program
+changes, automated evaluation, and an evolutionary database that balances
+reuse and diversity \cite{alphaevolve}. Its optional evaluation cascade
+rejects unpromising programs before more costly stages. This is a relevant
+systems pattern, not the algorithm implemented by our two-bit reference.
+
+The important engineering lesson is that the evaluator is part of the
+search system's specification. A candidate can exploit an incomplete metric,
+a timeout policy, a data leak or an implementation bug. Passing tests is
+evidence about those tests, not an unrestricted correctness proof.
+For executable candidate code, isolation, resource limits and evaluator
+integrity are separate requirements; this chapter's safe numeric masks
+avoid executing generated source.
+
+A useful next experiment would compare a fixed model, random mask search
+and neighborhood evolution under equal total evaluation budgets.
+Report both best validation score and final held-out outcome. Include failed
+candidates and search overhead. Without that comparison, an attractive
+lineage diagram is not evidence that evolution was necessary.
+
+\section{Exercises with worked answers}
+\begin{enumerate}
+\item \textbf{Classify.} A recurrent state changes while weights are frozen.
+\textit{Answer:} This is a state update, not parameter or structural learning.
+\item \textbf{Derive.} Differentiate Equation~\ref{eq:model}.
+\textit{Answer:} Apply the chain rule to each residual:
+$\partial L/\partial w_j=(2/N)\sum_nr_nX_{nj}m_j$.
+Stacking coordinates gives Equation~\ref{eq:gradient}.
+\item \textbf{Oracle.} Compute the single-feature weight after one and two
+steps. \textit{Answer:} $w_1=0.4$ and $w_2=0.72$,
+matching $2(1-0.8^k)$.
+\item \textbf{Identifiability.} Why is mask 11's optimum not unique on the
+training set? \textit{Answer:} Only $w_1+w_2$ matters there. Every pair
+summing to 2 minimizes training loss; symmetric initialization and updates
+select the symmetric solution.
+\item \textbf{Shift.} Derive the spurious feature's limiting validation loss.
+\textit{Answer:} Predictions are $2x_2$; the mean squared error is
+$4\mathbb E[(x_2-x_1)^2]=8$ on the independent sign grid.
+\item \textbf{Budget.} Does forty steps per mask imply equal FLOPs?
+\textit{Answer:} No. Active work, tensor representation and execution kernels
+can differ. The controlled variable is the number of updates.
+\item \textbf{Lineage.} Why does the first mutation round not choose 10?
+\textit{Answer:} It differs from parent 01 in two bits and is not in the
+one-bit neighborhood. The search reaches it through 11.
+\item \textbf{Inheritance.} Map $(1,0)$ with stored weights $(2,9)$ to $(1,1)$.
+\textit{Answer:} Equation~\ref{eq:inherit} yields $(2,0)$;
+the stale inactive value 9 must not silently become an inherited skill.
+\item \textbf{Selection proof.} When is best score monotone?
+\textit{Answer:} When the parent is included and all candidates are scored
+deterministically under the same objective. Changed conditions invalidate
+the comparison; noisy minima can improve without true quality improving.
+\item \textbf{Multiple testing.} For $K=2$ and $\alpha=.05$, compute the
+familywise probability. \textit{Answer:} $1-.95^2=.0975$,
+not .05. The independence assumption must be stated.
+\item \textbf{Reproducibility.} Specify a candidate cache key.
+\textit{Rubric:} Include structural encoding, data/split identity,
+initialization and seed, optimization budget, hyperparameters, evaluator
+version, numeric precision and code/environment version.
+\item \textbf{Research design.} Test whether evolution is useful.
+\textit{Rubric:} Compare fixed, random-search and evolutionary baselines;
+match total budgets; freeze selection before final testing; report multiple
+runs, failed candidates, overhead and uncertainty. Do not tune on final data.
+\end{enumerate}
+
+\section{From adaptation policies to typed candidates}
+\textbf{Reproduce the chapter.} From the repository root, run
+\texttt{python3 drafts/ch13/build.py --assets-only}, then
+\texttt{python3 -m pytest tests/test\_ch13\_reference.py}.
+The first command regenerates \texttt{results.json}, tables, plots and literal
+code listings; the tests compare the implementation with independent
+oracles and explicit failure cases. Run the builder without
+\texttt{--assets-only} to compile this review PDF.
+
+We can now distinguish state transition, learning, structural proposal and
+selection by inspecting which object changes and which evidence authorizes
+the change. The synthetic example demonstrates an evaluation failure mode,
+not a universal recipe for robust models.
+
+\textbf{Working vocabulary.} A genotype encodes a candidate; phenotype is
+its interpreted computation; inheritance maps parent state to child state;
+fitness is an evaluator-defined quantity; elitism retains a qualifying
+parent; a holdout ceases to be untouched once it guides decisions.
+Chapter 14 makes candidate structure explicit enough to validate before
+execution: typed computational genes, owned state and an expression trace.

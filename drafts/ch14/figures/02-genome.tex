@@ -1,0 +1,13 @@
+\begin{tikzpicture}[x=1cm,y=1cm,
+ cls/.style={draw=Blue,fill=Pale,minimum width=3.6cm,align=left,font=\small\sffamily,inner sep=7pt}]
+\node[cls] (gen) at (2,3.4) {\textbf{Genome}\\version label\\ordered genes: tuple};
+\node[cls] (gene) at (7,3.4) {\textbf{Gene}\\id, op, src, dst\\type, owner};
+\node[cls] (reg) at (12,3.4) {\textbf{Regulator}\\enabled[id]: bool\\complete decision map};
+\node[cls] (param) at (3.7,.2) {\textbf{Parameter bank}\\owner: scalar\\read-only during step};
+\node[cls] (state) at (10,.2) {\textbf{State bank}\\owner: tensor\\snapshot / proposed next};
+\draw[Blue,thick,{Diamond[fill=Blue]}-] (gen.east)--node[above,smallnote]{1\quad 0..*}(gene.west);
+\draw[flow,dashed] (reg.west)--node[above,smallnote]{selects}(gene.east);
+\draw[flow,dashed] (gene.south)--node[left,smallnote]{scale: reads}(param.north);
+\draw[flow,dashed] (gene.south)--node[right,smallnote]{accumulate: reads/writes}(state.north);
+\node[smallnote] at (7,-1.2) {UML composition: genome owns records. Dashed arrows: references/control.};
+\end{tikzpicture}

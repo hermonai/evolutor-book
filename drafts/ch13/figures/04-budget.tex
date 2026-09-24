@@ -1,0 +1,12 @@
+\begin{tikzpicture}
+\begin{axis}[width=13cm,height=5.5cm,xlabel={Independent null candidates $K$},
+ylabel={At least one false positive},xmin=0,xmax=100,ymin=0,ymax=1.03,
+grid=major,tick label style={font=\small},label style={font=\small}]
+\input{\Generated/multiplicity-plot.tex}
+\node[font=\small] at (axis cs:60,.35) {$1-(1-0.05)^K$};
+\end{axis}
+\end{tikzpicture}
+
+\smallskip
+{\small\sffamily Train: fit weights \quad / \quad Validation: choose candidates
+\quad / \quad Test: assess frozen choice}

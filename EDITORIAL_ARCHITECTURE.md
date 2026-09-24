@@ -11,9 +11,9 @@ for current authoring progress. Do not regenerate archived editions merely
 to change their progress labels.
 
 Chapters 1-2 retain their internal acceptance records. Chapter 3 has standalone
-and combined LaTeX review candidates. Chapters 4-12 have isolated authored-LaTeX
+and combined LaTeX review candidates. Chapters 4-14 have isolated authored-LaTeX
 review candidates with code, vector figures, and worked solutions.
-Chapter 13 is the next unwritten chapter. Chapters 11-12 were authored at the
+Chapter 15 is the next unwritten chapter. Chapters 11-14 were authored at the
 reader's explicit request while the Chapters 1-10 integration milestone remains
 pending. These standalone candidates do not substitute for that integration.
 Independent specialist review and cumulative integration are still open.
@@ -95,11 +95,27 @@ execution. Check forward and backward equivalence against a recursive oracle,
 and show why shared-parameter gradients sum across uses. Structural validity
 is distinct from trained capability or empirical architectural superiority.
 
+## Chapter 13 scope (standalone candidate): learning, structural adaptation and evolution
+
+Separate transient state, learned parameters, structural proposals and population
+selection. Derive exact gradient recurrences for a shifted two-feature problem,
+then implement equal-step-budget mask search and explicit inheritance policies.
+Expose spurious-feature fit and validation reuse; compare evaluator-driven
+program evolution with the limited deterministic reference.
+
+## Chapter 14 scope (standalone candidate): typed genomic computation systems
+
+Define an operation alphabet, immutable genes, semantic-axis tensor contracts,
+SSA values and external resource ownership. Execute a small regulated genome
+against a state snapshot, reject malformed candidates before arithmetic, and
+test state isolation and failure atomicity. Distinguish a compact trace from a
+replay-complete record and a teaching interpreter from a production engine.
+
 ## Pending milestone: integrate Chapters 1-10
 
 Audit record validity, tensor notation, normalization conventions, routing
 cohorts, gradient history, and source closure, including the interfaces now
-used by Chapters 11-12. Separate biological regulation from expert routing.
+used by Chapters 11-14. Separate biological regulation from expert routing.
 Build a new cumulative entry point with unified bibliography and index; retain
 standalone candidates and accepted editions unchanged. Do not promote acceptance
 without independent review and the existing release gates.

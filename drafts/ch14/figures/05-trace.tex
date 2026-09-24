@@ -1,0 +1,12 @@
+\begin{tikzpicture}[x=1cm,y=1cm]
+\node[note] (g) at (1.8,3.5) {Genome + types\\content identity};
+\node[note] (p) at (7,3.5) {Parameters + input\\actual values};
+\node[note] (h) at (12,3.5) {Initial state\\and decisions};
+\node[note,draw=Blue,fill=Pale,minimum width=4cm] (run) at (7,1.6) {Expression event\\operator rules + precision};
+\foreach \n in {g,p,h}\draw[flow] (\n)--(run);
+\node[note] (o) at (2,.1) {Output values};
+\node[note] (s) at (7,.1) {Proposed next state};
+\node[note] (t) at (12,.1) {Per-gene trace};
+\foreach \n in {o,s,t}\draw[flow] (run)--(\n);
+\node[smallnote,align=center] at (7,-1.1) {Reference trace: version label, gene ID, enabled decision, output.\\Replay requires retaining the external context above as well.};
+\end{tikzpicture}

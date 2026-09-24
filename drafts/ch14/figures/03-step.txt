@@ -1,0 +1,3 @@
+Chapter 14, figure 3: How does expression update state?
+Concrete affine-plus-add execution with previous state, proposed output and next-state version; distinct read/data/commit arrows. Caption: successful typed execution precedes commit. Risk: transactional memory is reference semantics, not durability.
+See the numbered figure caption and reference.py for exact assumptions and computed values.

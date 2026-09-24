@@ -22,6 +22,10 @@ Read the [Chapters 1–2 PDF](output/pdf/deep-evolutor-ch01-02.pdf), [Chapter 2 
 
 DOGMA = non-Transformer DNA-native model + DOGMA Engine; Hermon DNA = Transformer-based DNA model + Hermon DNA Engine; Evolutor = broader theory/research/compiler/runtime above both. These are research identities, not claims of trained models or production engines.
 
+[Chapter 13: Learning, structural adaptation and evolution](drafts/ch13/README.md) adds exact learning oracles, structural search, inheritance policies and evaluation failure cases. [Chapter 14: Typed genomic computation systems](drafts/ch14/README.md) adds semantic-axis types, owned state, a regulated interpreter and rejection/rollback tests. Each includes five editable algorithm figures with TXT companions and twelve worked exercises; current research comparisons have dated source-access notes.
+
+Chapters 13-14 are standalone author-reviewed candidates, not cumulative acceptance or independently validated industrial systems. Chapter 15 is next; cumulative integration remains pending.
+
 ## Build and verify
 
 Chapter 3 now has a standalone [review edition](drafts/ch03/README.md), with twelve editable SVG/TXT figures and a page-inspected PDF. See the [review report and release gates](DEEP_CHAPTER_3_REVIEW_REPORT.md). It is not yet included in the accepted cumulative PDF.

@@ -1,0 +1,16 @@
+\begin{tikzpicture}[x=1cm,y=1cm]
+\node[note] at (3,3.9) {Parent mask 10};
+\node[note] at (10,3.9) {Child mask 11};
+\foreach \x/\lab/\val in {1.5/{active $w_1$}/2,4.5/{inactive $w_2$}/9,8.5/{retained $w_1'$}/2,11.5/{new $w_2'$}/0}{
+ \draw[Blue,thick,fill=Pale] (\x-1,1.5) rectangle (\x+1,2.5);
+ \node[note] at (\x,2) {\val};
+ \node[smallnote] at (\x,1.1) {\lab};
+}
+\draw[flow] (2.5,2.6) to[bend left=20] node[above,smallnote]{same semantic coordinate}(8.5,2.6);
+\draw[Red,thick] (4.1,1.6)--(4.9,2.4);
+\draw[Red,thick] (4.1,2.4)--(4.9,1.6);
+\node[smallnote] at (4.5,.3) {stale value discarded};
+\node[smallnote] at (11.5,.3) {initialize, do not inherit};
+\draw[Blue!25] (0,-.3)--(14,-.3);
+\node[note] at (7,-.9) {Transient state: reset \quad Optimizer history: separate policy};
+\end{tikzpicture}

@@ -1,0 +1,18 @@
+\begin{tikzpicture}[x=1cm,y=1cm]
+\foreach \shift/\top/\side/\a/\b/\c/\d in {0/feature/sample/1/2/3/4,8/sample/feature/1/3/2/4}{
+ \begin{scope}[xshift=\shift cm]
+ \draw[Blue,thick,step=1] (1,0) grid (3,2);
+ \node[note] at (1.5,1.5) {\a}; \node[note] at (2.5,1.5) {\b};
+ \node[note] at (1.5,.5) {\c}; \node[note] at (2.5,.5) {\d};
+ \node[note] at (2,2.5) {\top};
+ \node[note,rotate=90] at (.4,1) {\side};
+ \node[smallnote] at (2,-.6) {shape $(2,2)$};
+ \end{scope}
+}
+\draw[flow] (3.7,1.6)--node[above,smallnote]{transpose values}(8.3,1.6);
+\node[smallnote] at (6,1.05) {and swap axes};
+\draw[Red,thick,dashed] (3.7,.2)--(8.3,.2);
+\draw[Red,thick] (5.8,-.05)--(6.2,.45);
+\draw[Red,thick] (5.8,.45)--(6.2,-.05);
+\node[smallnote] at (6,-.6) {direct substitution rejected};
+\end{tikzpicture}

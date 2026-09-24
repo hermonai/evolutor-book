@@ -1,0 +1,631 @@
+{
+  "candidates": [
+    {
+      "mask": [
+        0,
+        0
+      ],
+      "weights": [
+        0.0,
+        0.0
+      ],
+      "train": 4.0,
+      "valid": 4.0,
+      "score": 4.0
+    },
+    {
+      "mask": [
+        0,
+        1
+      ],
+      "weights": [
+        0.0,
+        1.999734154400843
+      ],
+      "train": 7.067388259119727e-08,
+      "valid": 7.9989366882772535,
+      "score": 8.048936688277253
+    },
+    {
+      "mask": [
+        1,
+        0
+      ],
+      "weights": [
+        1.999734154400843,
+        0.0
+      ],
+      "train": 7.067388259119727e-08,
+      "valid": 7.067388259119727e-08,
+      "score": 0.050000070673882596
+    },
+    {
+      "mask": [
+        1,
+        1
+      ],
+      "weights": [
+        0.9999999986632505,
+        0.9999999986632505
+      ],
+      "train": 7.147596784065555e-18,
+      "valid": 2.0,
+      "score": 2.1
+    }
+  ],
+  "history": [
+    {
+      "generation": 0,
+      "parent": [
+        0,
+        1
+      ],
+      "candidates": [
+        {
+          "mask": [
+            0,
+            1
+          ],
+          "weights": [
+            0.0,
+            1.999734154400843
+          ],
+          "train": 7.067388259119727e-08,
+          "valid": 7.9989366882772535,
+          "score": 8.048936688277253
+        }
+      ],
+      "winner": [
+        0,
+        1
+      ],
+      "score": 8.048936688277253
+    },
+    {
+      "generation": 1,
+      "parent": [
+        0,
+        1
+      ],
+      "candidates": [
+        {
+          "mask": [
+            0,
+            0
+          ],
+          "weights": [
+            0.0,
+            0.0
+          ],
+          "train": 4.0,
+          "valid": 4.0,
+          "score": 4.0
+        },
+        {
+          "mask": [
+            0,
+            1
+          ],
+          "weights": [
+            0.0,
+            1.999734154400843
+          ],
+          "train": 7.067388259119727e-08,
+          "valid": 7.9989366882772535,
+          "score": 8.048936688277253
+        },
+        {
+          "mask": [
+            1,
+            1
+          ],
+          "weights": [
+            0.9999999986632505,
+            0.9999999986632505
+          ],
+          "train": 7.147596784065555e-18,
+          "valid": 2.0,
+          "score": 2.1
+        }
+      ],
+      "winner": [
+        1,
+        1
+      ],
+      "score": 2.1
+    },
+    {
+      "generation": 2,
+      "parent": [
+        1,
+        1
+      ],
+      "candidates": [
+        {
+          "mask": [
+            0,
+            1
+          ],
+          "weights": [
+            0.0,
+            1.999734154400843
+          ],
+          "train": 7.067388259119727e-08,
+          "valid": 7.9989366882772535,
+          "score": 8.048936688277253
+        },
+        {
+          "mask": [
+            1,
+            0
+          ],
+          "weights": [
+            1.999734154400843,
+            0.0
+          ],
+          "train": 7.067388259119727e-08,
+          "valid": 7.067388259119727e-08,
+          "score": 0.050000070673882596
+        },
+        {
+          "mask": [
+            1,
+            1
+          ],
+          "weights": [
+            0.9999999986632505,
+            0.9999999986632505
+          ],
+          "train": 7.147596784065555e-18,
+          "valid": 2.0,
+          "score": 2.1
+        }
+      ],
+      "winner": [
+        1,
+        0
+      ],
+      "score": 0.050000070673882596
+    }
+  ],
+  "multiplicity_curve": [
+    {
+      "searches": 0,
+      "probability": 0.0
+    },
+    {
+      "searches": 1,
+      "probability": 0.050000000000000044
+    },
+    {
+      "searches": 2,
+      "probability": 0.09750000000000003
+    },
+    {
+      "searches": 3,
+      "probability": 0.1426250000000001
+    },
+    {
+      "searches": 4,
+      "probability": 0.18549375000000012
+    },
+    {
+      "searches": 5,
+      "probability": 0.22621906250000023
+    },
+    {
+      "searches": 6,
+      "probability": 0.2649081093750002
+    },
+    {
+      "searches": 7,
+      "probability": 0.3016627039062503
+    },
+    {
+      "searches": 8,
+      "probability": 0.33657956871093775
+    },
+    {
+      "searches": 9,
+      "probability": 0.3697505902753909
+    },
+    {
+      "searches": 10,
+      "probability": 0.4012630607616213
+    },
+    {
+      "searches": 11,
+      "probability": 0.43119990772354033
+    },
+    {
+      "searches": 12,
+      "probability": 0.45963991233736334
+    },
+    {
+      "searches": 13,
+      "probability": 0.4866579167204952
+    },
+    {
+      "searches": 14,
+      "probability": 0.5123250208844705
+    },
+    {
+      "searches": 15,
+      "probability": 0.536708769840247
+    },
+    {
+      "searches": 16,
+      "probability": 0.5598733313482347
+    },
+    {
+      "searches": 17,
+      "probability": 0.5818796647808229
+    },
+    {
+      "searches": 18,
+      "probability": 0.6027856815417818
+    },
+    {
+      "searches": 19,
+      "probability": 0.6226463974646927
+    },
+    {
+      "searches": 20,
+      "probability": 0.6415140775914581
+    },
+    {
+      "searches": 21,
+      "probability": 0.6594383737118852
+    },
+    {
+      "searches": 22,
+      "probability": 0.676466455026291
+    },
+    {
+      "searches": 23,
+      "probability": 0.6926431322749764
+    },
+    {
+      "searches": 24,
+      "probability": 0.7080109756612276
+    },
+    {
+      "searches": 25,
+      "probability": 0.7226104268781662
+    },
+    {
+      "searches": 26,
+      "probability": 0.7364799055342579
+    },
+    {
+      "searches": 27,
+      "probability": 0.7496559102575451
+    },
+    {
+      "searches": 28,
+      "probability": 0.7621731147446679
+    },
+    {
+      "searches": 29,
+      "probability": 0.7740644590074345
+    },
+    {
+      "searches": 30,
+      "probability": 0.7853612360570628
+    },
+    {
+      "searches": 31,
+      "probability": 0.7960931742542097
+    },
+    {
+      "searches": 32,
+      "probability": 0.8062885155414992
+    },
+    {
+      "searches": 33,
+      "probability": 0.8159740897644242
+    },
+    {
+      "searches": 34,
+      "probability": 0.8251753852762029
+    },
+    {
+      "searches": 35,
+      "probability": 0.8339166160123929
+    },
+    {
+      "searches": 36,
+      "probability": 0.8422207852117732
+    },
+    {
+      "searches": 37,
+      "probability": 0.8501097459511846
+    },
+    {
+      "searches": 38,
+      "probability": 0.8576042586536253
+    },
+    {
+      "searches": 39,
+      "probability": 0.8647240457209441
+    },
+    {
+      "searches": 40,
+      "probability": 0.8714878434348969
+    },
+    {
+      "searches": 41,
+      "probability": 0.877913451263152
+    },
+    {
+      "searches": 42,
+      "probability": 0.8840177786999944
+    },
+    {
+      "searches": 43,
+      "probability": 0.8898168897649947
+    },
+    {
+      "searches": 44,
+      "probability": 0.895326045276745
+    },
+    {
+      "searches": 45,
+      "probability": 0.9005597430129078
+    },
+    {
+      "searches": 46,
+      "probability": 0.9055317558622624
+    },
+    {
+      "searches": 47,
+      "probability": 0.9102551680691493
+    },
+    {
+      "searches": 48,
+      "probability": 0.9147424096656918
+    },
+    {
+      "searches": 49,
+      "probability": 0.9190052891824072
+    },
+    {
+      "searches": 50,
+      "probability": 0.9230550247232868
+    },
+    {
+      "searches": 51,
+      "probability": 0.9269022734871225
+    },
+    {
+      "searches": 52,
+      "probability": 0.9305571598127664
+    },
+    {
+      "searches": 53,
+      "probability": 0.9340293018221281
+    },
+    {
+      "searches": 54,
+      "probability": 0.9373278367310217
+    },
+    {
+      "searches": 55,
+      "probability": 0.9404614448944706
+    },
+    {
+      "searches": 56,
+      "probability": 0.9434383726497471
+    },
+    {
+      "searches": 57,
+      "probability": 0.9462664540172597
+    },
+    {
+      "searches": 58,
+      "probability": 0.9489531313163967
+    },
+    {
+      "searches": 59,
+      "probability": 0.9515054747505769
+    },
+    {
+      "searches": 60,
+      "probability": 0.953930201013048
+    },
+    {
+      "searches": 61,
+      "probability": 0.9562336909623956
+    },
+    {
+      "searches": 62,
+      "probability": 0.9584220064142759
+    },
+    {
+      "searches": 63,
+      "probability": 0.9605009060935621
+    },
+    {
+      "searches": 64,
+      "probability": 0.962475860788884
+    },
+    {
+      "searches": 65,
+      "probability": 0.9643520677494398
+    },
+    {
+      "searches": 66,
+      "probability": 0.9661344643619678
+    },
+    {
+      "searches": 67,
+      "probability": 0.9678277411438694
+    },
+    {
+      "searches": 68,
+      "probability": 0.9694363540866759
+    },
+    {
+      "searches": 69,
+      "probability": 0.9709645363823421
+    },
+    {
+      "searches": 70,
+      "probability": 0.972416309563225
+    },
+    {
+      "searches": 71,
+      "probability": 0.9737954940850638
+    },
+    {
+      "searches": 72,
+      "probability": 0.9751057193808106
+    },
+    {
+      "searches": 73,
+      "probability": 0.9763504334117701
+    },
+    {
+      "searches": 74,
+      "probability": 0.9775329117411815
+    },
+    {
+      "searches": 75,
+      "probability": 0.9786562661541225
+    },
+    {
+      "searches": 76,
+      "probability": 0.9797234528464164
+    },
+    {
+      "searches": 77,
+      "probability": 0.9807372802040956
+    },
+    {
+      "searches": 78,
+      "probability": 0.9817004161938908
+    },
+    {
+      "searches": 79,
+      "probability": 0.9826153953841963
+    },
+    {
+      "searches": 80,
+      "probability": 0.9834846256149864
+    },
+    {
+      "searches": 81,
+      "probability": 0.9843103943342371
+    },
+    {
+      "searches": 82,
+      "probability": 0.9850948746175252
+    },
+    {
+      "searches": 83,
+      "probability": 0.985840130886649
+    },
+    {
+      "searches": 84,
+      "probability": 0.9865481243423165
+    },
+    {
+      "searches": 85,
+      "probability": 0.9872207181252007
+    },
+    {
+      "searches": 86,
+      "probability": 0.9878596822189407
+    },
+    {
+      "searches": 87,
+      "probability": 0.9884666981079936
+    },
+    {
+      "searches": 88,
+      "probability": 0.989043363202594
+    },
+    {
+      "searches": 89,
+      "probability": 0.9895911950424643
+    },
+    {
+      "searches": 90,
+      "probability": 0.9901116352903411
+    },
+    {
+      "searches": 91,
+      "probability": 0.990606053525824
+    },
+    {
+      "searches": 92,
+      "probability": 0.9910757508495328
+    },
+    {
+      "searches": 93,
+      "probability": 0.9915219633070561
+    },
+    {
+      "searches": 94,
+      "probability": 0.9919458651417034
+    },
+    {
+      "searches": 95,
+      "probability": 0.9923485718846182
+    },
+    {
+      "searches": 96,
+      "probability": 0.9927311432903873
+    },
+    {
+      "searches": 97,
+      "probability": 0.9930945861258679
+    },
+    {
+      "searches": 98,
+      "probability": 0.9934398568195745
+    },
+    {
+      "searches": 99,
+      "probability": 0.9937678639785958
+    },
+    {
+      "searches": 100,
+      "probability": 0.994079470779666
+    }
+  ],
+  "multiplicity": [
+    {
+      "searches": 1,
+      "probability": 0.050000000000000044
+    },
+    {
+      "searches": 2,
+      "probability": 0.09750000000000003
+    },
+    {
+      "searches": 5,
+      "probability": 0.22621906250000023
+    },
+    {
+      "searches": 10,
+      "probability": 0.4012630607616213
+    },
+    {
+      "searches": 20,
+      "probability": 0.6415140775914581
+    },
+    {
+      "searches": 50,
+      "probability": 0.9230550247232868
+    },
+    {
+      "searches": 100,
+      "probability": 0.994079470779666
+    }
+  ],
+  "inherited": [
+    2.0,
+    0.0
+  ]
+}

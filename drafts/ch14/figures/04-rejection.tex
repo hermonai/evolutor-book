@@ -1,0 +1,13 @@
+\begin{tikzpicture}[x=1cm,y=1cm]
+\node[note,anchor=west] at (0,3.7) {\textbf{Environment $\Gamma$: defined values and their types}};
+\foreach \x/\lab in {1.8/{x:\tau},6.5/{x:\tau,\ u:\tau},11.7/{x:\tau,\ u:\tau,\ y:\tau}}{
+ \node[note,draw=Blue,fill=Pale,inner sep=6pt] at (\x,2.7) {$\lab$};
+}
+\draw[flow] (2.8,2.7)--node[above,smallnote]{check $g_1$}(4.9,2.7);
+\draw[flow] (8.1,2.7)--node[above,smallnote]{check $g_2$}(9.7,2.7);
+\draw[Blue!30] (0,1.7)--(14,1.7);
+\node[note,anchor=west,align=left] at (.2,.6) {Missing source\\Axis mismatch};
+\node[note,anchor=west,align=left] at (5,.6) {Reused destination\\Unknown owner};
+\node[note,anchor=west,align=left] at (9.7,.6) {Duplicate gene ID\\Two state writers};
+\node[smallnote,Red] at (7,-.7) {Any violation: reject the complete genome before numeric execution.};
+\end{tikzpicture}

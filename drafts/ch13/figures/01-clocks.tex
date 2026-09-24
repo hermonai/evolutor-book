@@ -1,0 +1,18 @@
+\begin{tikzpicture}[x=1cm,y=1cm]
+\foreach \y/\lab in {3.5/{State $h_t$},2/{Weights $\theta_k$},.5/{Structure $G$},-1/{Population $\mathcal P_g$}}
+ \node[note,anchor=east] at (2,\y) {\lab};
+\foreach \x in {3,4,5,6,7,8,9,10,11,12,13}
+ \fill[Blue] (\x,3.5) circle (.07);
+\draw[flow] (3,3.5)--(13.5,3.5);
+\foreach \a/\b in {3/6,6.4/9.4,9.8/13}{
+ \draw[Green,line width=2pt] (\a,2)--(\b,2);
+ \fill[Green] (\a,2) circle (.11);
+}
+\draw[Red,line width=2pt] (3,.5)--(9.4,.5);
+\draw[Red,line width=2pt,dashed] (9.8,.5)--(13,.5);
+\draw[Blue,line width=2pt] (3,-1)--(9.4,-1);
+\draw[flow] (9.4,-1)--(10.2,-1);
+\node[smallnote] at (11.7,-1) {selected child};
+\draw[Blue!40,dashed] (9.6,4.1)--(9.6,-1.5);
+\node[smallnote] at (6.2,-2) {Dots: input steps. Segments: fixed version. Boundary: evaluate/select.};
+\end{tikzpicture}
