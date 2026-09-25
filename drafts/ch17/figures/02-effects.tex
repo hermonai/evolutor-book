@@ -1,0 +1,13 @@
+\begin{tikzpicture}
+\foreach \off/\title in {0/OR: redundancy,7/AND: synergy}{
+\node[note] at (\off+2.3,3.5){\textbf{\title}};
+\node[smallnote] at (\off+2,2.9){$B=0$};\node[smallnote] at (\off+3.4,2.9){$B=1$};
+\node[smallnote] at (\off+.6,2.1){$A=1$};\node[smallnote] at (\off+.6,.8){$A=0$};
+\foreach \x in {1.3,2.7}{\foreach \y in {.2,1.5}{\draw[Blue,fill=Pale] (\off+\x,\y) rectangle ++(1.4,1.3);}}}
+\node[note] at (2,.85){0};\node[note] at (3.4,.85){1};
+\node[note] at (2,2.15){1};\node[note] at (3.4,2.15){1};
+\node[note] at (9,.85){0};\node[note] at (10.4,.85){0};
+\node[note] at (9,2.15){0};\node[note] at (10.4,2.15){1};
+\node[smallnote,text width=5.5cm] at (2.7,-.7){Either singleton preserves output.\\Joint ablation reveals dependence.};
+\node[smallnote,text width=5.5cm] at (9.7,-.7){Neither singleton is sufficient.\\Both are required for output one.};
+\end{tikzpicture}

@@ -1,0 +1,4 @@
+Question: A test must survive a held-out counterexample
+Objects and arrow semantics: Observed-confounded cohort versus independently varied inputs and controls.
+Change/invariant and caption claim: Prediction agreement can coexist with different intervention effects.
+Scientific risk: Synthetic structural equations do not certify learned-model explanations.

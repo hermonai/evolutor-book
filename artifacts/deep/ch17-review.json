@@ -1,0 +1,60 @@
+{
+  "pdf": "output/pdf/evolutor-ch17-review.pdf",
+  "pages": 12,
+  "sha256": "3b5f022dbf8ee6748e78b57bca5d387acf36ca24de8ec1d4b4833c0b07fb398d",
+  "status": "standalone authored-LaTeX review candidate; no acceptance promotion",
+  "sources": {
+    "drafts/ch17/README.md": "b463ba2c79fe678371165643973a2a8a064dc2160588742223196c588acce602",
+    "drafts/ch17/STORYBOARD.md": "a3bda9831439ef3d7c2350e0b0d459b5e0c20f0c3b074dd6d0e89c900526aa1b",
+    "drafts/ch17/build.py": "614aab47cfb499590c791cef1ea88c75ce3c068223c3d437fa84f171b484f2b7",
+    "drafts/ch17/figures/01-causal.tex": "2086581782700cab62d6bcb4df5a836677a9bf8b44917efeef35f9069a552bef",
+    "drafts/ch17/figures/01-causal.txt": "d5c009c93747659057720291d7868d5e92c8afb4d90199b84f5bcf1fab1dfbc2",
+    "drafts/ch17/figures/02-effects.tex": "20652189c8357da8035efcb92172bc2f4d842c92dc80773534488e490bed6e2b",
+    "drafts/ch17/figures/02-effects.txt": "a18c1999f951b89ee89458f02ad1e2d655832ef9680ad6e2f1d8df6be84dcb3e",
+    "drafts/ch17/figures/03-shapley.tex": "4e5859912968fba222d351215b25d9761ade838849524fcefc8376027ffcada2",
+    "drafts/ch17/figures/03-shapley.txt": "e171dbec78f7bdb7f3194f601d2fac904506f7716ecc0e4d860acd7b394ee5b7",
+    "drafts/ch17/figures/04-time.tex": "6e3be666cd664bd37a769f9c7b61ae75c21e3d87989818dc9c4c418bda9a73a1",
+    "drafts/ch17/figures/04-time.txt": "00655628afd61123db29f9b0f0cbeee4548109a71c1dff086207d872b724d8ac",
+    "drafts/ch17/figures/05-evidence.tex": "bf57d948d835eedf05eac8537161af8652b85be3c37e4153d4f861e5a50352a9",
+    "drafts/ch17/figures/05-evidence.txt": "a136fd0c292e6a5596bd8b3dbe8308e18f6bb974c843de5345b48294a6e088d2",
+    "drafts/ch17/manuscript.tex": "af801eaa507bde4d8163bd5418d6a631b641cd3c55f08361224bcfab4097dae3",
+    "drafts/ch17/reference.py": "77ae0d9a4a7c71d8e4072438c362106ce5a9ee08767e4a9a7f30b418b7b29c83",
+    "drafts/ch17/results.json": "4d4a0c8c9e7cebbc9e1a70aae0300a5198ce05dca409e3481383bd74bd5d8783",
+    "drafts/ch17/review.tex": "b10b2454f6fc44b2ad2be5712b6f942b85edfcc4f2a10493416d423a90b722f0",
+    "drafts/ch17/sources.tex": "a92fbd7cac028046323d56e5d3cf020d8e08f7f0264009a247acbbbd3697e1f7"
+  },
+  "reviewedOn": "2026-09-25",
+  "reviewType": "author technical, editorial and visual review; not independent specialist acceptance",
+  "allPagesInspected": true,
+  "inspectedPhysicalPages": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+  ],
+  "grayscaleReview": "All pages inspected in color and grayscale contact sheets; selected mechanism, code and counterexample pages inspected at page scale. Corrected label collision, grid pointer and chart ticks re-inspected after rebuild.",
+  "figures": 5,
+  "exercises": 12,
+  "openGates": [
+    "independent specialist review",
+    "reader feedback",
+    "cumulative integration, cross-chapter index and bibliography"
+  ],
+  "validation": {
+    "generatedArtifactsCheck": "passed",
+    "pdfWordsOutsidePage": 0,
+    "unresolvedReferenceMarkers": 0,
+    "python": "3.13.6",
+    "fullSuitePassed": 734,
+    "fullSuiteSkipped": 0,
+    "priorEditionPreservationTests": "passed"
+  }
+}

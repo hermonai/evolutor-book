@@ -1,0 +1,13 @@
+\begin{tikzpicture}[box/.style={note,draw=Blue,fill=Pale,rounded corners,minimum width=2cm,minimum height=.8cm}]
+\node[box] (u) at (1,2){$u=1$};
+\node[box] (a) at (5,4){$a=2u$};
+\node[box] (b) at (5,2){$b=u$};
+\node[box] (z) at (5,0){$z=u$};
+\node[box] (y) at (10,3){$y=a+3b$};
+\draw[flow] (u)--(a);\draw[flow] (u)--(b);\draw[flow] (u)--(z);
+\draw[flow] (a)--(y);\draw[flow] (b)--(y);
+\node[note,text width=4cm,Red] at (10,.3){No $z\to y$ edge\\despite $y=5z$ on observations};
+\node[smallnote,Red] at (2.9,4.1){$\operatorname{do}(a=0)$\\cuts this input};
+\draw[Red,very thick] (2.6,3.2)--(3.2,2.7);
+\node[smallnote,text width=12cm] at (6,-1.1){Replace the selected equation; preserve other equations; recompute descendants.};
+\end{tikzpicture}

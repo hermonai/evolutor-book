@@ -1,0 +1,4 @@
+Question: Why an active trace is not a causal explanation
+Objects and arrow semantics: Explicit structural equations; common cause feeding a useful path and a logged bystander.
+Change/invariant and caption claim: Node replacement breaks its incoming mechanism, not its downstream edges.
+Scientific risk: Counterfactual validity depends on the declared intervention model.

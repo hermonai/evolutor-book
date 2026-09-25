@@ -1,0 +1,10 @@
+\begin{tikzpicture}[box/.style={note,draw=Blue,fill=Pale,rounded corners,text width=5.3cm,minimum height=1.1cm}]
+\node[box] at (2.8,4){Observational runs\\$a=2u,\ b=u,\ z=u$};
+\node[box] at (10,4){Intervened run\\$u=1,\ \operatorname{do}(z=0)$};
+\node[box] at (2.8,2){True $y=5u$\\Surrogate $\hat y=5z=5u$};
+\node[box] at (10,2){True $y=5$\\Surrogate $\hat y=0$};
+\draw[flow] (2.8,3.4)--(2.8,2.6);\draw[flow] (10,3.4)--(10,2.6);
+\node[note,Green] at (2.8,.8){Exact observational agreement};
+\node[note,Red] at (10,.8){Mechanistic mismatch};
+\node[smallnote,text width=12cm] at (6.4,-.2){Hold out intervention targets, magnitudes, combinations and temporal horizons.};
+\end{tikzpicture}

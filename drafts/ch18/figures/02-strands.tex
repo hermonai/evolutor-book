@@ -1,0 +1,12 @@
+\begin{tikzpicture}
+\draw[very thick,Blue] (1,3.4)--(11.8,3.4);
+\draw[very thick,Green] (1,2.2)--(11.8,2.2);
+\foreach \x/\a/\b in {2/A/T,4/C/G,6/G/C,8/A/T,10/C/G}{
+\draw[dashed,gray] (\x,2.5)--(\x,3.1);
+\node[note,fill=white] at (\x,3.4){\a};
+\node[note,fill=white] at (\x,2.2){\b};}
+\node[smallnote] at (.5,3.4){$5'$};\node[smallnote] at (12.4,3.4){$3'$};
+\node[smallnote] at (.5,2.2){$3'$};\node[smallnote] at (12.4,2.2){$5'$};
+\draw[flow,Green] (11.4,1.5)--node[below,smallnote]{Read the lower strand from its own $5'$ end}(1.4,1.5);
+\node[note,draw=Blue,fill=Pale,rounded corners,text width=11cm,inner sep=8pt] at (6.4,-.1){Forward: ACGAC \qquad Reverse complement: GTCGT\\AC $\leftrightarrow$ GT;\quad GA $\leftrightarrow$ TC;\quad CG $\leftrightarrow$ CG};
+\end{tikzpicture}

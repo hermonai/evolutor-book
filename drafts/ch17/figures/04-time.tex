@@ -1,0 +1,14 @@
+\begin{tikzpicture}
+\foreach \x/\t in {1/1,4.3/2,7.6/3,10.9/4}{
+\node[note,draw=Blue,fill=Pale,minimum width=1.5cm,minimum height=.7cm] (h\t) at (\x,7){$h_{\t}$};
+\node[smallnote] at (\x,8){$x_{\t}=1$};
+\draw[flow] (\x,7.75)--(\x,7.4);}
+\draw[flow] (h1)--node[above,smallnote]{$\lambda$}(h2);
+\draw[flow] (h2)--node[above,smallnote]{$\lambda$}(h3);
+\draw[flow] (h3)--node[above,smallnote]{$\lambda$}(h4);
+\node[smallnote,Red] at (4.3,8.7){patch $x_2'=0$};
+\begin{axis}[at={(0cm,0cm)},anchor=south west,width=13cm,height=6cm,xlabel={Time (one-based)},ylabel={State value},xtick={1,2,3,4},legend pos=north west,grid=major]
+\input{\Generated/memory-plot.tex}
+\legend{Baseline,Patched}
+\end{axis}
+\end{tikzpicture}

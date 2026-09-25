@@ -1,0 +1,4 @@
+Question: Credit propagates through retained state
+Objects and arrow semantics: Unrolled scalar recurrence with intervention at a chosen time.
+Change/invariant and caption claim: Later state carries the decayed effect of one earlier input.
+Scientific risk: Changing a recorded value without recomputing descendants is not an intervention.

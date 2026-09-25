@@ -26,7 +26,9 @@ DOGMA = non-Transformer DNA-native model + DOGMA Engine; Hermon DNA = Transforme
 
 [Chapter 15: Operational semantics and expression traces](drafts/ch15/README.md) develops small-step execution, loop invariants, resumable checkpoints and semantic replay. [Chapter 16: Expression complexity and resource semantics](drafts/ch16/README.md) develops sparse-routing ledgers, schedule-dependent buffer liveness, amortized trace storage and roofline bounds. Each includes five editable vector figures with semantic TXT companions, tested reference code and twelve worked exercises.
 
-Chapters 13-16 are standalone author-reviewed candidates, not cumulative acceptance or independently validated industrial systems. Chapter 17 is next; cumulative integration remains pending.
+[Chapter 17: Traces, credit and mechanistic evidence](drafts/ch17/README.md) develops structural interventions, redundant/synergistic attribution games and temporal counterfactuals. [Chapter 18: DOGMA primitives and state semantics](drafts/ch18/README.md) develops a proposed pair-addressed reference, exact masking/chunking contracts and reverse-complement symmetry with a decay counterexample.
+
+Each new chapter includes five editable vector figures with TXT companions and twelve worked exercises. Chapters 13-18 are standalone author-reviewed candidates, not cumulative acceptance or independently validated industrial systems. Chapter 19 is next; cumulative integration remains pending.
 
 ## Build and verify
 

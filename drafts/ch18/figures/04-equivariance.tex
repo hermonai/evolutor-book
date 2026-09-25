@@ -1,0 +1,12 @@
+\begin{tikzpicture}[box/.style={note,draw=Blue,fill=Pale,rounded corners,text width=4.6cm,minimum height=1cm}]
+\node[box] (s) at (2.5,4.5){AAC\\$\lambda=\tfrac12$};
+\node[box] (rs) at (10,4.5){GTT\\reverse complement};
+\node[box] (h) at (2.5,2){AA: $\tfrac12$, AC: $1$\\forward memory};
+\node[box] (rh) at (10,2){GT: $\tfrac12$, TT: $1$\\reverse memory};
+\draw[flow] (s)--node[above,smallnote]{$R$}(rs);
+\draw[flow] (s)--node[left,smallnote]{$H$}(h);
+\draw[flow] (rs)--node[right,smallnote]{$H$}(rh);
+\draw[Red,dashed,-{Stealth},thick] (rh)--node[above,smallnote]{map with $P$}(h);
+\node[note,Red,text width=12cm] at (6.2,.4){Mapped reverse: AA $=1$, AC $=\tfrac12$ \quad $\ne$ forward memory};
+\node[smallnote,text width=12cm] at (6.2,-.5){Unit retention removes age weighting and restores the histogram identity.};
+\end{tikzpicture}

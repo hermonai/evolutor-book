@@ -1,0 +1,4 @@
+Question: A bounded state needs an explicit forgetting contract
+Objects and arrow semantics: Generated total-memory curves for several retention coefficients.
+Change/invariant and caption claim: Derive geometric memory mass and separate logical slots from precision.
+Scientific risk: Fixed slot count does not mean bounded exact integer storage.

@@ -1,0 +1,4 @@
+Question: Pair counts transform predictably under reverse complement
+Objects and arrow semantics: AAC and reverse-complement GTT feed weighted pair memories. A dashed channel-permutation arrow marks a comparison, not equality.
+Change/invariant and caption claim: Unit-retention counts are equivariant under pair permutation.
+Scientific risk: Decay weights generally break one-pass orientation equivariance.

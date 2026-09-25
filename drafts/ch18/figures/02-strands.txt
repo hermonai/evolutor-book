@@ -1,0 +1,4 @@
+Question: Complement changes bases; reverse complement changes order
+Objects and arrow semantics: Polarity-correct physical duplex beside software string reversal and complementation.
+Change/invariant and caption claim: Order and base identity must both transform.
+Scientific risk: Software strands are ordered records, not molecules.

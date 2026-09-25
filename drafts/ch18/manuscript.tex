@@ -1,0 +1,268 @@
+\chapter{DOGMA primitives and state semantics}
+Calling a model DNA-native does not define what it computes. Which input
+symbols select operations? What persists between positions? Does padding
+advance the state? What happens when a sequence is read from the opposite
+strand? These questions must have executable answers before an architecture
+can support meaningful training or benchmarking claims.
+
+We use the book's taxonomy: DOGMA names the non-Transformer, DNA-native
+research direction and engine; HermonDNA names the Transformer-based direction;
+Evolutor is the broader framework. This chapter proposes one small state
+reference for DOGMA research. It is neither a completed DOGMA architecture
+nor a trained genomic model. Its deliberately limited representation makes
+its invariants and information loss visible.
+
+\section{Give each adjacent pair a stable address}
+Let $\Sigma=\{A,C,G,T\}$ and order the 16 dinucleotides lexicographically
+using that base order. A memory vector $h\in\mathbb R^{16}$ has one channel
+per pair. Maintain a previous symbol $p$ and valid-position count $t$.
+The initial state is $(0,\varepsilon,0)$.
+
+For a valid incoming base $x$, use
+\begin{equation}
+ h'=\lambda h+1_{p\ne\varepsilon}e_{px},\qquad
+ p'=x,\qquad t'=t+1,\quad 0\leq\lambda\leq1,
+ \label{eq:transition}
+\end{equation}
+where $e_{px}$ is the one-hot vector selecting the ordered-pair channel.
+For the first base there is no previous symbol, so nothing is added.
+The pair selects a memory address, not a biochemical binding reaction.
+The variable $\lambda$ is a retention coefficient, not a measured reaction rate.
+
+\Plate{01-loci}{Previous and current bases select one of 16 ordered-pair
+channels. For the transition G followed by A, only GA receives a unit increment
+after all channels are multiplied by retention. Addressing is directional:
+GA and AG are distinct channels.}{fig:loci}
+
+\Listing{State}
+The frozen dataclass and tuple memory prevent later steps from overwriting
+an earlier state. Immutability makes replay comparisons easier; it is not
+a substitute for validation. The companion rejects negative or nonfinite
+memory, invalid previous symbols, and inconsistent zero-position state.
+The state validator checks representation validity, not whether every supplied
+state is reachable from the initial condition under one fixed $\lambda$.
+
+\section{Implement the transition before adding learned parameters}
+\Listing{step}
+Every event contains the before state, consumed symbol, selected pair and
+after state. A trace can therefore be replayed by applying the same transition
+and checking equality, rather than trusting a textual explanation attached
+afterward. Padding emits no event and returns the identical state object.
+An unknown unmasked base is rejected instead of silently converted to A or
+treated as an absence of data.
+
+For ACGAC with $\lambda=1$, the generated trace is
+\begin{center}\input{\Generated/trace.tex}\end{center}
+The previous column records the symbol retained \emph{after} each step.
+The selected pairs are AC, CG, GA and AC. Hence final counts are AC twice,
+CG once and GA once. Five bases create four adjacent pairs, not five.
+
+The complete scanner is similarly explicit:
+\Listing{scan}
+It returns both final state and immutable event sequence. Passing a final
+state into the next call continues the same record. Calling with no state
+begins a new record. The function validates retention even on empty input,
+so invalid configuration cannot be hidden by an empty batch.
+
+\section{Chunking, padding and reset are different operations}
+For a fixed $\lambda$, sequential composition gives
+\begin{equation}
+ \operatorname{scan}(uv,s)=
+ \operatorname{scan}\bigl(v,\operatorname{scan}(u,s)\bigr),
+ \label{eq:chunk}
+\end{equation}
+where the inner result denotes its final state. Concatenating the two event
+sequences also reproduces the uninterrupted trace. This property follows
+because each step depends only on its current state and symbol, not the
+call boundary. Changing retention between chunks changes the computation.
+
+\Plate{03-step}{A valid base updates memory and previous symbol. A padding
+slot is the identity on all state fields and emits no event. A new biological
+record instead starts from an explicit fresh state. Skipping an unknown base
+as padding can create a pair across a real sequence gap.}{fig:step}
+
+The mask denotes storage padding, not an uncertain biological nucleotide.
+For symbols A, N, C with mask true, false, true, the model counts AC because
+the middle slot is absent from the logical sequence. If N represents an
+unknown base in a real record, this is usually the wrong semantics: the
+adjacency of A and C is not known. Alternatives include a separate unknown
+symbol, an explicit boundary, a distribution over bases or rejection. Each
+requires a new contract and tests.
+
+Similarly, concatenating two independent records without resetting creates a
+spurious pair across their boundary. A reset clears memory, previous symbol
+and position. It is not equivalent to zero retention: at $\lambda=0$, the
+previous symbol still creates the next pair. A batching interface should
+carry record identity separately from a padding mask.
+
+\section{Separate chemical polarity from string orientation}
+A DNA duplex is antiparallel. If one strand is written $5'$ to $3'$ as
+ACGAC, the aligned complementary strand runs $3'$ to $5'$ as TGCTG.
+Reading that complementary strand in its own $5'$ to $3'$ direction gives
+GTCGT. This last operation is the \Term{reverse complement}, not just a
+characterwise complement.
+
+\Plate{02-strands}{The upper and aligned lower strands have opposite chemical
+polarity. The software reverse-complement string is obtained by reading the
+lower strand from its 5-prime end. Pair channels must reverse order and
+complement both bases; complementing without reversal implements a different
+transformation.}{fig:strands}
+\Listing{reverse_complement}
+
+Let $R$ denote reverse complementation of a sequence and $P$ its channel
+permutation: pair $ab$ maps to $c(b)c(a)$, where $c$ complements a base.
+For example, AC maps to GT, GA maps to TC, and CG maps to itself.
+Applying either transformation twice returns the original: $R^2=I$ and
+$P^2=I$.
+\Listing{permute_pairs}
+
+\section{Prove a symmetry, then construct its failure}
+With $\lambda=1$, the final memory $H(s)$ is a histogram of adjacent pairs.
+Every adjacent pair in $s$ corresponds to exactly one reverse-complemented
+pair in $R(s)$. This bijection proves
+\begin{equation}
+ H(R(s))=P H(s).
+ \label{eq:equiv}
+\end{equation}
+This is \Term{equivariance}: features change by a known permutation when
+the input orientation changes. It is not invariance, which would require
+the feature vector itself to stay unchanged.
+
+\begin{center}\input{\Generated/counts.tex}\end{center}
+The generated table maps the reverse-complement memory back to forward
+channel coordinates before comparing it. Equality without that mapping
+would compare different biological orientations in different feature bases.
+
+\Plate{04-equivariance}{For unit retention, each observed adjacent pair
+contributes equally and reverse complementation permutes the histogram.
+For AAC at retention one half, older AA receives weight one half and newer
+AC receives weight one. Reversing orientation reverses their ages, breaking
+the one-pass symmetry.}{fig:equivariance}
+
+For nonunit retention, earlier pairs receive more decay. AAC at $\lambda=0.5$
+has $H_{AA}=0.5,H_{AC}=1$. Its reverse complement GTT has
+$H_{GT}=0.5,H_{TT}=1$. Mapping back yields AA equal to one and AC equal
+to one half, not the forward memory. The addressing rule respects complement
+mapping, but the direction-dependent weighting does not. A model can fail
+strand symmetry even when every local base transformation looks correct.
+
+One exact full-record repair is group averaging:
+\begin{equation}
+ Z(s)=\tfrac12\bigl(H(s)+P H(R(s))\bigr).
+\end{equation}
+Because $P^2=I$, we have $Z(R(s))=PZ(s)$ for any $H$ with these channel
+dimensions. This proof does not require $H$ itself to be equivariant.
+\Listing{bidirectional}
+
+The repair reads the full record in both orientations. It is not an online
+causal update and should not be sold as one. A scalar output $w^\top Z$
+is invariant only if its head satisfies the corresponding symmetry, for
+example $w=P w$. Strand-specific tasks may instead require equivariant
+outputs that swap labels. The correct property depends on what the labels
+mean, not on a universal preference for invariance.
+
+\section{Memory mass exposes retention and information loss}
+Let $M_n$ be the sum of all channels after $n$ valid bases from a fresh state.
+Then $M_0=M_1=0$ and $M_n=\lambda M_{n-1}+1$ for $n\geq2$.
+Consequently,
+\begin{equation}
+ M_n=\sum_{j=0}^{n-2}\lambda^j=
+ \begin{cases}
+ n-1,&\lambda=1,\ n\geq1,\\
+ (1-\lambda^{n-1})/(1-\lambda),&0\leq\lambda<1,\ n\geq1.
+ \end{cases}
+\end{equation}
+The empty case is defined separately as zero. For $\lambda<1$, mass is
+bounded by $1/(1-\lambda)$, while unit retention accumulates without bound
+in the exact arithmetic model.
+
+\Plate{05-forgetting}{Generated memory mass for repeated A inputs at three
+retention settings. The sequence identity does not affect total mass in this
+reference; every adjacent pair contributes one before future decay. Bounded
+mass does not imply that all useful sequence information is preserved.}{fig:forgetting}
+
+At unit retention, AACA and ACAA have the same final pair counts (AA, AC,
+CA once each), the same previous base A and the same position four.
+The complete final states are identical although the sequences differ.
+No readout of that state can distinguish them. This is a constructive
+information-loss proof, not a failure of training. Learning an output head
+cannot recover information that the state has already discarded.
+
+\section{Resource and numerical claims need their own tests}
+The reference updates 16 channels per valid step: $O(16n)$ scalar work for
+$n$ bases and 16 memory slots in the recurrent vector. Materialized events
+retain before and after states, so a full trace requires $O(16n)$ stored
+scalar entries up to sharing and implementation overhead. The position counter
+also grows: its exact bit length is $O(\log n)$. Fixed vector width is not
+fixed exact information capacity at arbitrary sequence length.
+
+Python floats cannot retain every unit increment once a channel exceeds
+the consecutive-integer range of binary64. Fractional retention introduces
+rounding much earlier, so tests use declared tolerances where needed.
+An accelerated implementation must compare chunking, masking, reset and
+orientation behavior against the reference, not merely match one aggregate
+loss. Vectorizing across records must never leak previous symbols between them.
+
+The tests exhaustively compare pair counts with an independent counter for
+short sequences, test reverse-complement involution, check all chunk splits
+at several retentions, verify memory mass, and include the explicit decay
+counterexample. They establish the toy operator's contract, not genomic
+prediction quality, hardware throughput or learned biological mechanisms.
+
+\section{Connect to research without borrowing its claims}
+Caduceus distinguishes bidirectional sequence processing from reverse-complement
+equivariance and constructs symmetry-aware DNA sequence models \cite{caduceus}.
+That architectural distinction motivates the questions asked here. Our pair
+histogram and two-pass average are not a Caduceus implementation and carry
+none of its experimental performance claims. A useful next DOGMA experiment
+would compare precisely specified state operators under matched data splits,
+parameter budgets and label transformations before making a performance claim.
+
+The primitive's value is its inspectability. It gives a baseline with exact
+pair semantics, explicit loss of order, known symmetry conditions and a replay
+contract. More expressive operators can now be justified by showing which
+limitation they remove and what new cost or verification burden they add.
+
+\section{Exercises with worked answers}
+\begin{enumerate}
+\item Scan ACG at unit retention. \textbf{Answer:} AC and CG each equal
+one; previous is G and position is three. All other channels are zero.
+\item Why is AG not selected by G then A? \textbf{Answer:} Addresses are
+ordered previous--current pairs, so the selected channel is GA.
+\item Split ACG after A. \textbf{Answer:} Carry previous A into the
+second chunk; consuming C must count AC. Resetting would lose that pair.
+\item Pad between A and C. \textbf{Answer:} A masked slot changes
+nothing; C still creates AC. This assumes the slot is not a biological base.
+\item Why is unknown N not ordinary padding? \textbf{Answer:} A real
+unknown position interrupts known adjacency. Skipping it asserts a different
+logical sequence.
+\item Show retention zero is not reset. \textbf{Answer:} After A, a
+valid C with zero retention still adds AC using the retained previous base.
+\item Reverse-complement ACGAC. \textbf{Answer:} Complement gives
+TGCTG in the aligned opposite polarity; reversing gives GTCGT.
+\item Map channel GA under reverse complementation. \textbf{Answer:}
+Reverse AG and complement to TC. Applying the mapping again gives GA.
+\item Explain decay's symmetry failure. \textbf{Answer:} Reverse orientation
+changes the age of each pair, so fixed forward decay assigns different weights
+even after channel permutation.
+\item Prove the averaged feature is equivariant. \textbf{Answer:}
+$Z(Rs)=(H(Rs)+PH(s))/2=P(H(s)+PH(Rs))/2=PZ(s)$.
+\item Compute mass for four bases at retention one half.
+\textbf{Answer:} $1+1/2+1/4=1.75$, independent of which canonical bases occur.
+\item Can an output head distinguish AACA from ACAA at unit retention?
+\textbf{Answer:} Not from this final state: the counts, final base and
+length all agree. A richer representation or access to the trace is required.
+\end{enumerate}
+
+\section{Vocabulary and the next question}
+\Term{DNA-addressed state}: software memory whose update address is selected
+by declared sequence symbols. \Term{Padding identity}: a masked slot leaves
+all logical state unchanged. \Term{Record reset}: explicit replacement with
+an initial state at a biological record boundary. \Term{Bidirectionality}:
+access to sequence context in both directions, distinct from symmetry under
+reverse complementation.
+
+The next chapter can add richer context and trainable operators while keeping
+these contracts visible. Every extra capability should arrive with a worked
+counterexample it resolves, a reference implementation and a test capable of
+revealing the new failure modes.

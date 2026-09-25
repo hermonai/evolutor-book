@@ -1,0 +1,4 @@
+Question: How coalition credit assigns interaction
+Objects and arrow semantics: Exact coalition values and permutation marginals.
+Change/invariant and caption claim: Credit sums to baseline-relative output by telescoping.
+Scientific risk: Shapley credit is an allocation convention, not proof of biological cause.

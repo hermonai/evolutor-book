@@ -1,0 +1,10 @@
+\begin{tikzpicture}[box/.style={note,draw=Blue,fill=Pale,rounded corners,text width=4.3cm,minimum height=1cm}]
+\node[box] (s) at (2.4,2.5){Current state\\$(h,p,t)$};
+\node[box] (v) at (10,4.5){Valid base $x$\\$(\lambda h+e_{px},x,t+1)$};
+\node[box] (m) at (10,2.5){Padding\\$(h,p,t)$; no event};
+\node[box] (r) at (10,.5){New record\\$(0,\varepsilon,0)$};
+\draw[flow] (s)--node[above,sloped,smallnote]{consume}(v);
+\draw[flow] (s)--node[above,smallnote]{identity}(m);
+\draw[flow,Red] (s)--node[below,sloped,smallnote]{explicit reset}(r);
+\node[smallnote,text width=12cm] at (6.3,-.8){At the first valid base ($p=\varepsilon$), omit the pair increment.\\A masked slot is not a model of an unknown nucleotide.};
+\end{tikzpicture}

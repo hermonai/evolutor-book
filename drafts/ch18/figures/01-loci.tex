@@ -1,0 +1,13 @@
+\begin{tikzpicture}
+\node[note] at (3.6,5.5){Current base};
+\node[note,rotate=90] at (-.5,2.4){Previous base};
+\foreach \x/\b in {0/A,1/C,2/G,3/T}{\node[note] at (1.2+\x*1.4,4.8){\b};}
+\foreach \y/\a in {0/A,1/C,2/G,3/T}{
+\node[note] at (.1,4-\y*1.2){\a};
+\foreach \x/\b in {0/A,1/C,2/G,3/T}{
+\draw[Blue,fill=Pale] (.5+\x*1.4,3.5-\y*1.2) rectangle ++(1.4,1);
+\node[smallnote] at (1.2+\x*1.4,4-\y*1.2){\a\b};}}
+\draw[Red,very thick] (.5,1.1) rectangle ++(1.4,1);
+\node[note,text width=5.4cm] at (9.8,3.6){\textbf{G followed by A}\\Select channel GA};
+\node[note,text width=5.4cm] at (9.8,1.1){First retain all channels:\\$h\leftarrow\lambda h$\\Then add one to GA.};
+\end{tikzpicture}

@@ -1,0 +1,4 @@
+Question: Update, padding and reset have different semantics
+Objects and arrow semantics: State timeline with immutable checkpoints, valid symbols, padding and record boundary.
+Change/invariant and caption claim: Padding is identity; reset removes cross-record adjacency.
+Scientific risk: Missing sequence evidence must not be treated as harmless padding.

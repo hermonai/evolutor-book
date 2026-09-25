@@ -11,9 +11,9 @@ for current authoring progress. Do not regenerate archived editions merely
 to change their progress labels.
 
 Chapters 1-2 retain their internal acceptance records. Chapter 3 has standalone
-and combined LaTeX review candidates. Chapters 4-16 have isolated authored-LaTeX
+and combined LaTeX review candidates. Chapters 4-18 have isolated authored-LaTeX
 review candidates with code, vector figures, and worked solutions.
-Chapter 17 is the next unwritten chapter. Chapters 11-16 were authored at the
+Chapter 19 is the next unwritten chapter. Chapters 11-18 were authored at the
 reader's explicit request while the Chapters 1-10 integration milestone remains
 pending. These standalone candidates do not substitute for that integration.
 Independent specialist review and cumulative integration are still open.
@@ -125,11 +125,24 @@ explicit conventions. Compare useful and padded expert work, enumerate legal
 buffer schedules and derive a potential-method bound. Treat roofline arithmetic
 as a model bound, not an observed performance benchmark.
 
+## Chapter 17 scope (standalone candidate): traces, credit and mechanistic evidence
+
+Build exact interventions on a stipulated structural model. Separate predictive
+fit, necessity, sufficiency, Shapley allocation and temporal patch effects.
+Use redundancy, synergy and a perfect-fit bystander surrogate as counterexamples.
+
+## Chapter 18 scope (standalone candidate): DOGMA primitives and state semantics
+
+Define a proposed DNA-pair-addressed state reference before learned capability
+claims. Prove chunk equivalence, mass and unit-retention strand equivariance;
+break symmetry with directional decay and restore it by full-record averaging.
+Expose record-boundary errors, precision limits and an exact state collision.
+
 ## Pending milestone: integrate Chapters 1-10
 
 Audit record validity, tensor notation, normalization conventions, routing
 cohorts, gradient history, and source closure, including the interfaces now
-used by Chapters 11-16. Separate biological regulation from expert routing.
+used by Chapters 11-18. Separate biological regulation from expert routing.
 Build a new cumulative entry point with unified bibliography and index; retain
 standalone candidates and accepted editions unchanged. Do not promote acceptance
 without independent review and the existing release gates.

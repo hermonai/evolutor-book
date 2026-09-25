@@ -1,0 +1,4 @@
+Question: Make a memory locus an address, not a metaphor
+Objects and arrow semantics: Sixteen dinucleotide addresses with one regulated increment.
+Change/invariant and caption claim: Previous base and current base select exactly one locus.
+Scientific risk: This is an explicit research reference, not a trained DOGMA architecture.

@@ -1,0 +1,62 @@
+\documentclass[11pt,oneside,openany]{book}
+\usepackage{fontspec}
+\setmainfont{texgyrepagella-regular.otf}[BoldFont=texgyrepagella-bold.otf,ItalicFont=texgyrepagella-italic.otf,BoldItalicFont=texgyrepagella-bolditalic.otf]
+\setsansfont{texgyreheros-regular.otf}[BoldFont=texgyreheros-bold.otf]
+\setmonofont{DejaVuSansMono.ttf}[Scale=.9]
+\usepackage[a4paper,margin=24mm,top=22mm,bottom=24mm]{geometry}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{unicode-math}
+\setmathfont{texgyrepagella-math.otf}
+\usepackage{xcolor,tikz,pgfplots,graphicx,caption,booktabs,array,makeidx}
+\usetikzlibrary{arrows.meta,positioning,calc,shapes.geometric}
+\pgfplotsset{compat=1.18}
+\usepackage{fvextra,needspace,titlesec,fancyhdr,xurl,hyperref}
+\definecolor{Blue}{HTML}{173E60}
+\definecolor{Green}{HTML}{26714D}
+\definecolor{Red}{HTML}{AA354C}
+\definecolor{Pale}{HTML}{EDF4F8}
+\definecolor{Gold}{HTML}{F2D799}
+\hypersetup{colorlinks=true,allcolors=Blue,hypertexnames=false}
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\sffamily Evolutor}
+\fancyhead[R]{\small\sffamily Chapter 18 / Review candidate}
+\fancyfoot[C]{\thepage}
+\setlength{\headheight}{15pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+\setlength{\emergencystretch}{3em}
+\raggedbottom
+\clubpenalty=10000 \widowpenalty=10000
+\titleformat{\chapter}[display]{\raggedright\color{Blue}\sffamily\bfseries}{\large CHAPTER \thechapter}{8pt}{\huge}
+\titlespacing*{\chapter}{0pt}{0pt}{18pt}
+\titleformat{\section}{\Large\sffamily\bfseries\color{Blue}}{\thesection}{.7em}{}
+\titleformat{\subsection}{\large\sffamily\bfseries\color{Blue}}{\thesubsection}{.7em}{}
+\captionsetup{font=small,justification=raggedright,singlelinecheck=false}
+\newcommand{\Generated}{../../build/ch18}
+\newcommand{\Plate}[3]{\par\medskip\noindent\begin{minipage}{\linewidth}\centering\input{figures/#1.tex}\captionof{figure}{#2}\label{#3}\end{minipage}\par\medskip}
+\newcommand{\Listing}[1]{\par\noindent\begin{minipage}{\linewidth}\VerbatimInput[breaklines,breakanywhere,fontsize=\small,frame=single,numbers=left,numbersep=4pt]{\Generated/#1.py}\end{minipage}\par\medskip}
+\newcommand{\Term}[1]{\textbf{#1}\index{#1}}
+\makeindex
+\tikzset{flow/.style={-{Stealth[length=2mm]},thick,Blue}, note/.style={font=\small\sffamily,align=center}, smallnote/.style={font=\footnotesize\sffamily,align=center}}
+\begin{document}
+\frontmatter
+\begin{titlepage}
+\color{Blue}\sffamily\vspace*{20mm}
+{\Huge\bfseries Evolutor\par}
+\vspace{10mm}{\LARGE Chapter 18\par}
+\vspace{8mm}{\Large DOGMA primitives and state semantics\par}
+\vspace{12mm}\rule{\linewidth}{.8pt}
+\vspace{6mm}\par Original derivations, mechanism plates, executable examples\\and worked exercises.
+\vfill 25 September 2026\par
+Standalone authored-LaTeX review candidate.\par
+Prior accepted editions remain unchanged. Independent review is still open.
+\end{titlepage}
+\tableofcontents
+\mainmatter
+\setcounter{chapter}{17}
+\input{manuscript.tex}
+\backmatter
+\input{sources.tex}
+\clearpage\phantomsection\addcontentsline{toc}{chapter}{Index}
+\printindex
+\end{document}

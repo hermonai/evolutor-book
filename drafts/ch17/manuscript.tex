@@ -1,0 +1,246 @@
+\chapter{Traces, credit and mechanistic evidence}
+A trace says that a component ran. A gradient says that an output is locally
+sensitive to a variable. A credit rule assigns a share of a defined value.
+An intervention asks what changes when a mechanism is deliberately altered.
+These are different questions, even when their answers are drawn on the same
+graph. Treating one as another can make a convincing-looking explanation wrong.
+
+Chapters 15 and 16 gave executions semantics and resource ledgers. This
+chapter gives explanatory claims a similarly explicit contract. We begin
+with a synthetic system whose equations are known, implement interventions,
+and examine where simple attribution rules fail. No trained Evolutor model
+or experimentally discovered biological circuit is claimed here.
+
+\section{Observation can fit perfectly and still mislead}
+Let one externally assigned scalar $u$ determine four internal quantities:
+\begin{equation}
+ a=2u,\qquad b=u,\qquad z=u,\qquad y=a+3b.
+ \label{eq:scm}
+\end{equation}
+The variable $z$ is logged but never used to compute $y$. On every unmodified
+run, however, $y=5z$. A predictor using only $z$ can therefore fit these
+observations exactly. It has learned a predictive relationship, not a
+mechanistic dependency of $y$ on $z$.
+
+\Plate{01-causal}{The declared structural mechanism has a common cause
+$u$, two paths into $y$, and a bystander $z$. An intervention replaces one
+equation and cuts its incoming dependency. It does not redraw the remaining
+equations merely to preserve correlations seen in the original trace.}{fig:causal}
+
+A \Term{structural intervention} $\operatorname{do}(a=0)$ replaces $a=2u$
+with $a=0$ while leaving $b=u$ and $y=a+3b$ intact. Descendants must then
+be recomputed. At $u=1$, the unmodified result is 5 and the intervention
+result is 3. Replacing the saved value of $a$ in a log after execution would
+leave the saved $y$ at 5; that is an edited record, not the declared intervention.
+
+\Listing{evaluate}
+
+The evaluator follows topological order. A supplied intervention value wins
+over the corresponding equation; other equations use the resulting parent
+values. Unknown targets and nonfinite values are rejected. Its generated
+outputs at $u=1$ are
+\begin{center}\input{\Generated/interventions.tex}\end{center}
+Intervening on $z$ changes $z$ but not $y$. Intervening directly on $y$
+is also allowed by this model: it replaces the output equation itself.
+That intervention answers a different question from modifying one of its
+causes. The target and boundary of an intervention belong in the report.
+
+\section{Necessity depends on what else remains available}
+Let two binary components $A,B$ produce $y=A\lor B$. With both active,
+ablating either one leaves the output at one. It would be wrong to conclude
+that both components are irrelevant. They are redundant for this input and
+output criterion. Ablating both changes the answer.
+
+Now let $y=A\land B$. Either single ablation changes the output from one
+to zero, but neither component alone is sufficient. These mechanisms have
+the same unmodified output and different intervention tables.
+
+\Plate{02-effects}{Complete binary response tables expose redundancy and
+synergy. Rows vary $A$, columns vary $B$. A single ablation from the upper-right
+jointly active case cannot characterize all four conditions. Logical response
+tables are model interventions, not biological knock-out measurements.}{fig:effects}
+
+For a declared value function $v(S)$, with only components in coalition $S$
+enabled, define the two-component interaction
+\begin{equation}
+ I_{AB}=v(\{A,B\})-v(\{A\})-v(\{B\})+v(\varnothing).
+\end{equation}
+It is $-1$ for OR and $+1$ for AND. For $v(S)=2\,1_{A\in S}+3\,1_{B\in S}$,
+it is zero. The sign describes departure from additivity under this
+coalition definition and baseline, not an intrinsic property of a component
+independent of task or context.
+
+In a neural system, disabling a component also needs a definition: zeroing,
+mean replacement, resampling from a reference distribution and substituting
+another example need not have the same effect. Each may create states not
+encountered during training. A large effect can reveal sensitivity to the
+intervention artifact rather than the intended feature.
+
+\section{Derive credit as an average over ordering}
+Suppose we want to allocate the change $v(N)-v(\varnothing)$ among players
+in finite set $N$. For an ordering $\pi$, a player's marginal contribution
+is the value gained when it joins the players preceding it. Average over
+all orderings:
+\begin{equation}
+ \phi_i=\frac{1}{|N|!}\sum_{\pi}
+ \left[v(P_i^\pi\cup\{i\})-v(P_i^\pi)\right].
+ \label{eq:shapley}
+\end{equation}
+This is a \Term{Shapley allocation} for the specified game. Along each
+ordering, the marginal terms telescope from the empty to the full coalition.
+Therefore $\sum_i\phi_i=v(N)-v(\varnothing)$. The efficiency property
+follows algebraically; it does not establish that the chosen game is causal.
+
+\Plate{03-shapley}{Two orderings allocate OR's unit value differently.
+Averaging assigns one half to each player. For AND the second arriving player
+receives the unit increment instead; averaging again gives one half each.
+Identical credit can hide different mechanisms.}{fig:shapley}
+\Listing{shapley}
+
+The reference requires unique player names and a nonempty player set. It
+assumes a deterministic, pure value function: the same coalition must mean
+the same intervention and evaluation. It enumerates permutations, so runtime
+is factorial rather than a scalable attribution service. Exact enumeration
+is useful here because it provides an inspectable oracle for small examples.
+
+\begin{center}\input{\Generated/credit.tex}\end{center}
+OR and AND both give $(0.5,0.5)$, although their necessity and sufficiency
+patterns differ. The additive mechanism gives $(2,3)$. A constant baseline
+of seven changes none of these marginal credits because it cancels in every
+difference. Reporting credits without reporting the coalition semantics
+throws away the information needed to interpret them.
+
+The tests independently compute the equivalent subset-weighted expression
+\[
+ \phi_i=\sum_{S\subseteq N\setminus\{i\}}
+ \frac{|S|!(|N|-|S|-1)!}{|N|!}\,[v(S\cup\{i\})-v(S)].
+\]
+The weight counts how many orderings place exactly $S$ before $i$.
+Agreement between these implementations, plus efficiency and symmetry
+checks, guards against indexing mistakes. It does not validate a real
+system's intervention distribution.
+
+\section{A trace through time needs timed interventions}
+Consider a scalar memory with $h_0=0$:
+\begin{equation}
+ h_t=\lambda h_{t-1}+x_t,\qquad 0\leq\lambda\leq1.
+\end{equation}
+Replace input $x_k$ by $x'_k$ while holding all other inputs fixed and
+rerunning all later transitions. Let $\Delta_t=h_t-h'_t$. Before $k$ the
+runs agree; at $k$, $\Delta_k=x_k-x'_k$; afterward,
+$\Delta_t=\lambda\Delta_{t-1}$. Thus
+\begin{equation}
+ \Delta_t=(x_k-x'_k)\lambda^{t-k},\qquad t\geq k.
+ \label{eq:decay}
+\end{equation}
+This is an exact finite intervention result for this linear mechanism, not
+a general identity for nonlinear recurrent models.
+
+\Plate{04-time}{A patch to the second input propagates forward through
+the unrolled recurrence. The generated curves use four unit inputs and
+$\lambda=0.5$. Earlier states remain unchanged; later differences decay
+by one factor of $\lambda$ per transition.}{fig:time}
+\Listing{memory}
+
+The code uses zero-based patch indices: \texttt{patch=(1,0)} changes the
+second input. The generated table uses one-based times:
+\begin{center}\input{\Generated/memory.tex}\end{center}
+Patching $h_k$ directly is not the same interface as patching $x_k$.
+An input patch computes $h'_k=\lambda h_{k-1}+x'_k$; a state patch can
+assign any admissible $h'_k$. At later times both differences follow the
+same scalar propagation only because this model is linear and subsequent
+inputs are fixed. If future inputs depend on the changed state, the closed
+loop must be recomputed too.
+
+With $\lambda=0$, effects vanish after one further step. With $\lambda=1$,
+they persist unchanged. A gradient $\partial h_t/\partial x_k=\lambda^{t-k}$
+matches the finite effect divided by its magnitude here. In a nonlinear
+system, gradients are local and can miss threshold crossings, saturation
+or changed routes. Agreement in this example is a consequence of its
+equations, not a license to equate gradients with counterfactuals everywhere.
+
+\section{Test explanations on interventions, not only observations}
+Return to Equation~\ref{eq:scm}. Surrogate $\hat y=5z$ has zero error on
+all unmodified runs. At $u=1$, $\operatorname{do}(z=0)$ makes its prediction
+zero while the true output remains five. Intervening on $a$ or $b$ also
+breaks the surrogate's prediction. A perfect observational fit can therefore
+fail the simplest mechanistic tests.
+
+\Plate{05-evidence}{An explanation should be evaluated under a declared
+distribution of interventions. The bystander surrogate fits the observational
+line exactly but fails when the input mechanism is surgically changed.
+Intervention coverage is additional evidence, not implied by trace agreement.}{fig:evidence}
+
+A practical evaluation separates development interventions from held-out ones.
+Declare the output metric and tolerance, intervention targets and magnitudes,
+input distribution, random seeds, and invalid-state policy. Report failures
+by intervention family rather than only one average. A surrogate can reproduce
+single-node patches and still fail joint patches or long-horizon effects.
+Keeping a list of all failures makes the explanation falsifiable.
+
+Current circuit-tracing work provides a useful comparison: replacement graphs
+can support interventions, but validation must examine whether those
+interventions match the underlying model. The 2025 methods report discusses
+fixed attention patterns, reconstruction errors and limits of replacement-model
+faithfulness \cite{circuits}. Our synthetic evaluator avoids those approximation
+issues by declaring exact equations; that makes it a testing lesson, not an
+implementation or validation of that research system.
+
+\section{An evidence contract for Evolutor}
+For each proposed explanation, store the executable mechanism or exact model
+revision, the selected events, the intervention operator, the recomputation
+boundary, the response metric and the test set. A trace hash can bind what
+was observed; it cannot prove the trace is complete or that an unobserved
+component had no effect. A successful replay verifies reproducibility under
+the replay contract, not the truth of every causal interpretation attached to it.
+
+Keep explanatory claims at their earned level. A route log supports which
+expert was selected. A zero-ablation measures sensitivity to removing its
+output in that context. A controlled replacement can test a more specific
+functional hypothesis. None alone establishes biological equivalence,
+general task competence or a complete decomposition of learned computation.
+
+\section{Exercises with worked answers}
+\begin{enumerate}
+\item Compute $\operatorname{do}(a=4)$ at $u=1$. \textbf{Answer:}
+$b=1$, so $y=4+3=7$. The equation for $a$ is replaced, not added to.
+\item Set both $a$ and $b$ to zero. \textbf{Answer:} $y=0$ regardless
+of $z$. Descendant recomputation uses both replacements.
+\item Why is $z$ predictive? \textbf{Answer:} It shares cause $u$ with
+the useful paths. On observations $y=5u=5z$, without a $z\to y$ edge.
+\item Does zeroing a log field implement a causal patch? \textbf{Answer:}
+No; dependent computations must rerun under the replaced equation.
+\item Derive OR's interaction. \textbf{Answer:} $1-1-1+0=-1$.
+Either component substitutes for the other in this game.
+\item Derive AND's interaction. \textbf{Answer:} $1-0-0+0=1$.
+The joint contribution exceeds the sum of singleton contributions.
+\item Explain identical OR and AND Shapley credits. \textbf{Answer:}
+Each is symmetric with total value one. Averaging over orderings splits
+that total equally despite different response tables.
+\item Add seven to every coalition value. \textbf{Answer:} Each marginal
+difference is unchanged; credits allocate the change above the baseline.
+\item Patch the second unit input to zero at $\lambda=0.5$.
+\textbf{Answer:} State differences at times one through four are
+$0,1,0.5,0.25$, matching Equation~\ref{eq:decay}.
+\item Can the patch change time one? \textbf{Answer:} Not in this causal
+recurrence. Such a result would indicate indexing or replay leakage.
+\item Construct a failed surrogate test. \textbf{Answer:} At $u=1$,
+set $z=0$. True $y$ remains five; $5z$ predicts zero despite perfect
+observational fit.
+\item Design a stronger evaluation than single-node ablation.
+\textbf{Answer:} Hold out inputs, paired interventions, patch magnitudes
+and temporal horizons; compare predicted and actual response changes with
+declared tolerances and report where the explanation fails.
+\end{enumerate}
+
+\section{Vocabulary and the next question}
+\Term{Counterfactual execution}: a rerun under a specified altered mechanism
+with the other declared conditions fixed. \Term{Redundancy}: alternative
+components can preserve a chosen output. \Term{Synergy}: a joint effect
+exceeds the additive comparison under a specified baseline.
+\Term{Mechanistic faithfulness}: agreement of an explanation with the system's
+responses over the tested interventions, not merely agreement on predictions.
+
+The next chapter defines a DNA-addressed state primitive for DOGMA research.
+It will earn simple claims through invariants, traces and counterexamples
+before asking whether a larger trained architecture can make useful use of it.

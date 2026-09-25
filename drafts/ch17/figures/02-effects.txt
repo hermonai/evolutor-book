@@ -1,0 +1,4 @@
+Question: Redundancy and synergy break one-at-a-time stories
+Objects and arrow semantics: Boolean response surfaces for OR and AND modules.
+Change/invariant and caption claim: Single ablations can hide redundancy or double-count interaction.
+Scientific risk: Ablation effects depend on baseline and operating point.

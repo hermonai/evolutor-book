@@ -1,0 +1,12 @@
+\begin{tikzpicture}[box/.style={note,draw=Blue,fill=Pale,minimum width=2cm,minimum height=.8cm}]
+\node[note,anchor=west] at (0,4){\textbf{OR game: the first arrival supplies the value}};
+\foreach \y in {2.8,1.2}{
+\node[box] at (1,\y){$\varnothing:0$};\node[box] at (10.6,\y){$\{A,B\}:1$};}
+\node[box] (a) at (5.8,2.8){$\{A\}:1$};
+\node[box] (b) at (5.8,1.2){$\{B\}:1$};
+\draw[flow] (2.1,2.8)--node[above,smallnote]{$A:+1$}(4.7,2.8);
+\draw[flow] (6.9,2.8)--node[above,smallnote]{$B:+0$}(9.5,2.8);
+\draw[flow] (2.1,1.2)--node[above,smallnote]{$B:+1$}(4.7,1.2);
+\draw[flow] (6.9,1.2)--node[above,smallnote]{$A:+0$}(9.5,1.2);
+\node[note,draw=Green,rounded corners,inner sep=8pt] at (5.8,-.2){Average: $\phi_A=(1+0)/2=\tfrac12$; $\phi_B=(0+1)/2=\tfrac12$};
+\end{tikzpicture}
