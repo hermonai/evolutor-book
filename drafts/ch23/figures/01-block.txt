@@ -1,0 +1,1 @@
+The pre-norm block has two actual bypass paths. H passes through LayerNorm and attention, then adds its unchanged residual to form U. U passes through LayerNorm and FFN/GELU, then adds its residual to form the next H. All main tensors have batch,time,width shape. Residual activation is not a persistent recurrent request state.

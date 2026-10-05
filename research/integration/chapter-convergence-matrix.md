@@ -5,7 +5,7 @@ States are separate gates, not one completion flag.
 | ID | Canonical title | Decision | Integrated | Tests | Figures | Sources | PDF |
 |---|---|---|---|---|---|---|---|
 | EVOD-22 | DOGMA reference model and falsifiable research program | merge and extend validated continuation state, gradients, multi-seed controls and intervention; retain causal/offline separation | reviewed | PASS; local chapter and full regression | PASS WITH NOTES; six figures, all color/grayscale pages | PASS WITH NOTES; access depth recorded, no external reproduction | PASS; standalone 14 pages; full-book pending |
-| EVOD-23 | Hermon DNA reference architecture | pending semantic inspection | candidate | not_rerun | not_reviewed | not_rerun | not_built_locally |
+| EVOD-23 | Hermon DNA reference architecture | Merge transparent Hermon Transformer; implement actual padding and mask contracts, strengthen causality/gradient oracles and multiseed task controls; preserve offline-only RC. | locally_reviewed_candidate | 19 chapter tests; full regression passed | all pages color/grayscale locally reviewed | primary access depths recorded; no experiment replication | standalone 15 pages; full-book pending |
 | EVOD-24 | DNA-aware Transformer mechanisms | pending semantic inspection | candidate | not_rerun | not_reviewed | not_rerun | not_built_locally |
 | EVOD-25 | Shared experiments without false equivalence | pending semantic inspection | candidate | not_rerun | not_reviewed | not_rerun | not_built_locally |
 | EVOD-26 | Training/inference parity and parallel recurrence | pending semantic inspection | candidate | not_rerun | not_reviewed | not_rerun | not_built_locally |

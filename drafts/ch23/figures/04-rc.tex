@@ -1,0 +1,12 @@
+\begin{tikzpicture}[x=1cm,y=1cm,font=\small\sffamily]
+\node[draw,fill=Pale,align=center] (x) at (0,1.5) {$X$: A C G A\\validity $v$};
+\node[draw,fill=Pale,align=center] (r) at (0,-.4) {$R(X)$: T C G T\\reversed validity};
+\node[draw,align=center,minimum width=2.8cm] (e1) at (4.1,1.5) {encoder $f_\theta$\\valid-base positions};
+\node[draw,align=center,minimum width=2.8cm] (e2) at (4.1,-.4) {encoder $f_\theta$\\same parameters};
+\node[draw,fill=Gold!30,align=center] (h) at (8.7,.55) {$\tfrac12(f_\theta(X,v)+f_\theta(RX,Rv))$\\offline invariant readout};
+\draw[flow] (x)--(e1); \draw[flow] (r)--(e2);
+\draw[flow] (e1.east)--(h.north west); \draw[flow] (e2.east)--(h.south west);
+\draw[Green,dashed,thick] (e1.south)--(e2.north);
+\node[font=\footnotesize,align=center,Red] at (5.1,-1.6) {Two record traversals share one parameter object.\\
+Full-record RC is forbidden as a causal next-token feature.};
+\end{tikzpicture}

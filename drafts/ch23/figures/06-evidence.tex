@@ -1,0 +1,12 @@
+\begin{tikzpicture}[x=1cm,y=1cm,font=\small\sffamily]
+\foreach \y/\title/\body in {
+3/{Numerical contract}/{independent attention oracle, gradients, masks, padding},
+1.6/{Synthetic implementation pilot}/{exact motif labels, repeated seeds, local CNN, random targets},
+.2/{Genomic predictive evidence}/{provenance, homology-safe splits, matched budgets, calibration},
+-1.2/{Biological mechanism evidence}/{interventions and measurements that test a biological causal claim}}{
+\node[draw=Blue,fill=Pale,minimum width=13cm,minimum height=1.05cm,align=left,anchor=west] at (0,\y)
+{\textbf{\title}\\\footnotesize\body};}
+\node[Red,font=\footnotesize,align=center] at (6.5,-2.5)
+{Only the first two levels are executed here.\\
+Software correctness and synthetic accuracy do not certify the later claims.};
+\end{tikzpicture}

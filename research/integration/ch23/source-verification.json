@@ -1,0 +1,93 @@
+{
+  "access_date": "2026-10-06",
+  "book": "evolutor",
+  "chapter": 23,
+  "records": [
+    {
+      "key": "transformer2017",
+      "authors": "Ashish Vaswani et al.",
+      "title": "Attention Is All You Need",
+      "date": "2017; v7 2023-08-02",
+      "url": "https://arxiv.org/abs/1706.03762",
+      "access_depth": "abstract and version metadata",
+      "inspected": "arXiv abstract/version history",
+      "claim": "Attention-based Transformer sequence mechanism is established prior art.",
+      "issue": "No full paper experiments reproduced.",
+      "access_date": "2026-10-06"
+    },
+    {
+      "key": "dnabert2021",
+      "authors": "Yanrong Ji; Zhihan Zhou; Han Liu; Ramana V. Davuluri",
+      "title": "DNABERT: pre-trained Bidirectional Encoder Representations from Transformers model for DNA-language in genome",
+      "date": "2021",
+      "url": "https://github.com/jerryji1993/DNABERT",
+      "doi": "10.1093/bioinformatics/btab083",
+      "access_depth": "author implementation README",
+      "inspected": "Citation; Pre-train sections 2.1–2.2, k-mer data and MLM flags",
+      "claim": "DNA Transformer k-mer pretraining is established, not Hermon novelty.",
+      "issue": "Publisher methods access failed; no training reproduction.",
+      "access_date": "2026-10-06"
+    },
+    {
+      "key": "nt2025",
+      "authors": "Hugo Dalla-Torre et al.",
+      "title": "Nucleotide Transformer: building and evaluating robust foundation models for human genomics",
+      "date": "2025; online 2024-11-28",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/39609566/",
+      "doi": "10.1038/s41592-024-02523-z",
+      "access_depth": "indexed primary abstract and metadata",
+      "inspected": "PubMed-indexed title/authors/abstract record; full-text access attempts blocked",
+      "claim": "Systematic genomic foundation-model evaluation is relevant prior art.",
+      "issue": "Incoming full-text verification not adopted; no benchmark reproduced.",
+      "access_date": "2026-10-06"
+    },
+    {
+      "key": "dnabert2",
+      "authors": "Zhihan Zhou et al.",
+      "title": "DNABERT-2: Efficient Foundation Model and Benchmark For Multi-Species Genome",
+      "date": "2023; v2 2024-03-18",
+      "url": "https://arxiv.org/abs/2306.15006",
+      "access_depth": "abstract/version record",
+      "inspected": "Abstract tokenization and benchmark discussion",
+      "claim": "BPE/tokenization efficiency is an established research variable.",
+      "issue": "No quantitative performance or speedup reproduced.",
+      "access_date": "2026-10-06"
+    },
+    {
+      "key": "hyenadna",
+      "authors": "Eric Nguyen et al.",
+      "title": "HyenaDNA: Long-Range Genomic Sequence Modeling at Single Nucleotide Resolution",
+      "date": "2023; v2 2023-11-14",
+      "url": "https://arxiv.org/abs/2306.15794",
+      "access_depth": "abstract/version record",
+      "inspected": "Abstract",
+      "claim": "Non-attention long-context single-base modeling is relevant prior art.",
+      "issue": "No scaling or genomic benchmark reproduced.",
+      "access_date": "2026-10-06"
+    },
+    {
+      "key": "caduceus",
+      "authors": "Yair Schiff et al.",
+      "title": "Caduceus: Bi-Directional Equivariant Long-Range DNA Sequence Modeling",
+      "date": "2024; v2 2024-06-05",
+      "url": "https://arxiv.org/abs/2403.03234",
+      "access_depth": "abstract/version record",
+      "inspected": "Abstract BiMamba/MambaDNA RC mechanism",
+      "claim": "Bidirectionality and RC equivariance are prior mechanisms.",
+      "issue": "Local logit averaging is not a Caduceus reproduction.",
+      "access_date": "2026-10-06"
+    },
+    {
+      "key": "evo2",
+      "authors": "Garyk Brixi et al.",
+      "title": "Genome modelling and design across all domains of life with Evo 2",
+      "date": "2026-03-04",
+      "url": "https://www.nature.com/articles/s41586-026-10176-5",
+      "access_depth": "publisher abstract and version metadata",
+      "inspected": "Abstract; Cite this article metadata",
+      "claim": "Large single-nucleotide genomic modeling is contemporary context, not local Hermon evidence.",
+      "issue": "Incoming preprint-only status updated; no reported capability reproduced.",
+      "access_date": "2026-10-06"
+    }
+  ]
+}

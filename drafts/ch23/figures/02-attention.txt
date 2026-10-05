@@ -1,0 +1,1 @@
+A normalized activation is projected into per-head Q,K,V. QK-transpose gives batch,head,query,key scores, which are scaled and legally masked. Attention probabilities weight V, then heads join and an output projection restores batch,time,width. The V route bypasses score formation. Entirely masked rows explicitly return zero probabilities and output.

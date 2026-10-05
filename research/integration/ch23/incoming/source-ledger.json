@@ -1,0 +1,79 @@
+[
+  {
+    "key": "transformer2017",
+    "claim": "Transformer architecture uses attention rather than recurrence/convolution as its core sequence mechanism.",
+    "primary": "https://arxiv.org/abs/1706.03762",
+    "authors": "Vaswani et al.",
+    "date": "2017",
+    "access_date": "2026-10-05",
+    "inspected": "arXiv abstract/record",
+    "depth": "abstract plus established equations reconstructed independently",
+    "unresolved": null
+  },
+  {
+    "key": "dnabert2021",
+    "claim": "DNABERT uses k-mer DNA tokens, BERT-style Transformer blocks and masked pretraining for genomic downstream tasks.",
+    "primary": "https://doi.org/10.1093/bioinformatics/btab083",
+    "authors": "Ji et al.",
+    "date": "2021",
+    "access_date": "2026-10-05",
+    "inspected": "publisher abstract and methods excerpt",
+    "depth": "abstract/methods",
+    "unresolved": null
+  },
+  {
+    "key": "nt2025",
+    "claim": "Nucleotide Transformer studies Transformer genomic pretraining across scales/datasets and controlled downstream benchmarks.",
+    "primary": "https://www.nature.com/articles/s41592-024-02523-z",
+    "authors": "Dalla-Torre et al.",
+    "date": "2025",
+    "access_date": "2026-10-05",
+    "inspected": "open publisher article abstract/main/results",
+    "depth": "substantial full-text sections",
+    "unresolved": null
+  },
+  {
+    "key": "dnabert2",
+    "claim": "DNABERT-2 makes tokenizer efficiency and genomic benchmark design explicit research variables.",
+    "primary": "https://arxiv.org/abs/2306.15006",
+    "authors": "Zhou et al.",
+    "date": "2023",
+    "access_date": "2026-10-05",
+    "inspected": "arXiv abstract",
+    "depth": "abstract",
+    "unresolved": null
+  },
+  {
+    "key": "hyenadna",
+    "claim": "HyenaDNA explores long-range genomic modeling at single-nucleotide resolution with a non-Transformer sequence operator.",
+    "primary": "https://arxiv.org/abs/2306.15794",
+    "authors": "Nguyen et al.",
+    "date": "2023",
+    "access_date": "2026-10-05",
+    "inspected": "arXiv abstract",
+    "depth": "abstract",
+    "unresolved": null
+  },
+  {
+    "key": "caduceus",
+    "claim": "Caduceus explicitly addresses bidirectionality and reverse-complement equivariance for DNA sequence modeling.",
+    "primary": "https://arxiv.org/abs/2403.03234",
+    "authors": "Schiff et al.",
+    "date": "2024",
+    "access_date": "2026-10-05",
+    "inspected": "arXiv abstract",
+    "depth": "abstract",
+    "unresolved": null
+  },
+  {
+    "key": "evo2",
+    "claim": "Evo 2 is current frontier context for large single-nucleotide genomic modeling across long contexts and broad genomic data.",
+    "primary": "https://doi.org/10.1101/2025.02.18.638918",
+    "authors": "Brixi et al.",
+    "date": "2025",
+    "access_date": "2026-10-05",
+    "inspected": "bioRxiv abstract and architecture/data overview",
+    "depth": "abstract plus opening results",
+    "unresolved": "Preprint status; no Hermon benchmark claim derived from it."
+  }
+]

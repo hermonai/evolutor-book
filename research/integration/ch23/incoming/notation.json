@@ -1,0 +1,10 @@
+{
+  "B": "batch size",
+  "T": "sequence length",
+  "D": "model width",
+  "H": "attention heads",
+  "d_h": "per-head width D/H",
+  "X": "nucleotide token IDs [B,T]",
+  "R(X)": "reverse-complement action",
+  "A": "attention probabilities [B,H,T,T]"
+}

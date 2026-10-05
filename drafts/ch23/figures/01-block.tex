@@ -1,0 +1,18 @@
+\begin{tikzpicture}[x=1cm,y=1cm,font=\small\sffamily]
+\node[draw,fill=Pale,minimum width=1.5cm] (x) at (0,1.5) {$H^{\ell-1}$};
+\node[draw] (n1) at (2.3,1.5) {LN};
+\node[draw,fill=Gold!30,minimum width=2.6cm] (a) at (5,1.5) {MHA};
+\node[circle,draw,minimum size=.55cm] (s1) at (8,1.5) {$+$};
+\node[draw,fill=Pale] (u) at (10.5,1.5) {$U^\ell$};
+\draw[flow] (x)--(n1); \draw[flow] (n1)--(a); \draw[flow] (a)--(s1); \draw[flow] (s1)--(u);
+\draw[flow] (x.north)--(0,2.6)--(8,2.6)--(s1.north);
+\node[draw] (n2) at (2.3,-.4) {LN};
+\node[draw,fill=Green!8,minimum width=2.6cm] (f) at (5,-.4) {FFN / GELU};
+\node[circle,draw,minimum size=.55cm] (s2) at (8,-.4) {$+$};
+\node[draw,fill=Pale] (h) at (10.5,-.4) {$H^\ell$};
+\draw[flow] (u.south)--(10.5,.55)--(0,.55)--(0,-.4)--(n2);
+\draw[flow] (n2)--(f); \draw[flow] (f)--(s2); \draw[flow] (s2)--(h);
+\draw[flow] (0,-.4)--(0,-1.3)--(8,-1.3)--(s2.south);
+\node[font=\footnotesize,align=center] at (5.3,-2.05) {All main-path tensors have shape $B\times T\times D$.\\
+Residual branches bypass normalization and their sublayer; they do not create persistent carry.};
+\end{tikzpicture}

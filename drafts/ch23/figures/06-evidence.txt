@@ -1,0 +1,1 @@
+Four evidence levels ask different questions: numerical contract, synthetic implementation behavior, genomic predictive evidence, and biological causal-mechanism evidence. The first two have local executions here; later levels remain unexecuted and need their own controls. There is no automatic progression from a unit test or prediction score to biological causality.

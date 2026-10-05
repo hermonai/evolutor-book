@@ -1,0 +1,14 @@
+\begin{tikzpicture}[x=1cm,y=1cm,font=\small\sffamily]
+\node[draw,fill=Pale,align=center] (x) at (0,1.5) {normalized $U$\\$[B,T,D]$};
+\node[draw,align=center] (q) at (3.3,1.5) {QKV projection\\$[B,H,T,d_h]$ each};
+\node[draw,fill=Gold!30,align=center] (s) at (7,1.5) {scaled scores\\$QK^\top/\sqrt{d_h}$\\$[B,H,T,T]$};
+\node[draw,align=center] (a) at (10.7,1.5) {legal-row softmax\\$A:[B,H,T,T]$};
+\node[draw,fill=Green!8,align=center] (v) at (7,-.7) {weighted values $AV$\\$[B,H,T,d_h]$};
+\node[draw,align=center] (o) at (3.3,-.7) {join heads + project\\$[B,T,D]$};
+\draw[flow] (x)--(q); \draw[flow] (q)--node[above,font=\footnotesize]{$Q,K$}(s);
+\draw[flow] (s)--(a); \draw[flow] (a.south)--(10.7,-.7)--(v);
+\draw[flow] (q.south)--(3.3,.25)--(7,.25)--node[right,font=\footnotesize]{$V$}(v.north);
+\draw[flow] (v)--(o);
+\node[font=\footnotesize,align=center] at (6,-1.9) {Scores compare queries to keys. Probabilities mix value vectors.\\
+No legal key: return zero attention/output rather than an undefined softmax.};
+\end{tikzpicture}

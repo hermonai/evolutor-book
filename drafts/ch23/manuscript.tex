@@ -1,0 +1,396 @@
+\chapter{Hermon DNA reference architecture}
+
+Chapter 22 made DOGMA executable by refusing to let its name substitute for a model.
+Hermon DNA deserves the same treatment. Its defining architectural commitment is
+different: \Term{Hermon DNA} is the Transformer-based DNA-model research direction.
+It inherits DNA-specific data and symmetry questions from Evolutor, but its sequence
+mixing primitive is self-attention rather than DOGMA's recurrent fast state and
+addressable loci.
+
+This immediately removes one possible novelty claim. Transformers are established,
+and Transformer genomic language models are established. DNABERT adapted BERT-style
+masked pretraining to DNA; Nucleotide Transformer scaled Transformer genomic
+pretraining and systematic downstream evaluation. \cite{dnabert2021,nt2025}
+Hermon DNA must therefore earn value through a precise architecture/evidence
+contract and later engineering choices, not by renaming a Transformer.
+
+\section{Input contract: begin with nucleotides}
+
+The reference vocabulary is
+\[
+\mathcal V=\{A,C,G,T\}\leftrightarrow\{0,1,2,3\}.
+\]
+A batch is $X\in\{0,1,2,3\}^{B\times T}$. We begin at single-nucleotide resolution
+because it makes position, complement and mutation semantics transparent. This is
+not a claim that nucleotide tokenization is universally optimal. DNABERT used
+overlapping $k$-mers; DNABERT-2 argues for BPE-like tokenization; long-context models
+have revisited single-base representations. Tokenization is therefore an experimental
+variable, not a biological truth. \cite{dnabert2,hyenadna}
+
+Learn token embeddings $E_{\rm tok}\in\mathbb R^{4\times D}$ and position embeddings
+$E_{\rm pos}\in\mathbb R^{T_{\max}\times D}$:
+\[
+H^{(0)}_{b,t}=E_{\rm tok}[X_{b,t}]+E_{\rm pos}[t].
+\]
+The reference uses learned absolute positions because they are easy to inspect.
+Later chapters may replace them with rotary, relative or other positional schemes
+only with an explicit long-context argument.
+
+\Plate{01-block}{One Hermon DNA Transformer block. The reference is pre-norm:
+normalization precedes each sublayer and residual paths preserve the token matrix.}
+{evod23:block}
+
+\section{Self-attention from shapes to equations}
+
+For $H$ heads, require $D=Hd_h$. From a normalized token matrix
+$U\in\mathbb R^{B\times T\times D}$, learned projections produce
+\[
+Q,K,V\in\mathbb R^{B\times H\times T\times d_h}.
+\]
+For one batch/head, the score between query position $i$ and key position $j$ is
+\begin{equation}
+S_{ij}={Q_iK_j^\top\over\sqrt{d_h}}.
+\label{evod23:score}
+\end{equation}
+If query/key coordinates are independent, centered and have unit variance, a dot
+product's variance is $d_h$; division by $\sqrt{d_h}$ makes it one. Learned features
+need not satisfy those hypotheses. The factor is a useful scale convention, not
+a theorem that every trained score has bounded magnitude.
+After adding a mask $M_{ij}\in\{0,-\infty\}$,
+\[
+A_{ij}={\exp(S_{ij}+M_{ij})\over\sum_k\exp(S_{ik}+M_{ik})},
+\qquad O_i=\sum_jA_{ij}V_j.
+\]
+Each row of $A$ is nonnegative and sums to one up to floating arithmetic.
+This statement requires at least one legal key. An entirely masked row has no
+probability distribution; $\operatorname{softmax}(-\infty,\ldots,-\infty)$
+is undefined. The reference explicitly assigns zero attention and zero projected
+output to that row, including the output bias. It is a padding convention, not a
+new attention law.
+
+\Plate{02-attention}{Attention tensor contract. Shapes are part of correctness:
+mixing the head and position axes can produce numerically valid tensors with the
+wrong computation.}{evod23:attention}
+
+The companion code implements these equations without calling
+\texttt{nn.MultiheadAttention}. A separately written oracle reconstructs the learned
+linear projections, enumerates each row's allowed key indices independently,
+and checks both attention weights and output tensors.
+
+\Listing{MHA.forward}
+\subsection{Trace one head before stacking layers}
+Choose $B=H=1$, $T=3$, $d_h=2$ with assigned, not learned, vectors
+\[
+Q=K=\begin{bmatrix}1&0\\0&1\\1&1\end{bmatrix},\qquad
+V=\begin{bmatrix}1&0\\0&2\\3&1\end{bmatrix}.
+\]
+The causal first row has one allowed key, so $A_{1,:}=(1,0,0)$ and $O_1=(1,0)$.
+For the second query, allowed scores are $(0,1/\sqrt2)$. Thus
+$A_{2,1}=1/(1+e^{1/\sqrt2})$ and $A_{2,2}=1-A_{2,1}$; the third
+probability is exactly zero. Matrix multiplication yields
+$O_2=(A_{2,1},2A_{2,2})$. All three rows below are generated directly from
+these assigned tensors.
+\begin{center}\input{\Generated/attention_trace.tex}\end{center}
+Attention weights mix \emph{value vectors}, not token IDs or probability of the
+next base. An LM head and its vocabulary softmax perform the latter decision.
+Changing a future value cannot affect an earlier causal output because its
+attention coefficient is zero. Changing an earlier key changes the normalization
+over every legal key in that query's row.
+
+\section{Residual block and parameter ownership}
+
+For block $\ell$,
+\begin{align}
+U^{(\ell)} &= H^{(\ell-1)}
+ +\operatorname{MHA}_\ell(\operatorname{LN}_{\ell,1}(H^{(\ell-1)})),\\
+H^{(\ell)} &= U^{(\ell)}
+ +\operatorname{FFN}_\ell(\operatorname{LN}_{\ell,2}(U^{(\ell)})).
+\end{align}
+The feed-forward network is
+\[
+\operatorname{FFN}(x)=W_2\,\operatorname{GELU}(W_1x+b_1)+b_2.
+\]
+All embeddings, projections, normalization scales and head parameters are
+model-owned. The token matrix is activation state scoped to one forward pass. Unlike
+DOGMA Chapter 22, Hermon DNA has no persistent recurrent state in this reference
+architecture.
+
+For this implementation, a block uses $8D^2+11D$ parameters: QKV and output
+projections use $4D^2+4D$, the width-$2D$ FFN uses $4D^2+3D$, and the two
+LayerNorms use $4D$. With $L$ blocks and two distinct heads, total count is
+\begin{equation}
+P=(4+T_{\max})D+L(8D^2+11D)+2D+4(D+1)+C(D+1).
+\label{evod23:params}
+\end{equation}
+The LM head has four outputs, classification has $C$ outputs, and neither head is
+tied to the embedding. A classifier-only optimizer gives no gradients to the LM
+head, although this head is included in the architecture's reported total.
+Weights are model-owned; padding masks and attention probabilities are temporary
+per-forward-pass objects, not request-persistent state.
+
+\section{Two masks, two scientific questions}
+
+An offline encoder and a causal language model are different functions. For an
+offline genomic classifier, every unpadded position may attend to every other
+unpadded position. For causal next-token prediction,
+\[
+M_{ij}=\begin{cases}
+0,&j\le i,\\
+-\infty,&j>i.
+\end{cases}
+\]
+Padding is orthogonal: padded keys should be hidden in either mode, and padded query
+outputs should not be scored as biological positions.
+
+Let $v_{b,t}\in\{0,1\}$ declare validity, and define legal edges by
+$v_{b,i}v_{b,j}=1$, additionally $j\le i$ for causal mode.
+The code accepts a boolean disallow mask of shape $T\times T$ or
+$B\times T\times T$; it rejects other shapes rather than relying on accidental
+broadcasting. The returned probabilities have shape $B\times H\times T\times T$.
+Valid rows sum to one; invalid-query rows sum to zero.
+
+Positional embeddings use the ordinal among \emph{valid} bases:
+$p_{b,t}=\sum_{s\le t}v_{b,s}-1$ at valid positions. Inserting left or right padding
+therefore does not shift biological coordinates. Invalid query outputs are reset
+after each residual block and final normalization because learned biases otherwise
+revive them. The causal head also zeros invalid logits; a training loss must still
+exclude them. Zero logits are not predictions for an unknown biological base.
+\Listing{HermonDNA.encode}
+
+Offline pooling divides the sum of valid activations by their count. A record
+with no valid bases is rejected rather than given an invented classification.
+Causal encoding allows an all-padding record with zero outputs. Empty time
+axes, out-of-alphabet tokens, non-int64 token IDs and overlength records are
+rejected. Ambiguous biological symbols and special masking tokens are outside
+this chapter's four-base vocabulary, not silently encoded as A.
+
+\Plate{03-masks}{Offline and causal attention differ in legal information access.
+The causal triangle is not a performance optimization; it is part of the statistical
+objective.}{evod23:masks}
+
+The test suite mutates a suffix and verifies that causal logits for the unchanged
+prefix are invariant. It also inspects the attention matrix and confirms zero
+probability on masked future keys. These tests defend the Chapter 21/22 causality
+boundary at a different architecture.
+
+For causal language modeling the target shift remains
+\[
+\mathcal L_{\rm causal}
+=-\sum_{t=1}^{T-1}\log p_\theta(x_{t+1}\mid x_{\le t}).
+\]
+An offline masked-token objective instead hides selected input positions and predicts
+their identities using legal bidirectional context. The dataset must record which
+positions were masked so the model cannot see the target token through an accidental
+copy path.
+The present code implements causal logits and whole-record classification, not a
+masked-LM training pipeline. Implementing the latter requires an expanded
+vocabulary/corruption contract or a different explicit base-obscuring representation.
+It is not accomplished merely by switching the triangular attention mask off.
+
+\section{Reverse complement is an action, not augmentation folklore}
+
+Define complement $c(A)=T$, $c(C)=G$, $c(G)=C$, $c(T)=A$. For a length-$T$ record
+\[
+R(x_1,\ldots,x_T)=(c(x_T),\ldots,c(x_1)).
+\]
+For tasks whose label is strand invariant, a simple reference construction shares
+one encoder across $X$ and $R(X)$ and averages the two prediction logits:
+\[
+f_{\rm sym}(X)={f_\theta(X)+f_\theta(R(X))\over2}.
+\label{evod23:rc}
+\]
+Applying $R$ swaps the summands, so $f_{\rm sym}(R(X))=f_{\rm sym}(X)$ exactly up
+to floating-point evaluation order.
+With padding, the reverse branch reverses the validity mask as well as the sequence.
+Otherwise a padded key can become a valid biological base, while a real base is
+silently discarded. Valid-token ordinals preserve the same sequence positions when
+padding moves from one end to the other. The paired-head invariance follows from
+an involution on the \emph{sequence-and-mask pair}, not the sequence alone.
+
+\Plate{04-rc}{A shared-parameter offline symmetric head gives a transparent
+reverse-complement invariance contract. It doubles encoder work and is not used to
+smuggle suffix information into causal prediction.}{evod23:rcfig}
+
+This construction is intentionally simple, not claimed as frontier architecture.
+Caduceus explicitly develops bidirectional and reverse-complement-equivariant DNA
+sequence modeling on a Mamba-derived architecture, demonstrating that RC structure
+is established research territory and not specific to Transformers. \cite{caduceus}
+A Hermon DNA contribution must compare against such prior mechanisms rather than
+claiming the symmetry itself.
+
+\section{DOGMA and Hermon DNA remain separate}
+
+\Plate{05-branches}{Evolutor sits above two research branches. DOGMA's primitive is
+typed recurrent/selective state with explicit loci; Hermon DNA's primitive is a
+Transformer token matrix mixed by self-attention.}{evod23:branches}
+
+This separation makes experiments interpretable. If a task favors Hermon DNA, the
+result supports some combination of token-level attention, optimization and model
+capacity; it does not disprove genomic organization as an inspiration. If DOGMA
+wins, the result does not show that Transformers are intrinsically unsuitable for
+DNA. Architecture comparisons require matched data, objective, parameter/compute
+budgets and tuning effort.
+
+The engines are also different artifacts. \Term{Hermon DNA Engine} will eventually
+refer to the inference/training systems implementation for this Transformer branch.
+The present PyTorch reference is a semantic oracle for that future engine, not the
+engine itself.
+
+\section{Complexity and the long-context boundary}
+
+Dense attention forms a $T\times T$ score matrix per head, giving $O(T^2D)$
+attention arithmetic at the usual level of abstraction and $O(T^2)$ attention-score
+storage if materialized. Here batch and head factors matter: one layer retains
+$BHT^2$ score/probability entries, not merely $T^2$. QKV projections and the FFN
+also cost $O(BTD^2)$ at fixed expansion ratio. With element size $s$ bytes,
+one materialized score tensor occupies $sBHT^2$ bytes before gradients and other
+activations. Doubling $T$ quadruples this term, while a two-orientation head
+performs two encoder traversals even with shared weights.
+Genomic context can be much longer than ordinary short
+classification records. HyenaDNA was motivated in part by this quadratic attention
+boundary and explored long single-nucleotide contexts with a different sequence
+operator. Nucleotide Transformer likewise identifies long-input handling as an
+important open direction. \cite{hyenadna,nt2025}
+
+Therefore Hermon DNA cannot merely scale this pedagogical implementation to a whole
+chromosome. Later architecture chapters must choose among sparse/local attention,
+hierarchy, recurrence/state-space hybrids, chunking, retrieval or other mechanisms
+and measure what biological dependencies are lost or preserved.
+
+\section{A controlled executable experiment}
+
+The integrated pilot uses a small whole-record classification task: a record is
+positive if it contains ACGT. This pattern is its own reverse complement; there
+are not two distinct motifs. Positives are implanted when necessary and negatives
+are rejection sampled. This differs from Chapter 22's three-base ACG/CGT task;
+scores across these chapters are not direct architectural comparisons.
+
+Data seeds 137 and 139 freeze 512 training and 128 held-out records, respectively.
+Exact sequences and their reverse complements are disjoint between these sets.
+An independent Python string detector checks every label and has accuracy one by
+specification. This proves recoverable synthetic signal, not learned biology.
+Initialization seeds 11, 23 and 37 run the same declared 25 full-batch AdamW epochs
+at learning rate $3\times10^{-3}$ without held-out tuning.
+
+\Listing{train_eval}
+\begin{center}\input{\Generated/pilot.tex}\end{center}
+These are means and sample standard deviations of locally rerun pilots. The
+width-four CNN tests the local-motif inductive bias. Both neural families use the
+same examples and two orientation passes, but differ in parameters and arithmetic;
+equal epochs are not equal compute. A separate Hermon control draws independent
+random Bernoulli targets for both training and test. For an independent
+uniform target, population expected cross-entropy is at least $\log2$;
+individual finite samples or memorized training losses need not obey that bound.
+All per-seed losses, accuracies, parameter counts and training-loss traces are
+stored in the generated results, including weak or failed runs. No genomic,
+capacity-matched or compute-matched ranking follows from this table.
+
+The task is deliberately synthetic. It tests that attention, optimization and
+strand-symmetric readout can participate in a coherent trainable system. It does not
+show promoter recognition, variant-effect prediction, regulatory reasoning or
+genomic foundation-model capability.
+
+A proper genomic benchmark must address homology leakage, chromosome/species split
+policy, class balance, label provenance, sequence overlap, reverse-complement
+duplication, context length, parameter/compute budgets and repeated seeds. Nucleotide
+Transformer's systematic downstream benchmarking is relevant precedent for why a
+foundation-model claim needs broad controlled evaluation rather than one task.
+\cite{nt2025}
+
+\section{What current genomic models teach the design}
+
+DNABERT shows that Transformer masked pretraining can transfer to several genomic
+prediction tasks. DNABERT-2 makes tokenization efficiency itself an architectural
+question. Nucleotide Transformer shows the importance of scale, data diversity and
+consistent downstream protocols. HyenaDNA asks whether long genomic context is
+better served by a non-attention sequence operator. Caduceus makes bidirectionality
+and RC equivariance architectural. Evo 2 pushes single-nucleotide genomic modeling
+to very large model/data/context scales using a different modern architecture; its
+reported capabilities are frontier context, not evidence produced by Hermon DNA.
+\cite{dnabert2021,dnabert2,nt2025,hyenadna,caduceus,evo2}
+
+The resulting Hermon research questions are concrete:
+Which tokenizer preserves mutation-level semantics per unit compute? Which positional
+scheme extrapolates? When does RC symmetry improve sample efficiency? Which attention
+pattern captures distal regulation without quadratic cost? Which pretraining
+objective transfers across species without rewarding trivial composition statistics?
+
+\section{Evidence ladder}
+
+\Plate{06-evidence}{Correct tensor algebra is necessary but sits at the bottom of
+the evidence ladder. Synthetic learnability, genomic benchmark performance and
+biological mechanism claims require progressively stronger data and controls.}
+{evod23:evidence}
+
+A unit test can establish that the causal mask works. It cannot establish that a
+model learned causality in biology. A synthetic motif task can establish that the
+implementation trains. It cannot establish regulatory grammar. A held-out genomic
+benchmark can establish predictive performance under its split. It does not by
+itself establish the molecular mechanism used by a cell. The chapter keeps those
+claims separate so later results have somewhere honest to land.
+
+\section{Exercises and worked solutions}
+\subsection*{Independent implementation checks}
+The test suite compares attention values and gradients against an independent
+allowed-key row oracle in float64. Central finite differences additionally check
+the attention module's input derivatives. A future-feature perturbation changes
+offline prefix outputs but leaves causal prefix outputs fixed. Both left and right
+padding are tested; invalid queries/keys have zero probabilities and inserting
+padding leaves valid-token encodings unchanged. These are executed software
+contracts, not assertions of a biological mechanism.
+\Listing{attention_oracle}
+
+\subsection*{Worked questions}
+\begin{enumerate}
+\item Why require $D=Hd_h$? \textbf{Answer:} the reference partitions the model
+dimension evenly across heads before concatenating them.
+\item What is the shape of attention scores? \textbf{Answer:} $[B,H,T,T]$.
+\item Why divide by $\sqrt{d_h}$? \textbf{Answer:} to control dot-product scale as
+head dimension grows, stabilizing softmax behavior.
+\item Prove each unmasked softmax row sums to one. \textbf{Answer:} divide each
+positive exponential by the sum of all allowed exponentials in that row.
+\item What does the causal mask prevent? \textbf{Answer:} a query at $i$ reading
+keys/values from $j>i$.
+\item Why is padding masking separate? \textbf{Answer:} padding is invalid data in
+both causal and offline modes; causality concerns temporal/positional access.
+\item Prove Equation~\ref{evod23:rc} is RC invariant. \textbf{Answer:} $R$ is an
+involution and applying it swaps the two shared-parameter summands.
+\item Is RC invariance always correct? \textbf{Answer:} no; orientation-sensitive
+labels require an equivariant transformation or explicit orientation.
+\item Why is single-base tokenization not declared optimal?
+\textbf{Answer:} tokenizer choice trades resolution, sequence length, statistical
+efficiency and compute; existing genomic models use different choices.
+\item Compare DOGMA state and Hermon activations. \textbf{Answer:} DOGMA explicitly
+carries recurrent request state/loci across positions; this Hermon reference computes
+a token activation matrix inside stacked Transformer blocks without persistent
+recurrent state.
+\item What falsifies a claimed Hermon advantage? \textbf{Answer:} disappearance of
+the gain under matched data, compute, capacity, tuning and multiple seeds, or a
+simpler baseline matching it.
+\item Compute the second row of the assigned attention trace. \textbf{Answer:}
+with $a=1/(1+e^{1/\sqrt2})$, probabilities are $(a,1-a,0)$ and output
+is $(a,2(1-a))$.
+\item Why is an all-masked softmax not a uniform biological prediction?
+\textbf{Answer:} it has no legal key and is mathematically undefined.
+This reference assigns zero attention/output as a padding convention.
+\item Why reverse the padding mask in the offline RC branch?
+\textbf{Answer:} validity belongs to the transformed sequence; leaving it fixed
+changes which bases are observed and violates the pair-action contract.
+\item Does fixed-epoch comparison match FLOPs? \textbf{Answer:} no.
+Projection sizes, head counts and operator types change per-epoch work.
+\item Derive Equation~\ref{evod23:params} at $D=24$, $L=2$, $T_{\max}=32$,
+$C=2$. \textbf{Answer:} embeddings use 864, blocks use 9744, final norm
+uses 48, and heads use 150: total 10806.
+\item Design the first real benchmark. \textbf{Rubric:} provenance-tracked genomic
+dataset; leakage-safe chromosome/species/homology split; explicit strand label
+action; CNN/Transformer/non-attention baselines; matched budgets; multiple seeds;
+calibration and OOD context tests; ablate tokenization, RC handling and positional
+scheme.
+\end{enumerate}
+
+\section{Bridge}
+Chapter 24 tests DNA-aware Transformer mechanisms: token spans, strand-sensitive
+features, position contracts and long-context access. Chapter 25 then freezes
+shared data/model interfaces for comparisons across DOGMA, Hermon and conventional
+baselines. Dataset coordinate, masking, corruption, window, target and split
+contracts remain necessary; an architecture alone is not a reproducible genomic model.
