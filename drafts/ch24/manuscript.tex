@@ -1,0 +1,430 @@
+\chapter{DNA-aware Transformer mechanisms}
+\label{evod24:chapter}
+Chapter 23 made Hermon's Transformer algebra explicit. That does not yet make an
+architecture DNA-aware. DNA-specific information has to enter through mechanisms
+whose effect can be stated, implemented and tested: base spans, strand actions,
+physical coordinate distances and legal long-context access.
+
+Consider a variant changing one base in a six-base record. Which tokens change?
+Does a position mean a token index or a base coordinate? If the record is reverse
+complemented, which features should change sign, which positions should reverse,
+and which label should remain the same? Finally, can distant positions communicate
+without allocating a dense attention matrix? This chapter answers those questions
+with small differentiable references, not a new untested architectural name.
+
+\section{A token must carry its genomic span}
+Let a canonical sequence be $x=(x_0,\ldots,x_{L-1})\in\{A,C,G,T\}^L$, $L>0$.
+A token record is
+\[
+t_i=(u_i,a_i,b_i),\qquad 0\le a_i<b_i\le L,
+\]
+where $u_i=x[a_i:b_i]$ and $[a_i,b_i)$ is a zero-based half-open base span.
+This local window convention is not automatically the coordinate system of a
+reference assembly; that mapping must also name the assembly, chromosome and
+orientation. Chapter 25 consolidates those dataset-level contracts.
+
+For width $k$ and stride $s$, the executable reference emits spans
+$[js,js+k)$ while the end stays inside the record. It rejects unsupported symbols,
+empty records and invalid widths/strides rather than silently converting ambiguity
+to a canonical base. Ambiguity handling is a distinct tokenizer policy.
+\Listing{tokenize}
+\begin{center}\small\input{\Generated/spans.tex}\end{center}
+The generated table uses ACGTAC, $k=3$, $s=1$. A substitution at base coordinate
+two changes tokens zero, one and two. Token three does not include that base.
+The exact mutation footprint is
+\[
+\mathcal F(p)=\{i:a_i\le p<b_i\}.
+\]
+This is a coordinate statement, not a claim that all affected model activations
+remain local after attention.
+
+\Plate{01-spans}{One substitution changes every overlapping token whose span
+contains the altered base. The base axis and token spans remain visible, so the
+number of changed tokens is not confused with the number of changed nucleotides.}
+{evod24:spans}
+
+Overlapping $k$-mers do not necessarily shorten token count: at stride one,
+$T=L-k+1$. Larger stride can shorten the sequence but leave terminal bases
+unrepresented. A learned variable-span tokenizer must expose an analogous mapping
+if variant attribution and physical distances are to remain meaningful.
+DNABERT and DNABERT-2 supply established tokenizer design points, not evidence
+that Hermon's chosen tokenizer is optimal \cite{evod24:dnabert,evod24:dnabert2}.
+
+\subsection{Reverse complement acts on spans, not only strings}
+A local span transforms under reverse complement as
+\begin{equation}
+(u,a,b)\longmapsto
+\bigl(R(u),L-b,L-a\bigr).
+\label{evod24:spanrc}
+\end{equation}
+Applying this twice returns the original span. Reversing a list of all stride-one
+$k$-mers after this transformation equals tokenizing $R(x)$ with the same policy.
+
+That equality can fail for strided tokenization. For ACGTA, $k=2$, stride two,
+forward spans are $[0,2)$ and $[2,4)$, leaving base four uncovered. Their reversed
+spans are $[1,3)$ and $[3,5)$, whereas independently tokenizing the RC record
+starts again at zero. The tokenizer-grid origin changed.
+RC consistency requires a boundary/grid policy; complementing token IDs alone
+does not repair the missed-base geometry.
+
+\section{Token causality is weaker than base causality}
+Suppose the prediction target is base $x_p$ and legal context is $x[0:p]$.
+An input token containing any base at coordinate $p$ or later is illegal,
+even if its token index lies below the diagonal in a token-attention matrix.
+
+For example, token ACG spans $[0,3)$ and already contains target G at base two.
+Using that token to predict the third base is leakage. A triangular attention
+mask cannot remove information encoded inside the input token itself.
+The necessary span-availability condition is
+\begin{equation}
+b_i\le p
+\quad\text{for every feature used to predict }x_p.
+\label{evod24:availability}
+\end{equation}
+\Listing{causal_span_leaks}
+
+\Plate{02-access}{The information boundary is a base coordinate. A token ending
+after that boundary is illegal even when the token-level attention edge is causal.
+No full-record RC, corruption cache or pooled suffix feature may bypass this gate.}
+{evod24:access}
+
+For causal token prediction, the prediction target can instead be the next token
+identity. Then overlapping adjacent tokens may reveal most of that next identity;
+the conditional entropy and interpretation differ from next-base prediction.
+Declare which target is scored. A low overlapping-token loss is not automatically
+a comparable nucleotide likelihood.
+
+Masked-token objectives need a related check. Masking one token can leave its
+target bases visible inside neighboring overlapping tokens. To obscure base $p$,
+hide or consistently corrupt all spans in $\mathcal F(p)$ and any derived cached
+features carrying the same information. This chapter computes the footprint; it
+does not implement a masked pretraining pipeline. Causal, masked and whole-record
+objectives remain distinct, and Chapter 21's offline dual-state representation
+must not silently feed the causal case.
+
+\section{Build a strand action into a feature space}
+An unrestricted embedding lookup gives each base an unrelated learned vector.
+It does not impose complement symmetry. A small alternative makes the symmetry
+inspectable by separating even and odd feature channels.
+
+Define pair class $g(A)=g(T)=0$, $g(C)=g(G)=1$ and signs
+$\sigma(A)=\sigma(C)=+1$, $\sigma(T)=\sigma(G)=-1$.
+Let $E_g,O_g,s\in\mathbb R^D$ be learned vectors, and let record orientation
+$o\in\{-1,+1\}$ be declared metadata, not a target-derived label.
+At base $i$, define
+\begin{equation}
+F_i(x,o)=
+\begin{bmatrix}
+E_{g(x_i)}\\
+\sigma(x_i)O_{g(x_i)}+os
+\end{bmatrix}
+\in\mathbb R^{2\times D}.
+\label{evod24:strand-definition}
+\end{equation}
+Complement preserves pair class and reverses sign. Define the joint record action
+$(x,o)\mapsto(R(x),-o)$ and feature action
+$(JF)_i=(F_{L-1-i}^{\mathrm{even}},-F_{L-1-i}^{\mathrm{odd}})$.
+Then the construction satisfies
+\[
+F(R(x),-o)=JF(x,o).
+\]
+This is an exact algebraic equivariance contract. It is not a representation of a
+physical DNA strand's electronic structure or a newly discovered biological law.
+\Listing{StrandEmbedding.forward}
+
+\Plate{03-strand}{Complement-paired bases share even features and reverse odd
+features. Record reversal permutes positions; orientation metadata changes sign.
+The symmetry is imposed by parameter tying, not inferred from the colors.}
+{evod24:strand}
+
+\begin{center}\small\input{\Generated/strand_features.tex}\end{center}
+The generated trace assigns $E_0=(1,0)$, $E_1=(0,1)$,
+$O_0=(.5,.25)$, $O_1=(-.25,.5)$ and $s=(.1,.2)$ with $o=+1$.
+For A the odd channel is $(.6,.45)$; for its complemented T in orientation $-1$
+it is $(-.6,-.45)$. Every value is generated from the same reference that tests
+the joint action.
+
+\subsection{Equivariant features do not make the whole model equivariant}
+Flattening the two channels and applying an arbitrary linear map can mix even
+and odd components in a way that does not commute with $J$.
+An unrestricted Transformer can therefore break the property despite a correct
+embedding. A pointwise linear map that commutes with the sign action must preserve
+the parity subspaces; nonlinearities and attention require their own action
+contracts. Ordinary additive positional embeddings can also break reversal
+symmetry.
+
+Chapter 23's shared two-pass offline readout provides a simple invariant baseline:
+average the same function on a record and its joint RC transform.
+By contrast, using different learned strand embeddings in two branches and merely
+averaging does not guarantee invariance. Swapping the records does not swap
+identical functions unless the parameter/metadata action has been specified.
+
+Caduceus establishes RC-equivariant, bidirectional sequence modeling as prior art
+\cite{evod24:caduceus}. Our tied feature reference is a small teaching construction,
+not a reproduction of its architecture or evidence of improved genomic accuracy.
+For orientation-sensitive labels, invariant pooling can discard the signal the
+task requires. Use equivariant outputs or an explicit label action instead.
+
+\section{Position should measure the distance the claim uses}
+Chapter 23 used ordinal positions of valid bases to make inserted padding inert.
+For variable-span tokens, token ordinal is not base distance. An optional
+representative coordinate is a span's base-center midpoint,
+\[
+p_i=(a_i+b_i-1)/2.
+\]
+Even-width spans can have half-integer centers. A distance-sensitive feature should
+state whether its positions are base coordinates, normalized window coordinates,
+token ordinals or a multi-scale combination.
+
+For example, tokens spanning $[0,2)$ and $[2,10)$ have centers $.5$ and $5.5$:
+their base distance is five, not the ordinal distance one. Compressing unknown
+bases or omitted regions changes those distances unless the original coordinate
+mapping is retained. Padding is not a biological deletion.
+
+\section{Derive rotary positions as pair rotations}
+Rotary position embedding is an established Transformer mechanism
+\cite{evod24:rope}. We derive its small reference to make the unit contract clear.
+For a pair of coordinates and angular frequency $\omega$ in radians per base,
+let
+\[
+\mathsf R(\theta)=
+\begin{pmatrix}\cos\theta&-\sin\theta\\\sin\theta&\cos\theta\end{pmatrix},
+\quad
+\tilde q_i=\mathsf R(\omega p_i)q_i,\quad
+\tilde k_j=\mathsf R(\omega p_j)k_j.
+\]
+Orthogonality and the angle-addition law give
+\begin{equation}
+\tilde q_i^\top\tilde k_j
+=q_i^\top\mathsf R\!\left(\omega(p_j-p_i)\right)k_j.
+\label{evod24:rope}
+\end{equation}
+Thus simultaneous translation $p_i\mapsto p_i+a$ cancels in pair scores.
+The norm of each vector is unchanged. These claims hold pair by pair in an even
+head dimension $D_h$, using $D_h/2$ frequencies.
+
+\Plate{04-rotary}{Assigned two-dimensional query/key vectors are rotated by their
+declared base positions. The dot product depends on relative angle; a common
+coordinate translation cancels. This geometric identity is not a guarantee of
+long-context generalization.}{evod24:rotary}
+\Listing{rotary}
+
+For $q=k=(1,0)$, positions zero and two, and $\omega=\pi/4$ rad/base, the rotated
+vectors are $(1,0)$ and $(0,1)$ up to numerical error. Their score is zero.
+Translating both positions by ten changes the individual directions but not their
+dot product. The tests check this assigned case, norm preservation, explicit
+block-diagonal matrix parity and input gradients in float64.
+
+Relative-position algebra does not establish RC equivariance. Reversal sends
+$p_j-p_i$ to its negative; content features also transform. Without a compatible
+feature/score action, Equation~\ref{evod24:rope} can change. Similarly, a rotation
+formula accepting large coordinates does not prove that a trained model
+extrapolates to those coordinates. High-frequency phase aliasing and unseen
+distance distributions require evaluation.
+
+A multi-scale variant could place one rotary block on base distance and another
+on larger genomic bins. Bin size, origin and boundary behavior are then model
+assumptions. Such a variant is a research extension here, not an implemented
+accuracy gain. An ablation must compare it against plain base positions under
+matched records, objective and tuning budgets.
+
+\section{Long context is an attention graph before it is a speed claim}
+Let $\mathcal N(i)$ be the legal key set for query $i$. For local radius $w$,
+a declared static global-position set $G$ and valid-position indicators $v_i$,
+an offline edge exists when
+\[
+v_iv_j=1
+\quad\text{and}\quad
+\bigl(|i-j|\le w\ \lor\ i\in G\ \lor\ j\in G\bigr).
+\]
+The causal case additionally requires $j\le i$.
+Global edges do not override causality. Padded query rows and padded keys remain
+blocked as in Chapter 23.
+\Listing{edge_lists}
+
+Local-plus-global attention is established prior art, including Longformer
+\cite{evod24:longformer}. Our graph is a transparent reference, not a novel
+mechanism merely because its input is DNA.
+At fixed $w$ and $g=|G|$, an edge-count upper bound is
+\[
+|\mathcal E|\le T(2w+1+2g).
+\]
+One $Tg$ term accounts for global keys available to local queries; the other
+accounts for global queries attending broadly. Intersections and boundaries
+reduce the actual count.
+\begin{center}\small\input{\Generated/cost.tex}\end{center}
+The table counts actual edges at radius four with the first and last positions
+global. It does not report measured latency, FLOPs or peak memory.
+
+\Plate{05-relay}{A distant source reaches a local query through a global relay in
+two layers, not one. At layer one the global query gathers; at layer two another
+query reads the updated global representation. Causal graphs cannot relay
+future information backward.}{evod24:relay}
+
+\subsection{Dependency paths have a layer count}
+Let $\mathcal D_0(i)=\{i\}$ because a residual path preserves self-information.
+With the same graph in each layer,
+\[
+\mathcal D_{\ell+1}(i)
+=\mathcal D_\ell(i)\cup
+ \bigcup_{j\in\mathcal D_\ell(i)}\mathcal N(j).
+\]
+In a length-twelve offline record with radius one, query one reaches positions
+zero through three after two local layers. With position zero global, query one
+still cannot access source eleven through that global node in the first layer:
+the global node's update is being computed concurrently. It can access source
+eleven after the second layer. The reference expands the dependency sets exactly.
+\Listing{reachable_sources}
+
+At causal query one, the same global policy cannot expose any source above one,
+regardless of layer count. This is a pathwise proof that all edges respecting
+causality preserve causality; the finite suffix-intervention test checks the
+actual numerical implementation as well.
+
+Global positions selected by inspecting the full sequence can create a different
+leak even if edges look triangular. A future motif could determine which prefix
+features are designated global. The causal policy must depend only on legal
+metadata or available prefix information. Known full-record length and a streaming
+endpoint are also different interface assumptions, addressed in Chapter 26.
+
+\section{Implement sparse semantics without allocating dense scores}
+A dense $T\times T$ score matrix filled with masked values is semantically sparse
+but still consumes dense score storage. The reference instead stores ragged legal
+key lists. For each query, it gathers only allowed keys and values, computes the
+row scores, normalizes over those keys and reduces their values:
+\[
+a_{ij}=\frac{\exp(q_i^\top k_j/\sqrt{D_h})}
+{\sum_{j'\in\mathcal N(i)}\exp(q_i^\top k_{j'}/\sqrt{D_h})},
+\qquad
+o_i=\sum_{j\in\mathcal N(i)}a_{ij}v_j.
+\]
+An empty row returns zero under the declared padding convention.
+\Listing{sparse_attention}
+
+\Plate{06-kernel}{Ragged gather processes only declared edges; the independent
+dense oracle materializes a small full score matrix for value and gradient checks.
+Semantic parity does not imply that a Python loop is a fast production kernel.}
+{evod24:kernel}
+
+For fixed $D_h$, score and weighted-value work scales with the number of edges.
+Edge construction, sorting, projection work, autograd buffers and output storage
+remain additional costs. The Python implementation is a pedagogical single-head
+reference: launches and irregular gathers can make it slower than an optimized
+dense kernel at modest lengths. We report no speedup.
+
+A dense vectorized oracle independently reconstructs legal rows on small tensors.
+Tests compare output values and all Q/K/V gradients in float64, including a
+padding row. Finite differences check sparse derivatives. A future suffix
+intervention changes offline prefix outputs but leaves causal prefix outputs
+exactly unchanged under the tested graph. These are software contracts, not
+evidence that the model learned regulatory grammar.
+
+\section{Retrieval adds information, not free context}
+A retrieval mechanism can supplement local context with selected external
+sequences or annotations. It must declare the corpus version, coordinate mapping,
+selection rule and permitted information. Retrieving a test label, a homologous
+training duplicate or a suffix-derived feature changes the evaluation contract.
+Static external knowledge and dynamic within-record access are not the same.
+
+For causal prediction, retrieval queries and retrieved content must respect the
+available-prefix and knowledge-cutoff assumptions. For offline variant scoring,
+paired reference/alternate retrieval must not receive different target-derived
+evidence. Retrieval is not implemented by the local-global graph above: a global
+token summarizes the current record, not an external database. We keep retrieval
+as a clearly labeled extension rather than calling ordinary attention external
+memory.
+
+\section{Design the experiment that could reject a mechanism}
+The executable chapter establishes span, strand, rotary and sparse-graph
+correctness. It does not train a new full genomic model.
+A serious evaluation now asks separate questions:
+\begin{enumerate}
+\item Does a span-aware tokenizer improve variant-local attribution relative to
+the same model with ordinal-only positions?
+\item Does the declared RC action help invariant labels without damaging
+orientation-sensitive tasks?
+\item Does base-coordinate rotary position encoding improve the chosen context
+distribution relative to Chapter 23's position baseline?
+\item Does sparse access preserve task accuracy while meeting a declared
+memory/latency budget?
+\end{enumerate}
+Each comparison freezes dataset, split groups, objective, width/depth budget,
+training tokens, tuning effort and evaluation examples. Compare conventional
+Transformer, local CNN and an appropriate non-attention long-context baseline,
+not only DOGMA versus Hermon.
+
+A broken mutation footprint falsifies coordinate correctness. A nonzero joint-RC
+equivariance error falsifies the tied-feature construction. Gradient disagreement
+falsifies implementation parity. Matched-budget failure to improve the task
+weakens a usefulness claim even when every algebraic test passes.
+Chapter 23's locally rerun three-seed pilot remains in its own evidence record;
+the incoming package's old single-run percentage is provenance, not a current
+summary silently carried into this chapter.
+
+\section{Exercises and worked solutions}
+\begin{enumerate}
+\item List width-three spans of ACGTAC.
+\textbf{Answer:} ACG $[0,3)$, CGT $[1,4)$, GTA $[2,5)$ and TAC $[3,6)$.
+\item Which tokens change if base two changes?
+\textbf{Answer:} zero, one and two, because exactly those spans contain two.
+\item Derive Equation~\ref{evod24:spanrc}.
+\textbf{Answer:} reversal sends base $p$ to $L-1-p$, mapping
+$a,\ldots,b-1$ to $L-b,\ldots,L-a-1$; complement transforms the substring.
+\item Why can a strided grid break RC commutation?
+\textbf{Answer:} uncovered terminal bases move to the other end, changing the
+grid origin; the ACGTA width-two stride-two example gives different spans.
+\item Why can causal attention on ACG leak target G?
+\textbf{Answer:} target base two is already inside span $[0,3)$.
+\item To obscure base two in the width-three example, which tokens must be hidden?
+\textbf{Answer:} all three overlapping spans zero, one and two, including cached
+features derived from them.
+\item Prove the tied-feature RC law.
+\textbf{Answer:} complement preserves $g$ and negates $\sigma$; orientation
+negates; reversal permutes positions, leaving even and negating odd channels.
+\item Must orientation metadata also transform?
+\textbf{Answer:} yes for the declared joint action. Keeping $o$ fixed leaves the
+learned $os$ contribution with the wrong sign.
+\item Does an arbitrary downstream linear map preserve parity?
+\textbf{Answer:} not generally; it must commute with the declared sign action,
+which forbids unrestricted even/odd mixing.
+\item When can invariant pooling be scientifically wrong?
+\textbf{Answer:} when the target changes under RC, such as an orientation-specific
+label; invariance can erase the required distinction.
+\item Compute base centers of $[0,2)$ and $[2,10)$.
+\textbf{Answer:} $.5$ and $5.5$, distance five bases.
+\item Prove Equation~\ref{evod24:rope}.
+\textbf{Answer:} $\mathsf R(a)^\top=\mathsf R(-a)$ and
+$\mathsf R(a)\mathsf R(b)=\mathsf R(a+b)$.
+\item Is rotary translation invariance an extrapolation benchmark?
+\textbf{Answer:} no; it is an algebraic score property, not learned capability at
+unseen distance or sequence distributions.
+\item Does rotary positioning automatically impose RC equivariance?
+\textbf{Answer:} no; reflection negates relative angles and content features also
+transform. Their compatible action must be specified.
+\item Derive the local-global edge bound.
+\textbf{Answer:} local rows contribute at most $T(2w+1)$, global keys at most
+$Tg$, and global queries at most $gT$, before overlap removal.
+\item Why does a global relay require two layers?
+\textbf{Answer:} the first layer computes the global aggregation; only a later
+layer can read that new representation.
+\item Can causal global edges bypass the triangle?
+\textbf{Answer:} no; all edges retain $j\le i$, and any dependency path remains
+nonincreasing in base/token time under the legal representation contract.
+\item Is a dense masked implementation memory-sparse?
+\textbf{Answer:} no; allocating all $T^2$ scores retains dense score storage.
+\item What does value/gradient parity establish?
+\textbf{Answer:} the sparse and dense references implement the same tested
+function and derivatives, not superior speed or genomic prediction.
+\item Plan a genomic mechanism ablation.
+\textbf{Rubric:} immutable reference/alternate pairs and split groups; explicit
+target and strand action; position units; legal information access; conventional
+baselines; matched budget and tuning; repeated seeds; attribution/accuracy metrics;
+OOD context tests; real memory/latency measurements and retained negative results.
+\end{enumerate}
+
+\section{Bridge}
+The mechanism contracts now have something concrete to expose: token spans,
+orientation action, positions and access edges. Chapter 25 puts those contracts
+into a shared experiment envelope while preserving DOGMA's native carry and
+Hermon's activation/mask semantics. Fair comparison means the same scientific
+question, not erasing each architecture's defining mechanism.

@@ -1,0 +1,35 @@
+{
+  "chapter": 24,
+  "definitions": [
+    {
+      "symbol": "[a_i,b_i)",
+      "meaning": "token's nucleotide half-open span",
+      "unit": "base coordinate"
+    },
+    {
+      "symbol": "p",
+      "meaning": "target base coordinate; legal prefix ends at p",
+      "unit": "base coordinate"
+    },
+    {
+      "symbol": "o",
+      "meaning": "record orientation under joint RC action",
+      "domain": "{-1,+1}"
+    },
+    {
+      "symbol": "omega",
+      "meaning": "pair-rotation angular frequency",
+      "unit": "radians per base"
+    },
+    {
+      "symbol": "N(i)",
+      "meaning": "legal key indices for query i; causal additionally j<=i",
+      "unit": "token index set"
+    },
+    {
+      "symbol": "D_l(i)",
+      "meaning": "residual dependency reachability after l layers",
+      "unit": "index set"
+    }
+  ]
+}

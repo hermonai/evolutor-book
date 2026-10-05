@@ -1,0 +1,21 @@
+\begin{tikzpicture}[x=1cm,y=1cm,font=\small\sffamily]
+\begin{scope}
+\draw[->,gray] (-1.7,0)--(2.1,0); \draw[->,gray] (0,-1.5)--(0,2.1);
+\draw[gray,dashed] (0,0) circle (1.4);
+\draw[Blue,very thick,-{Stealth}] (0,0)--(1.4,0) node[below right] {$\tilde q_0$};
+\draw[Green,very thick,-{Stealth}] (0,0)--(0,1.4) node[above left] {$\tilde k_2$};
+\draw[Red,->] (.55,0) arc[start angle=0,end angle=90,radius=.55];
+\node at (0,-2.1) {$p_q=0,\ p_k=2,\ \omega=\pi/4$};
+\node[Blue] at (0,2.7) {Assigned unit vectors};
+\end{scope}
+\begin{scope}[xshift=7cm]
+\draw[->,gray] (-1.7,0)--(2.1,0); \draw[->,gray] (0,-1.5)--(0,2.1);
+\draw[gray,dashed] (0,0) circle (1.4);
+\draw[Blue,very thick,-{Stealth}] (0,0)--(0,1.4) node[above right] {$\tilde q_{10}$};
+\draw[Green,very thick,-{Stealth}] (0,0)--(-1.4,0) node[above left] {$\tilde k_{12}$};
+\node at (0,-2.1) {common shift $+10$ bases};
+\node[Blue] at (0,2.7) {Translate both coordinates};
+\end{scope}
+\node[align=center] at (3.5,-3.1) {Relative angle remains $\pi/2$: both dot products are zero.\\
+The rotation identity does not establish genomic extrapolation or RC equivariance.};
+\end{tikzpicture}

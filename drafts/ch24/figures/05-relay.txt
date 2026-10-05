@@ -1,0 +1,1 @@
+At layer one global position zero gathers from distant source eleven; query one can read that updated relay only at layer two. Causal mode forbids the future-to-past gather edge. Dashed residual self-paths are distinct.

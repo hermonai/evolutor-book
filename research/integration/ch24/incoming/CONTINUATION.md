@@ -1,0 +1,2 @@
+# Continuity contract
+EVOD-23 defined Hermon DNA as Transformer-based, with nucleotide tokens, explicit attention, causal/offline masks and an offline RC-symmetric head. Its small motif experiment scored ~47.7%, a negative result retained as evidence. EVOD-24 diagnoses the experiment and freezes the data interface before scaling: alphabets/ambiguity, tokenizers, coordinates/windows, strand actions, corruption and target alignment, split/leakage rules, provenance and baseline gates. Full-record RC operations remain forbidden in causal next-token predictors.

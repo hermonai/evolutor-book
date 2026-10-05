@@ -1,0 +1,16 @@
+\begin{tikzpicture}[x=1cm,y=1cm,font=\small\sffamily]
+\node[draw=Blue,fill=Pale,align=center,text width=3cm] (q) at (0,0) {Query $q_i$\\one row};
+\node[draw=Blue,align=center,text width=4cm] (gather) at (5,0)
+{Gather legal keys/values\\indices $\mathcal N(i)$};
+\node[draw=Blue,fill=Gold!25,align=center,text width=3.1cm] (output) at (10,0)
+{Row softmax + reduce\\$o_i$};
+\draw[flow] (q)--(gather); \draw[flow] (gather)--(output);
+\node[align=center,text width=4.4cm] at (5,-1.5)
+{No full $T\times T$ score tensor\\in the ragged reference};
+\node[draw=Green,fill=Green!8,align=center,text width=11.6cm] (oracle) at (5,-3)
+{Independent small dense oracle: compare values and every Q/K/V gradient in float64.};
+\draw[flow,Green] (q.south)--(-.1,-2.5)--(oracle.west);
+\draw[flow,Green] (output.south)--(10,-2.5)--(oracle.east);
+\node[Red,align=center] at (5,-4.4)
+{Parity is implemented. Optimized-kernel speed, full-model training and genomic usefulness are not.};
+\end{tikzpicture}

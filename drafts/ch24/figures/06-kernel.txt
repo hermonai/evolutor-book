@@ -1,0 +1,1 @@
+Ragged attention gathers allowed key/value indices for one query and computes only its legal row. A small independently implemented dense oracle verifies outputs and Q/K/V gradients. Mathematical parity is not an optimized speed claim.

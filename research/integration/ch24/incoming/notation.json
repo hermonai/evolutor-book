@@ -1,0 +1,8 @@
+{
+  "r": "canonical genomic record tuple",
+  "a": "reference assembly/version",
+  "[c0,c1)": "zero-based half-open interval when declared",
+  "R": "reverse-complement action",
+  "g": "relatedness/split group",
+  "C": "corruption operator for masked objectives"
+}

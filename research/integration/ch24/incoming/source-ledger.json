@@ -1,0 +1,44 @@
+[
+  {
+    "key": "dnabert",
+    "primary": "https://doi.org/10.1093/bioinformatics/btab083",
+    "claim": "Overlapping k-mer tokenization and BERT-style genomic pretraining.",
+    "access_date": "2026-10-05",
+    "depth": "publisher abstract/methods previously inspected"
+  },
+  {
+    "key": "dnabert2",
+    "primary": "https://arxiv.org/abs/2306.15006",
+    "claim": "Tokenizer efficiency is an explicit genomic-model design variable.",
+    "access_date": "2026-10-05",
+    "depth": "abstract"
+  },
+  {
+    "key": "nt",
+    "primary": "https://doi.org/10.1038/s41592-024-02523-z",
+    "claim": "Large genomic pretraining and controlled downstream evaluation context.",
+    "access_date": "2026-10-05",
+    "depth": "open publisher article previously inspected"
+  },
+  {
+    "key": "hyenadna",
+    "primary": "https://arxiv.org/abs/2306.15794",
+    "claim": "Single-nucleotide long-context non-Transformer genomic modeling comparison.",
+    "access_date": "2026-10-05",
+    "depth": "abstract"
+  },
+  {
+    "key": "caduceus",
+    "primary": "https://arxiv.org/abs/2403.03234",
+    "claim": "Reverse-complement equivariance and bidirectionality are established genomic-model research topics.",
+    "access_date": "2026-10-05",
+    "depth": "abstract"
+  },
+  {
+    "key": "genomicbenchmarks",
+    "primary": "https://doi.org/10.1186/s12863-023-01123-8",
+    "claim": "Reproducible genomic classification benchmark and split context.",
+    "access_date": "2026-10-05",
+    "depth": "bibliographic/abstract context"
+  }
+]

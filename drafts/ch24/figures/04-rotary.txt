@@ -1,0 +1,1 @@
+Two assigned unit vectors are rotated at base positions zero and two with frequency pi/4; after a common translation to ten and twelve both rotate, but their relative angle pi/2 and dot product zero are unchanged.

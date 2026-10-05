@@ -1,0 +1,17 @@
+\begin{tikzpicture}[x=1cm,y=1cm,font=\small\sffamily]
+\node[Blue,font=\bfseries] at (2.7,2.5) {Forward base $A$, orientation $+1$};
+\node[Blue,font=\bfseries] at (10.1,2.5) {RC base $T$, orientation $-1$};
+\node[draw=Blue,fill=Pale,align=center,text width=4.5cm] (ea) at (2.7,1.1)
+{even pair feature\\$E_0=(1,0)$};
+\node[draw=Blue,fill=Pale,align=center,text width=4.5cm] (et) at (10.1,1.1)
+{same even feature\\$E_0=(1,0)$};
+\node[draw=Green,fill=Green!8,align=center,text width=4.5cm] (oa) at (2.7,-.7)
+{odd + orientation\\$O_0+s=(.6,.45)$};
+\node[draw=Green,fill=Green!8,align=center,text width=4.5cm] (ot) at (10.1,-.7)
+{negated odd feature\\$-O_0-s=(-.6,-.45)$};
+\draw[flow] (ea)--node[above]{preserve}(et);
+\draw[flow] (oa)--node[above]{negate}(ot);
+\node[align=center,text width=12.5cm] at (6.4,-2.3)
+{Record reversal also permutes positions: $i\mapsto L-1-i$.\\
+Unrestricted downstream mixing can break this feature-level equivariance.};
+\end{tikzpicture}

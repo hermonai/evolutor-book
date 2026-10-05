@@ -1,0 +1,1 @@
+Complement preserves tied even pair features and negates odd features only when declared orientation metadata also negates. Whole-record reversal permutes positions. General downstream mixing does not inherit the feature law automatically.

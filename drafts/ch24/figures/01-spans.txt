@@ -1,0 +1,1 @@
+ACGTAC is shown on a numbered base axis, with all width-three spans beneath it. Base-two G-to-A substitution marks tokens zero, one and two; token three is outside the footprint.

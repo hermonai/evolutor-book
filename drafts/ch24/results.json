@@ -1,0 +1,131 @@
+{
+  "scope": "Assigned tensors and algebraic tests; no trained model, genomic benchmark or optimized kernel.",
+  "spans": [
+    {
+      "token": "ACG",
+      "start": 0,
+      "end": 3
+    },
+    {
+      "token": "CGT",
+      "start": 1,
+      "end": 4
+    },
+    {
+      "token": "GTA",
+      "start": 2,
+      "end": 5
+    },
+    {
+      "token": "TAC",
+      "start": 3,
+      "end": 6
+    }
+  ],
+  "mutated_base_2_tokens": [
+    0,
+    1,
+    2
+  ],
+  "illegal_tokens_for_target_base_2": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "strand_features": [
+    {
+      "base": "A",
+      "even_1": 1.0,
+      "even_2": 0.0,
+      "odd_1": 0.6000000014901161,
+      "odd_2": 0.45000000298023224
+    },
+    {
+      "base": "C",
+      "even_1": 0.0,
+      "even_2": 1.0,
+      "odd_1": -0.14999999850988388,
+      "odd_2": 0.7000000029802322
+    },
+    {
+      "base": "G",
+      "even_1": 0.0,
+      "even_2": 1.0,
+      "odd_1": 0.3500000014901161,
+      "odd_2": -0.29999999701976776
+    },
+    {
+      "base": "T",
+      "even_1": 1.0,
+      "even_2": 0.0,
+      "odd_1": -0.3999999985098839,
+      "odd_2": -0.04999999701976776
+    }
+  ],
+  "rc_feature_error": 0.0,
+  "rotary_shift_score_error": 1.7763568394002505e-15,
+  "sparse_dense_value_error": 4.440892098500626e-16,
+  "cost": [
+    {
+      "length": 32,
+      "dense": 1024,
+      "offline_edges": 374,
+      "causal_edges": 203
+    },
+    {
+      "length": 128,
+      "dense": 16384,
+      "offline_edges": 1622,
+      "causal_edges": 875
+    },
+    {
+      "length": 512,
+      "dense": 262144,
+      "offline_edges": 6614,
+      "causal_edges": 3563
+    },
+    {
+      "length": 1024,
+      "dense": 1048576,
+      "offline_edges": 13270,
+      "causal_edges": 7147
+    }
+  ],
+  "reachability": {
+    "local_1_layer_query_1": [
+      0,
+      1,
+      2
+    ],
+    "local_2_layers_query_1": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "global_1_layer_query_1": [
+      0,
+      1,
+      2
+    ],
+    "global_2_layers_query_1": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ]
+  },
+  "rotary_frequencies": [
+    1.0,
+    0.01
+  ]
+}

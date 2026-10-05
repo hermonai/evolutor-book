@@ -100,12 +100,22 @@
       "conflicts": [
         "title/scope differs from canonical plan"
       ],
-      "decision": "pending semantic inspection",
-      "source_verification": "not_rerun",
-      "code_test_state": "not_rerun",
-      "figure_state": "not_reviewed",
-      "pdf_state": "not_built_locally",
-      "final_integration_state": "candidate"
+      "decision": "Rewrite to DNA-aware Transformer mechanisms: coordinate spans, strand action, rotary positions and legal sparse attention. Merge incoming data-contract material into chapter 25; preserve incoming negative-run provenance without stale numerical carryover.",
+      "source_verification": "primary access depths recorded; no experiment replication",
+      "code_test_state": "24 chapter tests; full regression passed",
+      "figure_state": "all pages color/grayscale locally reviewed",
+      "pdf_state": "standalone 15 pages; full-book pending",
+      "final_integration_state": "locally_reviewed_candidate",
+      "gates": {
+        "integrated": true,
+        "tested": true,
+        "built": true,
+        "rendered": true,
+        "locally_reviewed": true,
+        "independently_reviewed": false,
+        "accepted": false,
+        "full_book_converged": false
+      }
     },
     {
       "book": "evolutor",

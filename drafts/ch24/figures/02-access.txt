@@ -1,0 +1,1 @@
+The target at base two defines an exclusive prefix boundary. Token ACG extends through the target and is illegal even under triangular token attention; AC ends before the target and is available.

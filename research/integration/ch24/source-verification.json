@@ -1,0 +1,67 @@
+{
+  "access_date": "2026-10-06",
+  "chapter": 24,
+  "records": [
+    {
+      "key": "evod24:dnabert",
+      "authors": "Y. Ji; Z. Zhou; H. Liu; R. V. Davuluri",
+      "title": "DNABERT: pre-trained Bidirectional Encoder Representations from Transformers model for DNA-language in genome",
+      "date": "2021",
+      "url": "https://github.com/jerryji1993/DNABERT",
+      "doi": "10.1093/bioinformatics/btab083",
+      "access_depth": "author implementation README",
+      "inspected": "citation, k-mer preprocessing and MLM flags; inspection carried from Chapter 23",
+      "claim": "Overlapping k-mer DNA pretraining is established prior art.",
+      "issue": "No training replication.",
+      "access_date": "2026-10-06"
+    },
+    {
+      "key": "evod24:dnabert2",
+      "authors": "Z. Zhou et al.",
+      "title": "DNABERT-2: Efficient Foundation Model and Benchmark For Multi-Species Genome",
+      "date": "2023; v2 2024-03-18",
+      "url": "https://arxiv.org/abs/2306.15006",
+      "access_depth": "abstract/version metadata",
+      "inspected": "tokenization and benchmark discussion in abstract, inspected during Chapter 23",
+      "claim": "Tokenizer efficiency is an established experimental variable.",
+      "issue": "No benchmark or speedup replicated.",
+      "access_date": "2026-10-06"
+    },
+    {
+      "key": "evod24:caduceus",
+      "authors": "Y. Schiff; C.-H. Kao; A. Gokaslan; T. Dao; A. Gu; V. Kuleshov",
+      "title": "Caduceus: Bi-Directional Equivariant Long-Range DNA Sequence Modeling",
+      "date": "2024; v2 2024-06-05",
+      "url": "https://arxiv.org/html/2403.03234v2",
+      "access_depth": "selected full-text methods",
+      "inspected": "Sections 3.2, 4.1 and Appendix B composition lemma",
+      "claim": "Bidirectional RC-equivariant model, embedding/head action and compositional equivariance are prior art.",
+      "issue": "Teaching tied features are not a reproduction of the trained model.",
+      "access_date": "2026-10-06"
+    },
+    {
+      "key": "evod24:rope",
+      "authors": "J. Su; Y. Lu; S. Pan; A. Murtadha; B. Wen; Y. Liu",
+      "title": "RoFormer: Enhanced Transformer with Rotary Position Embedding",
+      "date": "2021; v5 2023-11-08",
+      "url": "https://arxiv.org/html/2104.09864v5",
+      "access_depth": "selected full-text methods",
+      "inspected": "Section 3.2–3.2.2, equations 12–16 and block-rotation discussion",
+      "claim": "Pair-rotation relative-position identity and norm-preserving generalization.",
+      "issue": "No trained extrapolation result replicated; base-coordinate adaptation is a teaching reference.",
+      "access_date": "2026-10-06"
+    },
+    {
+      "key": "evod24:longformer",
+      "authors": "I. Beltagy; M. E. Peters; A. Cohan",
+      "title": "Longformer: The Long-Document Transformer",
+      "date": "2020; v2 2020-12-02",
+      "url": "https://arxiv.org/abs/2004.05150",
+      "access_depth": "abstract/version metadata",
+      "inspected": "abstract local-window and task-global attention",
+      "claim": "Local/global sparse attention is established prior art.",
+      "issue": "No optimized kernel or performance benchmark replicated.",
+      "access_date": "2026-10-06"
+    }
+  ]
+}
