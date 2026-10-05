@@ -1,0 +1,9 @@
+{
+  "access_date":"2026-10-06",
+  "scope":"prior-art identity and narrow mechanism framing, not benchmark reproduction",
+  "sources":[
+    {"key":"lstm","authors":"Sepp Hochreiter; Jürgen Schmidhuber","title":"Long Short-Term Memory","publication_date":"1997-11-15","url":"https://direct.mit.edu/neco/article/9/8/1735/6109/Long-Short-Term-Memory","doi":"10.1162/neco.1997.9.8.1735","access_depth":"publisher-indexed abstract and metadata","inspected":"Publisher search result with abstract, author and publication information","claim":"Gated recurrent information/credit-flow mechanisms predate DOGMA","unresolved":"Direct page access failed; no full-paper audit claimed"},
+    {"key":"mamba","authors":"Albert Gu; Tri Dao","title":"Mamba: Linear-Time Sequence Modeling with Selective State Spaces","publication_date":"2023; revised 2024","url":"https://arxiv.org/abs/2312.00752","access_depth":"arXiv abstract and version metadata","inspected":"Abstract page","claim":"Selective input-dependent sequence-state computation is an established neighboring mechanism","unresolved":"No implementation, full-paper proof or benchmark reproduced"},
+    {"key":"rwkv","authors":"Bo Peng et al.","title":"RWKV: Reinventing RNNs for the Transformer Era","publication_date":"2023","url":"https://arxiv.org/abs/2305.13048","access_depth":"arXiv abstract and version metadata","inspected":"Abstract page","claim":"Recurrent and parallel sequence execution are established research comparisons","unresolved":"No external performance claims transferred to the reference model"}
+  ]
+}

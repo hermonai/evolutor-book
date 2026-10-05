@@ -1,0 +1,37 @@
+# Chapter convergence matrix
+
+States are separate gates, not one completion flag.
+
+| ID | Canonical title | Decision | Integrated | Tests | Figures | Sources | PDF |
+|---|---|---|---|---|---|---|---|
+| EVOD-22 | DOGMA reference model and falsifiable research program | merge and extend validated continuation state, gradients, multi-seed controls and intervention; retain causal/offline separation | reviewed | PASS; local chapter and full regression | PASS WITH NOTES; six figures, all color/grayscale pages | PASS WITH NOTES; access depth recorded, no external reproduction | PASS; standalone 14 pages; full-book pending |
+| EVOD-23 | Hermon DNA reference architecture | pending semantic inspection | candidate | not_rerun | not_reviewed | not_rerun | not_built_locally |
+| EVOD-24 | DNA-aware Transformer mechanisms | pending semantic inspection | candidate | not_rerun | not_reviewed | not_rerun | not_built_locally |
+| EVOD-25 | Shared experiments without false equivalence | pending semantic inspection | candidate | not_rerun | not_reviewed | not_rerun | not_built_locally |
+| EVOD-26 | Training/inference parity and parallel recurrence | pending semantic inspection | candidate | not_rerun | not_reviewed | not_rerun | not_built_locally |
+| EVOD-27 | Optimization and memory-efficient training | pending semantic inspection | candidate | not_rerun | not_reviewed | not_rerun | not_built_locally |
+| EVOD-28 | Distributed training and model artifacts | pending semantic inspection | candidate | not_rerun | not_reviewed | not_rerun | not_built_locally |
+| EVOD-29 | Benchmark design and comparative evidence | pending semantic inspection | candidate | not_rerun | not_reviewed | not_rerun | not_built_locally |
+| EVOD-30 | Runtime contracts and request lifecycles | pending semantic inspection | candidate | not_rerun | not_reviewed | not_rerun | not_built_locally |
+| EVOD-31 | DOGMA state construction and execution | pending semantic inspection | candidate | not_rerun | not_reviewed | not_rerun | not_built_locally |
+| EVOD-32 | DOGMA state pools and memory ownership | pending semantic inspection | candidate | not_rerun | not_reviewed | not_rerun | not_built_locally |
+| EVOD-33 | DOGMA checkpoints, branching and prefix state | pending semantic inspection | candidate | not_rerun | not_reviewed | not_rerun | not_built_locally |
+| EVOD-34 | DOGMA batching and state-native kernels | pending semantic inspection | candidate | not_rerun | not_reviewed | not_rerun | not_built_locally |
+| EVOD-35 | Hermon DNA prefill, decode and KV state | pending semantic inspection | candidate | not_rerun | not_reviewed | not_rerun | not_built_locally |
+| EVOD-36 | Paged KV, prefix sharing and allocation | pending semantic inspection | candidate | not_rerun | not_reviewed | not_rerun | not_built_locally |
+| EVOD-37 | Continuous batching and precision | pending semantic inspection | candidate | not_rerun | not_reviewed | not_rerun | not_built_locally |
+| EVOD-38 | Speculative decoding and attention kernels | pending semantic inspection | candidate | not_rerun | not_reviewed | not_rerun | not_built_locally |
+| EVOD-39 | Evolutor runtime above both engines | pending semantic inspection | candidate | not_rerun | not_reviewed | not_rerun | not_built_locally |
+| EVOD-40 | Hybrid compressed and addressable memory | pending semantic inspection | candidate | not_rerun | not_reviewed | not_rerun | not_built_locally |
+| EVOD-41 | Compiler, IR and execution planning | pending semantic inspection | candidate | not_rerun | not_reviewed | not_rerun | not_built_locally |
+| EVOD-42 | Database engines as a systems comparison | pending semantic inspection | candidate | not_rerun | not_reviewed | not_rerun | not_built_locally |
+| EVOD-43 | Structural adaptation and lifecycle governance | pending semantic inspection | candidate | not_rerun | not_reviewed | not_rerun | not_built_locally |
+| EVOD-44 | Packaging, deployment and observable services | pending semantic inspection | candidate | not_rerun | not_reviewed | not_rerun | not_built_locally |
+| EVOD-45 | Multi-tenancy, isolation and security | pending semantic inspection | candidate | not_rerun | not_reviewed | not_rerun | not_built_locally |
+| EVOD-46 | Distributed serving and state placement | pending semantic inspection | candidate | not_rerun | not_reviewed | not_rerun | not_built_locally |
+| EVOD-47 | Profiling, performance and hardware backends | pending semantic inspection | candidate | not_rerun | not_reviewed | not_rerun | not_built_locally |
+| EVOD-48 | Genomic sequence applications | pending semantic inspection | candidate | not_rerun | not_reviewed | not_rerun | not_built_locally |
+| EVOD-49 | Streaming, language, code and persistent agents | pending semantic inspection | candidate | not_rerun | not_reviewed | not_rerun | not_built_locally |
+| EVOD-50 | Continual learning and population adaptation | pending semantic inspection | candidate | not_rerun | not_reviewed | not_rerun | not_built_locally |
+| EVOD-51 | AGI capability hypotheses and limits | pending semantic inspection | candidate | not_rerun | not_reviewed | not_rerun | not_built_locally |
+| EVOD-52 | Failures, open problems and reproducible synthesis | pending semantic inspection | candidate | not_rerun | not_reviewed | not_rerun | not_built_locally |

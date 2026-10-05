@@ -67,3 +67,11 @@ Continue the evidence ladder: define assumptions, derive, implement, compare an
 independent oracle, break an assumption, and state the experimental test still
 needed. Contemporary papers inform research questions, not unearned claims of
 biological capability, industrial readiness or performance leadership.
+# Package convergence in progress — 6 October 2026
+
+Chapter 22 has been semantically integrated, corrected, tested and visually
+reviewed as a standalone candidate. The integration branch preserves the earlier
+accepted edition. Remaining packages and cumulative/full-book gates are tracked
+separately in `research/integration/chapter-convergence-matrix.md`; this update is
+not an acceptance promotion. Use the declared Python environment (Python 3.11+;
+PyTorch required for Evolutor), not the macOS system Python.

@@ -1,0 +1,4 @@
+Question: what does a write gate of one quarter do?
+A scalar line shows old memory .2, proposed value .8 and new memory .35. The movement is one quarter of the .6 distance.
+Logic: new memory=(1-w)old+w*value. The current feature still reads .2, not .35.
+Boundary: positions are numerical values, not base coordinates or physical distances.

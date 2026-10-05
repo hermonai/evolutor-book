@@ -1,0 +1,16 @@
+\begin{tikzpicture}[font=\small\sffamily,>=Stealth]
+\node[draw,fill=Pale,minimum width=2cm,minimum height=.8cm](q) at (1.5,2){$q_t=[e_t;h_{t-1}]$};
+\node[draw,fill=Gold!30,minimum width=2.3cm,minimum height=.8cm](g) at (5,3){gate $\sigma(W_gq_t+b_g)$};
+\node[draw,fill=Pale,minimum width=2.3cm,minimum height=.8cm](p) at (5,1){proposal $\tanh(W_pq_t+b_p)$};
+\node[draw,circle,minimum size=.8cm](sum) at (8,2){$+$};
+\node[draw,fill=Blue!10,minimum width=1.4cm,minimum height=.8cm](h) at (10,2){$h_t$};
+\draw[->,Blue,thick](q)--(g);
+\draw[->,Blue,thick](q)--(p);
+\draw[->,Blue,thick](p)--(8,1)--(sum);
+\draw[->,Blue,thick](g)--(8,3)--(sum);
+\node[anchor=west] at (8.3,3.2){$(1-g_t)\odot h_{t-1}$};
+\node[anchor=west] at (8.3,.8){$g_t\odot\tilde h_t$};
+\draw[->,Blue,thick](sum)--(h);
+\node[align=left,anchor=west] at (0,-.3){Model owns $E,W,b$; request owns $(h,M)$.\\The regulator depends on the current input and previous state.};
+\node[align=left,anchor=west] at (0,-1.5){The weighted branches are tensor operations, not biochemical reactions.\\Bounded values do not imply bounded recurrent derivatives.};
+\end{tikzpicture}

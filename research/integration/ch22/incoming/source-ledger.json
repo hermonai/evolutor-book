@@ -1,0 +1,46 @@
+[
+  {
+    "key": "lstm1997",
+    "claim": "Gated recurrent information flow predates DOGMA and is an established neighboring mechanism.",
+    "primary": "https://doi.org/10.1162/neco.1997.9.8.1735",
+    "authors": "Hochreiter, Schmidhuber",
+    "date": "1997",
+    "access_date": "2026-10-05",
+    "inspected": "publisher abstract",
+    "depth": "abstract",
+    "unresolved": "No implementation detail copied."
+  },
+  {
+    "key": "mamba",
+    "claim": "Input-dependent selective state updates and recurrent/parallel execution are established in selective SSM research.",
+    "primary": "https://arxiv.org/abs/2312.00752",
+    "authors": "Albert Gu, Tri Dao",
+    "date": "2023-12-01",
+    "access_date": "2026-10-05",
+    "inspected": "arXiv abstract and claims",
+    "depth": "abstract",
+    "unresolved": "No Mamba benchmark is used as a DOGMA comparison result."
+  },
+  {
+    "key": "rwkv",
+    "claim": "RWKV is an established recurrent/parallel sequence-model comparison point.",
+    "primary": "https://arxiv.org/abs/2305.13048",
+    "authors": "Peng et al.",
+    "date": "2023-05-22",
+    "access_date": "2026-10-05",
+    "inspected": "arXiv abstract",
+    "depth": "abstract",
+    "unresolved": "No copied architecture code."
+  },
+  {
+    "key": "evod21",
+    "claim": "Full-record dual reverse-complement state contains suffix information and is not legal for ordinary causal next-token prediction.",
+    "primary": "internal EVOD-21",
+    "authors": "Evolutor manuscript",
+    "date": "2026-09-27",
+    "access_date": "2026-10-05",
+    "inspected": "complete Chapter 21 manuscript and reference implementation",
+    "depth": "full internal chapter",
+    "unresolved": null
+  }
+]

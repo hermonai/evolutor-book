@@ -1,0 +1,13 @@
+\begin{tikzpicture}[font=\small\sffamily,>=Stealth]
+\node[draw,fill=Gold!35](h) at (6,4){updated fast state $h_t$};
+\node[draw,fill=Green!10,align=center,minimum width=3cm,minimum height=2cm](old) at (1.8,1.5)
+{old memory $M_{t-1}$\\$[m_1;\ldots;m_K]$\\shape $K\times D$};
+\node[draw,fill=Pale,align=center](read) at (6,2){read\\$r_t=\sum_k a_{t,k}m_k$};
+\node[draw,fill=Green!10,align=center,minimum width=3cm,minimum height=2cm](new) at (10.5,1.5)
+{new memory $M_t$\\$(1-w_k)m_k+w_kv_t$\\shape $K\times D$};
+\draw[->,Blue,thick](h)--node[right]{$a_t=\mathrm{softmax}(\cdot)$}(read);
+\draw[->,Green,thick](old)--(read);
+\draw[->,Blue,thick](h)-|node[above,near start]{$w_t,\ v_t$}(new);
+\draw[->,Green,thick](old.south)--(1.8,-.2)--(10.5,-.2)--(new.south);
+\node[align=center] at (6,-1){Read uses old memory; write changes the next carry.\\These arrows carry tensors, not molecular strands.};
+\end{tikzpicture}

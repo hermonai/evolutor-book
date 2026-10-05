@@ -1,0 +1,28 @@
+{
+  "x_t": {
+    "shape": "[B]",
+    "meaning": "token IDs at position t"
+  },
+  "h_t": {
+    "shape": "[B,D]",
+    "meaning": "request-owned fast state"
+  },
+  "M_t": {
+    "shape": "[B,K,D]",
+    "meaning": "request-owned memory loci"
+  },
+  "g_t": {
+    "shape": "[B,D]",
+    "meaning": "fast-state update gate"
+  },
+  "w_t": {
+    "shape": "[B,K]",
+    "meaning": "memory-locus write gates"
+  },
+  "R(X)": {
+    "meaning": "reverse-complement record action"
+  },
+  "Z(X)": {
+    "meaning": "offline dual full-record feature; forbidden in causal LM mode"
+  }
+}

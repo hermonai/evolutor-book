@@ -1,0 +1,4 @@
+Question: what is read and when is it overwritten?
+Old memory M_(t-1) has K rows of D coordinates. Updated fast state computes a softmax distribution over fixed row indices and locus-wise write gates and values.
+Logic: the feature reads a weighted sum of old memory; writes produce new M_t for the next carry. The bottom path preserves old values in the convex update.
+Boundary: fixed-index addressing is not content-key attention, and this computational tensor is not a genomic molecule.

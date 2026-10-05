@@ -1,0 +1,4 @@
+Question: what information can an earlier causal output use?
+Each token updates complete state s=(h,M); arrows move left to right. A dashed partition separates an unchanged prefix from a changed suffix.
+Logic: a suffix perturbation cannot alter prefix features; chunk continuation must carry both tensors.
+Boundary: no padding or detached-gradient policy is implied.

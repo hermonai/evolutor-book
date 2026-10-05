@@ -1,0 +1,4 @@
+Question: what would reject a claimed selective-memory benefit?
+Branches require budget, mechanism and data controls; they converge on a reject-or-narrow decision when the relevant benefit vanishes.
+Controls include parameter/work/context/tuning budgets, read-path interventions, gates, strand tying, related-record splits, independent labels and seeds.
+Boundary: the chapter pilot is not itself a matched-budget benchmark and semantic tests are not learned capability evidence.

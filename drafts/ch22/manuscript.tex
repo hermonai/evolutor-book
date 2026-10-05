@@ -1,0 +1,420 @@
+\chapter{DOGMA reference model and falsifiable research program}
+
+The previous four chapters introduced pieces: typed state, regulators, selective
+transformation, structured memory, strands and reverse-complement actions. A list of
+pieces is not yet a model. A model begins when every tensor has an owner, every
+transition has a legal information set, every output has an objective, and a failed
+experiment can force us to abandon a claimed benefit.
+
+This chapter therefore freezes a small reference DOGMA. It is deliberately not the
+future DOGMA Engine. It is a scientific object: simple enough to trace, differentiated
+end to end, explicit about causality, and comparable with ordinary recurrent
+baselines. The implementation is a proposal assembled from established ingredients
+and earlier Evolutor contracts. Its value must come from experimentally useful
+organization, not from biological vocabulary.
+This freezes one additional reference variant. Chapter 18's exact pair-count
+state and Chapter 20's block-clock bank remain separate teaching models:
+learned loci here are not those objects renamed. Common contracts concern
+ownership, legal information access, complete carry and falsifiable evaluation.
+Architectural equivalence would require its own proof.
+
+\section{The computational contract}
+
+For batch size $B$, hidden width $D$, $K$ memory loci and sequence length $T$, let
+$x_t\in\{0,\ldots,V-1\}^B$. The model-owned parameters include an embedding
+$E\in\mathbb R^{V\times D}$ and learned affine maps. Request-owned state is
+\[
+h_t\in\mathbb R^{B\times D},\qquad
+M_t\in\mathbb R^{B\times K\times D}.
+\]
+Both are zero-initialized at a request boundary unless a later runtime contract
+explicitly supplies persistent state. A trace is observational metadata; it is not
+silently fed back into the transition.
+
+\Plate{01-contract-stack}{Reference DOGMA ownership and data flow. Biological
+terms such as regulator and locus denote computational roles here, not literal
+gene-expression chemistry.}{fig:stack}
+
+With $e_t=E[x_t]$ and $q_t=[e_t;h_{t-1}]$, define a proposed fast-state update
+\begin{align}
+\tilde h_t &= \tanh(W_pq_t+b_p),\\
+g_t &= \sigma(W_gq_t+b_g),\\
+h_t &= (1-g_t)\odot h_{t-1}+g_t\odot\tilde h_t.
+\label{evod22:fast}
+\end{align}
+This resembles established gated recurrence. The DOGMA claim is therefore
+\emph{not} that Equation~\ref{evod22:fast} invents gating. Its role is to provide
+a stable primitive on which the explicit memory and strand contracts can be tested.
+
+Address the $K$ memory loci with
+\[
+a_t=\operatorname{softmax}(W_ah_t+b_a),\qquad
+r_t=\sum_{k=1}^K a_{t,k}M_{t-1,k}.
+\]
+Writes use locus-wise gates $w_t=\sigma(W_wh_t+b_w)$ and value
+$v_t=\tanh(W_vh_t+b_v)$:
+\begin{equation}
+M_{t,k}=(1-w_{t,k})M_{t-1,k}+w_{t,k}v_t.
+\label{evod22:memory}
+\end{equation}
+The emitted feature is
+$y_t=\tanh(W_m[h_t;r_t]+b_m)$. The reference code implements these equations
+literally.
+
+For one example use column vectors:
+$W_p,W_g\in\mathbb R^{D\times2D}$,
+$W_a,W_w\in\mathbb R^{K\times D}$,
+$W_v\in\mathbb R^{D\times D}$ and
+$W_m\in\mathbb R^{D\times2D}$. Bias lengths are $D,D,K,K,D,D$.
+PyTorch batches examples as rows and applies transpose contractions inside
+\texttt{nn.Linear}. A $C$-class head produces $C$ logits; causal base prediction
+needs $C=4$, not the default two-class head.
+
+\Listing{DOGMACell.step}
+
+Reads use $M_{t-1}$, before the write at $t$. A new value cannot affect the
+same step through memory. Reading $M_t$ instead changes the model even when
+shapes agree. The read distribution addresses fixed locus indices, not
+content-derived keys. Calling it content-addressed attention would erase a
+meaningful distinction from Chapters 8 and 23.
+
+\subsection{Trace a transition with numbers}
+
+Set $D=K=1$, $g_t=1/2$, $\tilde h_t=1/2$, $w_t=1/4$ and $v_t=4/5$.
+Choose $y_t=\tanh(h_t+r_t)$ and initialize both states to zero. Then
+\begin{equation}
+ h_t=\tfrac12(1-2^{-t}),\qquad
+ M_t=\tfrac45(1-(3/4)^t),\qquad r_t=M_{t-1}.
+ \label{evod22:trace}
+\end{equation}
+Substitution verifies the recurrence and initial conditions; induction proves
+the formulas. Code fixes weights and biases to realize the constants and
+generates this trace:
+\begin{center}\input{\Generated/assigned_trace.tex}\end{center}
+The first feature is $\tanh(1/4)$, not $\tanh(1/4+1/5)$. This independent
+oracle detects read-before-write order, unlike copying the same update sequence
+into both implementations.
+
+\Plate{06-convex-write}{One memory-coordinate update: a write gate of one
+quarter moves the old value $0.2$ toward the proposal $0.8$, producing $0.35$.
+The updated memory belongs to the next carry, while this step's read uses
+the old value. Positions on the line are values, not genomic coordinates.}{fig:write}
+
+\subsection{Bounded state is not a gradient guarantee}
+
+Starting from zero, each fast-state and memory coordinate remains in $[-1,1]$:
+every update is a convex combination of its old coordinate and a bounded
+$\tanh$ proposal. The addressed read is a convex combination of bounded rows.
+This is a forward invariant, not a retention or gradient guarantee. Since
+the gate and proposal depend on $h_{t-1}$, their derivatives add Jacobian
+terms; the recurrent Jacobian is not simply $\operatorname{diag}(1-g_t)$.
+Large learned weights can amplify perturbations despite bounded activations.
+
+Including a biased $C$-class head, the model-owned parameter count is
+\begin{equation}
+ P=7D^2+(V+4)D+2K(D+1)+C(D+1).
+ \label{evod22:parameters}
+\end{equation}
+Proposal/gate maps contribute $4D^2+2D$; addressing contributes $2K(D+1)$;
+value/mixing maps contribute $3D^2+2D$; embedding and head supply the rest.
+At $(V,D,K,C)=(4,12,3,2)$ this is $1208$. Carry stores $BD(K+1)$ floats;
+histories, optimizer state, gradients, activations and input retention are
+additional costs. Sharing parameters across strands does not remove the
+second traversal's arithmetic.
+
+\section{Mode one: causal streaming}
+
+For causal prediction, the legal dependency set at position $t$ is the prefix
+$x_{\le t}$ plus request state derived from that prefix. No reverse-complement
+full-record feature is legal, because Chapter 21 showed that its aligned reverse
+branch contains suffix information.
+
+\Plate{02-causal}{Causal mode. Recurrent state moves only from earlier to later
+positions. Appending or changing a suffix cannot change an already computed prefix
+feature.}{fig:causal}
+
+For next-token training, one legal objective is
+\[
+\mathcal L_{\rm LM}
+=-\sum_{t=1}^{T-1}\log p_\theta(x_{t+1}\mid x_{\le t}).
+\]
+The target is shifted; the current token cannot be used as its own label. State is
+reset between independent records unless the dataset explicitly defines continuity.
+
+Chunking must carry \emph{both} $h$ and $M$. Method \texttt{run} returns a
+complete \texttt{DOGMAState} without mutating caller-owned tensors. An empty
+chunk emits a shape-$B\times0\times D$ history and preserves carry. Empty
+offline records are rejected because mean pooling has no defined divisor.
+This reference processes unpadded records; a later batching policy must define
+whether invalid positions hold or advance state.
+
+\Listing{DOGMA.run}
+
+Consecutive chunk execution equals a single pass when it carries the complete
+state, concatenates emitted features, and uses identical parameters and token
+order. Induction on the token transition proves this. Tests compare outputs,
+both carry tensors and parameter gradients at every split of a six-token record,
+including empty end chunks. Detaching carry preserves forward values but truncates
+gradients: that is a training policy, not a parity-preserving detail.
+State-dependent gates also prevent a general replacement by Chapter 7's
+input-only affine scan.
+
+The test suite changes the final two tokens while preserving the first four and
+checks exact prefix invariance to numerical tolerance. This is more informative than
+checking only tensor shapes: it detects accidental suffix access.
+
+\section{Mode two: offline strand-symmetric encoding}
+
+Whole-record classification or annotation may legally use both orientations. Let
+$R(X)$ reverse positions and complement A/C/G/T. Apply the \emph{same} causal
+operator $F_\theta$ to $X$ and $R(X)$, realign the reverse branch, and combine:
+\[
+Z(X)=\big[F_\theta(X);\operatorname{rev}F_\theta(R(X))\big].
+\]
+The compact reference uses an invariant pooled feature
+\[
+\bar z(X)=\frac{1}{2T}\sum_t
+\left(F_\theta(X)_t+
+\operatorname{rev}F_\theta(R(X))_t\right).
+\label{evod22:dual}
+\]
+Because parameters are shared and the two branches are exchanged by reverse
+complement, the pooled feature is invariant up to floating-point arithmetic.
+
+\Plate{03-offline-dual}{Offline dual mode shares parameters across both strand
+orientations and realigns coordinates. The resulting full-record feature is
+appropriate for offline objectives, not left-to-right generation.}{fig:dual}
+
+This resolves the Chapter 21 choice rather than hiding it behind a flag. The two modes
+have different legal objectives. If a task requires orientation-sensitive labels,
+the output action must transform those labels rather than forcing invariance.
+
+\section{Why call the memory structured?}
+
+A single recurrent vector stores everything in one address. The reference adds
+$K$ explicit loci and a learned address distribution. This does not by itself make
+the system genomic. It creates a testable structural hypothesis: tasks with sparse,
+reusable, differently timed information may benefit from explicit addressable loci
+relative to a capacity-matched recurrent state.
+
+\Plate{04-memory}{Fast state and explicit memory loci have different addresses but
+share request ownership. Writes are gated; reads are weighted. Persistence across
+requests is forbidden unless a runtime layer later supplies it explicitly.}{fig:memory}
+
+The word \emph{locus} is an analogy with a precise endpoint. In biology a genomic
+locus is a physical region with molecular regulation and inheritance. Here a locus
+is one row of a floating-point tensor. The analogy motivates modular addressing;
+it does not import chromatin, transcription, mutation or evolutionary semantics.
+
+\section{Trace as evidence, not explanation}
+
+For every step the reference can emit gate means and write-gate means.
+The step numbers restart within each chunk. They are local diagnostics, not
+a durable replay trace with record identity, absolute offsets and parameter hashes.
+A richer
+research implementation should record per-locus addresses, state norms, module
+choices and output actions. But a trace is not automatically a causal explanation.
+If a memory locus receives a high write gate whenever a motif appears, that is a
+correlation. A stronger test intervenes: clamp the gate, permute loci, erase a locus,
+or transplant state between matched examples and measure the output change.
+
+A falsifiable mechanism claim therefore has three parts:
+\[
+\text{claimed role}\quad+\quad\text{intervention}\quad+\quad
+\text{predicted change}.
+\]
+For example: ``locus 2 retains the first motif until the terminal decision'' predicts
+that erasing locus 2 after the motif but before the decision will selectively reduce
+accuracy on examples requiring that motif. If erasure has no effect across seeds,
+the mechanistic story is wrong or incomplete.
+
+\section{A small executable experiment}
+
+The package constructs a synthetic whole-record task. A record is positive when it
+contains motif ACG in either strand orientation; negatives are rejection-sampled so
+neither orientation occurs. Positives are explicitly implanted. This task is chosen
+because the offline dual mode has a legitimate symmetry to exploit. It is not a
+proxy for regulatory genomics.
+
+The integrated pilot trains DOGMA offline dual, a GRU, a flattened MLP and a
+width-three CNN on the same 512 examples and evaluates on 128 held-out examples.
+A local motif problem needs a local-convolution baseline and an exact string
+oracle, not only weak generic comparisons. An independent ACG/CGT detector
+checks every generated label and has perfect task accuracy by specification,
+not through training.
+
+Data seeds 137 and 139 are fixed before the model runs. Exact records and their
+reverse complements are disjoint between splits. This excludes that synthetic
+leakage channel but is not a homology-aware biological split. Initialization
+seeds 11, 23 and 37 each run all model families for 30 full-batch epochs with
+AdamW at learning rate $3\times10^{-3}$. Artifacts record every run, parameter
+count, strand-pass count and the PyTorch environment.
+
+\Listing{train_eval}
+\begin{center}\input{\Generated/summary.tex}\end{center}
+These are implementation-pilot means and sample standard deviations, not a
+matched-budget ranking. Equal epochs do not equalize FLOPs, parameter capacity,
+state storage or tuning opportunity. DOGMA traverses two orientations while
+the learned comparison models traverse one. This table licenses no architecture
+superiority claim; Chapter 25 supplies a shared comparison contract.
+
+The generated \texttt{results.json} records actual losses, accuracies and parameter
+counts from this package run. These results establish only that the reference
+implementation can learn or fail on this controlled task under the recorded budget.
+They do not establish an advantage on genomic data, language, long context or
+production inference. The random-label control draws independent Bernoulli
+targets for both training and testing, rather than permuting training labels
+while scoring original motif labels. For independent uniform
+$Y\in\{1,\ldots,V\}$ and predictor $q$,
+\begin{equation}
+ \mathbb E[-\log q_Y]=\log V+
+ D_{\rm KL}(\operatorname{Uniform}(V)\Vert q)\ge\log V.
+ \label{evod22:random}
+\end{equation}
+This is a population expectation conditional on an independent predictor,
+not a bound on each finite-sample loss or training loss. Held-out values can
+fall below $\log V$ by chance; training labels can be memorized. Audit
+independence, uncertainty and repeated seeds before interpreting an exception.
+
+A stronger study would add more seeds, tune each baseline under equal compute,
+include a Transformer/SSM baseline where appropriate, stratify by motif position,
+test longer sequences than training, and measure calibration as well as accuracy.
+
+\section{Ablations that can kill the hypothesis}
+
+The implemented read-path intervention replaces $r_t$ with zero while retaining
+all parameter objects; the constructor requires $K\ge1$ and does not implement
+a $K=0$ architecture. It preserves fast-state transitions and memory writes,
+but changes emitted features after memory forms. Tests check these distinctions.
+This is not a retrained, capacity-matched ablation. A second proposed ablation
+freezes $w_t$ to a constant, testing whether input-dependent writes matter. The third
+replaces the regulator $g_t$ with a learned constant vector. The fourth unties the
+two strand branches in offline mode, testing whether symmetry is useful or merely
+extra capacity.
+
+These interventions must be interpreted with capacity controls. Removing memory
+also removes parameters and computation; a weaker result may reflect smaller
+capacity rather than the mechanism. Conversely, giving DOGMA two strand passes and
+a baseline one pass is a compute advantage. Fair evidence reports these differences
+or compensates for them.
+
+\Plate{05-falsification}{A mechanism claim survives only if its benefit remains
+after relevant baseline, budget and intervention controls. Negative evidence narrows
+the architecture rather than being discarded.}{fig:falsify}
+
+\section{Closest established mechanisms}
+
+Gated recurrence is established. LSTM~\cite{lstm} introduced multiplicative gates to control
+information flow through recurrent state; GRU-like models likewise use learned
+update/reset behavior. Selective state-space models such as Mamba~\cite{mamba} make state updates
+input dependent and design parallel algorithms around the resulting recurrence.
+RWKV~\cite{rwkv} also explores the training/inference trade between parallel sequence processing
+and recurrent execution.
+
+DOGMA must therefore earn any distinction at a higher level of organization:
+typed state ownership, explicit addressable loci, strand actions, trace/intervention
+contracts, and eventually structural adaptation. If those pieces can be removed
+without loss after fair capacity matching, the proposed architecture should collapse
+toward the simpler established model. That is a scientifically useful outcome.
+
+\section{Falsification matrix}
+
+The research program can now be stated without slogans.
+
+\begin{enumerate}
+\item \textbf{Selective regulation.} Hypothesis: input-dependent gates improve tasks
+with sparse state changes. Reject or narrow if constant-gate capacity-matched models
+perform equivalently across seeds and interventions show no gate-specific effect.
+\item \textbf{Addressable loci.} Hypothesis: explicit loci improve retention or
+mechanistic locality. Reject if a same-budget recurrent state matches performance,
+memory efficiency and intervention specificity.
+\item \textbf{Strand sharing.} Hypothesis: parameter-tied dual processing improves
+sample efficiency or consistency on strand-symmetric tasks. Reject if ordinary
+augmentation achieves the same result at matched compute or if invariance hurts
+orientation-sensitive tasks.
+\item \textbf{Trace utility.} Hypothesis: typed traces support reproducible causal
+diagnosis. Reject if trace variables are unstable across equivalent parameterizations
+and interventions do not validate their claimed roles.
+\item \textbf{Structural adaptation.} Deferred hypothesis: changing active modules
+or topology can outperform fixed structure under a controlled adaptation budget.
+Chapter 22 does not implement this and therefore makes no positive claim about it.
+\end{enumerate}
+
+\section{What the reference model does not contain}
+
+There is no attention, no Transformer block, no DNA chemistry simulator, no
+evolutionary search, no persistent agent memory, no distributed runtime and no
+production kernel. Those omissions are intentional. Hermon DNA begins in Chapter 23
+with a Transformer-based reference architecture. DOGMA Engine concerns begin in
+Chapter 30. Evolutor's compiler/runtime sits above both much later.
+
+The present chapter has one responsibility: make the non-Transformer proposal
+specific enough that later engineering cannot retroactively change what an early
+experiment meant.
+
+\section{Exercises with worked answers}
+
+\begin{enumerate}
+\item Who owns $h_t$ and $M_t$? \textbf{Answer:} The request. Learned matrices and
+embeddings are model-owned.
+\item Why is zero initialization part of the scientific contract?
+\textbf{Answer:} Hidden carry between independent records changes the function and
+can leak data across examples.
+\item Is Equation~\ref{evod22:fast} architecturally novel by itself?
+\textbf{Answer:} No. Learned gated recurrence is established.
+\item Why is offline dual state illegal for next-token prediction?
+\textbf{Answer:} The aligned reverse branch contains suffix information.
+\item Prove pooled Equation~\ref{evod22:dual} is reverse-complement invariant.
+\textbf{Answer:} Applying $R$ swaps the two shared-parameter branches; their sum and
+position average are unchanged after realignment.
+\item Does invariance imply orientation-sensitive labels are impossible?
+\textbf{Answer:} For an invariant pooled head, yes. Use an equivariant output action
+or orientation metadata instead.
+\item What does a high write gate prove?
+\textbf{Answer:} Only that the parameterized model emitted a high gate. A causal
+role requires intervention.
+\item Why report parameter counts for baselines?
+\textbf{Answer:} Apparent mechanism gains can be capacity gains.
+\item What is the random-label control expected to show?
+\textbf{Answer:} Independent held-out labels have chance population accuracy and
+cross-entropy at least $\log V$. Finite samples fluctuate; memorizing training
+noise establishes neither a violation nor the intended mechanism.
+\item Design a locus-erasure intervention. \textbf{Answer:} Identify a time after
+the candidate information is written, zero one locus for matched examples, continue
+the same suffix, and compare output deltas against erasing other loci and sham edits.
+\item When should DOGMA collapse toward a GRU/SSM?
+\textbf{Answer:} When explicit loci, strand contracts and typed interventions add no
+reproducible benefit after budget matching.
+\item Design a genomic follow-up. \textbf{Rubric:} use a real provenance-tracked
+dataset; split homologous/related sequences safely; define strand label action;
+compare matched recurrent, SSM and Transformer baselines; use multiple seeds,
+calibration and out-of-distribution lengths; pre-register ablations; distinguish
+task accuracy from biological mechanism claims.
+\item Derive parameter count for $D=12,K=3,V=4,C=2$.
+\textbf{Answer:} $7(144)+8(12)+6(13)+2(13)=1208$. The orientations share
+parameters but perform separate arithmetic.
+\item Which parity fails when carry is detached between chunks?
+\textbf{Answer:} Forward values can agree while gradients through prior writes
+disappear. The full gradient comparison requires undetached complete carry.
+\item Does an independent random-label test loss below $\log2$ prove leakage?
+\textbf{Answer:} No. That is a population expectation bound. Check finite-sample
+uncertainty, repeated seeds and independence before interpreting a deviation.
+\item Compute the second feature of the assigned trace.
+\textbf{Answer:} $h_2=3/8$ and $M_1=1/5$, so
+$y_2=\tanh(0.575)\simeq0.519022$. Reading $M_2=0.35$ instead changes
+transition order.
+\end{enumerate}
+
+\section{Vocabulary and next interface}
+
+\Term{Request-owned state}: mutable state whose lifetime belongs to one inference or
+training record unless persistence is explicitly declared. \Term{Model-owned
+parameter}: learned state shared across requests. \Term{Mechanism intervention}:
+a controlled change to an internal variable intended to test a causal role.
+\Term{Falsification criterion}: an observation that would reject or narrow a claimed
+benefit.
+
+Chapter 23 starts a separate research direction inside Evolutor: Hermon DNA, a
+Transformer-based DNA model. Keeping the two reference architectures explicit makes
+their later comparison meaningful rather than turning ``DNA-native'' into a label
+that can absorb any successful mechanism.

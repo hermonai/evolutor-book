@@ -1,0 +1,13 @@
+\begin{tikzpicture}[font=\small\sffamily,>=Stealth]
+\node[draw,fill=Pale](a) at (0,2){$X$};
+\node[draw,fill=Pale](r) at (0,0){$\mathcal RX$};
+\node[draw,minimum width=2.7cm](f) at (3,2){$F_\theta(X)$};
+\node[draw,minimum width=2.7cm](b) at (3,0){$F_\theta(\mathcal RX)$};
+\node[draw,fill=Gold!30](rev) at (6.2,0){reverse positions};
+\node[draw,fill=Green!12,align=center](z) at (9.2,1){average branches\\and positions};
+\draw[->,Blue,thick](a)--(f);\draw[->,Blue,thick](r)--(b);
+\draw[->,Blue,thick](b)--(rev);
+\draw[->,Blue,thick](f)--(z);\draw[->,Blue,thick](rev)--(z);
+\draw[<->,Green,dashed](f)--node[right]{one parameter object}(b);
+\node[Red,align=center] at (5,-1.3){Full-record access is legal for the declared offline objective.\\It is not a causal next-token feature.};
+\end{tikzpicture}

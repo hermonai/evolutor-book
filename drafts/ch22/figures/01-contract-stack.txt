@@ -1,0 +1,4 @@
+Question: what exact selective transition is computed?
+Input: concatenation of current embedding and previous fast state. Learned affine maps yield a sigmoid gate and tanh proposal. The weighted old state and proposal sum to the new state.
+Ownership: matrices, biases and embedding are model-owned; h and M are request-owned. Arrows are data dependencies, not reactions.
+Boundary: the convex update bounds values but does not guarantee small recurrent derivatives or new architectural novelty.

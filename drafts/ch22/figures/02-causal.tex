@@ -1,0 +1,14 @@
+\begin{tikzpicture}[font=\small\sffamily,>=Stealth]
+\foreach \i in {1,...,5}{
+ \node[draw,circle,fill=Pale](x\i) at (2.1*\i,0){$x_{\i}$};
+ \node[draw,fill=Gold!35,minimum width=1.2cm,minimum height=.8cm](h\i) at (2.1*\i,1.6){$s_{\i}$};
+ \draw[->,Blue](x\i)--(h\i);
+}
+\foreach \i [evaluate=\i as \j using int(\i+1)] in {1,...,4}{
+ \draw[->,Green,thick](h\i)--(h\j);
+}
+\draw[Red,dashed,thick] (7.35,-.6)--(7.35,2.4);
+\node[align=center,anchor=east] at (7.1,3){prefix outputs are fixed\\when the suffix changes};
+\node[align=center,anchor=west] at (7.6,3){continuation carries\\both tensors};
+\node at (6.3,-1.1){complete carry: $s_t=(h_t,M_t)$};
+\end{tikzpicture}

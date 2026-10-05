@@ -1,0 +1,45 @@
+{
+  "date": "2026-10-06",
+  "chapter": 22,
+  "pdf": "output/pdf/evolutor-ch22-review.pdf",
+  "pdf_sha256": "a9415ba5216aebc41aede2917b1dfe067c52a5a757ed178ff7b6a3b0a0fafe94",
+  "pages": 14,
+  "source_hashes": {
+    "drafts/ch22/README.md": "d76317947342d90949fbdd6ea812e8d4d21c323c87949c98b63f1cab561e3862",
+    "drafts/ch22/STORYBOARD.md": "5773cc9db913be05289638206838cd9036fe48479cc4b2f7191dcd205fbd7743",
+    "drafts/ch22/build.py": "5e76377c46ac7fd1d49881a503d1f30380d5a9db4b22193cbd74e67b61e7f10a",
+    "drafts/ch22/figures/01-contract-stack.tex": "1d7d75362d88e139b8fb7f58649d08ecd23310b0fecb637c2c63f9991403b5f3",
+    "drafts/ch22/figures/01-contract-stack.txt": "f3ca1884275d1eea0b1b7b71e329cc5a256e5668dcec4437608416fbc411318b",
+    "drafts/ch22/figures/02-causal.tex": "d3118ac6672e5145ab56a50b5cb07d1226205f273cdf868759c2cc83b3c94137",
+    "drafts/ch22/figures/02-causal.txt": "d32bf9efdb13ddd88b12ee5a8796952c15b530f3d1765ff2bbf506e34a83d606",
+    "drafts/ch22/figures/03-offline-dual.tex": "303490f96458f7c6ce1b117105649b41b6638b7d98b873d6ef724fa9b6c29619",
+    "drafts/ch22/figures/03-offline-dual.txt": "bf886764ebb7cbc672942e9201e1ba5772bb854641e5a499a3a7c61dcf4c9fcf",
+    "drafts/ch22/figures/04-memory.tex": "12b8fed7daa556f7c713fee4e8f55fc77348874c2f9ac3f621c697296017497c",
+    "drafts/ch22/figures/04-memory.txt": "3965cfc811bda52e30168497e5d5247366f2245506d008129bf9156872d80aca",
+    "drafts/ch22/figures/05-falsification.tex": "1a09ede385b8a24ecaa9f9110d1320878d7b44185fceab4ce0924c3fff22f371",
+    "drafts/ch22/figures/05-falsification.txt": "257925c2cefce09c67df488b4beb42c4b939007f5ffd1e6ff8b102b0a32c3e1e",
+    "drafts/ch22/figures/06-convex-write.tex": "1127073e4112b4c0597680567456fd51eaa50e24407d7b93881355783bc5f38d",
+    "drafts/ch22/figures/06-convex-write.txt": "88d96b03bdd6742820e2d37937b59fc1793ee6357512f30afea1921d6f96a20c",
+    "drafts/ch22/manuscript.tex": "e71f69eddf084bf2723d18b4694602ada59a2ae4aa26950c1295c71e9f5c27c9",
+    "drafts/ch22/reference.py": "914d025cd8ce28b274c02d8bea05297c74fa7a42fb7396f32e460bf8d8671fa8",
+    "drafts/ch22/results.json": "5ebd09bf461babc1e04f2fcb66bfa83f63ba7508fbd4afec33f9af42a616b309",
+    "drafts/ch22/review.tex": "390df54fb62c969dada511c400749870596684e7b048ce50ee125b790acc66f5",
+    "drafts/ch22/sources.tex": "d96220bf9e4e9102ad21a8d09782f14f829e7e091a63b28b78c39dcd747bc7ea",
+    "tests/test_ch22_reference.py": "a2b9fc3ce491ab4d893169235c42b94f7a7682f8f83e3dec1ec5164b728ae945"
+  },
+  "tests": {
+    "repository_passed": 825,
+    "repository_skipped": 0,
+    "chapter_passed": 32,
+    "report": "build/ch22/regression.xml",
+    "python": "3.13.6"
+  },
+  "visual_review": {
+    "reviewer": "author/agent",
+    "mode": "all 14 pages, four color and four grayscale contact sheets",
+    "status": "PASS WITH NOTES",
+    "notes": "Label collisions corrected and rerendered; six figures legible. Full-book layout and independent specialist/reader review remain open."
+  },
+  "mathematical_review": "Local assumptions, edge cases, independent oracles and falsifiers documented in technical-audit.md.",
+  "acceptance": "locally reviewed standalone integration candidate; not accepted publication edition"
+}

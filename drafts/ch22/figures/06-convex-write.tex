@@ -1,0 +1,9 @@
+\begin{tikzpicture}[font=\small\sffamily,>=Stealth]
+\draw[->,Blue,thick] (0,1)--(12,1);
+\foreach \x/\lab in {1/0,11/1}{\draw (\x,.85)--(\x,1.15);\node[below] at (\x,.85){$\lab$};}
+\fill[Blue] (3,1) circle (.08);\node[above,align=center] at (3,1.4){old memory\\$m=.2$};
+\fill[Green] (9,1) circle (.08);\node[above,align=center] at (9,1.4){write value\\$v=.8$};
+\fill[Red] (4.5,1) circle (.1);\node[below,align=center] at (4.5,.5){new memory\\$m'=.35$};
+\draw[->,Red,thick] (3,2.7)--node[above]{$w=.25$: move one quarter toward $v$}(4.5,2.7);
+\node[align=center] at (6,-1.2){$m'=(1-w)m+wv$ lies between the old state and the proposed value.\\The feature at this step still reads $m=.2$, not the freshly written $.35$.};
+\end{tikzpicture}

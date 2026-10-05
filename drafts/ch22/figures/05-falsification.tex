@@ -1,0 +1,9 @@
+\begin{tikzpicture}[font=\small\sffamily,>=Stealth]
+\node[draw,fill=Pale,align=center,minimum width=3cm](c) at (6,4.8){hypothesis\\selective memory helps};
+\node[draw,align=center,text width=3.4cm](b) at (1.7,2.5){budget controls\\parameters, work, context, tuning};
+\node[draw,align=center,text width=3.4cm](a) at (6,2.5){mechanism controls\\read erasure, constant gates, untied strands};
+\node[draw,align=center,text width=3.4cm](i) at (10.3,2.5){data controls\\related-record split, random labels, seeds};
+\node[draw,fill=Red!12,align=center,text width=8cm](r) at (6,.1){Narrow or reject the benefit when gains do not survive relevant controls.\\A passing semantic test is not a capability result.};
+\draw[->,Blue](c)--(b);\draw[->,Blue](c)--(a);\draw[->,Blue](c)--(i);
+\draw[->,Red](b)--(r);\draw[->,Red](a)--(r);\draw[->,Red](i)--(r);
+\end{tikzpicture}

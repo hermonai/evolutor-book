@@ -1,0 +1,4 @@
+Question: why is the pooled offline head reverse-complement invariant?
+Two branches evaluate X and RC(X) with the same parameter object. Reverse-branch output positions are realigned, then branches and positions are averaged.
+Logic: RC swaps branch roles and reverses positions; the mean is unchanged.
+Boundary: full-record access includes suffix information and must not feed a causal next-token head. Invariance does not prove useful predictions.
