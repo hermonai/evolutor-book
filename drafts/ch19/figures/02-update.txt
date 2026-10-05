@@ -1,0 +1,2 @@
+FIGURE 02-update
+At write gate and retention both 0.5, coefficient a=0.75. Old state 0.2 times 0.75 contributes 0.15; candidate 1 times 0.25 contributes 0.25; summation yields 0.4. Coefficients are complementary; the write gate is not the candidate weight by itself.

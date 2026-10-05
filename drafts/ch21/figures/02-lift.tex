@@ -1,0 +1,17 @@
+\begin{tikzpicture}[x=1cm,y=1cm]
+\path[use as bounding box] (0,-.4) rectangle (13,4.8);
+\node[note,anchor=west,text=Blue] at (0,4.5) {\textbf{Shared computation; explicit coordinate realignment}};
+\node[note,draw=Blue,fill=Pale] (x) at (1.1,3) {$X$};
+\node[note,draw=Blue] (fx) at (5.4,3) {$F_\theta(X)$};
+\node[note,draw=Green] (rx) at (1.1,1) {$\mathcal RX$};
+\node[note,draw=Green] (fr) at (5.4,1) {$F_\theta(\mathcal RX)$};
+\node[note,draw=Blue,fill=Pale] (out) at (10.4,2) {$[u_t\mid v_t]$\\same original position};
+\draw[flow] (x)--node[above,smallnote]{left to right}(fx);
+\draw[flow] (rx)--node[below,smallnote]{opposite orientation}(fr);
+\draw[flow] (x)--node[left,smallnote]{$\mathcal R$}(rx);
+\draw[flow] (fx)--(out);
+\draw[flow] (fr)--node[below,sloped,smallnote,pos=.55]{reverse rows}(out);
+\draw[densely dotted,Red] (5.4,1.5)--(5.4,2.5);
+\node[smallnote,anchor=west,text=Red] at (5.55,2) {same $\theta$};
+\node[smallnote] at (6.5,-.1) {$E(\mathcal RX)=\mathcal JE(X)$: reverse positions and exchange paired blocks};
+\end{tikzpicture}

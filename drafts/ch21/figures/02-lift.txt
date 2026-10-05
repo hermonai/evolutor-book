@@ -1,0 +1,2 @@
+Question: how are opposite-direction states aligned?
+Apply the same deterministic Fθ to X and to RC(X). Reverse output rows of the second evaluation into original positions, then concatenate paired features. No nucleotide complement is applied to arbitrary hidden features. Transforming the input reverses positions and swaps the two hidden blocks. Both uses share one parameter object and matching boundary policy.

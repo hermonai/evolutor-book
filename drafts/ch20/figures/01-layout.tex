@@ -1,0 +1,18 @@
+\begin{tikzpicture}[x=1cm,y=1cm]
+\path[use as bounding box] (0,-1) rectangle (13,5.4);
+\node[note,text=Blue,anchor=west] at (0,5) {\textbf{Exact local storage and compressed summaries answer different questions}};
+\node[smallnote,anchor=west] at (.3,4.1) {Recent token buffer (contrast)};
+\foreach \x/\v in {.5/A,1.6/C,2.7/G,3.8/T}{
+ \node[note,draw=Blue,fill=Pale,minimum width=.9cm,minimum height=.6cm] at (\x,3.2) {\v};}
+\draw[flow] (.1,2.5)--(4.2,2.5);
+\node[smallnote] at (2.2,1.9) {oldest \hspace{12mm} newest};
+\node[smallnote] at (2.2,.8) {ordered identities\\bounded window};
+\node[smallnote] at (9,4.1) {Implemented bank $H$: $K\times D$};
+\foreach \y/\lab in {3.35/fast,2.65/slow,1.95/slower}{
+ \node[smallnote,anchor=east] at (7.1,\y) {\lab};
+ \foreach \x in {7.4,8.1,...,10.9}{\draw[Blue,fill=Pale] (\x,\y-.25) rectangle ++(.65,.5);}}
+\node[note,draw=Green,minimum width=2.1cm] at (7.3,.8) {$s:\ D$};
+\node[note,draw=Green,minimum width=2.1cm] at (9.6,.8) {$p:\ D$};
+\node[note,draw=Red] at (11.5,.8) {$q$};
+\node[smallnote] at (9,-.2) {coarse state \quad pending sum \quad phase};
+\end{tikzpicture}

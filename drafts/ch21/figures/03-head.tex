@@ -1,0 +1,16 @@
+\begin{tikzpicture}[x=1cm,y=1cm]
+\path[use as bounding box] (0,-.3) rectangle (13,4.5);
+\node[note,anchor=west,text=Blue] at (0,4.2) {\textbf{Paired labels require a paired readout contract}};
+\foreach \x/\y/\name/\col in {2/2.8/U/Blue,4/2.8/V/Green,2/1.3/V/Green,4/1.3/U/Blue} {
+ \draw[thick,\col,fill=Pale] (\x-.8,\y-.55) rectangle (\x+.8,\y+.55);
+ \node[note] at (\x,\y) {$\name$};
+}
+\node[smallnote] at (2,3.65) {input $u$};
+\node[smallnote] at (4,3.65) {input $v$};
+\node[smallnote,left] at (.95,2.8) {$y^+$};
+\node[smallnote,left] at (.95,1.3) {$y^-$};
+\draw[flow] (5.25,2.1)--(6.65,2.1);
+\node[note,anchor=west] at (7,2.8) {$u+v\ \longmapsto\ u+v$};
+\node[note,anchor=west] at (7,1.3) {$u-v\ \longmapsto\ -(u-v)$};
+\node[smallnote] at (6.5,.05) {Under branch swap: symmetric component stays; antisymmetric component changes sign.};
+\end{tikzpicture}

@@ -1,0 +1,61 @@
+{
+  "pdf": "output/pdf/evolutor-ch19-review.pdf",
+  "pages": 13,
+  "sha256": "af3771655a92ecfe4a8dea9a3ee4e85f8c00b1b6d16f198cfde2adee4ab6472a",
+  "status": "standalone authored-LaTeX review candidate; no acceptance promotion",
+  "sources": {
+    "drafts/ch19/README.md": "bbe4ee95782d530eade911bbcae00262530d2ecec5125c943ce1be6b68bfa51c",
+    "drafts/ch19/STORYBOARD.md": "4a022471c4edbc4c395a926febf0824b4ae5164f42a2aba88c56dc197830242c",
+    "drafts/ch19/build.py": "cee590bf2ae1277718567d495b7154efa4faeaa047b21de44821f68fe876333b",
+    "drafts/ch19/figures/01-address.tex": "00f91046200f5ddc20177e9cc8f5dd11ce850761df914bf4918fa17bc0fc4aa8",
+    "drafts/ch19/figures/01-address.txt": "3be8375ad1b4872e5e844ab66d95efe71aa6e87a8f453d140898ebc22d818285",
+    "drafts/ch19/figures/02-update.tex": "abf8e0bce605c14bcf9bfe3dd361015b5082e5cd245acb4ade9e45c211da5476",
+    "drafts/ch19/figures/02-update.txt": "045b6f059bcf8cca7c30db607f732a421be149d62acb9fe9ba048166d3e0709b",
+    "drafts/ch19/figures/03-causality.tex": "8b94e94b386ac0a1a8c71684ab9c840ef27c5215991b23990d5f8d83788768d7",
+    "drafts/ch19/figures/03-causality.txt": "ebe532ea870798991cff6bcd4e1e00f49335b45f7410abe36cc0d7ead7a1643e",
+    "drafts/ch19/figures/04-feedback.tex": "885d69f7ec5a9d8cbafce8c516ed700423fb76eee1f840d92d2c81cda01914d1",
+    "drafts/ch19/figures/04-feedback.txt": "6d7c20dd4e20be915f23b03440a7680d72aa75abb3374afbe4ea3a2bbd0a73bb",
+    "drafts/ch19/figures/05-ablation.tex": "36b0d96661a322ada9f54a74d3e17ccdc24d9d18ff8e725ef87c1632dc73edbe",
+    "drafts/ch19/figures/05-ablation.txt": "ecf0bf00a87c75bc32b44128d3198e3d383a2aa0df707b195c596535b7b97aed",
+    "drafts/ch19/manuscript.tex": "6f7fc493696f192d34d5d13de8d22464874e858355c4e6019cd848d5f34a6ca9",
+    "drafts/ch19/reference.py": "cf9c4632c4585399d632aeeff052511b67124d0d217cd9777e5bf972d661c977",
+    "drafts/ch19/results.json": "cc99e6cb2511015bc647960473138e935834a99fac1b571f1f7522dee58183e6",
+    "drafts/ch19/review.tex": "89ebb799735a730073ed9aef571efeeb94485de32a5736a281c473a37d1b5e8c",
+    "drafts/ch19/sources.tex": "9381f1825f4800371c490884b9b86523d4d58cc1b9045d67f2f8d65936e0c6b2"
+  },
+  "reviewedOn": "2026-09-27",
+  "reviewType": "author technical, editorial and visual review; not independent specialist acceptance",
+  "allPagesInspected": true,
+  "inspectedPhysicalPages": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13
+  ],
+  "grayscaleReview": "All pages inspected in color and grayscale contact sheets. Molecular exchange and causal-dependency plates inspected at page scale; corrected branch-point and forbidden-dependency label spacing re-inspected. Code pagination and small-number table formatting corrected and re-inspected.",
+  "figures": 5,
+  "exercises": 12,
+  "openGates": [
+    "independent specialist review",
+    "reader feedback",
+    "cumulative integration, cross-chapter index and bibliography"
+  ],
+  "validation": {
+    "generatedArtifactsCheck": "passed",
+    "pdfWordsOutsidePage": 0,
+    "unresolvedReferenceMarkers": 0,
+    "python": "3.13.6",
+    "fullSuitePassed": 749,
+    "fullSuiteSkipped": 0,
+    "priorEditionPreservationTests": "passed"
+  }
+}

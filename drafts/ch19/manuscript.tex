@@ -1,0 +1,330 @@
+\chapter{DOGMA regulation and selective transformations}
+Chapter 18 exposed a collision: AACA and ACAA have identical dinucleotide
+histograms, length and final base. Any output head receiving only that state
+must give them the same answer. Can an ordered, selectively updated memory
+separate them without attention? We will construct one such operator, prove
+what it preserves, differentiate its gates, and then show why these successes
+still do not establish a useful genomic model.
+
+DOGMA remains the book's proposed non-Transformer DNA-native research direction;
+Hermon DNA is the Transformer-based direction, and Evolutor is the broader
+framework. The scalar and vector operators here are explicit research references,
+not a released foundation model. Their merit is that their assumptions can be
+tested. Their biological relevance remains an empirical question.
+
+\section{A regulator chooses coefficients, not an explanation}
+Order the 16 pairs in $\{A,C,G,T\}^2$ lexicographically in that base order.
+For pair index $i$, store candidate vector $v_i\in\mathbb R^D$, write logit
+$u_i\in\mathbb R^D$, and retention logit $r_i\in\mathbb R^D$. These are three
+parameter tables of shape $16\times D$. The recurrent state is
+$h\in\mathbb R^D$. All coordinates are dimensionless software quantities,
+not concentrations or binding energies.
+
+At position $t$, the current base and the previous valid base select $i_t$.
+There is no pair at the first base. Selection is a deterministic address lookup,
+not a learned top-$k$ expert decision. Chapter 10 owns that different routing
+problem. This chapter asks what transformation the selected row performs.
+
+\Plate{01-address}{A pair selects corresponding rows in three separate
+parameter tables. The row index is shared, but candidate values, write gates
+and retention gates have different meanings. This is software addressing;
+the diagram does not represent complementary molecules binding together.}{fig:address}
+\Listing{pair_ids}
+The returned previous base is part of the streaming contract. To continue a
+record, carry it into the next compilation call alongside the recurrent state.
+To start an independent record, clear both. Carrying one without the other
+creates a different model. The example accepts only canonical bases; an unknown
+biological base is not silently deleted as padding.
+
+\section{Derive a bounded selective transformation}
+The logistic function is $\sigma(z)=1/(1+e^{-z})$. Define coordinatewise gates
+\begin{equation}
+ g_t=\sigma(u_{i_t}),\qquad \rho_t=\sigma(r_{i_t}),
+ \qquad a_t=1-g_t\odot(1-\rho_t).
+ \label{eq:coefficients}
+\end{equation}
+The symbol $\odot$ denotes coordinatewise multiplication. Let
+$\widetilde h_t=\rho_t\odot h_{t-1}+(1-\rho_t)\odot v_{i_t}$ be a
+candidate state transformation. Interpolate between keeping the old state
+and applying that transformation:
+\begin{align}
+ h_t&=(1-g_t)\odot h_{t-1}+g_t\odot\widetilde h_t\\
+    &=a_t\odot h_{t-1}+(1-a_t)\odot v_{i_t}.
+ \label{eq:update}
+\end{align}
+This derivation matters: a write gate does not merely multiply the candidate.
+It changes the weight of the retained state too. Using $a_t h_{t-1}+g_tv_i$
+would define a different, potentially accumulating update with different bounds.
+For the first base or a padding slot, define the update as exact identity;
+an implementation should not approximate identity using a very negative logit.
+
+\Plate{02-update}{The two coefficients sum to one per channel. At
+$g=\rho=1/2$, $a=3/4$; old state $0.2$ and candidate $1$ produce $0.4$.
+The two paths are arithmetic dependencies, not regulatory proteins.}{fig:update}
+\Listing{coefficients}
+
+\begin{proposition}[Coordinatewise range preservation]
+If each initial coordinate and every candidate coordinate lie in $[-B,B]$
+for finite $B$, then every state coordinate also lies in $[-B,B]$.
+\end{proposition}
+\begin{proof}
+Since $0\leq g,\rho\leq1$, we have $0\leq a\leq1$. Each new coordinate
+is a convex combination of its old value and the corresponding candidate.
+The interval is convex, so induction proves the assertion. Identity slots
+preserve the same interval.
+\end{proof}
+For fixed finite tables such a $B$ exists, but training unconstrained candidates
+does not preserve a chosen global bound across optimizer steps. One could
+parameterize candidates as $B\tanh(z)$; doing so introduces an additional
+derivative and a modeling choice. Bounded states also do not imply that all
+histories are distinguishable or that numerical gradients are well conditioned.
+
+\section{Use the lost-order example as a constructive test}
+Choose $D=1$, $v_{AA}=0$, $v_{AC}=1$, $v_{CA}=-1$, and all other candidates
+zero. Set all logits to zero, so $g=\rho=1/2$ and $a=3/4$. Begin at $h_0=0$.
+AACA selects AA, AC, CA. Its states after pairs are
+$0,\ 1/4,\ -1/16$. ACAA selects AC, CA, AA and yields
+$1/4,\ -1/16,\ -3/64$. The final difference is $-1/64$.
+
+\begin{center}\input{\Generated/trace.tex}\end{center}
+Both strings still have the same pair counts. The difference arises because
+the update is ordered and earlier candidates are attenuated by later retention.
+It is not evidence that training discovered a motif or that these strings
+have different biological functions. A useful counterexample fixes the failure
+being repaired and states exactly which extra mechanism repairs it.
+
+\Plate{05-ablation}{Generated traces separate two inputs that collide under
+the Chapter 18 histogram. Index zero is the initial state and index one is the
+first base, which creates no pair. The figure demonstrates order sensitivity
+of one assigned operator, not task accuracy or an optimized architecture.}{fig:ablation}
+
+This update also differs from Chapter 18 at nonunit retention: that reference
+adds a unit count, whereas Equation~\ref{eq:update} interpolates toward a
+candidate. Its mass is therefore not a histogram count. Reusing the same state
+dimension or DNA address table does not make the state semantics interchangeable.
+
+\section{Implement one record with explicit ownership}
+Read the implementation in three stages: validate the whole request, prepare
+the input-addressed coefficients, then fold the selected transformations over
+the incoming state. The validation is outside the time loop. It prevents a
+bad late address from masquerading as a partially successful record; it is
+not intended as a high-throughput GPU validation strategy.
+\Listing{selective_scan}
+The scanner returns a terminal tensor and a history that includes the initial
+state. No in-place write alters a caller-supplied state. Table shapes, dtype,
+device, finite values and pair IDs are validated before processing. A malformed
+later ID is rejected before any state update, avoiding partially applied work.
+The ID $-1$ denotes an exact no-pair operation. A padded storage slot may use
+the same identity, but the token-to-pair compiler must not advance its previous
+base for padding. Biological uncertainty requires a separate policy.
+
+The scanner operates on compiled IDs rather than raw strings. This separation
+makes the state update easy to test, but it also exposes a responsibility:
+the caller must retain the previous base when compiling chunks. A production
+state object should bundle that field, the recurrent tensor, record identity,
+model revision and any position-dependent metadata. The teaching function
+does not supply a serving runtime merely because it accepts a state argument.
+
+\section{Prove causality and chunk equivalence}
+The pair at $t$ depends only on bases up to $t$. The three selected table rows
+are functions of that pair and fixed model parameters. By induction,
+$h_t$ depends only on the valid prefix through $t$ and the initial state.
+If $h_t$ predicts the next base, that is a causal next-token feature. If the
+target is the current base, feeding that same base into the feature before
+prediction is target leakage; causality alone does not settle label alignment.
+
+\Plate{03-causality}{Gate coefficients can be prepared from known token pairs,
+while state values depend on earlier states. A future base must not contribute
+to an earlier predictive state. Changing the computation order does not permit
+changing these information dependencies.}{fig:causality}
+
+For a fixed sequence of coefficients, the update is affine in the incoming
+state. The composition of $(a_1,b_1)$ followed by $(a_2,b_2)$ is
+\begin{equation}
+ (a_2\odot a_1,\ a_2\odot b_1+b_2),\qquad b_t=(1-a_t)\odot v_{i_t}.
+\end{equation}
+Chapter 7 proved associativity. Here the additional obligation is to establish
+that the coefficients are available without first evaluating the state they
+will update. Input-only pair lookup satisfies that obligation. It permits an
+affine prefix implementation; it does not prove that any particular GPU scan
+will be faster than sequential execution for a given size and precision.
+
+Chunk equivalence follows by composing the same transitions in the same order
+and carrying the boundary state and previous base. Tests compare every split
+of short records and also compare gradients through the split computation.
+Detaching a chunk boundary can preserve forward values while changing the
+training objective's gradient. Matching output alone is therefore insufficient
+for a training-parity claim.
+
+\section{Differentiate the selected operation}
+For one scalar channel, hold the selected pair fixed. Write $h'=ah+(1-a)v$,
+$g=\sigma(u)$ and $\rho=\sigma(r)$. Then
+\begin{align}
+ \frac{\partial h'}{\partial h}&=a,\qquad
+ \frac{\partial h'}{\partial v}=g(1-\rho),\\
+ \frac{\partial h'}{\partial u}&=g(1-g)(1-\rho)(v-h),\\
+ \frac{\partial h'}{\partial r}&=g\rho(1-\rho)(h-v).
+ \label{eq:derivatives}
+\end{align}
+To see the signs, increasing write strength moves toward $v$, while increasing
+retention moves toward $h$. If $h=v$, both gate derivatives vanish: changing
+the mixture cannot change its value. Saturated sigmoids also have small
+derivatives. A near-zero gradient may indicate this local geometry rather than
+a broken implementation or a useful learned biological switch.
+
+Unselected rows receive no contribution from that event, but a row used several
+times accumulates gradient contributions from all those times. This is ordinary
+parameter sharing, not one independent parameter per occurrence. The reference
+is checked against explicit scalar derivatives, central finite differences and
+an independently expanded recurrence. These checks establish arithmetic
+consistency; they do not establish that gradient descent will find a good model.
+
+For input-only coefficients, the state-to-state Jacobian across positions is
+\begin{equation}
+ \frac{\partial h_t}{\partial h_s}
+ =\operatorname{diag}\left(\prod_{j=s+1}^{t}a_j\right).
+\end{equation}
+No coordinate amplification occurs through this path when $a_j\in[0,1]$,
+but products can vanish. Candidate and gate parameter gradients include their
+own local factors and repeated-use sums. It would be incorrect to extend the
+state-path bound to every parameter gradient without analyzing those terms.
+
+\section{A feedback gate changes both the proof and the scheduler}
+Suppose a regulator reads the old state, rather than only the input. For one
+channel let $g(h)=\sigma(wh)$ and set $f(h)=(1-g(h))h+g(h)v$.
+Differentiation gives
+\begin{equation}
+ f'(h)=1-g(h)+(v-h)w g(h)(1-g(h)).
+\end{equation}
+At $h=0$, $v=1$ and $w=8$, $f'(0)=1/2+8/4=2.5$.
+The output is still a convex combination of $h$ and $v$, yet nearby inputs
+can separate locally. Bounded values are not the same property as contraction.
+\Plate{04-feedback}{The declared feedback-gated map near zero has slope 2.5,
+whereas the identity has slope one. The gate's derivative is part of the
+Jacobian. Treating a computed gate as a constant would miss the amplification.}{fig:feedback}
+\Listing{feedback_step}
+
+Once coefficients depend on $h_{t-1}$, they cannot generally be prepared as a
+token-only affine scan input. Function composition remains associative in the
+abstract, but there need not be a closed, fixed-size affine representation of
+those composed functions. A claim of parallel execution now needs a different
+algorithm or additional structure. This distinction prevents a common category
+error: importing a scan theorem after changing the regulator's dependencies.
+
+\section{Gate interpretations may be non-identifiable}
+The forward operator uses $g$ and $\rho$ only through $a=1-g(1-\rho)$.
+For example, $(g,\rho)=(1/2,1/2)$ and $(3/4,2/3)$ both give $a=3/4$.
+They can be represented by finite logits $(0,0)$ and $(\log3,\log2)$.
+With identical candidates, every input and incoming state produces the same
+forward result. Output fitting alone therefore cannot identify these two
+mechanistically named gates separately.
+
+This is structural \Term{non-identifiability}, not merely too little training
+data. Separate gate semantics would need additional constraints, independent
+observations, or a different architecture. A regularizer can choose one
+parameterization but cannot by itself prove a biological interpretation.
+Displaying a gate trace is useful for debugging; calling it a discovered
+regulatory mechanism requires evidence beyond its name.
+
+\begin{center}\input{\Generated/ablation.tex}\end{center}
+The table fixes candidates and changes one logit family at a time. Near-zero
+write gates and near-unit retention both make state changes tiny. Neither
+intervention is exactly identity at finite logits. These are functional
+ablations of an assigned model, not trained accuracy results. A stronger study
+would retrain matched alternatives, preserve budgets, repeat seeds and report
+both utility and cost with uncertainty.
+
+\section{Place the operator against current research}
+Mamba makes selected state-space parameters input dependent and provides a
+hardware-aware execution strategy \cite{mamba}. That motivates separating
+selection semantics from the implementation used to evaluate them. Our pair
+table and convex interpolation are not a Mamba block and inherit none of its
+benchmark results. They also make a different representational choice: a
+finite pair address is much narrower context than a learned contextual feature.
+
+The 2026 Evo 2 paper describes a multi-hybrid architecture combining several
+input-dependent convolution operators and attention \cite{evo2}. Its existence
+is a reason to compare complementary mechanisms carefully, not to declare a
+non-Transformer direction automatically superior. Evo 2 is an external model,
+not this book's Evolutor project. We do not equate a similar name with shared
+code, architecture, training data or validation.
+
+An academically useful DOGMA claim should name the task, input and label
+semantics, hypothesis, baselines and failure criterion. An industrially useful
+claim additionally needs stable model/state versions, record isolation, memory
+and latency measurements on specified hardware, failure recovery and reproducible
+artifacts. Neither standard is met by synthetic arithmetic alone. The present
+operator supplies a small part of the correctness foundation on which those
+experiments could be built.
+
+\section{A falsifiable evaluation contract}
+For a benign sequence-prediction or regulatory-label study, first declare
+whether strand reversal preserves a scalar label or permutes strand-specific
+labels. Our directional recurrence is not automatically reverse-complement
+equivariant. The full-record averaging construction in Chapter 18 can restore
+a specified symmetry, but it changes access and streaming assumptions.
+
+Then separate homologous or duplicated records before constructing train,
+validation and held-out test sets; otherwise related sequences can produce
+misleading generalization. Choose the split rule for the scientific question:
+held-out loci, individuals, chromosomes or species answer different questions.
+Fit normalization and selection rules on training data only, and keep model
+selection separate from final reporting. This is a proposed evaluation contract,
+not a claim that the reference has passed a genomic benchmark.
+
+Compare pair histograms, fixed-retention recurrence, input-conditioned recurrence
+and a suitably budgeted sequence baseline. Record parameter count, valid tokens,
+training compute, peak memory, preprocessing and uncertainty across independent
+runs. Measure gate interventions separately from retrained ablations. Report
+failure examples, including long gaps, changed base composition, record boundaries
+and reverse-complement transformations. A frontier research program needs
+experiments that can reject its favored explanation.
+
+The reference stores $48D$ scalar parameters and $D$ recurrent values, plus
+the previous-base field in its caller. Forward arithmetic is $O(nD)$ after
+address compilation. Keeping every state for this teaching trace costs $O(nD)$;
+fixed recurrent width is not constant training memory. Dense Python validation,
+small gathered operations and autograd overhead also matter to runtime.
+An operation count is not measured throughput, and no optimized kernel is
+delivered by this chapter.
+
+\section{Exercises with worked answers}
+\begin{enumerate}
+\item With $g=\rho=1/2$, calculate $a$. \textbf{Answer:} $3/4$; the candidate
+weight is $1/4$, not the write gate $1/2$.
+\item Update $h=0.2$ toward $v=1$. \textbf{Answer:} $0.75(0.2)+0.25=0.4$.
+\item Why do AACA and ACAA differ here? \textbf{Answer:} Their candidate
+orders differ. The final values are $-1/16$ and $-3/64$, despite equal pair counts.
+\item What must cross a raw-sequence chunk boundary? \textbf{Answer:} Recurrent
+state and previous valid base, with the same tables and record semantics.
+\item A detached boundary matches forward values. Is training parity proved?
+\textbf{Answer:} No; detachment removes earlier gradient paths. Check gradients too.
+\item Differentiate with respect to $u$ at $h=0,v=1,g=\rho=1/2$.
+\textbf{Answer:} $(1/2)(1/2)(1/2)=1/8$.
+\item Differentiate with respect to $r$ in the same case. \textbf{Answer:}
+$(1/2)(1/2)(1/2)(-1)=-1/8$: retention suppresses the new value.
+\item Show non-identifiability using finite logits. \textbf{Answer:}
+$(u,r)=(0,0)$ and $(\log3,\log2)$ both produce $a=3/4$.
+\item Why does the feedback example defeat a contraction claim?
+\textbf{Answer:} Its total derivative at zero is 2.5, including the gate path;
+the direct retention coefficient alone is only 0.5.
+\item Does every nonlinear recurrence support the affine scan? \textbf{Answer:}
+No. A state-dependent regulator generally invalidates token-only coefficient
+preparation and closure of the fixed-size affine representation.
+\item Count parameters for $D=8$. \textbf{Answer:} $3\cdot16\cdot8=384$,
+excluding an output head and any richer context encoder.
+\item Design a test of the claim that selective gates improve genomic utility.
+\textbf{Rubric:} Fix task and label semantics, leakage-resistant splits,
+matched baselines and resource budgets; compare trained controls and interventions,
+multiple seeds, uncertainty and out-of-distribution failures. Gate visualization
+or one synthetic separation is insufficient evidence.
+\end{enumerate}
+
+\section{Vocabulary and next question}
+\Term{Input-conditioned coefficient}: an update parameter computed from the
+available input, not from a yet-unknown recurrent value.
+\Term{State-path Jacobian}: sensitivity propagated through recurrent states.
+\Term{Gradient parity}: agreement of derivative semantics, beyond forward values.
+\Term{Functional ablation}: changing an operation while holding a declared
+parameter set fixed. Chapter 20 asks how to give different memory components
+different locality and timescales without hiding their costs or ownership.

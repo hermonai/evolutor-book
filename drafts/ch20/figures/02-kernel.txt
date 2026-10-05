@@ -1,0 +1,2 @@
+Question: how does longer retention change an impulse response?
+For lag ℓ ≥ 0, fast weight is (1/2)(1/2)^ℓ and slow weight is (1/8)(7/8)^ℓ. Blue solid and red dashed distinguish kernels in grayscale. Lag zero means immediately after the unit impulse; both kernels sum to one over infinite lags. These are assigned arithmetic responses, not trained accuracy.

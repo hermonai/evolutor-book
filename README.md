@@ -1,5 +1,8 @@
 # Evolutor
 
+Start with the [current manuscript and folder guide](CURRENT_MANUSCRIPT.md)
+for active chapters, readable outputs, review status and build-cache policy.
+
 The shared [About this book note](tex/frontmatter/about-this-book.tex) owns
 the pedagogical acknowledgment and general evidence/review policy. It is
 authored front matter for one-time inclusion in the next integrated edition;
@@ -28,7 +31,11 @@ DOGMA = non-Transformer DNA-native model + DOGMA Engine; Hermon DNA = Transforme
 
 [Chapter 17: Traces, credit and mechanistic evidence](drafts/ch17/README.md) develops structural interventions, redundant/synergistic attribution games and temporal counterfactuals. [Chapter 18: DOGMA primitives and state semantics](drafts/ch18/README.md) develops a proposed pair-addressed reference, exact masking/chunking contracts and reverse-complement symmetry with a decay counterexample.
 
-Each new chapter includes five editable vector figures with TXT companions and twelve worked exercises. Chapters 13-18 are standalone author-reviewed candidates, not cumulative acceptance or independently validated industrial systems. Chapter 19 is next; cumulative integration remains pending.
+Each new chapter includes five editable vector figures with TXT companions and twelve worked exercises. Chapters 13-18 are standalone author-reviewed candidates, not cumulative acceptance or independently validated industrial systems.
+
+[Chapter 19: DOGMA regulation and selective transformations](drafts/ch19/README.md) adds five editable vector/TXT figures, twelve worked exercises and independently checked numerical examples. Input-conditioned state updates, convexity proofs, causal chunking, analytic gradients, state-feedback counterexamples, non-identifiable gates, and a falsifiable genomic evaluation contract.
+
+[Chapter 20: Structured memory, locality and timescales](drafts/ch20/README.md) develops exponential memory kernels, timescale gradients, block-clock updates, complete chunk continuation, aliasing and finite-bit capacity. Includes five editable vector/TXT figures, twelve worked exercises and tested reference code.
 
 ## Build and verify
 
@@ -52,3 +59,5 @@ Dependencies: Python 3.10+ (pytest; Pillow for page review), XeLaTeX/latexmk, li
 astra-undergraduate-rewrite is a pedagogical archive, not a parallel manuscript. Its source, figures, examples and committed PDF remain byte-identical. The default tests verify its preserved publication without rebuilding it; make historical-pdf remains an explicit reproduction tool under build/. Main, astra-rewrite and historical snapshots are preserved; no main merge is part of this milestone.
 
 The original eight-section [preproduction outline](CHAPTER_1_OUTLINE.md) is retained as design history. The actual chapter deliberately expands it to 12 sections and ten figures. Full source-access details live in [the chapter source review](research/deep-ch01-sources.md). Review is author-agent work, not independent scientific certification or a real-reader study.
+
+[Chapter 21: Strands, complements and dual-state hypotheses](drafts/ch21/README.md) adds explicit output symmetry, a proved dual-state lift, tied strand readouts, causality limits, chunk/gradient parity and falsifiable evaluation contracts. Five editable vector/TXT figures, twelve worked exercises and executable reference tests accompany the derivations. Chapter 22 is next; cumulative integration remains pending.

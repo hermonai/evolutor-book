@@ -1,0 +1,406 @@
+\chapter{Strands, complements and dual-state hypotheses}
+
+Read the DNA strand $5'$--ACGA--$3'$. Its paired strand, read in its own
+$5'$-to-$3'$ direction, is TCGT, not TGCT and not AGCA. Suppose a model emits a
+score at every base. When the same duplex is presented from the other strand,
+should the scores stay fixed, reverse position, exchange labels, or change sign?
+The answer depends on the task. A biological relationship does not determine
+the output representation for us.
+
+Chapter 18 introduced strand-aware hypotheses; Chapter 20 separated memory
+representations and clocks. We now construct a precise dual-direction state
+operator, prove its transformation law and test its implementation. We also
+prove a limitation: demanding exact reversal symmetry from an ordinary
+left-causal sequence-to-sequence map can eliminate nonlocal context. DOGMA
+remains a proposed non-Transformer research direction. The reference below
+tests semantics, not trained genomic capability.
+
+\section{Choose coordinates before choosing an architecture}
+
+Use channel order $(A,C,G,T)$ and a record matrix $X\in\mathbb R^{T\times4}$.
+For canonical DNA, each row is one-hot. The complement permutation is
+$c=(3,2,1,0)$ in zero-based indexing. Let $P$ be its $4\times4$ permutation
+matrix and $R_T$ reverse the $T$ positions. Then
+\begin{equation}
+ \mathcal R X=R_TXP,\qquad P^2=I,\quad R_T^2=I,\quad
+ \mathcal R^2X=X .
+ \label{eq:rc}
+\end{equation}
+Position reversal and channel complement commute because they act on different
+axes. Complement alone describes the aligned partner in the original
+left-to-right drawing; reversal is necessary to read that partner from its
+own $5'$ end.
+
+\Plate{01-duplex}{The physical duplex fixes the coordinate transformation.
+Continuous backbone arrows point toward $3'$; short cross-strand marks denote
+base pairing. Reading the lower strand right to left gives TCGT. The tensor
+operation reverses rows and permutes base columns; it does not chemically
+reverse a molecule.}{fig:duplex}
+
+\Listing{rc}
+
+The helper accepts finite real matrices with four channels so that continuous
+derivatives can be tested. The canonical encoder accepts only uppercase
+ACGT strings. It rejects N and lowercase input rather than silently assigning
+an ambiguity policy. A production tokenizer must separately define ambiguous
+bases, masking symbols, padding and record separators. Each extra symbol needs
+a specified transformation; a row of zeros is not automatically a nucleotide.
+
+For zero-based coordinates, a base at $i$ maps to $T-1-i$; a half-open interval
+$[a,b)$ maps to $[T-b,T-a)$. Applying the interval rule twice returns the
+original interval. A reference allele and its alternate allele must also be
+complemented when transforming a variant. Reversing an array of scores without
+transforming its coordinate metadata is a biological annotation error even if
+the tensor dimensions agree.
+
+\section{Invariance and equivariance answer different questions}
+
+A record-level scalar may be invariant:
+$f(\mathcal RX)=f(X)$. A per-position unstranded score should instead obey
+$f(\mathcal RX)=R_Tf(X)$. A pair of strand-specific tracks may reverse position
+\emph{and} swap its two labels. A four-base probability vector requires a
+complement permutation as well. None of these actions is interchangeable.
+
+In general, choose an output action $\rho$ with $\rho^2=I$ and require
+\begin{equation}
+ f(\mathcal RX)=\rho f(X).
+ \label{eq:equiv}
+\end{equation}
+This is \Term{equivariance}. Invariance is the special case $\rho=I$.
+It is a structural constraint, not a claim that changing orientation cannot
+matter biologically. An oriented transcription task carries strand labels.
+An assay, genome coordinate frame or supplied directional context can break
+the symmetry unless that context is transformed too.
+
+There is a generic full-record construction. Let the outputs lie in a vector
+space and let $\rho$ be a linear involution, as all the permutation actions
+above are. For any deterministic map $g$ into that space, define
+\begin{equation}
+ \mathcal Sg(X)=\tfrac12\{g(X)+\rho g(\mathcal RX)\}.
+ \label{eq:symmetrize}
+\end{equation}
+Then $\mathcal Sg(\mathcal RX)=\rho\mathcal Sg(X)$ by substitution and
+$\rho^2=I$. Applying $\mathcal S$ again changes nothing: it is a projection
+onto equivariant maps. This construction is useful, but it evaluates $g$ on
+both orientations and can discard orientation-sensitive distinctions.
+For classification, averaging probabilities and averaging logits are also
+different operations, even when each can be made equivariant.
+
+Data augmentation is not this algebraic guarantee. It presents both
+orientations during training, encouraging rather than enforcing a relationship.
+Finite data, optimization, regularization and stochastic inference can still
+produce discrepancies. A symmetry test should measure the actual deployed
+operator under its actual numerical and randomness settings.
+
+\section{Lift a causal operator into paired directional states}
+
+Let $F_\theta:\mathbb R^{T\times4}\to\mathbb R^{T\times D}$ be a deterministic
+sequence operator, shared between two evaluations. It need not itself be
+complement equivariant. Define the aligned dual representation
+\begin{equation}
+ E_\theta(X)=
+ \left[F_\theta(X)\ \middle|\ R_TF_\theta(\mathcal RX)\right]
+ \in\mathbb R^{T\times2D}.
+ \label{eq:lift}
+\end{equation}
+The second result must be reversed \emph{back} into the original coordinates.
+Its hidden channels are arbitrary learned features, not nucleotide identities;
+we do not apply $P$ to them. Instead define an explicit paired hidden action
+\begin{equation}
+ \mathcal J[U\mid V]=[R_TV\mid R_TU].
+ \label{eq:pairedaction}
+\end{equation}
+It reverses positions and swaps feature blocks, with $\mathcal J^2=I$.
+
+\begin{proposition}[Shared dual lifting]
+For every input in the operator's domain,
+$E_\theta(\mathcal RX)=\mathcal J E_\theta(X)$.
+\end{proposition}
+\begin{proof}
+Using Equation~\ref{eq:rc}, the left side is
+$[F_\theta(\mathcal RX)\mid R_TF_\theta(X)]$.
+Applying $\mathcal J$ to Equation~\ref{eq:lift} gives exactly these blocks,
+because $R_T^2=I$. No special recurrence equation or learned weight value
+was needed. Shared parameters and compatible boundary conditions were needed.
+\end{proof}
+
+\Plate{02-lift}{The two evaluations share one parameter set but traverse
+opposite orientations. Reverse-pass features are realigned before concatenation.
+Changing the input orientation exchanges the roles of the two halves. Hidden
+feature identity is preserved within each half; base complement and feature-block
+swap are separate operations.}{fig:lift}
+
+Choose a deliberately transparent causal reference:
+\begin{equation}
+ h_t=a\odot h_{t-1}+x_tW,\qquad h_0=0,
+ \quad W\in\mathbb R^{4\times D},\quad a\in[0,1)^D.
+ \label{eq:recurrence}
+\end{equation}
+Here $\odot$ denotes componentwise multiplication; rows are feature vectors.
+Unlike Chapter 20's convex-average bank, this recurrence has no $(1-a)$
+write factor. It sums decayed projected inputs. For bounded
+$|(x_tW)_d|\leq M_d$, its zero-state magnitude is at most
+$M_d(1-a_d^t)/(1-a_d)$, not $M_d$. The change in normalization is explicit.
+
+\Needspace{29\baselineskip}
+\Listing{causal}
+
+The code validates shape, dtype, device, finiteness and retention range.
+It never updates caller-owned carry in place. Empty chunks produce no output
+rows and preserve carry. These checks favor inspectability, not accelerator
+throughput. The returned history uses $O(TD)$ storage; a streaming forward
+pass can retain only $O(D)$ state if intermediate outputs are consumed.
+
+\Listing{dual}
+
+For $D=1$, $W=(1,2,3,4)^\top$, $a=1/2$ and ACGA, the forward projection
+sequence is $(1,2,3,1)$. The opposite strand TCGT projects to $(4,2,3,4)$.
+Applying the recurrence gives $(4,4,5,6.5)$ on that strand; realignment yields
+$(6.5,5,4,4)$. The generated trace checks the entire coordinate convention:
+\begin{center}\input{\Generated/trace.tex}\end{center}
+Adding the halves produces a position-equivariant unstranded representation.
+It does not mean that the two halves are redundant: their difference carries
+information that changes sign when the branch labels swap.
+
+\section{A readout must respect the hidden action}
+
+Write a paired feature at one position as $(u,v)\in\mathbb R^D\times\mathbb R^D$.
+A general linear paired readout has blocks
+$M=\left(\begin{smallmatrix}A&B\\C&D_0\end{smallmatrix}\right)$.
+Let $J$ swap the two input blocks and $J'$ swap the two output blocks.
+Commuting with the actions requires
+\begin{equation}
+ MJ=J'M .
+\end{equation}
+Multiplying both sides blockwise gives $A=D_0$ and $B=C$. Thus the tied form is
+\begin{equation}
+ M=\begin{pmatrix}U&V\\V&U\end{pmatrix},
+ \qquad b=\begin{pmatrix}b_0\\b_0\end{pmatrix}
+ \label{eq:tied}
+\end{equation}
+if an affine bias is included. The proof does not say that an arbitrary
+linear layer is safe just because its input is equivariant.
+
+\Plate{03-head}{A tied paired readout commutes with branch exchange.
+Diagonal blocks share $U$ and off-diagonal blocks share $V$. The sum channel is
+unchanged under exchange; the difference channel changes sign. Keeping both
+is useful when output labels are strand-specific.}{fig:head}
+
+\Listing{strand_head}
+
+Our reference implements two scalar tracks without bias, with
+$y^+=u^\top U+v^\top V$ and $y^-=u^\top V+v^\top U$.
+Across a whole sequence the outputs reverse position and swap tracks.
+An unstranded per-position head can use $u+v$; averaging that head over a
+nonempty record makes a record-invariant summary. Empty-record pooling needs
+an explicit policy and is not implemented here.
+
+This suggests a systematic architectural audit. A pointwise nonlinearity
+shared across coordinates commutes with a permutation. An arbitrary
+normalization with untied affine parameters may not. Absolute positional
+embeddings, branch-specific dropout masks, independent branch parameters and
+orientation-dependent initial states can all break the proof. At inference,
+disabled dropout is deterministic; at training, a claim of pathwise symmetry
+needs correspondingly transformed randomness, not merely equal mask
+distributions.
+
+\section{Why the reverse pass cannot be ordinary causal decoding}
+
+If $F_\theta$ is causal, its feature at position $t$ depends on $x_1,\ldots,x_t$.
+The aligned second half in Equation~\ref{eq:lift} depends on
+$x_t,\ldots,x_T$. Together they see the entire record. Reversing a known
+record is therefore an offline operation, not a way to obtain future context
+from a prefix.
+
+\Plate{04-causality}{At a selected position, the forward branch reads the
+prefix and the aligned reverse branch reads the suffix. Their overlap is the
+current token; their union is the full record. The second branch is valid for
+offline inference but would leak future information into a left-to-right
+next-token predictor.}{fig:causality}
+
+\begin{proposition}[A causality--reversal limitation]
+Fix a record length $T$ and a full product input domain. Suppose
+$f(X)_t$ is left-causal, and $f$ is equivariant under reversal with invertible
+pointwise input/output channel permutations. Then $f(X)_t$ depends only on
+the input at $t$ (and fixed metadata such as $t,T$), not on other positions.
+\end{proposition}
+\begin{proof}
+By left causality, $f(X)_t$ depends only on the prefix through $t$.
+Equivariance expresses this value as an invertible channel transform of
+$f(\mathcal RX)_{T+1-t}$. Left causality on the reversed input makes that
+quantity depend only on the original suffix from $t$ onward. Now take two
+inputs that agree at $t$. Form a third using the first input's prefix and
+the second input's suffix; it exists because the domain is a full product.
+Prefix dependence equates its output with the first input, and suffix
+dependence equates it with the second. Hence only the shared token can matter.
+\end{proof}
+
+The assumptions matter. This is a theorem about same-position
+sequence-to-sequence outputs at fixed length, not a prohibition on all
+strand-aware causal models. The paired representation avoids the conclusion
+by being bidirectional, not left-causal. A forward-only branch can be used for
+causal decoding, but no longer provides the full paired-output guarantee.
+Record-level invariant outputs emitted after the record ends are another
+different contract.
+
+For autoregressive training, a forward conditional
+$p(x_{t+1}\mid x_{\leq t})$ and a reverse-oriented conditional are different
+prediction problems. One may train both directions with shared weights and
+correctly transformed targets; this does not justify averaging their aligned
+logits while evaluating a forward conditional. A target mask must also be
+transformed with coordinates. Bidirectional masked-token objectives require
+masking the target information before either pass sees it.
+
+\section{Reverse the record, not the transport chunks}
+
+Let a complete record be partitioned as $X=C_1C_2\cdots C_m$.
+Reverse complement is an anti-homomorphism for concatenation:
+\begin{equation}
+ \mathcal R(C_1C_2\cdots C_m)
+ =\mathcal R(C_m)\cdots\mathcal R(C_2)\mathcal R(C_1).
+ \label{eq:chunks}
+\end{equation}
+The order of chunks and the coordinates within each chunk both reverse.
+For ACG$\mid$TA$\mid$CC, the correct opposite record is
+GG$\mid$TA$\mid$CGT. Independently transforming chunks in arrival order gives
+CGT$\mid$TA$\mid$GG, a different record.
+
+\Plate{05-chunks}{Chunk boundaries are a transport partition, not a new
+biological sequence order. The reverse pass starts with the final chunk and
+continues its state into the preceding chunk. Each record has its own pair of
+boundary states; concatenating unrelated records does not license state reuse.}{fig:chunks}
+
+\Listing{chunked_dual}
+
+The forward pass carries its final state left to right. The opposite pass
+starts from zero at the opposite record boundary, visits chunks in reverse
+order and then realigns the concatenated outputs. Exact-arithmetic parity with
+Equation~\ref{eq:lift} follows because the recurrence sees the same token order
+and the same state at every step. Tests check every three-way partition of
+several record lengths, including empty chunks, and compare parameter and
+input gradients as well as forward values.
+
+This implementation is offline and retains output histories. In a real
+system, reverse traversal requires an available complete record, a reverse
+data source, or stored input that can be reread. It is not supplied by a
+constant-size forward state in general. For a scalar recurrence,
+the feature sequences $(1,-a)$ and $(0,0)$ have the same forward final state
+zero, but their reverse final states are $1-a^2$ and zero. This counterexample
+concerns the real-valued feature domain; it is not an assertion that these
+numbers are literal nucleotide tokens.
+
+Padding requires similar care. Our reference processes unpadded records.
+If right padding is reversed along with the record, it becomes left padding.
+Advancing the recurrence on a zero row decays the state and is not the same
+as skipping a padding slot. A production implementation should transform the
+validity mask and obey a declared hold/advance policy. Likewise, a cached
+state needs record identity, orientation, model revision and boundary location,
+not just the correct vector dimension.
+
+\section{Differentiate the shared computation}
+
+Sharing weights means gradients add across both uses. If
+$E_\theta(X)=[F_\theta(X)\mid R_TF_\theta(\mathcal RX)]$ and a loss has branch
+cotangents $(g_f,g_b)$, then schematically
+\begin{equation}
+ \nabla_\theta\mathcal L
+ =(\partial_\theta F_\theta(X))^\top g_f+
+  (\partial_\theta F_\theta(\mathcal RX))^\top R_Tg_b .
+\end{equation}
+There is one parameter object, not two weights periodically copied after
+optimization. Position reversal and complement are permutations, whose
+adjoints are their inverses; in this case they are involutions.
+Consequently, gradients through the transformed input return to the
+corresponding original coordinates.
+
+For a loss invariant under the output action and consistently transformed
+targets, the losses on $X$ and $\mathcal RX$ are equal in exact arithmetic.
+Their parameter gradients are equal wherever differentiable. This does not
+mean the two branch contributions within one evaluation are equal.
+Finite differences, automatic-differentiation parity, and deliberately broken
+weight sharing form separate checks. Our tests include all three forms of
+reasoning: a closed-form recurrence oracle, numerical gradient checking, and
+negative examples whose symmetry residual is nonzero.
+
+\section{A falsifiable strand hypothesis, not a biological shortcut}
+
+Caduceus provides a primary example of distinguishing bidirectionality,
+shared reverse-complement processing, equivariant embeddings and output
+heads~\cite{caduceus}. It also separates architectural equivariance from
+post-hoc conjoining. Our paired-block action and simple recurrence are an
+independently specified teaching reference, not a reproduction of its
+MambaDNA implementation or reported benchmarks.
+
+For DOGMA, formulate the scientific claim narrowly: does a declared strand
+constraint improve a specific task under matched budgets and correct labels?
+Compare a forward baseline, an unconstrained bidirectional baseline,
+augmentation, the shared dual lift and an invariant readout only when the
+task warrants invariance. Match or report parameters, FLOPs, input access,
+state storage and preprocessing. Sharing parameters does not eliminate the
+arithmetic of a second traversal.
+
+Split data before orientation augmentation. Otherwise a record can appear in
+training while its reverse complement appears in testing. Group related loci
+and homologous examples according to the scientific question; exact RC
+deduplication alone does not remove biological relatedness. A palindromic
+record satisfies $\mathcal RX=X$, so its paired output must satisfy
+$E(X)=\mathcal JE(X)$. That relates opposite positions and branches, not
+necessarily the two branches at the same position.
+
+Report task metrics alongside symmetry residuals and failure cases. Zero
+symmetry residual proves only the implementation's transformation contract.
+A constant predictor can satisfy it perfectly and still be useless. Conversely,
+a task with deliberately oriented labels can be harmed by an invariant head
+that erases needed distinctions. The output action is a scientific choice
+to test, not an architectural slogan.
+
+\section{Exercises with worked answers}
+\begin{enumerate}
+\item Compute the reverse complement of ACGA. \textbf{Answer:} Complement
+TGCT, then reverse to TCGT; complement-only is not the required reading order.
+\item Transform $[2,5)$ in a record of length $9$. \textbf{Answer:}
+$[9-5,9-2)=[4,7)$. Applying the rule again returns $[2,5)$.
+\item Prove $\mathcal R^2=I$. \textbf{Answer:} Row reversal and channel
+complement commute, and each applied twice is identity.
+\item What output action fits two strand-specific tracks? \textbf{Answer:}
+Reverse positions and swap track labels, provided the assay metadata
+transforms in the same way.
+\item Why is the second branch reversed after evaluation? \textbf{Answer:}
+Its row $T+1-t$ corresponds to original position $t$; without realignment
+the concatenated rows describe different positions.
+\item Derive $h_3$ for projected inputs $(1,2,3)$ and $a=1/2$.
+\textbf{Answer:} $h_1=1$, $h_2=2.5$, $h_3=4.25$.
+\item Solve the block constraints for a linear paired readout.
+\textbf{Answer:} $MJ=J'M$ implies $A=D_0$ and $B=C$; an affine
+bias must have equal paired blocks.
+\item Why does equivariance not permit causal use of the entire dual state?
+\textbf{Answer:} Its aligned reverse branch uses the suffix. Symmetry
+does not remove those dependencies.
+\item Reverse complement ACG$\mid$TA$\mid$CC. \textbf{Answer:}
+GG$\mid$TA$\mid$CGT; changing each chunk without reversing their order is wrong.
+\item Does a zero padding row act as identity? \textbf{Answer:}
+Not in Equation~\ref{eq:recurrence}: it maps $h$ to $a\odot h$.
+Skipping an invalid slot needs an explicit mask rule.
+\item Must a palindromic input have equal branch features at each position?
+\textbf{Answer:} No. It requires $u_t=v_{T+1-t}$; equality at $t$
+only follows where additional conditions, such as a central fixed position, apply.
+\item Design a fair strand-ablation study. \textbf{Rubric:} Specify label
+transformations and orientation metadata; split related records before
+augmentation; compare forward, bidirectional and constrained variants;
+match or report computational budgets; test symmetry and task accuracy
+separately; include an oriented task and a constant-predictor control.
+\end{enumerate}
+
+\clearpage
+\section{Vocabulary and the integration boundary}
+\Term{Reverse complement}: reverse sequence order and complement base
+identities. \Term{Output action}: the specified transformation of predictions
+when the input representation changes. \Term{Parameter tying}: multiple
+computational uses of one parameter object. \Term{Bidirectionality}: use of
+both prefix and suffix context. \Term{Anti-homomorphism}: a transformation
+that reverses the order of composition, as in Equation~\ref{eq:chunks}.
+
+Chapter 22 will assemble the DOGMA reference research model. Its first job is
+not to add more biological names: it is to reconcile the token, regulation,
+memory, strand, objective and execution contracts into a model whose successes
+and failures can be measured without changing the claim halfway through.

@@ -1,0 +1,5 @@
+\begin{tikzpicture}\begin{axis}[width=13cm,height=6.3cm,xlabel={Incoming state $h$},ylabel={Outgoing state},grid=major,legend pos=north west,xmin=-.5,xmax=.5]
+\input{\Generated/feedback-plot.tex}
+\addplot[Green,dashdotted,thick,domain=-.18:.18] {.5+2.5*x};
+\legend{Feedback update,Identity,Tangent at zero}
+\end{axis}\end{tikzpicture}

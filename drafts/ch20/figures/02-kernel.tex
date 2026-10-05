@@ -1,0 +1,9 @@
+\begin{tikzpicture}
+\begin{axis}[width=.87\linewidth,height=6cm,xmin=0,xmax=40,ymin=0,ymax=.52,
+xlabel={Lag (valid events)},ylabel={Input weight},
+grid=major,legend style={at={(.98,.98)},anchor=north east,font=\small},
+tick label style={font=\small}]
+\input{\Generated/kernel-plot.tex}
+\legend{$a=1/2$,$a=7/8$}
+\end{axis}
+\end{tikzpicture}

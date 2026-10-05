@@ -1,0 +1,2 @@
+Question: what information does each memory representation preserve?
+An illustrative four-slot raw token buffer stores ordered A,C,G,T identities. It is not implemented by the numerical reference. The implemented H bank has K rows and D feature columns; s is a D-dimensional coarse state, p a D-dimensional pending sum, and q a phase. A compressed summary is not an addressable token archive.

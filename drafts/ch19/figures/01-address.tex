@@ -1,0 +1,16 @@
+\begin{tikzpicture}[x=1cm,y=1cm]
+\path[use as bounding box] (0,-.6) rectangle (13,5.1);
+\node[note,anchor=west,text=Blue] at (.2,4.8) {\textbf{One address; three parameter roles}};
+\node[note,draw=Blue,fill=Pale] (pair) at (1.7,2.4) {Previous A\\Current C\\Pair AC};
+\foreach \x/\title in {4/{Candidate $v$},7.1/{Write logit $u$},10.2/{Retention logit $r$}}{
+ \node[smallnote] at (\x+1,4.1) {\title};
+ \foreach \j/\label in {0/AA,1/AC,2/AG,3/AT}{
+  \ifnum\j=1 \fill[Gold] (\x,3.3-\j*.6) rectangle +(2,.55);\fi
+  \draw[Blue] (\x,3.3-\j*.6) rectangle +(2,.55);
+  \node[smallnote] at (\x+1,3.56-\j*.6) {\label};
+ }
+ \node[smallnote] at (\x+1,.95) {12 further rows};
+}
+\draw[flow] (pair.east)--(3.65,2.4)--(3.65,2.98)--(4,2.98);
+\node[smallnote] at (6.5,.1) {Each table is $16\times D$; the highlighted AC rows define this event.};
+\end{tikzpicture}

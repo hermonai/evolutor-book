@@ -1,0 +1,2 @@
+Question: which readout preserves branch-swap symmetry?
+The paired block matrix has diagonal blocks U,U and off-diagonal blocks V,V. This commutes with swapping paired inputs and paired outputs. An affine bias must be identical on both branches. Under exchange, u+v stays fixed and u−v changes sign. An invariant head can discard strand information needed by oriented tasks.

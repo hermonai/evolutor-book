@@ -1,0 +1,2 @@
+Question: why reverse as well as complement?
+Upper strand reads 5′-ACGA-3′ from left to right. Lower partner is 3′-TGCT-5′ in the same drawing and reads TCGT from its own 5′ end. Backbone arrowheads mark 3′; vertical marks are base pairing. Tensor channels are A,C,G,T; reversing rows and permuting columns by (T,G,C,A) gives RC(X). This is representation change, not chemical reversal.

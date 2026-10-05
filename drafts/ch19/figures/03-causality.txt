@@ -1,0 +1,2 @@
+FIGURE 03-causality
+Four valid bases determine coefficients using each current and previous base. Coefficient-to-state and previous-state-to-next-state edges are distinct. First base uses a=1,b=0 because no pair exists. The red future-to-past path is explicitly forbidden. Pair compilation is causal.

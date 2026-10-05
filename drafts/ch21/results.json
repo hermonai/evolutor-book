@@ -1,0 +1,32 @@
+{
+  "trace": [
+    {
+      "position": 1,
+      "base": "A",
+      "forward": 1.0,
+      "reverse": 6.5,
+      "sum": 7.5
+    },
+    {
+      "position": 2,
+      "base": "C",
+      "forward": 2.5,
+      "reverse": 5.0,
+      "sum": 7.5
+    },
+    {
+      "position": 3,
+      "base": "G",
+      "forward": 4.25,
+      "reverse": 4.0,
+      "sum": 8.25
+    },
+    {
+      "position": 4,
+      "base": "A",
+      "forward": 3.125,
+      "reverse": 4.0,
+      "sum": 7.125
+    }
+  ]
+}

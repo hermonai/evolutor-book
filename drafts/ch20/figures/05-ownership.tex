@@ -1,0 +1,12 @@
+\begin{tikzpicture}[x=1cm,y=1cm]
+\path[use as bounding box] (0,-.9) rectangle (13,4.8);
+\node[note,text=Blue,anchor=west] at (0,4.4) {\textbf{Record identity determines which state may continue}};
+\node[note,draw=Blue,fill=Pale] (a1) at (2.1,3) {A: chunk 1};
+\node[note,draw=Blue,fill=Pale] (a2) at (10.6,3) {A: chunk 2};
+\draw[flow] (a1)--node[above,smallnote]{$H_A,s_A,p_A,q_A$}(a2);
+\node[note,draw=Green] (reset) at (2.1,.7) {reset to zero};
+\node[note,draw=Green,fill=Pale] (b1) at (10.6,.7) {B: chunk 1};
+\draw[flow] (reset)--node[below,smallnote]{independent record state}(b1);
+\draw[Red,dashed,thick,->] (a1.south east)--node[above,sloped,smallnote,fill=white]{forbidden reuse}(b1.north west);
+\node[smallnote] at (6.4,-.65) {Model revision and configuration must also agree at continuation.};
+\end{tikzpicture}

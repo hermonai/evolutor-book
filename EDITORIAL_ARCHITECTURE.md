@@ -1,6 +1,6 @@
 # Editorial architecture and release roadmap
 
-Updated 25 September 2026. This is the current execution map, not a claim
+Updated 27 September 2026. This is the current execution map, not a claim
 that every planned chapter is written or independently reviewed.
 
 ## One manuscript, distinct review stages
@@ -11,9 +11,9 @@ for current authoring progress. Do not regenerate archived editions merely
 to change their progress labels.
 
 Chapters 1-2 retain their internal acceptance records. Chapter 3 has standalone
-and combined LaTeX review candidates. Chapters 4-18 have isolated authored-LaTeX
+and combined LaTeX review candidates. Chapters 4-21 have isolated authored-LaTeX
 review candidates with code, vector figures, and worked solutions.
-Chapter 19 is the next unwritten chapter. Chapters 11-18 were authored at the
+Chapter 22 is the next unwritten chapter. Chapters 11-21 were authored at the
 reader's explicit request while the Chapters 1-10 integration milestone remains
 pending. These standalone candidates do not substitute for that integration.
 Independent specialist review and cumulative integration are still open.
@@ -138,11 +138,35 @@ claims. Prove chunk equivalence, mass and unit-retention strand equivariance;
 break symmetry with directional decay and restore it by full-record averaging.
 Expose record-boundary errors, precision limits and an exact state collision.
 
+## Chapter 19 scope (standalone candidate): dogma regulation and selective transformations
+
+Input-conditioned state updates, convexity proofs, causal chunking, analytic gradients, state-feedback counterexamples, non-identifiable gates, and a falsifiable genomic evaluation contract.
+Five mechanism/algorithm figures, twelve worked exercises and tested reference
+code connect the prior formal foundations to the next chapter. Contemporary
+research comparisons retain explicit source-access and capability boundaries.
+
+## Chapter 20 scope (standalone candidate): structured memory, locality and timescales
+
+Separate exact local storage, compressed state and content addressing. Derive
+exponential kernels, retention sensitivities and a multi-rate block clock;
+implement complete chunk continuation and validate its gradients. Five
+vector/TXT figures and twelve worked exercises expose order aliasing, finite-bit
+capacity and record-boundary failures without claiming genomic validation.
+
+## Chapter 21 scope (standalone candidate): strands, complements and dual-state hypotheses
+
+Derive reverse-complement actions, shared dual-state lifts, constrained
+readouts, causality limits, offline chunk equivalence and shared-parameter
+gradients. Distinguish algebraic symmetry from genomic capability.
+Five vector/TXT figures, twelve worked exercises and executable independent
+checks make the assumptions and failure boundaries visible. Original teaching
+models remain distinct from measured chemistry or trained genomic capability.
+
 ## Pending milestone: integrate Chapters 1-10
 
 Audit record validity, tensor notation, normalization conventions, routing
 cohorts, gradient history, and source closure, including the interfaces now
-used by Chapters 11-18. Separate biological regulation from expert routing.
+used by Chapters 11-21. Separate biological regulation from expert routing.
 Build a new cumulative entry point with unified bibliography and index; retain
 standalone candidates and accepted editions unchanged. Do not promote acceptance
 without independent review and the existing release gates.

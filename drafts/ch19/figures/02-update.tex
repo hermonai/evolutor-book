@@ -1,0 +1,16 @@
+\begin{tikzpicture}[x=1cm,y=1cm]
+\path[use as bounding box] (0,-.5) rectangle (13,4.8);
+\node[note,anchor=west,text=Blue] at (.2,4.4) {\textbf{Retain and replace with complementary weights}};
+\node[note] (old) at (1.5,3.1) {Old state\\$h=0.2$};
+\node[note] (new) at (1.5,.9) {Candidate\\$v=1$};
+\node[note,draw=Blue,circle] (a) at (5,3.1) {$\times$};
+\node[note,draw=Blue,circle] (b) at (5,.9) {$\times$};
+\node[smallnote,above] at (5,3.5) {$a=0.75$};
+\node[smallnote,below] at (5,.5) {$1-a=0.25$};
+\draw[flow] (old)--(a); \draw[flow] (new)--(b);
+\node[note,draw=Blue,circle] (sum) at (8.5,2) {$+$};
+\draw[flow] (a)--node[smallnote,above,sloped] {$0.15$} (sum);
+\draw[flow] (b)--node[smallnote,below,sloped] {$0.25$} (sum);
+\node[note] (out) at (11.5,2) {New state\\$h'=0.4$};
+\draw[flow] (sum)--(out);
+\end{tikzpicture}

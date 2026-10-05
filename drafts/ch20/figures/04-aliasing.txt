@@ -1,0 +1,2 @@
+Question: is a block average lossless?
+Blocks (1,−1) and (−1,1) both yield coarse state zero from reset, for B=2 and any ρ. The same blocks give fast state −1/4 and +1/4 at retention 1/2. Paths to the shared mean are distinct from paths to the fast state. One repaired counterexample does not imply universal lossless memory.

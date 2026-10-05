@@ -1,0 +1,2 @@
+FIGURE 05-ablation
+Generated state traces for AACA and ACAA begin with initial state then first-base identity. Candidate values AA=0,AC=1,CA=-1 and constant a=0.75 yield terminal -1/16 and -3/64. Equal pair histograms do not imply equal ordered recurrent states. No trained accuracy is plotted.

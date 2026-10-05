@@ -1,0 +1,382 @@
+\chapter{Structured memory, locality and timescales}
+
+A model reads a long DNA record. It must preserve an exact recent motif,
+track a slowly changing compositional signal, and avoid mixing one record
+with the next. Should all three jobs belong to the same vector? A single
+state can be useful, but naming it memory does not specify which
+information it retains, which queries it can answer, or when it must reset.
+
+Chapter 19 defined one selectively updated DOGMA reference. This chapter
+separates memory representation, retention and update clocks. We construct
+a small differentiable bank and a block-rate summary, prove their behavior,
+and expose failures that a final-state equality test can miss. DOGMA remains
+a proposed non-Transformer DNA-native research direction. The code below is
+a reference operator, not a trained genomic model or a biological mechanism.
+
+\section{Begin with the query a memory must answer}
+
+Three requests illustrate different contracts. Returning the last four
+canonical bases requires an ordered local buffer. Estimating a weighted
+recent feature average can use a compressed state. Retrieving the feature
+associated with a particular earlier location needs some notion of
+addressing and retention of that association. A long decay constant does
+not by itself provide an addressable record.
+
+Fix an input feature sequence $u_t\in\mathbb R^D$. The features might come
+from Chapter 19's DNA-pair table, but here we take them as explicit inputs
+so memory behavior can be tested separately from the encoder. The reference
+state will contain an exponential bank $H\in\mathbb R^{K\times D}$, a coarse
+summary $s\in\mathbb R^D$, a pending sum $p\in\mathbb R^D$, and an integer
+phase $q$. A recent raw-token buffer is a contrasting design, not an
+unimplemented feature that the code secretly provides.
+
+\Plate{01-layout}{Memory layout expresses different promises. Ordered raw
+token slots support exact recent recall; the numerical bank supports weighted
+summaries. The implemented reference contains the bank, coarse state, pending
+sum and phase, not the illustrative token buffer.}{fig:layout}
+
+\Term{Locality} must also be named precisely. Adjacent genomic coordinates,
+neighboring positions in an encoded stream, adjacent tensor addresses, and
+recent update events are different neighborhoods. A tokenizer that combines
+several bases changes the relation between token distance and base-pair
+distance. Packed records can even make two adjacent tensor slots belong to
+different chromosomes or organisms. Memory ownership cannot be inferred
+from storage adjacency.
+
+\section{Derive a timescale from a declared clock}
+
+For one channel, consider the relaxation equation
+$dh/d\xi=(u-h)/\tau$, where $\xi$ is a declared clock coordinate and
+$u$ is constant over an interval of length $\Delta\geq0$.
+Here $\tau>0$ has the same units as $\Delta$. Solving the equation gives
+\begin{equation}
+ h_{\rm new}=a h_{\rm old}+(1-a)u,\qquad
+ a=e^{-\Delta/\tau}.
+ \label{eq:relax}
+\end{equation}
+The clock could count valid tokens, genomic distance, or elapsed time.
+The equation alone does not choose among them. For a valid-token clock,
+we use $\Delta=1$ on each valid feature and do nothing for padding.
+An unobserved stretch of genome is not automatically padding: if distance
+matters, it may need a nonzero $\Delta$ and a separately specified input policy.
+
+The \Term{e-fold time} is $\tau$: a perturbation of the incoming state is
+multiplied by $e^{-1}$ after this much elapsed clock distance under a fixed
+coefficient. The half-life is $\tau\log 2$. For constant per-event retention
+$a\in(0,1)$, $\tau=-1/\log a$. These are sensitivity timescales, not measured
+biological half-lives or guaranteed task-relevant context lengths.
+
+\Listing{retention}
+Computing the write weight as $-\operatorname{expm1}(-\Delta/\tau)$ avoids
+subtracting two nearly equal numbers when the interval is very short.
+In exact arithmetic it equals $1-a$. In floating point the separately
+computed coefficients may not sum to exactly one; tests use stated numerical
+tolerances. We do not promise bitwise equality across arbitrary kernels.
+
+\begin{center}\input{\Generated/timescales.tex}\end{center}
+Retention $7/8$ forgets an existing perturbation more slowly than $1/2$,
+but its immediate response to a fresh input is only $1/8$ rather than $1/2$.
+Longer retention trades immediate write amplitude for persistence in this
+normalized update. Simply increasing retention is not a free improvement.
+
+\section{Unroll the state and inspect what it remembers}
+
+For a fixed $a$ and initial $h_0$,
+\begin{equation}
+ h_t=a^t h_0+\sum_{j=1}^{t}(1-a)a^{t-j}u_j.
+ \label{eq:kernel}
+\end{equation}
+The proof is substitution: multiply the previous expression by $a$ and add
+$(1-a)u_t$. The input at lag $\ell=t-j$ has weight
+$w_\ell=(1-a)a^\ell$, with $\sum_{\ell=0}^{\infty}w_\ell=1$.
+For a constant input and zero initial state, $h_t=(1-a^t)u$.
+For one unit impulse followed by zeros, the response is exactly the kernel.
+
+\Plate{02-kernel}{Two generated impulse kernels use the same unit input and
+zero initial state. Lag zero is the state immediately after that input.
+The slow bank writes less initially and retains a longer tail; neither curve
+is a genomic accuracy measurement.}{fig:kernel}
+
+With $K$ timescales, update row $k$ of the bank as
+$H_{k,t}=a_kH_{k,t-1}+(1-a_k)u_t$. Each row summarizes the same feature
+history with a different kernel. A readout such as
+$y_t=\sum_k w_kH_{k,t}$ can combine those summaries. It cannot recover
+information that every row has discarded. If the readout weights are
+unconstrained, the readout need not be a convex average even though every
+bank row is one.
+
+\begin{proposition}[A finite bank is a bounded summary]
+If every input coordinate and initial bank coordinate lies in $[-M,M]$,
+then every bank coordinate remains in that interval in exact arithmetic.
+For two runs with the same inputs, their difference in row $k$ after $t$
+unit-clock events is $a_k^t$ times its initial difference.
+\end{proposition}
+\begin{proof}
+Each update is a convex combination, proving the range bound by induction.
+Subtract the recurrences of the two runs; the input terms cancel.
+Iterating $\delta H_{k,t}=a_k\delta H_{k,t-1}$ gives the second claim.
+\end{proof}
+
+The second statement concerns perturbations of the initial state, not
+arbitrary parameter gradients or separability of every pair of histories.
+Chapter 19 already showed how a state-dependent gate can invalidate this
+simple contraction argument. A bank of fixed timescales is deliberately
+chosen here so the memory kernel is inspectable.
+
+\section{Slow updates are not the same as slow retention}
+
+A second mechanism updates a coarse state only after a block of $B$ valid
+features. Within the current block retain a sum $p$ and phase $q$.
+For each valid input,
+\begin{equation}
+ p\leftarrow p+u_t,\qquad q\leftarrow q+1.
+\end{equation}
+If $q=B$, commit
+\begin{equation}
+ s\leftarrow\rho s+(1-\rho)\frac{p}{B},\qquad
+ p\leftarrow0,\quad q\leftarrow0,
+ \quad 0\leq\rho\leq1.
+ \label{eq:commit}
+\end{equation}
+Otherwise $s$ is held exactly. Padding changes none of these fields.
+The block boundary is determined by valid-event count, not by how a loader
+cuts a record into transport chunks.
+
+After $m$ complete blocks, an initial coarse-state perturbation is
+$\rho^m$ times its original value. At block-aligned positions,
+an equivalent per-token envelope is $a_{\rm eff}=\rho^{1/B}$.
+Between commits, however, the state is constant. Thus a per-token exponential
+with retention $a_{\rm eff}$ is not the same operator: it responds earlier,
+weights positions inside a block differently, and has different gradient paths.
+
+\Plate{03-clock}{A chunk ending after position 3 carries phase 3 and the
+pending sum. The fourth valid position completes the block and triggers the
+coarse update. The transport boundary does not reset or flush the model's
+clock. A read before the commit cannot use a future block summary.}{fig:clock}
+
+For $B=4$, $\rho=1/2$, and input $(1,0,0,0,0,0,0,0)$, the first block
+mean is $1/4$ and the coarse state becomes $1/8$. It remains there until
+the next commit, then becomes $1/16$. The two exponential rows respond on
+every valid position instead.
+\begin{center}\input{\Generated/trace.tex}\end{center}
+
+What happens to a partial block at the end of a record? Our reference retains
+it without committing. A caller may inspect it as part of the complete state,
+or discard it when the record is finished. An explicit finalization operation
+could average by the actual count, but that would be a different output
+contract. Flushing every transport chunk is not valid finalization.
+
+\Needspace{12\baselineskip}
+\section{Implement the complete carried state}
+
+\Listing{Memory}
+The container's fields name the sufficient state for this recurrence.
+The frozen dataclass prevents rebinding its attributes; it does not make
+PyTorch tensors deeply immutable. The implementation performs no in-place
+updates, and callers must not mutate tensors retained for later continuation
+or gradient computation.
+
+Before executing, the validator checks feature shape $[T,D]$, positive
+timescales $[K]$, shared dtype/device, a Boolean mask, the allowed phase, and
+the shapes of all carried tensors. An empty pending block must have zero sum.
+It checks even masked values for finiteness so NaNs are not silently hidden.
+This is a correctness-oriented reference, not a device-efficient validation
+kernel.
+\Listing{multiscale}
+
+The helper \texttt{validate} is included in full in the companion source,
+along with a separately expanded convolution oracle. The build extracts
+whole functions for printed listings. No line-number fragment is maintained
+independently of the executable file.
+
+The returned history includes the initial state and one state per input slot.
+It is convenient for teaching and testing, but storing this history costs
+$O(TKD)$ values. A streaming inference implementation that retains only the
+terminal state can have bounded carried storage; that is not a claim that
+training through the reference uses constant memory.
+
+\section{Prove chunk parity, then test the missing-field failure}
+
+Each valid event maps $(H,s,p,q)$ deterministically to its successor using
+fixed configuration $(\tau,B,\rho)$. A masked slot is the identity map.
+Applying the same sequence of maps with a temporary pause therefore gives
+the same final state. This proves chunk parity in exact arithmetic,
+provided all four fields cross the boundary and the configuration is unchanged.
+
+The proof is short because the state is complete. If only $H$ and $s$
+are saved after three valid positions of a four-position block, the next
+chunk cannot know whether its first token should trigger a commit.
+Dropping $p,q$ changes the model even when a casual observer sees plausible
+bank values. The tests deliberately perform this broken continuation and
+check that both the coarse state and phase differ.
+
+\Plate{05-ownership}{Record A's complete carried state follows only record A.
+Record B begins from its own reset state. Dashed forbidden edges mark
+cross-record reuse. In a serving system the record and model identities are
+additional ownership metadata, not implicit tensor properties.}{fig:ownership}
+
+Forward parity is only half of the training contract. A saved tensor that
+has been detached from the autograd graph may retain the right values but
+lose dependence on earlier inputs. Tests compare gradients into both
+features and timescales across a split. For independent records, resetting
+is correct; for a continuing record, resetting is a semantic change.
+Persistent storage must also bind model revision, dtype, timescales, block
+size, readout convention and any upstream pair-encoder state.
+
+\section{Coarse memory loses order: an exact counterexample}
+
+Take $B=2$ and zero initial coarse state. The blocks $(1,-1)$ and $(-1,1)$
+both have mean zero. They leave the same coarse state for every $\rho$.
+Yet a fast bank with $a=1/2$ ends at $-1/4$ and $+1/4$, respectively.
+Therefore the coarse state cannot answer a question about which sign came
+last, while the fast bank can distinguish these particular examples.
+
+\Plate{04-aliasing}{A block mean erases within-block order. The two histories
+meet at the same coarse value but reach different fast values. Adding a
+fast state repairs this counterexample; it does not prove lossless recovery
+of every possible history.}{fig:aliasing}
+
+This is \Term{aliasing} under the selected summary map, not numerical noise.
+No more accurate floating-point arithmetic can make the two exact block
+means different. A learned feature encoder might preserve relevant
+distinctions before pooling, but that is a hypothesis requiring a task and
+evidence. Declaring a summary global memory does not settle its adequacy.
+
+A separate counting argument applies to any finite-precision implementation.
+If all carried state and metadata together have at most $C$ bits, there are
+at most $2^C$ representable states. There are $4^n=2^{2n}$ canonical DNA
+strings of length $n$. Whenever $2n>C$, two distinct strings must share a
+state. This proves a limit on lossless full-history encoding, not failure
+on every task. Many tasks need only a small sufficient statistic.
+Ideal exact real numbers do not satisfy the finite-bit premise.
+
+\section{Timescale gradients and useful information}
+
+For one update with $a=e^{-\Delta/\tau}$ and fixed incoming $h,u$,
+\begin{equation}
+ \frac{\partial a}{\partial\tau}
+ =a\frac{\Delta}{\tau^2},\qquad
+ \frac{\partial h_{\rm new}}{\partial\tau}
+ =a\frac{\Delta}{\tau^2}(h-u).
+ \label{eq:taugrad}
+\end{equation}
+Increasing $\tau$ moves the update toward the old state. If old state and
+input coincide, this local derivative vanishes. Across time, the total
+derivative must include earlier states' dependence on $\tau$; treating
+each step's incoming state as a constant misses those paths.
+
+For a block commit, each of its $B$ features has derivative
+$(1-\rho)/B$ into the new coarse state before later attenuation.
+A subsequent $m$ commits multiply this direct contribution by $\rho^m$.
+Before its own block commits, the feature has no effect on $s$, although
+it is present in $p$ and in the fast bank. Reading a completed block summary
+back into earlier positions would leak future information.
+
+Long retention preserves a sensitivity but does not select which information
+deserves preservation. A model may retain nuisance composition while losing
+a rare functional pattern. Conversely, short memory can be enough when
+the target depends only on local sequence. Report performance by declared
+dependency distance and perturbation type instead of turning $\tau$ into
+an unsupported effective-context-length headline.
+
+\section{Research comparisons without architectural substitution}
+
+HiPPO formulates recurrent memory through online polynomial approximation
+of a history under a specified measure \cite{hippo}. Its approximation
+objective gives a more structured meaning to compression than an arbitrary
+collection of decay constants. Our independent exponential rows are not
+a HiPPO construction, and inherit no optimality theorem from that work.
+
+Titans combines a learned test-time memory with other memory roles
+\cite{titans}. In its long-term module, an associative objective drives
+updates to memory parameters, with a momentum-like state and forgetting.
+Our recurrence updates activation state with fixed parameters during a
+record; it is not test-time learning. The shared lesson is to specify
+what is stored, how it is written and what a read returns, not to treat
+all mechanisms called memory as equivalent.
+
+The distinction matters for DNA-domain systems. Molecular binding, cellular
+regulation, neural activation state, optimizer state and a persistent
+database have different units and causal mechanisms. A software timescale
+measured in valid tokens is not a cellular lifetime. Biological labels
+should not stand in for mechanism diagrams when the object is a tensor.
+
+\section{Build an evaluation contract that could reject the design}
+
+Compare at least a local-window baseline, a single-timescale recurrence,
+the multiscale bank, and the bank plus block summary. Hold the feature
+encoder and readout policy fixed when isolating memory effects. Match or
+report parameter count, carried-state bytes, arithmetic, training budget
+and actual hardware latency separately. A broader trained baseline may be
+needed to test usefulness; a controlled ablation tests a narrower causal claim.
+
+Choose the split by the scientific question. Related sequences and overlapping
+windows should not cross a purportedly independent train/test boundary.
+State whether genomic coordinates, species, homologous groups or individuals
+are held out. Report more than an average score: probe rare patterns,
+long gaps, changed composition, ambiguous bases, record boundaries and
+reverse-complement transformations with the appropriate label semantics.
+Chapter 21 will own the strand-symmetry contract; a directional recurrence
+does not become strand invariant by being DNA-addressed.
+
+For this reference, persistent numerical state contains $(K+2)D$ scalars
+plus phase. At 32 bits per scalar, $K=8,D=64$ needs
+$4(8+2)64=2560$ bytes for those tensors, excluding allocator overhead,
+parameters, history, metadata and any raw-token buffer.
+Each valid event costs $O(KD)$ arithmetic for the bank and $O(D)$ for the
+pending sum. Coarse commits add $O(D)$ every $B$ valid events.
+These counts are not measured throughput.
+
+Operational tests should interleave records, change chunk boundaries, insert
+padding, serialize and restore complete state, and deliberately supply a
+mismatched model revision. Our local reference tests arithmetic, causality,
+masking and in-memory ownership; it does not implement a versioned serving
+store. Industrial claims require that additional system and its failure tests.
+
+\section{Exercises with worked answers}
+\begin{enumerate}
+\item Convert $a=1/2$ into a unit-clock e-fold time and half-life.
+\textbf{Answer:} $\tau=1/\log2$; half-life $1$ valid event.
+\item Starting from zero, apply two unit inputs with $a=3/4$.
+\textbf{Answer:} $h_1=1/4$, $h_2=7/16=1-(3/4)^2$.
+\item What is the weight of an input at lag three for $a=1/2$?
+\textbf{Answer:} $(1-a)a^3=1/16$, not $1/8$.
+\item Why is two-clock composition exact only under a stated input policy?
+\textbf{Answer:} With the same held input,
+$a(\Delta_1)a(\Delta_2)=a(\Delta_1+\Delta_2)$ and the write weights combine.
+Different inputs produce different weighted contributions.
+\item With $B=4,\rho=1/2$, what follows block $(1,0,0,0)$ from reset?
+\textbf{Answer:} $s=1/8$, $p=0$, $q=0$; the fast bank has its own values.
+\item A chunk ends with $q=3$. May the next chunk start with $q=0$?
+\textbf{Answer:} Not for continuation. The next valid event must commit the
+old pending sum plus the new feature.
+\item Show that equal block means need not imply equal fast states.
+\textbf{Answer:} $(1,-1)$ and $(-1,1)$ have mean zero; at $a=1/2$ their
+terminal fast values are $-1/4$ and $+1/4$.
+\item Differentiate the update with respect to $\tau$ at fixed $h,u$.
+\textbf{Answer:} Equation~\ref{eq:taugrad}; its sign follows $h-u$.
+Total sequence derivatives also propagate through previous states.
+\item Can a $C$-bit state losslessly represent all length-$n$ DNA strings
+when $2n>C$? \textbf{Answer:} No, by the pigeonhole principle.
+This does not rule out exact task-specific sufficient statistics.
+\item Does a frozen dataclass prevent in-place tensor mutation?
+\textbf{Answer:} No. It prevents attribute rebinding, not mutation of a
+referenced tensor. Ownership rules and non-mutating updates remain necessary.
+\item Compute carried tensor bytes for $K=4,D=32$ at float32.
+\textbf{Answer:} $4(4+2)32=768$ bytes, before phase and other overheads.
+\item Propose a test of useful long-range memory.
+\textbf{Rubric:} Fix the task and label alignment; separate related training
+and test sequences; use matched baselines and encoder/readout controls;
+vary dependency distance and nuisance context; report uncertainty, state
+cost, runtime and negative cases. Synthetic kernel plots alone earn no
+credit as evidence of genomic capability.
+\end{enumerate}
+
+\section{Vocabulary and the next boundary}
+\Term{Update clock}: the events or distance increments that advance state.
+\Term{Retention}: attenuation of previous state in a declared recurrence.
+\Term{Carried state}: all fields required to resume the same computation.
+\Term{Information capacity}: the distinctions representable under the
+chosen precision and storage budget, not merely the length of input read.
+The next chapter asks how these directional memory states should transform
+when the same DNA is represented on the opposite strand.

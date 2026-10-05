@@ -1,0 +1,2 @@
+Question: which boundary triggers the slow update?
+Six valid features begin (1,0,0,0,0,0), with B=4 and ρ=1/2. Phase values after each event are 1,2,3,0,1,2. A transport split after event 3 carries H,s,p,q; event 4 commits s=1/8 and clears p,q. The split does not flush the block. Future summaries cannot be read by earlier events.

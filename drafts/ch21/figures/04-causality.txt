@@ -1,0 +1,2 @@
+Question: what information is available at original position 4?
+Forward u4 uses x1,x2,x3,x4. Aligned reverse v4 uses x4,x5,x6,x7. The common token is x4; together they use the full record. Edges indicate data dependence, not biochemical interaction. Full dual output is offline, and using it for ordinary next-token prediction would reveal future input.

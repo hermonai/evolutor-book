@@ -1,0 +1,12 @@
+\begin{tikzpicture}[x=1cm,y=1cm]
+\path[use as bounding box] (0,-.6) rectangle (13,4.4);
+\node[note,anchor=west,text=Blue] at (0,4.1) {\textbf{At position 4, the paired state uses both sides}};
+\foreach \i in {1,...,7} {
+ \node[note,draw=Blue,minimum width=.65cm] (x\i) at (1.5*\i,3) {$x_{\i}$};
+}
+\node[note,draw=Blue,fill=Pale] (f) at (3.5,1.1) {$u_4$: prefix};
+\node[note,draw=Green,fill=Pale] (b) at (8.5,1.1) {$v_4$: suffix};
+\foreach \i in {1,...,4} \draw[flow,thin] (x\i.south)--(f.north);
+\foreach \i in {4,...,7} \draw[flow,thin,Green] (x\i.south)--(b.north);
+\node[smallnote] at (6.5,-.1) {Prefix $\cap$ suffix $=\{x_4\}$;\qquad prefix $\cup$ suffix = complete record.};
+\end{tikzpicture}

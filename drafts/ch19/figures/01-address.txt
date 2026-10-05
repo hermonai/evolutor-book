@@ -1,0 +1,2 @@
+FIGURE 01-address
+Previous base A and current C select the AC row in candidate, write-logit and retention-logit tables. Each table is 16 by D. Rows represent software parameters, not molecules. One address shares its row identity across three distinct parameter roles.

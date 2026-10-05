@@ -1,0 +1,14 @@
+\begin{tikzpicture}[x=1cm,y=1cm]
+\path[use as bounding box] (0,-.9) rectangle (13,4.7);
+\node[note,text=Blue,anchor=west] at (0,4.3) {\textbf{Same coarse summary, opposite recent-order evidence}};
+\node[note,draw=Blue,fill=Pale] (a) at (1.9,3) {$(1,-1)$};
+\node[note,draw=Blue,fill=Pale] (b) at (1.9,1) {$(-1,1)$};
+\node[note,draw=Green,minimum width=2cm] (mean) at (6.3,2) {mean $=0$\\coarse $s=0$};
+\draw[flow] (a)--node[below,sloped,smallnote]{block mean}(mean);
+\draw[flow] (b)--node[above,sloped,smallnote]{block mean}(mean);
+\node[note,draw=Red] (fa) at (10.9,3) {fast $=-1/4$};
+\node[note,draw=Red] (fb) at (10.9,1) {fast $=+1/4$};
+\draw[flow] (a.east) -- node[above,smallnote]{$a=1/2$ recurrence}(fa.west);
+\draw[flow] (b.east) -- node[below,smallnote]{$a=1/2$ recurrence}(fb.west);
+\node[smallnote] at (6.3,-.65) {Zero initial state; $B=2$; any coarse retention $\rho$.};
+\end{tikzpicture}

@@ -1,0 +1,2 @@
+Question: how must transport chunks transform?
+Original chunks C1=ACG,C2=TA,C3=CC. RC of the full record is RC(C3)=GG followed by RC(C2)=TA followed by RC(C1)=CGT. Opposite-pass state begins at the opposite record boundary and continues in that transformed order. RC each chunk in arrival order is incorrect. Separate records always have separate reset boundaries.

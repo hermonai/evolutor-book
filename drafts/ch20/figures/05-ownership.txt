@@ -1,0 +1,2 @@
+Question: who owns a resumable state?
+Record A chunk 1 supplies all four fields H_A,s_A,p_A,q_A to record A chunk 2. Record B starts from a separate reset state. A dashed crossing edge marks forbidden reuse from A to B. Model revision, dtype, clock configuration and upstream encoder state must also match.

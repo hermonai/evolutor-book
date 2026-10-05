@@ -1,0 +1,18 @@
+\begin{tikzpicture}[x=1cm,y=1cm]
+\path[use as bounding box] (0,-.5) rectangle (13,4.8);
+\node[note,anchor=west,text=Blue] at (0,4.5) {\textbf{Reverse chunk order and within-chunk coordinates}};
+\foreach \x/\seq/\num in {2/ACG/1,6/TA/2,10/CC/3} {
+ \node[note,draw=Blue,fill=Pale,minimum width=2cm] at (\x,3.4) {\seq};
+ \node[smallnote,above] at (\x,3.7) {$C_{\num}$};
+}
+\foreach \x/\seq/\num in {2/GG/3,6/TA/2,10/CGT/1} {
+ \node[note,draw=Green,minimum width=2cm] at (\x,1.1) {\seq};
+ \node[smallnote,below] at (\x,.8) {$\mathcal R C_{\num}$};
+}
+\draw[flow] (10,3.05)--(2,1.5);
+\draw[flow] (6,3.05)--(6,1.5);
+\draw[flow] (2,3.05)--(10,1.5);
+\node[smallnote,fill=white,inner sep=3pt] at (6,2.3) {global record reversal};
+\draw[flow] (.7,-.05)--(11.3,-.05);
+\node[smallnote,below] at (6,-.1) {reverse-pass state continues in this transformed order};
+\end{tikzpicture}

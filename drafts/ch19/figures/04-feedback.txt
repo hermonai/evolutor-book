@@ -1,0 +1,2 @@
+FIGURE 04-feedback
+The declared map f(h)=(1-sigmoid(8*h))*h+sigmoid(8*h) is plotted against identity, with tangent 0.5+2.5*h near zero. Locally expanding derivative 2.5 is compatible with a convex state/candidate mixture. Input-only Jacobian bounds do not apply to feedback gates.

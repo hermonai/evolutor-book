@@ -1,0 +1,17 @@
+\begin{tikzpicture}[x=1cm,y=1cm]
+\path[use as bounding box] (-.3,-1) rectangle (13,5.1);
+\node[note,anchor=west,text=Blue] at (0,4.7) {\textbf{Coefficients depend on prefixes, not future tokens}};
+\foreach \x/\n/\base in {1/1/A,4.5/2/A,8/3/C,11.5/4/A}{
+ \node[note,draw=Blue,fill=Pale] (x\n) at (\x,3.6) {$x_{\n}=\base$};
+ \node[note,draw=Green] (g\n) at (\x,2) {$a_{\n},b_{\n}$};
+ \node[note,draw=Blue,circle] (h\n) at (\x,0) {$h_{\n}$};
+ \draw[flow] (x\n)--(g\n); \draw[flow] (g\n)--(h\n);
+}
+\foreach \n/\next in {1/2,2/3,3/4}{
+ \draw[flow] (h\n)--(h\next);
+ \draw[flow,dashed] (x\n.south east)--(g\next.north west);
+}
+\draw[Red,densely dotted,thick,-{Stealth}] (11.5,4.15)--(4.5,4.15);
+\node[smallnote,fill=white,text=Red] at (8,4.15) {future-to-past: forbidden};
+\node[smallnote] at (6.4,-.75) {First base: $(a_1,b_1)=(1,0)$; dashed edges supply the previous base.};
+\end{tikzpicture}

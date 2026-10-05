@@ -1,0 +1,61 @@
+{
+  "pdf": "output/pdf/evolutor-ch20-review.pdf",
+  "pages": 13,
+  "sha256": "218743fe478acdabd4dcbf9a805ce7186f9e0268dbf9334b52c04a4c204ba1f4",
+  "status": "standalone authored-LaTeX review candidate; no acceptance promotion",
+  "sources": {
+    "drafts/ch20/README.md": "9a333bf5c21b27f2bace9ab5d89cb1cee2c8c9c343eb956a5d5468ca081f89c8",
+    "drafts/ch20/STORYBOARD.md": "5da6f5abcda708b7d0ea6eab1159b002b4d53b4a23188102d4d52301d344c2b9",
+    "drafts/ch20/build.py": "a418f1f291604a4a5812d0a6e0ba05d0f32ec292fa6b46178529fce43bc1d763",
+    "drafts/ch20/figures/01-layout.tex": "156dc3894c3d23cd4c65021638339da790711c038c0936d5d425e8b4e8d9e788",
+    "drafts/ch20/figures/01-layout.txt": "70e52259c938fd51d6fddf5d010e346e8ae4c12900a1e3adf06779347f15fdb8",
+    "drafts/ch20/figures/02-kernel.tex": "a800ba4dd3eb4c869d027ea321abd4305e59905f9a7e3dbe7520219c3f9bbf1f",
+    "drafts/ch20/figures/02-kernel.txt": "2240996dc4d23ee6a5492e9a7ad45f9cc741c1af97e43ffed2f575ac6b061e2e",
+    "drafts/ch20/figures/03-clock.tex": "17874772f6f772f6666c5c86f9321edae40d9a9afe5d78d3f7c08ccf8b348db7",
+    "drafts/ch20/figures/03-clock.txt": "ab82beaa6398347f3495ea1cbc08479ef946bb616bb69ec14a7b23ab19ab942a",
+    "drafts/ch20/figures/04-aliasing.tex": "8e26feea9707bc2c493aadc53c7536fcab3ae776a7f6e9723bbc5027f265d917",
+    "drafts/ch20/figures/04-aliasing.txt": "62ef8243ae5cd312555b9608916413439efb1f67d6336d0954ccd6dafd261907",
+    "drafts/ch20/figures/05-ownership.tex": "054788ae3ed3f23be3b03585f06f3cd3e6786d85d7c2a07f8dfd3f4cea44a458",
+    "drafts/ch20/figures/05-ownership.txt": "251bc4ce8907b146534dd32c249371ddc8844009891dbf7a6543b6bb69f0c1f3",
+    "drafts/ch20/manuscript.tex": "202439ce2c540e4b69f6964b60af0acb1f0990c98e8039ee6e1ed5a4243d0b38",
+    "drafts/ch20/reference.py": "9ad7fbabeb24ad4fd222929156fe75f6c88d1ed6c39d7675e551f2e838814a85",
+    "drafts/ch20/results.json": "5fa56e77f72d3cb875877183d672e40cdcd1ba0323fa30d482e6c1316c316499",
+    "drafts/ch20/review.tex": "93cc5830251279f2ab23710fa52441692637882ed6b8b3956477387566ccff61",
+    "drafts/ch20/sources.tex": "795d546f749f03ebf6abdfe2c9a2e8f24e5c943052dabdaf2bffc860bd237dd8"
+  },
+  "reviewedOn": "2026-09-27",
+  "reviewType": "author technical, editorial and visual review; not independent specialist acceptance",
+  "allPagesInspected": true,
+  "inspectedPhysicalPages": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13
+  ],
+  "grayscaleReview": "All pages inspected in color and grayscale contact sheets. Mechanism, shared-resource, block-clock and aliasing plates checked at page scale as applicable. Label collisions, code-heading pagination, back-matter spacing and small-number reporting corrected and re-inspected.",
+  "figures": 5,
+  "exercises": 12,
+  "openGates": [
+    "independent specialist review",
+    "reader feedback",
+    "cumulative integration, cross-chapter index and bibliography"
+  ],
+  "validation": {
+    "generatedArtifactsCheck": "passed",
+    "pdfWordsOutsidePage": 0,
+    "unresolvedReferenceMarkers": 0,
+    "python": "3.13.6",
+    "fullSuitePassed": 770,
+    "fullSuiteSkipped": 0,
+    "priorEditionPreservationTests": "passed"
+  }
+}
