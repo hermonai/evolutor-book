@@ -1,0 +1,397 @@
+\chapter{Shared experiments without false equivalence}
+DOGMA and Hermon DNA should be compared without making them identical.
+A common question, dataset and evidence standard can coexist with different
+state types, legal execution schedules and resource costs. The experiment must
+preserve the mechanism whose value is under test.
+
+This chapter builds that contract rather than announcing an architecture winner.
+We implement transitive split closure, train-only baseline selection, paired
+metrics, cluster resampling and native-model execution probes. The numerical
+classification example compares a GC threshold with a known motif oracle.
+The DOGMA and Hermon probes check semantic execution, not learning performance.
+
+\section{Define the estimand before building the leaderboard}
+\index{estimand}
+An estimand is the quantity the experiment intends to estimate.
+For two fixed predictors $f_A,f_B$ and an evaluation distribution $\mathcal D$,
+one possible estimand is the accuracy difference
+\begin{equation}
+\Delta(f_A,f_B;\mathcal D)=
+\mathbb E_{(x,y)\sim\mathcal D}
+[\mathbf1\{f_A(x)=y\}-\mathbf1\{f_B(x)=y\}].
+\label{evod25:estimand}
+\end{equation}
+This differs from the expected difference between two \emph{training procedures},
+where initialization, sampled training records, data order and tuning are random.
+It also differs from deployment utility under a fixed latency or memory budget.
+
+Write the target before inspecting results. Does the claim concern an offline
+record classifier, a causal next-token model, a variant effect predictor or
+a serving system? Which species, chromosomes, contexts and shifts should
+generalization cover? A metric without its task and population is an incomplete
+scientific statement. Benchmark selection can change apparent algorithmic
+rankings; it is not a neutral wrapper \cite{lottery}.
+
+\Plate{01-envelope}{The shared experiment envelope freezes the scientific question
+and legal evidence. Separate adapters retain DOGMA's complete recurrent/locus
+state and Hermon's token/mask representation. Shared outputs do not require
+shared internal state.}{evod25:envelope}
+
+\section{Freeze a common envelope, not a common machine}
+The common envelope records dataset version and provenance, split/group artifacts,
+target construction, legal information access, strand-label action, scored
+positions, primary metric, uncertainty method, tuning budget and stopping rule.
+Its digest binds exact content, not the scientific adequacy of that content.
+
+Chapter 5 supplies basic record/token contracts. Chapter 24 supplies physical
+base spans, reverse-complement span actions and attention legality. We now add
+the comparison-level split and evaluation contract. These are complementary
+layers, not a reason to rename Chapter 24 as a generic data chapter.
+
+Native execution remains different. DOGMA owns fast state $h$ and locus memory
+$m$, read-before-write semantics and reset/carry boundaries. Hermon owns token
+activations, positional representation and attention masks; a production serving
+engine may additionally own a KV cache. Evolutor organizes these models and
+experiments. It does not turn every mechanism into one architecture.
+
+
+For causal next-token prediction both models receive the same legal prefix and
+target shift, but DOGMA advances state while Hermon uses a triangular mask.
+Neither can import Chapter 21's full-record reverse-complement features.
+For offline classification both may inspect the full record under a declared
+strand policy. Their feature construction may still differ; that is an
+architectural variable to measure, not erase.
+
+\section{Leakage prevention is a transitive graph problem}
+\index{data leakage!dependency closure}
+A genomic collection can contain exact duplicates, reverse complements,
+overlapping windows, homologous sequences and samples sharing an individual
+or experimental source. Preventing exact duplication alone is insufficient.
+Represent records by vertices and prohibited-cross-split relationships by
+edges. A connected component must lie wholly in one partition.
+
+This includes transitivity. If A is the reverse complement of B, B shares
+a declared homology group with C, and C has a curated overlap link to D,
+all four belong to one split component. Checking each relationship type
+in isolation and performing successive splits can separate the chain.
+
+The reference joins exact/RC equivalents, globally namespaced declared group
+tags and explicit record-ID relations with union--find. A component's representative
+is a deterministic minimal ID; the final component order is sorted before
+seeded shuffling. Reordering source rows therefore does not silently alter
+the partition.
+
+\Plate{02-contracts}{A shared split artifact binds transitive dependency closure.
+Exact reverse complements, declared groups and curated links can jointly connect
+records. The entire component must share one partition; native model semantics
+remain separately specified.}{evod25:contracts}
+
+\Listing{closure}
+
+We do not infer homology from strings here. The biological curation artifact
+must supply those edges or tags, including the similarity criterion, overlap
+policy and version. Over-grouping can merge a whole chromosome or collection;
+under-grouping can permit near-duplicate leakage. Both consequences belong
+in the experiment report.
+
+Our finite splitter assigns 60/20/20 percent of \emph{components}, rounded
+to integer boundaries, not guaranteed percentages of records. Large components
+may yield uneven sample counts or class balance. It rejects empty partitions,
+and a separate audit checks every record and component.
+
+\Listing{audit_splits}
+
+The test oracle independently constructs an adjacency graph and finds its
+components by breadth-first traversal. A union--find roundtrip alone would
+not expose a shared linkage defect. We deliberately test a cross-partition
+reverse complement and a transitive curated relation; both must fail.
+
+Exact RC grouping prevents cross-split access even when strand-specific labels
+are legitimate. Label equality under RC is a separate task property:
+an invariant classification task should check it; an orientation-sensitive
+target should specify its transformation. Grouping and label action must not
+be conflated.
+
+\section{Preprocessing and selection belong to the training side}
+\index{selection bias}
+A transform may be mathematically harmless while leaking information through
+how its parameters were chosen. Estimate vocabulary, scaling statistics,
+feature selection, thresholds and imputation from permitted training data.
+Choose hyperparameters by the declared validation rule; freeze the selected
+pipeline before the held-out test.
+
+The executable baseline scores GC fraction and selects one threshold using
+only training labels. Candidate thresholds include midpoints between
+distinct observed scores and rules that predict every record positive or
+negative. The all-negative rule must exceed one: threshold one would still
+predict a pure-GC sequence positive. This boundary case appears in the tests.
+
+\Listing{fit_threshold}
+
+For the fixed synthetic example, 400 length-32 sequences have label one
+exactly when \texttt{ACGT} occurs. This motif is its own reverse complement.
+The source alternates intended classes, implants positive motifs and rejects
+negative candidates that contain the motif. Split assignment, not final
+test labels, determines the partitions. The resulting counts are 240 training,
+80 validation and 80 test records.
+
+The selected threshold is 0.390625. On the frozen test set, the string oracle
+gets all 80 labels; the GC baseline gets 39, giving accuracy 0.4875.
+This is a diagnostic for this deliberately weak statistic. It is not proof
+that neural models learn the task, nor that genomic classification is easy.
+The baseline need not consume its validation budget when no additional tuning
+is performed.
+
+\section{Accuracy, class balance and missing denominators}
+For a binary task, count true positives, true negatives, false positives and
+false negatives before reducing them to a scalar:
+\[
+\mathrm{accuracy}=\frac{TP+TN}{N},\qquad
+\mathrm{balanced\ accuracy}=
+\frac12\left(\frac{TP}{TP+FN}+\frac{TN}{TN+FP}\right).
+\]
+Balanced accuracy requires both classes to be represented.
+The implementation returns an explicit unavailable value if one class is absent,
+rather than manufacturing a denominator or silently assuming sensitivity one.
+
+For the motif test the GC baseline has $TP=32,TN=7,FP=34,FN=7$.
+Thus sensitivity is $32/39$, specificity $7/41$, and balanced accuracy
+is about 0.495622. Always include sample counts and class composition:
+a majority-class predictor can have impressive accuracy while missing
+every positive record. Other tasks need other metrics and their own target
+definitions; this binary contract is not a universal genome benchmark.
+
+\section{Derive paired uncertainty from correctness differences}
+\index{paired comparison}
+Two predictors evaluated on the same examples produce paired evidence.
+Define
+\begin{equation}
+d_i=\mathbf1\{f_A(x_i)=y_i\}-\mathbf1\{f_B(x_i)=y_i\},
+\qquad \widehat\Delta=\frac1N\sum_{i=1}^N d_i.
+\label{evod25:paired}
+\end{equation}
+Here $d_i$ is $-1,0,$ or $1$. Under iid evaluation records and fixed predictors,
+\[
+\widehat{\mathrm{Var}}(\widehat\Delta)
+=\frac{\sum_i(d_i-\overline d)^2}{N(N-1)}.
+\]
+The covariance between model outcomes is already captured by their paired
+difference. Resampling model A and B separately destroys that pairing and
+generally changes the uncertainty calculation.
+
+For two identical prediction vectors every $d_i=0$, so the paired difference
+and bootstrap interval are exactly zero. This is an important implementation
+invariant, not evidence of perfect predictions: both models could make the
+same errors.
+
+\Plate{04-seeds}{Keep the two predictions attached to one evaluation unit.
+Resample independent units at the record or cluster level. Repeat training
+seeds separately; conditional test uncertainty is not training-procedure
+uncertainty.}{evod25:seeds}
+
+\section{Cluster resampling and the cost of a false sample size}
+\index{bootstrap!cluster}
+Suppose records within a family, individual or source group remain dependent
+after the split. Resample independent clusters, retaining every within-cluster
+record and both model outcomes. Let cluster $g$ have difference sum $D_g$
+and size $n_g$. For bootstrap cluster draws $G_1^*,\ldots,G_K^*$,
+\begin{equation}
+\widehat\Delta^*=
+\frac{\sum_{k=1}^{K}D_{G_k^*}}{\sum_{k=1}^{K}n_{G_k^*}}.
+\label{evod25:cluster}
+\end{equation}
+This targets a record-weighted difference via a ratio of totals.
+It is not the equal-weight mean of cluster means, which is a different
+estimand when cluster sizes vary.
+
+\Listing{paired_bootstrap}
+
+The reference draws 2,000 replicates with seed 25 and reports empirical
+2.5/97.5 percentiles using linear interpolation. These are approximate,
+conditional percentile intervals, not a universal coverage theorem.
+At least two independent resampling units are required; four clusters
+still provide fragile evidence.
+
+A counterexample fixes 32 records in four equal clusters. Differences are
+$+1$ throughout two clusters and $-1$ throughout two others.
+Both analyses observe $\widehat\Delta=0$. Resampling individual rows yields
+the displayed narrow interval; resampling four clusters yields $[-1,1]$.
+The latter wide interval is appropriate to the assigned dependence model.
+
+\par\medskip\noindent\input{\Generated/intervals.tex}\par\medskip
+The independent oracle enumerates all $4^4=256$ cluster-draw sequences.
+It confirms the exact bootstrap support and extreme percentile endpoints.
+No bootstrap can undo train/test leakage; closure precedes resampling.
+
+In the motif example each generated test record is treated as an independent
+synthetic sampling unit. The oracle-minus-GC observed difference is 0.5125
+and the seeded percentile interval is $[0.4,0.625]$. This is a conditional
+comparison of two fixed rules, not a learned DOGMA/Hermon performance interval.
+
+\section{Seeds, tuning and variance are separate experimental axes}
+\index{random seed!reporting}
+Let $S$ denote training randomness and $D$ an evaluation sample.
+The law of total variance illustrates the separation:
+\[
+\mathrm{Var}_{S,D}(\widehat\Delta)
+=\mathbb E_S[\mathrm{Var}_D(\widehat\Delta\mid S)]
++\mathrm{Var}_S(\mathbb E_D[\widehat\Delta\mid S]).
+\]
+A test-record bootstrap conditional on one fitted pair addresses the first
+term under its sampling assumptions. It does not estimate the second.
+Repeat prespecified seeds, retain each run and avoid reporting only the best one.
+Reporting and variance studies motivate exposing these budgets and sources
+of randomness \cite{dodge,variance}.
+
+Using the same seed label for two architectures does not guarantee shared
+random draws: they may initialize different tensor shapes and consume random
+numbers differently. Pairing should follow shared data and justified
+randomization blocks, not a cosmetic matching integer. A seed summary
+requires its own inferential design when training sets or test cohorts
+are also varied.
+
+A tuning trial is a resource. Record its selected metric, validation access,
+stopping rule and failed runs. The model receiving many unreported manual
+iterations has a hidden advantage even if the final parameter counts match.
+
+\section{A resource budget is a vector with provenance}
+\index{resource budget}
+Use a budget vector rather than a single size:
+\[
+\mathcal B=(P,N_{\rm base},N_{\rm token},F,M_{\rm peak},M_{\rm persistent},
+T_{\rm train},L_{\rm infer},E).
+\]
+Count base positions separately from model tokens: overlapping $k$-mers
+can repeatedly expose the same base. Distinguish static parameter bytes,
+live activations, optimizer state and request-owned carry/cache. An attention
+edge count is not measured FLOPs or latency; an absent KV cache in a stateless
+reference is not proof that production inference uses no state.
+
+\Plate{03-budget}{Different budget components answer different questions.
+Static inventories and semantic graph counts are computed here. Peak memory,
+latency, energy and accelerator throughput need a separately specified
+instrumented workload.}{evod25:budget}
+\par\medskip\noindent\input{\Generated/budgets.tex}\par\medskip
+
+The native probe uses one eight-base record and float64 CPU models.
+DOGMA has 602 parameters; its fast/locus state contains
+$1\cdot8(1+3)=32$ scalars or 256 bytes.
+Hermon has 958 parameters including its unused classification head;
+two attention heads give $2(1+\cdots+8)=72$ legal causal edges per layer.
+These models are not parameter-matched. The table is an auditable inventory,
+not evidence of a fair performance comparison.
+
+\section{Native adapters must pass execution parity first}
+\index{adapter!semantic parity}
+For DOGMA, run all eight tokens and compare with a three-token chunk followed
+by five tokens carrying both $h$ and $m$. Features and terminal state match
+exactly in the assigned probe. Carrying only fast state would discard memory
+and define another model.
+
+For Hermon, compare full causal logits with the last-position logits from
+each repeated prefix. Maximum absolute difference is about
+$2.22\times10^{-16}$ in float64. The repeated-prefix path is deliberately
+slow and stateless: it is an oracle for information legality, not a KV-cache
+implementation or a serving benchmark.
+
+\Listing{native_probe}
+
+These checks use actual Chapter 22/23 references, not surrogate models named
+after them. They establish finite execution consistency for this probe.
+Chapter 26 broadens schedule, state and gradient parity. A serving engine
+additionally needs request ownership, reset, cancellation and cache-position
+tests before its timing results are interpretable.
+
+\section{Diagnose negative results without rewriting history}
+The incoming package referred to an old single Hermon motif result near
+47.7 percent. That is preserved as incoming provenance, not repeated as the
+current chapter result. The locally integrated Chapter 23 instead reports
+a three-seed synthetic pilot with mean Hermon accuracy about 0.528646,
+CNN about 0.723958 and random-target Hermon about 0.541667.
+Those experiments use their own frozen conditions and are not budget-matched
+architecture evidence.
+
+\Plate{06-diagnostic}{Verify labels and legal execution; try tiny-subset overfit;
+inspect gradients; compare task-relevant baselines; repeat the frozen design.
+Each branch localizes a failure without automatically declaring an architecture
+inferior.}{evod25:diagnostic}
+
+First verify record IDs and labels with an independent oracle. Next train
+on a tiny subset and report whether near-zero training error is reached
+under the stated budget. Check gradients, logits, mode/reset and masks.
+If tiny-set overfit succeeds but held-out performance fails while a local
+CNN succeeds, representation or inductive-bias/training hypotheses strengthen.
+If it fails, implementation or optimization remains a primary suspicion.
+No branch automatically proves a biological capability or its absence.
+
+\section{Ablation, substitution and transplant are different interventions}
+\index{ablation}\index{mechanism transplant}
+An ablation removes a native mechanism; a matched substitution replaces it
+with a simpler legal mechanism; a transplant inserts it into another
+architecture. These ask different causal questions.
+Chapter 22's disabled memory-read path holds parameters fixed.
+A zero-locus model would change a different contract.
+A Hermon strand-averaging ablation must preserve dataset/objective and
+report its changed strand policy.
+
+\Plate{05-ablate}{Mechanism interventions preserve the declared scientific
+envelope while changing a specific computational path. Parameter-matched
+substitution and transplant need their own budget and legality audits.}
+{evod25:ablate}
+
+Attention weights and regulatory gates are not equivalent simply because
+both lie in $[0,1]$. Their normalization, inputs and intervention semantics
+differ. Likewise a favorable full-model delta does not isolate which
+mechanism caused it. Retain negative, null and unstable interventions
+alongside improvements.
+
+\section{Twenty worked exercises}
+\begin{enumerate}
+\item Define a fixed-predictor estimand. \textbf{Answer:}
+the population mean of paired correctness differences under a declared distribution.
+\item Why not hide DOGMA carry? \textbf{Answer:} reset/recomputation changes
+the tested function and cost.
+\item Which Chapter 24 fields matter? \textbf{Answer:} base spans, legal
+information access, RC action and graph masks.
+\item A--B by RC, B--C by group, C--D by overlap: split units?
+\textbf{Answer:} one transitive four-record component.
+\item Does this code infer homology? \textbf{Answer:} no; curated groups/links
+must supply the biological criterion.
+\item Does 60 percent of components mean 60 percent of records?
+\textbf{Answer:} not when component sizes differ.
+\item Why threshold greater than one for all-negative GC?
+\textbf{Answer:} a pure-GC sequence has score one.
+\item Can test labels select that threshold? \textbf{Answer:} no;
+selection belongs to training/declared validation access.
+\item Always-negative accuracy on 3 negatives, 1 positive?
+\textbf{Answer:} 0.75; balanced accuracy 0.5.
+\item One class absent: balanced accuracy? \textbf{Answer:}
+unavailable under this definition, not a fabricated number.
+\item Identical wrong predictors: paired interval? \textbf{Answer:}
+exactly zero; agreement is not accuracy.
+\item Derive paired sample variance. \textbf{Answer:}
+sample variance of $d_i$ divided by $N$ under iid-record assumptions.
+\item Why keep both predictions in each bootstrap draw?
+\textbf{Answer:} separate draws destroy outcome covariance.
+\item Four perfectly correlated eight-row clusters: independent $n$?
+\textbf{Answer:} four clusters, not 32 rows.
+\item Unequal clusters: ratio of totals versus mean of means?
+\textbf{Answer:} record-weighted and cluster-weighted estimands differ.
+\item Does record bootstrap estimate seed variation? \textbf{Answer:}
+no; it is conditional on fitted predictors.
+\item DOGMA state bytes in the probe? \textbf{Answer:} $32\cdot8=256$.
+\item Hermon causal edges? \textbf{Answer:} $2\cdot8\cdot9/2=72$.
+\item Is repeated-prefix parity a KV-speed benchmark? \textbf{Answer:}
+no; it is a stateless finite correctness oracle.
+\item Design a defensible comparison. \textbf{Rubric:} fixed estimand;
+immutable data/closure; objective and strand action; native adapters/parity;
+train/validation selection; task baselines; paired/cluster uncertainty;
+prespecified seeds/tuning; measured versus estimated budgets; ablations;
+negative-result ledger and reproducible artifacts.
+\end{enumerate}
+
+\section{Bridge}
+Chapter 26 derives parallel and chunked schedules for one recurrence and
+checks gradients as well as outputs. This chapter establishes why that
+parity is an experiment gate: a faster schedule that changes the function
+is not an optimization of the same model.

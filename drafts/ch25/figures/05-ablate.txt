@@ -1,0 +1,6 @@
+Question: What does each mechanism intervention actually test?
+Root: retain the declared data, objective, legal inputs, state ownership and resource ledger.
+Ablation branch: disable one native path, such as DOGMA memory read, while retaining carry and instantiated parameters.
+Substitution branch: replace a mechanism with a simpler legal memory/readout; re-audit allocation and matched budgets rather than assuming equality.
+Transplant branch: insert addressable memory into another compatible baseline and audit semantic compatibility.
+Invariant: each intervention asks a different causal question. No displayed performance result is assumed, and similarly ranged gates are not equivalent when inputs, normalization and interventions differ.

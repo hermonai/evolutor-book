@@ -1,0 +1,14 @@
+\begin{tikzpicture}[every node/.style={font=\small\sffamily}]
+\node[draw,rounded corners,fill=Gold!35,text width=11.5cm,align=center] (task) at (6.5,0) {\textbf{Frozen envelope}\\data + dependency closure + objective + strand action + score + selection budget};
+\node[draw,rounded corners,fill=Pale,align=center,text width=4.8cm] (d) at (2.8,-1.8) {\textbf{DOGMA native path}\\current token + incoming $(h,m)$};
+\node[draw,rounded corners,fill=Pale,align=center,text width=4.8cm] (h) at (10.2,-1.8) {\textbf{Hermon native path}\\token matrix + legal mask + positions};
+\draw[flow] (task.south)--(d.north);\draw[flow] (task.south)--(h.north);
+\node[draw,fill=Blue!12,align=center] (dc) at (2.8,-3.3) {recurrent update\\locus read before write};
+\node[draw,fill=Green!15,align=center] (hc) at (10.2,-3.3) {attention + residual + FFN\\full causal or offline contract};
+\draw[flow] (d)--(dc);\draw[flow] (h)--(hc);
+\node[draw,fill=Gold!25,align=center,text width=3.8cm] (ds) at (2.8,-4.9) {features + complete next $(h,m)$\\carry remains request-owned};
+\node[draw,fill=Gold!25,align=center,text width=3.8cm] (hs) at (10.2,-4.9) {position/record outputs\\native cache is a separate contract};
+\draw[flow] (dc)--(ds);\draw[flow] (hc)--(hs);
+\node[draw,rounded corners,fill=Green!15,text width=10cm,align=center] (metric) at (6.5,-6.6) {\textbf{Shared scoring}\\same targets and evaluation units; native resource ledgers retained};
+\draw[flow] (ds)--(metric);\draw[flow] (hs)--(metric);
+\end{tikzpicture}

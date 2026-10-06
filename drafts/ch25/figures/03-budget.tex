@@ -1,0 +1,20 @@
+\begin{tikzpicture}
+\node[anchor=west,font=\small\sffamily\bfseries,Blue] at (0,0) {A. Static parameter inventory: not a matched-budget experiment};
+\draw[draw=Blue,fill=Blue!20] (0,-1) rectangle (6.02,-.5);
+\draw[draw=Green,fill=Green!20] (0,-2) rectangle (9.58,-1.5);
+\node[anchor=west,font=\small] at (6.3,-.75) {DOGMA: 602 parameters};
+\node[anchor=west,font=\small] at (9.9,-1.75) {Hermon: 958};
+\node[anchor=west,font=\small\sffamily\bfseries,Blue] at (0,-3) {B. Native state and causal graph};
+\foreach \i in {0,...,3}{\foreach \j in {0,...,7}{
+\draw[draw=Blue!50,fill=Blue!15] (.35*\j,-4-.35*\i) rectangle ++(.3,-.3);}}
+\node[note] at (1.4,-6) {DOGMA $(h,m)$: $4\times8$ scalars\\float64: 256 bytes; batch one};
+\foreach \i in {0,...,7}{\foreach \j in {0,...,7}{
+\ifnum\j>\i\relax
+\draw[draw=gray!50,fill=gray!8] (8+.3*\j,-3.7-.3*\i) rectangle ++(.27,-.27);
+\else
+\draw[draw=gray!50,fill=Green!30] (8+.3*\j,-3.7-.3*\i) rectangle ++(.27,-.27);
+\fi}}
+\node[note] at (9.2,-6.9) {Hermon: 36 legal edges per head\\2 heads: 72; masked future is pale};
+\node[note] at (3.2,-7.6) {Parameter bytes $\ne$ peak live memory.\\No KV cache was implemented in this probe.};
+\node[draw,fill=Gold!30,text width=11cm,align=center,font=\small\sffamily] at (6.5,-8.8) {Measured latency, energy and peak memory require an instrumented workload.\\Semantic graph counts do not substitute for those measurements.};
+\end{tikzpicture}

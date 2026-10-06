@@ -1,0 +1,16 @@
+\begin{tikzpicture}
+\node[anchor=west,font=\small\sffamily\bfseries,Blue] at (0,0) {A. Paired correctness stays attached to its record};
+\node[draw,fill=Pale,align=center] (a) at (1.8,-1.1) {$\mathbf1\{A(x_i)=y_i\}$};
+\node[draw,fill=Pale,align=center] (b) at (6.5,-1.1) {$\mathbf1\{B(x_i)=y_i\}$};
+\node[draw,fill=Gold!35] (d) at (11,-1.1) {$d_i=A_i-B_i$};
+\draw[flow] (a)--(b);\draw[flow] (b)--(d);
+\node[anchor=west,font=\small\sffamily\bfseries,Blue] at (0,-2.3) {B. Dependence changes the resampling unit};
+\foreach \g in {0,...,3}{
+\ifnum\g<2\def\shade{Green!25}\def\sgn{+1}\else\def\shade{Red!15}\def\sgn{-1}\fi
+\foreach \j in {0,...,7}{
+\node[draw,fill=\shade,minimum width=.8cm,minimum height=.42cm,font=\scriptsize] at (.95*\j+.5,-3.2-.6*\g) {$\sgn$};}
+\node[anchor=west,smallnote] at (8.4,-3.2-.6*\g) {cluster \g: 8 tied records};}
+\node[draw,fill=Pale,align=center,text width=5.5cm,font=\small\sffamily] at (3,-6.8) {Row resampling: 32 units\\seeded interval $[-0.375,0.3125]$};
+\node[draw,fill=Gold!35,align=center,text width=5.5cm,font=\small\sffamily] at (10,-6.8) {Cluster resampling: 4 units\\interval $[-1,1]$};
+\node[Red,note] at (6.5,-8.3) {Both observe mean difference zero.\\Repeat training seeds separately to study procedure variance.};
+\end{tikzpicture}

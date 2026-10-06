@@ -1,0 +1,8 @@
+{
+  "B": "resource budget vector",
+  "P": "parameter count",
+  "N_tok": "training tokens",
+  "M_state": "persistent/request state memory",
+  "adapter": "model-specific legal mapping into shared experiment envelope",
+  "delta": "paired metric difference"
+}

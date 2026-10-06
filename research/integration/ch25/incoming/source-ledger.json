@@ -1,0 +1,30 @@
+[
+  {
+    "key": "dodge2019",
+    "primary": "https://aclanthology.org/D19-1224/",
+    "claim": "Experimental reporting should expose variation and development/tuning context.",
+    "access_date": "2026-10-05",
+    "depth": "methodological paper metadata/known scope"
+  },
+  {
+    "key": "bouthillier2021",
+    "primary": "https://proceedings.mlsys.org/paper/2021/hash/91d0dbfd38d950cb716c4dd26c5da08a-Abstract.html",
+    "claim": "ML benchmark outcomes contain multiple sources of experimental variance.",
+    "access_date": "2026-10-05",
+    "depth": "paper abstract/methodological context"
+  },
+  {
+    "key": "benchmarklottery",
+    "primary": "https://arxiv.org/abs/2107.07002",
+    "claim": "Benchmark selection can materially affect apparent progress.",
+    "access_date": "2026-10-05",
+    "depth": "abstract context"
+  },
+  {
+    "key": "internal",
+    "primary": "EVOD-22--24",
+    "claim": "DOGMA/Hermon architecture, causality, data contract and negative-result continuity.",
+    "access_date": "2026-10-05",
+    "depth": "full prior chapter packages"
+  }
+]

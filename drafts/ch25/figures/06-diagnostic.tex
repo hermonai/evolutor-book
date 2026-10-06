@@ -1,0 +1,14 @@
+\begin{tikzpicture}[every node/.style={font=\small\sffamily}]
+\node[draw,fill=Red!12,text width=4cm,align=center] (n) at (2.5,0) {weak or unstable observed result\\retain run and budget};
+\node[draw,fill=Pale,text width=4cm,align=center] (o) at (2.5,-2.2) {independent label oracle\\split and legality audit};
+\node[draw,fill=Pale,text width=4cm,align=center] (tiny) at (2.5,-4.7) {tiny-subset overfit\\gradient/mode/reset checks};
+\node[draw,fill=Pale,text width=4cm,align=center] (base) at (2.5,-7.6) {held-out task baselines\\prespecified repeated seeds};
+\node[draw,fill=Green!15,text width=4cm,align=center] (claim) at (2.5,-10) {bounded interpretation\\then explicit intervention};
+\foreach \a/\b in {n/o,o/tiny,tiny/base,base/claim}{\draw[flow] (\a)--(\b);}
+\node[draw,fill=Red!12,text width=5.8cm,align=center] (bad) at (10,-2.2) {audit fails\\fix data, objective, information path\\do not rank architectures};
+\node[draw,fill=Gold!35,text width=5.8cm,align=center] (opt) at (10,-4.7) {tiny set cannot fit\\inspect implementation/optimization\\report budget exhaustion};
+\node[draw,fill=Gold!35,text width=5.8cm,align=center] (bias) at (10,-7.6) {tiny fit works; baseline wins held-out\\test representation/bias/training\\not a biological capability theorem};
+\draw[Red,dashed,-{Stealth}] (o)--(bad);
+\draw[Red,dashed,-{Stealth}] (tiny)--(opt);
+\draw[Red,dashed,-{Stealth}] (base)--(bias);
+\end{tikzpicture}

@@ -1,0 +1,35 @@
+{
+  "chapter": 25,
+  "definitions": [
+    {
+      "symbol": "Delta(f_A,f_B;D)",
+      "meaning": "population paired accuracy difference for fixed predictors under declared evaluation distribution",
+      "unit": "probability difference"
+    },
+    {
+      "symbol": "d_i",
+      "meaning": "correctness A minus correctness B on one shared record; -1,0,1",
+      "unit": "dimensionless"
+    },
+    {
+      "symbol": "G_k",
+      "meaning": "sum of paired correctness differences in cluster k",
+      "unit": "count difference"
+    },
+    {
+      "symbol": "n_k",
+      "meaning": "number of evaluation rows in independent cluster k",
+      "unit": "count"
+    },
+    {
+      "symbol": "S",
+      "meaning": "training randomness, separate from evaluation sampling D",
+      "unit": "declared random object"
+    },
+    {
+      "symbol": "B",
+      "meaning": "resource vector: parameters, bases, tokens, compute, peak/persistent memory, training/inference time and energy",
+      "unit": "heterogeneous declared units"
+    }
+  ]
+}

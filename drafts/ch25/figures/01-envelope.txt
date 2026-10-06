@@ -1,0 +1,6 @@
+Question: How can two architectures answer the same scientific question without erasing their differences?
+Root: freeze data, dependency closure, objective, strand action, scope, tuning rule and budget.
+DOGMA path: current token plus complete incoming fast/locus state (h,m); read-before-write recurrent update; features plus complete outgoing state. Carry is request-owned.
+Hermon path: token matrix with legal masks and positions; attention, residual and feed-forward operations; causal or offline outputs. A native production KV cache is a separate contract, not implemented by repeated-prefix evaluation.
+Join: score the same declared targets and independent units, retaining native resource inventories.
+Boundary: shared scores require a common estimand, not common internals, and do not establish architecture superiority.

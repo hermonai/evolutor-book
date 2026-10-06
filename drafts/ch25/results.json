@@ -1,0 +1,118 @@
+{
+  "kind": "synthetic harness outputs and untrained native execution checks",
+  "experiment": {
+    "train": 240,
+    "validation": 80,
+    "test": 80,
+    "threshold": 0.390625,
+    "oracle": {
+      "tp": 39,
+      "tn": 41,
+      "fp": 0,
+      "fn": 0,
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0
+    },
+    "gc_baseline": {
+      "tp": 32,
+      "tn": 7,
+      "fp": 34,
+      "fn": 7,
+      "accuracy": 0.4875,
+      "balanced_accuracy": 0.49562226391494685
+    },
+    "paired": {
+      "observed_delta": 0.5125,
+      "bootstrap_mean": 0.51355,
+      "lo95": 0.4,
+      "hi95": 0.625,
+      "units": 80,
+      "records": 80,
+      "repetitions": 2000
+    },
+    "envelope_hash": "d38eb76f0d80c5c05cfc702e9f81381078b7503d979c8f616825953537a926e8"
+  },
+  "counterexample": {
+    "iid_rows": {
+      "observed_delta": 0,
+      "bootstrap_mean": 0.00215625,
+      "lo95": -0.375,
+      "hi95": 0.3125,
+      "units": 32,
+      "records": 32,
+      "repetitions": 2000
+    },
+    "four_clusters": {
+      "observed_delta": 0,
+      "bootstrap_mean": 0.0035,
+      "lo95": -1.0,
+      "hi95": 1.0,
+      "units": 4,
+      "records": 32,
+      "repetitions": 2000
+    },
+    "assumption": "assigned within-cluster dependence, four independent clusters"
+  },
+  "native": {
+    "dogma_chunk_feature_error": 0.0,
+    "dogma_terminal_state_error": 0.0,
+    "hermon_repeated_prefix_error": 2.220446049250313e-16,
+    "budgets": [
+      {
+        "model": "DOGMA reference",
+        "parameters": 602,
+        "parameter_bytes": 4816,
+        "native_state_bytes": 256,
+        "per_layer_causal_edges": 0
+      },
+      {
+        "model": "Hermon reference",
+        "parameters": 958,
+        "parameter_bytes": 7664,
+        "native_state_bytes": 0,
+        "per_layer_causal_edges": 72
+      }
+    ],
+    "dtype": "float64",
+    "batch": 1,
+    "bases": 8,
+    "budget_scope": "static inventories/semantic edges, no measured peak/latency/FLOPs",
+    "hermon_state_note": "stateless repeated-prefix call, not a production KV inventory"
+  },
+  "budgets": [
+    {
+      "model": "DOGMA reference",
+      "parameters": 602,
+      "parameter_bytes": 4816,
+      "native_state_bytes": 256,
+      "per_layer_causal_edges": 0
+    },
+    {
+      "model": "Hermon reference",
+      "parameters": 958,
+      "parameter_bytes": 7664,
+      "native_state_bytes": 0,
+      "per_layer_causal_edges": 72
+    }
+  ],
+  "intervals": [
+    {
+      "observed_delta": 0,
+      "bootstrap_mean": 0.00215625,
+      "lo95": -0.375,
+      "hi95": 0.3125,
+      "units": "32 iid rows",
+      "records": 32,
+      "repetitions": 2000
+    },
+    {
+      "observed_delta": 0,
+      "bootstrap_mean": 0.0035,
+      "lo95": -1.0,
+      "hi95": 1.0,
+      "units": "4 clusters",
+      "records": 32,
+      "repetitions": 2000
+    }
+  ]
+}

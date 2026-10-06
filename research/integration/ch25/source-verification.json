@@ -1,0 +1,43 @@
+{
+  "access_date": "2026-10-06",
+  "chapter": 25,
+  "records": [
+    {
+      "key": "dodge",
+      "authors": "J. Dodge; S. Gururangan; D. Card; R. Schwartz; N. A. Smith",
+      "title": "Show Your Work: Improved Reporting of Experimental Results",
+      "date": "2019",
+      "url": "https://doi.org/10.18653/v1/D19-1224",
+      "doi": "10.18653/v1/D19-1224",
+      "access_depth": "author proceedings abstract and metadata",
+      "inspected": "ACL Anthology abstract and publication record, pages 2185-2194",
+      "claim": "Selection and tuning budgets belong in an experimental report.",
+      "access_date": "2026-10-06",
+      "issue": "Not full-paper or supplementary-proof verification; no experiment replication. Independently authored chapter mechanisms are not reproductions of this source."
+    },
+    {
+      "key": "bouthillier",
+      "authors": "X. Bouthillier et al.",
+      "title": "Accounting for Variance in Machine Learning Benchmarks",
+      "date": "2021-03-01; arXiv v1",
+      "url": "https://arxiv.org/abs/2103.03098v1",
+      "access_depth": "abstract",
+      "inspected": "Author preprint abstract and version metadata",
+      "claim": "Multiple sources of randomness must be distinguished when interpreting algorithm comparisons.",
+      "access_date": "2026-10-06",
+      "issue": "Not full-paper or supplementary-proof verification; no experiment replication. Independently authored chapter mechanisms are not reproductions of this source."
+    },
+    {
+      "key": "dehghani",
+      "authors": "M. Dehghani et al.",
+      "title": "The Benchmark Lottery",
+      "date": "2021-07-14; arXiv v1",
+      "url": "https://arxiv.org/abs/2107.07002v1",
+      "access_depth": "abstract",
+      "inspected": "Author preprint abstract and version metadata",
+      "claim": "Benchmark/task selection can alter apparent algorithm rankings.",
+      "access_date": "2026-10-06",
+      "issue": "Not full-paper or supplementary-proof verification; no experiment replication. Independently authored chapter mechanisms are not reproductions of this source."
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+Question: Why must prohibited train/test dependencies be closed transitively?
+Graph vertices: A=AACG, B=CGTT, C=GAAA and D=ACAC. A/B are exact reverse complements. B/C share a declared homology group; C/D have a curated overlap link.
+Edges: supplied curation and exact/RC equivalence jointly form one connected component. All four records must receive one partition.
+Safe branch: assign the complete component to training and retain group provenance. Unsafe branch: A in training and D in test is rejected even without a direct A/D edge.
+Boundary: union-find computes graph closure, not biological homology. Missing curation links remain a scientific risk; over-grouping can also distort the evaluation population.

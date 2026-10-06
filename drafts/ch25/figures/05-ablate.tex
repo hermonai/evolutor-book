@@ -1,0 +1,12 @@
+\begin{tikzpicture}[every node/.style={font=\small\sffamily}]
+\node[draw,rounded corners,fill=Gold!35,text width=11cm,align=center] (full) at (6.5,0) {\textbf{Reference mechanism + frozen task envelope}\\explicit legal inputs, objective, state and resource ledger};
+\node[draw,fill=Pale,text width=3.3cm,align=center] (a) at (1.8,-2) {\textbf{Ablation}\\disable one path\\same native model};
+\node[draw,fill=Pale,text width=3.3cm,align=center] (s) at (6.5,-2) {\textbf{Substitution}\\replace a mechanism\\audit matching budget};
+\node[draw,fill=Pale,text width=3.3cm,align=center] (t) at (11.2,-2) {\textbf{Transplant}\\insert into another model\\audit semantic compatibility};
+\draw[flow] (full)--(a);\draw[flow] (full)--(s);\draw[flow] (full)--(t);
+\node[draw,fill=Blue!10,text width=3.3cm,align=center] at (1.8,-4) {DOGMA read path set to zero\\carry and parameters retained};
+\node[draw,fill=Blue!10,text width=3.3cm,align=center] at (6.5,-4) {simpler legal memory/readout\\report changed allocation};
+\node[draw,fill=Blue!10,text width=3.3cm,align=center] at (11.2,-4) {addressable memory in another\\compatible baseline};
+\draw[flow] (a)--(1.8,-3.4);\draw[flow] (s)--(6.5,-3.4);\draw[flow] (t)--(11.2,-3.4);
+\node[note] at (6.5,-5.5) {Each intervention asks a different question.\\No displayed performance result is assumed.};
+\end{tikzpicture}

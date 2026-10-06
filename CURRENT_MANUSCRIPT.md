@@ -1,11 +1,11 @@
 # Current manuscript and repository guide
 
-Updated 27 September 2026. This guide identifies the active work; it does not
+Updated 6 October 2026. This guide identifies the active work; it does not
 promote a review candidate into an accepted edition.
 
 ## Start here
 
-- Latest chapter: [21 — Strands, complements and dual-state hypotheses](drafts/ch21/README.md).
+- Latest integrated chapter candidate: [25 — Shared experiments without false equivalence](drafts/ch25/README.md).
 - Current scope and chapter responsibilities: [editorial architecture](EDITORIAL_ARCHITECTURE.md).
 - Opening LaTeX revision: [revision guide](TEXTBOOK_REVISION.md).
 - Production criteria: [textbook standard](TEXTBOOK_STANDARD.md) and [chapter standard](CHAPTER_STANDARD.md).
@@ -22,8 +22,8 @@ promote a review candidate into an accepted edition.
 | Historical editions | Existing historical sources and preservation tests | Archives, not parallel active authoring |
 
 Read chapters in numerical order. The latest standalone PDF is not the entire
-book. Chapters 1–10 still need their combined notation, bibliography, index and
-cross-reference integration. Later candidates must retain compatible interfaces;
+book. The new continuous authored-LaTeX builder consolidates notation, bibliography,
+index and cross-references through the explicitly requested chapter. Later candidates must retain compatible interfaces;
 integration and independent specialist/reader review are explicit open gates.
 BOOK_PLAN.md is a generated acceptance snapshot and long-range chapter spine,
 not a live list of completed drafts. Do not edit frozen status files to make
@@ -46,8 +46,11 @@ PDF under build/ is a compiler product; read the named file under output/pdf/.
 
 ## Clean current workflow
 
-Use the Chapter 21 README commands to build only the active chapter. Its builder
-creates build/ch21/ as needed; --check expects the computed assets to exist.
+Use the chapter README commands for standalone reviews. For continuous assembly,
+run Python 3.13: scripts/build-convergence.py --through 25 --refresh-assets.
+This produces output/pdf/evolutor-convergence.pdf and a source-bound build
+report in build/convergence/. It is a cumulative review candidate, not an accepted
+full planned book. --check on chapter builders verifies existing computed assets.
 Do not use historical-pdf or older cumulative builders merely to preview a new
 chapter: those are explicit reproduction workflows and recreate their own caches.
 
@@ -62,15 +65,17 @@ than recursively delete a repository directory.
 
 ## Next editorial milestone
 
-Chapter 22 integrates a DOGMA reference and a falsifiable research program, keeping strand symmetry, selective state, memory and evaluation contracts explicit.
+Chapter 26 develops parallel and chunked schedules with independent output and
+gradient parity, preserving native state and causal information access.
 Continue the evidence ladder: define assumptions, derive, implement, compare an
 independent oracle, break an assumption, and state the experimental test still
 needed. Contemporary papers inform research questions, not unearned claims of
 biological capability, industrial readiness or performance leadership.
 # Package convergence in progress — 6 October 2026
 
-Chapter 22 has been semantically integrated, corrected, tested and visually
-reviewed as a standalone candidate. The integration branch preserves the earlier
+Chapters 22–25 have been semantically integrated, rewritten, tested and locally
+visually reviewed as standalone candidates. Source-bound evidence is tracked
+in the matrix, not inferred from file presence. The integration branch preserves the earlier
 accepted edition. Remaining packages and cumulative/full-book gates are tracked
 separately in `research/integration/chapter-convergence-matrix.md`; this update is
 not an acceptance promotion. Use the declared Python environment (Python 3.11+;

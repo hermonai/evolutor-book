@@ -1,0 +1,6 @@
+Question: How should a negative result guide the next experiment without rewriting history?
+Start: retain the weak/unstable result and its budget. First verify labels, split closure and legal information access against independent oracles.
+Failure branch one: audit failure requires fixing the task or information path, not ranking architectures.
+Next: tiny-subset overfit, gradients, mode and reset checks. Failure requires investigating implementation/optimization and reporting exhausted budget.
+Next: frozen held-out baselines with prespecified paired seeds. Tiny fit but poor held-out performance motivates representation, inductive-bias or training hypotheses.
+End: bounded interpretation followed by an explicit intervention. Neither failure nor tiny-set success proves biological capability or its absence.

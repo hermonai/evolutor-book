@@ -1,0 +1,5 @@
+Question: How can dependence change uncertainty while leaving the observed mean unchanged?
+Panel A: keep model A and B correctness attached to each record; compute d_i=A_i-B_i, rather than independently resampling the models.
+Panel B: 32 records belong to four equal eight-record clusters. Two clusters have d=+1 throughout; two have d=-1 throughout. The observed paired mean is zero.
+Counterexample: seeded individual-row resampling treats 32 units as independent and gives [-0.375,0.3125]. Resampling the four independent clusters, retaining every paired record, gives [-1,1]. The exact cluster support is independently enumerated.
+Boundary: these are assigned finite percentile intervals, not universal coverage guarantees. Conditional test resampling does not measure training-seed variance; repeat training separately.

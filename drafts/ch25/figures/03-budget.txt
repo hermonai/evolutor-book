@@ -1,0 +1,5 @@
+Question: Why is a model budget not one number?
+Panel A: actual native references have 602 DOGMA and 958 Hermon parameters, including instantiated but unused classification parameters. Bars represent inventory, not a matched-budget performance comparison.
+Panel B left: batch-one DOGMA has 8 fast-state plus 3 by 8 locus-state scalars. Float64 storage is 32 times 8 = 256 bytes.
+Panel B right: the 8 by 8 attention graph permits j<=i. Green lower-triangular entries number 36 per head; pale future entries are forbidden. Two heads yield 72 legal edges per layer.
+Boundary: static parameter bytes, persistent/request state, semantic graph edges and measured peak memory are different quantities. No KV cache, FLOP count, energy or latency measurement is inferred here.
