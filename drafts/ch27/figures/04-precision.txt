@@ -1,0 +1,3 @@
+SEMANTIC FIGURE COMPANION — Chapter 27 / 04-precision
+Explicit policy chooses operator dtype, sensitive-reduction precision, moments/master dtype. Scaled backward -> unscale -> finite check and clip -> one update or skip. Diagram specifies algorithmic order, not executed AMP certification.
+Edges and objects are explained semantically, not drawn as ASCII art.

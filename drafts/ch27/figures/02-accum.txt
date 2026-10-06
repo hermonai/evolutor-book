@@ -1,0 +1,3 @@
+SEMANTIC FIGURE COMPANION — Chapter 27 / 02-accum
+Record microbatches5/5/2 have weight masses12/13/6. Backpropagate N1/31,N2/31,N3/31 at fixed parameters; sum gradients then unscale/check/clip and one update. Local means divided by3 change weighting.
+Edges and objects are explained semantically, not drawn as ASCII art.

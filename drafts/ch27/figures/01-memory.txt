@@ -1,0 +1,3 @@
+SEMANTIC FIGURE COMPANION — Chapter 27 / 01-memory
+Persistent parameter, gradient, two moment and optional master arrays are separate from workload live activations/workspaces and runtime/distributed buffers. P=195; hypothetical all-FP32 arrays3120bytes, actual all-Float64 arrays6240bytes. Neither is measured peak.
+Edges and objects are explained semantically, not drawn as ASCII art.

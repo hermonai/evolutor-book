@@ -1,0 +1,78 @@
+{
+  "loss": 1.099552069480512,
+  "valid_weight_mass": 31.0,
+  "microbatches": [
+    {
+      "micro": 1,
+      "loss": 1.099552069480512,
+      "gradient_error": 5.551115123125783e-17
+    },
+    {
+      "micro": 2,
+      "loss": 1.099552069480512,
+      "gradient_error": 6.938893903907228e-17
+    },
+    {
+      "micro": 5,
+      "loss": 1.099552069480512,
+      "gradient_error": 8.326672684688674e-17
+    },
+    {
+      "micro": 12,
+      "loss": 1.099552069480512,
+      "gradient_error": 0.0
+    },
+    {
+      "micro": 20,
+      "loss": 1.099552069480512,
+      "gradient_error": 0.0
+    }
+  ],
+  "checkpoint_loss": 1.099552069480512,
+  "checkpoint_gradient_error": 0.0,
+  "wrong_local_mean_gradient_error": 0.1411778698204589,
+  "dropout_forward_equal": true,
+  "dropout_replay_gradient_error": 0.0,
+  "dropout_no_replay_gradient_error": 0.22022539048389608,
+  "parameters": 195,
+  "adam_fp32_static_bytes": 3120,
+  "torch_version": "2.10.0",
+  "chain": [
+    {
+      "layers": 64,
+      "block": 1,
+      "boundary_slots": 64,
+      "recompute_slots": 1,
+      "toy_live_slots": 65
+    },
+    {
+      "layers": 64,
+      "block": 4,
+      "boundary_slots": 16,
+      "recompute_slots": 4,
+      "toy_live_slots": 20
+    },
+    {
+      "layers": 64,
+      "block": 8,
+      "boundary_slots": 8,
+      "recompute_slots": 8,
+      "toy_live_slots": 16
+    },
+    {
+      "layers": 64,
+      "block": 16,
+      "boundary_slots": 4,
+      "recompute_slots": 16,
+      "toy_live_slots": 20
+    },
+    {
+      "layers": 64,
+      "block": 64,
+      "boundary_slots": 1,
+      "recompute_slots": 64,
+      "toy_live_slots": 65
+    }
+  ],
+  "scope": "CPU float64 semantic probes and static toy inventories; no accelerator memory/speed or mixed-precision certification"
+}

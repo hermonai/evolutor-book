@@ -1,0 +1,23 @@
+[
+  {
+    "key": "chen2016",
+    "primary": "https://arxiv.org/abs/1604.06174",
+    "claim": "Activation recomputation/checkpointing trades extra compute for reduced memory.",
+    "access_date": "2026-10-05",
+    "depth": "primary paper"
+  },
+  {
+    "key": "mixedprecision2018",
+    "primary": "https://arxiv.org/abs/1710.03740",
+    "claim": "Mixed precision combines lower-precision compute with techniques such as FP32 master weights and loss scaling.",
+    "access_date": "2026-10-05",
+    "depth": "primary paper"
+  },
+  {
+    "key": "zero2020",
+    "primary": "https://arxiv.org/abs/1910.02054",
+    "claim": "ZeRO partitions optimizer state, gradients and parameters to remove data-parallel memory redundancy.",
+    "access_date": "2026-10-05",
+    "depth": "primary paper"
+  }
+]

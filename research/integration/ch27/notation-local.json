@@ -1,0 +1,10 @@
+{
+  "W": "fixed output importance/validity weights",
+  "Z": "finite positive global weight mass",
+  "N_k": "microbatch weighted loss numerator",
+  "t": "optimizer update clock, not microbatch",
+  "P": "195 parameter scalar count",
+  "I": "equal-chain toy activation slots, not measured memory",
+  "s": "loss scale requiring unscale before clipping",
+  "RNG": "declared CPU stochastic state replay policy"
+}

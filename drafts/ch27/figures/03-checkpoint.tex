@@ -1,0 +1,13 @@
+\begin{tikzpicture}[x=1cm,y=1cm]
+\path[use as bounding box](-.3,-.5) rectangle(15.5,5.5);
+\node[note,anchor=west,font=\bfseries\sffamily]at(0,5.1){Retention and replay / the same stochastic function};
+\node[draw,fill=Pale,note,text width=3cm](x)at(1.8,3.8){saved boundary $x$\\parameter version $\theta$};
+\node[draw,fill=Pale,note,text width=3.8cm](f)at(7.5,3.8){forward block\\$\tanh(W_1x+b_1)$ + dropout};
+\node[draw,fill=Gold!25,note,text width=3cm](y)at(13.2,3.8){output and loss\\discard inner saves};
+\draw[flow](x)--(f);\draw[flow](f)--(y);
+\node[draw,fill=Green!10,note,text width=4cm](re)at(7.5,1.8){backward recomputation\\same input, parameters, RNG};
+\draw[flow](y.south)--(13.2,1.8)--(re.east);
+\draw[flow](x.south)--(1.8,1.8)--(re.west);
+\node[smallnote,Red,text width=5cm]at(3.2,.2){No RNG replay: forward loss equal, gradient error $\approx0.220225$.};
+\node[smallnote,text width=5cm]at(11.5,.2){RNG replay: gradients and caller CPU RNG trajectory match the ordinary graph.};
+\end{tikzpicture}

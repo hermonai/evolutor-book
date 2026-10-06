@@ -1,0 +1,13 @@
+\begin{tikzpicture}[x=1cm,y=1cm]
+\path[use as bounding box](-.3,-.4) rectangle(15.5,5.1);
+\node[note,anchor=west,font=\bfseries\sffamily]at(0,4.7){One complete gradient advances one optimizer clock};
+\node[draw,fill=Pale,note](g)at(1.8,2.8){complete $g_t$};
+\node[draw,note,text width=4.1cm](m)at(7,3.6){$m_t=\beta_1m_{t-1}+(1-\beta_1)g_t$};
+\node[draw,note,text width=4.1cm](v)at(7,2){$v_t=\beta_2v_{t-1}+(1-\beta_2)g_t^2$};
+\node[draw,fill=Green!10,note,text width=3.1cm](p)at(13.1,2.8){bias correction\\clock $t$\\write $\theta_t$};
+\draw[flow](g.east)--(3.2,2.8)--(3.2,3.6)--(m.west);
+\draw[flow](3.2,2.8)--(3.2,2)--(v.west);
+\draw[flow](m.east)--(10,3.6)--(p.north west);
+\draw[flow](v.east)--(10,2)--(p.south west);
+\node[smallnote,text width=13cm]at(7.5,.65){Independent gates compare loss, gradients, both moment arrays and updated parameters. A microbatch is not an optimizer step.};
+\end{tikzpicture}

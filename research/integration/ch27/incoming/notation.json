@@ -1,0 +1,8 @@
+{
+  "M_peak": "peak training memory",
+  "P": "parameter count",
+  "B_eff": "effective batch under declared sample accounting",
+  "K": "gradient accumulation steps",
+  "D": "data-parallel world size",
+  "m_t,v_t": "Adam moment states"
+}

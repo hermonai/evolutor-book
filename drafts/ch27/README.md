@@ -1,0 +1,5 @@
+# Chapter 27 — strengthened integration candidate
+
+EVOD-27: exact prediction/target/weight shapes; fixed nonnegative weights with finite positive global mass. Accumulate numerator/global mass, keep parameters fixed and update once. P195 actual float64 arrays6240bytes vs hypothetical FP32 arrays3120bytes, not peak. 38 tests: elementwise loss, manual final-layer derivative, finite difference first-layer weight, zero-valid micro, scale invariance, accumulation all sizes, actual Adam parameter/moment parity and two-step scalar bias correction, RNG/dtype hygiene, checkpoint replay plus caller RNG trajectory, nonreplay and local-mean mutants, domain guards. 20 worked exercises;5 whole-function listings;6 algorithm plates. L/k+k toy inventory not measured saved tensors. No AMP/accelerator, full-DOGMA/Hermon training, genomics or independent review certification.
+
+Run explicit Python3.13 with OMP_NUM_THREADS=1. Build: python drafts/ch27/build.py --render. Verify computed source artifacts with --check. Review candidate only; accepted editions unchanged. All-page visual review, source-bound review record and full-book convergence remain separate gates.

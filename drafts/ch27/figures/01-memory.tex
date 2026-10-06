@@ -1,0 +1,9 @@
+\begin{tikzpicture}[x=1cm,y=1cm]
+\path[use as bounding box](-.3,-.5) rectangle(15.5,5);
+\node[note,anchor=west,font=\bfseries\sffamily]at(0,4.6){Persistent inventory versus live peak};
+\foreach \x/\label/\formula in {1.8/Parameters/$Pb_\theta$,5.5/Gradients/$Pb_g$,9.2/Adam moments/$2Pb_m$,12.9/Master copy/$Pb_{\rm master}$}{
+\node[draw,fill=Pale,note,text width=3.1cm,minimum height=1cm]at(\x,3.2){\label\\\formula};}
+\node[draw,fill=Gold!25,note,text width=6.7cm,minimum height=1cm]at(3.9,1.6){Workload-dependent live tensors\\saved activations + recomputation + workspaces};
+\node[draw,fill=Green!10,note,text width=6.7cm,minimum height=1cm]at(11.1,1.6){Runtime and distributed ownership\\allocator reservation + communication buffers};
+\node[smallnote]at(7.5,.2){195 parameters: hypothetical FP32 arrays = 3,120 bytes; actual Float64 arrays = 6,240 bytes. Neither is peak device usage.};
+\end{tikzpicture}

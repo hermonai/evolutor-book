@@ -76,4 +76,12 @@ then apply the current valid transition; distinct from identity padding.
 earlier derivative path; not a transparent gradient-preserving optimization.
 \item[Parallel dependency depth] Idealized dependent stage count, distinct from
 total work, memory traffic and measured wall-clock latency.
+\item[Global weighted reduction] Sum all weighted valid-element loss numerators
+and divide by their global positive mass, not an unweighted mean of local means.
+\item[Gradient accumulation] Add microbatch derivative contributions at fixed
+parameters before a single complete optimizer update.
+\item[Activation checkpointing] Recompute omitted forward intermediates during
+backward under the same declared input, parameter and stochastic-state contract.
+\item[Stochastic replay] Reproduce the required random state during recomputation;
+matching first-forward loss alone does not prove gradient equivalence.
 \end{description}

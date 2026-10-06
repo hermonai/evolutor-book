@@ -1,0 +1,22 @@
+\chapter*{Evidence and source boundaries}
+The weighted reduction, manual derivative and Adam oracles, CPU stochastic-replay
+counterexample, and equal-size-chain inventory are original teaching artifacts.
+The reference uses PyTorch 2.10.0 and Float64; it does not reproduce external
+hardware benchmarks or certify mixed-precision training. Paper inspection covers
+version-specific author abstracts and metadata, not full experimental sections.
+PyTorch inspection covers the 2.10 checkpoint API's selected execution, randomness
+and determinism notes. Current documentation for another version is not silently
+substituted for the tested runtime.
+\begin{thebibliography}{99}
+\bibitem{chen2016} T. Chen, B. Xu, C. Zhang and C. Guestrin.
+Training Deep Nets with Sublinear Memory Cost.
+Primary preprint arXiv:1604.06174v2 (22 April 2016).
+\url{https://arxiv.org/abs/1604.06174v2}.
+\bibitem{micikevicius2018} P. Micikevicius et al.
+Mixed Precision Training.
+Primary preprint arXiv:1710.03740v3 (15 February 2018).
+\url{https://arxiv.org/abs/1710.03740v3}.
+\bibitem{torch-checkpoint} PyTorch contributors.
+torch.utils.checkpoint. Version 2.10 documentation.
+\url{https://docs.pytorch.org/docs/2.10/checkpoint.html}.
+\end{thebibliography}

@@ -1,0 +1,316 @@
+\chapter{Optimization and memory-efficient training}
+A memory optimization is correct only relative to a declared training procedure.
+This chapter treats the procedure as an invariant: fix the objective, parameters,
+randomness policy, and optimizer-update clock, then change how the computation is
+scheduled. We derive weighted accumulation, compare every gradient, verify Adam's
+moments and updated parameters, and deliberately break stochastic recomputation.
+
+The executable experiment is a small CPU Float64 MLP, not DOGMA or Hermon DNA
+training, a mixed-precision certification, or a hardware benchmark. Its value is a
+sharp correctness oracle that later implementations must match where their
+assumptions apply. Chapter 26's distinction between equal outputs and equal
+gradient graphs remains essential.
+
+\section{Persistent arrays are not peak memory}
+\Plate{01-memory}{Memory has multiple owners and lifetimes. Static parameter and
+optimizer inventories do not include saved activations, temporary workspaces, or
+allocator reservation.}{evod27:memory}
+For $P$ parameters, parameter/gradient widths $b_\theta,b_g$, two Adam moments of
+width $b_m$, and optional master-copy width $b_{\rm master}$,
+\[
+M_{\rm arrays}=P(b_\theta+b_g+2b_m+b_{\rm master}).
+\]
+The default all-FP32 layout gives $16P$ bytes. The reference MLP has
+$8\cdot16+16+16\cdot3+3=195$ parameters: this hypothetical inventory is 3,120 bytes.
+Its actual Float64 parameter, gradient, and moment arrays would total 6,240 bytes
+after all arrays exist, before object overhead or temporary tensors.
+
+A low-precision layout with two-byte weights, two-byte gradients, four-byte
+moments, and four-byte master weights also totals $16P$. Lowering the weight dtype
+alone does not prove lower total training memory. Peak memory additionally depends
+on activation lifetimes, kernel workspaces, optimizer temporaries, cached allocations,
+and communication. These components need measurement, not a formula substitution.
+
+\section{Define the reduction before choosing microbatches}
+Let $p_{ij}(\theta)$ predict output $j$ for record $i$, and let fixed
+nonnegative weights $w_{ij}$ include both validity masks and importance weights.
+Define
+\[
+Z=\sum_{i,j}w_{ij}>0,\qquad
+L(\theta)=\frac1Z\sum_{i,j}w_{ij}(p_{ij}(\theta)-y_{ij})^2.
+\]
+This \Term{weighted reduction} treats a mask as a zero weight, not a target value. Target, prediction, and weight shapes
+must match exactly: silent broadcasting can turn a three-output objective into a
+different computation while still producing a scalar.
+
+\Listing{weighted_sum}
+The batch validator requires finite floating inputs with matching dtype/device,
+fixed weights without gradients, no negative weights, and a finite positive
+global mass $Z$. Individual finite weights can sum to infinity, so the sum itself
+must be checked. Intermediate predictions or squared errors can still overflow;
+finite input validation is not a universal numerical-stability guarantee.
+
+For cross-entropy over genomic tokens, replace squared error with token loss
+and specify whether the denominator counts valid tokens, sequences, or importance
+mass. Averaging each sequence mean weights short and long sequences equally;
+averaging all valid token losses does not. Neither is inherently wrong, but they
+are different experiments.
+
+\section{Accumulate numerators with one global denominator}
+Partition records into disjoint microbatches $B_k$. Keep $\theta$ fixed throughout
+the accumulation window and define
+\[
+N_k=\sum_{i\in B_k,j}w_{ij}(p_{ij}-y_{ij})^2,\qquad
+L=\sum_k N_k/Z.
+\]
+Linearity of differentiation gives
+\[
+\nabla_\theta L=\sum_k\nabla_\theta(N_k/Z).
+\]
+This \Term{gradient accumulation} adds contributions in parameter gradient buffers.
+A microbatch with zero valid weight contributes zero; it does not divide by a local
+zero denominator. The complete window must still have positive mass.
+
+\Plate{02-accum}{For a 5/5/2 record split, valid weight masses are 12, 13, and 6.
+Every numerator divides by 31, not by its local mass and then by three.}{evod27:accum}
+\Listing{accumulated_grad}
+The fixed fixture has 12 records, eight features, and three outputs.
+Some outputs are masked and selected first outputs have weight two; total mass
+is 31. The batch loss is $1.099552069480512$.
+
+\begin{center}\input{\Generated/microbatches.tex}\end{center}
+Microbatch size five creates a partial last microbatch. The measured errors are
+maximum absolute differences over \emph{all} parameter gradients. Float64 roundoff
+changes addition order, so a tolerance is appropriate; bitwise equality is not
+the mathematical contract.
+
+The shortcut $\frac1K\sum_k N_k/Z_k$ changes the objective unless local masses
+$Z_k$ are equal or special cancellations occur. Its gradient differs from the
+correct gradient by about $0.141178$ in this fixture. This is an executable
+counterexample, not an argument that every equal-sized record split is wrong:
+equal record counts can still have unequal valid token or weight mass.
+
+\section{An independent derivative oracle}
+For this MLP, $H=\tanh(XW_1^\top+b_1)$ and $P=HW_2^\top+b_2$. Holding $H$ fixed
+for the last-layer derivative,
+\[
+D=\frac{2}{Z}W\odot(P-Y),\qquad
+\nabla_{W_2}L=D^\top H,\qquad
+\nabla_{b_2}L=\sum_iD_{i,:}.
+\]
+Tests compare these manual expressions with autograd without calling the
+accumulation helper. A separate scalar loop computes the loss element by element.
+A central finite difference checks one first-layer weight, exercising the nonlinear
+chain rule through $\tanh$.
+
+Scaling every weight by the same positive constant leaves $L$ and its gradient
+unchanged because numerator and denominator scale together. This metamorphic test
+also checks the zero-valid-microbatch case. It is stronger than comparing two
+implementations that accidentally share the same reduction mistake.
+
+\section{The optimizer clock advances once per window}
+For Adam without weight decay or AMSGrad,
+\[
+m_t=\beta_1m_{t-1}+(1-\beta_1)g_t,\quad
+v_t=\beta_2v_{t-1}+(1-\beta_2)g_t^2,
+\]
+\[
+\widehat m_t=\frac{m_t}{1-\beta_1^t},\quad
+\widehat v_t=\frac{v_t}{1-\beta_2^t},\quad
+\theta_t=\theta_{t-1}
+-\eta\frac{\widehat m_t}{\sqrt{\widehat v_t}+\epsilon}.
+\]
+Here $t$ counts parameter updates, not microbatches. Calling \texttt{step()} after
+each microbatch changes the parameters used for later forwards and changes the
+moment histories. It no longer implements the fixed-$\theta$ derivation.
+
+\Plate{05-adam}{The update boundary consumes the complete gradient once, advances
+both moments and bias-correction clock, and writes the new parameters.}{evod27:adam}
+\Listing{adam_step}
+The oracle is out of place and validates tensor shape/dtype/device, finite values,
+nonnegative second moments, and hyperparameter domains. It checks finite outputs
+as well. Tests compare full-batch and accumulated PyTorch Adam updates,
+every first/second moment, and the formula above. A two-step scalar calculation
+independently checks that the bias-correction clock is not stuck at one.
+
+Gradient parity alone can miss an optimizer bug. A meaningful equivalence gate is
+$(L,g,m,v,\theta)$ parity under the same initial optimizer state. For restart tests,
+the stored update count and moments are therefore part of the checkpoint, not
+optional metadata.
+
+\section{Clipping and loss scaling have an order}
+If gradients are scaled by factor $s$, first accumulate the consistently scaled
+contributions, then unscale the complete gradient, check finiteness, clip if
+required, and perform one optimizer update. The update is skipped under an
+overflow policy when nonfinite gradients are detected.
+
+Clipping is nonlinear: generally
+$\operatorname{clip}(g_1)+\operatorname{clip}(g_2)
+\ne\operatorname{clip}(g_1+g_2)$.
+For scalar threshold one, $g_1=2,g_2=-1.5$ gives zero after separate clipping,
+but $0.5$ after summing and clipping. Microbatch-local clipping changes the
+algorithm. Equally, clipping a scaled gradient at the unscaled threshold
+quietly changes the threshold by $1/s$.
+
+This chapter specifies this order but does not execute an accelerator AMP training
+run. A production implementation must test actual scaler behavior, skipped-update
+schedules, dtype policies, and optimizer states under its installed framework.
+
+\section{Checkpointing changes retention, not the derivative}
+Reverse-mode differentiation needs intermediate values to evaluate vector--Jacobian
+products. \Term{Activation checkpointing} retains selected boundary inputs and recomputes
+missing values during backward. It trades storage for extra execution; it must not
+change the function being differentiated.
+
+\Plate{03-checkpoint}{Forward retention and backward recomputation are different
+phases of one derivative graph. Random state must replay the same stochastic
+function, not merely produce tensors with matching shapes.}{evod27:checkpoint}
+\Listing{checkpoint_grad}
+The reference explicitly uses PyTorch's non-reentrant checkpoint path. For the
+deterministic block, both loss and every parameter gradient match ordinary
+execution in the Float64 fixture. The first-layer parameters still receive
+gradients even though input data do not require gradients.
+
+The PyTorch 2.10 documentation distinguishes the variants and describes default
+recomputation checks based on shapes, dtypes, and devices \cite{torch-checkpoint}.
+Those checks are not a numerical equality oracle. The tested runtime is
+PyTorch 2.10.0; compiler modes and additional devices require separate validation.
+
+\section{Same forward, wrong stochastic backward}
+Dropout evaluates a function of both activations and a random mask. Backward
+recomputation must reuse the appropriate stochastic state. With the same initial
+CPU RNG state, ordinary execution, checkpointing with preservation, and
+checkpointing without preservation have identical first forward losses.
+Yet the last version recomputes with a different mask and produces a maximum
+gradient discrepancy of about $0.220225$.
+
+The preserved version matches the ordinary gradients and leaves the caller's CPU
+RNG trajectory in the same post-operation state. This tests both the derivative
+and the surrounding random-state contract. Model initialization uses a local
+\texttt{fork\_rng} context and data use a dedicated generator; importing the
+reference does not change the global default dtype or seed.
+
+Random replay is only one hidden-state problem. A block that appends logs, updates
+running statistics, writes an external memory, or mutates its input can behave
+differently when executed again. Functionalization is preferable:
+\[
+(h_{\rm out},s_{\rm out})=F(h_{\rm in},s_{\rm in};\theta),
+\]
+with state transitions explicit and externally committed at the intended boundary.
+A snapshot/restore strategy must account for every relevant state, not only the
+visible tensor.
+
+\section{Derive a checkpoint-placement toy before measuring a system}
+Consider a chain of $L$ equal-size activation stages and blocks of at most $k$
+layers. An illustrative inventory retains $\lceil L/k\rceil$ boundary slots and
+at most $\min(k,L)$ slots while recomputing one block:
+\[
+I(L,k)=\lceil L/k\rceil+\min(k,L).
+\]
+Ignoring ceilings for $1\le k\le L$, $I\approx L/k+k$, whose derivative vanishes
+at $k=\sqrt L$. This explains why neither one huge block nor tiny blocks necessarily
+minimizes the toy inventory.
+
+\Listing{chain_checkpoint_inventory}
+\begin{center}\input{\Generated/chain.tex}\end{center}
+For $L=64$, block size eight gives 16 toy slots; sizes four and sixteen both give
+20. These slots are a declared upper inventory, not measured PyTorch saved tensors
+or device bytes. At $k=1$ the toy reports 65 slots, so it must not be marketed as
+an automatic improvement over retaining 64 ordinary stage outputs.
+
+Checkpoint tradeoffs have a substantial research history \cite{chen2016}.
+Real architectures have unequal tensor sizes, residual branches, recomputation
+dependencies, attention matrices, and fused kernels. Our square-root derivation
+does not determine their optimal placement or runtime speed.
+
+\section{Mixed precision needs an operator-level policy}
+\Plate{04-precision}{Low-precision compute, higher-precision reductions and optimizer
+state, scaling, and finite-gradient gates form a policy. Simply casting every
+tensor is not an equivalent training algorithm.}{evod27:precision}
+FP16 has a smaller exponent range than FP32; BF16 retains an FP32-sized exponent
+field but fewer significand bits. Loss scaling can help represent small gradients
+in FP16; it cannot fix an incorrectly normalized objective or recover information
+already lost in unstable arithmetic. Master weights and scaling are established
+mixed-precision techniques \cite{micikevicius2018}, not a guarantee for every
+optimizer/operator combination.
+
+Sensitive reductions, normalization, attention logits, recurrence coefficients,
+and optimizer moments deserve explicit dtype choices and reference comparisons.
+Report finite-value incidence, skipped updates, loss/metric distributions across
+seeds, and restart equivalence. A successful single training run is weak evidence
+about numerical robustness.
+
+\section{Apply the contracts to both model families}
+DOGMA is the non-Transformer line. Its complete recurrent state, locus reads,
+gates, and writes must preserve Chapter 22's ordering. Sequence chunking carries
+state through time; microbatching partitions examples. Detaching a carried state
+changes gradients and is truncated backpropagation, not activation checkpointing.
+
+Hermon DNA is the Transformer line. Checkpointed blocks must preserve attention
+masks, positional conventions, and stochastic policy. Decode-time KV cache is an
+inference resource; ordinary training activation accounting should not quietly
+substitute it for the actual saved graph.
+
+Chapter 26's affine scan applies only to the stated input-conditioned recurrence.
+Checkpointing that kernel does not establish that a state-dependent full DOGMA
+controller can be parallelized identically. Evolutor must record which path was
+selected and which state/numerical contract it actually implements.
+
+\section{A measurement protocol that can fail}
+\Plate{06-gate}{Semantic, numerical, resource, and task-quality gates are distinct.
+Passing a CPU derivative test does not report an accelerator memory saving or a
+genomic capability.}{evod27:gate}
+Specify workload shapes, valid-token counts, dtype policy, optimizer, software,
+hardware, and accumulation window. Warm up the complete step, including optimizer
+state initialization. Reset peak statistics at a declared point, include forward,
+backward, recomputation and update, and synchronize device execution around timing.
+
+Distinguish live allocated bytes, allocator-reserved bytes, and external device
+usage. Report repeat measurements and workload-dependent failure boundaries.
+Selective retention, offload, and distributed sharding may move a peak rather than
+remove it. A bandwidth bottleneck or extra communication can outweigh the saved
+activation storage.
+
+\section{Worked problems and implementation exercises}
+\begin{enumerate}
+\item Count the reference parameters. \textbf{Answer:} $128+16+48+3=195$.
+\item Compute hypothetical FP32 Adam arrays. \textbf{Answer:} 3,120 bytes.
+\item Compute all-Float64 arrays. \textbf{Answer:} 6,240 bytes, excluding overhead.
+\item Why can two low-precision arrays still leave $16P$ bytes?
+\textbf{Answer:} moments and an FP32 master copy can dominate the inventory.
+\item Derive the global valid-weight mass. \textbf{Answer:} sum all fixed
+nonnegative $w_{ij}$, including masks and importance weights.
+\item Handle a zero-valid microbatch. \textbf{Answer:} its numerator contributes
+zero divided by positive global $Z$.
+\item Why reject target broadcasting? \textbf{Answer:} it can silently change
+which output errors the objective includes.
+\item Derive $\nabla_{W_2}L$. \textbf{Answer:} $D^\top H$, with
+$D=2W\odot(P-Y)/Z$.
+\item Scale all weights by seven. \textbf{Answer:} loss and gradient are unchanged.
+\item Why is local-mean/$K$ wrong for masses 12,13,6?
+\textbf{Answer:} it weights each microbatch equally rather than each weighted element.
+\item When should Adam's clock advance? \textbf{Answer:} once per complete update.
+\item What is missing from a gradient-only test? \textbf{Answer:} moment,
+bias-correction, and parameter-update correctness.
+\item Clip $2$ and $-1.5$ separately at one, then together.
+\textbf{Answer:} separate sum zero; summed-and-clipped value $0.5$.
+\item What precedes clipping under loss scaling? \textbf{Answer:} unscale and
+check the complete accumulated gradient.
+\item Why can equal checkpoint forward losses hide a bug?
+\textbf{Answer:} backward recomputation can use a different random mask.
+\item What does a shape/dtype/device check not prove? \textbf{Answer:} equal
+recomputed values or equal derivatives.
+\item Minimize $L/k+k$ for $L=64$. \textbf{Answer:} $k=8$, under the toy assumptions.
+\item Is 16 toy slots measured peak memory? \textbf{Answer:} no.
+\item Functionalize a DOGMA write. \textbf{Rubric:} explicit incoming state,
+returned outgoing state, preserved read-before-write order, no duplicate external commit.
+\item Design a deployment gate. \textbf{Rubric:} loss/gradient/moment/update parity,
+RNG and restart contracts, realistic dtype failures, synchronized peak/time
+measurement, repeated seeds, and explicit workload/hardware evidence.
+\end{enumerate}
+
+\section{Bridge to distributed ownership}
+Chapter 28 assigns arrays and reductions to ranks. Global normalization,
+optimizer-update boundaries, and stochastic-state provenance remain the same
+questions, but now communication and ownership can invalidate them. An ideal
+per-rank storage formula is only the beginning of that analysis.

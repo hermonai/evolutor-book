@@ -5,7 +5,7 @@ promote a review candidate into an accepted edition.
 
 ## Start here
 
-- Latest integrated chapter candidate: [26 — Training/inference parity and parallel recurrence](drafts/ch26/README.md).
+- Latest integrated chapter candidate: [27 — Optimization and memory-efficient training](drafts/ch27/README.md).
 - Current scope and chapter responsibilities: [editorial architecture](EDITORIAL_ARCHITECTURE.md).
 - Opening LaTeX revision: [revision guide](TEXTBOOK_REVISION.md).
 - Production criteria: [textbook standard](TEXTBOOK_STANDARD.md) and [chapter standard](CHAPTER_STANDARD.md).
@@ -47,7 +47,7 @@ PDF under build/ is a compiler product; read the named file under output/pdf/.
 ## Clean current workflow
 
 Use the chapter README commands for standalone reviews. For continuous assembly,
-run Python 3.13: scripts/build-convergence.py --through 26 --refresh-assets.
+run Python 3.13: scripts/build-convergence.py --through 27 --refresh-assets.
 This produces output/pdf/evolutor-convergence.pdf and a source-bound build
 report in build/convergence/. It is a cumulative review candidate, not an accepted
 full planned book. --check on chapter builders verifies existing computed assets.
@@ -65,15 +65,15 @@ than recursively delete a repository directory.
 
 ## Next editorial milestone
 
-Chapter 27 develops memory-efficient training with correct loss weighting,
-activation recomputation and gradient-preserving boundaries.
+Chapter 28 develops distributed training with explicit state ownership,
+global weighted reductions and rank-level failure boundaries.
 Continue the evidence ladder: define assumptions, derive, implement, compare an
 independent oracle, break an assumption, and state the experimental test still
 needed. Contemporary papers inform research questions, not unearned claims of
 biological capability, industrial readiness or performance leadership.
 # Package convergence in progress — 6 October 2026
 
-Chapters 22–26 have been semantically integrated, rewritten, tested and locally
+Chapters 22–27 have been semantically integrated, rewritten, tested and locally
 visually reviewed as standalone candidates. Source-bound evidence is tracked
 in the matrix, not inferred from file presence. The integration branch preserves the earlier
 accepted edition. Remaining packages and cumulative/full-book gates are tracked

@@ -1,0 +1,39 @@
+{
+  "access_date": "2026-10-06",
+  "chapter": 27,
+  "records": [
+    {
+      "key": "chen2016",
+      "title": "Training Deep Nets with Sublinear Memory Cost",
+      "authors": "Tianqi Chen; Bing Xu; Chiyuan Zhang; Carlos Guestrin",
+      "url": "https://arxiv.org/abs/1604.06174v2",
+      "date": "2016-04-22 v2",
+      "access_depth": "Primary author abstract and version metadata",
+      "inspected": "Abstract/version; no external benchmark replication",
+      "claim": "Activation checkpointing trades recomputation for memory",
+      "issue": "Equal-chain slot formula is an original declared toy, not PyTorch peak measurement"
+    },
+    {
+      "key": "micikevicius2018",
+      "title": "Mixed Precision Training",
+      "authors": "Paulius Micikevicius et al.",
+      "url": "https://arxiv.org/abs/1710.03740v3",
+      "date": "2018-02-15 v3",
+      "access_depth": "Primary author abstract and version metadata",
+      "inspected": "Abstract/version authors; not full experimental sections",
+      "claim": "Master weights and loss scaling are established mixed-precision techniques",
+      "issue": "No actual AMP certification from this CPUFloat64 fixture"
+    },
+    {
+      "key": "torch-checkpoint",
+      "title": "torch.utils.checkpoint",
+      "authors": "PyTorch contributors",
+      "url": "https://docs.pytorch.org/docs/2.10/checkpoint.html",
+      "date": "Version2.10 documentation; runtime2.10.0",
+      "access_depth": "Selected official API documentation",
+      "inspected": "RNG notes, variants/nonreentrant path, default shape/dtype/device determinism check and compiler flag caveat",
+      "claim": "Explicit use_reentrant=False and RNG preservation need independent gradient tests",
+      "issue": "CPU stochastic probe; no multi-device/torch.compile guarantee"
+    }
+  ]
+}

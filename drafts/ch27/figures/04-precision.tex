@@ -1,0 +1,15 @@
+\begin{tikzpicture}[x=1cm,y=1cm]
+\path[use as bounding box](-.3,-.4) rectangle(15.5,5.2);
+\node[note,anchor=west,font=\bfseries\sffamily]at(0,4.8){A numerical policy, not a universal cast};
+\foreach \x/\label in {2.1/Operator compute,7.5/Sensitive reductions,12.9/Optimizer state}{
+\node[draw,fill=Pale,note,text width=4.1cm,minimum height=.7cm]at(\x,3.8){\label};}
+\node[smallnote,text width=4cm]at(2.1,2.9){selected lower precision\\validate operator support};
+\node[smallnote,text width=4cm]at(7.5,2.9){normalization, loss, logits\\choose accumulation precision};
+\node[smallnote,text width=4cm]at(12.9,2.9){moments and master copy\\explicit storage/update dtype};
+\node[draw,fill=Gold!25,note](s)at(1.9,1.4){scaled backward};
+\node[draw,note](u)at(5.5,1.4){unscale};
+\node[draw,note](c)at(8.7,1.4){finite + clip};
+\node[draw,fill=Green!10,note](a)at(12.9,1.4){one update or skip};
+\draw[flow](s)--(u);\draw[flow](u)--(c);\draw[flow](c)--(a);
+\node[smallnote]at(7.5,.1){Algorithmic order shown; this CPU reference does not certify accelerator AMP behavior or performance.};
+\end{tikzpicture}

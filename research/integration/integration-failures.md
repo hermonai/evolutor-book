@@ -1,6 +1,6 @@
 # Integration failures and open gates
 
-Updated 6 October 2026. Chapters 22–26 have passed locally rerun reference tests,
+Updated 6 October 2026. Chapters 22–27 have passed locally rerun reference tests,
 strict standalone authored-LaTeX builds and every-page color/grayscale author review.
 Incoming build/QA assertions remain provenance, not local evidence. Failed incoming
 font configuration was replaced by the native-font review template. Chapter26 DNA

@@ -1,0 +1,12 @@
+\begin{tikzpicture}[x=1cm,y=1cm]
+\path[use as bounding box](-.3,-.4) rectangle(15.5,5.3);
+\node[note,anchor=west,font=\bfseries\sffamily]at(0,4.9){Fixed parameters; three weighted numerators; one update};
+\foreach \x/\records/\mass/\idx in {2.1/5/12/1,7.5/5/13/2,12.9/2/6/3}{
+\node[draw,fill=Pale,note,text width=3.9cm,minimum height=1.2cm](n\idx)at(\x,3.6)
+{microbatch \idx: \records\ records\\valid weight mass = \mass\\backward $N_{\idx}/31$};
+\draw[flow](\x,2.85)--(\x,2.2);}
+\draw[Blue,thick](2.1,2.2)--(12.9,2.2);
+\node[draw,fill=Green!10,note,text width=7.5cm](g)at(7.5,1.35){$g=(\nabla N_1+\nabla N_2+\nabla N_3)/31$\\unscale/check/clip, then one Adam update};
+\draw[flow](7.5,2.2)--(g);
+\node[smallnote,Red]at(7.5,.1){Wrong: $(N_1/12+N_2/13+N_3/6)/3$ equally weights microbatches, not valid elements.};
+\end{tikzpicture}

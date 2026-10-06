@@ -1,0 +1,8 @@
+\begin{tikzpicture}[x=1cm,y=1cm]
+\path[use as bounding box](-.3,-.3) rectangle(15.5,4.6);
+\node[note,anchor=west,font=\bfseries\sffamily]at(0,4.2){Evidence gates before changing a training default};
+\foreach \x/\name/\desc/\idx in {1.7/Semantic/loss + all derivatives/1,5.5/Numerical/finite + restart + dtype/2,9.3/Resource/peak + synchronized time/3,13.1/Scientific/task quality across seeds/4}{
+\node[draw,fill=Pale,note,text width=3.2cm,minimum height=1.3cm](n\idx)at(\x,2.6){\name\\\desc};}
+\draw[flow](n1)--(n2);\draw[flow](n2)--(n3);\draw[flow](n3)--(n4);
+\node[smallnote,text width=13cm]at(7.5,.9){This chapter tests the CPU semantic fixture and static toy accounting. Accelerator memory/speed, mixed-precision training and genomic capability remain open gates.};
+\end{tikzpicture}
