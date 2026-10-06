@@ -1,0 +1,342 @@
+\chapter{Training/inference parity and parallel recurrence}
+\label{evod26:chapter}
+A recurrent architecture is defined by its transition and state boundaries, not by
+a particular Python loop. If a different execution schedule implements the same
+function, training can exploit parallel work while inference updates one step at
+a time. The difficult part is proving equivalence without overlooking gradients,
+resets, padding, floating-point order or request ownership.
+
+Chapter 25 tested actual Chapter 22 DOGMA carry and actual Chapter 23 Hermon causal
+prefix behavior. Here we isolate an affine recurrent core and build four independent
+views of it: a literal sequential loop, an inclusive scan, a chunked loop and a
+closed-form product/sum oracle. We then derive a reverse-mode gradient oracle.
+These are algebra and software experiments, not trained genomic capability or
+accelerator performance evidence.
+
+\section{Specify the transition before changing the schedule}
+Consider
+\begin{equation}
+h_t=a_t\odot h_{t-1}+b_t,\qquad h_t\in\mathbb R^D,\quad t=1,\ldots,T.
+\label{evod26:rec}
+\end{equation}
+The elementwise coefficients $a_t,b_t$ can be learned or input-dependent.
+For a whole-sequence parallel scan they must be available without first computing
+the recurrent states that the scan is supposed to produce. Causal legality alone
+is not sufficient: $a_t=g(h_{t-1},x_t)$ may be causal yet require sequential
+evaluation. Local input-derived coefficients are one scan-compatible case.
+
+This distinction matters for DOGMA. Its Chapter 22 complete state contains native
+hidden state and memory loci, including state-dependent read/write interactions.
+The entire nonlinear state machine does not become scan-compatible merely because
+one subexpression is affine. A scan proof for a frozen or input-conditioned core
+does not prove a scan implementation of that full model. HermonDNA remains the
+Transformer branch; Evolutor coordinates both rather than conflating their state.
+\Plate{01-three}{One affine transition has sequential, chunked and scan schedules.
+Coefficient availability is a prerequisite; this is not a claim that every DOGMA
+transition admits the same scan.}{evod26:three}
+
+The reference uses $a,b$ shaped $[T,*\mathrm{state}]$ and $h_0$ shaped
+$[*\mathrm{state}]$. Extra state axes can hold independent batch lanes.
+Shapes, floating dtype, device and finite inputs must match. It does not mutate
+PyTorch's global default dtype. The empty sequence returns no per-position states
+and final state $h_0$, rather than inventing a transition.
+
+\section{Derive chronological affine composition}
+Let $F=(a,b)$ denote $F(h)=a\odot h+b$. Applying $F_L$ then $F_R$ gives
+\[
+F_R(F_L(h))=(a_R\odot a_L)\odot h+(a_R\odot b_L+b_R).
+\]
+Define chronological composition
+\begin{equation}
+F_L\otimes F_R=(a_R\odot a_L,\ a_R\odot b_L+b_R).
+\label{evod26:composition}
+\end{equation}
+The left operand happens earlier even though function composition is written
+$F_R\circ F_L$. This convention must remain consistent in the diagram, code and tests.
+\Plate{02-compose}{Chronological order fixes the translated term $a_Rb_L+b_R$.
+Associativity permits regrouping; it never permits reordering.}{evod26:compose}
+\Listing{compose}
+
+For three steps both parenthesizations produce
+\[
+(a_3a_2a_1,\ a_3a_2b_1+a_3b_2+b_3),
+\]
+componentwise. Thus the pairs with identity $(\mathbf1,\mathbf0)$ form an
+associative monoid over exact real arithmetic. They are generally not commutative.
+For $F_1=(2,1)$, $F_2=(3,4)$, chronological $F_1\otimes F_2=(6,7)$,
+whereas $F_2\otimes F_1=(6,9)$. A parallel algorithm that swaps operands is wrong.
+
+An independent test represents scalar maps by homogeneous matrices
+$\begin{pmatrix}a&b\\0&1\end{pmatrix}$. Their multiplication supplies an oracle
+without calling \texttt{compose}. Matrix-affine recurrences also compose in
+principle, but their operation cost and coefficient structure differ from this
+elementwise implementation; the scalar cost model must not be transferred blindly.
+
+\section{Prefixes, not just one tree reduction}
+The \Term{affine prefix summary} at position $t$ is
+\[
+P_t=F_1\otimes\cdots\otimes F_t=(A_t,B_t),\qquad
+h_t=A_t\odot h_0+B_t.
+\]
+Training often needs every $h_t$, not just the terminal state. A balanced reduction
+that returns only $P_T$ is therefore not the required algorithm.
+
+Our transparent Hillis--Steele scan starts with one-step pairs. At offsets
+$1,2,4,\ldots$, a position combines its earlier interval with its current interval
+using arrays from the \emph{previous} stage. Unaffected leading positions are copied.
+After stage $k$, each position summarizes up to $2^{k+1}$ preceding steps including
+itself. This invariant proves complete prefixes after $\lceil\log_2T\rceil$ stages.
+\Plate{03-tree}{An inclusive scan produces every prefix. At each doubling stage
+all updates read the preceding stage; in-place partial updates would violate the
+interval invariant.}{evod26:tree}
+\Listing{hillis_steele_scan}
+
+For $h_0=2$, $a=(0.5,2,0,-1)$ and $b=(1,0.5,3,2)$, direct updates give
+$h=(2,4.5,3,-1)$. The prefix summaries expose the same result:
+\begin{center}\input{\Generated/trace.tex}\end{center}
+A zero coefficient discards the incoming state. Negative and expansive coefficients
+are legal algebraically; imposing $(0,1)$ coefficients in a model is an additional
+parameterization choice, not a requirement of affine composition.
+
+Blelloch's chapter establishes associative prefix computation as prior art
+\cite{Blelloch1993}. S5's author abstract describes a multi-input, multi-output
+state-space layer compatible with parallel scans \cite{Smith2023}. Mamba's selected
+mechanism sections distinguish input-dependent state-space computation and
+hardware-aware scan, fusion and recomputation \cite{GuDao2024}. These sources
+motivate engineering questions; our reference neither reproduces their trained
+results nor implements their production kernels.
+
+\section{Resets and padding belong in the algebra}
+Let $r_t$ mark \Term{reset-before-update} and $v_t$ mark a valid position. With an explicit
+reset state $h_{\rm reset}$, a valid reset step computes
+$a_t\odot h_{\rm reset}+b_t$ independently of $h_{t-1}$.
+Fold these semantics into effective pairs:
+\[
+(\tilde a_t,\tilde b_t)=
+\begin{cases}
+(\mathbf1,\mathbf0),&v_t=0,\\
+(\mathbf0,a_t\odot h_{\rm reset}+b_t),&v_t=1,\ r_t=1,\\
+(a_t,b_t),&v_t=1,\ r_t=0.
+\end{cases}
+\]
+Now the same scan machinery handles segmented records and identity padding.
+Our schema rejects reset requests on padding rather than allowing conflicting
+instructions. Masks are Boolean time vectors shared across state lanes; per-lane
+ragged resets require a separately extended mask contract, not accidental broadcasting.
+\Listing{effective_maps}
+
+For $h_0=2$, $h_{\rm reset}=10$, $a_t=0.5$, $b_t=1$, three valid steps with
+a reset at step two give $(2,6,4)$. If step three is padding, its state remains $6$.
+Setting padded $a=b=0$ would erase the state, not preserve it.
+A reset cuts dependence on the earlier record, but may preserve dependence on a
+shared learned reset parameter. When $h_{\rm reset}=h_0$, gradients to that common
+parameter still accumulate across reset segments.
+
+\section{Carry the state and preserve its gradient}
+A chunk boundary is not a biological sequence boundary. For a chunk starting at
+$s$, its incoming state must be the previous chunk's terminal state $h_{s-1}$.
+Reset masks retain their original positions, and $h_{\rm reset}$ stays the global
+reset parameter, not the new chunk's incoming state.
+\Plate{04-chunk}{Ordinary chunking carries both the value and its differentiation
+path. Reset starts a declared new segment; detach keeps values but deliberately
+changes the gradient.}{evod26:chunk}
+\Listing{chunked}
+
+The reference tests sizes $1,2,3,5$, larger-than-sequence chunks and uneven tails.
+It includes an explicit \texttt{detach=True} intervention for a counterexample.
+With $a=(1,1)$, $b=(0,0)$, $h_0=1$ and loss $L=h_2$, both ordinary and detached
+chunking produce $h_2=1$. Ordinary differentiation gives
+$\partial L/\partial b_1=1$; detaching after step one gives zero. Forward parity
+alone therefore cannot establish training parity.
+
+Truncated backpropagation may intentionally detach boundaries. It is a different
+gradient contract, not a transparent memory optimization. Chapter 27 will separate
+gradient accumulation and activation recomputation from such changes.
+
+\section{An independent closed-form oracle}
+Unroll Eq.~\ref{evod26:rec} to obtain
+\begin{equation}
+h_t=\left(\prod_{j=1}^t a_j\right)\odot h_0+
+\sum_{k=1}^t\left(\prod_{j=k+1}^t a_j\right)\odot b_k.
+\label{evod26:closed}
+\end{equation}
+An empty product is $\mathbf1$. This formula handles $a_j=0$ without division.
+Rewriting every suffix product as a ratio of cumulative products would fail at zero,
+precisely where reset semantics become important.
+
+The \texttt{closed\_form} reference evaluates each prefix using products and a
+reverse suffix-product loop, rather than the composition operator or forward state
+loop. It costs $O(T^2D)$ and exists for verification, not serving.
+Tests compare all four schedules across empty, singleton, power-of-two and
+non-power-of-two lengths. Hand traces, homogeneous matrices and this product/sum
+formula reduce the risk of two implementations sharing the same mistake.
+
+\section{Derive a reverse-mode gradient oracle}
+For an assigned linear loss $L=\sum_t w_t^\top h_t$, let
+$\lambda_t=\partial L/\partial h_t$. Reverse accumulation gives
+\[
+\lambda_T=w_T,\qquad
+\lambda_t=w_t+a_{t+1}\odot\lambda_{t+1}.
+\]
+Consequently
+\begin{equation}
+\frac{\partial L}{\partial b_t}=\lambda_t,\quad
+\frac{\partial L}{\partial a_t}=\lambda_t\odot h_{t-1},\quad
+\frac{\partial L}{\partial h_0}=a_1\odot\lambda_1.
+\label{evod26:adjoint}
+\end{equation}
+These derivatives are with respect to the provided coefficient tensors. If a
+coefficient generator has parameters $\theta$, an end-to-end implementation must
+also differentiate through $a(\theta,x),b(\theta,x)$ and compare those gradients.
+\Plate{05-gates}{Parity requires independent forward and derivative checks,
+including state-boundary interventions. Agreement on one convenient trace is not
+a universal stability result.}{evod26:gates}
+\Listing{analytic_adjoint}
+
+The reverse oracle implements Eq.~\ref{evod26:adjoint} without asking autograd for
+these derivatives. Central finite differences provide another check, including
+a zero coefficient. Reset tests compare all participating gradients, including
+the reset state, against the literal reset loop. Padding coefficient gradients
+are zero because its effective map is independent of those coefficients.
+
+For seed 26, length 17, dimension 5 and float64 coefficients in $[0.8,0.9)$,
+the generated result file reports maximum forward discrepancy $2.22045\times10^{-16}$,
+gradient discrepancy $4.44089\times10^{-16}$ and manual-adjoint discrepancy zero.
+This is a bounded deterministic fixture, not a
+general theorem. Long 1024-step bounded-coefficient tests use declared float64
+and float32 tolerances; no BF16 or FP16 certification is inferred.
+
+\section{Numerical equivalence has a real counterexample}
+Exact-real affine composition is associative. Machine addition and multiplication
+are not exactly associative. Consider $a=(1,1,1)$, $b=(10^{16},-10^{16},1)$,
+$h_0=0$ in float64. Sequential evaluation gives final state $1$; this scan's
+regrouping gives $0$. The absolute difference is one, not a negligible last-bit
+artifact at the output scale.
+
+The example exposes cancellation: adding one to a large-magnitude partial sum can
+round it away before the opposite large term arrives. It does not refute the
+real-arithmetic proof; it refutes an unrestricted numerical-parity claim.
+Declare dtype, coefficient/state scales, context lengths and both absolute and
+relative tolerances. An allclose pass on contractive random coefficients says
+little about a cancellation-heavy or expansive workload.
+
+Long products also express model stability. Values $|a_t|<1$ tend to attenuate
+older contributions; values above one can amplify state and gradients.
+A gate parameterization may reduce amplification but does not eliminate cancellation,
+underflow, accumulation error or data-distribution shift.
+The software validates finite inputs; it does not guarantee that every finite
+input yields finite intermediates. Production paths need output monitoring and
+explicit non-finite failure handling.
+
+\section{Depth, work and measured latency are different quantities}
+At offset $2^k$, our scan performs $T-2^k$ pair compositions. For $T>1$,
+\[
+W_{\rm HS}(T)=\sum_{k=0}^{\lceil\log_2T\rceil-1}(T-2^k),
+\qquad
+D_{\rm HS}(T)=\lceil\log_2T\rceil.
+\]
+This is $O(T\log T)$ pair work and $O(\log T)$ idealized stage depth.
+It is not a work-efficient Blelloch up-sweep/down-sweep implementation.
+For $T=1024$, the reference performs 9217 pair compositions across ten stages;
+a literal sequence makes 1024 state updates. A pair composition and a state update
+are not identical FLOP units.
+\begin{center}\input{\Generated/work.tex}\end{center}
+
+Tensor allocation, concatenation, synchronization and kernel dispatch remain
+outside this pair-operation count. With unlimited ideal parallel lanes, lower
+dependency depth can help; with finite hardware, extra work and memory traffic
+can dominate. No measured speedup is reported. A serious benchmark would specify
+hardware, shape, batch, dtype, compilation/fusion, warmup, device synchronization,
+peak memory and forward/backward scope.
+
+Mamba's selected implementation discussion emphasizes kernel fusion and avoiding
+large intermediates in the memory hierarchy \cite{GuDao2024}. It would be misleading
+to assign those properties to this intentionally transparent PyTorch teaching scan.
+
+\section{Serving parity includes ownership}
+\Plate{06-life}{State belongs to a logical request, not merely a reusable buffer.
+Versioned position, complete state and reset/clone/cancel behavior determine the
+meaning of incremental execution.}{evod26:life}
+\Term{State ownership} means a request state identifies its model/configuration version, sequence position,
+dtype/device and all architecture-specific tensors. For the affine reference that
+is $h$; for actual DOGMA it includes native hidden state and memory loci; for
+HermonDNA cached attention it includes layer-specific K/V, position and masks.
+A common interface may wrap them but cannot replace their semantics.
+
+Clone should preserve independent future evolution through deep copy or a proven
+copy-on-write contract. A checkpoint names both position and model version.
+Cancellation invalidates the logical owner before buffer reuse. A reset on a new
+request is not an optional performance hint. Otherwise serving can leak previous
+request information even if the mathematical recurrence is correct.
+
+Chapter 25's Hermon prefix test repeated causal prefixes; it did not implement
+KV-cache decoding. This chapter likewise makes no Hermon KV-parity claim.
+That requires actual cache construction, correct positions/masks and every-position
+logit comparison against the complete causal model.
+
+\section{Failure-oriented verification}
+The chapter tests reject swapped composition order, partially updated in-place
+scan stages, wrong padding maps, reset-on-padding instructions and detached
+boundary gradients. Future-coefficient perturbations must not change earlier
+states; independent batch lanes must not interact. Invalid shapes, dtypes,
+non-finite inputs and Boolean chunk sizes are rejected.
+
+No one oracle suffices. Matrix products check composition; hand arithmetic checks
+a trace; the closed form checks prefix values; the reverse recurrence and finite
+differences check derivatives; boundary interventions check lifecycle semantics.
+The cancellation fixture remains an expected disagreement, ensuring that tests
+do not erase a real numerical limitation merely to make every case pass.
+
+\section{Twenty worked exercises}
+\begin{enumerate}
+\item Compose $(2,1)$ then $(3,4)$.
+\textbf{Answer:} $(6,7)$; reversing gives $(6,9)$.
+\item What is the identity?
+\textbf{Answer:} $(\mathbf1,\mathbf0)$.
+\item Expand a three-step translated term.
+\textbf{Answer:} $a_3a_2b_1+a_3b_2+b_3$.
+\item Why is a terminal reduction insufficient for training?
+\textbf{Answer:} losses may require every position's state.
+\item Trace the four-step example from $h_0=2$.
+\textbf{Answer:} $(2,4.5,3,-1)$.
+\item What does $a_3=0$ erase?
+\textbf{Answer:} dependence of $h_3$ on earlier incoming state, while retaining $b_3$.
+\item Why not divide cumulative products to compute suffixes?
+\textbf{Answer:} zero coefficients make the ratio undefined.
+\item Give the pair for reset-before-update.
+\textbf{Answer:} $(0,a_t h_{\rm reset}+b_t)$.
+\item Give the pair for padding.
+\textbf{Answer:} $(1,0)$, not $(0,0)$.
+\item Compute states with $a=.5,b=1,h_0=2,h_{\rm reset}=10$ and reset at step two.
+\textbf{Answer:} $(2,6,4)$.
+\item What if step three is padding?
+\textbf{Answer:} its state is $6$.
+\item Does resetting cut all gradients to a shared reset parameter?
+\textbf{Answer:} no; it cuts earlier-record state dependence, not the new reset contribution.
+\item Why preserve the global reset state across chunks?
+\textbf{Answer:} using the incoming chunk state as reset changes segment semantics.
+\item Give a forward-equal, gradient-unequal detach example.
+\textbf{Answer:} two identity-coefficient steps with $L=h_2$ yield
+$\partial L/\partial b_1=1$ ordinarily, zero after boundary detach.
+\item Derive $\partial L/\partial b_t$.
+\textbf{Answer:} the direct state derivative is one, hence $\lambda_t$.
+\item Why can causal state-derived coefficients prevent a whole-sequence scan?
+\textbf{Answer:} producing coefficients still requires previous recurrent states.
+\item Count pair compositions at $T=4$.
+\textbf{Answer:} $(4-1)+(4-2)=5$ across two stages.
+\item At $T=1024$?
+\textbf{Answer:} $10(1024)-(1+\cdots+512)=9217$.
+\item Evaluate the cancellation example under the two schedules.
+\textbf{Answer:} float64 sequential final $1$, reference scan final $0$.
+\item What would justify a production parity claim?
+\textbf{Rubric:} actual model/coefficient gradients, complete native state,
+resets/padding/positions, representative dtype and length tests, independent
+oracles, disclosed tolerances and separately measured systems performance.
+\end{enumerate}
+
+\section{Bridge to memory-efficient training}
+The next chapter changes how training work and activations are scheduled.
+Accumulation must preserve the declared loss weighting; recomputation must preserve
+the transition and stochastic behavior; detach changes the gradient unless it is
+explicitly part of the objective. The present chapter supplies the value, derivative
+and boundary contracts against which those changes must be tested.

@@ -1,0 +1,22 @@
+SEMANTIC GRAPH — Independent forward, backward and numerical checks
+
+Purpose: Explain the mechanism and its scope; companion to the editable TikZ plate.
+Notation: prose nodes and typed relationships, not ASCII art.
+
+NODES
+N0: Literal loop and closed form value oracles.
+N1: Manual reverse adjoint and finite differences gradient oracles.
+N2: Reset/padding/detach boundary interventions.
+N3: Cancellation and long-product numeric stress.
+
+RELATIONSHIPS
+R0: Each oracle checks declared transition, all states and final state.
+R1: Matrices check composition without calling same helper.
+R2: Cancellation fixture a=1,b=(1e16,-1e16,1),h0=0 yields seq1 and scan0.
+
+READING AND LIMITS
+- Bounded deterministic parity does not establish universal float stability.
+- No actual trained model performance or production kernel speed claim.
+- Dtype, scale, length and tolerance belong to result.
+
+Visual encoding: navy/blue denotes state and bound evidence; green denotes valid flow or independent unit; red denotes failure or limitation. Text and arrow roles preserve meaning in grayscale.

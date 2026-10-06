@@ -1,0 +1,23 @@
+SEMANTIC GRAPH — One affine transition, three schedules
+
+Purpose: Explain the mechanism and its scope; companion to the editable TikZ plate.
+Notation: prose nodes and typed relationships, not ASCII art.
+
+NODES
+N0: Affine map h_t=a_t*h_(t-1)+b_t.
+N1: Coefficients provided without recurrent-state-dependent generation.
+N2: Sequential dependencies F1,F2,F3,F4.
+N3: Two chunks carrying state.
+N4: Inclusive prefixes P1,P2,P3,P4 acting on h0.
+
+RELATIONSHIPS
+R0: Sequential: state flows chronologically.
+R1: Chunked: exact boundary state retains same function.
+R2: Scan: associative regrouping supplies every prefix, not only terminal pair.
+
+READING AND LIMITS
+- Complete DOGMA22 state-dependent locus interactions are not certified scan-compatible.
+- Input causality is not enough if coefficients require prior recurrent state.
+- This figure is algebra, not a hardware timing comparison.
+
+Visual encoding: navy/blue denotes state and bound evidence; green denotes valid flow or independent unit; red denotes failure or limitation. Text and arrow roles preserve meaning in grayscale.

@@ -1,0 +1,22 @@
+SEMANTIC GRAPH — Chronological affine composition
+
+Purpose: Explain the mechanism and its scope; companion to the editable TikZ plate.
+Notation: prose nodes and typed relationships, not ASCII art.
+
+NODES
+N0: Left earlier map (a_L,b_L).
+N1: Right later map (a_R,b_R).
+N2: Combined scale A=a_R*a_L.
+N3: Combined translation B=a_R*b_L+b_R.
+
+RELATIONSHIPS
+R0: h -> left -> right: right scales both left contributions.
+R1: Associativity permits regrouping with chronological order preserved.
+R2: (2,1) then (3,4) yields(6,7); reverse yields(6,9).
+
+READING AND LIMITS
+- Not commutative.
+- Exact-real associativity does not imply exact floating-point associativity.
+- Elementwise cost differs from general matrix-affine composition.
+
+Visual encoding: navy/blue denotes state and bound evidence; green denotes valid flow or independent unit; red denotes failure or limitation. Text and arrow roles preserve meaning in grayscale.

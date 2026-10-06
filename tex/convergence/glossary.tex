@@ -66,4 +66,14 @@ retaining their dependent records and paired predictions within each draw.
 predictors, not automatically variation across training procedures or seeds.
 \item[Resource inventory] Static auditable counts and units, distinct from
 instrumented workload measurements such as peak memory, latency or energy.
+\item[Affine prefix summary] Chronological pair $(A,B)$ mapping incoming state
+to $A\odot h+B$; each prefix is required, not merely a terminal reduction.
+\item[Scan eligibility] Coefficients must be available without computing the
+recurrent states to be scanned; causality alone does not establish eligibility.
+\item[Reset-before-update] Replace incoming state by a declared reset state,
+then apply the current valid transition; distinct from identity padding.
+\item[Boundary detach] Preserve a carried value while intentionally severing its
+earlier derivative path; not a transparent gradient-preserving optimization.
+\item[Parallel dependency depth] Idealized dependent stage count, distinct from
+total work, memory traffic and measured wall-clock latency.
 \end{description}

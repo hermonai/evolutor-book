@@ -1,0 +1,17 @@
+\begin{tikzpicture}[x=1cm,y=1cm,font=\small\sffamily]
+\path[use as bounding box](0,-.3) rectangle(16,7.2);
+\node[anchor=west,font=\large\sffamily\bfseries,Blue] at(0,6.8){Three boundaries with different semantics};
+\foreach \i/\y/\label in {1/5.4/{Carry},2/3.5/{Detach},3/1.6/{Reset}} {
+\node[anchor=west,font=\bfseries,Blue] at(0,\y){\label};
+\node[draw=Blue,fill=Pale,minimum width=3.4cm](l\i) at(4.3,\y){earlier chunk};
+\node[draw=Blue,fill=Pale,minimum width=3.4cm](r\i) at(12.7,\y){later chunk};
+}
+\draw[flow](l1)--node[above]{$h$ + gradient path}(r1);
+\draw[flow](l2)--node[above]{same value $h$}(r2);
+\draw[Red,line width=1.5pt](8,3.1)--(8.4,3.9);
+\node[Red,align=center] at(8.2,2.85){earlier gradients cut};
+\draw[Red,dashed](l3.east)--(7.7,1.6);
+\node[draw=Green,fill=Green!8,align=center](reset) at(8.6,1.6){$h_{\rm reset}$\\new segment};
+\draw[flow](reset)--(r3);
+\node[align=center,Blue] at(8,.4){Reset-before-update map: $(0,a_t h_{\rm reset}+b_t)$\\Padding map: $(1,0)$; a chunk boundary alone does neither.};
+\end{tikzpicture}

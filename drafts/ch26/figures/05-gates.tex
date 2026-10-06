@@ -1,0 +1,10 @@
+\begin{tikzpicture}[x=1cm,y=1cm,font=\small\sffamily]
+\path[use as bounding box](0,-.3) rectangle(16,7);
+\node[anchor=west,font=\large\sffamily\bfseries,Blue] at(0,6.6){Independent oracles check different failure modes};
+\foreach \x/\y/\t in {3/5/{Forward values\\literal loop + closed form},13/5/{Gradients\\reverse adjoint + finite differences},3/2.9/{Boundary interventions\\reset / padding / detach},13/2.9/{Numerical stress\\cancellation / long products}} {
+\node[draw=Blue,fill=Pale,rounded corners,align=center,minimum width=5.6cm,minimum height=1.25cm] at(\x,\y){\t};}
+\node[draw=Green,fill=Green!8,align=center,minimum width=4cm,minimum height=1.2cm](c) at(8,4){Declared transition\\all states + final state\\dtype / tolerance / scope};
+\foreach \x/\y in {5.8/5,10.2/5,5.8/2.9,10.2/2.9} \draw[flow](\x,\y)--(c);
+\node[draw=Red,fill=Red!5,align=center,minimum width=14cm,minimum height=1.2cm] at(8,1){$a=(1,1,1),\ b=(10^{16},-10^{16},1),\ h_0=0$\\float64: sequential final $1$, scan final $0$};
+\node[anchor=west,Red] at(0,-.05){A roundoff-scale pass on one bounded fixture does not establish universal numerical parity.};
+\end{tikzpicture}

@@ -1,0 +1,74 @@
+{
+  "forward_max_abs": 2.220446049250313e-16,
+  "gradient_max_abs": 4.440892098500626e-16,
+  "analytic_adjoint_max_abs": 0.0,
+  "trace": [
+    {
+      "step": 1,
+      "a": 0.5,
+      "b": 1.0,
+      "A": 0.5,
+      "B": 1.0,
+      "h": 2.0
+    },
+    {
+      "step": 2,
+      "a": 2.0,
+      "b": 0.5,
+      "A": 1.0,
+      "B": 2.5,
+      "h": 4.5
+    },
+    {
+      "step": 3,
+      "a": 0.0,
+      "b": 3.0,
+      "A": 0.0,
+      "B": 3.0,
+      "h": 3.0
+    },
+    {
+      "step": 4,
+      "a": -1.0,
+      "b": 2.0,
+      "A": -0.0,
+      "B": -1.0,
+      "h": -1.0
+    }
+  ],
+  "work": [
+    {
+      "length": 0,
+      "stages": 0,
+      "pair_compositions": 0,
+      "sequential_depth": 0
+    },
+    {
+      "length": 1,
+      "stages": 0,
+      "pair_compositions": 0,
+      "sequential_depth": 1
+    },
+    {
+      "length": 4,
+      "stages": 2,
+      "pair_compositions": 5,
+      "sequential_depth": 4
+    },
+    {
+      "length": 17,
+      "stages": 5,
+      "pair_compositions": 54,
+      "sequential_depth": 17
+    },
+    {
+      "length": 1024,
+      "stages": 10,
+      "pair_compositions": 9217,
+      "sequential_depth": 1024
+    }
+  ],
+  "cancellation_sequential_final": 1.0,
+  "cancellation_scan_final": 0.0,
+  "scope": "reference algebra/gradients, not trained DOGMA, Hermon KV or hardware benchmark"
+}

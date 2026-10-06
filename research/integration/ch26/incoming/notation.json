@@ -1,0 +1,8 @@
+{
+  "h_t": "recurrent state after step t",
+  "a_t,b_t": "affine transition coefficients",
+  "\u2297": "chronological affine-map composition",
+  "(A_t,B_t)": "prefix transition summary",
+  "r_t": "reset-before-step indicator",
+  "h_init": "declared initial/reset state"
+}

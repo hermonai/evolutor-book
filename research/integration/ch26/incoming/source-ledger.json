@@ -1,0 +1,23 @@
+[
+  {
+    "key": "blelloch1990",
+    "primary": "https://www.cs.cmu.edu/~guyb/papers/Ble93.pdf",
+    "claim": "Associative prefix/scan computations admit parallel tree algorithms.",
+    "access_date": "2026-10-05",
+    "depth": "foundational report context"
+  },
+  {
+    "key": "mamba",
+    "primary": "https://arxiv.org/abs/2312.00752",
+    "claim": "Selective SSM parameters are input-dependent and Mamba uses a hardware-aware parallel algorithm in recurrent mode.",
+    "access_date": "2026-10-05",
+    "depth": "abstract/full-paper context via arXiv"
+  },
+  {
+    "key": "internal22-25",
+    "primary": "EVOD-22--25",
+    "claim": "DOGMA/Hermon state, causal/data and fair-comparison contracts.",
+    "access_date": "2026-10-05",
+    "depth": "full prior package continuity"
+  }
+]

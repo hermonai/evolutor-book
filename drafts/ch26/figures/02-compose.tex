@@ -1,0 +1,12 @@
+\begin{tikzpicture}[x=1cm,y=1cm,font=\small\sffamily]
+\path[use as bounding box](0,-.3) rectangle(16,6.4);
+\node[anchor=west,font=\large\sffamily\bfseries,Blue] at(0,6){Composition carries a scaled history and a new offset};
+\node[draw=Blue,fill=Pale,minimum width=2.3cm,minimum height=1.1cm](h) at(1.5,4.7){incoming $h$};
+\node[draw=Green,fill=Green!8,minimum width=3.6cm,minimum height=1.1cm](l) at(6,4.7){$a_Lh+b_L$};
+\node[draw=Blue,fill=Blue!8,minimum width=5.3cm,minimum height=1.1cm](r) at(12.6,4.7){$a_R(a_Lh+b_L)+b_R$};
+\draw[flow](h)--node[above]{$F_L$}(l);\draw[flow](l)--node[above]{$F_R$}(r);
+\node[draw=Green,fill=Green!5,align=center,minimum width=6.4cm,minimum height=1.5cm] at(4,2.6){state-dependent term\\$A=a_Ra_L$\\retained scale of incoming state};
+\node[draw=Blue,fill=Pale,align=center,minimum width=6.4cm,minimum height=1.5cm] at(12,2.6){translated term\\$B=a_Rb_L+b_R$\\earlier offset scaled by later step};
+\node[align=center,Blue] at(8,1){$(2,1)\otimes(3,4)=(6,7)$\\$(3,4)\otimes(2,1)=(6,9)$};
+\node[anchor=west,Red] at(0,0){Associative over exact reals; generally noncommutative and not exactly associative in floats.};
+\end{tikzpicture}

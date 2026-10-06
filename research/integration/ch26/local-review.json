@@ -1,0 +1,45 @@
+{
+  "date": "2026-10-06",
+  "chapter": 26,
+  "pdf": "output/pdf/evolutor-ch26-review.pdf",
+  "pdf_sha256": "c7de9692c0b4ccebef3fe0e1c2ba29712c091aaf1de7af6f215be185a1941a89",
+  "pages": 16,
+  "source_hashes": {
+    "drafts/ch26/README.md": "817ce82b6d9081294e87178485b3df740cba35ef08f86a8a4be9aa13f0b44f48",
+    "drafts/ch26/STORYBOARD.md": "a35de6b2936f32568c0825603982e2962d20527107be704ee943bf6ac8d0a803",
+    "drafts/ch26/build.py": "eea92598ce94f2a8e0313c8972953e2ca3d50acc87195376a55de01a8c002d80",
+    "drafts/ch26/figures/01-three.tex": "c5720bec436c612972d861f2b2fc36def1ef739ba88568ec4199f54d4627be71",
+    "drafts/ch26/figures/01-three.txt": "a376a706dfcaca7f9e8fcf9de3284c3986360ca5dcc6d9646303c4d81c44ebd7",
+    "drafts/ch26/figures/02-compose.tex": "15d9aec96d1418353437c7eb5a188aae791ee614db02ac74227b147911d81bd8",
+    "drafts/ch26/figures/02-compose.txt": "48149fc8e005858d6f5b6e6069bd1f8c10a70bdd8fdfd287154df9a372d9c43c",
+    "drafts/ch26/figures/03-tree.tex": "9c65427566e075bdf2bb3eea343c91413afd00656426bc5c2555db21a96a6acc",
+    "drafts/ch26/figures/03-tree.txt": "6be7eb44920b34a5c873624c10a71c0be562c0a6c5cbb0548dc41f2b543791bf",
+    "drafts/ch26/figures/04-chunk.tex": "216257ab8db8966e8bf1f8c6a056b394d64240d01140e61ebab8d4587b4eefa3",
+    "drafts/ch26/figures/04-chunk.txt": "c7cb64f0308877faabe3c2ab19a3cf4848059d4c580b79dadc624899d9063c02",
+    "drafts/ch26/figures/05-gates.tex": "f9b567a867c81110b7b47a07cfdcb2e3ba8489927016d252632849c702973355",
+    "drafts/ch26/figures/05-gates.txt": "7c9a699ef825525fc5c672b353400bbf37cf87eb4e4bfedddf33477993fc7474",
+    "drafts/ch26/figures/06-life.tex": "e740ccd5573c8c4160fb363e6dac8f9fcc3738746c5755537bfa400c4267a5ce",
+    "drafts/ch26/figures/06-life.txt": "826bf34e35dab247566b991a32a471838e238d9677007d040a1e0c7ca398974b",
+    "drafts/ch26/manuscript.tex": "8b5f506a026964ad4d57ceadc6965a1236fd63c7d6508de993d43816272690ae",
+    "drafts/ch26/reference.py": "c3acf705417622d154401f16c5ac0b0e1212e1ccd2512758ad2c1884afadde9d",
+    "drafts/ch26/results.json": "af4a036558016008c7c4b3955328b47f315a139adc7ee0f4fdaa8bd0518e3f86",
+    "drafts/ch26/review.tex": "28726ec4348fc76070b6bb8b7d48577a09f0bbef36ea0511d03294e7f095c5d7",
+    "drafts/ch26/sources.tex": "fc131accf68fe874cfb89b5b77f2eec3adc88433aa0a8c3a49885c446868a6c9",
+    "tests/test_ch26_reference.py": "c8b5c5def86ebfc54db474a4fdd23fbe9efc8178628610bf2cdb1ff9a8c24364"
+  },
+  "tests": {
+    "repository_passed": 929,
+    "repository_skipped": 0,
+    "chapter_passed": 30,
+    "report": "build/ch26/regression.xml",
+    "python": "3.13.6"
+  },
+  "visual_review": {
+    "reviewer": "author/agent",
+    "status": "PASS WITH NOTES",
+    "mode": "all 16 pages, color and grayscale contact sheets",
+    "notes": "All 16 pages inspected in color and grayscale. Prefix interval arrows retain chronology, reset/detach distinctions are explicit, full function listings and all equations/tables fit. Index additions reviewed. Cancellation fixture is labeled as numerical disagreement, not a passed universal parity claim."
+  },
+  "mathematical_review": "Assumptions, independent oracles and falsifiers in technical-audit.md.",
+  "acceptance": "locally reviewed standalone integration candidate; not accepted publication edition"
+}

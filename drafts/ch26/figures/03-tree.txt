@@ -1,0 +1,22 @@
+SEMANTIC GRAPH — Inclusive doubling scan interval invariant
+
+Purpose: Explain the mechanism and its scope; companion to the editable TikZ plate.
+Notation: prose nodes and typed relationships, not ASCII art.
+
+NODES
+N0: Initial row [1,1],[2,2],[3,3],[4,4].
+N1: Offset1 row [1,1],[1,2],[2,3],[3,4].
+N2: Offset2 row [1,1],[1,2],[1,3],[1,4].
+
+RELATIONSHIPS
+R0: Vertical arrows preserve/update current position.
+R1: Diagonal offset arrows bring earlier interval first in composition.
+R2: All row updates read preceding row; never partially updated data.
+R3: Final row supplies all four prefixes; five pair compositions across two stages.
+
+READING AND LIMITS
+- Hillis-Steele style O(T log T) pair work, not work-efficient Blelloch scan.
+- Interval labels are time positions, not tensor values.
+- Idealized stage depth is not latency.
+
+Visual encoding: navy/blue denotes state and bound evidence; green denotes valid flow or independent unit; red denotes failure or limitation. Text and arrow roles preserve meaning in grayscale.

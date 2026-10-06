@@ -1,0 +1,14 @@
+{
+  "chapter": 26,
+  "stable_chapter_id": "EVOD-26",
+  "symbols": {
+    "h": "Complete affine-core state; not complete DOGMA model state",
+    "a_b": "Elementwise coefficient tensors shaped [T,*state]",
+    "otimes": "Chronological left-then-right affine composition",
+    "P_t": "Inclusive prefix summary (A_t,B_t)",
+    "r_v": "Global Boolean time masks: reset-before-update and valid position",
+    "lambda": "Reverse loss adjoint",
+    "W_HS": "Hillis-Steele pair-composition count, not FLOPs or latency"
+  },
+  "scope": "Affine schedule proof and independent gradient oracles; no whole-model scan, KV cache or speed claim"
+}

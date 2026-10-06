@@ -1,0 +1,17 @@
+\begin{tikzpicture}[x=1cm,y=1cm,font=\small\sffamily]
+\path[use as bounding box](0,-.2) rectangle(16,7);
+\node[anchor=west,font=\large\sffamily\bfseries,Blue] at(0,6.6){Same transition; different execution dependencies};
+\node[align=center,draw=Blue,fill=Pale,minimum width=15cm] at(8,5.6){$h_t=a_t\odot h_{t-1}+b_t$\\Coefficients available independently of the recurrent states};
+\foreach \y/\name in {4.3/Sequential,2.9/Chunked,1.5/Inclusive scan} {
+\node[anchor=west,font=\bfseries,Blue] at(0,\y){\name};}
+\foreach \x/\i in {4/1,7/2,10/3,13/4} {
+\node[draw=Blue,fill=Blue!8,minimum width=1.5cm](s\i) at(\x,4.3){$F_{\i}$};
+\node[draw=Green,fill=Green!8,minimum width=1.5cm](c\i) at(\x,2.9){$F_{\i}$};
+\node[draw=Blue,fill=Pale,minimum width=1.5cm](p\i) at(\x,1.5){$P_{\i}$};}
+\foreach \a/\b in {1/2,2/3,3/4} {\draw[flow](s\a)--(s\b);\draw[flow](c\a)--(c\b);}
+\draw[Green,dashed,rounded corners](3,2.45) rectangle(8,3.35);
+\draw[Green,dashed,rounded corners](9,2.45) rectangle(14,3.35);
+\node[Green,align=center] at(8.5,2.15){carry $h$};
+\node[align=center,Blue] at(9,.75){Every prefix pair $P_t=(A_t,B_t)$ acts on the same $h_0$};
+\node[anchor=west,Red] at(0,0){State-dependent coefficient generation can still require a sequential schedule.};
+\end{tikzpicture}

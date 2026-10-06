@@ -1,0 +1,13 @@
+\begin{tikzpicture}[x=1cm,y=1cm,font=\small\sffamily]
+\path[use as bounding box](0,-.3) rectangle(16,7);
+\node[anchor=west,font=\large\sffamily\bfseries,Blue] at(0,6.6){Logical state ownership survives physical buffer reuse};
+\node[draw=Blue,fill=Pale,align=center,minimum width=4.2cm,minimum height=1.3cm](a) at(2.5,5){Allocate / reset\\request A + model version\\position zero};
+\node[draw=Green,fill=Green!8,align=center,minimum width=4.2cm,minimum height=1.3cm](u) at(8,5){Incremental updates\\complete native state\\position advances};
+\node[draw=Blue,fill=Pale,align=center,minimum width=4.2cm,minimum height=1.3cm](f) at(13.5,5){Cancel / release\\invalidate A ownership\\clear before reassignment};
+\draw[flow](a)--(u);\draw[flow](u)--(f);
+\node[draw=Blue,align=center,minimum width=4.4cm,minimum height=1.3cm](cp) at(5,2.8){Checkpoint at position $t$\\versioned state snapshot\\resume compatible model};
+\node[draw=Green,align=center,minimum width=4.4cm,minimum height=1.3cm](cl) at(11,2.8){Clone / branch\\independent future evolution\\deep copy or proven COW};
+\draw[flow](u.south)--(cp.north);\draw[flow](u.south)--(cl.north);
+\node[align=center,Blue] at(8,1.2){Affine core: $h$ \qquad DOGMA: hidden state + memory loci\\HermonDNA: layer K/V + positions + masks};
+\node[anchor=west,Red] at(0,.15){A unified wrapper must not erase architecture-specific state or transfer A's data to request B.};
+\end{tikzpicture}

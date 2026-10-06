@@ -1,0 +1,24 @@
+SEMANTIC GRAPH — Architecture-specific state ownership
+
+Purpose: Explain the mechanism and its scope; companion to the editable TikZ plate.
+Notation: prose nodes and typed relationships, not ASCII art.
+
+NODES
+N0: Request A allocated/reset at versioned position zero.
+N1: Incremental updates advance complete native state.
+N2: Checkpoint snapshot binds model version and position.
+N3: Clone uses independent evolution, deep copy or proven COW.
+N4: Cancel/release invalidates A before buffer reuse.
+
+RELATIONSHIPS
+R0: Allocate -> update -> release.
+R1: Update -> checkpoint or branch: state semantics preserved.
+R2: Affine state h; DOGMA hidden+locus memory; Hermon K/V+positions+masks.
+R3: Request B cannot inherit A's logical state through allocator reuse.
+
+READING AND LIMITS
+- Conceptual lifecycle is not an implemented server.
+- Unified wrapper does not imply common tensor contents.
+- Hermon KV parity remains unimplemented; Chapter25 repeated-prefix test is not caching.
+
+Visual encoding: navy/blue denotes state and bound evidence; green denotes valid flow or independent unit; red denotes failure or limitation. Text and arrow roles preserve meaning in grayscale.

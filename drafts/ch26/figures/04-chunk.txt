@@ -1,0 +1,24 @@
+SEMANTIC GRAPH — Carry, detach and reset are different contracts
+
+Purpose: Explain the mechanism and its scope; companion to the editable TikZ plate.
+Notation: prose nodes and typed relationships, not ASCII art.
+
+NODES
+N0: Earlier chunk and later chunk.
+N1: Carry: value h and gradient path.
+N2: Detach: same value h, severed earlier gradient path.
+N3: Reset: new h_reset before update.
+N4: Padding identity (1,0).
+
+RELATIONSHIPS
+R0: Ordinary boundary passes state with autograd connectivity.
+R1: Detach intentionally changes derivative even if forward states equal.
+R2: Reset map (0,a_t*h_reset+b_t) cuts prior-record state dependence.
+R3: Padding retains state; chunk boundary alone implies neither reset nor padding.
+
+READING AND LIMITS
+- TBPTT is not transparent checkpointing.
+- Global reset parameter can still receive gradients after reset.
+- Per-lane ragged masks not implemented by this global Boolean time-mask reference.
+
+Visual encoding: navy/blue denotes state and bound evidence; green denotes valid flow or independent unit; red denotes failure or limitation. Text and arrow roles preserve meaning in grayscale.

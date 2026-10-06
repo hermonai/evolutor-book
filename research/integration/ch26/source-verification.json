@@ -1,0 +1,42 @@
+{
+  "access_date": "2026-10-06",
+  "chapter": 26,
+  "records": [
+    {
+      "key": "Blelloch1993",
+      "title": "Prefix Sums and Their Applications",
+      "authors": "G. E. Blelloch",
+      "date": "1993 according to author publications.html listing",
+      "url": "https://www.cs.cmu.edu/~guyb/papers/Ble93.pdf",
+      "access_depth": "selected primary PDF sections",
+      "inspected": "PDF opening and Sections 1.1-1.2 (book pp.35-43); author publications.html lists chapter under 1993; separate author pubs.html lists 1991, so year inconsistency retained",
+      "claim": "Associative ordered all-prefix computation is established prior art; work-efficient tree scans are distinct from this Hillis-Steele implementation.",
+      "access_date": "2026-10-06",
+      "issue": "Access scope is explicit. No experiment replication, full commercial-book inspection or independent scientific review is inferred."
+    },
+    {
+      "key": "Smith2023",
+      "title": "Simplified State Space Layers for Sequence Modeling",
+      "authors": "J. T. H. Smith; A. Warrington; S. W. Linderman",
+      "date": "2023-03-03; arXiv v3",
+      "url": "https://arxiv.org/abs/2208.04933v3",
+      "access_depth": "author abstract and version metadata",
+      "inspected": "Version-specific abstract and authors; no full-paper kernel or benchmark inspection",
+      "claim": "The S5 abstract describes multi-input multi-output state-space layers compatible with parallel scans.",
+      "access_date": "2026-10-06",
+      "issue": "Access scope is explicit. No experiment replication, full commercial-book inspection or independent scientific review is inferred."
+    },
+    {
+      "key": "GuDao2024",
+      "title": "Mamba: Linear-Time Sequence Modeling with Selective State Spaces",
+      "authors": "A. Gu; T. Dao",
+      "date": "2024-05-31; arXiv v2",
+      "url": "https://arxiv.org/abs/2312.00752v2",
+      "access_depth": "abstract and selected primary mechanism sections",
+      "inspected": "Abstract, Sections 3.2 and 3.3.1-3.3.2 selected HTML passages, selected Appendix D scan/recomputation discussion; not full training-study reproduction",
+      "claim": "Input-dependent selective dynamics and hardware-aware scan, fusion and recomputation are different from an unfused pedagogical prefix scan.",
+      "access_date": "2026-10-06",
+      "issue": "Access scope is explicit. No experiment replication, full commercial-book inspection or independent scientific review is inferred."
+    }
+  ]
+}
