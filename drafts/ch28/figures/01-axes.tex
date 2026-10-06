@@ -1,0 +1,14 @@
+\begin{tikzpicture}[x=1cm,y=1cm,font=\small\sffamily]
+\path[use as bounding box] (0,0) rectangle (14,6.2);
+\foreach \x/\y/\head/\body in {
+3.4/4.6/{Data parallel}/{Different examples; same parameters},
+10.5/4.6/{Tensor parallel}/{Different operand/output coordinates},
+3.4/2.1/{Pipeline parallel}/{Different layers; activation boundaries},
+10.5/2.1/{State sharding}/{Different persistent parameter or moment ranges}}{
+\node[draw,rounded corners,fill=Pale,minimum width=6.4cm,minimum height=2cm] at (\x,\y){};
+\node[font=\bfseries] at (\x,\y+.62){\head};
+\node[align=center,text width=5.9cm] at (\x,\y+.05){\body};
+\foreach \d in {-1,0,1}\draw[fill=Blue!12] (\x+\d-.3,\y-.7) rectangle (\x+\d+.3,\y-.4);
+}
+\node[align=center] at (7,.35){Owner, communication, and lifetime must be declared separately.\\Transient full tensors can coexist with persistent shards.};
+\end{tikzpicture}

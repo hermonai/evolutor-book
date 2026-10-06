@@ -1,0 +1,3 @@
+Figure 04-hybrid / semantic text graph
+
+Contraction-axis partition sends matched Xr/Wr blocks to local products, each full-size BxO, then sums partial outputs. Output-axis partition sends replicated X and disjoint output-column blocks Wr to local products, then concatenates output coordinates. Bias is added once after a contraction sum. Matrix dimensions, not framework naming, define the decomposition and the required backward ownership.

@@ -1,0 +1,3 @@
+Figure 06-manifest / semantic text graph
+
+Release JSON/raw bytes/independent pin pass strict schema and content gates, then a fresh interpreter decodes little-endian F32, checks finite numerical weights, and evaluates a fixed two-input linear model. Independent expected logits are(.25,-3). A dashed separate training-restart branch requires optimizer/schedule/sampler/random state; session continuation additionally requires the appropriate DOGMA carry or Hermon Transformer cache. Weight-only inference parity is not restart equivalence.

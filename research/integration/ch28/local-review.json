@@ -1,0 +1,45 @@
+{
+  "date": "2026-10-06",
+  "chapter": 28,
+  "pdf": "output/pdf/evolutor-ch28-review.pdf",
+  "pdf_sha256": "5a811cef170e9f11df9c0f5224066820fa4b9be3a2d82effa4872921034c6ac1",
+  "pages": 15,
+  "source_hashes": {
+    "drafts/ch28/README.md": "709c573198d4459622c360b5c933d773f33e043ccd72b1805b337d3255342e09",
+    "drafts/ch28/STORYBOARD.md": "22ae2cd2eaf8d57edbaf2a5a474e36993d5f1806c75515268c3536ec37e6f24e",
+    "drafts/ch28/build.py": "1eda3ac69188c22426f33364a212b2f66a9999d393606e9960ecb9433f820487",
+    "drafts/ch28/figures/01-axes.tex": "05a2b785cd7e53ab1c40fff71381ccc2d8972cb4610851b6c5fa6f6e96331ecd",
+    "drafts/ch28/figures/01-axes.txt": "22cf3782d551e11508a92f5a5cc417494652ad59611c036a58a083d251793ac9",
+    "drafts/ch28/figures/02-ddp.tex": "118c75ae2bd4e92d16b6f0a20c87bac62d89971e03f326f7ad6ec96280a7fc5c",
+    "drafts/ch28/figures/02-ddp.txt": "4f0e9b900921245ebc9f1168192e23628c6dd3ff0c20c0fd39406fde45fb8370",
+    "drafts/ch28/figures/03-shard.tex": "e7fc04d79d1f7bc43d1f508093d06d13c200f947a06075ce4e632c06d6991339",
+    "drafts/ch28/figures/03-shard.txt": "6bdfee08589488a404b88b93cf62b8ee813765d7bf0e8408344466d694c1f73a",
+    "drafts/ch28/figures/04-hybrid.tex": "03aa0efce28c6641e7f9886d849a7e79203ea0695f105e116179671a75f76f5e",
+    "drafts/ch28/figures/04-hybrid.txt": "f86af65f6b8d33cf3a3af8da1412e76ebd6dbd096afe2437c1beb1103855d736",
+    "drafts/ch28/figures/05-boundary.tex": "d06c644633e89d19cbc99e163a251a3b384c198b3d144ce1f99a928b72a5fcd9",
+    "drafts/ch28/figures/05-boundary.txt": "7158836a81f04d00cd9c598dfbc3e0aed916623402bffe7935342fadd7c87f66",
+    "drafts/ch28/figures/06-manifest.tex": "eb8c80419e993e29f29632e0ff53030c753bff748efd3e095905d0d063a03a3f",
+    "drafts/ch28/figures/06-manifest.txt": "8a44dec40fbf83996d66412e5c8fc2c3d6e3becd8e5038e213d3459284618003",
+    "drafts/ch28/manuscript.tex": "fa19539bb0f2973c4873295c381481b2c617cc4381af69f0e00cfe96e04f55b4",
+    "drafts/ch28/reference.py": "3bc82a3629192fcdd906513684680ec18b51f1566e5fa5ea439fb21abb7d2ab2",
+    "drafts/ch28/results.json": "daa0a0f5b9678e93a8f8b20731e7d256353a1edd8e1c88e4c5294a66ba19d52f",
+    "drafts/ch28/review.tex": "8623e87a0e9268bcb3e58eca9de7e05d91e2894cd3b9fdf273500239355f2a5b",
+    "drafts/ch28/sources.tex": "dea2552448e2ee11b702e3b770cc2ec8ed3fca9080401c11d2216395a0c0fe06",
+    "tests/test_ch28_reference.py": "8ab7510289f5435aa1f0f8a0463e028a82adddae4ddac4ff4dad5b73d14fd26e"
+  },
+  "tests": {
+    "repository_passed": 1014,
+    "repository_skipped": 0,
+    "chapter_passed": 46,
+    "report": "build/ch28/regression.xml",
+    "python": "3.13.6"
+  },
+  "visual_review": {
+    "reviewer": "author/agent",
+    "status": "PASS WITH NOTES",
+    "mode": "all 15 pages, color and grayscale contact sheets",
+    "notes": "All15 pages inspected in color/grayscale. Ownership/reduction/range/matrix/byte-contract/reload illustrations are readable; sums and concatenations distinct; numbered complete function listings wrap safely across pages. Reference notes consolidated on one page; all four index terms regenerated and checked. Local collective algebra is not a process-group benchmark; raw-byte demo is not safetensors; independent review remains open."
+  },
+  "mathematical_review": "Assumptions, independent oracles and falsifiers in technical-audit.md.",
+  "acceptance": "locally reviewed standalone integration candidate; not accepted publication edition"
+}

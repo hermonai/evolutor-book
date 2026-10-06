@@ -1,0 +1,10 @@
+{
+  "D": "data-parallel world size",
+  "g_r": "rank-r local gradient",
+  "g": "global reduced gradient",
+  "M": "model artifact manifest",
+  "n_i": "tensor name",
+  "s_i": "tensor shape",
+  "d_i": "tensor dtype",
+  "h_i": "tensor content digest"
+}

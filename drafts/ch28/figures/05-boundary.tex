@@ -1,0 +1,10 @@
+\begin{tikzpicture}[x=1cm,y=1cm,font=\small\sffamily]
+\path[use as bounding box] (0,0) rectangle (14,6.2);
+\node[draw,fill=Pale,align=left,text width=5.3cm] (meta) at (3,4.4){\textbf{Manifest contract}\\
+format, architecture, tokenizer\\byte order and contiguous layout\\exact tensor name set};
+\node[draw,fill=Green!8,align=left,text width=5.3cm] (bytes) at (10.9,4.4){\textbf{Tensor bytes}\\
+shape $(2,2)$, F32: 16 bytes\\bias $(2)$, F32: 8 bytes\\payload digests and exact extents};
+\node[draw,fill=Gold!30,align=center] (id) at (7,2.4){manifest identity binds metadata and digests\\compare with independently trusted pin};
+\draw[flow] (meta)--(id);\draw[flow] (bytes)--(id);
+\node[draw,fill=Red!8,align=center,text width=11.7cm] at (7,.8){A replacement payload plus replacement manifest is internally consistent.\\A replacement pin from the same attacker supplies no independent trust.\\Correct bytes may still encode NaN; inference finiteness is a separate gate.};
+\end{tikzpicture}

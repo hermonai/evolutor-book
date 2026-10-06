@@ -1,0 +1,12 @@
+\begin{tikzpicture}[x=1cm,y=1cm,font=\small\sffamily]
+\path[use as bounding box] (0,0) rectangle (14,6.2);
+\tikzset{b/.style={draw,fill=Pale,align=center,text width=3.4cm,minimum height=1cm}}
+\node[b] (r0) at (2.2,5){rank 0\\$\nabla N_0=(2,6),\ Z_0=2$};
+\node[b] (r1) at (7,5){rank 1\\$\nabla N_1=(9,3),\ Z_1=3$};
+\node[b] (r2) at (11.8,5){rank 2\\$\nabla N_2=(0,0),\ Z_2=0$};
+\node[draw,fill=Green!8,align=center,text width=8.5cm] (sum) at (7,3){sum numerator gradients: $(11,9)$\\sum valid mass: $Z=5$};
+\foreach \r in {r0,r1,r2}\draw[flow] (\r.south)--(sum.north);
+\node[draw,fill=Gold!30,align=center] (g) at (7,1.6){one global division\\$g=(11,9)/5=(2.2,1.8)$};
+\draw[flow] (sum)--(g);
+\node[align=center] at (7,.45){Mean-backend backward scaling: each rank uses $D N_r/Z$.\\A zero-mass rank contributes zero and still participates. Local means change the objective.};
+\end{tikzpicture}

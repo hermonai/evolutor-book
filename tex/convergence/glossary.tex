@@ -84,4 +84,10 @@ parameters before a single complete optimizer update.
 backward under the same declared input, parameter and stochastic-state contract.
 \item[Stochastic replay] Reproduce the required random state during recomputation;
 matching first-forward loss alone does not prove gradient equivalence.
+\item[Rank mass] Sum of fixed valid-element weights on a rank; not necessarily its record count.
+\item[Tensor partition] Disjoint operand/output coordinate ownership with a derived sum or concatenation contract.
+\item[Persistent shard] Owned stored array range; does not exclude transient full materialization.
+\item[Artifact integrity] Byte/schema agreement relative to a declared identity; not independently authenticated authorship.
+\item[Trusted pin] Content identity obtained independently of the artifact being checked.
+\item[Inference reload] Reconstruct and evaluate a declared model from artifact bytes without reusing its live training object.
 \end{description}

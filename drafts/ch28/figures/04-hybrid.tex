@@ -1,0 +1,18 @@
+\begin{tikzpicture}[x=1cm,y=1cm,font=\small\sffamily]
+\path[use as bounding box] (0,0) rectangle (14,6);
+\node[anchor=west,font=\bfseries] at (.2,5.7){A / Partition contraction axis};
+\node[align=center] at (3.5,4.6){$X=[X_0\ X_1]$\\$W=[W_0^\top\ W_1^\top]^\top$};
+\node[draw,fill=Pale] (p0) at (1.8,3.2){$X_0W_0$};
+\node[draw,fill=Green!8] (p1) at (5.1,3.2){$X_1W_1$};
+\node[draw,fill=Gold!35] (sum) at (3.5,1.6){$Y=X_0W_0+X_1W_1$};
+\draw[flow] (p0)--(sum);\draw[flow] (p1)--(sum);
+\draw[Blue!25] (7,.6)--(7,5.5);
+\node[anchor=west,font=\bfseries] at (7.3,5.7){B / Partition output axis};
+\node[align=center] at (10.7,4.6){same $X$ on each owner\\$W=[W_0\ W_1]$};
+\node[draw,fill=Pale] (c0) at (9.1,3.2){$XW_0$};
+\node[draw,fill=Green!8] (c1) at (12.3,3.2){$XW_1$};
+\node[draw,fill=Gold!35] (cat) at (10.7,1.6){$Y=[XW_0\ XW_1]$};
+\draw[flow] (c0)--(cat);\draw[flow] (c1)--(cat);
+\node at (3.5,.55){full-size partials combine by SUM};
+\node at (10.7,.55){disjoint coordinates concatenate};
+\end{tikzpicture}

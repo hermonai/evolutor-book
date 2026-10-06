@@ -1,0 +1,45 @@
+{
+  "weighted_gradient": [
+    2.2,
+    1.8
+  ],
+  "incorrect_rank_mean": [
+    1.3333333333333333,
+    1.3333333333333333
+  ],
+  "ddp_backward_scale": [
+    0.6,
+    0.6,
+    0.6
+  ],
+  "shards": [
+    {
+      "rank": 0,
+      "start": 0,
+      "size": 4
+    },
+    {
+      "rank": 1,
+      "start": 4,
+      "size": 3
+    },
+    {
+      "rank": 2,
+      "start": 7,
+      "size": 3
+    }
+  ],
+  "reconstruct_ok": true,
+  "matrix_output": [
+    [
+      22.0,
+      28.0
+    ]
+  ],
+  "manifest_id": "019a09224f93b79278b997cd55192f7c141418ece324563e129a331234f30f27",
+  "linear_logits": [
+    0.25,
+    -3.0
+  ],
+  "scope": "local collective/matrix algebra and fixed raw-byte demo loader; not NCCL/FSDP/ZeRO benchmark or safetensors implementation"
+}

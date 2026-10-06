@@ -1,0 +1,16 @@
+{
+  "chapter": 28,
+  "symbols": {
+    "D": "rank count",
+    "N_r": "rank loss numerator, not record count",
+    "Z_r": "rank valid-element weight mass",
+    "Z": "global positive mass",
+    "g": "global objective gradient",
+    "W": "I-by-O weight under XW convention",
+    "o_r": "half-open shard start offset",
+    "P": "parameter count",
+    "b_s": "bytes of optimizer/master state per parameter",
+    "trusted_id": "manifest identity obtained independently of artifact",
+    "FORMAT": "evolutor-tensor-demo/1; not safetensors"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "access_date": "2026-10-06",
+  "chapter": 28,
+  "records": [
+    {
+      "key": "ddp2020",
+      "title": "PyTorch Distributed: Experiences on Accelerating Data Parallel Training",
+      "url": "https://arxiv.org/abs/2006.15704v1",
+      "date": "2020-06-28",
+      "access_depth": "Primary abstract and version metadata",
+      "claim": "Replicated data parallel training with gradient communication; no reported benchmark reproduced"
+    },
+    {
+      "key": "zero2020",
+      "title": "ZeRO: Memory Optimizations Toward Training Trillion Parameter Models",
+      "url": "https://arxiv.org/html/1910.02054v3",
+      "date": "2020-05-13 v3",
+      "access_depth": "Primary abstract and selected introduction partition-stage overview",
+      "claim": "Cumulative partition of optimizer state, gradients and parameters; no historical GPU result reproduced"
+    },
+    {
+      "key": "fsdp2023",
+      "title": "PyTorch FSDP: Experiences on Scaling Fully Sharded Data Parallel",
+      "url": "https://arxiv.org/abs/2304.11277v2",
+      "date": "2023-09-12 v2",
+      "access_depth": "Primary abstract and version metadata",
+      "claim": "Practical parameter-sharded training system framing; no code/industry experiment replication"
+    },
+    {
+      "key": "safetensors-format",
+      "title": "Official safetensors README Format section",
+      "url": "https://github.com/safetensors/safetensors",
+      "access_depth": "Selected primary Format specification",
+      "claim": "Header and relative data offsets, little-endian contiguous layout, empty/scalar tensors and NaN/Inf validation boundary",
+      "boundary": "Mutable docs accessed2026-10-06; no installed package validation. Demo is explicitly not safetensors"
+    }
+  ]
+}

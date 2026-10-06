@@ -1,6 +1,6 @@
 # Integration failures and open gates
 
-Updated 6 October 2026. Chapters 22–27 have passed locally rerun reference tests,
+Updated 6 October 2026. Chapters 22–28 have passed locally rerun reference tests,
 strict standalone authored-LaTeX builds and every-page color/grayscale author review.
 Incoming build/QA assertions remain provenance, not local evidence. Failed incoming
 font configuration was replaced by the native-font review template. Chapter26 DNA
@@ -12,3 +12,5 @@ with consolidated bibliography, scoped references, glossary and index. Whole-boo
 visual/editorial review, remaining chapter packages, independent specialist/reader
 review and publication acceptance are still open. See the per-chapter matrix and
 source-bound local-review records rather than inferring acceptance from files.
+
+Chapter28 incoming citation-token/compilation problems were replaced with primary-backed prose and native authored LaTeX. Visual overlap corrected. A stale standalone index was detected despite successful compilation; both new chapter and continuous builders now explicitly invoke makeindex from the build directory before recompiling. References remain consolidated; the earlier accepted edition is untouched.

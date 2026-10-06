@@ -1,0 +1,12 @@
+\begin{tikzpicture}[x=1cm,y=1cm,font=\small\sffamily]
+\path[use as bounding box] (0,0) rectangle (14,5.7);
+\tikzset{b/.style={draw,fill=Pale,align=center,text width=3.2cm,minimum height=1.1cm}}
+\node[b] (release) at (2,4.4){release inputs\\manifest JSON\\raw bytes and trusted pin};
+\node[b] (validate) at (6.8,4.4){strict schema\\names, shape, dtype\\size, digest, config};
+\node[b,fill=Green!8] (decode) at (11.6,4.4){fresh interpreter\\little-endian decode\\finite weights and bias};
+\draw[flow] (release)--(validate);\draw[flow] (validate)--(decode);
+\node[b,fill=Gold!30] (infer) at (11.6,2.2){scalar inference\\$x=(2,-1)$\\$y=(0.25,-3)$};
+\draw[flow] (decode)--(infer);
+\node[draw,dashed,align=center,text width=7.6cm] at (4.7,2.2){Separate training-restart contract\\optimizer moments, step, schedule, sampler, RNG\\DOGMA carry or Hermon cache if continuing a session};
+\node[align=center] at (7,.55){No live training object is reused. Clean-process parity is a fixture gate,\\not cross-platform, accelerator, or whole-model capability certification.};
+\end{tikzpicture}

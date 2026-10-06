@@ -1,0 +1,38 @@
+[
+  {
+    "key": "ddp2020",
+    "primary": "https://arxiv.org/abs/2006.15704",
+    "authors": "Shen Li et al.",
+    "claim": "DDP replicates model computation and synchronizes gradients; communication/computation overlap is central to performance.",
+    "date": "2020",
+    "access_date": "2026-10-05",
+    "depth": "primary abstract/full-paper context"
+  },
+  {
+    "key": "zero2020",
+    "primary": "https://arxiv.org/abs/1910.02054",
+    "authors": "Samyam Rajbhandari et al.",
+    "claim": "ZeRO partitions optimizer state, gradients and parameters to remove data-parallel redundancy.",
+    "date": "2020",
+    "access_date": "2026-10-05",
+    "depth": "primary"
+  },
+  {
+    "key": "fsdp2023",
+    "primary": "https://arxiv.org/abs/2304.11277",
+    "authors": "Yanli Zhao et al.",
+    "claim": "FSDP is an industry-grade fully sharded data-parallel design for large-model training.",
+    "date": "2023",
+    "access_date": "2026-10-05",
+    "depth": "primary abstract"
+  },
+  {
+    "key": "safetensors",
+    "primary": "https://github.com/huggingface/safetensors",
+    "authors": "Hugging Face contributors",
+    "claim": "Tensor-only format encodes tensor dtype, shape and byte offsets; supports lazy/partial access.",
+    "access_date": "2026-10-05",
+    "sections": "README and schema inspected",
+    "depth": "official specification"
+  }
+]

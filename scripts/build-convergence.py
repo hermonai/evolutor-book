@@ -242,6 +242,26 @@ def main():
     (BUILD / "console.log").write_text(result.stdout + result.stderr)
     if result.returncode:
         raise RuntimeError((result.stdout + result.stderr)[-6000:])
+    # Regenerate explicitly: a stale .ind can survive host latexmk defaults.
+    index = subprocess.run(
+        ["makeindex", "-o", name + ".ind", name + ".idx"],
+        cwd=BUILD,
+        env=dict(os.environ, PATH="/Library/TeX/texbin:" + os.environ["PATH"]),
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+    rerun = subprocess.run(
+        result.args,
+        cwd=ROOT / "tex",
+        env=dict(os.environ, PATH="/Library/TeX/texbin:" + os.environ["PATH"]),
+        capture_output=True,
+        text=True,
+    )
+    with (BUILD / "console.log").open("a") as stream:
+        stream.write(index.stdout + index.stderr + rerun.stdout + rerun.stderr)
+    if rerun.returncode:
+        raise RuntimeError((rerun.stdout + rerun.stderr)[-6000:])
     log = (BUILD / (name + ".log")).read_text()
     failures = [
         line

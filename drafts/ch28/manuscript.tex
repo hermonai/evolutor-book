@@ -1,0 +1,309 @@
+\chapter{Distributed training and reproducible model artifacts}
+Chapter 27 fixed the objective, optimizer clock, and stochastic replay policy before
+changing memory retention. Distribution adds another boundary: who owns each data
+element, parameter shard, gradient, and checkpoint byte? A computation can look
+plausible on every rank while optimizing the wrong global objective or producing
+an artifact that cannot be reconstructed.
+
+We derive collective algebra locally, verify gradients independently, partition
+matrix operators, and load an inference fixture from raw bytes in a fresh process.
+These are executable correctness oracles, not an implementation or benchmark of
+DDP, NCCL, FSDP, ZeRO, or a safetensors parser. They establish invariants that an
+actual backend must preserve under its installed version and hardware.
+
+\section{Declare ownership before choosing a parallelism strategy}
+Data parallelism partitions examples while replicating model parameters.
+Tensor parallelism partitions an operator's operands or outputs.
+Pipeline parallelism partitions sequential layers and communicates intermediate
+activations. State sharding partitions persistent parameter, gradient, or optimizer
+arrays; it may coexist with any of the other strategies.
+
+\Plate{01-axes}{Four forms of partitioning have different owners and
+communication boundaries. A smaller persistent shard does not imply that all
+intermediate tensors remain sharded.}{evod28:parallelism}
+The primary DDP paper describes replicated training with gradient communication
+\cite{ddp2020}. ZeRO partitions optimizer state, then gradients, then parameters
+cumulatively \cite{zero2020}. FSDP describes a practical parameter-sharded system
+\cite{fsdp2023}. These sources motivate the architecture categories. None of their
+published performance results is reproduced by this chapter.
+
+An ownership table should include the data sample IDs, valid-token weights,
+parameter names and shapes, optimizer slots and update count, activation boundaries,
+and random-state ownership. A genomic record repeated on two ranks does not become
+two independent biological observations. Chapter 25's dependency closure and split
+provenance still apply after a distributed sampler is introduced.
+
+\section{One global weighted objective}
+Let rank $r$ own a disjoint set of valid elements $\mathcal B_r$ and fixed
+nonnegative weights $w_i$. Define
+\[
+N_r(\theta)=\sum_{i\in\mathcal B_r}w_i\ell_i(\theta),\qquad
+Z_r=\sum_{i\in\mathcal B_r}w_i,\quad Z=\sum_rZ_r>0,
+\]
+\[
+L(\theta)=\frac{\sum_rN_r(\theta)}{Z},\qquad
+g=\frac{\sum_r\nabla_\theta N_r}{Z}.
+\]
+The \Term{rank mass} counts the declared statistical mass: valid tokens, records,
+or importance weight. Equal record counts do not imply equal mass when records
+have different lengths or masks.
+
+For $D$ ranks and a backend that \emph{means} parameter gradients,
+each rank can backpropagate $D N_r/Z$. The subsequent mean is
+\[
+\frac1D\sum_r\nabla_\theta(DN_r/Z)=g.
+\]
+For a backend that sums gradients, the factor $D$ is absent. Inspect the actual
+collective semantics rather than treating the word all-reduce as a normalization
+contract. Loss reporting similarly reduces numerators and masses separately.
+
+\Plate{02-ddp}{Each rank contributes a numerator gradient and a mass.
+Global normalization occurs once. A rank with zero valid mass contributes zero
+but still participates in the collective.}{evod28:reduce}
+\Listing{weighted_reduce}
+The executable fixture has numerator gradients $(2,6),(9,3),(0,0)$ and masses
+$2,3,0$. It gives $(11,9)/5=(2.2,1.8)$.
+Averaging rank-local means instead produces $(4/3,4/3)$ when the empty rank
+contributes zero. Excluding it and averaging the remaining means gives $(2,2)$,
+which is also wrong. A locally empty shard is not permission to omit a rank from
+a collective expected by its peers.
+
+\section{Test the derivative, not just vector addition}
+A second fixture uses a Float64 linear predictor $p_i=x_i^\top\theta$ and weighted
+squared error. Its independent scalar derivative is
+\[
+g_j=\frac{2}{Z}\sum_iw_i(p_i-y_i)x_{ij}.
+\]
+Tests compute the full loss with PyTorch autograd, separately differentiate
+rank-local numerators, apply the local collective oracle, and compare every
+parameter component with the scalar expression. One rank has zero valid mass.
+Additional tests permute ranks and multiply all weights by a common positive
+factor; neither operation should change the objective gradient.
+
+These tests cannot detect deadlocks, missing process participation, network
+failure, or backend scaling conventions: no process group is launched.
+They deliberately isolate the mathematical contract. A production test must
+then execute the same fixture on real ranks and verify gradient, optimizer
+moment, and parameter-update parity against the single-process oracle.
+
+Parameters must remain fixed throughout an accumulation window across ranks.
+Clipping, unscaling, skipped-update decisions, scheduler advancement, and optimizer
+updates occur at the declared global boundary. If one rank steps early or clips its
+local gradient independently, algebraic reduction does not restore the intended
+procedure. The counterexamples from Chapter 27 remain relevant.
+
+\section{Balanced shards require identities and offsets}
+For an array of length $n$ over $D$ ranks, write $n=qD+s$, $0\le s<D$.
+Rank $r$ receives
+\[
+n_r=q+\mathbf1[r<s],\qquad
+o_r=rq+\min(r,s).
+\]
+Its range is the half-open interval $[o_r,o_r+n_r)$.
+For $n=10,D=3$, extents are 4, 3, 3, with offsets 0, 4, 7.
+When $D>n$, some ranks own empty ranges; those descriptors are still required.
+
+\begin{center}\input{\Generated/shards.tex}\end{center}
+\Listing{reconstruct}
+A shard descriptor stores rank, world size, offset, total length, and immutable
+values. Reconstruction validates the complete rank set, exact integer metadata,
+balanced extents, and continuous global coverage before concatenating in rank order.
+File discovery order is not rank order. A complete collection with one offset
+shifted by one is invalid even when its total byte count looks correct.
+
+\Plate{03-shard}{Uneven ranges reconstruct one logical tensor only when rank
+identity, offset, extent, and global contract agree. Empty owners are explicit,
+not silently missing files.}{evod28:shards}
+This is an intentionally simple flat-array protocol. A production checkpoint
+also needs tensor names, original shapes, dtypes, layouts, shard axes, mesh
+coordinates, and serialization version. Sharding a parameter does not specify
+how its optimizer moments, master copy, or recurrent inference carry are stored.
+
+For DOGMA, a restart may need hidden, memory, and read/write carry as well as weights
+when continuing a stream. For Transformer-based Hermon DNA, a serving session may
+need cache position and cache tensors. A weight artifact alone is not a complete
+continuation checkpoint. Whether such transient state belongs in a portable model
+release or only a session snapshot is an explicit product and scientific contract.
+
+\section{Derive tensor-parallel operators from matrix algebra}
+Use $X\in\mathbb R^{B\times I}$ and $W\in\mathbb R^{I\times O}$.
+Partition the contraction axis into disjoint sets $\mathcal I_r$:
+\[
+X=[X_0\ \cdots\ X_{D-1}],\qquad
+W=\begin{bmatrix}W_0\\ \vdots\\ W_{D-1}\end{bmatrix},\qquad
+Y=XW=\sum_rX_rW_r.
+\]
+Each partial output has shape $B\times O$; the required combination is a sum,
+not a mean. The reference names this contraction-axis split
+\Term{row-parallel linear} because it partitions rows of $W$ under the stated
+$XW$ convention. Frameworks storing $W$ transposed may name the same operation
+differently; dimensions are more reliable than names.
+
+\Listing{row_parallel}
+For $X=(1,2,3)$ and weight rows $(1,2),(3,4),(5,6)$, the output is $(22,28)$.
+A four-way split includes an empty owner and still returns the same result.
+Mistakenly averaging partial outputs gives $(5.5,7)$.
+
+For an output-axis split $W=[W_0\ \cdots\ W_{D-1}]$,
+$Y=[XW_0\ \cdots\ XW_{D-1}]$: combine by concatenation along the output axis.
+This is a different collective. A following elementwise nonlinearity may operate
+locally on output shards, but an operation that mixes that axis needs communication
+or a different decomposition. Softmax over a sharded vocabulary, for example,
+requires a global normalization with a numerically stable global maximum.
+
+\Plate{04-hybrid}{A contraction-axis partition combines full-size partial outputs
+by summation. An output-axis partition combines disjoint output coordinates by
+concatenation. Shapes reveal which operation is valid.}{evod28:matrix}
+For contraction-axis splitting and upstream gradient $G$,
+$dW_r=X_r^\top G$ and $dX_r=G W_r^\top$.
+The backward ownership and communication must follow this derivation, not merely
+copy the forward collective. Bias is added once after the output sum unless its
+placement is otherwise proven equivalent.
+
+\section{Persistent memory and transient materialization}
+Let each parameter have stored weight width $b_\theta$, gradient width $b_g$,
+and optimizer/master-state width $b_s$. A declared idealized inventory per rank is
+\[
+M_{\rm rep}=P(b_\theta+b_g+b_s),\quad
+M_{\rm state}=P(b_\theta+b_g)+Pb_s/D,
+\]
+\[
+M_{\rm state+grad}=Pb_\theta+P(b_g+b_s)/D,\quad
+M_{\rm all}=P(b_\theta+b_g+b_s)/D.
+\]
+These formulas concern persistent ownership, not measured peak memory.
+Activations, all-gathered parameter groups, reduction buffers, padding,
+allocator reservation, and temporary optimizer tensors can dominate the gap.
+Communication overlap extends some lifetimes while hiding latency; it is not a
+free memory reduction.
+
+For a simple ring all-reduce of a dense buffer of $M$ bytes on $D$ ranks,
+reduce-scatter and all-gather each communicate approximately $(D-1)M/D$ bytes
+sent per rank under the standard evenly partitioned model. This is a communication
+volume model, not a throughput prediction. Latency, topology, contention,
+kernel fusion, precision, and gradient readiness determine measured time.
+
+In genomic workloads, compare runs with the same valid-token objective and
+dependency-aware data split. Larger global batch size, changed optimizer steps,
+or changed sequence truncation can change convergence even when the distributed
+operator arithmetic is correct. A speed figure without an equivalence contract
+can reward doing a different scientific experiment faster.
+
+\section{Model artifacts are byte-level contracts}
+Our demo format is explicitly named \texttt{evolutor-tensor-demo/1}.
+Each tensor records name, shape, F32/F64 dtype, exact byte extent, and SHA-256.
+The root records architecture, tokenizer identity, little-endian order, and
+contiguous row-major layout. For shape $(d_1,\ldots,d_k)$ and element width $b$,
+\[
+n_{\rm bytes}=b\prod_jd_j.
+\]
+A scalar shape $()$ has one element; a zero dimension gives an empty tensor.
+An unsupported dtype or a negative/fractional/Boolean dimension is rejected.
+
+\Plate{05-boundary}{A tensor's numerical meaning depends on exact bytes plus shape,
+dtype, layout, architecture, and tokenizer contract. Hashes detect a changed
+artifact only relative to a trusted identity held outside that artifact.}{evod28:artifact}
+The official safetensors specification describes a non-executable tensor format
+with JSON metadata and byte offsets \cite{safetensors-format}. Our demo is not
+that format and does not implement its header parser. It uses already decoded
+Python dictionaries and raw tensor blobs, then validates a fixed schema.
+Avoiding pickle removes executable object deserialization from this example,
+not every denial-of-service or provenance risk from a real loader.
+
+\Listing{verify_artifact}
+\Term{Artifact integrity} requires the exact expected tensor set in both manifest and payloads,
+the expected shape/dtype, exact payload length, content digests, architecture and
+tokenizer contract, and a manifest identity independently pinned by the caller.
+An extra tensor is rejected rather than ignored. The JSON identity uses the
+declared sorted, compact Python JSON profile; it is not an assertion of
+RFC 8785 cross-language canonicalization. Integer and floating configuration
+values encode differently and are compared through this profile.
+
+\section{Integrity is not authenticity or numerical validity}
+An attacker can replace tensor bytes and recompute their hashes in a replacement
+manifest. Without an independently trusted manifest identity, the altered artifact
+is internally consistent. Our coherent-forgery test demonstrates both cases:
+the old \Term{trusted pin} rejects it, while a replacement pin supplied by the attacker accepts
+the altered bytes. Trust must come from an authenticated release channel,
+signature policy, or other independent provenance mechanism. A hash alone does
+not identify an author.
+
+A tensor of the correct shape containing NaN can pass byte-integrity validation.
+The fixed inference loader separately rejects nonfinite weights and biases.
+A general model loader may need additional policies for dtype conversion,
+integer ranges, tensor contiguity, resource limits, and version compatibility.
+No single digest substitutes for those checks.
+
+\section{Reload in an independent process}
+\Listing{linear_reload}
+The fixture stores a two-input, two-output linear layer in little-endian F32:
+weight rows $(1,2),(-1,0.5)$ and bias $(0.25,-0.5)$.
+For input $(2,-1)$, independent raw-byte decoding gives logits $(0.25,-3)$.
+The test launches a fresh Python interpreter, passes manifest JSON and hexadecimal
+payloads, validates the pinned identity, decodes with \texttt{struct}, and performs
+scalar inference. No training object or optimizer state is reused.
+
+\Plate{06-manifest}{Separate artifact validation from numerical decoding and
+inference parity. A clean process catches dependencies hidden in a live training
+object, but does not by itself certify another platform or backend.}{evod28:reload}
+For a real DOGMA or Hermon DNA release, extend this gate to held-out tokenization,
+reference logits, carry/cache reset and continuation, precision tolerances,
+and supported hardware. For training restart, add optimizer moments, update
+count, schedule state, sampler progress, and random-state policy. Never label
+weight-only inference parity as full training-restart equivalence.
+
+\section{Boundary of the evidence}
+The 46 tests establish local weighted-gradient algebra, exact flat-shard coverage,
+matrix decomposition, strict demo byte validation, and clean-process inference
+for the declared fixtures. They include wrong normalization, missing ranks,
+offset shifts, malformed metadata, corrupted bytes, coherent forgery, and nonfinite
+inference counterexamples. They do not measure distributed deadlocks, communication
+overlap, accelerator speed, or genomic predictive capability.
+
+Chapter 29's benchmark design and comparative evidence should carry these
+equivalence gates into paired experiments. DOGMA remains the non-Transformer
+lineage; Hermon DNA remains the Transformer lineage. Comparing them requires
+controlled objectives, dependency-aware splits, and actual measurements, not an
+assumption that one ownership strategy establishes biological intelligence.
+
+\section{Worked exercises}
+\begin{enumerate}
+\item Derive the global loss from rank numerators. \emph{Solution:}
+$L=(\sum_rN_r)/(\sum_rZ_r)$, not the unweighted mean of $N_r/Z_r$.
+\item Derive backward scaling for a mean collective. \emph{Solution:}
+each rank uses $D/Z$ times its numerator; the collective cancels $D$.
+\item What if the backend sums? \emph{Solution:} use $1/Z$ instead.
+\item Compute the fixture gradient. \emph{Solution:} $(2+9,6+3)/5=(2.2,1.8)$.
+\item Should a zero-mass rank skip a collective? \emph{Solution:} no;
+it contributes a zero numerator and participates in the declared process schedule.
+\item Explain why equal sequence counts are insufficient. \emph{Solution:}
+unequal lengths or masks create unequal valid-token mass.
+\item Partition length ten across three owners. \emph{Solution:}
+sizes 4/3/3 and half-open intervals $[0,4),[4,7),[7,10)$.
+\item Partition length one across four owners. \emph{Solution:}
+one size-one shard and three explicit empty shards.
+\item Why is file order not enough? \emph{Solution:} discovery order does not prove
+rank identity or global coverage; metadata must reconstruct the intended order.
+\item Compute the matrix fixture. \emph{Solution:}
+$1(1,2)+2(3,4)+3(5,6)=(22,28)$.
+\item Falsify a mean of four partial outputs. \emph{Solution:}
+it gives $(5.5,7)$, scaling the operator by $1/4$.
+\item Which collective combines output-axis shards? \emph{Solution:}
+concatenation along output coordinates, not a sum.
+\item Where should replicated bias be added? \emph{Solution:} once after the
+contraction-axis sum; adding it on every owner multiplies it by $D$.
+\item Derive the local weight gradient. \emph{Solution:} for shared upstream $G$,
+$dW_r=X_r^\top G$.
+\item Does persistent $1/D$ storage prove $1/D$ peak memory?
+\emph{Solution:} no; materialized parameters, activations, and buffers remain.
+\item Compute a $(2,2)$ F32 payload length. \emph{Solution:} $2\cdot2\cdot4=16$ bytes.
+\item Interpret scalar and empty shapes. \emph{Solution:}
+$()$ has one element; $(0,3)$ has zero.
+\item Explain a coherent hash forgery. \emph{Solution:} replacing both payload and
+manifest preserves internal integrity; only an independent trust anchor rejects it.
+\item Does a valid hash exclude NaN? \emph{Solution:} no; finite inference is a
+separate policy checked after byte interpretation.
+\item Specify restart evidence beyond logits. \emph{Solution:} compare optimizer
+moments, update clock, schedule, sampler progress, stochastic state and next update
+under the same declared training procedure.
+\end{enumerate}
