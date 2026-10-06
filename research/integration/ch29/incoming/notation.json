@@ -1,0 +1,12 @@
+{
+  "C": "benchmark claim tuple",
+  "T": "task family",
+  "D": "data/split contract",
+  "M": "metric",
+  "B": "resource-budget vector",
+  "V": "declared sources of variation",
+  "H": "tested hypothesis",
+  "d_i": "paired per-example correctness delta",
+  "Delta_ablate": "metric effect of removing a mechanism",
+  "Delta_transplant": "metric effect of adding mechanism to recipient"
+}

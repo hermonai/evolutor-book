@@ -1,0 +1,16 @@
+\begin{tikzpicture}[x=1cm,y=1cm]
+\foreach \x/\id/\title/\body in {2.1/a/{1. TASK VALIDITY}/{Literal oracle\\Targets and legal access},
+7.6/b/{2. EXPERIMENT}/{Frozen splits / groups\\Native state and tuning},
+13.1/c/{3. COMPARISON}/{Named metric / estimand\\Resource coordinates}}
+ {
+ \node[draw,fill=Pale,note,text width=4cm,minimum height=1.7cm] (\id) at (\x,4.4) {\textbf{\title}\\\body};
+ }
+\foreach \x/\id/\title/\body in {13.1/d/{4. UNCERTAINTY}/{Seeds / groups / selection\\Effect and practical threshold},
+7.6/e/{5. INTERVENTION}/{Ablate / transplant / sham\\Alternative explanations},
+2.1/f/{6. BOUNDED CLAIM}/{Artifact and scoring identity\\Negative evidence retained}}
+ {
+ \node[draw,fill=Gold!35,note,text width=4cm,minimum height=1.7cm] (\id) at (\x,1.5) {\textbf{\title}\\\body};
+ }
+\foreach \a/\b in {a/b,b/c,c/d,d/e,e/f} \draw[flow] (\a)--(\b);
+\node[Red,note] at (7.6,-.1) {Scores do not override leakage, illegal access or unequal opportunity};
+\end{tikzpicture}

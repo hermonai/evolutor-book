@@ -1,0 +1,13 @@
+\begin{tikzpicture}[x=1cm,y=1cm]
+\foreach \x/\y/\title/\test in {
+3.6/4.3/{TASK PERFORMANCE}/{Metric, held-out population, uncertainty\\Named split and training opportunity},
+11.6/4.3/{SYSTEMS PERFORMANCE}/{Hardware / workload / synchronization\\Latency, memory and failed requests},
+3.6/1.2/{MECHANISM EFFECT}/{Ablation, transplant, sham\\Capacity and access alternatives},
+11.6/1.2/{BROADER CAPABILITY}/{Prespecified transfer tasks\\Robustness and disconfirming controls}}
+ {
+ \node[draw,fill=Pale,minimum width=7.2cm,minimum height=2.6cm] at (\x,\y) {};
+ \node[note,font=\bfseries\sffamily] at (\x,\y+.75) {\title};
+ \node[note,text width=6.7cm] at (\x,\y-.2) {\test};
+ }
+\node[Red,note] at (7.6,-.65) {One category's evidence does not substitute for another's};
+\end{tikzpicture}

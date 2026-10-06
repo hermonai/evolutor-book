@@ -1,0 +1,5 @@
+Shared contract: records, dependency-closed split, target, legal information, metric, tuning opportunity.
+DOGMA branch: non-Transformer native h,m,K carry, reset, read-before-write and native work.
+HermonDNA branch: Transformer masked attention, positional conventions and native cache semantics.
+Evidence join: paired held-out outcomes and separately measured costs. Whole-record classification access is not causal next-token access.
+No training ranking is supplied by prior implementation oracles.

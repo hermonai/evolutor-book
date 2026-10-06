@@ -1,0 +1,310 @@
+\chapter{Benchmark design and comparative evidence}
+A benchmark is a measurement instrument, not a verdict on an architecture.
+Before asking whether DOGMA outperforms HermonDNA, specify the behavior measured,
+the legal information available, the training opportunity and the population to
+which the result is meant to generalize. This chapter turns that specification
+into executable scoring, uncertainty calculations, resource controls and
+mechanism interventions.
+
+Chapter 22 checked DOGMA's full carry and read-before-write semantics;
+Chapter 23 checked masked multi-head attention and gradients.
+Chapter 24 established span, reverse-complement, causal-availability and positional
+contracts. Chapter 25 audited dependency-closed splits, paired cluster estimates
+and architecture-native accounting. Chapter 26 derived a restricted affine scan,
+not a general replacement for full DOGMA. Chapters 27--28 added optimization,
+resource and artifact checks. These checks enable a benchmark; they do not rank
+trained genomic models. The fixtures below are synthetic supplied outcomes,
+not hidden training runs or industrial measurements.
+
+\section{Freeze a claim that can fail}
+Write the claim before selecting a winner:
+\[
+ C=(\mathcal T,\mathcal D,M,B,V,\delta_{\min},H).
+\]
+Here $\mathcal T$ is a task family; $\mathcal D$ fixes records, split/dependence
+units and legal access; $M$ is the metric and estimand; $B$ fixes resource
+coordinates and tuning opportunity; $V$ names variation sources;
+$\delta_{\min}$ is a practically meaningful improvement; and $H$ is the
+hypothesis and disconfirming criterion.
+\Plate{01-evidence}{A comparative claim depends on task validity, legal access,
+resource opportunity and statistical design. A high terminal score cannot repair
+an earlier broken link.}{evod29:evidence}
+
+A concrete protocol might ask: under a frozen donor-group split, a declared
+training-token ceiling and prespecified tuning budget, does a new mechanism
+improve equal-donor mean accuracy by at least $\delta_{\min}$?
+Changing to row-weighted accuracy changes the question if donors contribute
+unequal numbers of windows. Choosing the threshold after inspecting scores changes
+the test. Record amendments and distinguish exploratory from confirmatory results.
+
+\section{Same question, native execution}
+DOGMA is non-Transformer; HermonDNA is Transformer-based. Evolutor covers broader
+orchestration and research. Their comparison should share data, target, legal access
+and scoring interfaces without pretending that native carry and attention/cache
+are the same internal object.
+\Plate{02-envelope}{The shared envelope fixes evidence semantics; native
+state, reset and execution contracts remain distinct. Scores and costs are
+joined only after identity and legality checks.}{evod29:envelope}
+
+An offline suffix-aware or reverse-complement representation may be legal for
+whole-record classification and illegal for causal next-token prediction.
+Neither a good score nor a compact implementation changes that boundary.
+For causal tasks, test target shifts, padding and the availability of every feature
+at each position. For genomic generalization, audit exact duplicates, reverse
+complements, overlaps and shared biological sources before the split.
+
+Begin with a literal oracle and a baseline ladder: majority/random,
+GC or length heuristic, simple learned model, established strong baseline,
+then proposed mechanism. A dataset solved by GC content has not established
+sophisticated sequence reasoning. Failed or null runs belong in the evidence
+ledger with configuration and artifact identity; do not invent earlier experiments
+or rewrite unsuccessful results as different tasks.
+
+\section{Make the estimand explicit}
+For fixed models on the same binary-label test cases, define
+\[
+ c_i^A=\mathbf1[\hat y_i^A=y_i],\quad
+ c_i^B=\mathbf1[\hat y_i^B=y_i],\quad d_i=c_i^A-c_i^B.
+\]
+Then $\hat\Delta=n^{-1}\sum_i d_i$ is the paired accuracy difference.
+\Listing{paired_deltas}
+The strict binary schema rejects booleans and ambiguous label encodings.
+Multiclass, ranking, calibration and sequence likelihood require their own
+metric contracts; accuracy is not a universal proxy for biological usefulness.
+For masked likelihood, aggregate loss numerator and valid-token denominator,
+not an unweighted mean of differently sized batch means.
+
+The eight-case fixture gives:
+\begin{center}\input{\Generated/paired-table.tex}\end{center}
+A is correct on seven cases and B on five, hence $\hat\Delta=.25$.
+There are three discordant A wins, one discordant B win and four ties.
+Pairing retains the common case difficulty. Treating the two accuracy estimates
+as independent discards that information.
+
+\section{An exact bootstrap oracle}
+For independent identically sampled cases and \emph{fixed} trained models, the
+paired percentile bootstrap draws $n$ differences with replacement.
+This \Term{paired percentile interval} preserves fixed-model case pairing.
+The empirical probabilities here are
+\[
+ P(D=1)=3/8,\quad P(D=0)=4/8,\quad P(D=-1)=1/8.
+\]
+Let $H_j(s)$ be the bootstrap sum distribution after $j$ draws:
+\[
+ H_0(0)=1,\quad
+ H_{j+1}(s)=\tfrac38 H_j(s-1)+\tfrac48 H_j(s)+\tfrac18 H_j(s+1).
+\]
+Exact rational convolution avoids Monte Carlo uncertainty for this tiny problem.
+\par\medskip\noindent\begin{minipage}{\linewidth}
+\Listing{exact_bootstrap}
+\end{minipage}\par\medskip
+With the inverse-CDF quantile convention, the nominal 95\% percentile interval is
+$[-.25,.75]$. The deterministic 4000-draw bootstrap with seed 29 gives the same
+endpoints. Independent Cartesian enumeration checks small fixtures, and an
+independent multinomial expansion checks this eight-case distribution.
+
+The calculation is exact for the \emph{empirical resampling law}; its nominal
+interval need not have exact frequentist coverage. A one-case sample $d=[1]$
+gives a degenerate bootstrap interval $[1,1]$, which plainly does not certify
+population certainty. Small samples, boundary effects and dependence demand
+caution.
+
+For a different inferential question, an exact paired sign/McNemar-style calculation
+conditions on four discordant pairs and assumes exchangeable A/B outcomes under
+the null:
+\[
+ p=\min\left(1,\;2\sum_{j=0}^{\min(3,1)}
+                {4\choose j}2^{-4}\right)=.625.
+\]
+This is not a proof that the methods are equivalent, nor an interchangeable
+interpretation of a bootstrap interval. Report assumptions, effect size,
+uncertainty and practical threshold rather than collapsing them to a star.
+
+\section{Seeds, groups and crossed dependence}
+Training outcomes vary with initialization, data order, augmentation, sampling,
+kernel nondeterminism and hyperparameter choices. Bouthillier et al. analyze
+these benchmark variance sources \cite{evod29:variance}. A shared integer seed
+does not guarantee that two different architectures consume comparable random
+streams. Pair shared splits and examples; document architecture-specific randomness.
+
+Five supplied scores $.71,.74,.69,.73,.72$ have mean $.718$ and sample standard
+deviation $.0192354$. Report all five, not only the best $.74$.
+Their spread is training variation under the declared experiment, not the
+uncertainty of a new biological population.
+
+Now define $D_{sg}$ as an A-minus-B group metric for seed pair $s$ and independent
+group $g$. Our teaching estimand gives equal weight to both axes:
+\[
+ \hat\Delta=\frac1{SG}\sum_{s=1}^S\sum_{g=1}^G D_{sg}.
+\]
+It is not a row-weighted metric and not automatically Chapter 25's ratio of
+aggregated numerators/denominators. Unequal group sizes must not silently change it.
+\begin{center}\input{\Generated/group-table.tex}\end{center}
+The matrix is a hand-specified fixture, not scores from three neural training runs.
+Its mean is $1/6$. Resample seed rows and group columns independently, sharing
+the same group draw across every chosen row:
+\Listing{crossed_bootstrap}
+This \Term{crossed bootstrap} retains shared group difficulty across seeds.
+It estimates uncertainty for the stipulated exchangeable seed/group design.
+It does not include hyperparameter search uncertainty, new-species shift,
+arbitrary interactions or a universal coverage guarantee.
+
+For 4000 draws, seed 29, its interval is $[-.5,.75]$.
+Resampling seed means only gives $[-.5,.5]$; resampling group means only gives
+$[-1/3,2/3]$. These are different variation models, not three interchangeable
+confidence levels.
+\Plate{03-seeds}{Rows represent training variation; columns represent independent
+biological groups. Shared column resampling preserves the crossed design.
+The figure shows actual fixture entries, not decorative random dots.}{evod29:seeds}
+
+\subsection{A pseudoreplication counterexample}
+If all three seed rows are $[1,1,-1,-1]$, seed means are all zero and a seed-only
+interval is $[0,0]$. Yet group uncertainty remains: the crossed interval is
+$[-1,1]$ for this fixture. Conversely, identical group effects within each row
+can conceal training uncertainty from a group-only analysis.
+
+Duplicating each of two independent effects $+1,-1$ one hundred times creates
+200 rows but still only two independent groups. A false IID standard error falls
+below $.071$, while the two-unit standard error is $1$. Added windows are not
+added independently assigned organisms. The \Term{experimental unit} remains
+the independently assigned or sampled group under the declared design. Declare donor, preparation, lineage,
+chromosome or family boundaries according to the actual generalization claim.
+
+\section{The resource budget is a vector}
+Use a declared set of coordinates, for example
+\[
+ B=(P,N_{\rm tok},F,M_{\rm peak},M_{\rm state},W_{\rm infer}).
+\]
+Parameter count, training tokens, forward steps, peak bytes, persistent-state bytes
+and inference work are not convertible without an explicit model.
+\Listing{within_budget}
+Our strict budget type requires nonnegative integer entries and all coordinates.
+Unknown peak memory is \emph{unknown}, not zero.
+A candidate $(10,10,10,10,10,11)$ fails a ceiling
+$(100,100,100,100,100,10)$ despite passing the other five coordinates.
+\Plate{04-budget}{Each controlled coordinate has a separate gate.
+A parameter advantage cannot compensate for an undeclared inference-work
+violation. Hypothetical units are labeled; these values are not measurements.}
+{evod29:budget}
+
+Parameter-matched, compute-matched and latency-matched comparisons answer different
+questions. Equal forward-step counts can hide different sequence lengths or work per
+step. DOGMA carry and HermonDNA KV/attention costs must be accounted natively.
+Measured timing requires hardware, warmup, precision, batch/context lengths,
+synchronization, percentile reporting and failed-run treatment.
+Chapter 25's static arithmetic is not such a timing benchmark.
+
+Our capacity matcher chooses the nearest parameter count with declared tie-breaking;
+it does not make every other coordinate fair. A \Term{Pareto comparison} also
+requires score noninferiority and no worse controlled costs, with at least one
+strict improvement. Otherwise report a tradeoff rather than declaring a universal
+winner.
+
+\section{Tuning and task selection change conclusions}
+Giving one architecture 200 validation trials and another one default learning rate
+changes its opportunity. Freeze search spaces, trial counts or compute budget,
+selection metric and stopping rule. Retain failed configurations and consumed work.
+Dodge et al. emphasize validation/development reporting beyond test headlines
+\cite{evod29:reporting}.
+
+Selection among many noisy results makes the selected maximum optimistic. For
+independent estimates with common CDF $F$, $P(\max_{j\leq m}X_j\leq x)=F(x)^m$.
+The selected maximum is not an unbiased estimate of a random configuration's
+performance. A reserved final test, evaluated after selection freezes, addresses a
+different role than the validation set; repeated test-set tuning invalidates that role.
+
+Task selection can even reverse a ranking:
+\begin{center}\input{\Generated/lottery-table.tex}\end{center}
+A has $.9,.5$ across two tasks and B $.8,.8$. Task one alone favors A;
+an equal-weight suite favors B. Dehghani et al. discuss this benchmark-choice
+fragility \cite{evod29:lottery}. Freeze task inclusion and aggregation weights.
+For multiple confirmatory endpoints, prespecify multiplicity treatment and
+distinguish exploratory discoveries. Do not report only tasks on which a
+proposed architecture wins.
+
+\section{Mechanism claims require interventions}
+An ablation compares a full source model with its mechanism disabled, while checking
+changed parameter count, optimization and execution cost. A transplant asks whether
+the mechanism helps an interface-compatible recipient. A matched sham checks whether
+extra capacity or work explains the gain.
+\Plate{05-causal}{Target removal, recipient transplant and a work-matched sham are
+distinct interventions. A GC-matched positive/negative pair exposes whether
+the detector responds to the intended motif.}{evod29:causal}
+
+Our recipient is a deterministic GC-majority heuristic; the target is a literal
+ACG detector. The sham detects ACT using the same full window and character loops.
+Both detectors have zero learned parameters and the same static comparison count
+for a given length, not a claimed equal hardware latency.
+\Listing{intervention}
+On the eight-string fixture:
+\begin{center}\input{\Generated/mechanism-table.tex}\end{center}
+The target improves accuracy from $.375$ to $.75$; the sham does not improve it.
+This is a Boolean-program intervention, not a trained DOGMA ablation.
+The target is supplied exact label logic, so the example demonstrates the
+experiment's causal structure, not learning ability.
+
+The strings ACGTT and ACTGT both have GC count two. Target outputs are $[1,0]$;
+sham outputs $[0,1]$. This control defeats a simple GC explanation.
+But the OR-combined target still falsely accepts GCGCG: adding a correct positive
+detector does not remove the heuristic's false positives.
+Exhaustive length-five enumeration checks both detectors against independent
+substring membership.
+
+A random-label sanity check must distinguish expected population chance from every
+finite empirical score; sufficiently expressive models can also memorize training
+labels. The executable negative control here simply inverts the matched pair's
+labels: target accuracy falls from one to zero. It is explicitly \emph{not} a
+multi-seed shuffled-label training experiment.
+
+\section{Artifacts and claims need separate evidence}
+Chapter 28's byte-pinned artifact oracle supports reconstruction for its declared
+linear fixture. It is not a full DOGMA/HermonDNA deployment loader.
+For a real comparative result, record immutable model/config/tokenizer identities,
+dataset and split hashes, inference/reset options, all seeds, selection opportunity,
+software/hardware, scoring code and resource observations.
+
+A benchmark card should permit recomputation of every numerator and denominator,
+describe group weighting and resampling, state exclusions and failed trials,
+and quote the exact bounded claim. A hash authenticates neither biological labels
+nor dataset independence; those need their own provenance and audits.
+\Plate{06-claims}{Task score, systems performance, mechanism effect and broad
+capability are separate claim categories. Extending a conclusion requires new
+tasks and controls, not stronger adjectives.}{evod29:claims}
+
+Tokens/s is a systems quantity, not genomic competence. One motif benchmark
+is not general genomic reasoning. A mechanism intervention in a hand-coded program
+is not proof of a novel learned architecture. Keep negative evidence, deployment
+limitations and uncertainty visible when moving from an experimental score to a
+professional claim.
+
+\section{Twenty worked exercises}
+\begin{enumerate}
+\item What is frozen before ranking? \textbf{Answer:} task, access, data/dependence, metric, budgets, variation and claim criterion.
+\item Why keep native carry/cache distinct? \textbf{Answer:} their legal state and work semantics differ.
+\item Does whole-record classification permit suffix features? \textbf{Answer:} possibly; a causal next-token task does not.
+\item Paired fixture accuracy difference? \textbf{Answer:} $7/8-5/8=.25$.
+\item Discordant counts? \textbf{Answer:} three A-only wins and one B-only win.
+\item Derive $H_{j+1}$. \textbf{Answer:} convolve $H_j$ with empirical masses $3/8,4/8,1/8$ at $1,0,-1$.
+\item What is exact about the bootstrap oracle? \textbf{Answer:} its empirical resampling distribution, not nominal coverage.
+\item Interpret $[-.25,.75]$. \textbf{Answer:} substantial uncertainty under fixed-model IID-case resampling; not equivalence or proof of A superiority.
+\item Conditional sign-test $p$? \textbf{Answer:} $2(1+4)/16=.625$.
+\item Five-score mean and sample SD? \textbf{Answer:} $.718$ and $.0192354$.
+\item Why not pick only $.74$? \textbf{Answer:} it selects the best trial and hides variation.
+\item Crossed matrix estimand? \textbf{Answer:} equal-seed equal-group mean, here $1/6$.
+\item Why share column draws across rows? \textbf{Answer:} models share the same biological-group difficulty.
+\item Do 100 duplicate windows create 100 independent units? \textbf{Answer:} no.
+\item May unmeasured peak bytes be zero? \textbf{Answer:} no; the budget is incomplete.
+\item Why does the illustrative candidate fail its budget? \textbf{Answer:} inference work 11 exceeds ceiling 10.
+\item Explain the lottery reversal. \textbf{Answer:} A wins task one but loses the frozen two-task mean.
+\item What does the ACT sham control? \textbf{Answer:} equal static detector work without the target motif operation, not hardware latency.
+\item Why is target accuracy not perfect? \textbf{Answer:} OR preserves GC heuristic false positives.
+\item Design a publication gate. \textbf{Rubric:} independent oracle, leakage/access audits,
+matched opportunity, named estimand and units, variation/selection plan, unused final
+evaluation, intervention/sham, artifact identity, reproducible results and bounded conclusion.
+\end{enumerate}
+
+\section{Bridge to runtime contracts}
+Chapter 30 defines request identity, state ownership, streaming, cancellation,
+deadlines and terminal cleanup. Statistical rigor cannot rescue a runtime that
+changes model identity halfway through a request. Correct lifecycle and native
+step contracts precede any service-performance comparison.

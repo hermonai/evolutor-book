@@ -1,0 +1,269 @@
+{
+  "paired": {
+    "A": 0.875,
+    "B": 0.625,
+    "deltas": [
+      0,
+      1,
+      1,
+      0,
+      0,
+      -1,
+      1,
+      0
+    ],
+    "exact": {
+      "mean": 0.25,
+      "interval": [
+        -0.25,
+        0.75
+      ],
+      "law": [
+        {
+          "sum": -8,
+          "mass": 5.960464477539063e-08
+        },
+        {
+          "sum": -7,
+          "mass": 1.9073486328125e-06
+        },
+        {
+          "sum": -6,
+          "mass": 2.8133392333984375e-05
+        },
+        {
+          "sum": -5,
+          "mass": 0.0002536773681640625
+        },
+        {
+          "sum": -4,
+          "mass": 0.0015637874603271484
+        },
+        {
+          "sum": -3,
+          "mass": 0.0069828033447265625
+        },
+        {
+          "sum": -2,
+          "mass": 0.023348331451416016
+        },
+        {
+          "sum": -1,
+          "mass": 0.05960273742675781
+        },
+        {
+          "sum": 0,
+          "mass": 0.11735761165618896
+        },
+        {
+          "sum": 1,
+          "mass": 0.17880821228027344
+        },
+        {
+          "sum": 2,
+          "mass": 0.21013498306274414
+        },
+        {
+          "sum": 3,
+          "mass": 0.1885356903076172
+        },
+        {
+          "sum": 4,
+          "mass": 0.12666678428649902
+        },
+        {
+          "sum": 5,
+          "mass": 0.06164360046386719
+        },
+        {
+          "sum": 6,
+          "mass": 0.02050924301147461
+        },
+        {
+          "sum": 7,
+          "mass": 0.0041713714599609375
+        },
+        {
+          "sum": 8,
+          "mass": 0.0003910660743713379
+        }
+      ]
+    },
+    "monte_carlo": [
+      -0.25,
+      0.75
+    ],
+    "sign_test_p": 0.625
+  },
+  "paired-table": [
+    {
+      "case": "1",
+      "a": 1,
+      "b": 1,
+      "d": 0
+    },
+    {
+      "case": "2",
+      "a": 1,
+      "b": 0,
+      "d": 1
+    },
+    {
+      "case": "3",
+      "a": 1,
+      "b": 0,
+      "d": 1
+    },
+    {
+      "case": "4",
+      "a": 1,
+      "b": 1,
+      "d": 0
+    },
+    {
+      "case": "5",
+      "a": 1,
+      "b": 1,
+      "d": 0
+    },
+    {
+      "case": "6",
+      "a": 0,
+      "b": 1,
+      "d": -1
+    },
+    {
+      "case": "7",
+      "a": 1,
+      "b": 0,
+      "d": 1
+    },
+    {
+      "case": "8",
+      "a": 1,
+      "b": 1,
+      "d": 0
+    }
+  ],
+  "group-table": [
+    {
+      "seed": "Fixture 1",
+      "g1": 1,
+      "g2": 1,
+      "g3": 0,
+      "g4": 0,
+      "mean": 0.5
+    },
+    {
+      "seed": "Fixture 2",
+      "g1": 0,
+      "g2": 0,
+      "g3": -1,
+      "g4": -1,
+      "mean": -0.5
+    },
+    {
+      "seed": "Fixture 3",
+      "g1": 1,
+      "g2": 1,
+      "g3": 0,
+      "g4": 0,
+      "mean": 0.5
+    }
+  ],
+  "crossed": {
+    "mean": 0.16666666666666666,
+    "interval": [
+      -0.5,
+      0.75
+    ],
+    "draws": 4000,
+    "seed": 29,
+    "estimand": "equal-seed equal-group mean"
+  },
+  "seed_only": {
+    "mean": 0.16666666666666666,
+    "interval": [
+      -0.5,
+      0.5
+    ],
+    "draws": 4000,
+    "seed": 29,
+    "estimand": "equal-seed equal-group mean"
+  },
+  "group_only": {
+    "mean": 0.16666666666666666,
+    "interval": [
+      -0.3333333333333333,
+      0.6666666666666666
+    ],
+    "draws": 4000,
+    "seed": 29,
+    "estimand": "equal-seed equal-group mean"
+  },
+  "seeds": {
+    "n": 5,
+    "values": [
+      0.71,
+      0.74,
+      0.69,
+      0.73,
+      0.72
+    ],
+    "mean": 0.718,
+    "stdev": 0.01923538406167136,
+    "min": 0.69,
+    "max": 0.74
+  },
+  "mechanism-table": [
+    {
+      "setting": "off",
+      "accuracy": 0.375,
+      "gain": 0.0
+    },
+    {
+      "setting": "target",
+      "accuracy": 0.75,
+      "gain": 0.375
+    },
+    {
+      "setting": "sham",
+      "accuracy": 0.375,
+      "gain": 0.0
+    }
+  ],
+  "gc_matched_pair": {
+    "positive": "ACGTT",
+    "negative": "ACTGT",
+    "gc_count": 2,
+    "target_outputs": [
+      1,
+      0
+    ],
+    "sham_outputs": [
+      0,
+      1
+    ]
+  },
+  "lottery-table": [
+    {
+      "selection": "Task 1 only",
+      "a": 0.9,
+      "b": 0.8,
+      "winner": "A"
+    },
+    {
+      "selection": "Both tasks, equal weight",
+      "a": 0.7,
+      "b": 0.8,
+      "winner": "B"
+    }
+  ],
+  "budget_counterexample": {
+    "feasible": false
+  },
+  "capacity": {
+    "name": "y",
+    "params": 105
+  }
+}

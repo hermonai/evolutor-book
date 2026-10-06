@@ -1,0 +1,14 @@
+{
+  "chapter": 29,
+  "symbols": {
+    "d_i": "paired correctness A minus B",
+    "D_sg": "group metric difference for one seed pair and independent group",
+    "S": "number of prespecified seed pairs",
+    "G": "number of independent groups",
+    "Delta": "equal-seed equal-group mean in crossed fixture",
+    "alpha": "nominal percentile tail mass",
+    "budget": "six complete nonnegative exact-integer controlled coordinates",
+    "mechanism": "supplied literal ACG detector; not trained architecture",
+    "sham": "literal ACT detector with same static loops, not measured latency"
+  }
+}

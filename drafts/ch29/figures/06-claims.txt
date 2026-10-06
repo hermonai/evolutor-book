@@ -1,0 +1,5 @@
+Task performance needs named metric/population/uncertainty and equal opportunity.
+Systems performance needs measured hardware/workload/synchronization/failed-request treatment.
+Mechanism effect needs ablation/transplant/sham and alternative-explanation checks.
+Broader capability needs prespecified transfer tasks, robustness and disconfirming controls.
+Evidence in one category does not replace evidence for another. Avoid jumping from toy motif score to general genomic reasoning.

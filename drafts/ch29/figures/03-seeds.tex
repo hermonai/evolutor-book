@@ -1,0 +1,19 @@
+\begin{tikzpicture}[x=1cm,y=1cm]
+\node[note,font=\bfseries\sffamily,anchor=west] at (0,5.6) {A. CROSSED FIXTURE \hspace{24mm} B. RESAMPLING CONTRACT};
+\foreach \x/\g in {0/G1,1/G2,2/G3,3/G4} \node[smallnote] at (2+\x*1.15,4.8) {\g};
+\foreach \i in {0,1,2}{
+ \node[smallnote,anchor=east] at (1.2,4-\i*.9) {Seed \the\numexpr\i+1\relax};
+ \foreach \j in {0,1,2,3}{
+  \ifnum\i=1 \ifnum\j<2 \def\v{0}\else\def\v{-1}\fi
+  \else \ifnum\j<2 \def\v{1}\else\def\v{0}\fi\fi
+  \draw[Blue,fill=Pale] (1.6+\j*1.15,3.65-\i*.9) rectangle (2.4+\j*1.15,4.35-\i*.9);
+  \node[note] at (2+\j*1.15,4-\i*.9) {$\v$};
+ }}
+\node[smallnote] at (3.5,.7) {Equal seed / group mean $=1/6$\\Hand-specified outcomes, not training runs};
+\node[draw,fill=Gold!35,note,text width=6.5cm,minimum height=1.3cm] (s) at (11.5,4.1)
+ {Draw seed indices with replacement\\Draw group indices independently};
+\node[draw,fill=Green!8,note,text width=6.5cm,minimum height=1.3cm] (g) at (11.5,2)
+ {Use shared drawn columns for all rows\\Average the selected Cartesian grid};
+\draw[flow] (s)--(g);
+\node[smallnote] at (11.5,.35) {4000 draws, RNG seed 29: interval $[-.5,.75]$\\Seed-only: $[-.5,.5]$; group-only: $[-1/3,2/3]$};
+\end{tikzpicture}

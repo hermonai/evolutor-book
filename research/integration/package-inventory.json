@@ -287,12 +287,22 @@
       "existing_chapter_state": "absent",
       "dependencies": [],
       "conflicts": [],
-      "decision": "pending semantic inspection",
-      "source_verification": "not_rerun",
-      "code_test_state": "not_rerun",
-      "figure_state": "not_reviewed",
-      "pdf_state": "not_built_locally",
-      "final_integration_state": "candidate"
+      "decision": "rewrite current chapter references; exact paired and crossed seed-group inference; sham and selection controls",
+      "source_verification": "primary access depths recorded; no experiment replication",
+      "code_test_state": "45 chapter tests; full regression passed",
+      "figure_state": "all pages color/grayscale locally reviewed",
+      "pdf_state": "standalone 14 pages; full-book pending",
+      "final_integration_state": "locally_reviewed_candidate",
+      "gates": {
+        "integrated": true,
+        "tested": true,
+        "built": true,
+        "rendered": true,
+        "locally_reviewed": true,
+        "independently_reviewed": false,
+        "accepted": false,
+        "full_book_converged": false
+      }
     },
     {
       "book": "evolutor",

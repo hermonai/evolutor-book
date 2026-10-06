@@ -1,0 +1,33 @@
+{
+  "access_date": "2026-10-06",
+  "chapter": 29,
+  "records": [
+    {
+      "key": "evod29:variance",
+      "url": "https://proceedings.mlsys.org/paper_files/paper/2021/hash/0184b0cd3cfb185989f858a1d9f5c1eb-Abstract.html",
+      "date": "2021 MLSys3",
+      "access_depth": "Official primary metadata and abstract",
+      "claim": "Benchmark variance from sampling, initialization and hyperparameter opportunity; no full study reproduction"
+    },
+    {
+      "key": "evod29:lottery",
+      "url": "https://arxiv.org/abs/2107.07002v1",
+      "date": "2021-07-14 v1 preprint",
+      "access_depth": "Primary abstract/version",
+      "claim": "Task choice can alter method ranking; toy reversal is original"
+    },
+    {
+      "key": "evod29:reporting",
+      "url": "https://doi.org/10.18653/v1/D19-1224",
+      "date": "2019 EMNLP-IJCNLP pp2185-2194",
+      "access_depth": "ACL Anthology primary metadata/abstract",
+      "claim": "Validation/development reporting beyond test headlines; no full paper reproduction"
+    },
+    {
+      "key": "internal-continuity",
+      "url": null,
+      "access_depth": "Revised local22-28manuscripts, reference/test and integration records",
+      "claim": "Implementation/contracts, not trained genomic ranking; incorrect incoming history reconciled"
+    }
+  ]
+}

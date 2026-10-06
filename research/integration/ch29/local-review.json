@@ -1,0 +1,45 @@
+{
+  "date": "2026-10-06",
+  "chapter": 29,
+  "pdf": "output/pdf/evolutor-ch29-review.pdf",
+  "pdf_sha256": "344f571aa78da2d71d2dee0ead54b01f584176676935d1f2ad9ccab42eb0b31e",
+  "pages": 14,
+  "source_hashes": {
+    "drafts/ch29/README.md": "bcace00da6b369f1a80ad62ba5ca33140179652e6b59a38e4d11599cad1cd1dd",
+    "drafts/ch29/STORYBOARD.md": "d3b63d4e7cdbbd1ce16d8f8261b3fe90303804b5b9bf6468c3a9a8c96874121d",
+    "drafts/ch29/build.py": "ef0f8290f43b46c2c81b8e3805cb37fad0f6ab664b8f192f115f6677261c664a",
+    "drafts/ch29/figures/01-evidence.tex": "6e4d0dcd6c8cfd1e427b967b282f7d7eef1ac87c87fff98e4a28f619122107ed",
+    "drafts/ch29/figures/01-evidence.txt": "f39a0bad1b7b4ed1ed41b91497b650a75a6beffaf50551c9b158fa8406489333",
+    "drafts/ch29/figures/02-envelope.tex": "8e13395a35a5bde0e95d6ec51264e14bb3400f9c3b5840e8a0525330da127fe0",
+    "drafts/ch29/figures/02-envelope.txt": "b484e51a27bc53b63ebdb18975c42991062629dcd1b2dd697f7735f778b28bbd",
+    "drafts/ch29/figures/03-seeds.tex": "33c44eb20bba2f6709996ad58c80cf3f7cc85091a228017bbe8d51ee72936d0c",
+    "drafts/ch29/figures/03-seeds.txt": "88295c6e9ca7d98d9b6f7669bd8350b433b5f5bde09823458dda179bbb8fc738",
+    "drafts/ch29/figures/04-budget.tex": "8370a9e2b57cfcba4242861105e2ed73c131bd031e12f20e7237aae8ca458b0e",
+    "drafts/ch29/figures/04-budget.txt": "8b38690661fcee6e54afafce7c4ec1519d45420850d0d549f4befeebdf162373",
+    "drafts/ch29/figures/05-causal.tex": "c1c29e4f3ee33c649b16e78386e6b1fc80b872eec987a84979e34c3c04dd214f",
+    "drafts/ch29/figures/05-causal.txt": "b66af3f40fac2fdb33e666d14df058d4fe559683b51ddbea8fbfa8375e502303",
+    "drafts/ch29/figures/06-claims.tex": "6ee7feb4e2cbf0937d3fc2f3443616c6618897a912c999be091f8ace28b59753",
+    "drafts/ch29/figures/06-claims.txt": "36be47a45c8ff001c060ab2d84d41190079a58355e5e17501271a86b286b5e56",
+    "drafts/ch29/manuscript.tex": "8d3b0724242abb830cb73aafeb23767e99e8e22e772139962039b1f27e82f22b",
+    "drafts/ch29/reference.py": "beb787ff6281295ae3da7d5b774a2584f563bf0dd2f51b1254759dfa6fd0bca0",
+    "drafts/ch29/results.json": "e89074e8a9747fdc18766d9685e0ba39b758f35db433e11aabf9d480e6e2cc9a",
+    "drafts/ch29/review.tex": "449e50a7ce75a81791e09d3bd6b15066b1108e87c2a251a1fdf08cf8834d3d41",
+    "drafts/ch29/sources.tex": "c5a1b6a764058437aa98510b5f4715d319793054180ae7a5df249adc3cf27666",
+    "tests/test_ch29_reference.py": "c8b16b9ff6531d7bb804e7f0b4b53213c694e3356ed0da1b9f7b39c02194abbf"
+  },
+  "tests": {
+    "repository_passed": 1059,
+    "repository_skipped": 0,
+    "chapter_passed": 45,
+    "report": "build/ch29/regression.xml",
+    "python": "3.13.6"
+  },
+  "visual_review": {
+    "reviewer": "author/agent",
+    "status": "PASS WITH NOTES",
+    "mode": "all 14 pages, color and grayscale contact sheets",
+    "notes": "All 14 final pages inspected in color and grayscale. Repaired matrix fill contrast, budget threshold/header spacing, and whole-function listing pagination. Paired exact and crossed bootstrap, independent multiplicity/sign-null oracles and matched target/sham controls checked; six editable plates retain readable labels and semantic TXT companions. Independent statistical and reader review remain open."
+  },
+  "mathematical_review": "Assumptions, independent oracles and falsifiers in technical-audit.md.",
+  "acceptance": "locally reviewed standalone integration candidate; not accepted publication edition"
+}

@@ -1,0 +1,3 @@
+RecipientGC heuristic accuracy.375; OR-add literal targetACG detector accuracy.75; OR-add shamACT accuracy.375 on the frozen eight-string fixture.
+Matched pairACGTTpositive andACTGTnegative bothGC2: target[1,0],sham[0,1]. Both full-loop detectors have zero trainable parameters and same comparison count, not measured equal runtime.
+OR retains baseline false positives such asGCGCG. Exact label logic was supplied; this is not learned DOGMA or HermonDNA mechanism evidence.

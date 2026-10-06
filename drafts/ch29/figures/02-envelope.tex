@@ -1,0 +1,15 @@
+\begin{tikzpicture}[x=1cm,y=1cm]
+\node[draw,fill=Gold!35,note,text width=13.5cm,minimum height=1.1cm] (s) at (7.5,5.2)
+ {SHARED CONTRACT: records / dependency-closed split / target / legal access / metric / tuning opportunity};
+\node[draw,fill=Pale,note,text width=6.3cm,minimum height=2cm] (d) at (3.6,2.9)
+ {DOGMA: non-Transformer\\Native $h,m,K$ carry; reset and read-before-write\\Cost follows actual state and execution};
+\node[draw,fill=Green!8,note,text width=6.3cm,minimum height=2cm] (h) at (11.5,2.9)
+ {HermonDNA: Transformer\\Masked attention; positional and cache contracts\\Cost follows actual attention and cache};
+\draw[flow] (s.south)--(7.5,4.4)-|(d.north);
+\draw[flow] (7.5,4.4)-|(h.north);
+\node[draw,note,text width=13.5cm,minimum height=1.1cm] (o) at (7.5,.7)
+ {EVIDENCE JOIN: same held-out units; paired outcomes; separately measured native cost};
+\draw[flow] (d.south)--(d.south |- o.north);
+\draw[flow] (h.south)--(h.south |- o.north);
+\node[Red,smallnote] at (7.5,-.5) {Full-record features may be legal for classification but not for causal prediction};
+\end{tikzpicture}

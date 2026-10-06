@@ -1,0 +1,3 @@
+Crossed matrix of supplied group differences: row1[1,1,0,0]; row2[0,0,-1,-1]; row3[1,1,0,0]. Equal seed/group mean1/6.
+Algorithm: resample seed rows; independently resample group columns; use the same drawn columns for every selected row; average their Cartesian grid. Fixed4000draws seed29 interval[-.5,.75]. Seed-only[-.5,.5]; group-only[-1/3,2/3].
+Rows and columns are distinct sources of variation. Values are a hand-specified fixture, not neural model training results. Resampling design does not guarantee universal coverage.

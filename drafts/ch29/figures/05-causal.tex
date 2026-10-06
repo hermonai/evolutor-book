@@ -1,0 +1,14 @@
+\begin{tikzpicture}[x=1cm,y=1cm]
+\foreach \x/\id/\heading/\body in {
+2.2/a/{RECIPIENT OFF}/{GC heuristic only\\Accuracy .375},
+7.7/b/{TARGET TRANSPLANT}/{Add exact ACG detector\\Accuracy .750},
+13.2/c/{WORK-MATCHED SHAM}/{Add exact ACT detector\\Accuracy .375}}
+ \node[draw,fill=Pale,note,text width=4cm,minimum height=1.9cm] (\id) at (\x,4.6) {\textbf{\heading}\\\body};
+\draw[flow] (a)--(b);
+\draw[flow] (b)--(c);
+\node[draw,fill=Gold!35,note,text width=6.6cm,minimum height=1.8cm] at (3.6,1.6)
+ {GC-matched pair\\ACGTT: positive, GC=2\\ACTGT: negative, GC=2};
+\node[draw,fill=Green!10,note,text width=6.6cm,minimum height=1.8cm] at (11.6,1.6)
+ {Target outputs $[1,0]$; sham $[0,1]$\\Both full-loop detectors: zero learned parameters\\Same comparison count, not timed latency};
+\node[Red,smallnote] at (7.7,-.1) {Exact label logic was supplied; no DOGMA/HermonDNA training or capability claim};
+\end{tikzpicture}

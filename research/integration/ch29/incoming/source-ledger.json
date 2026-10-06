@@ -1,0 +1,36 @@
+[
+  {
+    "key": "bouthillier2021",
+    "claim": "Benchmark outcomes vary materially with data sampling, initialization and hyperparameter choices; comparisons should account for these sources of variation.",
+    "primary": "https://proceedings.mlsys.org/paper_files/paper/2021/hash/0184b0cd3cfb185989f858a1d9f5c1eb-Abstract.html",
+    "authors": "Xavier Bouthillier et al.",
+    "date": "2021",
+    "access_date": "2026-10-05",
+    "access_depth": "official proceedings abstract + paper context"
+  },
+  {
+    "key": "dehghani2021",
+    "claim": "Algorithm rankings can be fragile to benchmark/task selection, motivating bounded benchmark-specific conclusions.",
+    "primary": "https://arxiv.org/abs/2107.07002",
+    "authors": "Mostafa Dehghani et al.",
+    "date": "2021",
+    "access_date": "2026-10-05",
+    "access_depth": "primary abstract/paper context"
+  },
+  {
+    "key": "dodge2019",
+    "claim": "Experimental reporting should expose conditions, distributions and compute rather than only headline results.",
+    "primary": "https://aclanthology.org/D19-1224/",
+    "authors": "Jesse Dodge et al.",
+    "date": "2019",
+    "access_date": "2026-10-05",
+    "access_depth": "primary proceedings context"
+  },
+  {
+    "key": "internal23_28",
+    "claim": "EVOD-23\u201328 establish the failed motif result, independent oracle, fairness envelope, parity gates, resource accounting and artifact provenance consumed by EVOD-29.",
+    "primary": "internal chapters EVOD-23 through EVOD-28",
+    "access_date": "2026-10-05",
+    "access_depth": "package continuity"
+  }
+]
