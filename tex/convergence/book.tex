@@ -1,0 +1,46 @@
+\documentclass[11pt,oneside,openany]{book}
+\newcommand{\BookTitle}{Evolutor}
+\input{textbook/preamble.tex}
+\input{convergence/preamble.tex}
+\input{../build/convergence/scope.tex}
+\begin{document}
+\frontmatter
+\begin{titlepage}
+\color{Blue}\sffamily\vspace*{24mm}
+{\Huge\bfseries Evolutor\par}
+\vspace{12mm}{\Large Genomic computation: models, state and systems\par}
+\vspace{14mm}\rule{\linewidth}{.8pt}\par
+\vspace{7mm}{\large Define the mechanism. Derive the result. Test the claim.\par}
+\vfill Continuous integration review candidate\par
+Chapters 1--\IncludedThrough\ / October 2026\par
+Not an accepted publication edition; later packages and independent review remain gated.
+\end{titlepage}
+\chapter*{Reading and evidence conventions}
+\addcontentsline{toc}{chapter}{Reading and evidence conventions}
+This continuous manuscript assembles authored LaTeX, not previously exported PDFs.
+Begin with the worked problem, derive the mechanism, run the reference, inspect
+its state or values, and try the counterexample. The implementation-first
+teaching progression is general pedagogy; the book's prose, code and illustrations
+are its own. External model names and biological analogies are not proof of novelty.
+
+A mathematical result holds under stated premises. A passing test checks the
+implemented function on declared cases. A simulated trace is not a laboratory
+measurement, and a synthetic model result is not a genomic capability benchmark.
+Source notes record access depth; local technical and visual review are distinct
+from independent specialist and reader review. Historical accepted editions
+remain unchanged. This candidate has not inherited their acceptance.
+
+Chapter boundaries preserve each mechanism's units, information access, state
+ownership and failure contract. The single bibliography reconciles exact source
+identifiers while retaining the source-key provenance in the build record.
+The global index is generated from authored term marks. Chapter packages still
+awaiting semantic integration are not included merely because their ZIP exists.
+\tableofcontents
+\mainmatter
+\input{../build/convergence/chapters.tex}
+\backmatter
+\input{convergence/glossary.tex}
+\input{../build/convergence/bibliography.tex}
+\clearpage\phantomsection\addcontentsline{toc}{chapter}{Index}
+\printindex
+\end{document}

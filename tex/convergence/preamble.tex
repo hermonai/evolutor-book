@@ -1,0 +1,39 @@
+\usepackage{unicode-math}
+\setmathfont{texgyrepagella-math.otf}
+\usepackage{pgfplots,tocloft}
+\usetikzlibrary{shapes.geometric}
+\pgfplotsset{compat=1.18}
+\setlength{\cftsecnumwidth}{3.3em}
+\setlength{\cftsubsecindent}{4.8em}
+\setlength{\cftsubsecnumwidth}{4.2em}
+\definecolor{Blue}{HTML}{173E60}
+\definecolor{Green}{HTML}{26714D}
+\definecolor{Red}{HTML}{AA354C}
+\definecolor{Pale}{HTML}{EDF4F8}
+\definecolor{Gold}{HTML}{F2D799}
+\tikzset{flow/.style={-{Stealth[length=2mm]},thick,Blue},
+ note/.style={font=\small\sffamily,align=center},
+ smallnote/.style={font=\footnotesize\sffamily,align=center}}
+\newcommand{\Generated}{}
+\newcommand{\PlateDirectory}{}
+\newcommand{\Plate}[3]{\par\medskip\noindent\begin{minipage}{\linewidth}\centering
+\resizebox{\linewidth}{!}{\input{\PlateDirectory/#1.tex}}
+\captionof{figure}{#2}\label{#3}\end{minipage}\par\medskip}
+\newcommand{\Listing}[1]{\par\Needspace{5\baselineskip}
+\VerbatimInput[breaklines,breakanywhere,fontsize=\small,frame=single,numbers=left,numbersep=4pt]{\Generated/#1.py}\par\medskip}
+\let\OriginalBookLabel\label
+\let\OriginalBookRef\ref
+\let\OriginalBookAutoref\autoref
+\makeatletter
+\let\OriginalBookDisplayLabel\label@in@display
+\newcommand{\ChapterNamespace}{}
+\newcommand{\ScopedChapterLabels}{
+\renewcommand{\label}[1]{\edef\CurrentBookLabel{\noexpand\OriginalBookLabel{\ChapterNamespace##1}}\CurrentBookLabel}
+\renewcommand{\label@in@display}[1]{\edef\CurrentBookLabel{\noexpand\OriginalBookDisplayLabel{\ChapterNamespace##1}}\CurrentBookLabel}
+\renewcommand{\ref}[1]{\OriginalBookRef{\ChapterNamespace##1}}
+\renewcommand{\autoref}[1]{\OriginalBookAutoref{\ChapterNamespace##1}}}
+\makeatother
+\fvset{breaklines=true,breakanywhere=true}
+\fancyhead[R]{\small\sffamily Chapter \thechapter}
+\setcounter{tocdepth}{1}
+\AtBeginDocument{\raggedright\setlength{\parindent}{0pt}}

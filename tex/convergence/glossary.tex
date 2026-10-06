@@ -1,0 +1,69 @@
+\chapter*{Glossary}
+\addcontentsline{toc}{chapter}{Glossary}
+These entries prevent distinct model and runtime objects from being conflated.
+They describe the manuscript's interfaces, not demonstrated biological capabilities.
+\begin{description}
+\item[DOGMA] Proposed non-Transformer DNA-native model/runtime research direction.
+\item[Hermon DNA] Transformer-based DNA/genomic model/runtime direction.
+\item[Evolutor] Broader orchestration, research, compiler/runtime, memory,
+adaptation and governance layer; not the external model named Evo 2.
+\item[Parameter] Learned value shared across uses of a model operation.
+\item[Activation state] Values produced for a particular input or continuing
+record with fixed parameters; not automatically learned persistent knowledge.
+\item[Optimizer state] Learning-procedure memory such as moments or momentum,
+distinct from a model's record-level carry.
+\item[Carried state] All fields needed to resume the same computation under
+the same configuration, including boundary metadata.
+\item[Checkpoint] Version-bound stored snapshot of the declared model or
+learning/runtime state; a parameter file alone may not restore the full run.
+\item[Padding identity] Storage padding leaves the logical state unchanged.
+An uncertain biological base is not automatically padding.
+\item[Record reset] Explicit replacement with initial state at an independent
+record boundary; neither zero retention nor a chunk boundary implies reset.
+\item[Update clock] Events, elapsed time or genomic-distance increments that
+advance an explicitly defined state update.
+\item[Retention] Attenuation of old state in a specified recurrence; not proof
+of task-useful long-range memory.
+\item[Memory read] Access to retained information under a declared addressing
+and information-availability policy.
+\item[Equivariance] Input transformation induces a specified output or feature
+transformation; this differs from leaving the result unchanged.
+\item[Invariance] A result remains unchanged under a declared transformation.
+Strand-sensitive labels may require a nontrivial label action instead.
+\item[Offline/full-record access] Available information can include suffix
+content. The Chapter 21 dual/RC representation belongs to this contract.
+\item[Causal feature] Depends only on the permitted prefix and declared
+external knowledge. Target alignment and token spans must also be legal.
+\item[Gradient parity] Agreement of derivatives as well as output values;
+detaching chunk state can preserve one and break the other.
+\item[Functional ablation] Intervention on one mechanism with a declared fixed
+parameter set; retraining a controlled alternative answers a different question.
+\item[Non-identifiability] Distinct parameter explanations implement the same
+observed function under the declared measurement interface.
+\item[Token span] Half-open interval in nucleotide coordinates carried by a token.
+A token ordinal is not its physical base coordinate or width.
+\item[Joint strand action] Sequence reverse complement together with the
+specified orientation/feature/label transformation.
+\item[Rotary position] Pairwise feature rotation indexed by declared position
+units; relative-score algebra does not prove unseen-context generalization.
+\item[Legal attention edge] A query-key access allowed by all mask, validity,
+information and objective constraints.
+\item[Global relay] A designated within-record attention position aggregating
+information; another layer reads its updated representation.
+\item[Retrieval] Access to a specified external corpus under a legal query and
+knowledge policy, not merely a global attention token.
+\item[Capability evidence] Task- and protocol-bound observations of performance;
+implemented memory or agent persistence alone is not evidence of general intelligence.
+\item[Estimand] Precisely defined quantity an experiment intends to estimate,
+including predictors or training procedure, target population and sampling unit.
+\item[Dependency closure] Connected components of all declared relationships
+that prohibit cross-partition placement; curation adequacy remains separate.
+\item[Paired comparison] Evaluate both predictors on the same record and retain
+their joint outcomes when estimating differences and uncertainty.
+\item[Cluster resampling] Draw independent clusters with replacement while
+retaining their dependent records and paired predictions within each draw.
+\item[Conditional test uncertainty] Evaluation-sampling variation for fixed
+predictors, not automatically variation across training procedures or seeds.
+\item[Resource inventory] Static auditable counts and units, distinct from
+instrumented workload measurements such as peak memory, latency or energy.
+\end{description}
