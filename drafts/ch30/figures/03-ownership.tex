@@ -1,0 +1,16 @@
+\begin{tikzpicture}[font=\small\sffamily,>=Stealth]
+\path[use as bounding box] (0,-.7) rectangle (14,5.3);
+\node[anchor=west,Blue] at (0,4.95) {State-ID reuse requires a generation fence};
+\node[note] at (2.2,4.25) {tenant A / request rA\\model hash mA};
+\node[note] at (11.5,4.25) {tenant B / request rB\\model hash mB};
+\draw[flow] (2.2,3.6)--(2.2,3);
+\draw[flow] (11.5,3.6)--(11.5,3);
+\node[draw=Blue,fill=Pale,note,minimum width=3.6cm,minimum height=1cm] (old) at (2.2,2.35) {state S, generation 1\\owner (A,rA,mA)};
+\node[draw=Green,fill=Green!10,note,minimum width=3.6cm,minimum height=1cm] (new) at (11.5,2.35) {state S, generation 2\\owner (B,rB,mB)};
+\draw[flow] (old)--node[above,smallnote]{release after quiescence\\then reuse}(new);
+\node[draw=Red,fill=Red!8,note] (ticket) at (2.2,.65) {old completion ticket\\S / generation 1};
+\draw[->,Red,thick] (ticket.east)--(9.7,.65)--(9.7,1.45);
+\draw[Red,very thick] (9.3,1.5)--(10.1,1.5);
+\node[smallnote,Red,anchor=west] at (10.15,.65) {reject stale lease};
+\node[smallnote] at (6.8,-.35) {Logical owner and model binding persist independently of worker/device residency.};
+\end{tikzpicture}

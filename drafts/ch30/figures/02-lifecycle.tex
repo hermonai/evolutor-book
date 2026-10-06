@@ -1,0 +1,20 @@
+\begin{tikzpicture}[font=\small\sffamily,>=Stealth]
+\path[use as bounding box] (0,-.6) rectangle (14,5.8);
+\node[anchor=west,Blue] at (0,5.5) {Phase, outcome and resource state are different coordinates};
+\foreach \x/\id/\txt in {1.3/r/received,4.6/a/admitted,8/s/active,12/t/terminal} {
+ \node[draw=Blue,rounded corners,minimum width=2.3cm,minimum height=.8cm,fill=Pale] (\id) at (\x,4.4) {\txt};
+}
+\draw[flow] (r)--node[above,smallnote]{admit}(a);
+\draw[flow] (a)--node[above,smallnote]{claim lease}(s);
+\draw[flow] (s)--node[above,smallnote]{one winner}(t);
+\draw[->,Red,thick] (r.south) |- (12,3.3) --(t.south);
+\draw[->,Red,thick] (a.south)--(4.6,3.3);
+\node[smallnote,Red] at (5,2.85) {cancel / deadline / reject before active};
+\draw[Blue] (.3,.15) rectangle (13.7,2.3);
+\node[note,anchor=west] at (.55,1.9) {TERMINAL SUBSTATE};
+\node[smallnote] at (3.4,1.05) {reason fixed\\queue may remain\\pending work may remain};
+\draw[flow] (6.1,1.1)--node[above,smallnote]{ack + drain\\or explicit discard}(9.5,1.1);
+\node[draw=Green,fill=Green!10,note] at (11.6,1.05) {cleaned flag true\\lease released\\reason unchanged};
+\draw[dashed,Blue] (t.south)--(12,2.3);
+\node[smallnote] at (7,-.35) {Streaming is queue behavior, not a phase that overrides the terminal outcome.};
+\end{tikzpicture}

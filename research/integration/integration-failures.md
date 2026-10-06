@@ -1,6 +1,18 @@
 # Integration failures and open gates
 
-Updated 6 October 2026. Chapters 22–29 have passed locally rerun reference tests,
+Chapter30: incoming shallow biology and separate lifecycle demonstrations were
+rewritten around explicit mechanisms, numerical/operational contracts and
+independent oracles. Biology plate polarity/context/phase-plane/lineage/mapping
+label collisions and a redundant standalone references title page were corrected.
+Every final standalone page was rechecked in color and grayscale. Primary DNA
+article retrieval barriers remain documented; abstract/caption access is not
+silently upgraded to full-text inspection. Full regression ran without concurrent
+same-repository PDF mutation (DNA1,305+2skipped; Evolutor1,105). Continuous
+builds through30 pass (DNA375pages, Evolutor377pages); cumulative and independent
+review remain open. DNA31-32 and Evolutor31-52 are inventoried and referenced,
+but are still staged candidates, not completed chapters.
+
+Updated 6 October 2026. Chapters 22–30 have passed locally rerun reference tests,
 strict standalone authored-LaTeX builds and every-page color/grayscale author review.
 Incoming build/QA assertions remain provenance, not local evidence. Failed incoming
 font configuration was replaced by the native-font review template. Chapter26 DNA

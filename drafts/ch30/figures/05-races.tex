@@ -1,0 +1,21 @@
+\begin{tikzpicture}[font=\small\sffamily,>=Stealth]
+\path[use as bounding box] (0,-.6) rectangle (14,5.9);
+\node[anchor=west,Blue] at (0,5.55) {Logical cancellation is not physical buffer quiescence};
+\foreach \y/\txt in {4.55/control,2.95/device,1.25/state} {
+ \node[anchor=east] at (1.5,\y) {\txt};
+ \draw[->,gray] (1.8,\y)--(13.7,\y);
+}
+\foreach \x/\txt in {3/{launch\\ticket (lease,v,j)},6.9/{cancel\\terminal winner},10.8/{result arrives\\acknowledge}} {
+ \draw[dashed,Blue] (\x,.7)--(\x,4.95);
+ \node[smallnote] at (\x,5.15) {\txt};
+}
+\draw[Blue,ultra thick] (3,2.95)--(10.8,2.95);
+\node[smallnote] at (6.9,3.5) {physical kernel may still run};
+\filldraw[Red,fill=Red!12] (6.9,4.55) circle (.12);
+\draw[Red,very thick] (10.8,1)--(10.8,1.5);
+\node[smallnote,Red] at (10.8,.35) {discard result\\revision unchanged};
+\node[smallnote] at (5,1.7) {lease retained while pending};
+\draw[flow] (11.15,2.4)--(13.3,2.4);
+\node[smallnote] at (12.4,1.7) {after ack:\\cleanup may release};
+\node[smallnote] at (7,-.35) {Results cannot commit after a terminal winner; memory cannot be reused while work may access it.};
+\end{tikzpicture}

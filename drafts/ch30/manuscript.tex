@@ -1,0 +1,308 @@
+\chapter{Runtime contracts and request lifecycles}
+A model step finishes just as its client cancels. May the engine publish the
+result? May it reuse the step's state buffer for another tenant before the
+device acknowledges completion? What if the output stream still contains two
+committed tokens? These are semantic questions before they are performance questions.
+
+Chapter 29 froze evidence and comparison contracts. This chapter constructs the
+serving shell: immutable request identity, admission, exclusive state leases,
+bounded output, commit fences, terminal arbitration and cleanup. The reference
+does not execute DOGMA or HermonDNA mathematics. It specifies the lifecycle that
+later native execution must preserve. A correct shell is not a trained genomic
+model, a network service or evidence of industrial throughput.
+
+\section{Bind a request before allocating state}
+Represent a request by
+\[
+ R=(r,u,m,d,N,Q_I,Q_B,B_{\max}).
+\]
+$r$ is request identity, $u$ tenant/security scope, $m$ a pinned model-artifact
+identity, and $d$ a deadline in a declared monotonic clock domain.
+$N$ bounds total committed output items; $Q_I$ bounds queued items;
+$Q_B$ bounds queued UTF-8 bytes; $B_{\max}$ bounds one item.
+These integer ceilings are independent. An empty queue does not mean the request
+has unused generation budget.
+\par\medskip\noindent\begin{minipage}{\linewidth}
+\Listing{Request}
+\end{minipage}\par\medskip
+The identity format is lowercase 64-character SHA-256. Chapter 28 checked pinned
+bytes for its linear artifact fixture; a production engine must extend that
+binding to the actual model, configuration, vocabulary, precision and semantic
+options. A correctly shaped string does not authenticate an artifact. The reference
+assumes a trusted binding supplied by its caller.
+\Plate{01-envelope}{The envelope binds independent fields; arrows do not pretend
+that tenant identity causes model identity. Policy and availability checks precede
+state publication. Failed admission leaves no expensive state lease.}{evod30:envelope}
+
+A hot deployment may choose a new identity for \emph{new} requests.
+An existing request does not follow a mutable current-model pointer.
+Migrating its native state needs an explicit, verified conversion protocol.
+Matching tensor shape alone does not establish state compatibility.
+
+\section{Admission is a decision, not a scheduler}
+The oracle requires an explicit policy result and model-availability result.
+Before its deadline, an allowed request becomes admitted; a policy or availability
+failure becomes rejected. Deadline expiry terminates without allocation.
+Scheduling subsequently chooses execution order and placement among admitted
+work. Chapter 34 owns scheduling and batching.
+
+Admission must account for resource reservation if concurrent requests compete.
+A check-then-allocate sequence without synchronized reservation can overbook a pool.
+Our registry's exclusivity contract prevents state-ID aliasing, not global GPU
+capacity exhaustion. There is no memory allocator, quota database, authentication
+service or scheduling fairness proof here. Unknown available capacity is not
+permission to treat it as infinite.
+
+\section{Terminal outcome and cleanup are separate coordinates}
+Use phases received, admitted, active and terminal. Streaming is a property of
+an active or terminal request's queue, not a phase that erases ownership.
+Keep a terminal reason and a separate cleaned flag:
+\[
+ S=(\phi,\rho,c,\ell,v,p,\mathcal Q,\mathcal A).
+\]
+$\phi$ is phase, $\rho$ terminal reason, $c$ cleanup state, $\ell$ the lease,
+$v$ the committed revision, $p$ the pending ticket, $\mathcal Q$ the queue and
+$\mathcal A$ accounting counters.
+\Plate{02-lifecycle}{Lifecycle phase, immutable terminal reason and resource
+cleanup are separate. A completed request may still have queued output.
+A cancelled request may still have physical work awaiting acknowledgement.}
+{evod30:lifecycle}
+Replacing completed by cleaned loses the outcome unless it is stored elsewhere.
+Similarly, reporting cancellation as complete because some bytes streamed hides
+a truncated operation. The reference retains exactly one reason from completed,
+cancelled, deadline, failed or rejected. Cleanup does not overwrite it.
+
+\section{One serialized terminal winner}
+All operations below are stipulated to execute serially.
+A terminal transition is the \Term{linearization point} for outcome selection:
+before it, eligible work may commit; after it, no model result may create a new
+committed output or revision.
+\Listing{Runtime.terminate}
+Before the deadline, the first eligible terminal proposal wins.
+At or after the deadline, a newly observed terminal transition records deadline
+instead of pretending to complete on time. Already-terminal requests retain their
+earlier winner. Equality at $d$ means expired, not one last allowed commit.
+
+The six permutations of completion, cancellation and failure before expiry are
+tested against an independent first-winner rule. Four proposed reasons at exactly
+$d$ all select deadline. Completion requires active state and no pending work;
+cancellation may terminate a received or admitted request too.
+This is an explicit arbitration policy, not a rule forced on every inference API.
+
+For a concurrent implementation, serialize the \emph{whole} check/update protocol
+or prove a suitable atomic transaction, including lease, deadline, revision,
+queue and counters. An atomic terminal flag alone cannot protect an unguarded
+output append. A test with twelve threads under one external lock checks terminal
+serialization only; the reference itself is not advertised as thread-safe.
+
+\section{Ownership survives physical placement changes}
+The registry maps each live state ID to
+\[
+ \ell=(s,g,(u,r,m)),
+\]
+where $g$ is a monotonically increasing allocation generation for that ID.
+A request owns its logical state; a worker is a residency label.
+The registry rejects even a second claim by the same owner while the ID is live.
+A shared prefix or fork is not created accidentally by repeated claim.
+\Plate{03-ownership}{The same physical state ID is released and later receives a
+new generation. A completion carrying the old generation must not write into the
+new tenant's allocation. Worker placement is separate from logical ownership.}
+{evod30:ownership}
+
+Allocation claims the registry entry before publishing active local state.
+An ownership conflict leaves the request admitted and unallocated.
+A foreign release fails. After release and reuse, the old lease also fails even
+if the new allocation has the same request/model names.
+This counters the \Term{ABA reuse} problem: the string S may look unchanged while
+the resource it denotes has changed.
+
+Generations persist only in this in-memory oracle. Across a crash or worker restart,
+a production design needs globally unique allocation epochs or a durable generation
+scheme and fencing at the executor. These tokens are correctness identities, not
+cryptographic capabilities. The registry assumes trusted code; it cannot prevent an
+attacker mutating process memory.
+
+\section{Backpressure before model work}
+To avoid silently running a step whose result has nowhere to go, reserve a worst-case
+output slot before launch:
+\[
+ |\mathcal Q|<Q_I,\qquad
+ \operatorname{bytes}(\mathcal Q)+B_{\max}\le Q_B.
+\]
+At most one ticket is pending for this request.
+This simple policy is conservative: a two-byte item in a five-byte queue leaves
+three bytes free, but another item with declared maximum four bytes cannot launch.
+\Listing{Runtime.launch}
+The blocked path logs backpressure but creates no ticket and increments no launched
+work counter. A producer cannot repeatedly advance hidden state or consume sampling
+RNG while calling those attempts blocked output. A native engine must make state
+and RNG commit part of the same operation or preserve a pending snapshot.
+\Plate{04-stream}{Item and byte ceilings both constrain launch. Total committed
+output is a third limit. A slow consumer holds only bounded buffered bytes; the
+backpressure path does not perform another model step.}{evod30:stream}
+
+UTF-8 character count is not byte count. The item \emph{é} encodes to two bytes;
+a supplementary-plane emoji commonly needs four. The reference stores immutable
+encoded bytes and validates each produced item's maximum. It does not claim to
+bound the original Python string's transient allocation, native state, event log,
+allocator overhead or all process memory. The trace itself is unbounded here;
+a production system needs retention, sampling or bounded/durable export policies.
+
+\section{Fence a late result, then commit atomically}
+A launch ticket binds the exact lease, current revision and unique launch number:
+\[
+ p=(\ell,v,j_{\rm launch}).
+\]
+A result must match the pending ticket and a still-live lease. Duplicate,
+foreign and stale tickets cannot settle a different step.
+\par\medskip\noindent\begin{minipage}{\linewidth}
+\Listing{Runtime.commit}
+\end{minipage}\par\medskip
+After deadline/control checks, a successful result advances revision and output
+count together and appends one ordered byte payload. A result after a terminal
+winner settles the physical-work ticket but increments discarded-work accounting;
+it does not advance state or queue.
+Invalid type, empty output, malformed Unicode or oversized output terminates as
+failed with no new revision. The oracle does not model a fault during event append
+or crash halfway through the Python mutation sequence; production atomicity must
+cover such failures separately.
+
+\Plate{05-races}{A launched step can finish physically after cancellation.
+Its acknowledgement settles the ticket, but the output/state commit is fenced.
+The lease cannot be released while physical work may still access its buffer.}
+{evod30:races}
+Cancellation is therefore not instantaneous device preemption.
+If a kernel still holds a pointer, logically cancelling the request does not make
+that memory safe to reassign. A timeout waiting for acknowledgement is an unresolved
+resource, not a license to reuse the buffer. Device synchronization, abort guarantees
+or a quarantined allocation are required.
+
+\section{Deadlines use one explicit clock domain}
+Times in the reference are exact nonnegative integer milliseconds, passed by tests.
+Time never decreases. All admission, allocation, launch, commit, consumption and
+control paths observe the deadline where relevant. A step launched before $d$
+but returning at $d$ cannot commit a timely result.
+
+Production intervals should use a monotonic clock, not civil time that may jump.
+Monotonic epochs on different hosts are not automatically comparable. Transmit
+a deadline using a documented synchronization or remaining-budget protocol,
+include transit/error bounds, and check the receiving clock domain.
+A local service cannot guarantee a remote client's receipt time merely by meeting
+its own commit deadline.
+
+HTTP/3 distinguishes rejecting an unprocessed request from cancelling one whose
+application processing has begun \cite{evod30:http3}. That protocol distinction
+motivates careful retry semantics; it does not define this model's state machine.
+
+\section{Draining is not success, and cleanup is not delivery}
+Our chosen queue policy keeps previously committed bytes readable after every
+terminal reason until cleanup. No new model outputs can commit. A client must
+receive the terminal reason separately to distinguish partial output from success.
+A different API may discard on cancellation, but it must declare and count that loss.
+
+For the three-output fixture, the first two commits fill the queue; a launch is
+blocked. Consuming item one allows item three to commit and automatically reach
+the total output ceiling. The completed request still has two buffered items.
+\begin{center}\input{\Generated/stream.tex}\end{center}
+Sequence numbers increase one through three regardless of consume timing.
+A local dequeue is not proof of remote receipt, application processing or exactly-once
+delivery. Transport reconnect and acknowledgement need their own protocol.
+
+\par\medskip\noindent\begin{minipage}{\linewidth}
+\Listing{Runtime.cleanup}
+\end{minipage}\par\medskip
+Cleanup requires terminal phase and no pending physical work. It also requires
+an empty queue or an explicit discard decision. The registry releases the lease
+before local handles are cleared. A repeated successful cleanup returns a no-op.
+If release fails, local handles are retained so the failure remains diagnosable.
+This is logical idempotence in one live process, not a crash-resilient finalizer.
+
+\section{Reconcile every counter with an invariant}
+Let $L,S,P$ be launched, settled and pending work, with $P\in\{0,1\}$.
+Let $G,Q,D,X$ be committed outputs, queued, locally dequeued and discarded outputs.
+Then
+\[
+ L=S+P,\qquad G=Q+D+X,\qquad v=G,\qquad G\le N.
+\]
+Discarded \emph{work} is distinct from discarded \emph{output}.
+A cancelled in-flight step can be settled and discarded without ever creating
+a committed output; a committed but undelivered item can be discarded during cleanup.
+\Plate{06-trace}{The trace records launches, commits, local dequeues, terminal
+selection and cleanup as distinct events. Separate work and output conservation
+identities expose a missing acknowledgement or an unreported queue loss.}
+{evod30:trace}
+
+The normal fixture finishes with $L=S=G=D=v=3$, $P=Q=X=0$.
+The cancelled pending fixture finishes with $L=S=1$, discarded work one, $G=v=0$.
+Counters measure declared logical events, not FLOPs, device time, billable tokens
+or a general resource cost. Billing and scheduler reservations require additional
+accounting contracts.
+
+\section{Independent interleavings before load tests}
+The test alphabet is launch, commit, consume, cancel, complete and cleanup.
+Enumerate all $6^5=7776$ length-five sequences from an allocated request.
+For each prefix, compare accepted/no-op/rejected operations and final state with a
+separate small specification that does not call the runtime's methods.
+Check queue bounds, one terminal event, lease release and both conservation
+identities after every operation.
+
+This is bounded exhaustive verification for a stipulated serialized oracle.
+It is not exploration of every distributed execution, weak-memory ordering or
+device race. Extend the alphabet with worker crashes, loss/reorder, scheduler
+reservation changes, model-step failure and durable recovery before claiming
+production correctness. Chapter 26's restricted affine-scan checks do not supply
+complete DOGMA/HermonDNA engine parity; those model-specific checks remain distinct.
+
+The trace contains immutable event records with monotone sequence numbers and
+times, but its list is in memory. It omits output payloads and hidden activations.
+It is neither an authenticated audit log nor a replay-complete durable journal.
+A production design must reconcile transactional publication and trace persistence,
+including crash windows, privacy, retention and recovery.
+
+\section{Retries and execution authority are additional contracts}
+A generation request is not automatically idempotent because it uses HTTP.
+RFC 9110 distinguishes method-level idempotence and unsafe automatic retries
+\cite{evod30:http}. A client retry might reconnect to one retained operation or
+create a new one. Durable tenant-scoped idempotency keys must bind normalized
+request content and retention policy; a cleaned request ID alone is insufficient.
+If the same key accompanies different content, reject rather than silently reuse.
+
+An inference shell also does not authorize actions. For an agent integration,
+model output proposes; a policy/kernel authorizes; a deterministic service executes;
+a durable trace records. Tool execution needs separate capabilities, revocation,
+side-effect idempotence and recovery. Neither a token nor a runtime trace creates
+execution authority or proves intelligence.
+
+\section{Twenty worked exercises}
+\begin{enumerate}
+\item Why pin $m$? \textbf{Answer:} avoid mid-request model drift; identity is not authentication.
+\item Is $Q_I=N$ required? \textbf{Answer:} no; queue occupancy and total output are different ceilings.
+\item Why check availability before allocation? \textbf{Answer:} rejected work should obtain no native-state lease.
+\item Does admission schedule the request? \textbf{Answer:} no; it decides eligibility.
+\item Can completed imply cleaned? \textbf{Answer:} no; buffered output and physical resources may remain.
+\item Where is the terminal linearization point? \textbf{Answer:} the serialized transition that fixes phase and reason.
+\item Completion proposed exactly at $d$? \textbf{Answer:} deadline wins if the request was not already terminal.
+\item Cancellation after successful completion? \textbf{Answer:} no reason rewrite or resurrection.
+\item What does a generation number fix? \textbf{Answer:} stale leases after state-ID reuse, including same-name ABA.
+\item Why isn't it a security capability? \textbf{Answer:} trusted callers and process integrity are assumed.
+\item Queue bytes two, ceiling five, item maximum four: launch? \textbf{Answer:} no; worst-case reservation would require six bytes.
+\item How many bytes is é in UTF-8? \textbf{Answer:} two; one character does not mean one byte.
+\item A pending ticket after cancellation: release its buffer? \textbf{Answer:} no; acknowledge physical quiescence first.
+\item A late result's state revision? \textbf{Answer:} unchanged; settled/discarded work increases instead.
+\item Why retain committed bytes after cancellation? \textbf{Answer:} it is this API's explicit drain policy, not universal semantics.
+\item Is local dequeue remote delivery? \textbf{Answer:} no; transport/application acknowledgement is separate.
+\item Derive output conservation. \textbf{Answer:} each committed item is queued, dequeued or explicitly discarded, so $G=Q+D+X$.
+\item What does $6^5$ verification establish? \textbf{Answer:} bounded serialized-sequence agreement, not all concurrent schedules.
+\item Is the event list durable? \textbf{Answer:} no; storage/recovery/privacy contracts remain unimplemented.
+\item Design a serving release gate. \textbf{Rubric:} native-step parity, pinned identity,
+tenant ownership, synchronized commit/terminal protocol, clock domain, queue and
+resource bounds, physical quiescence, fault injection, durable trace/retry protocol,
+isolation, measured workload and bounded performance claims.
+\end{enumerate}
+
+\section{Bridge to native state}
+Chapter 31 constructs and advances model-native state inside this shell.
+A ticket's committed revision must correspond to an actual legal prefix and a
+verified state transition; it cannot merely increment a counter. Full DOGMA carry
+and HermonDNA KV semantics remain separate, and Chapter 21's suffix-aware offline
+representation must not enter causal left-to-right generation.

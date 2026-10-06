@@ -1,0 +1,19 @@
+\begin{tikzpicture}[font=\small\sffamily,>=Stealth]
+\path[use as bounding box] (0,-.7) rectangle (14,5.2);
+\node[anchor=west,Blue] at (0,4.85) {Capacity controls launch, not just an eventual append};
+\node[draw=Blue,fill=Pale,note] (engine) at (1.55,3.1) {native step\\one pending ticket};
+\foreach \x/\txt in {5/a,6.25/b} {
+ \draw[Blue,fill=Gold!35] (\x-.5,2.6) rectangle (\x+.5,3.6);
+ \node at (\x,3.1) {\txt};
+}
+\node[smallnote] at (5.65,4) {queue items: $2/2$};
+\node[draw=Blue,fill=Pale,note] (client) at (11.8,3.1) {local consumer\\not remote receipt};
+\draw[flow] (engine)--node[above,smallnote]{commit}(4.35,3.1);
+\draw[flow] (6.9,3.1)--node[above,smallnote]{dequeue}(client);
+\draw[->,Red,thick] (5.65,2.35)--(5.65,1.95)--(1.55,1.95)--(engine.south);
+\node[smallnote,Red] at (3.8,1.5) {full: no launch, no state advance};
+\draw[Blue] (8.4,.15) rectangle (13.8,1.7);
+\node[smallnote] at (11.1,1) {Byte gate: $2+4>5$\\even if item slots remain};
+\node[smallnote] at (4.1,.65) {Total limit $N=3$ differs from queue size 2\\consume item 1, then commit item 3};
+\node[smallnote] at (7,-.35) {Worst-case reservation can be conservative. UTF-8 byte length, not character count, bounds payload.};
+\end{tikzpicture}

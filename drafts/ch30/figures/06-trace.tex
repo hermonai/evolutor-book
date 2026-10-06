@@ -1,0 +1,17 @@
+\begin{tikzpicture}[font=\small\sffamily,>=Stealth]
+\path[use as bounding box] (0,-.6) rectangle (14,5.1);
+\node[anchor=west,Blue] at (0,4.75) {Work conservation and output conservation need separate events};
+\foreach \x/\txt in {1.6/launch,4.2/commit,6.8/dequeue,9.4/terminal,12/cleaned} {
+ \filldraw[Blue,fill=Pale] (\x,3.2) circle (.12);
+ \node[smallnote] at (\x,3.75) {\txt};
+}
+\draw[flow] (.4,3.2)--(13.3,3.2);
+\node[smallnote] at (6.8,2.55) {monotone event sequence and local clock; no output payload or hidden tensors};
+\draw[Blue,rounded corners] (.3,.25) rectangle (6.65,1.95);
+\draw[Green,rounded corners] (7.05,.25) rectangle (13.6,1.95);
+\node[note] at (3.5,1.5) {WORK: $L=S+P$};
+\node[smallnote] at (3.5,.85) {launched = settled + pending\\cancelled late result: settled, discarded work};
+\node[note] at (10.3,1.5) {OUTPUT: $G=Q+D+X$};
+\node[smallnote] at (10.3,.85) {committed = queued + dequeued + discarded\\local dequeue is not network delivery};
+\node[smallnote,Red] at (7,-.3) {This reference log is in memory, not an authenticated durable journal or an intelligence claim.};
+\end{tikzpicture}

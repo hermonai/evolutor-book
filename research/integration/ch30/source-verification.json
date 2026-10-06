@@ -1,0 +1,21 @@
+{
+  "access_date": "2026-10-06",
+  "chapter": 30,
+  "records": [
+    {
+      "key": "evod30:http3",
+      "url": "https://www.rfc-editor.org/rfc/rfc9114.html#section-4.1.1",
+      "date": "June2022; M.Bishop editor",
+      "access_depth": "Primary section4.1.1 Request Cancellation and Rejection",
+      "claim": "Processing/rejection distinction motivates retry context; no HTTP/3 transport or RFC-defined runtime machine implemented"
+    },
+    {
+      "key": "evod30:http",
+      "url": "https://www.rfc-editor.org/rfc/rfc9110.html#section-9.2.2",
+      "date": "June2022; Fielding, Nottingham and Reschke",
+      "access_depth": "Primary section9.2.2 Idempotent Methods",
+      "claim": "Method idempotence and cautious retries; generation/external effects are not automatically idempotent"
+    }
+  ],
+  "incoming_assertions": "Preserved separately; original serial oracle is not attributed to standards."
+}

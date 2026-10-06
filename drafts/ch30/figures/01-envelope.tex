@@ -1,0 +1,16 @@
+\begin{tikzpicture}[font=\small\sffamily,>=Stealth]
+\path[use as bounding box] (0,-.6) rectangle (14,5.2);
+\draw[Blue,rounded corners] (.2,2.55) rectangle (13.8,4.9);
+\node[anchor=west,Blue] at (.45,4.6) {Immutable request contract};
+\foreach \x/\txt in {1.7/{tenant $u$\\request $r$},5/{pinned model $m$\\semantic configuration},8.3/{deadline $d$\\clock domain},11.6/{total $N$\\queue $Q_I,Q_B,B_{\max}$}} {
+ \node[note] at (\x,3.45) {\txt};
+}
+\foreach \x in {3.4,6.6,10} {\draw[gray!50] (\x,2.75)--(\x,4.25);}
+\draw[flow] (7,2.45)--(7,1.9);
+\node[diamond,draw=Blue,fill=Pale,aspect=3,minimum height=1.2cm] (gate) at (7,1.1) {policy + availability + time};
+\draw[flow] (gate.west)--node[above,smallnote]{eligible}(2.7,1.1);
+\node[draw=Green,fill=Green!10,note] at (1.6,1.1) {admitted\\then claim lease};
+\draw[->,Red,thick] (gate.east)--node[above,smallnote]{not eligible}(11.45,1.1);
+\node[draw=Red,fill=Red!8,note] at (12.4,1.1) {terminal\\no allocation};
+\node[smallnote] at (7,-.3) {A syntactically valid SHA-256 name is not authentication. Fields are bindings, not causal arrows.};
+\end{tikzpicture}

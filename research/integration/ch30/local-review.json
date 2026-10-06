@@ -1,0 +1,45 @@
+{
+  "date": "2026-10-06",
+  "chapter": 30,
+  "pdf": "output/pdf/evolutor-ch30-review.pdf",
+  "pdf_sha256": "e0ee4f9f545a80b438905d9569f0da9caa7671b03fbbaffb2811c5dfe65a959f",
+  "pages": 15,
+  "source_hashes": {
+    "drafts/ch30/README.md": "90f0513b2aee24b669e055b34f684ee90126a3165ce18db886f4a7ea9c150a7e",
+    "drafts/ch30/STORYBOARD.md": "988d08c3c13bbd6ee8ec5a468d63c58b549d69218ef6b0a8ebdb5905b2973625",
+    "drafts/ch30/build.py": "5410745249d54dc8c49091dce20d0f4dd7da92d6544896e3527fc81edef192f8",
+    "drafts/ch30/figures/01-envelope.tex": "4098c7c1211cff6624fa75c0f593a78c9714e48ae1fbbf20700a68e7d2f9a37d",
+    "drafts/ch30/figures/01-envelope.txt": "832beb410f613e63891adc2ddc398b59dcd8b6d5b185326e3e5585c42e9736ec",
+    "drafts/ch30/figures/02-lifecycle.tex": "e1dcf94ccbbcb55e594234a3f3e913dda86dd01668a9cd09a6344a8e955fe173",
+    "drafts/ch30/figures/02-lifecycle.txt": "fca4cc66ac34b7ba5db318882efb1d509122b7b288a179b0f6a5bfbe9cf1828f",
+    "drafts/ch30/figures/03-ownership.tex": "1be0a2cbcc924fa1827f1c5de0ce6d7f4fcc5be25725bb5599cb626b9e1c6211",
+    "drafts/ch30/figures/03-ownership.txt": "6943ccb1152643a88bfa66768254351ae1c57ab070eb6f9252ec1f3e489ae9dd",
+    "drafts/ch30/figures/04-stream.tex": "8bda1718c075adc6bdfa94f840aa1bf647f23d15d1c03ce43f2080d8488d0639",
+    "drafts/ch30/figures/04-stream.txt": "7492e4b24a0e1abca4e23bce87ddaa24f5ebf91b2db13000afe1c26a6be95692",
+    "drafts/ch30/figures/05-races.tex": "d1516e0735962a3ea5a5c14cf52a22327dde4231decd2a83a12bf2945fd64fdb",
+    "drafts/ch30/figures/05-races.txt": "40a27a90249ad87c20f958219931f5bcb3bc2cc6415aa893ee8e88b4569597ec",
+    "drafts/ch30/figures/06-trace.tex": "dfd01b81a1d259232a12b99a87aa26b1504a780789d2765c2ba0e6da07277ee2",
+    "drafts/ch30/figures/06-trace.txt": "e44e5f2f1d2ef1223f0225fcb1ff7bf79310cd9c6fe686899be1a755747562a1",
+    "drafts/ch30/manuscript.tex": "4f1458a7e1e4c3977ea047d4474510149154f1b571790028c43c44bbfd73bc44",
+    "drafts/ch30/reference.py": "e81dba20d3c94b6e040089f9f3630d5d3e048ca349913f8e0005a4f0a49bf721",
+    "drafts/ch30/results.json": "6110f5f11df3537ec58efb4fde2f021f84964e02fe96e54b9aef060acff82d6f",
+    "drafts/ch30/review.tex": "e6039c9c03a7176bf83a37692c14b25a8677a852b027e7a388deb9630b0f7f4a",
+    "drafts/ch30/sources.tex": "e53c5f0201273010c5e45fdb3156e383d14596f4101bd203d9fe172e7da66d3e",
+    "tests/test_ch30_reference.py": "20be8d7e62959c9f78823b0e537a3123b5a9b9fdebf022dfc7b34202c60b2f54"
+  },
+  "tests": {
+    "repository_passed": 1105,
+    "repository_skipped": 0,
+    "chapter_passed": 46,
+    "report": "build/ch30/regression.xml",
+    "python": "3.13.6"
+  },
+  "visual_review": {
+    "reviewer": "author/agent",
+    "status": "PASS WITH NOTES",
+    "mode": "all 15 pages, color and grayscale contact sheets",
+    "notes": "All 15 final pages inspected in color and grayscale; six labeled algorithm plates remain readable without color. Removed redundant references title page; whole-function listings, TOC and index checked. Original serialized oracle, not a production concurrency or durable-transport certification."
+  },
+  "mathematical_review": "Assumptions, independent oracles and falsifiers in technical-audit.md.",
+  "acceptance": "locally reviewed standalone integration candidate; not accepted publication edition"
+}

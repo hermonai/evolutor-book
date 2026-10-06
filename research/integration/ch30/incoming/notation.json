@@ -1,0 +1,11 @@
+{
+  "R": "immutable request envelope",
+  "r": "request identity",
+  "u": "tenant/security scope",
+  "m": "model artifact identity",
+  "d": "deadline",
+  "L": "resource/output limits",
+  "O": "execution options",
+  "e_i": "lifecycle trace event",
+  "state_id": "logical model-native state identity"
+}

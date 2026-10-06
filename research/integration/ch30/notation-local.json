@@ -1,0 +1,17 @@
+{
+  "chapter": 30,
+  "symbols": {
+    "m": "pinned model digest, not authorization",
+    "d_t": "deadline and explicit nondecreasing integer milliseconds in one clock domain",
+    "lease": "state ID, increasing generation and tenant/request/model owner",
+    "v": "committed revision; equals committed item count in this oracle",
+    "ticket": "lease, revision, launch ID",
+    "N": "total generation ceiling, not queue capacity",
+    "Qi_Qb": "queue item and UTF-8 byte bounds",
+    "L_S_P": "launched, settled, pending work",
+    "G_Q_D_X": "committed, queued, locally dequeued, discarded output",
+    "phase": "received/admitted/active/terminal",
+    "reason": "immutable terminal winner, distinct from cleanup",
+    "cleaned": "resource-release disposition, not terminal reason"
+  }
+}

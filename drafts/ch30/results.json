@@ -1,0 +1,149 @@
+{
+  "stream": [
+    {
+      "item": 1,
+      "text": "a"
+    },
+    {
+      "item": 2,
+      "text": "b"
+    },
+    {
+      "item": 3,
+      "text": "c"
+    }
+  ],
+  "accepted_first_two": [
+    true,
+    true
+  ],
+  "backpressure": true,
+  "retained_at_completion": 2,
+  "accounting": {
+    "launched": 3,
+    "settled": 3,
+    "pending": 0,
+    "discarded_work": 0,
+    "generated": 3,
+    "queued": 0,
+    "dequeued": 3,
+    "discarded_output": 0,
+    "revision": 3
+  },
+  "cancelled_work_discarded": true,
+  "cancelled_accounting": {
+    "launched": 1,
+    "settled": 1,
+    "pending": 0,
+    "discarded_work": 1,
+    "generated": 0,
+    "queued": 0,
+    "dequeued": 0,
+    "discarded_output": 0,
+    "revision": 0
+  },
+  "events": [
+    {
+      "seq": 0,
+      "time": 0,
+      "kind": "received"
+    },
+    {
+      "seq": 1,
+      "time": 0,
+      "kind": "admitted"
+    },
+    {
+      "seq": 2,
+      "time": 0,
+      "kind": "allocated"
+    },
+    {
+      "seq": 3,
+      "time": 1,
+      "kind": "launch"
+    },
+    {
+      "seq": 4,
+      "time": 1,
+      "kind": "commit"
+    },
+    {
+      "seq": 5,
+      "time": 1,
+      "kind": "launch"
+    },
+    {
+      "seq": 6,
+      "time": 1,
+      "kind": "commit"
+    },
+    {
+      "seq": 7,
+      "time": 2,
+      "kind": "backpressure"
+    },
+    {
+      "seq": 8,
+      "time": 3,
+      "kind": "consume"
+    },
+    {
+      "seq": 9,
+      "time": 4,
+      "kind": "launch"
+    },
+    {
+      "seq": 10,
+      "time": 4,
+      "kind": "commit"
+    },
+    {
+      "seq": 11,
+      "time": 4,
+      "kind": "terminal"
+    },
+    {
+      "seq": 12,
+      "time": 5,
+      "kind": "consume"
+    },
+    {
+      "seq": 13,
+      "time": 5,
+      "kind": "consume"
+    },
+    {
+      "seq": 14,
+      "time": 6,
+      "kind": "cleaned"
+    }
+  ],
+  "races": [
+    {
+      "order": "completed / cancelled / failed",
+      "winner": "completed"
+    },
+    {
+      "order": "completed / failed / cancelled",
+      "winner": "completed"
+    },
+    {
+      "order": "cancelled / completed / failed",
+      "winner": "cancelled"
+    },
+    {
+      "order": "cancelled / failed / completed",
+      "winner": "cancelled"
+    },
+    {
+      "order": "failed / completed / cancelled",
+      "winner": "failed"
+    },
+    {
+      "order": "failed / cancelled / completed",
+      "winner": "failed"
+    }
+  ],
+  "live_after_cleanup": 0
+}

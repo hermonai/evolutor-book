@@ -1,6 +1,24 @@
 # Integration decisions
 
 Package assertions are imported provenance, not local verification.
+
+## EVOD-30
+
+Full incoming ZIP and neighboring chapter boundaries inspected before explicit
+import. Substantial rewrite integrates leases, queue reservations, terminal arbitration, acknowledgement and cleanup in one serialized oracle. Generation and queue ceilings differ; late work is fenced, immutable terminal reason survives cleanup, and work/output conservation are separate. All 7,776 bounded event words are checked against an independent manual specification; not production concurrency or native-model parity.
+
+46 chapter tests; full regression 1,105 passed.
+Final 15-page standalone source/PDF hashes bound to every-page color/grayscale
+author review. Six editable plates/TXT, five complete tested listings and twenty
+worked exercises. Primary access depths recorded separately; no experiment or
+full-text replication inferred. Continuous authored-source builds through30
+succeed at DNA375 and Evolutor377 pages. Cumulative visual/editorial, independent
+specialist/reader review and publication acceptance remain open.
+
+User-requested package coverage is explicit in the inventory and current guide:
+DNA30 is used; DNA31-32 remain staged candidates. Evolutor30 is used; Evolutor31-52
+remain staged candidates. Referencing those packages does not mark them integrated.
+No acceptance promotion or push.
 Accepted editions through Chapter 2 are preserved. No acceptance promotion.
 Package QA/caches/binaries are excluded from repository import.
 

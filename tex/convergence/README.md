@@ -1,6 +1,6 @@
 # Continuous authored-source review build
 
-Run Python 3.13: scripts/build-convergence.py --through 27 --refresh-assets.
+Run Python 3.13: scripts/build-convergence.py --through 30 --refresh-assets.
 The explicit range must exist; a partial build is never labeled the full planned
 book. --prepare-only assembles source without invoking the compiler.
 

@@ -1,6 +1,6 @@
 # Editorial architecture and release roadmap
 
-Updated 27 September 2026. This is the current execution map, not a claim
+Updated 6 October 2026. This is the current execution map, not a claim
 that every planned chapter is written or independently reviewed.
 
 ## One manuscript, distinct review stages
@@ -13,7 +13,9 @@ to change their progress labels.
 Chapters 1-2 retain their internal acceptance records. Chapter 3 has standalone
 and combined LaTeX review candidates. Chapters 4-21 have isolated authored-LaTeX
 review candidates with code, vector figures, and worked solutions.
-Chapter 22 is the next unwritten chapter. Chapters 11-21 were authored at the
+Chapters 22-30 now have source-bound locally reviewed standalone integration
+candidates. Chapters 31-52 remain staged ZIP candidates requiring semantic
+inspection and their own validation gates. Chapters 11-21 were authored at the
 reader's explicit request while the Chapters 1-10 integration milestone remains
 pending. These standalone candidates do not substitute for that integration.
 Independent specialist review and cumulative integration are still open.
@@ -162,13 +164,26 @@ Five vector/TXT figures, twelve worked exercises and executable independent
 checks make the assumptions and failure boundaries visible. Original teaching
 models remain distinct from measured chemistry or trained genomic capability.
 
-## Pending milestone: integrate Chapters 1-10
+## Chapter 30 scope (locally reviewed candidate): runtime contracts before native execution
+
+Bind immutable request/model identity before allocating an exclusive state
+lease. Define terminal arbitration, generation fencing, conservative output
+reservation and late-work acknowledgement. Keep phase, terminal reason, output
+draining and physical cleanup separate. Derive independent work/output
+conservation and check all 7,776 bounded event words against a manual oracle.
+Six algorithm plates and twenty worked exercises expose the contract; no
+production concurrency, durable journal or full engine semantics are inferred.
+Chapter 31 must bind actual native state transitions inside this shell.
+
+## Pending milestone: cumulative editorial and independent review
 
 Audit record validity, tensor notation, normalization conventions, routing
 cohorts, gradient history, and source closure, including the interfaces now
 used by Chapters 11-21. Separate biological regulation from expert routing.
-Build a new cumulative entry point with unified bibliography and index; retain
-standalone candidates and accepted editions unchanged. Do not promote acceptance
+The continuous authored-source entry point now builds Chapters 1-30 with unified
+bibliography, glossary and index. Its compilation does not close this editorial
+or independent review milestone. Retain standalone candidates and accepted
+editions unchanged. Do not promote acceptance
 without independent review and the existing release gates.
 
 ## Quality gates before widening the manuscript

@@ -5,7 +5,7 @@ promote a review candidate into an accepted edition.
 
 ## Start here
 
-- Latest integrated chapter candidate: [29 — Benchmark design and comparative evidence](drafts/ch29/README.md).
+- Latest integrated chapter candidate: [30 — Runtime contracts and request lifecycles](drafts/ch30/README.md).
 - Current scope and chapter responsibilities: [editorial architecture](EDITORIAL_ARCHITECTURE.md).
 - Opening LaTeX revision: [revision guide](TEXTBOOK_REVISION.md).
 - Production criteria: [textbook standard](TEXTBOOK_STANDARD.md) and [chapter standard](CHAPTER_STANDARD.md).
@@ -41,13 +41,13 @@ progress appear larger.
 | tmp/pdfs/ | Rendered page images used for visual QA | Regenerable; not manuscript sources |
 
 A .tex file under build/ may be a generated table, not an authored chapter.
-Edit drafts/ch21/manuscript.tex or its figures instead. An identical-looking
+Edit the owning drafts/chNN/manuscript.tex or its figures instead. An identical-looking
 PDF under build/ is a compiler product; read the named file under output/pdf/.
 
 ## Clean current workflow
 
 Use the chapter README commands for standalone reviews. For continuous assembly,
-run Python 3.13: scripts/build-convergence.py --through 29 --refresh-assets.
+run Python 3.13: scripts/build-convergence.py --through 30 --refresh-assets.
 This produces output/pdf/evolutor-convergence.pdf and a source-bound build
 report in build/convergence/. It is a cumulative review candidate, not an accepted
 full planned book. --check on chapter builders verifies existing computed assets.
@@ -65,15 +65,24 @@ than recursively delete a repository directory.
 
 ## Next editorial milestone
 
-Chapter 30 develops runtime contracts and request lifecycles; preserve immutable model identity, tenant/state ownership, terminal-race and cleanup semantics before throughput.
+Chapter 31 develops DOGMA state construction and execution inside the Chapter30
+lifecycle. Verify actual legal-prefix/state transitions, not only revision counters.
+Use evolutor-ch31-r01.zip as its source candidate; full DOGMA semantics remain
+distinct from restricted affine models and HermonDNA Transformer KV state.
 Primary sources inform questions; local implementation checks do not establish biological capability or industrial leadership.
 
 # Package convergence in progress — 6 October 2026
 
-Chapters 22–29 have been semantically integrated, rewritten, tested and locally
+Chapters 22–30 have been semantically integrated, rewritten, tested and locally
 visually reviewed as standalone candidates. Source-bound evidence is tracked
 in the matrix, not inferred from file presence. The integration branch preserves the earlier
 accepted edition. Remaining packages and cumulative/full-book gates are tracked
 separately in `research/integration/chapter-convergence-matrix.md`; this update is
 not an acceptance promotion. Use the declared Python environment (Python 3.11+;
 PyTorch required for Evolutor), not the macOS system Python.
+
+Every explicitly requested evolutor-ch30-r01.zip through evolutor-ch52-r01.zip
+is inventoried with archive digest, canonical mapping and separate gates.
+Chapter 30 is integrated; Chapters 31–52 remain staged source candidates for
+sequential inspection and integration. See research/integration/package-inventory.json
+and the convergence matrix. Referencing a package does not mark it completed.

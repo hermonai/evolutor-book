@@ -1,0 +1,26 @@
+[
+  {
+    "key": "rfc9110",
+    "claim": "HTTP provides general request/response semantics and standardized error/status vocabulary; it is protocol context, not the DOGMA lifecycle definition.",
+    "primary": "https://www.rfc-editor.org/rfc/rfc9110.html",
+    "authors": "R. Fielding; M. Nottingham; J. Reschke",
+    "date": "2022",
+    "access_date": "2026-10-05",
+    "depth": "standards text"
+  },
+  {
+    "key": "rfc9114",
+    "claim": "HTTP/3 explicitly defines request cancellation/rejection and notes whether application processing may have occurred.",
+    "primary": "https://www.rfc-editor.org/rfc/rfc9114.html#section-4.1.1",
+    "date": "2022",
+    "access_date": "2026-10-05",
+    "depth": "standards section"
+  },
+  {
+    "key": "internal",
+    "claim": "EVOD-14\u201316,22,26,28,29 provide typed execution, DOGMA state, parity, distributed ownership/artifact identity and evidence contracts consumed here.",
+    "primary": "internal Evolutor chapters",
+    "access_date": "2026-10-05",
+    "depth": "continuity"
+  }
+]
