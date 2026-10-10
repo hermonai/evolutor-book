@@ -1,0 +1,89 @@
+{
+  "date": "2026-10-10",
+  "book": "evolutor",
+  "through": 32,
+  "pdf": "output/pdf/evolutor-convergence.pdf",
+  "pdf_sha256": "41541df2d005380baeb318c0ddb6329affa9532597e04c99da7feac525531cbd",
+  "pages": 402,
+  "status": "locally reviewed new-chapter and front/back-matter scope; cumulative publication review remains open",
+  "complete_planned_chapter_spine": false,
+  "source_binding": {
+    "build_record": "build/convergence/build-record.json",
+    "verified_source_count": 614,
+    "all_listed_hashes_match": true
+  },
+  "regression": {
+    "report": "build/ch32/regression.xml",
+    "passed": 1212,
+    "skipped": 0,
+    "failures": 0,
+    "errors": 0
+  },
+  "computed_assets": "Chapter 31 and 32 build.py --check passed",
+  "visual_review": {
+    "reviewer": "author/agent",
+    "color_pdf_page_scope": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      368,
+      369,
+      370,
+      371,
+      372,
+      373,
+      374,
+      375,
+      376,
+      377,
+      378,
+      379,
+      380,
+      381,
+      382,
+      383,
+      384,
+      385,
+      386,
+      387,
+      388,
+      389,
+      390,
+      391,
+      392,
+      393,
+      394,
+      395,
+      396,
+      397,
+      398,
+      399,
+      400,
+      401,
+      402
+    ],
+    "contact_sheets": "tmp/pdfs/convergence-through32/contact-1.png through contact-10.png",
+    "standalone_chapter_color_and_grayscale": "All 15 pages of Chapter 31 and all 14 pages of Chapter 32 reviewed; see chapter local-review.json records.",
+    "final_layout_reinspection": "Front matter separated from contents; running headers distinguish front matter, numbered chapters, and reference material. Affected front/back-matter contact sheets reinspected after rebuild.",
+    "whole_continuous_book_reviewed": false,
+    "continuous_grayscale_reviewed": false
+  },
+  "compiler": {
+    "warning_audit": "build/convergence/warning-audit.json",
+    "release_blocking_warnings": []
+  },
+  "open_release_work": [
+    "Cumulative line-by-line scientific and editorial review",
+    "Whole continuous-edition color and grayscale visual QA",
+    "Bibliography alias reconciliation and index/notation editing; exact identifier merging is not full bibliographic deduplication",
+    "Independent specialist review and reader evaluation",
+    "Semantic integration and validation of staged Chapters 33–52"
+  ],
+  "gates": {
+    "independently_reviewed": false,
+    "accepted": false,
+    "full_book_converged": false
+  }
+}

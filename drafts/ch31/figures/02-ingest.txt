@@ -1,0 +1,3 @@
+02-ingest
+
+Rows 1,pad,2,1 with valid flags true,false,true,true advance positions 1,1,2,3. Padding has no lookup and zero placeholder logits. Full preflight rejects invalid live IDs before execution; wrong owners are rejected even for empty chunks.

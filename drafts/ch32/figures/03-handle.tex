@@ -1,0 +1,12 @@
+\begin{tikzpicture}
+\node[note,font=\bfseries\sffamily] at (6.5,5.8) {Allocation generation and live update version are different fences};
+\fill[Pale] (0,.4) rectangle (6.1,5);
+\fill[Pale] (6.9,.4) rectangle (13,5);
+\node[note,font=\bfseries\sffamily] at (3,4.5) {After slot reuse};
+\node[note] at (3,3.4) {Old handle: slot 0, generation 7\\Current slot: generation 8};
+\node[note,Red] at (3,1.9) {Reject stale handle\\even if the address matches.};
+\node[note,font=\bfseries\sffamily] at (10,4.5) {Within one allocation};
+\node[note] at (10,3.4) {Two pins capture version 0\\First completion installs version 1};
+\node[note,Red] at (10,1.9) {Discard second result\\without losing the first update.};
+\node[smallnote] at (6.5,-.3) {Generation protects reuse; version protects the live input state of a computation.};
+\end{tikzpicture}

@@ -1,0 +1,10 @@
+\begin{tikzpicture}
+\node[note,font=\bfseries\sffamily] at (6.5,5.6) {Canary reuse and conservation of capacity};
+\foreach \x/\txt/\state in {0/{A: $(7,8)$}/{Owned},4.6/{B: $(3,4)$}/{Retiring; pinned},9.2/{zero payload}/{Free}}{
+ \fill[Pale] (\x,2.5) rectangle (\x+4.1,4.8);
+ \node[note] at (\x+2,4.1) {\state};
+ \node[note] at (\x+2,3.2) {\txt};
+}
+\node[note] at (6.5,1.4) {$C=C_{\rm owned}+C_{\rm retiring}+C_{\rm free}$\\Pins are counted separately, not as extra slots.};
+\node[smallnote] at (6.5,.3) {Release A; scrub; advance generation; allocate C with zeros.\\A's old handle fails; B remains occupied until its acknowledgement.};
+\end{tikzpicture}

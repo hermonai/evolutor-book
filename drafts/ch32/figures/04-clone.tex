@@ -1,0 +1,12 @@
+\begin{tikzpicture}
+\node[note,font=\bfseries\sffamily] at (6.5,5.5) {Independent inference clone};
+\foreach \x/\lab/\pos/\val in {0/Source/3/{(1,2)},8.5/Branch/3/{(1,2)}}{
+ \fill[Pale] (\x,1.8) rectangle (\x+4.4,4.7);
+ \node[note] at (\x+2.2,4.2) {\lab};
+ \node[note] at (\x+2.2,3.3) {Position \pos\\hidden \val};
+ \node[smallnote] at (\x+2.2,2.2) {Distinct owner and storage};
+}
+\draw[flow] (4.5,3.3)--node[above,smallnote] {copied values} (8.4,3.3);
+\node[note] at (6.5,.6) {Branch write: $(9,9)$ at position 4\\Source remains $(1,2)$ at position 3};
+\node[smallnote,Red] at (6.5,-.3) {Same-tenant policy only. No cross-tenant export or training graph is supplied.};
+\end{tikzpicture}

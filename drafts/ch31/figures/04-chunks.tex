@@ -1,0 +1,16 @@
+\begin{tikzpicture}
+\node[note,font=\bfseries\sffamily] at (6.5,5.7) {Chunk composition preserves order, not arbitrary commutativity};
+\node[draw,note,fill=Pale] (l) at (2.5,4.3) {Left chunk\\$(A_L,B_L)$};
+\node[draw,note,fill=Pale] (r) at (7,4.3) {Right chunk\\$(A_R,B_R)$};
+\draw[flow] (l)--(r);
+\node[note] at (11.3,4.3) {$A=A_R\odot A_L$\\$B=A_R\odot B_L+B_R$};
+\draw[flow] (r.east)--(9.6,4.3);
+\foreach \x/\t in {1/1,4/2,7/3,10/4}{
+ \node[draw,circle,Blue] (h\t) at (\x,2) {$h_\t$};
+}
+\draw[flow] (h1)--node[above,smallnote] {$a$} (h2);
+\draw[flow] (h2)--node[above,smallnote] {$a$} (h3);
+\draw[flow] (h3)--node[above,smallnote] {$a$} (h4);
+\draw[flow,Green,dashed] (h4.south) to[bend left=25] node[below,smallnote] {gradient transport: $a^{T-i}$} (h1.south);
+\node[smallnote] at (6.5,-.8) {Copying a tensor preserves an autograd edge; detaching removes it and may still alias its storage.};
+\end{tikzpicture}

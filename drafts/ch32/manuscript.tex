@@ -1,0 +1,295 @@
+\chapter{DOGMA state pools and memory ownership}
+\label{ch:evo32}
+\section{The address is not the state}
+Chapter 31 defined a tenant/request-owned state bound to artifact content,
+position and a hidden vector. Reusing physical storage introduces a different
+problem. Request A writes slot zero, finishes, and request B receives that
+slot. A stale reference from A still names the same address. Address equality
+does not mean logical-state equality.
+
+A safe design needs both temporal identity and a reclamation rule. Generation
+numbers reject old handles after reuse. They do not, by themselves, prevent an
+already-running kernel from touching memory before it has finished. This chapter
+therefore adds explicit in-flight pins and deferred release to the incoming
+package's generational pool.
+
+The original implementation is a serialized CPU inference oracle using copied
+scalar snapshots. It is not a concurrent GPU allocator, full DOGMA state layout,
+authentication mechanism or secure-erasure implementation. We use it to state
+and test the obligations that those systems would have to refine.
+
+\section{Map logical identity to bounded storage}
+A pool has capacity $C$, hidden width $D$ and one artifact digest. Every occupied
+slot retains owner $(\text{tenant},\text{request})$, consumed-token position,
+hidden payload, slot generation, update version and in-flight pin records.
+The pool instance has a unique identity separate from its display name.
+
+A \Term{generational handle} contains
+\[
+ \eta=(\text{pool instance},i,g,\text{owner},\text{artifact}),
+ \qquad 0\le i<C.
+\]
+A lookup validates the caller's owner pair, handle fields and current slot
+metadata before exposing a snapshot. Reading with a handle carrying owner A
+while supplying caller B is rejected: owner metadata in a handle is not itself
+caller authorization.
+\Plate{01-logical-physical}{Logical state and physical residency are separate identities. The slot can be reused only under a new generation after reclamation.}{fig:evo32-logical}
+\Listing{Pool._slot}
+
+Exact identity checks within trusted Python code are not authentication.
+A malicious caller controlling the process could inspect private fields or
+forge objects. Production authorization must derive caller identity from a
+trusted boundary, not accept it from arbitrary request input.
+
+\section{Type the pool before allocating}
+The pool is bound to the artifact's digest and declared width, with an
+inference payload of finite float64-compatible scalars and nonnegative integer
+position. Boolean dimensions, Boolean positions, nonfinite values and wrong
+widths are rejected. Validating a complete payload before publication prevents
+a failed initialization from consuming a slot.
+
+One pool class does not imply that full DOGMA has one vector. A real state may
+contain multiple banks, finite windows or other carried fields. Their layouts,
+dtypes and semantics must be part of the typed artifact contract. Matching
+the shape of one tensor does not make two architectures interchangeable.
+
+The reference uses monotonically growing Python integers for generations.
+A bounded hardware counter would require an explicit wraparound policy.
+Allowing an ancient handle to regain validity after counter wrap would undo
+the identity guarantee.
+
+\section{Allocation has an all-or-nothing publication point}
+Allocation first validates owner and optional snapshot, then selects a free
+slot and publishes its payload/owner/header. Exhaustion raises a capacity
+error instead of borrowing another live request's state.
+\Listing{Pool.allocate}
+
+The single-threaded reference can treat owner installation as its publication
+point. A concurrent implementation needs synchronization covering reservation,
+initialization and handle publication. If initialization fails after reservation,
+the implementation must scrub and return the slot without publishing an
+incomplete handle. Our oracle validates before changing slot metadata.
+
+A pool instance identifier also prevents two different pools with the same
+display name from accepting each other's handles. This is a correctness
+namespace, not a secret credential.
+
+\section{Generation and version solve different stale-state problems}
+Generation changes when a slot is reclaimed. Update version changes when a
+live slot's payload changes. They answer different questions:
+\begin{enumerate}
+\item Does the handle still refer to this allocation? Check generation.
+\item Was the result computed from the current live payload? Check version.
+\end{enumerate}
+
+Two computations can pin version zero of the same allocation. If the first
+installs version one, the second must not overwrite it with a result computed
+from version zero. Both handles have the same valid generation; generation
+alone cannot reject the lost update.
+\Plate{03-handle}{Two fences: allocation generation rejects address reuse; live update version rejects a result based on obsolete state.}{fig:evo32-handle}
+
+Tagged pointer/counter structures occur in established concurrent algorithms
+\cite{evo32-michael}. Our pool is not an implementation of their queue, nor a
+claim of lock-free progress. Tagged identity and safe memory reclamation remain
+separate design obligations.
+
+\section{Pin in-flight work before release}
+A \Term{state pin} captures a handle, unique completion serial, live update
+version and immutable input snapshot. The slot records that pin until its
+completion or explicit discard is acknowledged. Pinning a retiring allocation
+is forbidden.
+
+Calling release on an unpinned allocation scrubs its API-visible payload,
+clears its owner and advances the generation. Calling release while pinned
+marks the slot retiring but does not expose it as free. Ordinary read, write
+and new-pin operations then fail. Existing pin completions may settle, but
+their candidate results cannot be installed.
+
+This lifecycle prevents a cancellation request from being mistaken for a
+kernel-completion signal.
+\Plate{02-lifecycle}{Deferred reclamation. A retiring slot remains occupied until the last in-flight acknowledgement; only then may it be scrubbed and reused.}{fig:evo32-lifecycle}
+
+\section{Fence completion and settle every pin}
+The completion path validates the exact pin object, its allocation, caller
+and payload. A candidate may install only when the slot is not retiring and
+its live version matches the captured input version. Its position must be the
+pinned position plus one live token.
+\Listing{Pool.complete}
+
+A discarded completion still removes its pin. When a retiring slot loses its
+last pin, reclamation becomes legal. Duplicate acknowledgement is an error.
+An invalid candidate leaves the pin live so that a caller can explicitly discard
+it through the same completion API; silently dropping the pin would hide
+unfinished-work accounting.
+
+The pool does not verify that arbitrary candidate values actually satisfy the
+model recurrence. The trusted executor must produce those values using
+Chapter 31's native semantics. The pool verifies ownership, layout, temporal
+identity and update boundary, not mathematical reachability of a hidden vector.
+
+\subsection{A cancellation trace with explicit capacity}
+For one slot initialized at position three:
+\begin{center}\input{\Generated/timeline.tex}\end{center}
+Release after pinning leaves zero free slots. The late result is rejected,
+but acknowledging it removes the last pin and permits scrubbing.
+The next owner receives zero state under a new generation. The old handle
+cannot access the new allocation even though the index is unchanged.
+
+This trace is a deterministic event ordering, not a concurrent stress result
+or GPU latency measurement. A leaked pin causes retained capacity; it must be
+diagnosed rather than bypassed by forcibly reassigning the live slot.
+
+\section{Clone values without sharing writable storage}
+The conservative clone reads an immutable snapshot and allocates a new slot
+for a new owner in the same tenant. Later writes to the clone do not affect
+the source. Cross-tenant clone is rejected because no export authorization
+policy is implemented.
+\Plate{04-clone}{Inference clone preserves values and token boundary but allocates independent logical ownership. Same-tenant copying is not permission to export another tenant's state.}{fig:evo32-clone}
+\Listing{Pool.clone}
+
+The reference copies scalars on input and output. Mutating a caller-provided
+list after allocation cannot mutate the slot. A returned snapshot may survive
+release, because it is an independent value, not a writable view of reused
+storage. Clone-by-copy is the semantic oracle for later copy-on-write work.
+
+Clone costs an additional occupied slot. On exhaustion, it fails without
+changing the source. Identical prefixes alone do not justify mutable aliasing.
+
+\section{Bridge to the actual Chapter 31 native state}
+The implementation imports Chapter 31's reference rather than inventing a
+second recurrence. A fresh native tensor is constructed from the pool snapshot,
+with identical owner, artifact, position and hidden values.
+\Listing{to_native}
+
+Saving a native state validates it against its model and owner, checks the
+pool's artifact digest, then copies its values. A separately materialized
+native tensor cannot change the pool through in-place mutation. Tests consume
+a real fixture token, save the resulting state and verify exact values on
+reload.
+
+This is an \Term{inference snapshot}, not a differentiable training continuation.
+Converting tensors to scalar data and rebuilding them removes the graph.
+Chapter 31's derivative parity is not preserved by this pool serialization,
+and we do not claim otherwise. A training-state allocator needs a distinct
+graph-lifetime contract.
+
+The bridge's ordinary save path requires no live pins; asynchronous candidates
+must instead use the fenced completion API. Combining the pool with the shell's
+output publication requires a joint serialized policy for both resources.
+This chapter does not claim that two independent APIs compose into a durable
+transaction automatically.
+
+\section{Workspace has a shorter lifetime}
+A \Term{step workspace} holds temporary projections or reductions, while the
+persistent state must survive continuation boundaries. The teaching workspace
+returns immutable copied values, validates shape and finiteness, and refuses
+use after close. Closing is idempotent and resets its API-visible payload.
+\Plate{05-workspace}{Persistent state and step-local scratch have different lifetimes. Captured input/output snapshots are copied values, not borrowed writable addresses.}{fig:evo32-workspace}
+
+An actual GPU workspace may be borrowed by an asynchronous kernel. Its reuse
+must wait for the corresponding completion event or synchronization, just as
+persistent state reclamation waits for pins. A lexical function return is not
+necessarily a device-completion boundary.
+
+\section{Scrubbing: specify the threat model honestly}
+The reference replaces payload with zeros and clears owner/position metadata
+before exposing a free slot. This prevents its ordinary API from returning a
+previous request's values after reuse.
+
+It does not securely overwrite every copy in Python memory. Old immutable
+snapshots can remain referenced, and garbage collection is not cryptographic
+erasure. Nor does it overwrite VRAM, clear driver caches or protect crash dumps.
+A production erasure claim requires its own platform-specific threat model and
+verification. Resetting logical position alone is still insufficient: every
+persistent carried field must be initialized consistently before reuse.
+
+\section{Account for capacity and physical costs separately}
+At every event,
+\[
+ C=C_{\rm free}+C_{\rm owned}+C_{\rm retiring}.
+\]
+Retiring slots count as occupied even if their request is terminal.
+Pins are counted separately because multiple pins may refer to one occupied
+slot.
+\Plate{06-isolation}{Canary reuse and conservation of capacity. Terminal requests may still hold retiring slots until work settles.}{fig:evo32-isolation}
+
+For a contiguous float64 arena, payload size would be $8CD$ bytes.
+The reference's \texttt{payload\_bytes} reports this logical scalar-payload
+quantity, not Python heap usage. Actual memory also includes metadata, object
+overheads, retained snapshots, kernel buffers, allocator reservations and copies.
+If cloning every branch, those extra occupied slots must enter admission policy.
+
+A useful metric panel reports free/owned/retiring counts, outstanding pins,
+failed allocations, stale-handle events and reclamation delay. It should not
+dump hidden values or prompt-derived state into routine telemetry.
+
+\section{Test against an independent ownership ledger}
+The tests maintain a separate map of owners to expected snapshots while
+performing deterministic randomized allocation/release sequences. Distinct
+canaries identify each request. After reuse, recently stale handles must fail
+and all new zero-initialized allocations must satisfy their initialization
+contract.
+
+Targeted cases add deferred cancellation, multiple outstanding pins, duplicate
+completion, live version conflict, malformed allocation, clone exhaustion,
+caller mismatch, artifact mismatch and native-bridge storage independence.
+These tests are serialized: no race, device stream ordering, synchronization
+primitive or production performance is claimed.
+
+For a concurrent implementation, show that each operation can be linearized
+to a permitted sequential outcome. Force allocate/release, pin/cancel,
+clone/release and completion/reuse races, rather than assuming a high-volume
+throughput test covers those interleavings.
+
+\section{Twenty worked exercises}
+\begin{enumerate}
+\item \textbf{Identity.} Is slot zero a stable request identity?
+\emph{Answer:} no; reuse changes its logical owner.
+\item \textbf{Generation.} What rejects a pre-release handle?
+\emph{Answer:} its old generation differs from current metadata.
+\item \textbf{Version.} What rejects a second result from obsolete live state?
+\emph{Answer:} its pinned update version differs from the current version.
+\item \textbf{Namespace.} Can equal pool display names alias?
+\emph{Answer:} not here; pool-instance identity is distinct.
+\item \textbf{Caller.} Does a handle's owner field authenticate the caller?
+\emph{Answer:} no; caller identity requires a trusted authorization boundary.
+\item \textbf{Allocation failure.} An input snapshot has NaN.
+\emph{Answer:} validation fails before any slot is published.
+\item \textbf{Capacity.} The only slot is retiring with one pin.
+\emph{Answer:} there are zero free slots; allocation must fail or queue externally.
+\item \textbf{Cancellation.} Can release scrub a pinned slot immediately?
+\emph{Answer:} no; mark retiring and wait for acknowledgements.
+\item \textbf{Late result.} May a retiring slot install a candidate?
+\emph{Answer:} no; completion settles its pin but discards the candidate.
+\item \textbf{Two pins.} The first settles after release.
+\emph{Answer:} retain the slot until the second also settles.
+\item \textbf{Duplicate acknowledgement.} Can the same pin settle twice?
+\emph{Answer:} no; it is absent after the first completion.
+\item \textbf{Lost update.} Two pins capture version zero; one installs.
+\emph{Answer:} the second result is discarded because version is now one.
+\item \textbf{Position.} A pin captured position three. Is candidate five legal?
+\emph{Answer:} not for this one-live-token completion contract.
+\item \textbf{Clone.} Does modifying a branch alter its source?
+\emph{Answer:} no; storage is independent.
+\item \textbf{Export.} Does clone allow a different tenant?
+\emph{Answer:} no; an explicit export policy is absent.
+\item \textbf{Snapshot lifetime.} Can a copied snapshot outlive release?
+\emph{Answer:} yes; it is an independent value, not a handle to reused storage.
+\item \textbf{Training.} Does scalar snapshot reload preserve autograd?
+\emph{Answer:} no; this is an inference bridge.
+\item \textbf{Memory.} For $C=4,D=2$, what is logical float64 payload size?
+\emph{Answer:} $64$ bytes, excluding metadata and Python overhead.
+\item \textbf{Erasure.} Does replacement with zeros prove secure erase?
+\emph{Answer:} no; copies and platform storage require separate verification.
+\item \textbf{Concurrency.} Do these serialized tests prove GPU race freedom?
+\emph{Answer:} no; a device implementation must refine the contract and test
+real completion/reclamation races.
+\end{enumerate}
+
+\section{Handoff to checkpoints and shared prefixes}
+Chapter 33's checkpoint, branching and prefix-state candidate must restore
+fresh ownership rather than revive a stale pool handle. Its optimized sharing
+must refine independent-copy semantics and retain model, semantic version and
+exact token boundary. Integrity, authorization and graph lifetime remain
+separate obligations. The bounded pool here supplies the ownership and
+reclamation foundation for that next chapter.

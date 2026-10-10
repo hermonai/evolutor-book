@@ -1,0 +1,298 @@
+\chapter{DOGMA state construction and execution}
+\label{ch:evo31}
+\section{Make the native state executable}
+Chapter 30 supplied a serialized request lifecycle: admission, ownership,
+capacity reservation, completion fencing and cleanup. It did not specify how
+a native model consumes a token. This chapter fills that narrow gap with a
+fully auditable recurrence, then attaches its state changes to the shell.
+
+Our implementation is an \Term{input-gated diagonal recurrence}, not a complete
+DOGMA model. DOGMA denotes the non-Transformer research direction; HermonDNA
+denotes the Transformer branch; Evolutor is the broader orchestration and research
+system. The toy here establishes arithmetic and interface properties, not
+training quality, genomic capability, architectural novelty or production
+performance. Its gate depends on current input, not previous hidden state.
+This restriction is precisely why an independent affine closed form is possible.
+
+The reader will construct a content-bound state, ingest a masked prompt without
+emitting output, calculate logits by hand, verify derivatives independently,
+and stage a decode step that cannot advance native state after cancellation.
+All tables and literal code listings come from
+\texttt{drafts/ch31/reference.py}.
+
+\section{Declare the artifact, not only its name}
+The artifact contains an ordered vocabulary of size $V$, embedding
+$E\in\mathbb R^{V\times D}$, retention $a\in[0,1)^D$, write parameter
+$w\in\mathbb R^D$ and output head $H\in\mathbb R^{D\times V}$.
+The reference requires finite CPU float64 tensors and an explicit schema version.
+Reordering vocabulary strings while leaving the matrix unchanged changes the
+meaning of every token ID.
+
+A \Term{content-bound artifact} is identified by canonical serialization of
+schema, dtype, device, vocabulary and all parameter values. The SHA-256 digest
+is recomputed at execution boundaries in this teaching oracle.
+It detects changes, including in-place tensor edits, rather than trusting a
+human-readable model label. It does not authenticate the publisher, prove that
+a checkpoint was trained, or certify that a hidden state was reached by the
+advertised prefix.
+
+Production systems should validate immutable loaded artifacts once and use
+protected handles. Hashing all parameters on every token is intentionally
+expensive here and is not a proposed high-throughput serving design.
+\Plate{01-constructor}{Artifact construction binds data representation and token semantics. A frozen Python record does not freeze the storage of its tensors.}{fig:evo31-constructor}
+\Listing{artifact_id}
+
+\section{Construct and validate the state}
+The state header is
+\[
+ S=(\text{tenant},\text{request},\text{artifact digest},p,h),
+ \qquad p\in\mathbb N_0,\quad h\in\mathbb R^D.
+\]
+Construction initializes $p=0$ and $h=\mathbf0$ without consuming a prompt.
+Tenant and request form an exact ownership pair. A valid header, correctly
+shaped finite hidden vector and matching artifact digest are checked on the
+actual native-step path, including an empty ingestion call.
+
+This is stronger than an optional assertion that callers may forget to invoke.
+It is weaker than authentication: trusted Python code can construct or alter
+objects. State reachability, signed checkpoint provenance and authorization are
+separate obligations. The reference also has no GPU/device-transfer policy,
+mixed precision, batch allocator or persisted checkpoint format.
+
+\section{Derive one native step}
+For a token ID $x_t\in\{0,\ldots,V-1\}$,
+\begin{align}
+ e_t&=E[x_t]\in\mathbb R^D,\\
+ q_t&=\sigma(w\odot e_t)\in(0,1)^D,\\
+ b_t&=q_t\odot e_t,\\
+ h_t&=a\odot h_{t-1}+b_t,\\
+ z_t&=h_tH\in\mathbb R^V.
+ \label{eq:evo31-step}
+\end{align}
+$\odot$ denotes elementwise multiplication. The gate weights the current
+embedding's write, not the historical state. Signed embeddings still produce
+signed writes; a sigmoid gate does not turn $h$ into probabilities.
+
+The state position counts consumed live tokens, not predicted tokens or
+delivered bytes. Each accepted native step produces a new tensor and increments
+$p$ once. No input tensor is updated in place. A nonfinite hidden vector or
+logit vector is rejected even when all parameters were initially finite.
+\Plate{03-step}{Shape-annotated native dataflow. Retention transports history; the input-only gate contributes a new write. There is no attention matrix or KV cache.}{fig:evo31-step}
+\Listing{native_step}
+
+\subsection{Bound state magnitude without promising useful memory}
+If $|b_{t,j}|\le M_j$, then repeated substitution yields
+\[
+ |h_{t,j}|\le a_j^t|h_{0,j}|+
+ M_j\sum_{k=0}^{t-1}a_j^k
+ =a_j^t|h_{0,j}|+M_j\frac{1-a_j^t}{1-a_j}.
+\]
+For this finite vocabulary, $M_j=\max_v|E_{v,j}|$ is sufficient because
+$0<q_{t,j}<1$. The bound can become large when $a_j$ approaches one.
+It bounds magnitude, not the semantic quality or recoverability of remembered
+information. Fixed $D$ also does not imply constant execution cost: the dense
+output projection costs $O(DV)$ per live token, and this oracle's digest checks
+read the complete parameter artifact.
+
+\section{Ingest chunks and masks}
+The ingestion function validates all live token IDs before entering the loop.
+A malformed tail therefore cannot mutate the caller's input state. It also
+requires a Boolean mask with exactly one flag per token row.
+A false row performs no embedding lookup, holds the hidden state and position,
+and emits an all-zero row vector by convention. That vector is a placeholder,
+not a probability distribution or a next-token prediction.
+
+Masking is not request reset. A new request requires fresh construction and a
+new owner; silently resetting at padding would corrupt continuation semantics.
+An empty chunk retains the state but still checks owner and artifact.
+\Plate{02-ingest}{Masked chunk example. Padding neither consumes a token nor advances position. The full chunk is preflighted before live-row execution.}{fig:evo31-ingest}
+\Listing{ingest}
+
+\section{Verify exact arithmetic before optimizing}
+Choose vocabulary strings $(\texttt{0},\texttt{1},\texttt{2})$ and
+\[
+ E=\begin{pmatrix}0&0\\1&0\\0&1\end{pmatrix},\quad
+ a=(1/2,1/4),\quad w=(0,0),\quad
+ H=\begin{pmatrix}0&1&-1\\0&-1&1\end{pmatrix}.
+\]
+Every gate equals $1/2$. Starting from zero, the prefix $(1,2,1)$ gives:
+\begin{center}\input{\Generated/trace.tex}\end{center}
+For example, the second state is
+$(\tfrac12\cdot\tfrac12,\tfrac14\cdot0+\tfrac12)
+=(\tfrac14,\tfrac12)$.
+The third is $(\tfrac58,\tfrac18)$, and its logits are
+$(0,\tfrac12,-\tfrac12)$.
+These rational values provide an independent oracle stronger than comparing
+two calls to the same implementation.
+\Plate{05-output}{An exact untrained fixture. Consuming a prefix and predicting a following token are distinct operations. Values are computed arithmetic, not a genomic benchmark.}{fig:evo31-output}
+
+\section{A closed form and ordered chunk composition}
+Since $b_t$ depends only on the token,
+\begin{equation}
+ h_{T,j}=a_j^T h_{0,j}+
+       \sum_{i=1}^{T}a_j^{T-i}\sigma(w_jE_{x_i,j})E_{x_i,j}.
+ \label{eq:evo31-closed}
+\end{equation}
+The scalar implementation expands this sum using Python arithmetic.
+It never calls \texttt{native\_step}; therefore it can detect indexing,
+retention and head-projection mistakes in the tensor path.
+\Listing{scalar_closed_form}
+
+A chunk represents $h\mapsto A\odot h+B$. Applying left chunk then right chunk
+gives
+\[
+ (A_R,B_R)\circ(A_L,B_L)=
+ (A_R\odot A_L,\ A_R\odot B_L+B_R).
+\]
+Composition is associative because these are affine functions. It is generally
+not commutative: changing token order changes the accumulated writes.
+This recovers the restricted affine algebra of Chapter 26, not proof that a
+full state-dependent DOGMA implementation supports the same scan.
+\Plate{04-chunks}{Ordered affine chunk composition and gradient transport. Forward parity, derivative parity and storage independence are separate properties.}{fig:evo31-chunks}
+
+\section{Check derivatives independently}
+For a scalar final-state component,
+\[
+ \frac{\partial h_{T,j}}{\partial w_j}=
+ \sum_{i=1}^{T}a_j^{T-i}
+ \sigma(w_jE_{x_i,j})(1-\sigma(w_jE_{x_i,j}))E_{x_i,j}^{\,2}.
+\]
+At $w=0$ for prefix $(1,2,1)$, this gives
+$\partial(h_{T,1}+h_{T,2})/\partial w=
+(\tfrac14(1+\tfrac14),\tfrac14\cdot\tfrac14)
+=(.3125,.0625)$.
+The tests compare autograd with both this derivation and central finite
+differences at multiple write values.
+
+For the initial state,
+$\partial h_{T,j}/\partial h_{0,j}=a_j^T$.
+A small $a_j$ can erase gradients even though forward values remain bounded.
+Near-one retention trades slower forgetting for a larger magnitude envelope.
+Neither observation says that the model has learned useful long-range
+dependencies.
+
+\subsection{Copying, detaching and aliasing are not synonyms}
+PyTorch distinguishes a differentiable copy from detachment
+\cite{evo31-clone,evo31-detach}. A clone preserves the graph connection.
+Detachment removes that connection but shares underlying storage.
+Consequently, replacing a chunk boundary with \texttt{detach()} can preserve
+forward outputs while breaking training parity, and may still permit aliasing.
+A detached, storage-independent inference snapshot requires an explicit copy;
+a training continuation must retain the appropriate graph instead.
+
+The chunk tests split the prefix at every boundary and compare the derivative
+against the analytical result. This does not verify gradients of a larger
+learned architecture or its optimizer.
+
+\section{Define next-token semantics}
+$z_t$ predicts a token following the consumed prefix through $t$.
+Greedy decoding chooses $\hat x_{t+1}=\arg\max z_t$ and then consumes that
+selected token to prepare the next prediction. For the fixture after
+$(1,2,1)$, greedy ID $1$ is new output; it is not an instruction to re-emit the
+last prompt token because both happen to be equal.
+
+The adapter's state includes every generated token after its successful commit.
+Thus $p=p_{\rm prompt}+r$, where $r$ is the shell's committed decode revision.
+The fixture uses one-character token strings; it has no EOS convention, trained
+tokenizer, stochastic sampler or multi-token text detokenizer.
+A session requires an already consumed prompt or an explicitly supplied BOS
+token. It does not invent a BOS ID or silently treat zero-state logits as a
+prompt-conditioned prediction.
+
+\section{Stage the native result before shell publication}
+Chapter 30's \texttt{Runtime.launch} reserves queue capacity and returns a ticket
+bound to a lease generation and revision. Our \Term{staged decode} computes a
+candidate result privately. Native state remains unchanged until
+\texttt{Runtime.commit} accepts the corresponding output.
+
+The adapter checks owner, artifact, current state stamp, candidate stamp,
+position and head consistency. The stamps detect accidental tensor mutation
+while work is pending. Parameter changes are rejected by the digest.
+Duplicate or foreign completion objects are rejected before publication.
+\Plate{06-shell}{Serialized in-process commit ordering. Late or cancelled work settles its ticket but never installs the candidate hidden state.}{fig:evo31-shell}
+\Listing{Session.finish}
+
+Three distinct outcomes matter:
+\begin{enumerate}
+\item Capacity unavailable: no ticket, no native computation, no state advance.
+\item Valid accepted completion: commit one output item, then install its
+already validated candidate state.
+\item Cancelled, deadline-expired or invalid completion: settle/discard work
+without installing the candidate.
+\end{enumerate}
+For a live prompt state at position three and zero decode revision, a successful
+step produces position four and revision one. A cancelled step leaves position
+three and revision zero. The tests check both facts, not just the terminal reason.
+
+This is a serialized, trusted, in-process adapter. Publication and Python
+assignment are not a durable distributed transaction: a process crash between
+them requires recovery machinery that is absent here. The adapter also does not
+schedule prefill, run GPU kernels, authenticate callers, protect Python memory
+from hostile code, or implement a network transport.
+
+\section{What the tests establish}
+All length-three fixture sequences are checked against independent scalar
+arithmetic. Additional tests exercise mask semantics, invalid tails, vocabulary
+reordering, parameter mutation, wrong owners, malformed states, derivative
+continuity, finite differences, cancellation, deadlines, backpressure and
+duplicate completion. Suffix changes do not alter earlier prefix outputs.
+
+These are bounded deterministic checks of a declared teaching implementation.
+They do not measure throughput, prove security against a malicious caller,
+demonstrate biological validity or establish equivalence to a trained DOGMA
+model. Trace metadata should not log token IDs or hidden values in an untrusted
+production environment; the printed fixture is deliberately public toy data.
+
+\section{Worked exercises}
+\begin{enumerate}
+\item \textbf{Shapes.} For $V=3,D=2$, give embedding and head shapes.
+\emph{Answer:} $[3,2]$ and $[2,3]$.
+\item \textbf{Gate.} What is $q$ when $w=0$? \emph{Answer:} $1/2$ in each
+coordinate, independently of the embedding.
+\item \textbf{First token.} Consume ID 1 from zero. \emph{Answer:}
+$h=(.5,0)$ and $z=(0,.5,-.5)$.
+\item \textbf{Second token.} Then consume ID 2. \emph{Answer:}
+$h=(.25,.5)$ and $z=(0,-.25,.25)$.
+\item \textbf{Order.} Reverse the prefix $(1,2)$.
+\emph{Answer:} $(2,1)$ gives $h=(.5,.125)$, demonstrating noncommutativity.
+\item \textbf{Magnitude.} With $M=.5,a=.5,h_0=0$, give the asymptotic bound.
+\emph{Answer:} $M/(1-a)=1$.
+\item \textbf{Semantics.} Are signed hidden values probabilities?
+\emph{Answer:} no; neither the embedding nor output projection is normalized.
+\item \textbf{Masked row.} What does a false mask do?
+\emph{Answer:} no lookup, unchanged hidden state and position, zero placeholder
+logits, not a prediction.
+\item \textbf{Invalid tail.} Does a valid first row authorize consuming an
+invalid second row? \emph{Answer:} no; full live-ID preflight rejects the chunk.
+\item \textbf{Owner.} Can another tenant use the same request string?
+\emph{Answer:} not with this state; the ownership pair must match exactly.
+\item \textbf{Empty chunk.} Can it bypass artifact validation?
+\emph{Answer:} no; validation occurs before the loop.
+\item \textbf{Vocabulary.} Does swapping strings preserve artifact identity?
+\emph{Answer:} no; ordered strings are part of canonical content.
+\item \textbf{Mutation.} Does a frozen dataclass freeze its tensors?
+\emph{Answer:} no; storage remains mutable, so the oracle rechecks its digest.
+\item \textbf{Closed form.} Find the coefficient transporting write $b_1$
+through a length-three prefix. \emph{Answer:} $a^2$.
+\item \textbf{Derivative.} Find the fixture's write gradient.
+\emph{Answer:} $(.3125,.0625)$ for the sum of final hidden components.
+\item \textbf{Graph.} Can detachment preserve forward values but break training?
+\emph{Answer:} yes; it removes the gradient edge.
+\item \textbf{Storage.} Does detachment produce independent storage?
+\emph{Answer:} no; use an explicit copy when independence is required.
+\item \textbf{Position.} A prompt consumes three tokens and one decode commits.
+\emph{Answer:} native position four, shell decode revision one.
+\item \textbf{Cancellation.} A staged step completes after cancellation.
+\emph{Answer:} discard the candidate; native position and committed revision
+remain unchanged.
+\item \textbf{Durability.} Is local commit-plus-assignment a crash-safe
+transaction? \emph{Answer:} no; a persistent recovery protocol is a separate
+implementation obligation.
+\end{enumerate}
+
+\section{Handoff to state pools and memory ownership}
+Chapter 32 makes logical state reusable in bounded physical storage.
+Its generational handles, scrubbing and clone semantics must preserve the
+owner, artifact, position and hidden-state contract established here. An
+allocator slot is not a request identity. The gradient distinction above also
+constrains whether a pool copy is an inference snapshot or a training continuation.

@@ -1,0 +1,67 @@
+{
+  "timeline": [
+    {
+      "event": "initial",
+      "capacity": 1,
+      "free": 1,
+      "owned": 0,
+      "retiring": 0,
+      "pins": 0,
+      "payload_bytes": 16
+    },
+    {
+      "event": "allocate",
+      "capacity": 1,
+      "free": 0,
+      "owned": 1,
+      "retiring": 0,
+      "pins": 0,
+      "payload_bytes": 16
+    },
+    {
+      "event": "pin",
+      "capacity": 1,
+      "free": 0,
+      "owned": 1,
+      "retiring": 0,
+      "pins": 1,
+      "payload_bytes": 16
+    },
+    {
+      "event": "release",
+      "capacity": 1,
+      "free": 0,
+      "owned": 0,
+      "retiring": 1,
+      "pins": 1,
+      "payload_bytes": 16
+    },
+    {
+      "event": "late result",
+      "capacity": 1,
+      "free": 1,
+      "owned": 0,
+      "retiring": 0,
+      "pins": 0,
+      "payload_bytes": 16
+    },
+    {
+      "event": "reuse",
+      "capacity": 1,
+      "free": 0,
+      "owned": 1,
+      "retiring": 0,
+      "pins": 0,
+      "payload_bytes": 16
+    }
+  ],
+  "late_accepted": false,
+  "fresh_zero": [
+    0.0,
+    0.0
+  ],
+  "generations": [
+    0,
+    1
+  ]
+}

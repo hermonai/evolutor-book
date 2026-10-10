@@ -1,0 +1,13 @@
+\begin{tikzpicture}
+\node[note,font=\bfseries\sffamily] at (6.5,5.8) {The artifact is more than a display name};
+\foreach \y/\txt in {4.8/{Ordered vocabulary},3.8/{Embedding $E[V\,D]$},2.8/{Retention and write $a,w[D]$},1.8/{Output head $H[D\,V]$}, .8/{Schema; CPU; float64}}{
+ \fill[Pale] (0,\y-.35) rectangle (5,\y+.35);
+ \node[note] at (2.5,\y) {\txt};
+ \draw[flow] (5,\y)--(6.7,2.8);
+}
+\node[draw,Blue,rounded corners,note,minimum width=3cm,minimum height=1.4cm] (hash) at (8.2,2.8) {Canonical serialization\\SHA-256 digest};
+\draw[flow] (hash.east)--(11.1,2.8);
+\node[note,text width=3.2cm] at (12.3,2.8) {State header:\\tenant, request, digest,\\position $=0$};
+\node[note] at (7.6,.4) {$h_0=\mathbf 0[D]$; no prompt consumed};
+\node[smallnote,Red] at (6.5,-.5) {Execution rechecks parameter content; a frozen dataclass does not make tensor storage immutable.};
+\end{tikzpicture}

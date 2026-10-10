@@ -1,88 +1,76 @@
 # Current manuscript and repository guide
 
-Updated 6 October 2026. This guide identifies the active work; it does not
-promote a review candidate into an accepted edition.
+Updated 10 October 2026. Active content reaches Chapter 32 of the 52-chapter
+plan. Locally reviewed candidates are not an accepted publication edition.
 
 ## Start here
 
-- Latest integrated chapter candidate: [30 — Runtime contracts and request lifecycles](drafts/ch30/README.md).
-- Current scope and chapter responsibilities: [editorial architecture](EDITORIAL_ARCHITECTURE.md).
-- Opening LaTeX revision: [revision guide](TEXTBOOK_REVISION.md).
-- Production criteria: [textbook standard](TEXTBOOK_STANDARD.md) and [chapter standard](CHAPTER_STANDARD.md).
+- [Chapter 31 — DOGMA state construction and execution](drafts/ch31/README.md)
+- [Chapter 32 — DOGMA state pools and memory ownership](drafts/ch32/README.md)
+- [Editorial architecture and release gates](EDITORIAL_ARCHITECTURE.md)
+- [Package convergence matrix](research/integration/chapter-convergence-matrix.md)
+- [Continuous PDF hash, review scope and open release gates](research/integration/continuous-through32-review.json)
+- [Textbook standard](TEXTBOOK_STANDARD.md) and [chapter standard](CHAPTER_STANDARD.md)
 
 ## One manuscript, explicit stages
 
-| Material | Where to work or read | Status |
+| Material | Active location | Status |
 |---|---|---|
-| Opening Chapters 1–3 revision | tex/ and TEXTBOOK_REVISION.md | Textbook review candidate; accepted opening preserved separately |
-| Standalone Chapter 3 | drafts/ch03/README.md | Earlier review candidate and figure sources |
-| Chapters 4–20 | drafts/ch04/ through drafts/ch20/ | Authored standalone review candidates |
-| Chapter 21 | drafts/ch21/README.md | New standalone review candidate |
-| Accepted Chapters 1–2 | book/book.json and existing acceptance records | Frozen; not a claim that Chapters 3–21 are cumulatively accepted |
-| Historical editions | Existing historical sources and preservation tests | Archives, not parallel active authoring |
-
-Read chapters in numerical order. The latest standalone PDF is not the entire
-book. The new continuous authored-LaTeX builder consolidates notation, bibliography,
-index and cross-references through the explicitly requested chapter. Later candidates must retain compatible interfaces;
-integration and independent specialist/reader review are explicit open gates.
-BOOK_PLAN.md is a generated acceptance snapshot and long-range chapter spine,
-not a live list of completed drafts. Do not edit frozen status files to make
-progress appear larger.
-
-## What belongs in each folder
-
-| Folder | Purpose | Cleanup rule |
-|---|---|---|
-| drafts/, tex/, figures/, examples/ | Authored text, diagrams and reference implementations | Preserve; never treat as build cache |
-| tests/ | Numerical, semantic and preservation checks | Preserve and run |
-| artifacts/deep/ | Review records binding source and PDF hashes | Preserve; update only after actual review |
-| output/pdf/ | Readable generated PDFs and preserved publications | Do not blanket-delete; inspect edition and provenance first |
-| build/ | Generated tables/listings, LaTeX auxiliaries, compiler PDFs and logs | Disposable only after checking tracked files and active builds |
-| tmp/pdfs/ | Rendered page images used for visual QA | Regenerable; not manuscript sources |
-
-A .tex file under build/ may be a generated table, not an authored chapter.
-Edit the owning drafts/chNN/manuscript.tex or its figures instead. An identical-looking
-PDF under build/ is a compiler product; read the named file under output/pdf/.
-
-## Clean current workflow
-
-Use the chapter README commands for standalone reviews. For continuous assembly,
-run Python 3.13: scripts/build-convergence.py --through 30 --refresh-assets.
-This produces output/pdf/evolutor-convergence.pdf and a source-bound build
-report in build/convergence/. It is a cumulative review candidate, not an accepted
-full planned book. --check on chapter builders verifies existing computed assets.
-Do not use historical-pdf or older cumulative builders merely to preview a new
-chapter: those are explicit reproduction workflows and recreate their own caches.
-
-On 27 September 2026, the two books' old build trees (1,148 files, approximately
-102 MB combined) were moved to a dated macOS Trash archive, not deleted.
-Authored files, prior review PDFs, acceptance records and historical editions
-were retained. Current chapter builds and the regression suite recreate only
-the caches they need (including textbook validation assets). The local
-archive includes a recovery receipt. Future cleanup should likewise resolve
-exact paths, confirm no tracked source or active process, then archive rather
-than recursively delete a repository directory.
-
-## Next editorial milestone
-
-Chapter 31 develops DOGMA state construction and execution inside the Chapter30
-lifecycle. Verify actual legal-prefix/state transitions, not only revision counters.
-Use evolutor-ch31-r01.zip as its source candidate; full DOGMA semantics remain
-distinct from restricted affine models and HermonDNA Transformer KV state.
-Primary sources inform questions; local implementation checks do not establish biological capability or industrial leadership.
-
-# Package convergence in progress — 6 October 2026
-
-Chapters 22–30 have been semantically integrated, rewritten, tested and locally
-visually reviewed as standalone candidates. Source-bound evidence is tracked
-in the matrix, not inferred from file presence. The integration branch preserves the earlier
-accepted edition. Remaining packages and cumulative/full-book gates are tracked
-separately in `research/integration/chapter-convergence-matrix.md`; this update is
-not an acceptance promotion. Use the declared Python environment (Python 3.11+;
-PyTorch required for Evolutor), not the macOS system Python.
+| Opening Chapters 1–3 | tex/ and TEXTBOOK_REVISION.md | Textbook review candidate |
+| Chapters 4–21 | drafts/ch04/ through drafts/ch21/ | Authored standalone candidates |
+| Chapters 22–32 | drafts/ch22/ through drafts/ch32/ | Source-bound locally reviewed candidates |
+| Continuous Chapters 1–32 | output/pdf/evolutor-convergence.pdf | Authored-source cumulative review candidate |
+| Chapters 33–52 | Inventoried source ZIPs | Staged, not silently included |
+| Accepted Chapters 1–2 | book/book.json and acceptance records | Frozen, not superseded acceptance |
+| Historical editions | Existing sources and preservation tests | Archives, not parallel authoring |
 
 Every explicitly requested evolutor-ch30-r01.zip through evolutor-ch52-r01.zip
-is inventoried with archive digest, canonical mapping and separate gates.
-Chapter 30 is integrated; Chapters 31–52 remain staged source candidates for
-sequential inspection and integration. See research/integration/package-inventory.json
-and the convergence matrix. Referencing a package does not mark it completed.
+is inventoried with digest, mapping and separate gates. Chapters 30–32 have
+been used and semantically integrated. Following Chapter 33 was inspected to
+check the handoff; inspection is not completed integration.
+Preserved incoming metadata is provenance, not local validation.
+
+## Build and verify
+
+Use Python 3.13.6 at /Users/wenyan/.pyenv/versions/3.13.6/bin/python3 and
+OMP_NUM_THREADS=1 for the declared CPU PyTorch references.
+
+- Chapter builders: drafts/chNN/build.py --render; --check verifies computed assets.
+- Continuous build: scripts/build-convergence.py --through 32 --refresh-assets.
+- Regression: python -m pytest -q -o addopts=''.
+- Do not build PDFs concurrently with preservation tests in the same repository.
+
+The continuous builder assembles authored LaTeX with reconciled bibliography,
+global glossary, index and chapter references. The pedagogical acknowledgment
+appears once in front matter. A successful build is not cumulative visual review.
+
+## Folder and cleanup policy
+
+Authored drafts/, tex/, figures/, examples/ and tests/ are source, not cache.
+research/integration/ holds durable provenance and local evidence.
+output/pdf/ contains readable candidates and preserved editions; inspect
+provenance before removal. build/ contains generated tables, listings, compiler
+outputs and logs. tmp/pdfs/ contains regenerable visual-review pages.
+
+On 27 September 2026, the books' legacy build trees (1,148 files, about 102 MB
+combined) were moved to dated macOS Trash with a recovery receipt. Authored
+sources, accepted PDFs and historical editions remained unchanged. Resolve
+exact targets and archive before future cleanup; never blanket-delete the repo.
+
+## Next: Chapter 33 checkpoints, branching and prefix states
+
+Chapter 31 binds native inference to model content and legal token position.
+Chapter 32 adds bounded storage, caller ownership, allocation generations,
+in-flight pinning and deferred reclamation. Full regression: 1,212 passed.
+The new standalone PDFs are 15 and 14 pages, each with six vector/TXT plates
+and twenty worked exercises.
+
+Chapter 33 must restore fresh ownership, validate exact token/artifact/semantic
+boundaries and preserve independent-copy semantics before optimized sharing.
+Scalar inference snapshots do not preserve autograd; integrity does not confer
+authorization. Keep DOGMA non-Transformer and HermonDNA Transformer identities
+distinct. No hardware speed, genomic capability or production safety is implied.
+
+Cumulative editorial/visual QA, independent scientific and reader review remain
+open. Chapter acceptance and full-book convergence remain false.
+BOOK_PLAN.md is the generated frozen acceptance snapshot, not a progress counter.

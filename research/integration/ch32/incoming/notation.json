@@ -1,0 +1,11 @@
+{
+  "C": "pool slot capacity",
+  "D": "state width",
+  "b": "bytes per element",
+  "eta": "generational handle (pool,slot,generation,request,model)",
+  "g": "slot generation",
+  "S_t": "logical DOGMA state",
+  "H": "physical state storage",
+  "M_state": "persistent pool memory",
+  "M_workspace": "temporary workspace memory"
+}

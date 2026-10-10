@@ -3,6 +3,14 @@
 Start with the [current manuscript and folder guide](CURRENT_MANUSCRIPT.md)
 for active chapters, readable outputs, review status and build-cache policy.
 
+Current milestone (10 October 2026): Chapters 31–32 are locally reviewed,
+source-bound candidates with twelve original vector/TXT plates, forty worked
+exercises and 107 new tests. Continuous authored-source assembly reaches Chapter
+32 (402 pages); Chapters 33–52 remain staged. Full regression: 1,212 passed.
+See [Chapter 31](drafts/ch31/README.md), [Chapter 32](drafts/ch32/README.md)
+and [next chapter/gates](CURRENT_MANUSCRIPT.md). Next: checkpoints, branches and
+prefix-state sharing. Preserved accepted editions remain unchanged.
+
 The shared [About this book note](tex/frontmatter/about-this-book.tex) owns
 the pedagogical acknowledgment and general evidence/review policy. It is
 authored front matter for one-time inclusion in the next integrated edition;
@@ -60,4 +68,4 @@ astra-undergraduate-rewrite is a pedagogical archive, not a parallel manuscript.
 
 The original eight-section [preproduction outline](CHAPTER_1_OUTLINE.md) is retained as design history. The actual chapter deliberately expands it to 12 sections and ten figures. Full source-access details live in [the chapter source review](research/deep-ch01-sources.md). Review is author-agent work, not independent scientific certification or a real-reader study.
 
-[Chapter 21: Strands, complements and dual-state hypotheses](drafts/ch21/README.md) adds explicit output symmetry, a proved dual-state lift, tied strand readouts, causality limits, chunk/gradient parity and falsifiable evaluation contracts. Five editable vector/TXT figures, twelve worked exercises and executable reference tests accompany the derivations. Chapter 22 is next; cumulative integration remains pending.
+[Chapter 21: Strands, complements and dual-state hypotheses](drafts/ch21/README.md) adds explicit output symmetry, a proved dual-state lift, tied strand readouts, causality limits, chunk/gradient parity and falsifiable evaluation contracts. Five editable vector/TXT figures, twelve worked exercises and executable reference tests accompany the derivations. Chapters 22–32 are now integrated review candidates; cumulative acceptance remains pending.

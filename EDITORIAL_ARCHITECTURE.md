@@ -1,6 +1,6 @@
 # Editorial architecture and release roadmap
 
-Updated 6 October 2026. This is the current execution map, not a claim
+Updated 10 October 2026. This is the current execution map, not a claim
 that every planned chapter is written or independently reviewed.
 
 ## One manuscript, distinct review stages
@@ -13,8 +13,8 @@ to change their progress labels.
 Chapters 1-2 retain their internal acceptance records. Chapter 3 has standalone
 and combined LaTeX review candidates. Chapters 4-21 have isolated authored-LaTeX
 review candidates with code, vector figures, and worked solutions.
-Chapters 22-30 now have source-bound locally reviewed standalone integration
-candidates. Chapters 31-52 remain staged ZIP candidates requiring semantic
+Chapters 22-32 have source-bound locally reviewed standalone integration
+candidates. Chapters 33-52 remain staged ZIP candidates requiring semantic
 inspection and their own validation gates. Chapters 11-21 were authored at the
 reader's explicit request while the Chapters 1-10 integration milestone remains
 pending. These standalone candidates do not substitute for that integration.
@@ -173,14 +173,29 @@ draining and physical cleanup separate. Derive independent work/output
 conservation and check all 7,776 bounded event words against a manual oracle.
 Six algorithm plates and twenty worked exercises expose the contract; no
 production concurrency, durable journal or full engine semantics are inferred.
-Chapter 31 must bind actual native state transitions inside this shell.
+Chapter 31 binds actual native state transitions inside this shell.
+
+## Chapters 31–32: native execution and physical-state lifetime
+
+Chapter 31 constructs artifact-bound input-gated recurrence and checks scalar
+arithmetic, exact rational fixtures and independent derivatives. Staged state
+installs only after accepted shell publication; it is not a full DOGMA benchmark.
+Chapter 32 maps logical state to reusable bounded storage, distinguishes
+generation from version, pins in-flight work and retires slots until final
+acknowledgement. Independent same-tenant clones and a native inference bridge
+are checked against canary/accounting oracles. Six vector/TXT plates and twenty
+worked exercises in each chapter expose assumptions and failures.
+
+Next: Chapter 33 restores fresh ownership at exact checkpoint/token boundaries.
+Shared prefixes must refine independent-copy semantics; integrity, authorization,
+autograd lifetime and physical reclamation remain distinct contracts.
 
 ## Pending milestone: cumulative editorial and independent review
 
 Audit record validity, tensor notation, normalization conventions, routing
 cohorts, gradient history, and source closure, including the interfaces now
 used by Chapters 11-21. Separate biological regulation from expert routing.
-The continuous authored-source entry point now builds Chapters 1-30 with unified
+The continuous authored-source entry point now builds Chapters 1-32 with unified
 bibliography, glossary and index. Its compilation does not close this editorial
 or independent review milestone. Retain standalone candidates and accepted
 editions unchanged. Do not promote acceptance

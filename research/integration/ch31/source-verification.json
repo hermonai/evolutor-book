@@ -1,0 +1,22 @@
+{
+  "date": "2026-10-10",
+  "chapter": 31,
+  "book": "evolutor",
+  "original_archive": "evolutor-ch31-r01.zip",
+  "inherited_claims_adopted": false,
+  "sources": [
+    {
+      "url": "https://docs.pytorch.org/docs/2.10/generated/torch.clone.html",
+      "access": "complete API entry"
+    },
+    {
+      "url": "https://docs.pytorch.org/docs/2.10/generated/torch.Tensor.detach.html",
+      "access": "complete API entry"
+    },
+    {
+      "path": "drafts/ch30/reference.py",
+      "access": "local source inspected and directly imported"
+    }
+  ],
+  "limitations": "No experiment replication, training benchmark or independent acceptance."
+}

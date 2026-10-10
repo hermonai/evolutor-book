@@ -1,0 +1,4 @@
+Figure 32.1 — Logical state versus storage address.
+Owner (tenant, request), artifact and valid-token position describe logical state.
+Pool-instance identity, slot, allocation generation and state version describe
+reusable storage. A validated handle connects them; a slot number alone is not identity.

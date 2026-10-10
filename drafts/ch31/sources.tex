@@ -1,0 +1,17 @@
+\begin{thebibliography}{9}
+\bibitem{evo31-clone} PyTorch contributors.
+\texttt{torch.clone}, version 2.10 API documentation.
+\url{https://docs.pytorch.org/docs/2.10/generated/torch.clone.html}.
+The complete API entry was inspected; cloning copies storage and preserves autograd relationships.
+\bibitem{evo31-detach} PyTorch contributors.
+\texttt{Tensor.detach}, version 2.10 API documentation.
+\url{https://docs.pytorch.org/docs/2.10/generated/torch.Tensor.detach.html}.
+The complete API entry was inspected; detachment removes graph relationships but shares storage.
+\bibitem{evo31-internal} Evolutor book reference implementations:
+Chapter 26 restricted affine composition; Chapter 28 artifact and ownership
+contracts; Chapter 30 serialized request lifecycle, specifically
+\texttt{drafts/ch30/reference.py}.
+Chapter 31 imports that local runtime rather than duplicating its implementation.
+Original recurrence derivations, rational fixtures and vector plates are teaching
+artifacts; internal reference checks are not independent model validation.
+\end{thebibliography}

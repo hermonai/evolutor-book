@@ -1,0 +1,39 @@
+[
+  {
+    "key": "EVOD20",
+    "claim": "DOGMA structured state includes multiple carried fields whose reset/ownership semantics must survive pooling.",
+    "primary": "internal EVOD-20",
+    "access_date": "2026-10-05",
+    "access_depth": "live GitHub manuscript inspected"
+  },
+  {
+    "key": "EVOD21",
+    "claim": "Cached state needs record/orientation/model/boundary metadata, not only a correctly shaped vector.",
+    "primary": "internal EVOD-21",
+    "access_date": "2026-10-05",
+    "access_depth": "live GitHub manuscript inspected"
+  },
+  {
+    "key": "EVOD30",
+    "claim": "Request lifecycle owns admission, logical state ownership, terminal cleanup and isolation.",
+    "primary": "external EVOD-30 package continuity",
+    "access_date": "2026-10-05",
+    "access_depth": "package continuity"
+  },
+  {
+    "key": "EVOD31",
+    "claim": "DOGMA state binds request/model identity and chunk continuation preserves exact causal execution.",
+    "primary": "external EVOD-31 package continuity",
+    "access_date": "2026-10-05",
+    "access_depth": "package continuity"
+  },
+  {
+    "key": "michael-scott1996",
+    "claim": "Reusable concurrent structures motivate explicit temporal/tagged identity rather than relying on an address alone; this chapter uses the concept but does not implement their queue.",
+    "primary": "https://doi.org/10.1145/248052.248106",
+    "authors": "Maged M. Michael; Michael L. Scott",
+    "date": "1996",
+    "access_date": "2026-10-05",
+    "access_depth": "primary algorithm context"
+  }
+]

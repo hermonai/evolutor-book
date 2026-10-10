@@ -1,0 +1,5 @@
+Figure 32.5 — Persistent state and temporary workspace.
+Pool snapshots carry position and hidden inference values across accepted steps.
+Temporary workspace owns copied operation values and closes independently.
+Copied snapshots may outlive release without aliasing reused slots. API zeroing
+does not prove physical secure erasure; device buffers need completion fencing.

@@ -1,0 +1,6 @@
+Figure 32.6 — Capacity, canaries and reuse.
+Capacity equals free + owned + retiring slots. Pins count unsettled work.
+Deterministic canary histories compare the pool with an independent owner ledger,
+including cancellation and generation reuse. Payload size 8*C*D counts logical
+float64 entries, not Python overhead or measured GPU memory. Serialized tests
+do not certify concurrent hardware safety.

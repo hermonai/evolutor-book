@@ -1,0 +1,3 @@
+01-constructor
+
+Canonical content includes ordered vocabulary, embedding[V,D], retention[D], write[D], head[D,V], schema, CPU and float64. Digest binds state owner tenant/request, position and hidden vector. Zero-state construction consumes no prompt.

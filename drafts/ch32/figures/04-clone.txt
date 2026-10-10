@@ -1,0 +1,5 @@
+Figure 32.4 — Independent inference branches.
+Snapshot values are copied into fresh same-tenant storage. Updating a branch leaves
+the source unchanged; full capacity fails before publication. Cross-tenant export
+requires an absent explicit policy. Scalar snapshots do not preserve autograd graphs.
+Optimized sharing in Chapter 33 must refine these independent-copy semantics.

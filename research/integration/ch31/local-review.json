@@ -1,0 +1,45 @@
+{
+  "date": "2026-10-10",
+  "chapter": 31,
+  "pdf": "output/pdf/evolutor-ch31-review.pdf",
+  "pdf_sha256": "8979eb9a3a802bb58d064a37c30db314e04d77db37654d6ba141cf666cae2460",
+  "pages": 15,
+  "source_hashes": {
+    "drafts/ch31/README.md": "7bd04381fbdf26cc59a6bac2246cd9ee22d5120a6553bf571898f8d88e6bfb3a",
+    "drafts/ch31/STORYBOARD.md": "f99457c1606331d91707a78201ce2709df3cd05388d9129cf73bc137320904d9",
+    "drafts/ch31/build.py": "9cbc8a2e8479aed634ea487e13197d7a4fbfe063d34e768eaa8f1dcc8051cce4",
+    "drafts/ch31/figures/01-constructor.tex": "8f6e0fc361f4189f71533cba6754887822790d31a76f1aa63210cbfc6c98d356",
+    "drafts/ch31/figures/01-constructor.txt": "8d66619826107ea1d05c1ceabe2c5b49edf55137402df1c5813a9cb5b54aa5a4",
+    "drafts/ch31/figures/02-ingest.tex": "95acff5ff5db7ae025125a298949301eb95613965e6d2b38a8d066404ae50987",
+    "drafts/ch31/figures/02-ingest.txt": "012eb3ca020f3de4ecb0c81da624f52818ee96f4c4a2cd2ef21f18df6d3dd10d",
+    "drafts/ch31/figures/03-step.tex": "d012edc1f20cd2e2197da62c671007ae369db0b6470d37b9cb10be66648b6d1c",
+    "drafts/ch31/figures/03-step.txt": "f3487c7e89db0825babc4e384903d7d181528d211b9f5d1ef831fc613ae6764e",
+    "drafts/ch31/figures/04-chunks.tex": "1396232722bd4774cb64398085adeaa70c2cea73c1e9e74c970f1430604845f7",
+    "drafts/ch31/figures/04-chunks.txt": "eba260473e639e988ed6b6f21aa772d0d7911aa77cb724cd0eb47affdc81ea5f",
+    "drafts/ch31/figures/05-output.tex": "91d403843debdd92695c71e90876b8fdcf10cef4833dfe1bbfb8fdf363de3432",
+    "drafts/ch31/figures/05-output.txt": "b2788c4d956c14a7571b18206868ebe84809b299c9d940590c84ab415b77cc53",
+    "drafts/ch31/figures/06-shell.tex": "0409e622381fec596c58fae2ff7f51c3f51b08ccdc2d661d21fee5a48b58b3fa",
+    "drafts/ch31/figures/06-shell.txt": "1dcd27e7731b158ac4628fbbb3a8c0eec4cc67f4f3c3e2ce2f29047914067619",
+    "drafts/ch31/manuscript.tex": "a21794123f12e47e9f3f620659aad92bec02282476d5f35b9ed6d604fb3e972e",
+    "drafts/ch31/reference.py": "b0c0f8cc3815ee9c3156f07e8e427878ef11c77b489139dcbb4835c305d88d9a",
+    "drafts/ch31/results.json": "66e21aa18253570585d878c94ac26611b68f51e4f5639d4f17507ce302e2b81d",
+    "drafts/ch31/review.tex": "f5057a07f5104347be94c37de1898b1382299158fed0a54ebdc146a796429bf6",
+    "drafts/ch31/sources.tex": "19c8c473c5b67244cda1c04b20ef4a7d02cf0979e33732a43a1394b611e361de",
+    "tests/test_ch31_reference.py": "a94a5208edb69b5a7a7ec88dcb20e7d9fee13b53d4b93fbeb44bd27a33972828"
+  },
+  "tests": {
+    "repository_passed": 1212,
+    "repository_skipped": 0,
+    "chapter_passed": 67,
+    "report": "build/ch31/regression.xml",
+    "python": "3.13.6"
+  },
+  "visual_review": {
+    "reviewer": "author/agent",
+    "status": "PASS WITH NOTES",
+    "mode": "all 15 pages, color and grayscale contact sheets",
+    "notes": "All 15 pages inspected in color and grayscale. Gradient transport annotation separated from the storage/graph note and affected page reinspected. Shapes, causal positions and reservation/commit ordering checked."
+  },
+  "mathematical_review": "Assumptions, independent oracles and falsifiers in technical-audit.md.",
+  "acceptance": "locally reviewed standalone integration candidate; not accepted publication edition"
+}

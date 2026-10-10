@@ -1,0 +1,13 @@
+\begin{tikzpicture}
+\node[note,font=\bfseries\sffamily] at (6.5,5.5) {Different lifetimes; explicit copying boundaries};
+\draw[flow] (.5,4.3)--(12.7,4.3) node[right,smallnote] {time};
+\draw[very thick,Blue] (1,3.2)--(12,3.2);
+\node[smallnote,anchor=west] at (1,3.6) {Persistent allocation: consume prefix, continue, retire, reclaim};
+\foreach \x/\label in {2/step 1,6/step 2,10/step 3}{
+ \fill[Gold!40] (\x-.7,1.2) rectangle (\x+.7,2.2);
+ \node[smallnote] at (\x,1.7) {\label};
+ \draw[flow] (\x,3)--(\x,2.3);
+}
+\node[smallnote] at (6.5,.3) {Step-local workspace closes at its operation boundary.\\GPU reuse additionally requires a real device completion event.};
+\node[smallnote,Red] at (6.5,-.6) {Copied inference snapshots may outlive release; they are not aliases of the reused slot.};
+\end{tikzpicture}

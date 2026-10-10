@@ -1,0 +1,30 @@
+[
+  {
+    "key": "EVOD-20",
+    "claim": "Structured multiscale memory and carry semantics consumed by DOGMA state.",
+    "primary": "internal chapter",
+    "access_date": "2026-10-05",
+    "access_depth": "live GitHub source inspected"
+  },
+  {
+    "key": "EVOD-21",
+    "claim": "Full-record reverse/suffix branch is offline and cannot feed ordinary causal next-token prediction.",
+    "primary": "internal chapter",
+    "access_date": "2026-10-05",
+    "access_depth": "live GitHub source inspected"
+  },
+  {
+    "key": "EVOD-26",
+    "claim": "Chunk continuation must preserve sequential execution semantics.",
+    "primary": "internal chapter/package continuity",
+    "access_date": "2026-10-05",
+    "access_depth": "project continuity"
+  },
+  {
+    "key": "EVOD-30",
+    "claim": "Execution occurs within admitted request lifecycle with explicit owner/model/deadline/cancellation/cleanup.",
+    "primary": "supplied Chapter 30 package",
+    "access_date": "2026-10-05",
+    "access_depth": "continuity contract"
+  }
+]

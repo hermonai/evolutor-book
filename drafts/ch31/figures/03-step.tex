@@ -1,0 +1,22 @@
+\begin{tikzpicture}
+\node[note,font=\bfseries\sffamily] at (6.5,6.2) {One native step: shapes and dependencies};
+\node[note] (tok) at (1,5.1) {$x_t$\\scalar ID};
+\node[draw,note,fill=Pale] (emb) at (4,5.1) {$e_t=E[x_t]$\\$[D]$};
+\node[draw,note,fill=Pale] (gate) at (8,5.1) {$q_t=\sigma(w\odot e_t)$\\$[D]$};
+\draw[flow] (tok)--(emb);
+\draw[flow] (emb)--(gate);
+\node[draw,note,fill=Pale] (write) at (8,3.3) {$b_t=q_t\odot e_t$\\$[D]$};
+\draw[flow] (gate)--(write);
+\draw[flow] (emb.south) to[bend right=15] (write.west);
+\node[note] (prev) at (1,2) {$h_{t-1}$\\$[D]$};
+\node[draw,note,fill=Pale] (retain) at (4,2) {$a\odot h_{t-1}$\\$[D]$};
+\node[draw,circle,Blue] (sum) at (8,2) {$+$};
+\draw[flow] (prev)--(retain);
+\draw[flow] (retain)--(sum);
+\draw[flow] (write)--(sum);
+\node[note] (new) at (11,2) {$h_t$\\$[D]$};
+\draw[flow] (sum)--(new);
+\node[draw,note,fill=Pale] (head) at (11,4) {$z_t=h_tH$\\$[V]$};
+\draw[flow] (new)--(head);
+\node[smallnote,Red] at (6.5,.4) {The gate depends on the current input, not the previous state. No attention or KV cache appears.};
+\end{tikzpicture}

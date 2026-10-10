@@ -1,0 +1,22 @@
+{
+  "date": "2026-10-10",
+  "chapter": 32,
+  "book": "evolutor",
+  "original_archive": "evolutor-ch32-r01.zip",
+  "inherited_claims_adopted": false,
+  "sources": [
+    {
+      "url": "https://www.cs.rochester.edu/research/synchronization/pseudocode/queues.html",
+      "access": "complete author-maintained corrected pseudocode and allocator/reclamation assumptions"
+    },
+    {
+      "path": "drafts/ch31/reference.py",
+      "access": "actual imported local inference interface inspected and tested"
+    },
+    {
+      "path": "staged evolutor-ch33-r01.zip manuscript",
+      "access": "following checkpoint/branch/prefix contracts inspected"
+    }
+  ],
+  "limitations": "Serialized teaching oracle; no lock-free queue, GPU concurrency, secure erase or durability certification."
+}

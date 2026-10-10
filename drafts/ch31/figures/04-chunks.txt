@@ -1,0 +1,3 @@
+04-chunks
+
+Left affine chunk (A_L,B_L), then right (A_R,B_R), gives (A_R*A_L,A_R*B_L+B_R). Associative, generally noncommutative. Gradients traverse retention factors; detach breaks derivative parity even when forward parity remains.

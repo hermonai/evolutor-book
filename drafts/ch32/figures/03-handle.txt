@@ -1,0 +1,5 @@
+Figure 32.3 — Two separate reuse hazards.
+A reclaimed slot has a newer allocation generation, so an old handle is rejected.
+Two pins in one generation can capture the same version; after the first installs
+and increments version, the second candidate is stale and must be discarded.
+Generation prevents allocation ABA; version prevents lost updates within allocation.

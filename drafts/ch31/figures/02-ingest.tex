@@ -1,0 +1,16 @@
+\begin{tikzpicture}
+\node[note,font=\bfseries\sffamily] at (6.5,5.4) {Chunk preflight and masked prompt ingestion};
+\foreach \x/\tok/\valid/\pos in {1/1/true/1,4/pad/false/1,7/2/true/2,10/1/true/3}{
+ \fill[Pale] (\x-.4,2.6) rectangle (\x+2.1,4.3);
+ \node[note] at (\x+.85,3.9) {token: \tok};
+ \node[smallnote] at (\x+.85,3.3) {valid: \valid};
+ \node[smallnote] at (\x+.85,2.9) {position: \pos};
+}
+\draw[flow] (3,3.4)--(3.5,3.4);
+\draw[flow] (6,3.4)--(6.5,3.4);
+\draw[flow] (9,3.4)--(9.5,3.4);
+\node[note] at (2.1,1.4) {Live row:\\lookup and step};
+\node[note,Red] at (5.2,1.4) {Masked row:\\no lookup; hold $h$\\zero row logits};
+\node[note] at (9.8,1.4) {Validate all live IDs before\\any chunk execution.};
+\node[smallnote] at (6.5,0) {An invalid tail cannot mutate the caller's input state. Prompt logits are predictions, not emitted output.};
+\end{tikzpicture}

@@ -99,4 +99,16 @@ matching first-forward loss alone does not prove gradient equivalence.
 \item[Terminal reason] Immutable lifecycle outcome, distinct from output draining and physical resource cleanup.
 \item[Quiescence] No pending physical work may access the allocation; logical cancellation alone does not establish it.
 \item[Backpressure] Refusal to launch additional work when the declared output reservation cannot fit; not silent output dropping.
+\item[Artifact-bound state] Carry tied to model content, schema, owner and valid
+position; matching tensor shape alone does not make states interchangeable.
+\item[Allocation generation] Temporal identity of a reusable slot. Reclamation
+advances it; live updates within that allocation use a separate version.
+\item[State pin] Captured input snapshot whose completion or explicit discard
+must be acknowledged before its allocation can be reclaimed.
+\item[Retiring slot] Released logical ownership with outstanding physical work;
+it remains occupied and cannot be ordinarily accessed or reallocated.
+\item[Inference snapshot] Copied values that can be reconstructed independently;
+serialization to scalars does not preserve a differentiable training graph.
+\item[Logical scrubbing] Reset of API-visible payload and metadata before reuse;
+not proof of physical secure erasure across all copies and platform memory.
 \end{description}

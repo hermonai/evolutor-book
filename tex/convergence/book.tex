@@ -5,6 +5,7 @@
 \input{../build/convergence/scope.tex}
 \begin{document}
 \frontmatter
+\fancyhead[R]{\small\sffamily Front matter}
 \begin{titlepage}
 \color{Blue}\sffamily\vspace*{24mm}
 {\Huge\bfseries Evolutor\par}
@@ -35,10 +36,14 @@ ownership and failure contract. The single bibliography reconciles exact source
 identifiers while retaining the source-key provenance in the build record.
 The global index is generated from authored term marks. Chapter packages still
 awaiting semantic integration are not included merely because their ZIP exists.
+\input{frontmatter/about-this-book.tex}
+\clearpage
 \tableofcontents
 \mainmatter
+\fancyhead[R]{\small\sffamily Chapter \thechapter}
 \input{../build/convergence/chapters.tex}
 \backmatter
+\fancyhead[R]{\small\sffamily Reference material}
 \input{convergence/glossary.tex}
 \input{../build/convergence/bibliography.tex}
 \clearpage\phantomsection\addcontentsline{toc}{chapter}{Index}

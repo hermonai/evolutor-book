@@ -1,0 +1,3 @@
+06-shell
+
+Shell reserves capacity and ticket; native candidate is staged without replacing current state. Commit fences owner/digest/revision, emits one item and then installs native candidate only if accepted. Cancellation/deadline discards candidate; backpressure prevents computation. No distributed crash durability is claimed.

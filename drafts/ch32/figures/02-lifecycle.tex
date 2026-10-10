@@ -1,0 +1,15 @@
+\begin{tikzpicture}
+\node[note,font=\bfseries\sffamily] at (6.5,5.7) {Release is not a completion signal};
+\node[draw,note,fill=Pale] (f) at (1,4.3) {Free\\zero payload};
+\node[draw,note,fill=Pale] (o) at (5,4.3) {Owned\\generation $g$};
+\node[draw,note,fill=Pale] (p) at (10.8,4.3) {Pinned\\in-flight work};
+\draw[flow] (f)--node[above,smallnote] {allocate} (o);
+\draw[flow] (o)--node[above,smallnote] {pin} (p);
+\node[draw,note,fill=Gold!25] (r) at (10.8,2.1) {Retiring\\no ordinary access};
+\draw[flow] (p)--node[right,smallnote] {release} (r);
+\node[draw,note,fill=Pale] (s) at (5,2.1) {Scrub API payload\\clear owner; $g\leftarrow g+1$};
+\draw[flow] (r)--node[below=5mm,smallnote] {last acknowledgement} (s);
+\draw[flow] (s.west)--(1,2.1)--(f.south);
+\draw[flow,Red,dashed] (o.south)--node[left,smallnote] {release with zero pins} (s.north);
+\node[smallnote] at (6.5,.5) {A retiring slot consumes capacity. Candidate values are discarded while pins settle.};
+\end{tikzpicture}

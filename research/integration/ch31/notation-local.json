@@ -1,0 +1,10 @@
+{
+  "E": "embedding[V,D]",
+  "a": "retention[D]",
+  "w": "input write parameter[D]",
+  "H": "head[D,V]",
+  "p": "consumed live token position",
+  "owner": "tenant/request pair",
+  "digest": "parameter and vocabulary content",
+  "r": "committed decode revision"
+}

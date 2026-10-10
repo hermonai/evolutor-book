@@ -1,0 +1,10 @@
+{
+  "C": "slot capacity",
+  "D": "hidden width",
+  "generation": "allocation identity increases at reclamation",
+  "version": "state revision advances on installation",
+  "owner": "tenant/request pair",
+  "pin": "input snapshot with pending acknowledgement",
+  "retiring": "released logically, still pinned",
+  "payload_bytes": "8*C*D logical float64 bytes excluding metadata"
+}

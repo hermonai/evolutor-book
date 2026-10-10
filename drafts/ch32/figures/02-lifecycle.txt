@@ -1,0 +1,5 @@
+Figure 32.2 — Cancellation does not imply reclamation.
+Free → owned → pinned. Release with outstanding pins marks retiring and prevents
+new reads/writes/pins. Completion discards a retiring candidate and settles one pin.
+Only the final acknowledgement permits logical zeroing, owner clearing, generation
+advance and free-slot publication. Retiring storage still consumes capacity.

@@ -1,0 +1,10 @@
+{
+  "M": "model artifact semantics",
+  "E": "embedding table [V,D]",
+  "a": "retention vector [D]",
+  "w": "selective-write vector [D]",
+  "h_t": "DOGMA native compressed state [D]",
+  "S_t": "runtime model state",
+  "W_o": "output head [D,V]",
+  "ell_t": "logits [V]"
+}
