@@ -1,0 +1,1 @@
+A chunk of c new rows enters learned absolute position embeddings and then per-layer pre-normalization. The projection reshapes to H heads, each of width dh. New queries have shape [H,c,dh]; cached old and new keys/values concatenate to [H,t+c,dh]. Only K/V persist between calls. The actual Chapter 23 model uses equal query and KV head counts.

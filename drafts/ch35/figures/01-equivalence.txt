@@ -1,0 +1,1 @@
+Original full causal execution through two actual Hermon Transformer blocks is compared with three-token prefill followed by three one-token decode calls. Cache lives separately at each layer's normalized QKV input. Matching one attention head is insufficient: positions, residuals, feed-forward sublayers, final normalization and output head must also match.

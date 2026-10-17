@@ -1,0 +1,979 @@
+{
+  "schema": "evolutor-chapter-structure-v1",
+  "updated": "2026-10-17",
+  "planned_chapters": 52,
+  "authored_through": 35,
+  "current_acceptance": "No cumulative publication acceptance; preserve frozen Ch1-2 records separately.",
+  "parts": [
+    {
+      "number": 1,
+      "title": "The research question",
+      "start": 1,
+      "end": 1
+    },
+    {
+      "number": 2,
+      "title": "Learning and sequence-model foundations",
+      "start": 2,
+      "end": 10
+    },
+    {
+      "number": 3,
+      "title": "From biology to formal computational hypotheses",
+      "start": 11,
+      "end": 17
+    },
+    {
+      "number": 4,
+      "title": "DOGMA: non-Transformer DNA-native computation",
+      "start": 18,
+      "end": 22
+    },
+    {
+      "number": 5,
+      "title": "Hermon DNA: Transformer-based DNA computation",
+      "start": 23,
+      "end": 24
+    },
+    {
+      "number": 6,
+      "title": "Training systems and fair experiments",
+      "start": 25,
+      "end": 29
+    },
+    {
+      "number": 7,
+      "title": "DOGMA Engine: state-native inference",
+      "start": 30,
+      "end": 34
+    },
+    {
+      "number": 8,
+      "title": "Hermon DNA Engine: attention-native inference",
+      "start": 35,
+      "end": 38
+    },
+    {
+      "number": 9,
+      "title": "Evolutor: heterogeneous execution",
+      "start": 39,
+      "end": 43
+    },
+    {
+      "number": 10,
+      "title": "Industrial engineering",
+      "start": 44,
+      "end": 47
+    },
+    {
+      "number": 11,
+      "title": "Applications and capability research",
+      "start": 48,
+      "end": 51
+    },
+    {
+      "number": 12,
+      "title": "Research synthesis",
+      "start": 52,
+      "end": 52
+    }
+  ],
+  "chapters": [
+    {
+      "number": 1,
+      "id": "EVOD-01",
+      "title": "Why Genomic Computation?",
+      "source": "tex/deep/ch01.tex",
+      "part": 1,
+      "prerequisites": [],
+      "purpose": "Separate biological inspiration, formal computation and empirical capability.",
+      "authoring_stage": "authored_in_continuous_candidate",
+      "local_review_stage": "preserved_internal_acceptance_record",
+      "independent_acceptance": false,
+      "frozen_acceptance_record": true
+    },
+    {
+      "number": 2,
+      "id": "EVOD-02",
+      "title": "Learning objectives, data, tasks, and evaluation",
+      "source": "tex/deep/ch02.tex",
+      "part": 2,
+      "prerequisites": [
+        1
+      ],
+      "purpose": "Define objectives, legal information, controls and uncertainty.",
+      "authoring_stage": "authored_in_continuous_candidate",
+      "local_review_stage": "preserved_internal_acceptance_record",
+      "independent_acceptance": false,
+      "frozen_acceptance_record": true
+    },
+    {
+      "number": 3,
+      "id": "EVOD-03",
+      "title": "Differentiation, optimization and tensor programs",
+      "source": "tex/textbook/ch03.tex",
+      "part": 2,
+      "prerequisites": [
+        2
+      ],
+      "purpose": "Derive tensor programs and derivatives before trusting optimization.",
+      "authoring_stage": "authored_in_continuous_candidate",
+      "local_review_stage": "existing_review_candidate",
+      "independent_acceptance": false,
+      "frozen_acceptance_record": false
+    },
+    {
+      "number": 4,
+      "id": "EVOD-04",
+      "title": "Reproducible PyTorch training",
+      "source": "drafts/ch04/manuscript.tex",
+      "part": 2,
+      "prerequisites": [
+        3
+      ],
+      "purpose": "Make a training run reproducible, masked and auditable.",
+      "authoring_stage": "authored_in_continuous_candidate",
+      "local_review_stage": "existing_review_candidate",
+      "independent_acceptance": false,
+      "frozen_acceptance_record": false
+    },
+    {
+      "number": 5,
+      "id": "EVOD-05",
+      "title": "Tokenization and sequence representation",
+      "source": "drafts/ch05/manuscript.tex",
+      "part": 2,
+      "prerequisites": [
+        2,
+        4
+      ],
+      "purpose": "Bind DNA tokens to record boundaries, spans and strand conventions.",
+      "authoring_stage": "authored_in_continuous_candidate",
+      "local_review_stage": "existing_review_candidate",
+      "independent_acceptance": false,
+      "frozen_acceptance_record": false
+    },
+    {
+      "number": 6,
+      "id": "EVOD-06",
+      "title": "Recurrent models and gated state",
+      "source": "drafts/ch06/manuscript.tex",
+      "part": 2,
+      "prerequisites": [
+        3,
+        5
+      ],
+      "purpose": "Distinguish carried state from gradient history in gated recurrence.",
+      "authoring_stage": "authored_in_continuous_candidate",
+      "local_review_stage": "existing_review_candidate",
+      "independent_acceptance": false,
+      "frozen_acceptance_record": false
+    },
+    {
+      "number": 7,
+      "id": "EVOD-07",
+      "title": "State-space models, selective updates and scans",
+      "source": "drafts/ch07/manuscript.tex",
+      "part": 2,
+      "prerequisites": [
+        6
+      ],
+      "purpose": "Derive selective affine state updates and legal sequence scans.",
+      "authoring_stage": "authored_in_continuous_candidate",
+      "local_review_stage": "existing_review_candidate",
+      "independent_acceptance": false,
+      "frozen_acceptance_record": false
+    },
+    {
+      "number": 8,
+      "id": "EVOD-08",
+      "title": "Attention and content addressing",
+      "source": "drafts/ch08/manuscript.tex",
+      "part": 2,
+      "prerequisites": [
+        3,
+        5
+      ],
+      "purpose": "Construct content-addressed retrieval, masking and attention oracles.",
+      "authoring_stage": "authored_in_continuous_candidate",
+      "local_review_stage": "existing_review_candidate",
+      "independent_acceptance": false,
+      "frozen_acceptance_record": false
+    },
+    {
+      "number": 9,
+      "id": "EVOD-09",
+      "title": "Assembling a Transformer block",
+      "source": "drafts/ch09/manuscript.tex",
+      "part": 2,
+      "prerequisites": [
+        8
+      ],
+      "purpose": "Assemble and test a complete causal Transformer block.",
+      "authoring_stage": "authored_in_continuous_candidate",
+      "local_review_stage": "existing_review_candidate",
+      "independent_acceptance": false,
+      "frozen_acceptance_record": false
+    },
+    {
+      "number": 10,
+      "id": "EVOD-10",
+      "title": "Conditional computation and routing",
+      "source": "drafts/ch10/manuscript.tex",
+      "part": 2,
+      "prerequisites": [
+        9
+      ],
+      "purpose": "Separate routing decisions, expert capacity and derivative paths.",
+      "authoring_stage": "authored_in_continuous_candidate",
+      "local_review_stage": "existing_review_candidate",
+      "independent_acceptance": false,
+      "frozen_acceptance_record": false
+    },
+    {
+      "number": 11,
+      "id": "EVOD-11",
+      "title": "Regulation and expression across levels",
+      "source": "drafts/ch11/manuscript.tex",
+      "part": 3,
+      "prerequisites": [
+        1,
+        2
+      ],
+      "purpose": "Map real regulatory mechanisms to explicitly limited abstractions.",
+      "authoring_stage": "authored_in_continuous_candidate",
+      "local_review_stage": "existing_review_candidate",
+      "independent_acceptance": false,
+      "frozen_acceptance_record": false
+    },
+    {
+      "number": 12,
+      "id": "EVOD-12",
+      "title": "Development and generated computational structure",
+      "source": "drafts/ch12/manuscript.tex",
+      "part": 3,
+      "prerequisites": [
+        11
+      ],
+      "purpose": "Compile developmental descriptions into typed executable structure.",
+      "authoring_stage": "authored_in_continuous_candidate",
+      "local_review_stage": "existing_review_candidate",
+      "independent_acceptance": false,
+      "frozen_acceptance_record": false
+    },
+    {
+      "number": 13,
+      "id": "EVOD-13",
+      "title": "Learning, structural adaptation and evolution",
+      "source": "drafts/ch13/manuscript.tex",
+      "part": 3,
+      "prerequisites": [
+        4,
+        12
+      ],
+      "purpose": "Separate transient state, parameter learning and structural selection.",
+      "authoring_stage": "authored_in_continuous_candidate",
+      "local_review_stage": "existing_review_candidate",
+      "independent_acceptance": false,
+      "frozen_acceptance_record": false
+    },
+    {
+      "number": 14,
+      "id": "EVOD-14",
+      "title": "Typed genomic computation systems",
+      "source": "drafts/ch14/manuscript.tex",
+      "part": 3,
+      "prerequisites": [
+        3,
+        11,
+        12
+      ],
+      "purpose": "Define typed genes, genomes, tensor contracts and effects.",
+      "authoring_stage": "authored_in_continuous_candidate",
+      "local_review_stage": "existing_review_candidate",
+      "independent_acceptance": false,
+      "frozen_acceptance_record": false
+    },
+    {
+      "number": 15,
+      "id": "EVOD-15",
+      "title": "Operational semantics and expression traces",
+      "source": "drafts/ch15/manuscript.tex",
+      "part": 3,
+      "prerequisites": [
+        14
+      ],
+      "purpose": "Specify deterministic transitions, traces, halting and replay.",
+      "authoring_stage": "authored_in_continuous_candidate",
+      "local_review_stage": "existing_review_candidate",
+      "independent_acceptance": false,
+      "frozen_acceptance_record": false
+    },
+    {
+      "number": 16,
+      "id": "EVOD-16",
+      "title": "Expression complexity and resource semantics",
+      "source": "drafts/ch16/manuscript.tex",
+      "part": 3,
+      "prerequisites": [
+        15
+      ],
+      "purpose": "Count work, storage, communication and scheduling resources honestly.",
+      "authoring_stage": "authored_in_continuous_candidate",
+      "local_review_stage": "existing_review_candidate",
+      "independent_acceptance": false,
+      "frozen_acceptance_record": false
+    },
+    {
+      "number": 17,
+      "id": "EVOD-17",
+      "title": "Traces, credit and mechanistic evidence",
+      "source": "drafts/ch17/manuscript.tex",
+      "part": 3,
+      "prerequisites": [
+        2,
+        15,
+        16
+      ],
+      "purpose": "Distinguish prediction, intervention and mechanistic credit.",
+      "authoring_stage": "authored_in_continuous_candidate",
+      "local_review_stage": "existing_review_candidate",
+      "independent_acceptance": false,
+      "frozen_acceptance_record": false
+    },
+    {
+      "number": 18,
+      "id": "EVOD-18",
+      "title": "DOGMA primitives and state semantics",
+      "source": "drafts/ch18/manuscript.tex",
+      "part": 4,
+      "prerequisites": [
+        5,
+        7,
+        14
+      ],
+      "purpose": "Define native state, strand/complement actions and falsifiable hypotheses.",
+      "authoring_stage": "authored_in_continuous_candidate",
+      "local_review_stage": "existing_review_candidate",
+      "independent_acceptance": false,
+      "frozen_acceptance_record": false
+    },
+    {
+      "number": 19,
+      "id": "EVOD-19",
+      "title": "DOGMA regulation and selective transformations",
+      "source": "drafts/ch19/manuscript.tex",
+      "part": 4,
+      "prerequisites": [
+        18
+      ],
+      "purpose": "Analyze regulation, input selection and causal state updates.",
+      "authoring_stage": "authored_in_continuous_candidate",
+      "local_review_stage": "existing_review_candidate",
+      "independent_acceptance": false,
+      "frozen_acceptance_record": false
+    },
+    {
+      "number": 20,
+      "id": "EVOD-20",
+      "title": "Structured memory, locality and timescales",
+      "source": "drafts/ch20/manuscript.tex",
+      "part": 4,
+      "prerequisites": [
+        19
+      ],
+      "purpose": "Separate local memory, timescales and compressed history.",
+      "authoring_stage": "authored_in_continuous_candidate",
+      "local_review_stage": "existing_review_candidate",
+      "independent_acceptance": false,
+      "frozen_acceptance_record": false
+    },
+    {
+      "number": 21,
+      "id": "EVOD-21",
+      "title": "Strands, complements and dual-state hypotheses",
+      "source": "drafts/ch21/manuscript.tex",
+      "part": 4,
+      "prerequisites": [
+        5,
+        18,
+        20
+      ],
+      "purpose": "Derive strand symmetry and distinguish offline from causal access.",
+      "authoring_stage": "authored_in_continuous_candidate",
+      "local_review_stage": "existing_review_candidate",
+      "independent_acceptance": false,
+      "frozen_acceptance_record": false
+    },
+    {
+      "number": 22,
+      "id": "EVOD-22",
+      "title": "DOGMA reference model and falsifiable research program",
+      "source": "drafts/ch22/manuscript.tex",
+      "part": 4,
+      "prerequisites": [
+        19,
+        20,
+        21
+      ],
+      "purpose": "Implement DOGMA reference models and negative-control experiments.",
+      "authoring_stage": "authored_in_continuous_candidate",
+      "local_review_stage": "source_bound_local_review_candidate",
+      "independent_acceptance": false,
+      "frozen_acceptance_record": false,
+      "package": "evolutor-ch22-r01.zip"
+    },
+    {
+      "number": 23,
+      "id": "EVOD-23",
+      "title": "Hermon DNA reference architecture",
+      "source": "drafts/ch23/manuscript.tex",
+      "part": 5,
+      "prerequisites": [
+        5,
+        9
+      ],
+      "purpose": "Implement Hermon DNA as a Transformer-based research model.",
+      "authoring_stage": "authored_in_continuous_candidate",
+      "local_review_stage": "source_bound_local_review_candidate",
+      "independent_acceptance": false,
+      "frozen_acceptance_record": false,
+      "package": "evolutor-ch23-r01.zip"
+    },
+    {
+      "number": 24,
+      "id": "EVOD-24",
+      "title": "DNA-aware Transformer mechanisms",
+      "source": "drafts/ch24/manuscript.tex",
+      "part": 5,
+      "prerequisites": [
+        5,
+        23
+      ],
+      "purpose": "Bind Transformer mechanisms to genomic spans, coordinates and access.",
+      "authoring_stage": "authored_in_continuous_candidate",
+      "local_review_stage": "source_bound_local_review_candidate",
+      "independent_acceptance": false,
+      "frozen_acceptance_record": false,
+      "package": "evolutor-ch24-r01.zip"
+    },
+    {
+      "number": 25,
+      "id": "EVOD-25",
+      "title": "Shared experiments without false equivalence",
+      "source": "drafts/ch25/manuscript.tex",
+      "part": 6,
+      "prerequisites": [
+        2,
+        22,
+        23,
+        24
+      ],
+      "purpose": "Share experiments without forcing unlike states into false equivalence.",
+      "authoring_stage": "authored_in_continuous_candidate",
+      "local_review_stage": "source_bound_local_review_candidate",
+      "independent_acceptance": false,
+      "frozen_acceptance_record": false,
+      "package": "evolutor-ch25-r01.zip"
+    },
+    {
+      "number": 26,
+      "id": "EVOD-26",
+      "title": "Training/inference parity and parallel recurrence",
+      "source": "drafts/ch26/manuscript.tex",
+      "part": 6,
+      "prerequisites": [
+        7,
+        22,
+        23
+      ],
+      "purpose": "Check sequential, chunked and parallel full-model execution.",
+      "authoring_stage": "authored_in_continuous_candidate",
+      "local_review_stage": "source_bound_local_review_candidate",
+      "independent_acceptance": false,
+      "frozen_acceptance_record": false,
+      "package": "evolutor-ch26-r01.zip"
+    },
+    {
+      "number": 27,
+      "id": "EVOD-27",
+      "title": "Optimization and memory-efficient training",
+      "source": "drafts/ch27/manuscript.tex",
+      "part": 6,
+      "prerequisites": [
+        4,
+        26
+      ],
+      "purpose": "Preserve the objective under accumulation and memory-saving training.",
+      "authoring_stage": "authored_in_continuous_candidate",
+      "local_review_stage": "source_bound_local_review_candidate",
+      "independent_acceptance": false,
+      "frozen_acceptance_record": false,
+      "package": "evolutor-ch27-r01.zip"
+    },
+    {
+      "number": 28,
+      "id": "EVOD-28",
+      "title": "Distributed training and reproducible model artifacts",
+      "source": "drafts/ch28/manuscript.tex",
+      "part": 6,
+      "prerequisites": [
+        25,
+        27
+      ],
+      "purpose": "Derive distributed reduction and reproducible artifact boundaries.",
+      "authoring_stage": "authored_in_continuous_candidate",
+      "local_review_stage": "source_bound_local_review_candidate",
+      "independent_acceptance": false,
+      "frozen_acceptance_record": false,
+      "package": "evolutor-ch28-r01.zip"
+    },
+    {
+      "number": 29,
+      "id": "EVOD-29",
+      "title": "Benchmark design and comparative evidence",
+      "source": "drafts/ch29/manuscript.tex",
+      "part": 6,
+      "prerequisites": [
+        25,
+        28
+      ],
+      "purpose": "Design paired, budgeted comparisons and quantify uncertainty.",
+      "authoring_stage": "authored_in_continuous_candidate",
+      "local_review_stage": "source_bound_local_review_candidate",
+      "independent_acceptance": false,
+      "frozen_acceptance_record": false,
+      "package": "evolutor-ch29-r01.zip"
+    },
+    {
+      "number": 30,
+      "id": "EVOD-30",
+      "title": "Runtime contracts and request lifecycles",
+      "source": "drafts/ch30/manuscript.tex",
+      "part": 7,
+      "prerequisites": [
+        16,
+        25
+      ],
+      "purpose": "Specify request ownership, terminal arbitration and output accounting.",
+      "authoring_stage": "authored_in_continuous_candidate",
+      "local_review_stage": "source_bound_local_review_candidate",
+      "independent_acceptance": false,
+      "frozen_acceptance_record": false,
+      "package": "evolutor-ch30-r01.zip"
+    },
+    {
+      "number": 31,
+      "id": "EVOD-31",
+      "title": "DOGMA state construction and execution",
+      "source": "drafts/ch31/manuscript.tex",
+      "part": 7,
+      "prerequisites": [
+        22,
+        30
+      ],
+      "purpose": "Bind actual native transitions to model identity and legal position.",
+      "authoring_stage": "authored_in_continuous_candidate",
+      "local_review_stage": "source_bound_local_review_candidate",
+      "independent_acceptance": false,
+      "frozen_acceptance_record": false,
+      "package": "evolutor-ch31-r01.zip"
+    },
+    {
+      "number": 32,
+      "id": "EVOD-32",
+      "title": "DOGMA state pools and memory ownership",
+      "source": "drafts/ch32/manuscript.tex",
+      "part": 7,
+      "prerequisites": [
+        30,
+        31
+      ],
+      "purpose": "Manage bounded reusable state with generation/version fences and pins.",
+      "authoring_stage": "authored_in_continuous_candidate",
+      "local_review_stage": "source_bound_local_review_candidate",
+      "independent_acceptance": false,
+      "frozen_acceptance_record": false,
+      "package": "evolutor-ch32-r01.zip"
+    },
+    {
+      "number": 33,
+      "id": "EVOD-33",
+      "title": "DOGMA checkpoints, branching and prefix state",
+      "source": "drafts/ch33/manuscript.tex",
+      "part": 7,
+      "prerequisites": [
+        31,
+        32
+      ],
+      "purpose": "Restore independent branches and cache bounded prefix snapshots.",
+      "authoring_stage": "authored_in_continuous_candidate",
+      "local_review_stage": "source_bound_local_review_candidate",
+      "independent_acceptance": false,
+      "frozen_acceptance_record": false,
+      "package": "evolutor-ch33-r01.zip"
+    },
+    {
+      "number": 34,
+      "id": "EVOD-34",
+      "title": "DOGMA batching and state-native kernels",
+      "source": "drafts/ch34/manuscript.tex",
+      "part": 7,
+      "prerequisites": [
+        31,
+        32,
+        33
+      ],
+      "purpose": "Lift native transitions across requests without changing per-owner state.",
+      "authoring_stage": "authored_in_continuous_candidate",
+      "local_review_stage": "source_bound_local_review_candidate",
+      "independent_acceptance": false,
+      "frozen_acceptance_record": false,
+      "package": "evolutor-ch34-r01.zip"
+    },
+    {
+      "number": 35,
+      "id": "EVOD-35",
+      "title": "Hermon DNA prefill, decode and KV state",
+      "source": "drafts/ch35/manuscript.tex",
+      "part": 8,
+      "prerequisites": [
+        8,
+        9,
+        23,
+        24,
+        30
+      ],
+      "purpose": "Preserve full Hermon semantics through prefill, chunks and decode.",
+      "authoring_stage": "authored_in_continuous_candidate",
+      "local_review_stage": "source_bound_local_review_candidate",
+      "independent_acceptance": false,
+      "frozen_acceptance_record": false,
+      "package": "evolutor-ch35-r01.zip"
+    },
+    {
+      "number": 36,
+      "id": "EVOD-36",
+      "title": "Paged KV, prefix sharing and allocation",
+      "source": null,
+      "part": 8,
+      "prerequisites": [
+        32,
+        35
+      ],
+      "purpose": "Refine exact ordered KV into pages, sharing and safe allocation.",
+      "authoring_stage": "staged_package_not_integrated",
+      "local_review_stage": "not_rerun",
+      "independent_acceptance": false,
+      "frozen_acceptance_record": false,
+      "package": "evolutor-ch36-r01.zip"
+    },
+    {
+      "number": 37,
+      "id": "EVOD-37",
+      "title": "Continuous batching and precision",
+      "source": null,
+      "part": 8,
+      "prerequisites": [
+        34,
+        35,
+        36
+      ],
+      "purpose": "Schedule mixed attention workloads and evaluate precision trade-offs.",
+      "authoring_stage": "staged_package_not_integrated",
+      "local_review_stage": "not_rerun",
+      "independent_acceptance": false,
+      "frozen_acceptance_record": false,
+      "package": "evolutor-ch37-r01.zip"
+    },
+    {
+      "number": 38,
+      "id": "EVOD-38",
+      "title": "Speculative decoding and attention kernels",
+      "source": null,
+      "part": 8,
+      "prerequisites": [
+        29,
+        35,
+        36,
+        37
+      ],
+      "purpose": "Test speculative verification and optimized attention kernels.",
+      "authoring_stage": "staged_package_not_integrated",
+      "local_review_stage": "not_rerun",
+      "independent_acceptance": false,
+      "frozen_acceptance_record": false,
+      "package": "evolutor-ch38-r01.zip"
+    },
+    {
+      "number": 39,
+      "id": "EVOD-39",
+      "title": "Evolutor runtime above both engines",
+      "source": null,
+      "part": 9,
+      "prerequisites": [
+        14,
+        15,
+        30,
+        34,
+        35
+      ],
+      "purpose": "Orchestrate heterogeneous engines under explicit common contracts.",
+      "authoring_stage": "staged_package_not_integrated",
+      "local_review_stage": "not_rerun",
+      "independent_acceptance": false,
+      "frozen_acceptance_record": false,
+      "package": "evolutor-ch39-r01.zip"
+    },
+    {
+      "number": 40,
+      "id": "EVOD-40",
+      "title": "Hybrid compressed and addressable memory",
+      "source": null,
+      "part": 9,
+      "prerequisites": [
+        20,
+        35,
+        39
+      ],
+      "purpose": "Combine compressed and addressable memory with testable policies.",
+      "authoring_stage": "staged_package_not_integrated",
+      "local_review_stage": "not_rerun",
+      "independent_acceptance": false,
+      "frozen_acceptance_record": false,
+      "package": "evolutor-ch40-r01.zip"
+    },
+    {
+      "number": 41,
+      "id": "EVOD-41",
+      "title": "Compiler, IR and execution planning",
+      "source": null,
+      "part": 9,
+      "prerequisites": [
+        14,
+        15,
+        16,
+        39
+      ],
+      "purpose": "Lower typed IR through legal transformations and costed plans.",
+      "authoring_stage": "staged_package_not_integrated",
+      "local_review_stage": "not_rerun",
+      "independent_acceptance": false,
+      "frozen_acceptance_record": false,
+      "package": "evolutor-ch41-r01.zip"
+    },
+    {
+      "number": 42,
+      "id": "EVOD-42",
+      "title": "Database engines as a systems comparison",
+      "source": null,
+      "part": 9,
+      "prerequisites": [
+        32,
+        36,
+        41
+      ],
+      "purpose": "Use database execution as a bounded systems comparison.",
+      "authoring_stage": "staged_package_not_integrated",
+      "local_review_stage": "not_rerun",
+      "independent_acceptance": false,
+      "frozen_acceptance_record": false,
+      "package": "evolutor-ch42-r01.zip"
+    },
+    {
+      "number": 43,
+      "id": "EVOD-43",
+      "title": "Structural adaptation and lifecycle governance",
+      "source": null,
+      "part": 9,
+      "prerequisites": [
+        13,
+        17,
+        41
+      ],
+      "purpose": "Govern structural proposals, promotion, lineage and rollback.",
+      "authoring_stage": "staged_package_not_integrated",
+      "local_review_stage": "not_rerun",
+      "independent_acceptance": false,
+      "frozen_acceptance_record": false,
+      "package": "evolutor-ch43-r01.zip"
+    },
+    {
+      "number": 44,
+      "id": "EVOD-44",
+      "title": "Packaging, deployment and observable services",
+      "source": null,
+      "part": 10,
+      "prerequisites": [
+        28,
+        30,
+        39
+      ],
+      "purpose": "Package reproducible services with observability and failure behavior.",
+      "authoring_stage": "staged_package_not_integrated",
+      "local_review_stage": "not_rerun",
+      "independent_acceptance": false,
+      "frozen_acceptance_record": false,
+      "package": "evolutor-ch44-r01.zip"
+    },
+    {
+      "number": 45,
+      "id": "EVOD-45",
+      "title": "Multi-tenancy, isolation and security",
+      "source": null,
+      "part": 10,
+      "prerequisites": [
+        30,
+        32,
+        33,
+        36,
+        44
+      ],
+      "purpose": "Enforce tenant boundaries, quotas and explicit authority.",
+      "authoring_stage": "staged_package_not_integrated",
+      "local_review_stage": "not_rerun",
+      "independent_acceptance": false,
+      "frozen_acceptance_record": false,
+      "package": "evolutor-ch45-r01.zip"
+    },
+    {
+      "number": 46,
+      "id": "EVOD-46",
+      "title": "Distributed serving and state placement",
+      "source": null,
+      "part": 10,
+      "prerequisites": [
+        28,
+        36,
+        39,
+        45
+      ],
+      "purpose": "Place and migrate distributed state without breaking semantics.",
+      "authoring_stage": "staged_package_not_integrated",
+      "local_review_stage": "not_rerun",
+      "independent_acceptance": false,
+      "frozen_acceptance_record": false,
+      "package": "evolutor-ch46-r01.zip"
+    },
+    {
+      "number": 47,
+      "id": "EVOD-47",
+      "title": "Profiling, performance and hardware backends",
+      "source": null,
+      "part": 10,
+      "prerequisites": [
+        16,
+        29,
+        34,
+        38,
+        46
+      ],
+      "purpose": "Profile real workloads and compare measured hardware backends.",
+      "authoring_stage": "staged_package_not_integrated",
+      "local_review_stage": "not_rerun",
+      "independent_acceptance": false,
+      "frozen_acceptance_record": false,
+      "package": "evolutor-ch47-r01.zip"
+    },
+    {
+      "number": 48,
+      "id": "EVOD-48",
+      "title": "Genomic sequence applications",
+      "source": null,
+      "part": 11,
+      "prerequisites": [
+        5,
+        21,
+        24,
+        25,
+        29
+      ],
+      "purpose": "Evaluate genomic tasks with leakage-resistant biological controls.",
+      "authoring_stage": "staged_package_not_integrated",
+      "local_review_stage": "not_rerun",
+      "independent_acceptance": false,
+      "frozen_acceptance_record": false,
+      "package": "evolutor-ch48-r01.zip"
+    },
+    {
+      "number": 49,
+      "id": "EVOD-49",
+      "title": "Streaming, language, code and persistent agents",
+      "source": null,
+      "part": 11,
+      "prerequisites": [
+        29,
+        39,
+        40,
+        45
+      ],
+      "purpose": "Test persistent streaming/agent tasks without capability inflation.",
+      "authoring_stage": "staged_package_not_integrated",
+      "local_review_stage": "not_rerun",
+      "independent_acceptance": false,
+      "frozen_acceptance_record": false,
+      "package": "evolutor-ch49-r01.zip"
+    },
+    {
+      "number": 50,
+      "id": "EVOD-50",
+      "title": "Continual learning and population adaptation",
+      "source": null,
+      "part": 11,
+      "prerequisites": [
+        13,
+        27,
+        43
+      ],
+      "purpose": "Measure transfer, forgetting and population adaptation.",
+      "authoring_stage": "staged_package_not_integrated",
+      "local_review_stage": "not_rerun",
+      "independent_acceptance": false,
+      "frozen_acceptance_record": false,
+      "package": "evolutor-ch50-r01.zip"
+    },
+    {
+      "number": 51,
+      "id": "EVOD-51",
+      "title": "AGI capability hypotheses and limits",
+      "source": null,
+      "part": 11,
+      "prerequisites": [
+        17,
+        29,
+        43,
+        48,
+        49,
+        50
+      ],
+      "purpose": "Form falsifiable capability hypotheses and document their limits.",
+      "authoring_stage": "staged_package_not_integrated",
+      "local_review_stage": "not_rerun",
+      "independent_acceptance": false,
+      "frozen_acceptance_record": false,
+      "package": "evolutor-ch51-r01.zip"
+    },
+    {
+      "number": 52,
+      "id": "EVOD-52",
+      "title": "Failures, open problems and reproducible synthesis",
+      "source": null,
+      "part": 12,
+      "prerequisites": [
+        29,
+        43,
+        47,
+        48,
+        49,
+        50,
+        51
+      ],
+      "purpose": "Synthesize failures, unresolved questions and reproducible evidence.",
+      "authoring_stage": "staged_package_not_integrated",
+      "local_review_stage": "not_rerun",
+      "independent_acceptance": false,
+      "frozen_acceptance_record": false,
+      "package": "evolutor-ch52-r01.zip"
+    }
+  ]
+}

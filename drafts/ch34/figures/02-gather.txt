@@ -1,0 +1,1 @@
+Noncontiguous slots 7,2,9 map to temporary rows 0,1,2 for owners A,C,B. Each mapping retains pool identity, allocation generation, owner and pin version. Scatter is completion through that original handle, not a write to slot equal to row number. Sorting is legal only if this lane map and output order remain correct.

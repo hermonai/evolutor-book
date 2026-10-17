@@ -1,0 +1,16 @@
+\begin{tikzpicture}[x=1cm,y=1cm,font=\small\sffamily]
+\node[anchor=west,font=\bfseries] at (0,4.5) {A. Scheduler tick is not a request's token position};
+\foreach \x/\t in {3/1,6/2,9/3} {\node at (\x,3.8) {tick \t};}
+\foreach \y/\r in {2.8/A,1.6/B,.4/C} {\node[anchor=east] at (1.5,\y) {request \r};}
+\foreach \x/\t in {3/1,6/2,9/3} {
+\node[draw=Blue,fill=Pale,minimum width=2.1cm,minimum height=.7cm] at (\x,2.8) {$t_A=\t$};}
+\node[draw=Green,fill=Green!10,minimum width=2.1cm,minimum height=.7cm] at (3,1.6) {$t_B=1$ / done};
+\draw[Blue,dashed] (4.2,1.6) -- (10,1.6);
+\node[fill=white] at (7,1.6) {no further transition};
+\node[draw=Blue,dashed,minimum width=2.1cm,minimum height=.7cm] at (3,.4) {waiting: $t_C=0$};
+\node[draw=Blue,fill=Pale,minimum width=2.1cm,minimum height=.7cm] at (6,.4) {$t_C=1$};
+\node[draw=Blue,fill=Pale,minimum width=2.1cm,minimum height=.7cm] at (9,.4) {$t_C=2$};
+\draw[flow] (4.3,.4) -- (4.8,.4);
+\node[align=left,anchor=west] at (10.5,2.5) {Each live row\\consumes one token.};
+\node[align=left,anchor=west] at (10.5,.6) {Membership changes\\only at a boundary.};
+\end{tikzpicture}

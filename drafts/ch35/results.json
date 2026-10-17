@@ -1,0 +1,84 @@
+{
+  "parity": [
+    {
+      "split": 1,
+      "error": 2.220446049250313e-16,
+      "position": 6,
+      "payload": 1536
+    },
+    {
+      "split": 2,
+      "error": 3.0531133177191805e-16,
+      "position": 6,
+      "payload": 1536
+    },
+    {
+      "split": 3,
+      "error": 3.0531133177191805e-16,
+      "position": 6,
+      "payload": 1536
+    },
+    {
+      "split": 4,
+      "error": 1.942890293094024e-16,
+      "position": 6,
+      "payload": 1536
+    },
+    {
+      "split": 5,
+      "error": 1.942890293094024e-16,
+      "position": 6,
+      "payload": 1536
+    },
+    {
+      "split": 6,
+      "error": 0.0,
+      "position": 6,
+      "payload": 1536
+    }
+  ],
+  "memory": [
+    {
+      "tokens": 512,
+      "bytes": 50331648,
+      "mib": 48.0
+    },
+    {
+      "tokens": 1024,
+      "bytes": 100663296,
+      "mib": 96.0
+    },
+    {
+      "tokens": 2048,
+      "bytes": 201326592,
+      "mib": 192.0
+    },
+    {
+      "tokens": 4096,
+      "bytes": 402653184,
+      "mib": 384.0
+    },
+    {
+      "tokens": 8192,
+      "bytes": 805306368,
+      "mib": 768.0
+    }
+  ],
+  "mask": [
+    [
+      1,
+      1,
+      1,
+      1,
+      0
+    ],
+    [
+      1,
+      1,
+      1,
+      1,
+      1
+    ]
+  ],
+  "copy_bytes_example": 6144
+}

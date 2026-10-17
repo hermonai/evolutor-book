@@ -1,0 +1,455 @@
+\chapter{Hermon DNA prefill, decode and KV state}
+\label{evod35:chapter}
+
+A Transformer can recompute the entire consumed prefix before predicting
+each next token. That is a useful correctness oracle and a costly serving
+strategy. A key/value cache retains intermediate results that future queries
+need, avoiding repeated old-token projections. But the cached numbers must
+come from the right model, layer, position convention and causal prefix.
+A tensor with the right shape can still be the wrong state.
+
+This chapter implements caching for the \emph{actual Chapter 23 Hermon DNA
+reference}: a pre-normalized Transformer with learned
+absolute positions, layer normalization, attention, residuals, GELU
+feed-forward sublayers, final normalization and an ACGT language-model head.
+We do not silently replace it with a single-head rotary-attention toy.
+The restricted executable fixture uses two layers, two heads, width eight,
+CPU float64 and deterministic evaluation. All parameters are assigned by a
+seeded initialization; no trained genomic capability is asserted.
+
+We will first identify what persists, derive prefill and offset-masked chunk
+continuation, prove equivalence through the complete stack, and then count
+payload and copying costs. Chapter 36 may change allocation, but not these
+logical semantics.
+
+\section{Specify which Hermon computation is being served}
+\label{evod35:scope}
+Chapter 23 supports causal logits and offline full-record classification.
+Only its \emph{causal} language-model path admits the ordinary left-to-right
+cache developed here. Offline attention or reverse-complement averaging can
+depend on unseen record suffixes. Their state is not interchangeable with a
+causal cache.
+
+A request is a single unpadded canonical ACGT token record
+$u_0,\ldots,u_{t-1}$; the mapping is $A=0,C=1,G=2,T=3$.
+Ambiguous bases, k-mer spans, multiple packed records and padded ragged batches
+are outside this adapter. Chapter 23's validity contract remains available
+in the full model, but the serving adapter does not pretend to implement all
+of it. A new record starts with an empty cache; carrying another record's
+history changes the conditional distribution.
+
+The original model forms
+\[
+ x_i^0=E_{u_i}+P_i,
+\]
+where $P_i$ is a learned position embedding. Position is the consumed-token
+ordinal in this unpadded contract. For variable-span genomic tokens it would
+not automatically equal a base coordinate; that mapping must come from the
+data/coordinate contract, not a kernel's array index.
+
+\section{Trace one block and locate its retained state}
+\label{evod35:block}
+Let $x^\ell_i\in\mathbb R^D$ be the input row of block $\ell$. With $H$
+heads and $d_h=D/H$, the block computes
+\begin{align*}
+ r^\ell_i&=\operatorname{LN}_1^\ell(x^\ell_i),\\
+ (q^\ell_i,k^\ell_i,v^\ell_i)&=
+       \operatorname{QKV}^\ell(r^\ell_i),\\
+ y^\ell_i&=x^\ell_i+
+       W_O^\ell\operatorname{MergeHeads}(\operatorname{Attention}_i^\ell)
+       +b_O^\ell,\\
+ x^{\ell+1}_i&=y^\ell_i+
+       \operatorname{FFN}^\ell(\operatorname{LN}_2^\ell(y^\ell_i)).
+\end{align*}
+The displayed output projection uses the mathematical column-vector
+convention. The reference uses PyTorch's linear layers and row tensors;
+it does not transpose or discard the learned biases.
+
+Each key and value is computed from the \emph{current layer's normalized
+activation}, not directly from the original token embedding. At layer two,
+that activation already includes layer one's causal attention and residual
+processing. Caching only first-layer token projections and reusing them at
+every layer is therefore wrong, even when dimensions happen to match.
+
+\Plate{02-geometry}{Query rows are temporary. Ordered K/V rows persist separately at each normalized attention projection.}{evod35:geometryplate}
+
+For one head,
+\[
+ s_{ij}=\frac{\langle q_i,k_j\rangle}{\sqrt{d_h}},
+ \qquad
+ a_{ij}=\frac{\exp s_{ij}}{\sum_{r\le i}\exp s_{ir}},
+ \qquad o_i=\sum_{j\le i}a_{ij}v_j.
+\]
+Softmax is taken over allowed keys, not over heads, channels or requests.
+Use max subtraction for stable evaluation; the library softmax in the
+reference supplies that operation. Every query in this contract has at least
+its own current key, so it never needs an all-masked-row fallback.
+
+The scaled dot-product and multi-head construction follows the Transformer
+formulation~\cite{vaswani}. The particular pre-normalized architecture and
+learned-position choice belong to our existing reference, not to a claim that
+every Transformer has these exact conventions.
+
+\subsection{A small retrieval calculation}
+Suppose one query has three allowed scores $(0,\log2,0)$ and values
+$(1,0),(0,2),(2,1)$. The normalized weights are $(1/4,1/2,1/4)$, giving
+\[
+ o=(3/4,5/4).
+\]
+This calculation clarifies why caching old keys and values is enough:
+the new query needs the old \emph{addresses and contents}, not the old queries.
+The chapter tests this assigned retrieval independently of the model fixture.
+
+\section{Define the cache before optimizing it}
+\label{evod35:cache}
+A \Term{per-layer KV cache} at consumed length $t$ contains
+\[
+ C_t^\ell=(K_t^\ell,V_t^\ell),\qquad
+ K_t^\ell,V_t^\ell\in\mathbb R^{H\times t\times d_h}.
+\]
+This is retained addressable history. It is neither Chapter 31's compressed
+recurrent vector nor the Transformer parameters. A cache's position is the
+number of consumed tokens, not the number of generated tokens since prefill.
+
+The envelope binds owner, artifact, exact causal mode, ordered consumed-token
+metadata and the ordered collection of layer caches. Artifact identity includes
+the actual model's parameter tensors, position table, geometry,
+normalization epsilon settings and GELU approximation convention.
+The reference requires evaluation-mode finite CPU float64 parameters and
+bounded geometry before it accepts a cache.
+
+\Plate{04-context}{Cache correctness has context, geometry and integrity layers. None alone proves that stored values were produced by native replay.}{evod35:contextplate}
+
+The dataclasses are frozen, but tensors inside them are not intrinsically
+immutable. The adapter therefore creates fresh storage on continuation and
+checks a \Term{cache content seal} over metadata and tensor values before
+use. This detects accidental mutation. A producer with access to both content
+and hashing can alter values and reseal them; the negative control demonstrates
+that such a structurally valid cache can change logits.
+
+The seal is not authentication, a cryptographic authorization capability,
+a proof of correct prefix computation, hostile-process isolation or an
+untrusted-file loader. Nor does storing token IDs prove the tensors were
+derived from those IDs. Trusted producers and serialized callers are explicit
+assumptions.
+
+\Needspace{29\baselineskip}
+\Listing{validate}
+
+Validation deliberately rejects dtype changes rather than silently converting
+the history. Casting a cache after construction changes the numerical
+contract; quantized cache designs require their own parity and quality
+experiments. Content hashing and tuple conversion are expensive teaching
+checks, not a proposed per-token production fast path.
+
+\section{Prefill constructs a causal history}
+\label{evod35:prefill}
+\Term{Prefill} consumes a prompt of $T$ tokens starting from an empty cache.
+All prompt positions can be projected together, but query $i$ can read only
+keys $j\le i$. Parallel evaluation is not bidirectional information flow.
+Each layer stores its full prompt K/V, and the final normalized rows pass
+through the language-model head.
+
+The last prompt row's logits predict the token \emph{after} the prompt. When
+that selected token is later consumed by decode, its new logits predict the
+following token. Confusing predicted with consumed positions produces an
+off-by-one error that a shape check cannot detect. This chapter uses supplied
+tokens rather than a sampling loop to isolate execution parity.
+
+\Plate{01-equivalence}{Different evaluation schedules must preserve all rows of the original full causal computation, not merely the final cache length.}{evod35:equivalenceplate}
+
+The simplest independent oracle is the model's original
+\texttt{causal\_logits} method. It performs complete full-prefix computation
+with its own square blocked-mask construction and never calls the cache
+append helper.
+\Listing{full_oracle}
+
+Calling prefill twice through the same cache helper would not constitute
+an independent full-versus-cached oracle: the same offset or layer-order bug
+could appear on both sides.
+
+\section{Decode and causal chunks need the correct offset}
+\label{evod35:offset}
+Let $t$ old tokens already be cached and let a continuation chunk contain $c$
+new tokens. New activations have shape $[c,D]$ and positions
+$t,\ldots,t+c-1$. At each layer,
+\[
+ Q_{\rm new}\in\mathbb R^{H\times c\times d_h},\qquad
+ K_{\rm all},V_{\rm all}\in\mathbb R^{H\times(t+c)\times d_h}.
+\]
+Old rows and current rows concatenate in causal order. Local query index $i$
+is absolute position $t+i$, so its allowed-key condition is
+\[
+ A_{ij}=[j\le t+i],\quad
+ 0\le i<c,\quad0\le j<t+c.
+\]
+The old prefix is entirely visible; only the future portion of the new chunk
+must be masked.
+
+\Plate{03-offset}{A rectangular continuation mask uses absolute query positions. An upper-left triangle can be shape-correct and semantically wrong.}{evod35:offsetplate}
+\Listing{allowed_mask}
+
+The reference's mask uses \texttt{True} to mean \emph{allowed}. Chapter 23's
+\texttt{legality} helper uses \texttt{True} to mean \emph{blocked}.
+The conversion in \texttt{consume} is explicit. PyTorch 2.10 SDPA accepts an
+allowed boolean mask; its default non-square causal alignment is upper-left,
+which is not this offset continuation mask~\cite{sdpa}. Tests compare an
+explicit-mask SDPA oracle and deliberately show that the upper-left shortcut
+changes the result for a two-query, five-key continuation.
+
+For \Term{one-token decode}, $c=1$ and all $t+1$ stored/current keys are allowed.
+No triangular mask is needed then, \emph{provided} the cache really contains
+only this causal prefix. The more general explicit-mask implementation covers
+both one-token decode and multi-token chunk continuation.
+
+\subsection{The complete append path}
+\Listing{consume}
+
+A continuation call validates old state and the entire token chunk before
+arithmetic. It constructs candidates in new storage, checks finite logits
+and cache payloads, then returns a new cache. The caller decides whether to
+install it as the current request state. The old cache remains unchanged on
+success and on validation/numerical failure. This is functional candidate
+construction, not a thread-safe mutable cache transaction.
+
+The special empty chunk returns zero rows and the exact same cache object.
+It is an identity, not an implicit BOS token. An empty prefill likewise
+produces no logits: a caller cannot select a next token from a nonexistent
+last row without defining a separate beginning-of-sequence convention.
+
+\section{Prove parity through tokens and layers}
+\label{evod35:proof}
+\Needspace{14\baselineskip}
+\begin{proposition}[Full/cached causal equivalence]
+Fix model parameters and architecture, deterministic evaluation, token IDs,
+causal mode, position convention and record identity. Suppose a cache contains
+the exact per-layer K/V produced by full causal evaluation of the consumed
+prefix. Appending a valid continuation chunk computes the same new output
+rows and extended layer caches as full causal evaluation of the combined
+record, in real arithmetic.
+\end{proposition}
+\begin{proof}
+At layer zero, each new row receives the same token and absolute position
+embedding as full evaluation. Assume the old cached rows match full K/V and
+the new input activations match at the current layer. Normalization is
+row-local, so the new Q/K/V projections match. The offset mask selects exactly
+the same keys as the corresponding full causal row, including old prefix and
+allowed current-chunk rows. Softmax and value aggregation therefore match.
+The output projection, residual additions and feed-forward sublayer are
+row-local and use identical parameters, so the next layer's new inputs match.
+Induction over layers proves matching logits and extended K/V. Induction over
+chunks preserves the hypothesis for any continuation partition.
+\end{proof}
+
+Causality is essential to the old-cache hypothesis: appending future tokens
+cannot change old causal activations. A bidirectional layer would invalidate
+it. Deterministic evaluation is also essential to this argument as stated.
+The reference has no dropout modules; a future backend that introduces
+attention dropout must pass an explicitly zero inference dropout probability,
+not assume a surrounding evaluation flag overrides the functional API.
+
+In floating-point arithmetic, full and chunk paths may use differently
+shaped matrix reductions. Tests use absolute and relative tolerances
+$2\times10^{-12}$ in CPU float64. This is a checked fixture tolerance,
+not a universal backward-error theorem for every model, precision or device.
+Per-layer key/value checks narrow the location of a failure; final-logit
+parity alone can hide compensating mistakes.
+
+\begin{center}\input{\Generated/parity.tex}\end{center}
+The table is generated from the two-layer six-token fixture. Every prefill
+split is followed by scalar decode through the actual stack. All end at six
+consumed tokens and 1,536 logical KV bytes. Separate tests cover every one
+of the $2^5=32$ nonempty chunk compositions of that record.
+
+\section{Positions cannot be repaired by tensor shape}
+\label{evod35:positions}
+Our reference's learned absolute embeddings enter \emph{before} layer one.
+Restarting their ordinal at zero after prefill changes Q/K/V throughout the
+stack. Unlike standard rotary relative-score identities, learned position
+tables do not in general permit a uniform coordinate shift with invariant
+outputs. Importing such an identity from another architecture would be wrong.
+
+A cache artifact therefore binds the position table and model semantics,
+and the next position is derived from consumed length. A negative control
+copies position-zero embedding into the next-position entry of a separately
+identified model: earlier prefix state stays comparable, but continuation
+logits change. Normal context validation would reject a mid-request artifact
+switch before computing those wrong logits.
+
+Changing strand orientation also changes the ordered token sequence and
+positions. A forward causal cache cannot simply be relabelled as a
+reverse-complement cache. An offline symmetry construction from earlier
+chapters is not a legal hidden transformation of a left-to-right serving
+state. A transformed-cache reuse rule would need a separate proof for the
+chosen model and readout.
+
+\section{Count resident payload separately from copying}
+\label{evod35:memory}
+For $L$ layers, $t$ retained tokens, $H_{kv}$ key/value heads, head width
+$d_h$ and element width $b$ bytes,
+\[
+ M_{\rm KV}(t)=2LtH_{kv}d_hb.
+\]
+The factor two counts K and V. Query heads do not persist. With ordinary
+multi-head attention, $H_{kv}=H_q=H$; grouped-query and multi-query designs
+use fewer KV heads~\cite{gqa}. That changes the architecture and cache
+geometry. Our executable adapter implements the existing equal-head model,
+not a conversion to GQA, and asserts no quality-preserving head reduction.
+
+\Plate{05-cost}{Resident history grows linearly. Copying old contiguous prefixes on every append creates an additional, cumulative growth cost.}{evod35:costplate}
+\begin{center}\input{\Generated/memory.tex}\end{center}
+
+The large arithmetic example uses $L=24,H_{kv}=8,d_h=128,b=2$:
+at $t=4096$, $M=402{,}653{,}184$ bytes or 384 MiB for one request.
+These dimensions describe a storage calculation, not the small executable
+fixture or a trained Hermon artifact. Parameters, activations, metadata,
+stored token IDs, allocator reserve and temporary copies are excluded.
+Actual device allocation must be measured separately.
+
+\subsection{The cost hidden by a simple concatenate}
+Define $\gamma=2LH_{kv}d_hb$, the logical KV bytes per token. Starting with
+prompt length $P$, append $G$ tokens one at a time. An implementation that
+copies the old prefix into a fresh destination performs old-prefix reads and
+equal-length writes totaling
+\[
+ C_{\rm old}
+ =2\gamma\sum_{g=0}^{G-1}(P+g)
+ =2\gamma GP+\gamma G(G-1).
+\]
+This term is quadratic in generated length even though final resident payload
+$\gamma(P+G)$ is linear. New KV-row writes add $\gamma G$; they are not
+included in $C_{\rm old}$.
+
+For the executable geometry, $\gamma=256$ bytes. With $P=3,G=3$, the
+old-prefix read/write component is $2(256)(3+4+5)=6144$ bytes. This is not
+the reference's measured total memory traffic: it additionally clones new
+layer tensors, creates temporary projections and hashes values. The formula
+isolates why repeated relocation becomes undesirable rather than pretending
+the Python code has achieved the lower bound.
+
+\section{Work, traffic and the limits of a serving comparison}
+\label{evod35:work}
+A dense prefill of $T$ tokens forms a $T\times T$ score array per head.
+Its mathematical causal dependency graph has $T(T+1)/2$ allowed pairs, but
+the transparent implementation still computes dense score and value
+products. A triangular dependency diagram is not proof that the code
+skips half the arithmetic.
+
+For a new query at retained length $t$, score and value interactions require
+work proportional to $td_h$ per query head; projection and feed-forward
+work remain. The amount of logically retained history that may need reading
+also grows with $t$. Whether decode is bandwidth-limited on particular hardware
+depends on batch size, cache reuse, dtype, weight traffic and kernel layout;
+it is a profile question, not an unconditional law.
+
+FlashAttention demonstrates an IO-aware organization of exact attention
+that avoids materializing the full attention matrix in high-bandwidth
+memory~\cite{flash}. This is a relevant algorithmic comparison. It does not
+mean this chapter's dense CPU function is FlashAttention or that finite-precision
+outputs from every backend are bitwise equal. Chapter 38 owns optimized
+attention-kernel experiments.
+
+Comparing the fixed-width recurrence in Chapter 34 with this growing KV
+representation establishes a \emph{state-geometry distinction}. It does not
+establish equal expressive capacity, genomic accuracy, latency, energy
+efficiency or a universal winner. Those require shared tasks, budgets,
+hardware and appropriate evidence from Chapters 25 and 29.
+
+\section{Verification and the allocator boundary}
+\label{evod35:verification}
+The local reference test suite checks every fixture prefill split across
+three model seeds, every chunk composition, original full-model QKV hooks at
+each layer, future-prefix invariance, fresh storage, empty identity,
+capacity rejection, model/position/configuration changes, invalid tokens,
+owner/mode mismatches, finite payload mutation, nonfinite payloads, wrong
+geometry/dtype/gradient state, and a resealed forgery.
+
+A content seal can report a mutated tensor before use; it cannot explain
+whether a trusted producer supplied a false cache originally. Full native
+replay could check consistency but would itself cost prefix computation.
+The chapter neither authenticates arbitrary incoming cache files nor calls
+an executable object deserializer.
+
+\Plate{06-refinement}{Chapter 36 may relocate K/V physically while preserving this chapter's exact logical history and ownership.}{evod35:refinementplate}
+
+Preallocating a bounded contiguous buffer can avoid repeated relocation,
+but it creates capacity reservation and mutable-lifetime questions. Paging
+can address a different trade-off, allowing noncontiguous physical storage
+and prefix sharing. These are allocator refinements. They must preserve the
+ordered per-layer history visible to each query, artifact and coordinate
+identity, and reference lifetime. They do not alter the attention formula
+to excuse a missing or duplicated key.
+
+\section{Twenty worked exercises}
+\label{evod35:exercises}
+\begin{enumerate}
+\item \textbf{Find the cache boundary.} Why cache normalized projected K/V,
+not token embeddings alone? \emph{Solution:} later-layer K/V depend on
+earlier-layer attention, residuals and FFN. Embeddings alone would require
+recomputing that causal stack to recover them.
+\item \textbf{Normalize three scores.} Evaluate $(0,\log2,0)$.
+\emph{Solution:} exponentials are $(1,2,1)$; divide by four. The assigned
+values then aggregate to $(3/4,5/4)$.
+\item \textbf{Explain transient queries.} Why not retain old Q?
+\emph{Solution:} future causal rows use new queries against old K/V. Old
+outputs are not recomputed in ordinary append-only decode.
+\item \textbf{Derive offset legality.} For past length three and chunk two,
+which keys can the first new query read? \emph{Solution:} absolute position
+three reads indices zero through three, not four.
+\item \textbf{Expose the rectangular shortcut.} What does an upper-left
+$2\times5$ triangle do? \emph{Solution:} its rows read only one and two keys.
+The correct offset mask reads four and five.
+\item \textbf{Convert boolean conventions.} Chapter 23 returns blocked
+edges; SDPA accepts allowed edges. \emph{Solution:} invert the boolean mask
+explicitly. Matching shapes do not reconcile opposite meanings.
+\item \textbf{Locate the next token.} What do the last prompt logits predict?
+\emph{Solution:} the token after the consumed prompt. Consuming that token
+then advances cache length and predicts another token.
+\item \textbf{Handle empty input.} Does empty prefill supply a next-token
+distribution? \emph{Solution:} no, it produces no output row. Define an
+explicit start-token policy if a generation API needs one.
+\item \textbf{Prove layer induction.} What is the essential inductive
+hypothesis? \emph{Solution:} old per-layer K/V and current new-layer inputs
+equal their full causal counterparts; row-local operations preserve equality.
+\item \textbf{Count partitions.} Why 32 compositions for six tokens?
+\emph{Solution:} each of the five internal gaps independently contains a
+chunk boundary or not.
+\item \textbf{Test the whole model.} Is a single-head attention comparison
+enough? \emph{Solution:} no; include layer-wise projections, residuals,
+normalizations, FFN, position embeddings and the final head.
+\item \textbf{Shift absolute positions.} Does a uniform shift preserve this
+model? \emph{Solution:} not generally; learned position rows are unrelated
+parameters. Do not import a rotary relative-position identity.
+\item \textbf{Switch strands.} Can forward KV become reverse-complement KV
+by changing metadata? \emph{Solution:} no. The sequence and causal positions
+change; a valid transformation would need a model-specific proof.
+\item \textbf{Compute fixture payload.} Two layers, six tokens, two heads,
+head width four and eight-byte elements? \emph{Solution:}
+$2(2)(6)(2)(4)(8)=1536$ bytes, excluding all overhead.
+\item \textbf{Compute the large example.} Convert 402,653,184 bytes to MiB.
+\emph{Solution:} divide by $2^{20}$ to obtain 384 MiB, not 402.65 MiB.
+\item \textbf{Separate head geometries.} Which head count controls KV?
+\emph{Solution:} $H_{kv}$; query heads control a different part of attention
+work. Changing KV heads is not merely an allocator optimization.
+\item \textbf{Derive copy growth.} Why quadratic cumulative traffic?
+\emph{Solution:} each append recopies a prefix one token longer; summing
+$P,\ldots,P+G-1$ creates $GP+G(G-1)/2$.
+\item \textbf{Detect versus authenticate.} Can a producer reseal altered
+K/V? \emph{Solution:} yes. Structural integrity accepts it, but a native
+replay/logit negative control exposes inconsistency.
+\item \textbf{Describe a numerical guarantee honestly.} Does fixture
+float64 parity certify quantized GPU KV? \emph{Solution:} no; dtype,
+kernel reductions, error propagation and downstream quality need new tests.
+\item \textbf{State the paging invariant.} What must a page table preserve?
+\emph{Solution:} exactly ordered layer/head/token K/V values, model and
+position identity, owner isolation and lifetime. Physical adjacency is not
+part of the attention semantics.
+\end{enumerate}
+
+\section{Handoff: retain the oracle while changing storage}
+Chapter 36 should compare paged allocation against this exact causal oracle,
+including partial final blocks, branch divergence, reference counting and
+reclamation. Eviction may remove a cache's ownership reference; it must not
+invalidate pages still used by a live request. Establishing those invariants
+will turn a storage diagram into an executable system argument without
+changing what the model computes.

@@ -1,0 +1,6 @@
+\begin{tikzpicture}[font=\small\sffamily]
+\begin{axis}[width=8.5cm,height=5.2cm,xlabel={Retained tokens},ylabel={Logical KV MiB},xmin=0,ymin=0,grid=major,tick label style={font=\small},scaled x ticks=false]
+\input{\Generated/growth.tex}
+\end{axis}
+\node[align=left,text width=6.5cm] at (12,2.5) {$M(t)=2LtH_{kv}d_hb$\\[5pt]Example: $L=24$, $H_{kv}=8$,\\$d_h=128$, $b=2$ bytes.\\[5pt]At 4,096 tokens: 384 MiB.\\[5pt]Repeated concatenation also copies\\old prefixes: quadratic total traffic\\over a long decode continuation.};
+\end{tikzpicture}

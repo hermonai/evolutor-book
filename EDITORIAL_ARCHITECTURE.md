@@ -7,14 +7,16 @@ that every planned chapter is written or independently reviewed.
 
 Retain the 52-chapter spine in BOOK_PLAN.md. Its generated status describes
 the frozen canonical acceptance snapshot; use this map and the root README
-for current authoring progress. Do not regenerate archived editions merely
+for current authoring progress. The complete current navigation and direct
+prerequisites live in CHAPTER_STRUCTURE.md and chapter-structure.json; the
+structure checker binds authored titles to actual source files. Do not regenerate archived editions merely
 to change their progress labels.
 
 Chapters 1-2 retain their internal acceptance records. Chapter 3 has standalone
 and combined LaTeX review candidates. Chapters 4-21 have isolated authored-LaTeX
 review candidates with code, vector figures, and worked solutions.
-Chapters 22-33 have source-bound locally reviewed standalone integration
-candidates. Chapters 34-52 remain staged ZIP candidates requiring semantic
+Chapters 22-35 have source-bound locally reviewed standalone integration
+candidates. Chapters 36-52 remain staged ZIP candidates requiring semantic
 inspection and their own validation gates. Chapters 11-21 were authored at the
 reader's explicit request while the Chapters 1-10 integration milestone remains
 pending. These standalone candidates do not substitute for that integration.
@@ -201,16 +203,38 @@ authorization are separate questions. Physical COW is a refinement target,
 not a supplied backend; serial preflight is not crash/concurrent atomicity.
 No training restart, device speedup or genomic capability follows.
 
-Next: Chapter 34 gathers independent owned states into a batched transition and
-scatters results without changing scalar per-request semantics or advancing
-inactive lanes. Cancellation and membership changes need explicit boundaries.
+## Chapters 34–35: two state representations, two execution contracts
+
+Chapter 34 lifts the actual Chapter 31 input-gated native state through Chapter
+32 pool pins and Chapter 33 restored branches. It proves row/permutation
+equivalence and masked identity, distinguishes scheduler/request clocks, and
+derives a restricted numerical error/margin bound. Cancellation rejects only
+the affected lane while pins defer reclamation. Serialized per-lane scatter
+is not an atomic batch transaction or a device kernel. Logical traffic includes
+staging separately from a resident fused region and an extra intermediate.
+
+Chapter 35 imports the actual Chapter 23 causal Hermon Transformer rather than
+replacing its learned absolute positions with the package's rotary toy. Full
+layer-stack prefill/chunk/decode parity, offset rectangular masks, per-layer KV
+identity, content validation and cumulative copy costs are explicit. The full
+oracle uses the original model path. Offline strand-aware modes, GQA conversion,
+paging and optimized attention kernels remain separate work.
+
+Both chapters have six original vector/TXT mechanism plates and twenty worked
+exercises. Their local source/test/render records do not imply independent
+acceptance, trained genomic capability or a measured production advantage.
+
+Next: Chapter 36 preserves Chapter 35's exact ordered per-layer KV while deriving
+paged placement, prefix sharing, partial-tail COW and reference-safe reclamation.
+Chapter 37 adds continuous scheduling/precision; Chapter 38 evaluates speculative
+verification and attention-kernel transformations.
 
 ## Pending milestone: cumulative editorial and independent review
 
 Audit record validity, tensor notation, normalization conventions, routing
 cohorts, gradient history, and source closure, including the interfaces now
 used by Chapters 11-21. Separate biological regulation from expert routing.
-The continuous authored-source entry point now builds Chapters 1-33 with unified
+The continuous authored-source entry point now builds Chapters 1-35 with unified
 bibliography, glossary and index. Its compilation does not close this editorial
 or independent review milestone. Retain standalone candidates and accepted
 editions unchanged. Do not promote acceptance

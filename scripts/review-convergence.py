@@ -13,7 +13,7 @@ from PIL import Image, ImageDraw, ImageOps
 
 ROOT = Path(__file__).resolve().parents[1]
 PDF = ROOT / "output/pdf/evolutor-convergence.pdf"
-OUT = ROOT / "tmp/pdfs/convergence-through33"
+OUT = ROOT / "tmp/pdfs/convergence-review"
 ENV = dict(os.environ, PATH="/opt/homebrew/bin:/usr/local/bin:" + os.environ["PATH"])
 
 

@@ -1,0 +1,13 @@
+\begin{tikzpicture}[x=1cm,y=1cm,font=\small\sffamily]
+\node[draw=Blue,fill=Pale,align=center,text width=4.2cm] (x) at (2.3,3.6) {token embedding + learned position\\current layer normalization};
+\node[draw=Blue,minimum width=4.2cm] (p) at (2.3,2.2) {joint QKV projection};
+\draw[flow] (x) -- (p);
+\node[draw=Red,fill=Red!5,align=center,minimum width=3.2cm] (q) at (7.2,3.5) {$Q:[H,c,d_h]$\\transient current queries};
+\node[draw=Blue,fill=Pale,align=center,minimum width=3.2cm] (kv) at (7.2,1.5) {$K,V:[H,t+c,d_h]$\\old prefix + current chunk};
+\draw[flow] (p.east) -- (5,2.2) |- (q.west);
+\draw[flow] (5,2.2) |- (kv.west);
+\node[draw=Green,align=center,minimum width=3.4cm] (y) at (12,2.5) {masked scores / values\\merge heads / project\\residual and FFN};
+\draw[flow] (q.east) -| (y.north);
+\draw[flow] (kv.east) -| (y.south);
+\node[align=center] at (7,0) {The supplied model uses $H_q=H_{kv}$. Grouped-query memory arithmetic is not a GQA implementation.};
+\end{tikzpicture}

@@ -1,0 +1,43 @@
+\chapter*{Sources and further reading}
+\addcontentsline{toc}{chapter}{Sources and further reading}
+Access checked 17 October 2026. The original Chapter 23 model was read and
+imported, including learned absolute positions, pre-normalized blocks,
+mask conventions and offline/causal separation. The supplied Chapter 35
+package's rotary single-head attention was not silently adopted as Hermon's
+architecture. Its prefill/decode and storage questions were retained and
+extended into a full-model adapter with explicit offset masks and layered
+cache validation. The Chapter 36 allocation handoff was inspected, not
+integrated.
+
+The Transformer HTML paper's attention and multi-head sections were inspected.
+PyTorch 2.10 SDPA documentation was read for boolean-mask polarity,
+non-square causal alignment, inference dropout and numerical backend limits;
+local tests use installed PyTorch 2.10 CPU float64. FlashAttention and GQA
+primary abstracts were inspected for the narrow comparisons cited, not
+reimplemented or independently benchmarked. The original parity proof,
+cache adapter, copying derivation, figures and exercises do not reproduce
+those papers' empirical results.
+
+This reference implements neither paging, GQA conversion, rotary positions,
+quantized KV, optimized attention kernels nor a trained genomic benchmark.
+Content seals are not authentication or replay proofs. Local source/test
+and render review remains distinct from independent specialist or reader review.
+\begin{thebibliography}{9}
+\bibitem{vaswani} Ashish Vaswani et al.
+\emph{Attention Is All You Need}. 2017.
+Sections 3.2.1--3.2.3 inspected in the author's paper HTML.
+\url{https://arxiv.org/abs/1706.03762}.
+\bibitem{sdpa} PyTorch contributors.
+\emph{torch.nn.functional.scaled\_dot\_product\_attention},
+PyTorch 2.10 documentation. Mask, dropout, causal alignment and
+numerical implementation contract inspected.
+\url{https://docs.pytorch.org/docs/2.10/generated/torch.nn.functional.scaled_dot_product_attention.html}.
+\bibitem{flash} Tri Dao, Daniel Y. Fu, Stefano Ermon, Atri Rudra and
+Christopher R\'e. \emph{FlashAttention: Fast and Memory-Efficient Exact
+Attention with IO-Awareness}. 2022. Primary abstract inspected.
+\url{https://arxiv.org/abs/2205.14135}.
+\bibitem{gqa} Joshua Ainslie et al.
+\emph{GQA: Training Generalized Multi-Query Transformer Models from
+Multi-Head Checkpoints}. 2023. Primary abstract inspected.
+\url{https://arxiv.org/abs/2305.13245}.
+\end{thebibliography}

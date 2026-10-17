@@ -492,14 +492,31 @@
       "manifest_hashes_verified": 35,
       "undeclared_files": [],
       "existing_chapter_state": "absent",
-      "dependencies": [],
-      "conflicts": [],
-      "decision": "pending semantic inspection",
-      "source_verification": "not_rerun",
-      "code_test_state": "not_rerun",
-      "figure_state": "not_reviewed",
-      "pdf_state": "not_built_locally",
-      "final_integration_state": "candidate"
+      "dependencies": [
+        "EVOD-31",
+        "EVOD-32",
+        "EVOD-33"
+      ],
+      "conflicts": [
+        "Detached incoming recurrence replaced by actual Chapter 31/32/33 contracts."
+      ],
+      "decision": "Integrate native gated row lift, masked identity, lane map, pins, per-lane fenced completion, cancellation and corrected traffic model.",
+      "source_verification": "primary access depths recorded; incoming hashes verified; no external replication",
+      "code_test_state": "47 chapter tests; full regression 1416 passed, 0 skipped",
+      "figure_state": "six original TikZ/TXT plates; all 17 standalone pages color/grayscale author-reviewed",
+      "pdf_state": "strict 17-page standalone and cumulative through35 build passed; acceptance pending",
+      "final_integration_state": "locally_reviewed_candidate",
+      "local_gates": {
+        "integrated": true,
+        "tested": true,
+        "pdf_built": true,
+        "rendered": true,
+        "locally_reviewed": true,
+        "independent_specialist_review": false,
+        "accepted": false,
+        "full_book_converged": false
+      },
+      "local_review": "research/integration/ch34/local-review.json"
     },
     {
       "book": "evolutor",
@@ -523,14 +540,33 @@
       "manifest_hashes_verified": 36,
       "undeclared_files": [],
       "existing_chapter_state": "absent",
-      "dependencies": [],
-      "conflicts": [],
-      "decision": "pending semantic inspection",
-      "source_verification": "not_rerun",
-      "code_test_state": "not_rerun",
-      "figure_state": "not_reviewed",
-      "pdf_state": "not_built_locally",
-      "final_integration_state": "candidate"
+      "dependencies": [
+        "EVOD-08",
+        "EVOD-09",
+        "EVOD-23",
+        "EVOD-24",
+        "EVOD-30"
+      ],
+      "conflicts": [
+        "Incoming rotary single-head toy differs from actual Chapter 23 learned-position full model; actual architecture preserved."
+      ],
+      "decision": "Integrate actual Hermon stack prefill/chunk/decode with learned positions, per-layer cache, offset masks, strict context and copying derivation.",
+      "source_verification": "primary access depths recorded; incoming hashes verified; no external replication",
+      "code_test_state": "85 chapter tests; full regression 1416 passed, 0 skipped",
+      "figure_state": "six original TikZ/TXT plates; all 17 standalone pages color/grayscale author-reviewed",
+      "pdf_state": "strict 17-page standalone and cumulative through35 build passed; acceptance pending",
+      "final_integration_state": "locally_reviewed_candidate",
+      "local_gates": {
+        "integrated": true,
+        "tested": true,
+        "pdf_built": true,
+        "rendered": true,
+        "locally_reviewed": true,
+        "independent_specialist_review": false,
+        "accepted": false,
+        "full_book_converged": false
+      },
+      "local_review": "research/integration/ch35/local-review.json"
     },
     {
       "book": "evolutor",

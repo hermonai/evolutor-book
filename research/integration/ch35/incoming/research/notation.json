@@ -1,0 +1,13 @@
+{
+  "T": "retained token count",
+  "D": "model width",
+  "d_h": "attention head dimension",
+  "H_q": "query heads",
+  "H_kv": "key/value heads",
+  "L": "attention layers",
+  "b": "bytes per KV element",
+  "Q,K,V": "query/key/value matrices",
+  "M": "causal mask",
+  "C_t": "KV cache through token t",
+  "M_KV": "raw KV payload bytes"
+}

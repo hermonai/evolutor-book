@@ -1,0 +1,45 @@
+[
+  {
+    "key": "vaswani2017",
+    "claim": "Scaled dot-product attention and Transformer self-attention provide the mathematical basis for causal KV caching.",
+    "primary": "https://arxiv.org/abs/1706.03762",
+    "authors": "Ashish Vaswani et al.",
+    "date": "2017",
+    "access_date": "2026-10-05",
+    "access_depth": "primary paper established context"
+  },
+  {
+    "key": "su2021",
+    "claim": "Rotary position transformations motivate binding cache state to position convention.",
+    "primary": "https://arxiv.org/abs/2104.09864",
+    "authors": "Jianlin Su et al.",
+    "date": "2021",
+    "access_date": "2026-10-05",
+    "access_depth": "primary paper context; chapter uses simplified teaching rotation"
+  },
+  {
+    "key": "dao2022",
+    "claim": "FlashAttention is an IO-aware exact attention algorithm using tiling to reduce HBM/SRAM traffic rather than an approximate attention rule.",
+    "primary": "https://arxiv.org/abs/2205.14135",
+    "authors": "Tri Dao; Daniel Y. Fu; Stefano Ermon; Atri Rudra; Christopher R\u00e9",
+    "date": "2022",
+    "access_date": "2026-10-05",
+    "access_depth": "primary abstract inspected via web search"
+  },
+  {
+    "key": "kwon2023",
+    "claim": "Dynamic KV cache growth can waste memory through fragmentation/duplication; PagedAttention applies paging-style management and sharing.",
+    "primary": "https://arxiv.org/abs/2309.06180",
+    "authors": "Woosuk Kwon et al.",
+    "date": "2023",
+    "access_date": "2026-10-05",
+    "access_depth": "primary abstract inspected via web search"
+  },
+  {
+    "key": "EVOD23-24",
+    "claim": "Hermon DNA is Transformer-based and causal serving must remain distinct from offline/full-record strand-aware modes.",
+    "primary": "internal/external EVOD-23/24 continuity",
+    "access_date": "2026-10-05",
+    "access_depth": "project continuity"
+  }
+]

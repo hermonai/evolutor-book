@@ -1,0 +1,17 @@
+\begin{tikzpicture}[x=1cm,y=1cm,font=\small\sffamily]
+\node[font=\bfseries] at (2,4) {Owned pool};
+\node[font=\bfseries] at (7,4) {Temporary rows};
+\node[font=\bfseries] at (12,4) {Fenced installation};
+\foreach \y/\s/\r/\g in {3/7/A/2,1.7/2/C/8,.4/9/B/1} {
+\node[draw=Blue,fill=Pale,align=left,minimum width=3.6cm,minimum height=.8cm] (s\s) at (2,\y) {slot \s: owner \r\\generation \g, version $v_\r$};
+}
+\foreach \y/\j/\r in {3/0/A,1.7/1/C,.4/2/B} {
+\node[draw=Blue,align=center,minimum width=3cm,minimum height=.8cm] (r\j) at (7,\y) {row \j: $(h_\r,e_\r)$\\native transition};
+\node[draw=Green,align=center,minimum width=3.5cm,minimum height=.8cm] (o\j) at (12,\y) {owner \r / original slot\\accept iff fence matches};
+\draw[flow] (r\j.east) -- (o\j.west);
+}
+\draw[flow] (s7) -- (r0);
+\draw[flow] (s2) -- (r1);
+\draw[flow] (s9) -- (r2);
+\node[align=center] at (7,-.8) {Lane map survives sorting: row order is not allocation identity.\\Duplicate slots are rejected before pins or state writes.};
+\end{tikzpicture}

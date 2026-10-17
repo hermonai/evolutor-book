@@ -1,0 +1,1 @@
+Owners A and B are pinned in the same batch. A is cancelled after preparation and its slot becomes retiring, still unavailable for reuse. At acknowledgement A's result is rejected and its final pin settles; storage can then be scrubbed and its generation advanced. B can commit independently. Serial lane completion is not an all-or-nothing batch transaction.

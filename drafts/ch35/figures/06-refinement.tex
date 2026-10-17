@@ -1,0 +1,12 @@
+\begin{tikzpicture}[x=1cm,y=1cm,font=\small\sffamily]
+\node[font=\bfseries] at (3.5,4) {Chapter 35: contiguous oracle};
+\foreach \j in {0,1,2,3,4,5} {
+\node[draw=Blue,fill=Pale,minimum width=.75cm,minimum height=.8cm] at (1+\j*.8,2.8) {\j};}
+\node[align=center] at (3,1.5) {Logical order is $0,1,2,3,4,5$.\\Fresh concatenate preserves old cache.};
+\node[font=\bfseries] at (11,4) {Chapter 36: allocator refinement};
+\foreach \x/\lab in {8/4,10/1,12/7} {
+\node[draw=Green,fill=Green!8,align=center,minimum width=1.5cm,minimum height=.8cm] at (\x,2.8) {page \lab};}
+\node[align=center] at (10.5,1.5) {Map logical blocks to physical pages.\\Preserve values, order and ownership.};
+\draw[flow] (5.8,2.8) -- (7,2.8);
+\node[draw=Red,align=center,text width=12.7cm,inner sep=7pt] at (7,0) {Physical movement must not change attention.\\Sharing, partial-tail copy-on-write, generation fencing\\and reclamation require their own proofs and tests.};
+\end{tikzpicture}

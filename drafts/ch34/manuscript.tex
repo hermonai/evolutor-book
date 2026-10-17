@@ -1,0 +1,432 @@
+\chapter{DOGMA batching and state-native kernels}
+\label{evod34:chapter}
+
+A request arrives with a valid checkpoint and two tokens left. Another has one
+token left; a third is waiting. We could execute each request separately.
+We would like to place independent transitions into a common operation, let
+short requests leave promptly, and reuse the vacated capacity. The question is
+not initially how many tokens per second this produces. It is whether changing
+the grouping changes any request's answer, ownership or token position.
+
+Chapter 31 supplied a native transition; Chapter 32 supplied bounded owned
+storage; Chapter 33 supplied independent checkpoint branches. This chapter
+connects those \emph{actual implementations}, rather than introducing a second
+detached recurrence. Its reference is CPU float64, inference-only and
+serialized. A state-native device kernel is a future lowering of this contract,
+not an implementation claimed by a Python matrix expression.
+
+After working through the chapter, you should be able to derive the batched
+operator, explain the two relevant clocks, follow a lane from a pool handle to
+fenced installation, invalidate a plausible but wrong mask, and specify what
+a credible kernel benchmark would measure.
+
+\section{Begin with one state transition}
+\label{evod34:scalar}
+Let the ordered vocabulary have $V$ entries and the hidden state have $D$
+components. Chapter 31's restricted teaching model contains an embedding
+$E\in\mathbb R^{V\times D}$, retention $a\in[0,1)^D$, write parameter
+$w\in\mathbb R^D$, and output matrix $W\in\mathbb R^{D\times V}$.
+For token $u$, define
+\[
+ e=E_u,\qquad
+ f(h,u)=a\odot h+\sigma(w\odot e)\odot e,\qquad
+ z=f(h,u)W.
+\]
+The carried record is not merely $h$. It also binds tenant/request owner,
+artifact identity and consumed-token position $t$. A live transition installs
+$(t+1,f(h,u))$. The pool handle additionally names a pool instance, slot and
+allocation generation. Shape-compatible state belonging to another owner is
+not an admissible input.
+
+This model is an input-gated diagonal recurrence, not the complete proposed
+DOGMA architecture. It is nevertheless rich enough to expose state decay,
+nonlinear input gating, dense output reduction, continuation and ownership
+errors. Batching a larger native state would require lifting \emph{every}
+carried field and proving that no omitted field couples otherwise independent
+requests.
+
+\subsection{A hand calculation before tensor code}
+Use the actual tiny model from Chapter 31:
+\[
+ E_0=(0,0),\quad E_1=(1,0),\quad E_2=(0,1),\quad
+ a=(1/2,1/4),\quad w=(0,0).
+\]
+The gate is $1/2$ in each component. Starting at zero, request A consumes
+$(1,2,1)$:
+\[
+ (0,0)\mapsto(1/2,0)\mapsto(1/4,1/2)\mapsto(5/8,1/8).
+\]
+Request B consumes $(2)$ and ends at $(0,1/2)$. Request C consumes $(1,1)$
+and ends at $(3/4,0)$. These are exact binary fractions, so a rational oracle
+can validate both arithmetic and request accounting without calling the
+batched implementation.
+
+\section{The row lift and its legality}
+\label{evod34:lift}
+Stack $B$ independent states into $H\in\mathbb R^{B\times D}$ and their
+embeddings into $U\in\mathbb R^{B\times D}$. Then
+\[
+ F_B(H,u)=H\odot a+\sigma(U\odot w)\odot U,\qquad Z=F_B(H,u)W.
+\]
+Parameters broadcast across rows; they are shared read-only model data.
+Nothing averages, normalizes or communicates \emph{between} requests.
+
+\begin{proposition}[Rowwise equivalence and request permutation]
+For independent rows under the same artifact, row $r$ of $F_B$ equals
+$f(H_r,u_r)$. For a row permutation matrix $P$,
+\[
+ F_B(PH,Pu)=PF_B(H,u),\qquad Z(PH,Pu)=PZ(H,u).
+\]
+These are real-arithmetic identities. Floating-point implementations may
+require a numerical tolerance for the output reduction.
+\end{proposition}
+\begin{proof}
+Each hidden component uses only $H_{rj}$, embedding $E_{u_rj}$ and shared
+parameters $a_j,w_j$. The output matrix product contracts over the component
+index $j$, not the request index $r$. Permuting rows therefore merely renames
+independent evaluations.
+\end{proof}
+
+This proof fails for training-mode batch normalization over requests, a
+cross-request attention operator, a batch-wide top-$k$ capacity decision or a
+shared mutable random stream whose consumption changes with lane order.
+Those operations may be useful, but they need a different equivalence
+statement. Row independence is a property to establish, not a synonym for
+having a batch dimension.
+
+\section{Inactivity is an identity, not a zero token}
+\label{evod34:mask}
+A \Term{masked state transition} has the explicit semantics
+\[
+ h'_r=
+ \begin{cases}f(h_r,u_r),&m_r=1,\\h_r,&m_r=0,\end{cases}
+ \qquad t'_r=t_r+m_r.
+\]
+An inactive lane neither looks up a token nor publishes logits. The numerical
+array returned by the reference uses zero logits as an internal placeholder;
+the engine returns \texttt{None}, not that placeholder, for an unpublished
+lane.
+
+\Plate{03-mask}{The inactive path bypasses transition arithmetic and clock advancement. A zero embedding does neither.}{evod34:maskplate}
+
+For $h=(1,2)$, token $0$ has zero embedding, yet a live transition produces
+$(1/2,1/2)$. Treating padding as token zero would silently decay the state and
+advance its local clock. Conversely, computing both branches of an unsafe
+expression and applying a final selection is not sufficient: an inactive
+out-of-range ID must not trigger an embedding lookup first.
+
+The implementation validates live IDs before arithmetic and gathers only
+active embeddings. Hidden payloads must still be finite, declared-width CPU
+float64 tensors, even for inactive lanes. This makes inactivity an identity
+on a valid state, not a mechanism for hiding corrupted state.
+
+\Listing{batched_step}
+
+This function has no ownership authority. It only transforms validated
+numerical arrays. Ownership is enforced by the adapter around it.
+
+\section{Two clocks and changing membership}
+\label{evod34:clocks}
+A \Term{scheduler tick} selects a group of ready requests. A
+\Term{request-local token clock} counts accepted transitions for one owner.
+The clocks need not have equal values. In the worked trace, a stable-priority
+selector chooses the first two unfinished requests. It is deliberately simple
+enough to calculate by hand; it is not a fairness policy.
+
+\Plate{01-clocks}{A short request leaves and another enters without resetting the continuing request's clock.}{evod34:clocksplate}
+
+\begin{center}\input{\Generated/trace.tex}\end{center}
+Tick 2 is C's first transition, not its second. B's completed state is not
+advanced at ticks 2 or 3. The final hidden states agree with the three scalar
+calculations in Section~\ref{evod34:scalar}.
+
+A scheduler may group work by artifact, state geometry, dtype and backend
+compatibility. Within a group, requests can have different prefix lengths:
+this particular native recurrence carries its sufficient hidden state and
+position, not a padded tensor of every previous token. That does not imply
+that every possible DOGMA extension has constant-size sufficient state.
+
+\subsection{Fairness needs an explicit policy}
+The supplied \texttt{RoundRobin} chooses ready-list indices from the position
+after the last chosen index and wraps around. For a fixed set of $N$ continuously
+ready entries and capacity $B$, a sweep visits every entry within
+$\lceil N/B\rceil$ selection calls. This is a bound in \emph{selection calls},
+not milliseconds, and assumes the caller does not reorder or replace entries.
+An indexed ready list is not a durable request registry.
+
+\Listing{RoundRobin.choose}
+
+New admission, request priority, variable-duration kernels, quotas and
+preemption can invalidate a simplistic latency interpretation. A real service
+needs stable request identities, admission control, backpressure and tail
+measurements. Iteration-level scheduling in Orca is a relevant systems
+comparison, not a source of DOGMA speed claims~\cite{orca}.
+
+\section{Gather with identity; scatter through a fence}
+\label{evod34:gather}
+A temporary row number is not an allocation identity.
+A \Term{lane map} preserves each row's original handle, caller owner, pin,
+candidate state and output. Changing the row order for locality must change
+the lane map in the same way.
+
+\Plate{02-gather}{Temporary row order may change. Pool, owner, generation and completion version may not be guessed from that order.}{evod34:gatherplate}
+
+The adapter imports Chapter 33's bridge, which imports the actual Chapter 32
+pool and Chapter 31 model. Preparing a batch has four conceptual phases:
+validate the entire group; gather copied snapshots; compute finite candidates;
+then acquire pins and register the exact prepared job. Under the reference's
+serialized exclusive-call assumption, the snapshots cannot change between
+these phases. A concurrent backend would need a reservation/locking protocol
+or a retry on snapshot versions; this ordering alone is not such a protocol.
+
+Every handle is checked even for inactive lanes. Duplicate slots are rejected,
+including an active/inactive alias, because otherwise the promised inactive
+identity could refer to a slot simultaneously changed by its sibling.
+An already pinned slot is rejected by this adapter, although Chapter 32's
+more general pool can represent multiple outstanding pins. One in-flight
+batch per slot is a deliberately narrower engine policy.
+
+\Listing{Engine.prepare}
+
+A failed live token, foreign caller, stale generation, busy slot, wrong
+artifact or numerical overflow is detected before this function acquires
+any pins. This is preflight atomicity under expected validation failures,
+not a guarantee of recovery from process death or an allocation failure at
+an arbitrary machine instruction.
+
+\subsection{Completion is independently conditional}
+A \Term{fenced scatter} installs a lane only through its original pool pin.
+The pool checks the registered pin identity, owner, generation and snapshot
+version. A retired request cannot accept a result, even when the computed
+numbers are correct. An inactive lane has no pin and cannot commit.
+
+\Needspace{28\baselineskip}
+\Listing{Engine.finish}
+
+The engine registers the exact prepared job object; an equal-looking copied
+dataclass is not an issued completion capability. Its numerical candidates
+and logits are immutable tuples. This is accidental-misuse protection inside
+a trusted Python process, not authentication against hostile code that can
+modify engine internals.
+
+Logits returned for an accepted lane are available to a caller; this reference
+does not implement Chapter 30's network-output reservation and publication
+transaction. Integrating the two must bind state acceptance and output
+acceptance to the same request revision. Do not infer that simply returning
+a tuple has already solved streaming-service publication.
+
+\section{Cancellation separates rejection from reclamation}
+\label{evod34:cancellation}
+Suppose A and B are prepared together. A is cancelled before acknowledgement.
+Chapter 32's release marks A's slot retiring; its pin prevents physical reuse.
+On completion, A's candidate is rejected and its pin settles. Only then can
+its storage be scrubbed and its generation advanced. B may commit normally.
+
+\Plate{04-fence}{A cancelled lane rejects its result; a sibling can commit. Both outstanding pins must still be acknowledged.}{evod34:fenceplate}
+
+This is not an all-or-nothing transaction across a batch. The two lanes
+represent different requests, with independently decided acceptance.
+A caller that needs group atomicity must build and prove that policy
+separately. Neither a Python loop over lanes nor a single GPU launch creates
+a cross-request transaction.
+
+If a model's contents change between prepare and finish, the adapter detects
+the changed artifact, discards every registered pin and raises an error.
+Prepared logits must not escape as current-artifact outputs. A production
+system normally avoids this by retaining immutable versioned model instances
+until all users have finished.
+
+The caller must finish or explicitly discard every issued job. Dropping a
+Python reference to an unfinished job is not an acknowledgement and can leave
+slots pinned indefinitely. This chapter supplies neither a durable work
+journal nor automatic recovery after a process crash.
+
+\section{Numerical equivalence is not bitwise identity}
+\label{evod34:numerics}
+Let $\widehat h_t$ be a backend's computed state and $h_t$ the scalar reference
+for the same request and accepted token sequence. Suppose each live transition
+has componentwise implementation discrepancy at most $\varepsilon$,
+measured after applying the exact transition to the backend's prior state.
+For $\rho=\|a\|_\infty<1$,
+\[
+ e_{t+1}\le \rho e_t+\varepsilon,\qquad
+ e_t\le \rho^t e_0+\varepsilon\frac{1-\rho^t}{1-\rho}.
+\]
+This follows by subtracting the two updates: the input term is identical
+and only the retained state propagates earlier discrepancy. Inactive lanes
+add no error when implemented as exact copies. The bound is specific to this
+input-gated diagonal contract; state-feedback gates require another analysis.
+
+Define $\|W\|_{1,\max}=\max_k\sum_j|W_{jk}|$. With a separately bounded
+output-reduction error $\eta$,
+\[
+ \|\widehat z-z\|_\infty\le \|W\|_{1,\max}e_t+\eta.
+\]
+If the best reference logit exceeds the second-best by more than twice this
+bound, greedy selection is stable. Near a tie, close logits can still produce
+different token choices. After a changed token is fed back, the hypothesis
+of an identical input sequence no longer holds. Reporting only a small
+maximum error while omitting token divergence is incomplete.
+
+The tests use exact rational fixtures and float64 scalar/batch comparisons;
+they do not certify every low-precision, fused or parallel reduction backend.
+
+\section{Layouts, two axes and a state-native kernel boundary}
+\label{evod34:layout}
+For row-major $H[B,D]$ with element width $b$, the address of $(r,j)$ relative
+to the buffer start is $(rD+j)b$. Threads spanning components within a row
+see contiguous storage; threads spanning requests at a fixed component see
+stride $Db$. A transposed representation reverses that trade-off.
+
+\Plate{05-layout}{Memory stride is a concrete property. Request batching and token-axis scan solve different parallelism problems.}{evod34:layoutplate}
+
+For a multi-field state, an array of structures groups fields per request,
+while a structure of arrays groups the same field across requests. Neither
+layout is universally optimal. The kernel's thread mapping, state-bank width,
+alignment and actual access pattern determine useful transaction locality.
+NVIDIA's guidance motivates coalescing and profiling, not choosing a layout
+without measuring it~\cite{cuda}.
+
+Request-axis batching uses row independence. Sequence-axis scan, by contrast,
+must preserve the ordered composition of a request's transitions. Chapter 26
+owns that derivation. Combining the axes is legal only if both arguments
+remain true; a broadcast batch dimension does not make an arbitrary recurrent
+operator associative.
+
+\section{Count bytes before claiming a faster kernel}
+\label{evod34:traffic}
+For this embedding-driven recurrence, count the logical reads of $e$ and $h$,
+writes of $h'$ and logits $z$, and omit shared parameter traffic:
+\[
+ M_{\rm base}=B(3D+V)b.
+\]
+This is a lower-scope payload model for a resident fused region. It is not the
+earlier dense-input-projection formula $B(I+2D+O)b$: our actual model uses an
+embedding lookup and elementwise gate, not $XW$ as a hidden-state projection.
+
+A staged gather reads pool hidden values and writes a temporary $H$; staged
+scatter reads candidates and writes the pool. Those additional transfers
+contribute $4BDb$. Materializing and rereading one additional $D$-wide
+intermediate contributes another $2BDb$. A simple operation model counts
+approximately $2BDV+4BD$ multiply/add operations, with sigmoid evaluation
+reported separately rather than silently equated to one FLOP.
+
+\Plate{06-traffic}{Separating kernel payload, staging and one intermediate prevents a misleading fusion-only comparison.}{evod34:trafficplate}
+\begin{center}\input{\Generated/traffic.tex}\end{center}
+
+The generated example has $B=8,D=64,V=4,b=8$ and 6,144 modeled
+multiply/add operations, excluding sigmoid. The corresponding idealized
+arithmetic intensities are about $0.490$, $0.212$ and $0.166$ modeled
+operations per byte for the three policies. These ratios expose the staging
+penalty but are not a hardware roofline result. The actual Python reference
+uses indexed tensors, clones, tuple conversion and hashing, all of which add
+work not represented by this payload model.
+
+Fusion may avoid a temporary while increasing registers, reducing occupancy
+or specializing too many shapes. A state-native kernel should consume the
+declared sufficient native state and preserve its semantics. The name alone
+does not imply optimal layout, fixed memory for all model variants, or a
+performance advantage over a Transformer.
+
+\subsection{What a subsequent backend must report}
+A credible experiment fixes artifact, dtype, geometry, vocabulary, active-lane
+fraction, batch-size distribution, prefix lengths and request traffic.
+It records hardware, driver/compiler/backend versions, warmup and synchronized
+timing scope. Measure useful accepted transitions, not allocated lane capacity;
+separate rejected/cancelled work, gather/scatter, kernel execution and output
+publication. Report latency distributions and throughput together. Compare
+resident and staged paths at equal semantics and include correctness checks
+across shapes, masks, permutations, overflow and cancellation.
+
+This chapter runs no CUDA/Triton kernel and reports no device throughput.
+The source-linked byte table is arithmetic evidence, not an empirical speedup.
+
+\section{Reproduce, break and explain}
+\label{evod34:validation}
+Run the chapter builder to generate the literal function listings and tables,
+then the chapter tests. The tests cover actual scalar/batched parity across
+seeds and widths; all 81 length-four streams of the three-token tiny model;
+inactive canaries; duplicate aliases; cross-tenant lane separation; stale and
+foreign handles; model changes; cancellation and deferred reuse; request
+permutations; and checkpoint-restored branches from Chapter 33.
+
+The checkpoint integration is important: left and right branches start at
+$(5/8,1/8)$, then consume tokens 0 and 2 in the same batch. They end at
+$(5/16,1/32)$ and $(5/16,17/32)$, while the immutable prefix remains
+replay-consistent. This is a tested continuation chain through three preceding
+interfaces, not merely two algebraic formulas that happen to resemble each other.
+
+\section{Twenty worked exercises}
+\label{evod34:exercises}
+\begin{enumerate}
+\item \textbf{Derive the output shape.} Why does $H'W$ produce one vocabulary
+vector per request? \emph{Solution:} $[B,D][D,V]=[B,V]$ contracts only $D$.
+Contracting over $B$ would mix independent owners and violate the row proof.
+\item \textbf{Compute a second C transition.} Start at $(1/2,0)$ and consume
+token 1. \emph{Solution:} retention gives $(1/4,0)$ and the write adds
+$(1/2,0)$, hence $(3/4,0)$.
+\item \textbf{Find the mask counterexample.} Why does token zero not preserve
+$(1,2)$? \emph{Solution:} the write vanishes, but retention remains.
+The result is $(1/2,1/2)$ and a live call also advances the clock.
+\item \textbf{Ignore an invalid inactive ID safely.} Where must masking occur?
+\emph{Solution:} before embedding lookup, by collecting active indices.
+A final selection after an invalid lookup is too late.
+\item \textbf{Prove permutation legality.} Which reduction index matters?
+\emph{Solution:} the output contraction is within a row over $D$;
+neither hidden updates nor outputs reduce over request rows.
+\item \textbf{Break that proof.} Add a mean over batch hidden states to every
+update. \emph{Solution:} each owner's answer now depends on membership.
+Scalar execution is no longer the correct oracle for the modified model.
+\item \textbf{Distinguish clocks.} At tick 2, what is C's position?
+\emph{Solution:} one after its first accepted transition, although the global
+scheduler has run twice.
+\item \textbf{State a fairness assumption.} Does round robin guarantee latency?
+\emph{Solution:} only a selection-call bound for a fixed continuously ready
+cohort and stable indexing; kernel duration and admission remain unspecified.
+\item \textbf{Explain duplicate inactive aliases.} Why reject them?
+\emph{Solution:} another lane could mutate the same physical state while the
+inactive lane promises identity. Conservative rejection avoids ambiguity.
+\item \textbf{Identify preflight atomicity.} Does a bad final token pin earlier
+lanes? \emph{Solution:} no; complete group validation and arithmetic precede
+pin acquisition in this serialized reference.
+\item \textbf{Cancel one lane.} Can its sibling commit?
+\emph{Solution:} yes; acceptance is independently fenced per request.
+Do not describe the batch as a cross-request atomic transaction.
+\item \textbf{Reclaim cancelled storage.} When may its generation advance?
+\emph{Solution:} after the final registered pin acknowledges. Terminal
+rejection does not itself prove that physical work can no longer access memory.
+\item \textbf{Change a model parameter in flight.} What happens here?
+\emph{Solution:} content identity changes; completion discards every issued
+pin and raises rather than returning stale-artifact logits.
+\item \textbf{Derive an error bound.} Let $\rho=1/2$, $e_0=0$ and per-step
+discrepancy $\varepsilon$. \emph{Solution:} $e_t\le2\varepsilon(1-2^{-t})$,
+below $2\varepsilon$; this is not a universal DOGMA bound.
+\item \textbf{Preserve greedy output.} A logit error bound is $\delta$.
+What sufficient margin is required? \emph{Solution:} more than $2\delta$,
+because the leader can decrease and its competitor increase by $\delta$ each.
+\item \textbf{Count staging bytes.} Why $4BDb$ rather than $2BDb$?
+\emph{Solution:} gather reads and writes one state tensor, and scatter reads
+and writes another. The kernel's own state read/write is already in the base.
+\item \textbf{Count a temporary.} For the displayed example, what does one
+additional hidden intermediate cost? \emph{Solution:} $2(8)(64)(8)=8192$
+logical bytes, for its write and reread.
+\item \textbf{Choose layout responsibly.} Is a transposed hidden tensor always
+faster? \emph{Solution:} no; it changes strides. Match thread/component mapping
+and measure transaction efficiency and end-to-end overhead.
+\item \textbf{Connect checkpoints.} Why can two restored branches batch
+independently? \emph{Solution:} restore gives distinct fresh allocations with
+copied payloads; each lane has its own owner and fence.
+\item \textbf{Design the missing service test.} What is not proved by pool
+acceptance? \emph{Solution:} streaming output publication and backpressure.
+Bind the native result and the runtime shell to the same accepted revision,
+then test terminal races and output conservation.
+\end{enumerate}
+
+\section{Handoff: a different representation of serving state}
+DOGMA's restricted recurrence carries a fixed-width vector. Hermon DNA is a
+Transformer: causal serving retains ordered keys and values at every layer.
+Chapter 35 will preserve the same causal model under prefill and decode,
+including its actual position convention and residual stack. Only after that
+oracle is established should Chapter 36 change the physical allocation into
+pages. Reusing an engine slogan is not a substitute for deriving each model's
+state.

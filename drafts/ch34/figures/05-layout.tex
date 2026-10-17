@@ -1,0 +1,14 @@
+\begin{tikzpicture}[x=1cm,y=1cm,font=\small\sffamily]
+\node[font=\bfseries,anchor=west] at (0,4) {A. Row-major $H[B,D]$};
+\foreach \j in {0,1,2,3} {
+\foreach \i in {0,1,2} {
+\node[draw=Blue,fill=Pale,minimum width=.8cm,minimum height=.6cm] at (1+\j*.85,2.8-\i*.7) {$h_{\i\j}$};}}
+\node[align=center] at (2.3,.35) {offset $(rD+j)b$\\row stride $Db$; component stride $b$};
+\node[font=\bfseries,anchor=west] at (6,4) {B. Two independent axes};
+\draw[flow] (7,1.5) -- (12.8,1.5) node[right] {$T$};
+\draw[flow] (7,1.5) -- (7,3.5) node[above] {$B$};
+\foreach \y/\r in {1.9/A,2.5/B,3.1/C} {
+\draw[Blue] (7.5,\y) -- (12.5,\y);
+\node[fill=white] at (10,\y) {request \r: causal token order};}
+\node[align=center] at (10,.5) {Across $B$: row independence.\\Across $T$: scan needs a composition law.};
+\end{tikzpicture}

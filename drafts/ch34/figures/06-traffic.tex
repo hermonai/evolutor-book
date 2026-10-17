@@ -1,0 +1,8 @@
+\begin{tikzpicture}[x=1cm,y=1cm,font=\small\sffamily]
+\node[font=\bfseries] at (7,4) {Logical tensor traffic for $B=8,\;D=64,\;V=4,\;b=8$};
+\foreach \y/\lab/\len/\val in {3/resident fused/4.2/12544,1.8/staged fused/9.65/28928,.6/staged unfused/12.38/37120} {
+\node[anchor=east] at (0,\y) {\lab};
+\draw[fill=Blue!12,draw=Blue] (.2,\y-.3) rectangle (\len+.2,\y+.3);
+\node[anchor=west] at (\len+.35,\y) {\val\ B};}
+\node[align=center] at (7,-.6) {Kernel base: $B(3D+V)b$; staging: $4BDb$; one extra intermediate: $2BDb$.\\Weights, metadata, transaction granularity and temporary clones are excluded.};
+\end{tikzpicture}

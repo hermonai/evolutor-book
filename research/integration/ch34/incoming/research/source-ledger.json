@@ -1,0 +1,30 @@
+[
+  {
+    "key": "EVOD31-33",
+    "claim": "DOGMA scalar state execution, ownership and checkpoint semantics constrain batching.",
+    "primary": "internal/external preceding chapter packages",
+    "access_date": "2026-10-05",
+    "access_depth": "continuity contracts and live repository architecture inspected"
+  },
+  {
+    "key": "blelloch1990",
+    "claim": "Associative scan supplies a distinct sequence-axis parallelism concept; legality depends on an associative composition.",
+    "primary": "Blelloch, Prefix Sums and Their Applications (1990)",
+    "access_date": "2026-10-05",
+    "access_depth": "established primary monograph context; detailed proof already owned by EVOD-26"
+  },
+  {
+    "key": "cuda-guide",
+    "claim": "GPU global-memory throughput depends on transaction/coalescing patterns; scattered accesses can waste transferred bytes.",
+    "primary": "https://docs.nvidia.com/cuda/cuda-programming-guide/02-basics/writing-cuda-kernels.html",
+    "access_date": "2026-10-05",
+    "access_depth": "official documentation section 2.3.3/2.3.4 inspected"
+  },
+  {
+    "key": "orca",
+    "claim": "Iteration-level scheduling is a relevant serving-system comparison for dynamic request batches.",
+    "primary": "Yu et al., Orca: A Distributed Serving System for Transformer-Based Generative Models, OSDI 2022",
+    "access_date": "2026-10-05",
+    "access_depth": "systems-paper context; no DOGMA speed claim derived"
+  }
+]

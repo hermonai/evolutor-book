@@ -1,5 +1,36 @@
 # Integration decisions
 
+## EVOD-34–35 and project chapter structure — 17 October 2026
+
+Use the supplied r01 packages as inspected, hash-verified source candidates.
+Chapter 34 replaces a detached recurrence/dictionary pool with the actual
+Chapter 31 gate, Chapter 32 pin/generation/version fences and Chapter 33
+restored branches. Prove row/permutation parity and masked identity; derive
+local-clock, numerical-margin and corrected staging/fusion traffic contracts.
+Cancellation and independent lane acceptance do not imply batch atomicity,
+device concurrency or integrated network-output publication.
+
+Chapter 35 replaces the package's rotary single-head toy with an adapter for
+the actual Chapter 23 learned-absolute-position Hermon Transformer. Preserve
+per-layer normalization/projections, residuals, FFN and head; use absolute-offset
+rectangular masks. The independent full path, all fixture compositions,
+layer-wise KV hooks and SDPA counterexample verify continuity. Content seals
+detect accidental mutation, not trusted-producer forgery. Derive resident bytes
+separately from quadratic old-prefix copying; no paging/GQA/kernel benchmark.
+
+47 and 85 chapter tests; one new chapter-structure test; full regression
+1,416 passed. Each standalone is 17 pages, with six original vector/TXT plates
+and twenty worked exercises. Continuous authored-source assembly through35
+is 443 pages; all new pages and selected front/back/handoff material were
+inspected in color/grayscale. Whole-volume editorial/scientific/accessibility
+QA and independent specialist/reader acceptance remain open.
+
+Add CHAPTER_STRUCTURE.md, chapter-structure.json and a checker for all 52
+titles, twelve parts and direct acyclic prerequisites. Reconcile active titles
+without rewriting frozen BOOK_PLAN.md or accepted opening records. Update root
+README/current guide and inventory; Chapter 36 is the next unintegrated package.
+No push or changes to DNA Computing/Inside LLM Engine in this turn.
+
 ## EVOD-33 — 17 October 2026
 
 Substantially rebuild evolutor-ch33-r01.zip against the actual Chapter 31

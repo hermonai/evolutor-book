@@ -1,0 +1,1 @@
+Three scheduler ticks with maximum batch two. Tick 1 executes A and B. B finishes; tick 2 admits C alongside A. Tick 3 executes A and C. Local token clocks are A:1,2,3; B:1 and then unchanged; C:0,1,2. Tick count alone cannot reconstruct a request's consumed prefix.

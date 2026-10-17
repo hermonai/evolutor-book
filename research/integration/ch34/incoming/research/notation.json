@@ -1,0 +1,13 @@
+{
+  "B": "active request lanes",
+  "T": "sequence length/position axis",
+  "D": "state width",
+  "I": "input width",
+  "O": "output width",
+  "H": "batched state matrix BxD",
+  "X": "batched input matrix BxI",
+  "m_j": "activity mask",
+  "b": "bytes per element",
+  "M_base": "simplified compulsory payload bytes",
+  "F": "simplified floating-operation count"
+}

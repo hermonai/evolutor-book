@@ -1,0 +1,1 @@
+Contiguous storage defines exact ordered per-layer K/V. Chapter 36 may map its logical blocks to physical pages 4,1,7, but must reconstruct the same sequence of values and preserve model/position/caller identity. This chapter supplies no page allocator, sharing backend, copy-on-write implementation or concurrent reclamation mechanism.

@@ -1,0 +1,10 @@
+{
+  "B": "independent request lanes",
+  "D": "native hidden width",
+  "V": "vocabulary",
+  "t_r": "accepted consumed tokens for request r",
+  "b": "bytes per numerical element",
+  "rho": "maximum retention",
+  "epsilon": "per-live-step backend discrepancy",
+  "eta": "output reduction discrepancy"
+}

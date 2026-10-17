@@ -125,4 +125,16 @@ whose observations agree with independently owned logical copies.
 consistency. This costs computation and does not authorize access.
 \item[Wire-byte budget] Bound on retained encoded checkpoint bytes; excludes
 Python heap, allocator metadata, live branch storage and device buffers.
+\item[Lane map] Mapping from a temporary batched row to its original owner,
+pool handle, generation, pin and output order; row number is not allocation identity.
+\item[Fenced scatter] Per-lane pool installation through the registered snapshot
+pin and version; independent lane acceptance is not cross-request atomicity.
+\item[Request-local token clock] Number of accepted consumed-token transitions
+for one request; differs from scheduler ticks and inactive-lane capacity.
+\item[Per-layer KV cache] Ordered keys and values retained at each attention
+layer's normalized projection boundary for a causal prefix.
+\item[Offset causal mask] Continuation query $i$ after $t$ cached tokens may
+read key $j$ exactly when $j\le t+i$; a rectangular upper-left triangle differs.
+\item[Cache content seal] Integrity check over cache context and values;
+resealing by a trusted producer is not authentication or native replay proof.
 \end{description}

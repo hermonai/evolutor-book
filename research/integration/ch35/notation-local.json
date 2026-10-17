@@ -1,0 +1,12 @@
+{
+  "L": "layers",
+  "H": "actual equal query/KV head count",
+  "H_kv": "KV heads in general payload arithmetic",
+  "d_h": "head width",
+  "t": "consumed prefix length",
+  "c": "current chunk length",
+  "P": "prompt length",
+  "G": "appended count",
+  "gamma": "logical KV bytes per token",
+  "mode": "causal ACGT learned absolute"
+}

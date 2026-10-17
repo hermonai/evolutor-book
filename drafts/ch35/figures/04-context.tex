@@ -1,0 +1,8 @@
+\begin{tikzpicture}[x=1cm,y=1cm,font=\small\sffamily]
+\node[draw=Blue,fill=Pale,text width=5.7cm,minimum height=3.4cm,align=left] (c) at (3,2.6) {Cache envelope\\owner = tenant / request\\artifact = parameters, positions\\and normalization/configuration\\mode = causal ACGT / learned absolute\\tokens = exact consumed prefix\\layers = ordered finite K/V tensors};
+\node[draw=Green,align=center,text width=5.9cm,minimum height=1.2cm] (v) at (11,3.4) {Validate geometry and context\\then verify content seal};
+\node[draw=Red,align=center,text width=5.9cm,minimum height=1.2cm] (n) at (11,1.3) {A producer can alter values and reseal.\\Integrity is not authorization\\or proof of native replay.};
+\draw[flow] (c.east) -- (6.5,2.6) |- (v.west);
+\draw[flow] (v) -- (n);
+\node[align=center] at (7,-.2) {Trusted serialized inference objects only; no executable deserialization or hostile-process isolation.};
+\end{tikzpicture}

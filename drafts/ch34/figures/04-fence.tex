@@ -1,0 +1,16 @@
+\begin{tikzpicture}[x=1cm,y=1cm,font=\small\sffamily]
+\foreach \x/\t in {1/pin,4/prepare,7/cancel,10/acknowledge,13/reuse} {\node at (\x,3.8) {\t};}
+\draw[flow] (.3,3.3) -- (14,3.3);
+\node[anchor=east] at (.4,2.4) {A};
+\node[anchor=east] at (.4,.9) {B};
+\draw[Blue,very thick] (1,2.4) -- (7,2.4);
+\draw[Red,very thick,dashed] (7,2.4) -- (10,2.4);
+\draw[Green,very thick] (10,2.4) -- (13,2.4);
+\draw[Blue,very thick] (1,.9) -- (10,.9);
+\node[fill=white,align=center] at (4,2.4) {pinned / owned};
+\node[fill=white,align=center] at (8.5,1.8) {retiring\\cannot reuse};
+\node[fill=white,align=center] at (12,1.8) {scrubbed\\generation $+1$};
+\node[fill=white,align=center] at (5.5,.9) {independent pinned sibling};
+\node[draw=Green,fill=Green!8,align=center] at (11,.3) {B commits; A rejects\\both pins settle};
+\node[align=center] at (7,-.8) {Cancellation controls acceptance. Acknowledgement controls physical reclamation.};
+\end{tikzpicture}

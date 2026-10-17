@@ -1,0 +1,11 @@
+\begin{tikzpicture}[x=1cm,y=1cm,font=\small\sffamily]
+\node[draw=Blue,fill=Pale,minimum width=2.4cm,minimum height=1cm] (h) at (1.5,2) {$h,t$};
+\node[draw=Blue,align=center,minimum width=4.6cm,minimum height=1.1cm] (f) at (7,3.2) {$a\odot h+\sigma(w\odot e)\odot e$\\clock $t+1$};
+\node[draw=Green,align=center,minimum width=4.6cm,minimum height=1.1cm] (id) at (7,.6) {exact copy $h$\\clock $t$; no token lookup};
+\node[draw=Blue,minimum width=2.6cm,minimum height=1cm] (out) at (12.5,2) {$h',t'$};
+\draw[flow] (h.east) -- (3.5,2) |- node[above,pos=.7] {active} (f.west);
+\draw[flow] (3.5,2) |- node[below,pos=.7] {inactive} (id.west);
+\draw[flow] (f.east) -| (out.north);
+\draw[flow] (id.east) -| (out.south);
+\node[align=center,Red] at (7,-.7) {Zero input is not inactivity: $(1,2)\mapsto(1/2,1/2)$ under retention $(1/2,1/4)$.};
+\end{tikzpicture}

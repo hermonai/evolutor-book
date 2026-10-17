@@ -1,0 +1,12 @@
+\begin{tikzpicture}[x=1cm,y=1cm,font=\small\sffamily]
+\node[font=\bfseries,anchor=west] at (0,4.6) {A. Same model, same causal record, different evaluation schedule};
+\node[draw=Blue,fill=Pale,minimum width=4cm,align=center,minimum height=1cm] (full) at (2.3,3) {Full Chapter 23 model\\all six causal rows};
+\node[draw=Blue,fill=Pale,minimum width=4cm,align=center,minimum height=1cm] (pre) at (8,3) {Prefill first three tokens\\layer 1 KV; layer 2 KV};
+\node[draw=Blue,minimum width=4cm,align=center,minimum height=1cm] (dec) at (8,1) {Decode tokens 4, 5, 6\\each layer appends locally};
+\node[draw=Green,fill=Green!8,minimum width=4cm,align=center,minimum height=1cm] (eq) at (2.3,1) {All six output rows agree\\within declared tolerance};
+\draw[flow] (pre) -- (dec);
+\draw[flow] (full) -- (eq);
+\draw[flow] (dec.west) -- (eq.east);
+\node[align=left,anchor=west] at (10.5,2) {Match normalized\\QKV, residuals, FFN,\\positions and head.};
+\node[align=center] at (7,-.3) {Parity is proved by token-and-layer induction, then checked against the original full path.};
+\end{tikzpicture}

@@ -1,0 +1,31 @@
+\chapter*{Sources and further reading}
+\addcontentsline{toc}{chapter}{Sources and further reading}
+Access checked 17 October 2026. The supplied Chapter 34 package was inspected
+as source material, not executed as a trusted build. Its detached recurrence,
+simple slot dictionary and byte model were replaced by the actual Chapter
+31--33 native/pool/checkpoint contracts. The incoming scheduling, masking,
+layout and fusion topics remain; local tests, tables, code and illustrations
+are newly source-bound.
+
+The USENIX Orca presentation-page abstract was inspected for iteration-level
+scheduling, not for a reproduced serving implementation. NVIDIA's live
+CUDA Best Practices Guide 13.4 was inspected on profiling, verification and
+coalesced accesses. No external benchmark is reproduced or transferred to
+DOGMA. Mathematical derivations and arithmetic models in this chapter are
+original and explicitly restricted to the declared recurrence.
+
+The CPU reference is not a fused device kernel, concurrent service, durable
+work journal, authenticated ownership system or measured genomic model.
+Local technical and visual review does not replace independent review.
+\begin{thebibliography}{9}
+\bibitem{orca} Gyeong-In Yu, Joo Seong Jeong, Geon-Woo Kim, Soojeong Kim
+and Byung-Gon Chun. \emph{Orca: A Distributed Serving System for
+Transformer-Based Generative Models}. OSDI 2022, pp.\ 521--538.
+Presentation-page abstract inspected.
+\url{https://www.usenix.org/conference/osdi22/presentation/yu}.
+\bibitem{cuda} NVIDIA. \emph{CUDA C++ Best Practices Guide}, version 13.4,
+sections on profiling, reference comparison, numerical accuracy and
+coalesced access to global memory. Live documentation inspected; no
+hardware performance validation performed.
+\url{https://docs.nvidia.com/cuda/cuda-c-best-practices-guide/index.html}.
+\end{thebibliography}

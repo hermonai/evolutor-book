@@ -1,0 +1,1 @@
+A live lane executes the actual Chapter 31 gated update and advances its position by one. An inactive lane bypasses token lookup and all transition arithmetic, copies the hidden state, emits no published output, and leaves position unchanged. Replacing the input by zero still decays a nonzero state, so it is not a valid implementation of inactivity.

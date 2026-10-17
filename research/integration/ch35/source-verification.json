@@ -1,0 +1,38 @@
+{
+  "date": "2026-10-17",
+  "chapter": 35,
+  "book": "evolutor",
+  "original_archive": "evolutor-ch35-r01.zip",
+  "package_sha256": "1ae3c873f3e43000160e9c23f8704ddb4c2a60601735171c7e5ac032e05af547",
+  "declared_hashes_verified": 36,
+  "incoming_text_final_whitespace_normalized": true,
+  "inherited_validation_claims_adopted": false,
+  "sources": [
+    {
+      "path": "drafts/ch23/reference.py",
+      "access": "whole Hermon model inspected and imported: positions, causal/offline validity, multi-head projections, layer stack, head"
+    },
+    {
+      "url": "https://arxiv.org/html/1706.03762v7",
+      "access": "sections 3.2.1-3.2.3 scaled attention, multi-head and causal masking inspected"
+    },
+    {
+      "url": "https://docs.pytorch.org/docs/2.10/generated/torch.nn.functional.scaled_dot_product_attention.html",
+      "access": "API masks/polarity, non-square causal upper-left alignment, dropout and numerical backend limits; actual local installed version 2.10"
+    },
+    {
+      "url": "https://arxiv.org/abs/2205.14135",
+      "access": "primary abstract only; IO-aware exact attention comparison, no reproduction"
+    },
+    {
+      "url": "https://arxiv.org/abs/2305.13245",
+      "access": "primary abstract only; grouped-query geometry context, no GQA conversion implemented"
+    },
+    {
+      "path": "evolutor-ch36-r01.zip/CONTINUATION.md",
+      "access": "allocation/refcount/COW handoff inspected, not integrated"
+    }
+  ],
+  "external_replication": false,
+  "independent_review": false
+}
