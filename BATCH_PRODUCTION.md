@@ -142,3 +142,47 @@ local integration commit. Publishing requires explicit user authorization.
 Authoring, tested standalone, cumulative integration, local review and
 publication acceptance remain separate stages. The presence of all ZIPs or
 all chapter source folders does not close the final gates.
+
+## Read-only admission check
+
+The coordinator can inspect progress without importing changing chapter code:
+
+```sh
+python3 scripts/audit-production.py
+python3 scripts/audit-production.py --start 36 --end 38 --json --require-ready
+python3 -m pytest tests/test_production_admission.py tests/test_production_batches.py -q -o addopts=''
+```
+
+The audit checks required sources, native figure/TXT pairs, package provenance,
+standalone build/source/PDF hashes, local review declarations and the owning
+batch's handoff. It rejects escaping evidence paths and detects changed files
+or source inventories during a chapter scan. It does not write files, import
+references, rebuild PDFs, run author tests or change manuscript stages.
+Generated build records and PDFs must be present locally; a fresh checkout
+without rebuilt artifacts is correctly reported as missing evidence.
+
+“Mechanically ready for coordinator review” is not integration or acceptance.
+The coordinator still reads every adoption mapping, verifies scientific and
+interface reasoning, reproduces tests/fixtures, inspects rendered pages and
+resolves cross-batch dependencies. Hash agreement cannot establish completeness
+of declared dependencies, actual visual inspection or correctness of a claim.
+Test counts in review JSON are declarations until independently rerun locally.
+
+## Cross-batch review priorities
+
+These are integration obligations, not a claim that the tests already exist
+or pass. A missing backend must stay explicit rather than being replaced by a
+similarly named toy. Test only stable interfaces after their owners hand off.
+
+| Boundary | Required reasoning and falsifiable check |
+|---|---|
+| 35 → 36 → 39 | Follow the real multi-layer Hermon K/V tensors through physical paging and the runtime adapter. Compare suffix logits to the full Chapter 23 model; include shared partial tails, eviction, stale generations and owner mismatch. If the runtime uses only the contiguous Chapter 35 backend, document paging as an unimplemented integration. |
+| 31–34 → 39 → 41 | Preserve actual gated recurrent state, owner/generation/version fences and request clocks through runtime dispatch and lowered execution. Dead-code removal must not remove an observable state or memory effect. Numerical parity alone does not establish effect-trace equivalence. |
+| 40 → 49 | Trace durable facts, derived summaries, retrieval authority and agent continuation separately. Deleting a source must invalidate authorized derived reads under the stated policy; this is not a proof that a neural summary forgot its contents. |
+| 43 → 44–46 | Keep artifact identity, promotion eligibility, tenant authority, migration epoch and rollback policy consistent. An intact checkpoint or matching hash must not confer permission, freshness or a global ownership lease. |
+| 47 → 48–51 | Preserve units and evidence class from cost/timing tables into application and capability claims. Synthetic CPU fixtures, trained held-out evaluations, GPU measurements and biological experiments are not interchangeable. |
+| 48–51 → 52 | Reconcile the synthesis ledger against actual implementations, datasets and unresolved gates. Reference-only examples and proposed research protocols must not become demonstrated genomic or general-intelligence results. |
+
+The cumulative build also requires one consistent glossary, scoped labels,
+resolved citations and legible new front/back matter. Standalone pagination
+does not transfer automatically to a continuous book.

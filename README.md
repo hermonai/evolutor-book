@@ -77,9 +77,13 @@ the current 35-chapter assembly command.
 - Earlier editions, acceptance records and historical preservation tests remain
   unchanged. Do not overwrite them to update current progress labels.
 
-The 52-chapter architecture is retained. Chapters 36–52 are inventoried source
-packages, not integrated chapters. Next: **Paged KV, prefix sharing and
-allocation**, preserving exact ordered K/V while changing physical storage.
+The 52-chapter architecture is retained. Four authoring chats are producing
+Chapters 36–52 from the supplied packages; their working files are not yet
+integrated chapters. [Batch ownership and handoff checks](BATCH_PRODUCTION.md)
+keep concurrent authoring separate from cumulative assembly. Run
+`python3 scripts/audit-production.py` for a read-only evidence check. The next
+integration begins with **Paged KV, prefix sharing and allocation**, preserving
+exact ordered K/V while changing physical storage.
 
 DOGMA denotes the non-Transformer DNA-native research direction plus its engine;
 Hermon DNA denotes the Transformer-based direction and engine; Evolutor is the

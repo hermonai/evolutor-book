@@ -12,6 +12,7 @@ Locally reviewed candidates are not an accepted publication edition.
 - [Package convergence matrix](research/integration/chapter-convergence-matrix.md)
 - [Continuous PDF hash and actual review scope](research/integration/continuous-through35-review.json)
 - [Textbook standard](TEXTBOOK_STANDARD.md) and [chapter standard](CHAPTER_STANDARD.md)
+- [Four-batch production and ownership rules](BATCH_PRODUCTION.md)
 
 ## One manuscript, explicit stages
 
@@ -21,7 +22,7 @@ Locally reviewed candidates are not an accepted publication edition.
 | Chapters 4–21 | drafts/ch04/ through drafts/ch21/ | Existing authored candidates |
 | Chapters 22–35 | drafts/ch22/ through drafts/ch35/ | Source-bound local integration candidates |
 | Continuous Chapters 1–35 | output/pdf/evolutor-convergence.pdf | Authored-source cumulative candidate |
-| Chapters 36–52 | Inventoried source ZIPs | Staged, not silently included |
+| Chapters 36–52 | Supplied ZIPs and chapter-local working directories | Four authoring chats active; not yet in the continuous candidate |
 | Accepted Chapters 1–2 | book/book.json and acceptance records | Frozen internal records, unchanged |
 | Historical editions | Existing sources and preservation tests | Archives, not parallel authoring |
 
@@ -44,6 +45,7 @@ OMP_NUM_THREADS=1 for declared CPU references. Requirements and fonts are in REA
 - Standalone: `python3 drafts/ch34/build.py --render` and the corresponding ch35 command.
 - Derived-data checks: chapter builder `--check`.
 - Structure: `python3 scripts/check-chapter-structure.py`.
+- Production handoffs: `python3 scripts/audit-production.py` (read-only; no stage promotion).
 - Continuous: `python3 scripts/build-convergence.py --through 35 --refresh-assets`.
 - Scoped rendering: `python3 scripts/review-convergence.py --pages <physical-ranges>`.
 - Regression: `python3 -m pytest -q -o addopts=''`.
@@ -67,7 +69,13 @@ Trash and its recovery receipt preserved authored/accepted sources. Do not
 blanket-delete directories to make the tree appear tidy. Current chapter folders
 have one authored manuscript, one tested reference and one standalone builder.
 
-## Current handoff: Chapter 36
+## Current handoff: Chapters 36–52 in production
+
+Four disjoint authoring chats cover Chapters 36–38, 39–43, 44–47 and 48–52.
+Their working files do not change the integrated-through-35 baseline. Each
+batch returns a source-bound handoff before the coordinator runs cross-batch
+tests and cumulative assembly. See BATCH_PRODUCTION.md for ownership and the
+read-only admission check; unfinished references are not executed by that check.
 
 Chapter 34 batches the actual gated state from Chapter 31, through pool pins
 and independently restored Chapter 33 branches. It preserves masked identity,
