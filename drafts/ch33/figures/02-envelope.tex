@@ -1,0 +1,16 @@
+\begin{tikzpicture}[x=1cm,y=1cm,font=\small\sffamily]
+\node[draw=Green,rounded corners,align=center,text width=3.2cm,minimum height=1.1cm]
+ (producer) at (1.9,3) {Trusted producer\\Authorized caller};
+\draw[flow] (producer.east) -- (4.25,3);
+\draw[draw=Blue,fill=Pale] (4.4,.55) rectangle (14,4.15);
+\node[anchor=west,font=\bfseries\sffamily] at (4.65,3.8) {Bounded immutable body};
+\foreach \y/\label in {3.22/{format and exact schema},2.57/{tenant, artifact, semantics, tokenizer},1.92/{width, vocabulary, dtype, position},1.27/{exact consumed tokens and finite hidden values}} {
+ \draw[draw=Blue!35] (4.65,\y-.25) rectangle (13.75,\y+.25);
+ \node[anchor=west] at (4.8,\y) {\label};
+}
+\draw[flow] (9.2,.5) -- (9.2,-.1);
+\node[draw=Blue,align=center,text width=6.8cm] at (9.2,-.6)
+ {$d=\mathrm{SHA256}(\text{encoded body})$\\integrity check covers these bytes};
+\node[align=left,text width=3.6cm,Red] at (1.9,.8)
+ {Integrity is not\\authentication,\\replay consistency\\or permission.};
+\end{tikzpicture}

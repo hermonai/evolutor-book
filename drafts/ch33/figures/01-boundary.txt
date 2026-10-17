@@ -1,0 +1,6 @@
+Question: Where does a valid continuation snapshot cut a computation?
+Tokens 1,2,1 lie before a dashed semantic cut at t=3. Tokens 2,0 remain pending.
+The fixture state at the cut is h=(5/8,1/8), with declared model and context.
+A general model must also retain clocks, windows and pending structured state.
+The arrow from consumed tokens to h is computation, not memory sharing.
+Risk: packet completion alone does not establish a complete model transition.

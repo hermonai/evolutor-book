@@ -1,0 +1,52 @@
+\chapter*{Sources and further reading}
+\addcontentsline{toc}{chapter}{Sources and further reading}
+
+Access checked 17 October 2026. The actual Chapter 31 recurrence and Chapter 32
+pool were read and imported; the supplied Chapter 33 ZIP was inspected and all
+35 declared file hashes verified. The local integration adds strict schema
+validation, native continuation, tenant-scoped restoration, bounded LRU and
+independent rational/collision/failure oracles. Incoming validation labels
+remain provenance, not local evidence.
+
+The primary documentation sections below were read for the specific contracts
+cited, not to reproduce an entire external engine or serialization system.
+The PyTorch stable URL redirected to its 2.14 documentation; local tests use
+installed PyTorch 2.10 CPU and do not call its object loader. Python documentation
+was read on the 3.13 branch. Live vLLM pages are dated access snapshots, not a
+pinned implementation or a measured comparative benchmark.
+
+The continuation induction, approximation bound, branch arithmetic, cost model,
+code, figures and exercises are original teaching artifacts. Physical COW,
+authenticated checkpoint exchange, crash durability and production GPU
+concurrency are not implemented. Local tests and render inspection do not
+replace independent specialist or reader review.
+
+\begin{thebibliography}{9}
+\bibitem{python-json} Python Software Foundation.
+\emph{json: JSON encoder and decoder}, Python 3.13 documentation.
+Standard compliance, repeated object names, nonfinite numbers, hooks and
+implementation limits inspected.
+\url{https://docs.python.org/3.13/library/json.html}.
+\bibitem{pytorch-load} PyTorch contributors.
+\emph{Serialization semantics}, restricted-loading security section.
+PyTorch 2.14 documentation reached by stable redirect; limits inspected,
+not an end-to-end loader security audit.
+\url{https://docs.pytorch.org/docs/2.14/notes/serialization.html}.
+\bibitem{vllm-design} vLLM contributors.
+\emph{Automatic Prefix Caching}, design documentation.
+Hash components, exact tokens, additional identities, cache salting,
+reference tracking and eviction sections inspected.
+\url{https://docs.vllm.ai/en/stable/design/prefix_caching/}.
+\bibitem{vllm-apc} vLLM contributors.
+\emph{Automatic Prefix Caching}, user documentation.
+Introduction, hybrid Mamba boundary/checkpoint conditions and limits inspected.
+\url{https://docs.vllm.ai/en/stable/features/automatic_prefix_caching/}.
+\bibitem{vllm-args} vLLM contributors.
+\emph{Engine Arguments}. Recurrent cache mode, prefix match granularity,
+retention interval and shared-prefix checkpoint entries inspected.
+\url{https://docs.vllm.ai/en/stable/configuration/engine_args/}.
+\bibitem{nist} NIST. \emph{FIPS 180-4: Secure Hash Standard} (2015).
+Official publication metadata and abstract inspected for digest/integrity
+context; no independent cryptographic implementation audit claimed.
+\url{https://doi.org/10.6028/NIST.FIPS.180-4}.
+\end{thebibliography}

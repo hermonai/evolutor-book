@@ -1,6 +1,6 @@
 # Editorial architecture and release roadmap
 
-Updated 10 October 2026. This is the current execution map, not a claim
+Updated 17 October 2026. This is the current execution map, not a claim
 that every planned chapter is written or independently reviewed.
 
 ## One manuscript, distinct review stages
@@ -13,8 +13,8 @@ to change their progress labels.
 Chapters 1-2 retain their internal acceptance records. Chapter 3 has standalone
 and combined LaTeX review candidates. Chapters 4-21 have isolated authored-LaTeX
 review candidates with code, vector figures, and worked solutions.
-Chapters 22-32 have source-bound locally reviewed standalone integration
-candidates. Chapters 33-52 remain staged ZIP candidates requiring semantic
+Chapters 22-33 have source-bound locally reviewed standalone integration
+candidates. Chapters 34-52 remain staged ZIP candidates requiring semantic
 inspection and their own validation gates. Chapters 11-21 were authored at the
 reader's explicit request while the Chapters 1-10 integration milestone remains
 pending. These standalone candidates do not substitute for that integration.
@@ -186,16 +186,31 @@ acknowledgement. Independent same-tenant clones and a native inference bridge
 are checked against canary/accounting oracles. Six vector/TXT plates and twenty
 worked exercises in each chapter expose assumptions and failures.
 
-Next: Chapter 33 restores fresh ownership at exact checkpoint/token boundaries.
-Shared prefixes must refine independent-copy semantics; integrity, authorization,
-autograd lifetime and physical reclamation remain distinct contracts.
+## Chapter 33: checkpoints, independent branches and prefix states
+
+The actual Chapter 31 recurrence and Chapter 32 pool implement bounded data-only
+snapshots, fresh-owner branch-group restore, native suffix continuation and
+tenant-scoped immutable LRU. A continuation induction, contract-specific error
+bound and repeated-prefix storage/replay derivation accompany six original
+vector/TXT plates and twenty worked exercises. Seventy-one tests include independent
+rational arithmetic, full short-prefix/suffix enumeration, schema adversaries,
+stale generations, retiring capacity, cache conflicts and injected key collisions.
+
+Byte integrity, structural compatibility, native replay consistency and
+authorization are separate questions. Physical COW is a refinement target,
+not a supplied backend; serial preflight is not crash/concurrent atomicity.
+No training restart, device speedup or genomic capability follows.
+
+Next: Chapter 34 gathers independent owned states into a batched transition and
+scatters results without changing scalar per-request semantics or advancing
+inactive lanes. Cancellation and membership changes need explicit boundaries.
 
 ## Pending milestone: cumulative editorial and independent review
 
 Audit record validity, tensor notation, normalization conventions, routing
 cohorts, gradient history, and source closure, including the interfaces now
 used by Chapters 11-21. Separate biological regulation from expert routing.
-The continuous authored-source entry point now builds Chapters 1-32 with unified
+The continuous authored-source entry point now builds Chapters 1-33 with unified
 bibliography, glossary and index. Its compilation does not close this editorial
 or independent review milestone. Retain standalone candidates and accepted
 editions unchanged. Do not promote acceptance

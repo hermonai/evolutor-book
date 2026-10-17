@@ -111,4 +111,18 @@ it remains occupied and cannot be ordinarily accessed or reallocated.
 serialization to scalars does not preserve a differentiable training graph.
 \item[Logical scrubbing] Reset of API-visible payload and metadata before reuse;
 not proof of physical secure erasure across all copies and platform memory.
+\item[Checkpoint envelope] Bounded immutable data binding a format, complete
+interpretation context, exact consumed prefix and state values to an integrity
+digest. The digest does not authenticate its producer.
+\item[Continuation equivalence] Original and restored complete state produce
+equal successive states and readouts on a common legal suffix under unchanged
+deterministic semantics and numerical policy.
+\item[Prefix key] Content index for context and exact consumed tokens. Lookup
+must still validate the returned envelope; an indexing collision is not acceptance.
+\item[Copy-on-write refinement] Physical sharing and private-on-write copying
+whose observations agree with independently owned logical copies.
+\item[Replay audit] Recompute a prefix under a trusted model to check state
+consistency. This costs computation and does not authorize access.
+\item[Wire-byte budget] Bound on retained encoded checkpoint bytes; excludes
+Python heap, allocator metadata, live branch storage and device buffers.
 \end{description}

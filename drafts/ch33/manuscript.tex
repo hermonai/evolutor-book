@@ -1,0 +1,520 @@
+\chapter{DOGMA checkpoints, branching and prefix state}
+
+Three requests begin with the same prompt. Each has consumed tokens
+$(1,2,1)$, but one will continue with token $0$ and another with token $2$.
+Should the engine repeat the prompt computation? Should both requests point
+to the same writable state? Neither choice is necessary. We can preserve one
+immutable description of the prefix and restore independent mutable states.
+The difficult part is specifying exactly what that description means.
+
+Chapter 31 supplied an artifact-bound native recurrence; Chapter 32 supplied
+owned storage with generational handles and in-flight pins. This chapter
+connects them through a bounded, data-only checkpoint protocol. The executable
+reference imports the actual Chapter 32 pool and Chapter 31 model. We derive
+continuation equivalence, deliberately break it, then account for the storage
+and replay costs of reusable prefixes.
+
+\section{Cut the computation at a semantic boundary}
+\index{Semantic boundary}
+
+Let $x_{1:t}=(x_1,\ldots,x_t)$ be the ordered integer token prefix already
+consumed, and $s_t$ the complete model state immediately after token $t$.
+For fixed parameters $\theta$ and declared state semantics, write
+\begin{align}
+ s_{t+1}&=F_\theta(s_t,x_{t+1}),\\
+ z_{t+1}&=G_\theta(s_{t+1}).
+\end{align}
+Here $z_{t+1}$ denotes logits after consuming the next token, not the token
+sampled from those logits. A transport packet, scheduler iteration and
+model-token boundary are different clocks. We snapshot only at the last one,
+when no partially accepted native operation is outstanding.
+
+\Plate{01-boundary}{A checkpoint cuts after the consumed prefix, not after a
+network packet. The pending suffix is excluded. Position and any additional
+state needed for continuation belong at the cut.}{fig:boundary}
+
+For the restricted Chapter 31 reference, $s_t=(t,h_t)$ and
+$h_t\in\mathbb{R}^D$. The model artifact fixes an embedding matrix
+$E\in\mathbb{R}^{V\times D}$, coordinate retentions $a\in[0,1)^D$,
+write coefficients $w\in\mathbb{R}^D$, and a head
+$U\in\mathbb{R}^{D\times V}$. Its update is
+\begin{equation}
+ e=E_{x_{t+1},:},\quad
+ h_{t+1}=a\odot h_t+\operatorname{sigmoid}(w\odot e)\odot e,
+ \quad z_{t+1}=h_{t+1}^{\mathsf T}U.
+ \label{eq:native}
+\end{equation}
+The printed vector orientation in the final product is notation; Python
+represents $h$ as a one-dimensional tensor. Native arithmetic here uses
+finite CPU float64 values. This is a concrete non-Transformer inference
+component, not a trained complete DOGMA model.
+
+\subsection{Tensor equality is not state sufficiency}
+
+Consider a machine with hidden value $h=0$ and auxiliary phase
+$p\in\{0,1\}$. On the next token it emits $h+(-1)^p$. Two snapshots containing
+only $h$ are identical, yet one emits $1$ and the other $-1$. No hash of $h$
+can recover the missing phase. A model with a finite convolution window,
+unfinished memory block, positional clock or segment-dependent transition
+requires those objects in its continuation state.
+
+The reference does not serialize every future DOGMA architecture.
+Its semantic identifier names the restricted causal diagonal state.
+A new recurrence or additional state requires a new schema/semantic contract
+and tested migration, not a permissive shape check. An offline
+reverse-complement suffix state from Chapter 21 cannot silently become a causal
+prefix state just because its tensor has the same dimensions.
+
+\section{Derive the continuation obligation}
+\index{Continuation equivalence}
+
+Define $F_\theta^*(s,y)$ by repeated application of $F_\theta$ over a finite
+suffix $y$. A snapshot decoder $D_C$ and encoder $E_C$ should satisfy
+\begin{equation}
+ D_C(E_C(s_t))\equiv s_t,
+ \label{eq:roundtrip}
+\end{equation}
+where $\equiv$ means equality of all semantically relevant values under the
+declared numerical interpretation. Request IDs and physical addresses are
+excluded: restore must create new ownership.
+
+\begin{proposition}[Continuation equivalence]
+Suppose the transition/readout are deterministic, model artifact and
+semantics are unchanged, and equation~\ref{eq:roundtrip} holds for complete
+state. For any legal suffix $y_{1:k}$, original and restored execution produce
+the same successive states and logits.
+\end{proposition}
+\begin{proof}
+At suffix length zero the semantic states agree by
+equation~\ref{eq:roundtrip}. Assume equality after $j$ suffix tokens.
+Both executions next apply the same $F_\theta$ to equal states and equal
+token $y_{j+1}$, so their next states agree. Applying the same $G_\theta$
+gives equal logits. Induction covers all $0\le j\le k$.
+\end{proof}
+
+This proof locates the engineering obligations. It does not prove that
+an arbitrary tensor dump contains complete state, that two floating-point
+kernels use the same reduction order, or that sampled generation replays
+without decoder state. Those are premises to check.
+Here finite binary64 values round-trip, and restore uses the same native
+operator as ordinary continuation. Independent rational tests check fixture
+arithmetic. Another precision policy needs its own parity contract.
+
+\subsection{If restore is approximate}
+\index{Checkpoint approximation error}
+
+Suppose a compressed checkpoint introduces hidden error
+$\|\delta_t\|_\infty\le\epsilon$. In equation~\ref{eq:native}, the additive
+write depends on input, not on $h_t$. Under exact arithmetic,
+\begin{equation}
+ \delta_{t+k}=a^{\odot k}\odot\delta_t,\qquad
+ \|\delta_{t+k}\|_\infty\le\alpha^k\epsilon,\quad
+ \alpha=\max_j a_j<1.
+ \label{eq:error}
+\end{equation}
+If each subsequent update adds error at most $\eta$ in that norm, summing
+the geometric series gives
+\begin{equation}
+ \|\delta_{t+k}\|_\infty
+ \le\alpha^k\epsilon+\eta\frac{1-\alpha^k}{1-\alpha}.
+\end{equation}
+For $\alpha=1/2$, the limiting additive term is $2\eta$.
+This bound is specific to the stated recurrence. State-dependent gates need
+their own Jacobian/stability argument. Even a small logit perturbation can
+change an argmax near a tie; this norm bound is not an identical-generation
+guarantee.
+
+\section{The envelope binds interpretation to bytes}
+\index{Checkpoint envelope}\index{State semantic version}
+
+Use the context tuple
+\[
+ \kappa=(\tau,m,\nu,\xi,D,V,\mathrm{dtype}),
+\]
+where $\tau$ is the tenant namespace, $m$ the model-content digest, $\nu$ the
+state semantics and $\xi$ the tokenization contract identifier. $D$ and $V$
+declare hidden width and vocabulary size. The body and envelope are
+\begin{equation}
+ B_t=(f,\kappa,t,x_{1:t},h_t),\quad
+ C_t=(b_t,d_t),\quad b_t=\operatorname{encode}(B_t),\quad
+ d_t=\operatorname{SHA256}(b_t).
+ \label{eq:envelope}
+\end{equation}
+The format $f$ governs parsing; $\nu$ governs the meaning of parsed state.
+Neither replaces the model artifact. SHA-256 supplies the digest, not a
+producer-authentication protocol.\cite{nist}
+
+\Plate{02-envelope}{A digest binds the envelope's bytes. Context and exact
+tokens determine how the payload may be used. Trusted provenance remains
+a separate boundary: a self-consistent envelope is not an authorized one.}{fig:envelope}
+
+Chapter 31's artifact function hashes ordered vocabulary and parameter
+content. The local $\xi$ hashes the ordered vocabulary mapping.
+It is not a universal tokenizer: deployment must bind preprocessing,
+normalization, special-token policy, adapters and any conditioning that
+changes transitions. A display name such as \texttt{model-latest} is not
+a content identity.
+
+Tenant IDs here arrive through a trusted in-process caller. Including $\tau$
+prevents accidental namespace reuse in the reference; it does not authenticate
+an API request. Authorization must precede construction of the context.
+
+\subsection{Three different meanings of validity}
+
+\begin{enumerate}
+\item \textbf{Byte integrity:} bytes match the supplied digest.
+   Someone able to replace both can compute a new matching pair.
+\item \textbf{Structural compatibility:} schema, dimensions, finite values,
+   model, semantics, tenant and exact prefix satisfy the local contract.
+\item \textbf{Replay consistency:} hidden values equal those obtained by
+   executing the prefix from its prescribed initial state.
+\end{enumerate}
+The first two do not establish the third. Replace $h_1=0.625$ by $11$ and
+recompute the digest: the object can remain well-formed. Optional
+\texttt{replay\_audit}\index{Replay audit} recomputes the actual native prefix and detects this
+fixture forgery, but costs the work caching aims to avoid. In ordinary use,
+trusted production and storage supply the missing provenance. Neither replay
+consistency nor hashing grants permission to read another tenant's state.
+
+\section{Parse bounded data, not executable objects}
+
+The decoder accepts immutable bytes and a lowercase hexadecimal digest.
+It rejects bodies above 262,144 bytes before JSON parsing. The schema allows
+at most 4,096 tokens and 256 hidden coordinates: teaching limits, not
+measured production requirements.
+
+Duplicate object names, unknown or missing fields, nonfinite values, booleans
+where integers are required, out-of-vocabulary tokens, inconsistent position,
+undeclared dtype and noncanonical encoding are rejected. Default Python JSON
+accepts some forms this protocol refuses, including repeated names and
+nonfinite constants.\cite{python-json} Integer hidden values must also be
+exactly representable in binary64 before conversion. An overflow spelling such as
+\texttt{1e999} also requires a finite-value check; rejecting the literal word
+\texttt{Infinity} is insufficient.
+
+The encoder sorts keys, removes optional whitespace, emits ASCII escapes and
+forbids NaN. This is a Python wire profile, not universal cross-language
+canonicalization. Interoperability needs an explicitly standardized encoding
+and numerical representation.
+
+\Listing{checked}
+
+This printed function checks context and exact prefix after \texttt{decode}
+has enforced schema and bytes. Whole functions are extracted from
+\texttt{drafts/ch33/reference.py}; the parser and negative tests remain
+available there even when not all code is printed.
+
+Avoiding executable loading narrows one risk surface, but bounded JSON is
+not a sandbox. Resource limits and trustworthy surrounding code still matter.
+PyTorch's restricted-loading documentation similarly separates reduced
+code-execution exposure from complete protection against denial of service
+and downstream memory hazards.\cite{pytorch-load}
+The reference calls neither pickle nor \texttt{torch.load}.
+
+\section{Capture only a settled owned state}
+\index{Quiescent snapshot}
+
+Chapter 32's handle identifies pool instance, slot, allocation generation,
+owner pair and artifact. Those physical handles do not belong in a portable
+checkpoint. A restarted process might reuse an integer slot for an unrelated
+request. Restoring the handle would confuse historical address with current
+ownership.
+
+Capture validates the actual pool handle, refuses pinned/retiring storage,
+checks $t=|x_{1:t}|$, and copies immutable snapshot values into the envelope.
+This conservative quiescence policy can later be replaced by a consistently
+captured immutable version under an explicit synchronization protocol.
+
+\Listing{capture}
+
+Calls are serialized and exclusive. A private pool-validation helper checks
+the pin ledger; this is a teaching bridge, not a public allocator API.
+Generation/owner/artifact fences remain intact.
+The supplied prefix is trusted bookkeeping: the pool stores position and
+hidden values, not a transcript proving their origin. The replay falsifier
+makes this limitation visible. Authoritative request records could strengthen
+the interface without removing the need for trusted execution.
+
+\section{Restore allocates; it does not resurrect}
+\index{Fresh-owner restore}
+
+Restoring to owner $o'$ creates a fresh handle $\ell'$:
+\[
+ \operatorname{read}(\ell',o')=(t,h_t),\qquad
+ \operatorname{owner}(\ell')=o'.
+\]
+It may occupy another slot or a later generation of the old slot. The released
+handle stays stale even when semantic values are reconstructed exactly.
+
+For $K$ branches, validate the entire owner group/checkpoint and ensure $K$
+free slots exist before allocating. Retiring pinned slots are not free.
+Under serialized calls, ordinary validation and capacity failures leave the
+pool unchanged.
+
+\Listing{restore_many}
+
+This is preflight failure atomicity, not a crash transaction. A process
+failure midway through allocation or another thread's simultaneous allocation
+requires rollback, reservation or different synchronization. The teaching
+loop does not establish distributed or hardware atomicity.
+
+\section{Work through two actual native branches}
+
+Use Chapter 31's fixture with $a=(1/2,1/4)$ and $w=(0,0)$. Both gates are
+$1/2$. Tokens $0,1,2$ have embeddings $(0,0),(1,0),(0,1)$ respectively.
+Starting from zero:
+\begin{align*}
+ h_1&=(1/2,0) &&\text{after token }1,\\
+ h_2&=(1/4,1/2) &&\text{after token }2,\\
+ h_3&=(5/8,1/8) &&\text{after token }1.
+\end{align*}
+The left branch consumes $0$, giving $(5/16,1/32)$. The right consumes $2$,
+giving $(5/16,17/32)$. Both positions become four; the checkpoint stays at three.
+
+\Plate{03-branches}{Equal prefix values are copied into independently owned
+slots. Suffix transitions change only their respective branches. The
+checkpoint is an immutable value, not shared writable state.}{fig:branches}
+
+\begin{center}\input{\Generated/branches.tex}\end{center}
+
+These numbers come from the imported recurrence. Tests independently use
+rational arithmetic, then enumerate every prefix of length zero through
+three and every two-token suffix. For each case, replay from zero and
+restore-plus-suffix must match. This is a finite implementation check,
+distinct from the induction proof.
+
+Fresh CPU tensors prevent writable aliases with source/sibling storage.
+\index{Autograd!checkpoint boundary}
+Loading scalar values also discards the old computation graph. Equal inference
+logits do not establish resumed backpropagation. Training restart needs
+parameters, optimizer, gradient-accumulation, RNG and data-order state beyond
+this protocol.
+
+\section{A prefix key is an index, not an acceptance decision}
+\index{Prefix key}\index{Longest-prefix lookup}
+
+Define
+\[
+ k_t=H\bigl(\operatorname{encode}(\kappa,x_{1:t})\bigr).
+\]
+Unlike the checkpoint digest, this key excludes $h_t$; it names the
+prefix/context being sought. The cache can therefore detect conflicting
+state bodies for one deterministic prefix instead of silently replacing them.
+
+\Plate{04-prefix}{Longest-prefix matching uses exact token identity within
+one context. Reuse stops at token three here; only the two remaining tokens
+are executed. A shorter hit is valid but saves less work.}{fig:prefix}
+
+For query $q_{1:T}$ choose
+\[
+ t^*=\max\{t\le T:\text{a validated checkpoint for }(\kappa,q_{1:t})\text{ exists}\}.
+\]
+Otherwise start from initial state. A zero-prefix checkpoint is a real hit,
+so the API returns both length and an optional object; zero alone cannot
+distinguish that hit from a miss.
+
+\Needspace{16\baselineskip}
+\Listing{PrefixCache.longest}
+
+After a hash-table hit, the reference checks full envelope, context and token
+identity. A test replaces the key function by a constant to force an indexing
+collision: a wrong prefix is rejected. This tests the acceptance path, not
+SHA-256's empirical collision resistance.
+Sampling seeds are not required in this deterministic model-state key;
+transition-changing conditioning is. Stochastic state updates need relevant
+random state or an explicitly nondeterministic reuse contract.
+
+\subsection{Isolation and bounded eviction}
+\index{LRU eviction}\index{Tenant namespace}
+
+The LRU budget sums immutable envelopes' wire lengths. Reuse updates recency.
+An oversized object is rejected before eviction; otherwise oldest envelopes
+are removed until it fits. This counts encoded bytes, not Python heap,
+allocator capacity, device buffers or total resident memory.
+
+Restored branches have independent pool values, so source-envelope eviction
+cannot invalidate them. Physical sharing would instead require live branches
+to retain shared pages. Cache and branch ownership are separate reachability
+roots.
+
+Different tenants receive different keys and cross-tenant restore is absent.
+Timing leakage, malicious callers and authorization still need service-level
+policy. Current vLLM documentation offers comparison: prefix-dependent block
+hashes, extra identity inputs and optional salting for isolation.\cite{vllm-design}
+This reference inherits no production guarantee from that precedent.
+
+\section{Copy-on-write must refine the copy oracle}
+\index{Copy-on-write refinement}
+
+Suppose branches A and B initially map to immutable physical page $P$.
+A write by A may allocate $P_A$, copy $P$, redirect A's mapping, then modify
+$P_A$. B still observes original $P$.
+
+\Plate{05-cow}{A possible copy-on-write representation beside the independent
+copy oracle. Mapping publication, reference counts and page lifetime add
+obligations. Physical COW is not implemented in this chapter.}{fig:cow}
+
+Let $R$ expand physical representation into the logical independent states
+visible through the API. For permitted operation $u$, require
+\[
+ R\bigl(\operatorname{COWstep}(P,u)\bigr)
+ =\operatorname{Copystep}(R(P),u).
+\]
+Reads must agree. An A-only write changes only A's expanded state. After
+release/eviction, remaining live mappings must resolve. Tests need partial
+pages, two writers, copy-allocation failure and cancellation between copy
+and mapping publication.
+
+For single-page state size $S$ and $K$ branches, independent copies use $KS$
+state bytes. If every branch writes that page, COW can also need roughly $KS$,
+plus mappings. Smaller independently writable pages reduce copied bytes only
+for suitable write patterns and add bookkeeping. Memory savings are
+workload-dependent.
+
+\section{Derive checkpoint spacing and the metadata bill}
+\index{Checkpoint spacing}\index{Repeated-prefix metadata}
+
+Let stream length be $T$ tokens, checkpoint interval $B$ tokens, and hidden
+width $D$. With eight bytes per coordinate and
+$n=\lfloor T/B\rfloor$ nonzero periodic checkpoints, state payload alone
+uses $8Dn$ bytes.
+
+Our envelope also stores each complete prefix. Under a separate logical
+convention of four bytes per token ID, repeated prefix storage is
+\begin{align}
+ M_{\rm tokens}&=4\sum_{j=1}^{n}jB=2Bn(n+1)\ \text{bytes},\\
+ M_{\rm payload}&=8Dn+2Bn(n+1).
+ \label{eq:storage}
+\end{align}
+These are not actual JSON sizes: framing, decimal spellings, digests and
+containers add bytes. The formula still exposes a common mistake:
+fixed-width recurrent state does not make a cache of full-prefix envelopes
+constant-memory. With $B=1$, copied token metadata grows quadratically in $T$.
+
+If a desired boundary's residual offset from its preceding checkpoint is
+uniform on $\{0,\ldots,B-1\}$, expected replay is
+\begin{equation}
+ \mathbb{E}[r]=\frac{1}{B}\sum_{r=0}^{B-1}r=\frac{B-1}{2}.
+ \label{eq:replay}
+\end{equation}
+Uniformity is a workload assumption. Prefix junctions may cluster at templates
+or block boundaries; finite-stream edges may change the residual distribution.
+
+\Plate{06-cost}{Modeled storage and replay for $T=64$, $D=8$.
+Token metadata counts repeated complete prefixes with four-byte IDs.
+These curves are arithmetic, not measured latency or actual JSON bytes.}{fig:cost}
+
+\begin{center}\input{\Generated/costs.tex}\end{center}
+
+At $B=8$, eight hidden payloads use 512 bytes, copied prefixes 1,152 bytes,
+and expected replay 3.5 tokens. At $B=1$, these totals rise to 4,096 and
+8,320 bytes to eliminate replay. Chained hashes and a verified shared token
+store can avoid transcript duplication, but introduce lifetime/integrity
+dependencies.
+
+The simple longest-prefix loop serializes successively shorter prefixes.
+Since $\sum_{t=0}^{T}t=T(T+1)/2$, a miss can require $O(T^2)$ token-processing
+work for keys despite expected constant-time dictionary lookup per candidate.
+Tries or incremental indices can improve that cost without replacing
+checkpoint validation.
+
+\section{State snapshots, generation restart and durability}
+
+A model-state checkpoint resumes $F_\theta$. Sampled-text restart may also
+need RNG algorithm/state, sampler settings, grammar automaton, stop policy
+and committed-output cursor. Training adds optimizer and data-order state.
+These are different restart contracts; one tensor is not unqualified
+resumability.
+
+Our cache is process-local. Durable publication must specify survived failures.
+One candidate sequence is: encode/validate; write an unadvertised object;
+persist contents under the storage policy; publish its identity atomically;
+make it discoverable. Checksums alone do not make writes atomic or durable.
+Filesystem rename/directory persistence and object-store transactions require
+platform-specific evidence; no such implementation is shipped here.
+
+Current serving systems illustrate semantic granularity. vLLM documents
+recurrent-state reuse at selected block boundaries. Additional checkpoints
+at shared-prefix junctions require specific configurations.\cite{vllm-apc,vllm-args}
+Those are comparison points, not evidence that this reference implements
+those models or outperforms their engines.
+
+\section{Exercises with worked reasoning}
+\begin{enumerate}
+\item \textbf{Predict a branch.} Continue the fixture with token $1$.
+ \emph{Solution:} $(5/16+1/2,1/32)=(13/16,1/32)$ at position four.
+\item \textbf{Prove a cut.} What is the induction's base case?
+ \emph{Solution:} equality of complete semantic state, not physical address
+ or only the hidden array.
+\item \textbf{Omitted clock.} Construct equal arrays with unequal next outputs.
+ \emph{Solution:} $h=0$, phase $p\in\{0,1\}$, output $(-1)^p$.
+\item \textbf{Position.} Why keep $t$ if this recurrence does not use it
+ algebraically? \emph{Solution:} to bind the consumed-token boundary and
+ catch inconsistent request bookkeeping.
+\item \textbf{Rehashed forgery.} Change $h$ and recompute SHA-256.
+ \emph{Solution:} integrity/schema checks can pass; replay consistency and
+ authorization remain separate.
+\item \textbf{Boolean token.} Why not accept \texttt{True} as 1?
+ \emph{Solution:} subtype convenience is not the declared exact-integer wire type.
+\item \textbf{Overflow.} Is rejecting \texttt{NaN} sufficient?
+ \emph{Solution:} no; \texttt{1e999} may parse to a nonfinite value.
+\item \textbf{Fresh ownership.} Restore into a released slot.
+ \emph{Solution:} the new generation does not reactivate the stale handle.
+\item \textbf{Capacity.} Two slots exist; one is retiring with a pin.
+ Can two branches restore? \emph{Solution:} no, until final acknowledgement.
+\item \textbf{Group restore.} Why preflight all owners?
+ \emph{Solution:} a later duplicate/unauthorized owner must not leave earlier
+ branches allocated after ordinary validation failure.
+\item \textbf{Autograd.} Does equal hidden state preserve gradients?
+ \emph{Solution:} no; scalar serialization and fresh tensors cut the graph.
+\item \textbf{Collision.} Force identical lookup keys for two prefixes.
+ \emph{Solution:} full token/context comparison must reject the wrong envelope.
+\item \textbf{Zero hit.} Why return an optional object as well as length?
+ \emph{Solution:} zero can mean an initial-state checkpoint or no hit.
+\item \textbf{Eviction.} Why can a restored branch outlive its source envelope?
+ \emph{Solution:} it owns copied values. Shared pages would require references.
+\item \textbf{Storage.} Verify $T=64,D=8,B=16$.
+ \emph{Solution:} $n=4$; hidden 256 bytes, token IDs 640, total 896,
+ expected replay 7.5 tokens under the declared model.
+\item \textbf{Index cost.} Do $T$ dictionary probes imply $O(T)$ work?
+ \emph{Solution:} not when encoding prefixes processes quadratically many IDs.
+\item \textbf{Approximation.} Bound error for $\alpha=1/2$, $\epsilon=0.01$,
+ $\eta=0$ after three steps. \emph{Solution:} at most $0.00125$ in hidden
+ infinity norm; identical argmax is not established.
+\item \textbf{COW falsifier.} Design a two-writer test.
+ \emph{Rubric:} compare every read with independent copies; interleave distinct
+ coordinate writes/releases; inject allocation failure; check mappings and
+ live references during eviction.
+\item \textbf{Benchmark.} Compare periodic and junction-aware checkpoints.
+ \emph{Rubric:} fix model, precision, request traces and quotas; report reuse,
+ replay, metadata-inclusive bytes, restore traffic and latency distributions.
+ Include low-overlap and cache-thrashing controls.
+\item \textbf{Restart.} Extend the protocol to sampled generation.
+ \emph{Rubric:} enumerate RNG, sampler, constraint and output-commit state; specify
+ failure boundaries, reject incompatible revisions, and test uninterrupted
+ versus restarted traces. Durable publication requires crash tests.
+\end{enumerate}
+
+\Needspace{16\baselineskip}
+\section{What the next engine transformation must preserve}
+
+We have immutable inference snapshots, exact context/token binding,
+fresh-owner restore, independent branches and bounded prefix caching.
+Physical COW, authentication, durable publication and optimized device code
+remain outside the executable copy oracle.
+
+Chapter 34 will gather several owned states into a batched transition and
+scatter results back. It must preserve each branch's values, exact token
+position and ownership despite padding, cancellation and changing batch
+membership. Throughput transformations are legal only when that per-request
+contract survives.
+
+\section*{Selective glossary}
+\addcontentsline{toc}{section}{Selective glossary}
+\textbf{Semantic boundary}: point after a complete declared transition.
+\textbf{Checkpoint envelope}: bounded body plus integrity metadata.
+\textbf{Continuation equivalence}: equal behavior on a common legal suffix.
+\textbf{Prefix key}: context/token content index, not state acceptance.
+\textbf{Copy-on-write refinement}: physical sharing that preserves independent-copy
+observations.
+\textbf{Replay audit}: recomputation consistency check, not authentication.

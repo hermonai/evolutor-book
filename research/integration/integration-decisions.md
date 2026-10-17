@@ -1,5 +1,29 @@
 # Integration decisions
 
+## EVOD-33 — 17 October 2026
+
+Substantially rebuild evolutor-ch33-r01.zip against the actual Chapter 31
+recurrence and Chapter 32 pool. Add bounded strict data-only schema, context
+and exact-prefix binding, fresh-owner group restore and independent native
+continuations. Namespace immutable LRU by full context and validate hits after
+lookup. Refuse deterministic state conflicts, stale generations, retiring/pinned
+boundaries, nonfinite/overflow/nonrepresentable data and forced wrong-prefix hits.
+
+Continuation induction and diagonal error bound are separate from finite tests.
+Rational arithmetic independently checks every short prefix/two-token suffix.
+A rehashed forged state explicitly passes structural checks but fails replay.
+Storage/replay accounting includes repeated complete prefix metadata and
+quadratic naive key-generation cost. Physical COW, authentication, durable
+publication, training restart and concurrent GPU safety remain outside scope.
+
+71 chapter tests; full regression 1,283 passed. Six original vector/TXT plates,
+four whole-function listings and twenty worked exercises; all 17 standalone
+pages locally inspected in color/grayscale. Continuous authored-source build
+through33 is 417 pages. Scoped cumulative render review does not establish
+whole-volume scientific/editorial or independent acceptance. DNA's complete
+manuscript was published separately; Evolutor remains a local integration
+candidate. Prior accepted editions and historical review records are unchanged.
+
 Package assertions are imported provenance, not local verification.
 
 ## EVOD-30

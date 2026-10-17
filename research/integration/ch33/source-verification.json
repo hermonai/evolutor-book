@@ -1,0 +1,50 @@
+{
+  "date": "2026-10-17",
+  "chapter": 33,
+  "book": "evolutor",
+  "original_archive": "evolutor-ch33-r01.zip",
+  "package_sha256": "d60373cd75238c9353062d4aaef020023eb1e2515087bff1f3a55b8475c3db54",
+  "declared_hashes_verified": 35,
+  "incoming_text_newline_normalization": true,
+  "inherited_validation_claims_adopted": false,
+  "sources": [
+    {
+      "path": "drafts/ch31/reference.py",
+      "access": "actual model artifact, native step, scalar expansion and chunk contracts read; native imported and rationally tested"
+    },
+    {
+      "path": "drafts/ch32/reference.py",
+      "access": "actual pool generation/owner/artifact, pin/retirement, snapshot and native bridge read and imported"
+    },
+    {
+      "url": "https://docs.python.org/3.13/library/json.html",
+      "access": "standard compliance, repeated names, nonfinite values, parser hooks and implementation limits"
+    },
+    {
+      "url": "https://docs.pytorch.org/docs/2.14/notes/serialization.html",
+      "access": "stable redirected here; restricted-loading security limitations inspected; local reference uses torch 2.10 and no object loader"
+    },
+    {
+      "url": "https://docs.vllm.ai/en/stable/design/prefix_caching/",
+      "access": "hash components, additional identity inputs, optional cache salting, reference-tracked blocks and eviction policy"
+    },
+    {
+      "url": "https://docs.vllm.ai/en/stable/features/automatic_prefix_caching/",
+      "access": "introduction, hybrid Mamba semantic boundary and optional shared-prefix conditions, limits"
+    },
+    {
+      "url": "https://docs.vllm.ai/en/stable/configuration/engine_args/",
+      "access": "Mamba cache modes, match granularity, retained checkpoints and configuration constraints"
+    },
+    {
+      "url": "https://csrc.nist.gov/pubs/fips/180-4/upd1/final",
+      "access": "official publication metadata and abstract, not a cryptographic implementation audit"
+    },
+    {
+      "path": "evolutor-ch34-r01.zip/CONTINUATION.md",
+      "access": "next chapter batching/gather/scatter and inactive-lane handoff inspected"
+    }
+  ],
+  "external_replication": false,
+  "independent_review": false
+}

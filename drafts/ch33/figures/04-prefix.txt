@@ -1,0 +1,6 @@
+Query tokens are 1,2,1,2,0 inside one complete context namespace.
+Checkpoint A contains prefix 1,2 and is a length-2 hit.
+Checkpoint B contains 1,2,1 and is the longest hit, length 3.
+Candidate 1,2,0 is rejected rather than accepted by similar length or text.
+Restore checkpoint B and compute suffix 2,0 only.
+All stored objects are validated after lookup; hash equality is not acceptance.

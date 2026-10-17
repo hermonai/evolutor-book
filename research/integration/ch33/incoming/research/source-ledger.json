@@ -1,0 +1,44 @@
+[
+  {
+    "key": "EVOD21",
+    "claim": "Offline reverse/suffix state cannot be used as ordinary causal prefix state.",
+    "primary": "internal EVOD-21",
+    "access_date": "2026-10-05",
+    "access_depth": "live GitHub manuscript and reference inspected"
+  },
+  {
+    "key": "EVOD32",
+    "claim": "Pool reuse uses generational ownership; clone-by-copy is the correctness oracle for independent mutable state.",
+    "primary": "external EVOD-32 package",
+    "access_date": "2026-10-05",
+    "access_depth": "package continuity"
+  },
+  {
+    "key": "vllm-apc",
+    "claim": "Contemporary serving reuses cached state for shared prefixes; recurrent/Mamba-style state may be checkpointed at defined boundaries.",
+    "primary": "https://docs.vllm.ai/en/stable/examples/features/automatic_prefix_caching/",
+    "access_date": "2026-10-05",
+    "access_depth": "official documentation inspected"
+  },
+  {
+    "key": "vllm-cache-config",
+    "claim": "Prefix-cache hashing choice and recurrent-state checkpoint granularity are explicit engine configuration concerns; non-cryptographic collision risk can matter in multi-tenant settings.",
+    "primary": "https://docs.vllm.ai/en/stable/configuration/engine_args/",
+    "access_date": "2026-10-05",
+    "access_depth": "official documentation inspected"
+  },
+  {
+    "key": "pytorch-serialization",
+    "claim": "Restricted data/tensor-oriented loading reduces executable-deserialization surface but does not make untrusted checkpoints universally safe.",
+    "primary": "https://docs.pytorch.org/docs/stable/notes/serialization",
+    "access_date": "2026-10-05",
+    "access_depth": "official documentation inspected"
+  },
+  {
+    "key": "fips180-4",
+    "claim": "SHA-256 is a standardized cryptographic hash used here for integrity/content identity assumptions, not producer authentication.",
+    "primary": "NIST FIPS 180-4",
+    "access_date": "2026-10-05",
+    "access_depth": "standard-level context; exact text not reproduced"
+  }
+]

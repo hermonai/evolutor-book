@@ -1,0 +1,12 @@
+{
+  "C_t": "immutable checkpoint at token boundary t",
+  "f": "checkpoint format identifier",
+  "m": "model artifact identity",
+  "nu": "state-semantic version",
+  "x_1:t": "exact consumed token prefix",
+  "sigma_t": "serialized DOGMA model state",
+  "d": "checkpoint integrity digest",
+  "k": "prefix cache content key",
+  "S_t": "mutable live request state",
+  "B": "checkpoint spacing in tokens"
+}

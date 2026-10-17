@@ -1,0 +1,7 @@
+Two plots generated from checkpoint_cost with length 64 and hidden width 8.
+Left: log-log storage curves versus checkpoint interval B, state payload in solid
+blue and repeated complete token-prefix metadata in dashed red.
+Right: expected replay (B-1)/2 under a uniform residual assumption.
+Model counts eight bytes per hidden coordinate, four per token ID; it omits
+framing, digest, allocator and Python overhead. Values are not measured speed
+or actual JSON wire lengths. Less frequent checkpoints trade storage for replay.

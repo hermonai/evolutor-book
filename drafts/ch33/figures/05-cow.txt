@@ -1,0 +1,6 @@
+Top: correctness oracle stores independent values for A and B.
+Bottom: a conceptual representation initially maps both owners to immutable P,
+which has two references. Before A writes, copy P into private P_A and redirect A.
+B retains P unchanged. Release needs reference-aware lifetime tracking.
+Solid arrows denote initial mappings; dashed arrow denotes a copy operation.
+This diagram is a refinement target, not an implemented physical COW backend.

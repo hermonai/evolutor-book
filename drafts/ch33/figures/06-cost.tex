@@ -1,0 +1,17 @@
+\begin{tikzpicture}
+\begin{axis}[width=7.3cm,height=5.2cm,xmode=log,log basis x=2,ymode=log,
+ xlabel={Spacing $B$ (tokens)},ylabel={Modeled bytes},grid=major,
+ legend style={font=\footnotesize,at={(.98,.98)},anchor=north east},
+ tick label style={font=\small},label style={font=\small},title={Stored payload},
+ title style={font=\small\sffamily},xtick={1,4,16,64}]
+ \input{\Generated/cost-memory.tex}
+ \legend{Hidden state,Repeated token IDs}
+\end{axis}
+\begin{axis}[at={(7.8cm,0)},anchor=south west,width=7.3cm,height=5.2cm,
+ xmode=log,log basis x=2,xlabel={Spacing $B$ (tokens)},ylabel={Replay tokens},
+ grid=major,tick label style={font=\small},label style={font=\small},
+ title={Uniform residual model},title style={font=\small\sffamily},
+ xtick={1,4,16,64}]
+ \input{\Generated/cost-replay.tex}
+\end{axis}
+\end{tikzpicture}

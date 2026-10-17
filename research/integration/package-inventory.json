@@ -447,14 +447,28 @@
       "manifest_hashes_verified": 35,
       "undeclared_files": [],
       "existing_chapter_state": "absent",
-      "dependencies": [],
+      "dependencies": [
+        "EVOD-30",
+        "EVOD-31",
+        "EVOD-32"
+      ],
       "conflicts": [],
-      "decision": "pending semantic inspection",
-      "source_verification": "not_rerun",
-      "code_test_state": "not_rerun",
-      "figure_state": "not_reviewed",
-      "pdf_state": "not_built_locally",
-      "final_integration_state": "candidate"
+      "decision": "Replace detached demo with actual native/pool checkpoint bridge; strict bounded schema/context/prefix validation, fresh-owner branch-group preflight, immutable bounded LRU and rational/collision/replay falsifiers. COW remains a refinement target.",
+      "source_verification": "Primary official sections rechecked 2026-10-17; actual preceding interfaces imported; no external experiment replication",
+      "code_test_state": "71 chapter tests; full regression 1283 passed",
+      "figure_state": "all 17 standalone pages color/grayscale locally reviewed",
+      "pdf_state": "standalone 17 pages; authored-source cumulative through33 417 pages; full-book acceptance pending",
+      "final_integration_state": "locally_reviewed_candidate",
+      "gates": {
+        "integrated": true,
+        "tested": true,
+        "built": true,
+        "rendered": true,
+        "locally_reviewed": true,
+        "independently_reviewed": false,
+        "accepted": false,
+        "full_book_converged": false
+      }
     },
     {
       "book": "evolutor",
@@ -1048,5 +1062,6 @@
       "pdf_state": "not_built_locally",
       "final_integration_state": "candidate"
     }
-  ]
+  ],
+  "last_updated": "2026-10-17"
 }

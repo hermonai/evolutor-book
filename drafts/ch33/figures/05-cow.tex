@@ -1,0 +1,22 @@
+\begin{tikzpicture}[x=1cm,y=1cm,font=\small\sffamily]
+\node[anchor=west,font=\bfseries\sffamily] at (0,4.2) {Independent-copy oracle};
+\foreach \x/\name in {2/A,6/B} {
+ \draw[draw=Blue,fill=Pale] (\x-1.4,2.8) rectangle (\x+1.4,3.6);
+ \node[align=center] at (\x,3.2) {branch \name\\private values};
+}
+\node[align=left,anchor=west,text width=4.9cm] at (9,3.2)
+ {An A-only write leaves every B observation unchanged.};
+\draw[Blue!30] (0,2.3) -- (14,2.3);
+\node[anchor=west,font=\bfseries\sffamily] at (0,1.85) {Conceptual COW representation (not implemented)};
+\node[draw=Blue] (a) at (1,.7) {A};
+\node[draw=Blue] (b) at (1,-.3) {B};
+\node[draw=Blue,fill=Pale,align=center,minimum width=3cm,minimum height=1.2cm]
+ (shared) at (5,.25) {immutable page $P$\\initial references: 2};
+\draw[flow] (a.east) -- (shared.north west);
+\draw[flow] (b.east) -- (shared.south west);
+\node[draw=Green,fill=Green!8,align=center,minimum width=3cm,minimum height=1.2cm]
+ (private) at (12,.25) {new private page $P_A$\\A's suffix write};
+\draw[flow,dashed] (shared.east) -- node[above] {copy before write} (private.west);
+\node[align=center] at (7,-1.3)
+ {After redirection: A maps to $P_A$; B retains $P$. Reclaim only after the last reference.};
+\end{tikzpicture}

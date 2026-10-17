@@ -1,71 +1,84 @@
 # Evolutor
 
-Start with the [current manuscript and folder guide](CURRENT_MANUSCRIPT.md)
-for active chapters, readable outputs, review status and build-cache policy.
+**Genomic computation: models, state and systems**
 
-Current milestone (10 October 2026): Chapters 31–32 are locally reviewed,
-source-bound candidates with twelve original vector/TXT plates, forty worked
-exercises and 107 new tests. Continuous authored-source assembly reaches Chapter
-32 (402 pages); Chapters 33–52 remain staged. Full regression: 1,212 passed.
-See [Chapter 31](drafts/ch31/README.md), [Chapter 32](drafts/ch32/README.md)
-and [next chapter/gates](CURRENT_MANUSCRIPT.md). Next: checkpoints, branches and
-prefix-state sharing. Preserved accepted editions remain unchanged.
+An implementation-first research textbook connecting sequence models, biological
+inspiration, typed computation, experimental evidence and engine design.
+Derivations, original editable vectors, executable reference models,
+counterexamples and worked exercises develop each mechanism.
 
-The shared [About this book note](tex/frontmatter/about-this-book.tex) owns
-the pedagogical acknowledgment and general evidence/review policy. It is
-authored front matter for one-time inclusion in the next integrated edition;
-chapter-specific assumptions and source notes remain in their chapters.
+## Current manuscript
 
-New authoring uses the [LaTeX-first Chapters 1–3 textbook candidate](tex/evolutor-textbook.tex),
-with a worked first-principles opening, native TikZ mechanisms and retained
-reviewed vector figures. See [revision scope and build commands](TEXTBOOK_REVISION.md)
-and the [shared textbook standard](TEXTBOOK_STANDARD.md). Run
-`make -f textbook.mk textbook-check` then `make -f textbook.mk textbook`.
-This is a new review candidate; the accepted Chapters 1–2 and their hashes remain frozen.
+As of **17 October 2026**, authored-source assembly reaches **Chapter 33 of 52**
+(417 pages). The latest chapter,
+[DOGMA checkpoints, branching and prefix state](drafts/ch33/README.md), connects
+the actual native recurrence and pool to immutable snapshots, independent
+branches and bounded prefix reuse.
 
-Canonical active edition: **astra-deep-rewrite**. Deep science and engineering, straightforward explanations, useful abstraction.
+It includes six original vector/TXT plates, twenty worked exercises, a
+continuation proof, an approximation bound and a metadata-inclusive storage/replay
+derivation. Seventy-one new tests include independent rational continuation oracles,
+malformed-data rejection, stale ownership, rehashed forgeries and forced
+lookup collisions. Full regression: **1,283 passed**.
 
-Chapters 1–2 are internally reviewed development manuscripts. Chapter 2 — **Learning objectives, data, tasks, and evaluation** — adds 13 original editable SVG figures with semantic TXT companions, nine static keyframes, executable reference code and twelve exercises with worked solutions. The 52-chapter architecture remains; Chapter 3 has standalone and combined LaTeX review candidates. [Chapter 4: Reproducible PyTorch training](drafts/ch04/README.md) is now an isolated authored-LaTeX review candidate with five vector plates, an exact-restart experiment, and twelve worked exercises. [Chapter 5: Tokenization and sequence representation](drafts/ch05/README.md) adds five original mechanism plates, implementation-first derivations, tested code, and twelve worked exercises. [Chapter 6: Recurrent models and gated state](drafts/ch06/README.md) adds five vector figures, tested numerical models, and twelve worked exercises. [Chapter 7: State-space models, selective updates and scans](drafts/ch07/README.md) adds five mechanism figures, independent numerical checks, and twelve worked exercises. [Chapter 8: Attention and content addressing](drafts/ch08/README.md) adds five algorithm plates, masked attention and cache references, gradient checks, and twelve worked exercises. [Chapter 9: Assembling a Transformer block](drafts/ch09/README.md) adds six computation figures, a complete two-block reference and forward/backward equivalence checks, and twelve worked exercises. [Chapter 10: Conditional computation and routing](drafts/ch10/README.md) adds five routing figures, sparse/dense gradient checks, capacity-history counterexamples, and twelve worked exercises. [Chapter 11: Regulation and expression across levels](drafts/ch11/README.md) adds promoter and expression mechanisms, exact dynamical updates and identifiability counterexamples. [Chapter 12: Development and generated computational structure](drafts/ch12/README.md) adds a typed graph compiler, parameter-sharing derivations and forward/backward oracles. Each includes five vector plates and twelve worked exercises. Chapters 1–10 integration remains pending; cumulative acceptance has not advanced.
+These are locally reviewed manuscript candidates, not an independently reviewed
+publication, a trained genomic capability demonstration or production engines.
+See the [current guide](CURRENT_MANUSCRIPT.md),
+[editorial architecture](EDITORIAL_ARCHITECTURE.md), and
+[source-bound cumulative review](research/integration/continuous-through33-review.json).
 
-The [current editorial architecture](EDITORIAL_ARCHITECTURE.md) defines chapter responsibilities, prerequisites, evidence gates, and the next integration milestone. Use it for current authoring progress; generated historical plans retain their acceptance-snapshot status.
+## Read and reproduce
 
-Read the [Chapters 1–2 PDF](output/pdf/deep-evolutor-ch01-02.pdf), [Chapter 2 source](tex/deep/ch02.tex), [Chapter 2 production report](DEEP_CHAPTER_2_REPORT.md), [edition strategy](CANONICAL_EDITION_STRATEGY.md), [book plan](BOOK_PLAN.md) and [chapter standard](CHAPTER_STANDARD.md). The [Chapter 1-only PDF](output/pdf/deep-evolutor.pdf) and [its production report](DEEP_CHAPTER_1_REPORT.md) are preserved unchanged.
+- [Continuous Chapters 1–33](output/pdf/evolutor-convergence.pdf).
+- [Standalone Chapter 33](output/pdf/evolutor-ch33-review.pdf).
+- [Chapter 33 source and build guide](drafts/ch33/README.md).
+- [Chapter/package convergence matrix](research/integration/chapter-convergence-matrix.md).
 
-DOGMA = non-Transformer DNA-native model + DOGMA Engine; Hermon DNA = Transformer-based DNA model + Hermon DNA Engine; Evolutor = broader theory/research/compiler/runtime above both. These are research identities, not claims of trained models or production engines.
+PDFs are generated locally and ignored by Git unless explicitly preserved as
+historical releases. The source files and review records are versioned.
 
-[Chapter 13: Learning, structural adaptation and evolution](drafts/ch13/README.md) adds exact learning oracles, structural search, inheritance policies and evaluation failure cases. [Chapter 14: Typed genomic computation systems](drafts/ch14/README.md) adds semantic-axis types, owned state, a regulated interpreter and rejection/rollback tests. Each includes five editable algorithm figures with TXT companions and twelve worked exercises; current research comparisons have dated source-access notes.
-
-[Chapter 15: Operational semantics and expression traces](drafts/ch15/README.md) develops small-step execution, loop invariants, resumable checkpoints and semantic replay. [Chapter 16: Expression complexity and resource semantics](drafts/ch16/README.md) develops sparse-routing ledgers, schedule-dependent buffer liveness, amortized trace storage and roofline bounds. Each includes five editable vector figures with semantic TXT companions, tested reference code and twelve worked exercises.
-
-[Chapter 17: Traces, credit and mechanistic evidence](drafts/ch17/README.md) develops structural interventions, redundant/synergistic attribution games and temporal counterfactuals. [Chapter 18: DOGMA primitives and state semantics](drafts/ch18/README.md) develops a proposed pair-addressed reference, exact masking/chunking contracts and reverse-complement symmetry with a decay counterexample.
-
-Each new chapter includes five editable vector figures with TXT companions and twelve worked exercises. Chapters 13-18 are standalone author-reviewed candidates, not cumulative acceptance or independently validated industrial systems.
-
-[Chapter 19: DOGMA regulation and selective transformations](drafts/ch19/README.md) adds five editable vector/TXT figures, twelve worked exercises and independently checked numerical examples. Input-conditioned state updates, convexity proofs, causal chunking, analytic gradients, state-feedback counterexamples, non-identifiable gates, and a falsifiable genomic evaluation contract.
-
-[Chapter 20: Structured memory, locality and timescales](drafts/ch20/README.md) develops exponential memory kernels, timescale gradients, block-clock updates, complete chunk continuation, aliasing and finite-bit capacity. Includes five editable vector/TXT figures, twelve worked exercises and tested reference code.
-
-## Build and verify
-
-Chapter 3 now has a standalone [review edition](drafts/ch03/README.md), with twelve editable SVG/TXT figures and a page-inspected PDF. See the [review report and release gates](DEEP_CHAPTER_3_REVIEW_REPORT.md). It is not yet included in the accepted cumulative PDF.
+Requirements: Python 3.11+, PyTorch, pytest, Pillow, XeLaTeX/latexmk, makeindex,
+Poppler, librsvg and the project's TeX Gyre/DejaVu fonts.
+Declared local numerical checks use Python 3.13.6 and CPU float64 PyTorch.
 
 ```sh
-python3 examples/deep/ch01.py
-python3 examples/deep/ch02.py
-python3 scripts/build_deep_chapter.py --check
-python3 scripts/build_deep_chapter02.py --check
-python3 scripts/build_textbook_plan.py --check
-make pdf
-python3 -m pytest
-python3 scripts/review_deep.py
+export OMP_NUM_THREADS=1
+python3 drafts/ch33/build.py --render
+python3 drafts/ch33/build.py --check
+python3 -m pytest -q -o addopts=''
+python3 scripts/build-convergence.py --through 33 --refresh-assets
 ```
 
-Dependencies: Python 3.10+ (pytest; Pillow for page review), XeLaTeX/latexmk, librsvg, Poppler, and DejaVu fonts. The full historical numerical regression suite also uses the existing repository dependencies. The PDF gate rejects old, empty, later-chapter, unreviewed, or changed-after-review source. To author new material, build a preview under build/ and complete review before updating the acceptance record; do not weaken the gate.
+Do not rebuild PDFs concurrently with preservation tests. The historical
+`make pdf` gate still belongs to the frozen accepted Chapters 1–2; it is not
+the current 33-chapter assembly command.
 
-## Frozen editions
+## Source organization and evidence
 
-astra-undergraduate-rewrite is a pedagogical archive, not a parallel manuscript. Its source, figures, examples and committed PDF remain byte-identical. The default tests verify its preserved publication without rebuilding it; make historical-pdf remains an explicit reproduction tool under build/. Main, astra-rewrite and historical snapshots are preserved; no main merge is part of this milestone.
+- `tex/deep/` and `tex/textbook/` supply the active opening Chapters 1–3.
+- `drafts/ch04/` through `drafts/ch33/` contain current authored LaTeX,
+  reference code, figure sources, semantic TXT companions and standalone builders.
+- `code/` contains reusable teaching libraries; `tests/` contains regression checks.
+- `research/integration/` preserves package provenance and local review evidence.
+- `build/` is generated compiler/asset cache; `tmp/pdfs/` holds visual-review images.
+- Earlier editions, acceptance records and historical preservation tests remain
+  unchanged. Do not overwrite them to update current progress labels.
 
-The original eight-section [preproduction outline](CHAPTER_1_OUTLINE.md) is retained as design history. The actual chapter deliberately expands it to 12 sections and ten figures. Full source-access details live in [the chapter source review](research/deep-ch01-sources.md). Review is author-agent work, not independent scientific certification or a real-reader study.
+The 52-chapter architecture is retained. Chapters 34–52 are inventoried source
+packages, not integrated chapters. Next: **DOGMA batching and state-native
+kernels**, preserving scalar per-request state, position and ownership.
 
-[Chapter 21: Strands, complements and dual-state hypotheses](drafts/ch21/README.md) adds explicit output symmetry, a proved dual-state lift, tied strand readouts, causality limits, chunk/gradient parity and falsifiable evaluation contracts. Five editable vector/TXT figures, twelve worked exercises and executable reference tests accompany the derivations. Chapters 22–32 are now integrated review candidates; cumulative acceptance remains pending.
+DOGMA denotes the non-Transformer DNA-native research direction plus its engine;
+Hermon DNA denotes the Transformer-based direction and engine; Evolutor is the
+broader theory/compiler/runtime program above both. These identities do not
+establish novelty, biological equivalence or capability.
+
+Follow the [chapter standard](CHAPTER_STANDARD.md) and
+[LaTeX-first textbook standard](TEXTBOOK_STANDARD.md).
+The [shared front-matter note](tex/frontmatter/about-this-book.tex) contains the
+one-time pedagogical acknowledgment and general evidence policy. Chapter sources
+record specific assumptions and primary-source access depth.
+
+Independent specialist/reader review, cumulative scientific/editorial and
+accessibility QA, bibliography/index reconciliation and rights auditing remain
+publication gates. A successful build or test suite does not close them.

@@ -1,0 +1,6 @@
+The immutable checkpoint contains prefix 1,2,1 and state (5/8,1/8) at position 3.
+Two copy arrows allocate independent mutable slots for owners A and B.
+A consumes token 0 and reaches (5/16,1/32) at position 4.
+B consumes token 2 and reaches (5/16,17/32) at position 4.
+Both results use the actual Chapter 31 fixture. No write arrow returns to the
+checkpoint or crosses into the sibling. Physical COW is not used here.

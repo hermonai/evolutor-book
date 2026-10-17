@@ -1,0 +1,12 @@
+{
+  "s_t": "complete model state after t consumed tokens, including any required auxiliary state",
+  "h_t": "D-dimensional hidden state of the restricted native diagonal recurrence",
+  "z_t": "V logits after consuming token t",
+  "kappa": "tenant/artifact/semantic/tokenizer/width/vocabulary/dtype context",
+  "C_t": "immutable encoded data body and its SHA-256 digest",
+  "k_t": "context-and-exact-prefix lookup key, not checkpoint acceptance",
+  "D_C,E_C": "snapshot decoder and encoder",
+  "R": "representation expansion used to specify COW refinement",
+  "T,B,D,n": "token length, checkpoint interval, hidden width, floor(T/B)",
+  "alpha,epsilon,eta": "maximum retention, initial hidden approximation error, per-step error bound"
+}

@@ -1,0 +1,80 @@
+{
+  "branches": [
+    {
+      "event": "shared prefix",
+      "h1": 0.625,
+      "h2": 0.125
+    },
+    {
+      "event": "left: token 0",
+      "h1": 0.3125,
+      "h2": 0.03125
+    },
+    {
+      "event": "right: token 2",
+      "h1": 0.3125,
+      "h2": 0.53125
+    }
+  ],
+  "checkpoint_sha256": "051fb48b26ed39a2c5d652fff98cf608143c54baa310ab96f7cc9d3c1e7426d5",
+  "checkpoint_wire_bytes": 358,
+  "replay_audit": true,
+  "costs": [
+    {
+      "interval": 1,
+      "checkpoints": 64,
+      "state_bytes": 4096,
+      "token_bytes": 8320,
+      "total_bytes": 12416,
+      "expected_replay": 0.0
+    },
+    {
+      "interval": 2,
+      "checkpoints": 32,
+      "state_bytes": 2048,
+      "token_bytes": 4224,
+      "total_bytes": 6272,
+      "expected_replay": 0.5
+    },
+    {
+      "interval": 4,
+      "checkpoints": 16,
+      "state_bytes": 1024,
+      "token_bytes": 2176,
+      "total_bytes": 3200,
+      "expected_replay": 1.5
+    },
+    {
+      "interval": 8,
+      "checkpoints": 8,
+      "state_bytes": 512,
+      "token_bytes": 1152,
+      "total_bytes": 1664,
+      "expected_replay": 3.5
+    },
+    {
+      "interval": 16,
+      "checkpoints": 4,
+      "state_bytes": 256,
+      "token_bytes": 640,
+      "total_bytes": 896,
+      "expected_replay": 7.5
+    },
+    {
+      "interval": 32,
+      "checkpoints": 2,
+      "state_bytes": 128,
+      "token_bytes": 384,
+      "total_bytes": 512,
+      "expected_replay": 15.5
+    },
+    {
+      "interval": 64,
+      "checkpoints": 1,
+      "state_bytes": 64,
+      "token_bytes": 256,
+      "total_bytes": 320,
+      "expected_replay": 31.5
+    }
+  ]
+}

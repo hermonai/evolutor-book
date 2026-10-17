@@ -1,0 +1,17 @@
+\begin{tikzpicture}[x=1cm,y=1cm,font=\small\sffamily]
+\node[draw=Blue,fill=Pale,minimum width=6cm,minimum height=.9cm,align=center]
+ (cp) at (7,4.6) {Immutable checkpoint: $(1,2,1)$\\$t=3,\quad h=(5/8,\;1/8)$};
+\node[draw=Blue,minimum width=5.3cm,minimum height=.8cm,align=center]
+ (left) at (3,2.8) {new owner A / fresh slot 1\\$h=(5/8,\;1/8)$};
+\node[draw=Blue,minimum width=5.3cm,minimum height=.8cm,align=center]
+ (right) at (11,2.8) {new owner B / fresh slot 2\\$h=(5/8,\;1/8)$};
+\draw[flow] (cp.south west) -- node[above left] {copy} (left.north);
+\draw[flow] (cp.south east) -- node[above right] {copy} (right.north);
+\node[draw=Green,fill=Green!8,minimum width=5.3cm,minimum height=.8cm,align=center]
+ (a) at (3,.7) {$t=4,\quad h=(5/16,\;1/32)$\\only branch A changed};
+\node[draw=Red,fill=Red!6,minimum width=5.3cm,minimum height=.8cm,align=center]
+ (b) at (11,.7) {$t=4,\quad h=(5/16,\;17/32)$\\only branch B changed};
+\draw[flow] (left) -- node[right] {consume token $0$} (a);
+\draw[flow] (right) -- node[right] {consume token $2$} (b);
+\node[align=center,Blue] at (7,-.45) {No suffix write targets the checkpoint or sibling slot.};
+\end{tikzpicture}

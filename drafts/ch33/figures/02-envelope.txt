@@ -1,0 +1,6 @@
+The left trusted-producer and caller box is separate from the right byte envelope.
+The body contains exact schema, tenant, model artifact, state semantics, tokenizer,
+width, vocabulary, dtype, position, consumed tokens and finite hidden values.
+An outgoing computation arrow hashes the complete encoded body.
+Digest validation detects disagreement with the supplied bytes, not forged
+producer identity, replay consistency or access authorization.
