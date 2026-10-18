@@ -97,6 +97,25 @@ weakened. The final regression passed 2,078 tests with no failures or skips,
 without concurrent PDF builds. Chapter-structure validation, local production
 admission declarations and the changed-tooling lint pass also succeed.
 
+A separate local clean clone exposed two documentation/reproduction defects:
+tests were listed before required generated fixtures, and one batch handoff
+linked to untracked standalone PDFs. The first clone run had two failures and
+21 missing-standalone-PDF skips; it is not counted as a successful regression.
+The README/current guide/Claude prompt now require asset generation first,
+and the handoff distinguishes regenerable paths from the versioned download.
+The clean clone's fresh asset/full-book build passes at 619 pages with all
+925 source hashes matching the reviewed candidate and identical extracted
+text/layout. PDF byte hashes differ, as expected from separate compiler runs.
+The clean-clone follow-up passes 2,057 tests, with 21 expected skips for missing
+standalone review PDFs and no failures. Those skips are not counted as passes;
+the fully populated working checkout passes all 2,078. Exact clean-build
+identities are recorded in the current through52 review record.
+
+Whitespace-only import diagnostics (extra EOF blanks, original incoming
+whitespace and intentional Markdown hard breaks) were retained with the
+corresponding byte-bound author/package sources rather than silently rewriting
+their evidence. These are not compiler, numerical or scientific failures.
+
 Original accepted opening sources, reviewed build machinery, book/book.json,
 BOOK_PLAN.md and historical accepted PDFs remain preserved. Earlier throughNN
 review records keep their historical source scope; they are not rewritten to

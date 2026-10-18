@@ -21,7 +21,10 @@ Before opening a pull request:
    an author's test/render pass into independent acceptance.
 
 For new environments, regenerate missing chapter assets with the corresponding
-builder's `--assets-only` option. Complete-book code references require PyTorch,
+builder's `--assets-only` option before testing, or use the complete builder's
+`--through 52 --refresh-assets` option first. Tests of standalone PDFs can skip
+when those local PDFs have not been regenerated; do not report them as passes.
+Complete-book code references require PyTorch,
 NumPy, pytest and Pillow; PDF production also needs XeLaTeX/latexmk, makeindex,
 Poppler and librsvg. Historical opening acceptance records are not current
 progress counters. Do not modify them to satisfy a new chapter gate.

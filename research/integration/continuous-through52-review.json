@@ -947,13 +947,13 @@
   },
   "additional_input_hashes": {
     "CHAPTER_STRUCTURE.md": "0947ed74de462689be0baf138f91ddbe3157b45b3ba3fdf751c90e67428409d8",
-    "CONTRIBUTING.md": "adff92b82286e30ad11ce5e7d895449de7aae03097dd4879c2b20c2a87ada92b",
-    "CURRENT_MANUSCRIPT.md": "b4345c505145bd7679e0375095635b38adb29f8e960b7db174abb47a2c01acba",
+    "CONTRIBUTING.md": "0a6e80cb71ff5c6074f3958524e7c06685598a993e127a93075235c2b93e5afc",
+    "CURRENT_MANUSCRIPT.md": "c0bcde8a4b33db0d8625026d0291c2e1f6c87385bc590938f9e90dd3a626df6d",
     "PUBLICATION_PLAN.md": "ca47481aee6c68566736822faede18e16b9c27baa0a3d3d65d745163681d88ee",
-    "README.md": "8e3b15da5e385d78937e2bb7f06062c221811fb6d592030e9e31e28a33fd4b61",
+    "README.md": "292818afb52049fcd2bc2c5472de67414271118e7e6e742b72d3464be2cfdcca",
     "ROADMAP.md": "5686ae0b28a6ad62a80b478223be9f066937fbbaa758a824a9ee0ef11d3de86f",
     "complete-book.mk": "d9fe0865db8c7c2d12b6da48f26c35a76ee202a6212e45a976d3cadcff4f52d0",
-    "docs/CLAUDE_PREPUBLICATION_REVIEW_PROMPT.md": "5d9affe37760eacc54df280ef4572184680e1e0cc089f76d22099a9f9e52299c",
+    "docs/CLAUDE_PREPUBLICATION_REVIEW_PROMPT.md": "1945a6d8d72cab34624f11f4abafbf54b889232c5ad8d1ebc9e86a14980ca5bc",
     "docs/README.md": "2922d0d696da4a52f6831df4d1dd34a1182714c543ebe809f42622c7bbe170c1",
     "docs/roadmap-current.md": "7fe3b8f3a19a1536c946afcc98e41bb0749ae472494022e451746a2a0f9f5ba1",
     "examples/integrated_spine/README.md": "2f1443d013ad3137bedfaf5a94ba2d39d691745123718c5265f8ccac88ba33e8",
@@ -1540,8 +1540,12 @@
     "tests/test_convergence_builder.py": "af0781d958db864456c21758c19c1dfe0b7788c7c848d456d7e676e2711d0c94",
     "tests/test_convergence_render_selection.py": "e2918c85d970a7efd93a1a1bd928a20000eaa507f5f566eabc60954614e1017a",
     "tests/test_integrated_spine.py": "f57ba17c4096c94133fd2009f6a69078d029bfdc49920b292cbedd34f92e16fb",
-    "FINAL_INTEGRATION_REPORT.md": "218a1c73357ae80e3ba10b70adc1f1fbb51d7b4bb86f98b8cc6fa42368840772",
-    "research/integration/integration-decisions.md": "48ea7113d1a82ba061a7a429840d098efbdab9433e1bab39849d1f7d50cdf622"
+    "FINAL_INTEGRATION_REPORT.md": "d3a8401d976e1504e819709a086afa16564c4497beaf0f5ff16bc9d3a04eb017",
+    "research/integration/integration-decisions.md": "48ea7113d1a82ba061a7a429840d098efbdab9433e1bab39849d1f7d50cdf622",
+    "research/integration/batches/A-handoff.md": "7e55edaa392910ec32857eedfa4265ccf829e92cc889d4c059cdec8bcb96ede1",
+    "research/integration/batches/B-handoff.md": "7320361a141dbcdcbc7ce929fa5afaca1c7fd2beb3bdb3558c2af44576d7a1da",
+    "research/integration/batches/C-handoff.md": "8e86a77a0208e1f526b443eb443fca9504fcd3c79a55c21ef70ebc172645f7f5",
+    "research/integration/batches/D-handoff.md": "ce986c1bd8ba0436e30d9b6c07b5dd81267f7b97f16b7b2569d4e6bc3bd057be"
   },
   "verification": {
     "initial_full_regression": {
@@ -1559,10 +1563,10 @@
       "failures": 0,
       "errors": 0,
       "skipped": 0,
-      "junit_seconds": 25.102,
-      "console_seconds": 25.12,
+      "junit_seconds": 24.818,
+      "console_seconds": 24.82,
       "report": "build/final-integration/regression.xml",
-      "report_sha256": "39001d41842f736e13c26f2f1df124bc0c0f63a14a58531670024e28fd23cb4f",
+      "report_sha256": "860931daf7adde5ffde0c6144e4adb46db909dc375a610cd72b026ea1a977173",
       "no_concurrent_pdf_builds": true
     },
     "chapter_fixture_checks": {
@@ -1590,7 +1594,49 @@
       "all_embedded": true,
       "type_3_resources": 133,
       "note": "Earlier imported figure PDFs retain Type 3 resources; no PDF/UA or all-native-label claim. Publisher font requirements remain review work."
-    }
+    },
+    "fresh_checkout": {
+      "baseline_commit": "a4da9e5",
+      "method": "Separate local clone without ignored caches, then fresh --refresh-assets build. Documentation fixes copied explicitly before rerunning tests.",
+      "initial_test_run": {
+        "passed": 2055,
+        "failed": 2,
+        "skipped": 21,
+        "report_sha256": "4ef601c5987edd626928534ce33f81f7903b3158ace28bf44882c64abc090d07",
+        "failure_causes": [
+          "Missing generated Chapter 33 fixture before asset generation",
+          "Batch D linked to ignored standalone PDFs"
+        ]
+      },
+      "repairs": [
+        "Document asset generation before full tests",
+        "Use regenerable plaintext standalone paths and versioned complete-PDF link in handoff"
+      ],
+      "fresh_full_build": {
+        "passed": true,
+        "pages": 619,
+        "pdf_sha256": "118a55824c62caa06119756faae00478f9a1ca56271089932100da69bb453e81",
+        "source_hash_count": 925,
+        "source_hashes_equal_reviewed_candidate": true,
+        "extracted_text_layout_equal_reviewed_candidate": true,
+        "release_blocking_warnings": [],
+        "build_record_sha256": "566de00e378ce6813a0777a43375966929ecdead564176ef906e8c4e02cd5ddb",
+        "warning_audit_sha256": "336b9a6094fdb6c48d86a123410f15b5856cdeadc32f86eb8b639150249ff2c7"
+      },
+      "test_run_after_build": {
+        "passed": 2057,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 21,
+        "junit_seconds": 25.58,
+        "console_seconds": 25.59,
+        "report_sha256": "386f9233a8b4b84007058a196d25194ab4d421171715fbb63d9904df49af6c79",
+        "skip_reason": "Standalone-PDF review tests require ignored individual chapter PDF outputs; no skips are counted as passes."
+      },
+      "local_evidence_directory": "/var/folders/56/v6pzzwvd449dsz9wxqrt_sp40000gn/T/evolutor-clean-checkout-1z3495ol/checkout",
+      "note": "Fresh build is validation only, not a second visually approved deliverable. The artifact manifest continues to identify the reviewed working-copy PDF."
+    },
+    "whitespace_diagnostics": "Pre-existing new-batch EOF blanks, intentional Markdown hard breaks and verbatim incoming whitespace retained with their source bindings. Coordinator correction diff --check passes."
   },
   "environment": {
     "python": "3.13.6",

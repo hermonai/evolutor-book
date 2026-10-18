@@ -41,14 +41,17 @@ Use a Python with the dependencies in requirements-review.txt. Recorded local
 Python: /Users/wenyan/.pyenv/versions/3.13.6/bin/python3. Set OMP_NUM_THREADS=1.
 
 - Structure: `python3 scripts/check-chapter-structure.py`.
-- Full tests: `python3 -m pytest -q -o addopts=''`.
 - Complete fresh build: `python3 scripts/build-convergence.py --through 52 --refresh-assets`.
+- Full tests, after required assets exist: `python3 -m pytest -q -o addopts=''`.
 - Repeat build: the same command without `--refresh-assets`.
 - All cumulative renders: `python3 scripts/review-convergence.py --pages all`.
 - One chapter: `python3 drafts/chNN/build.py --render` and `--check` (NN=04–52).
 - Handoff evidence: `python3 scripts/audit-production.py --require-ready`.
 - Paged runtime/compiler example: `python3 examples/integrated_spine/paged_runtime.py`.
 
+On a fresh checkout, generate assets with the fresh build before full tests.
+Standalone-PDF review tests can skip until individual chapter PDFs exist; report
+those separately from the fully populated coordinator run.
 Do not run PDF builds concurrently with preservation tests. Missing ignored
 PDFs/build logs on a fresh checkout are missing local evidence, not a license
 to fabricate review hashes. Generate chapter artifacts before running their

@@ -48,13 +48,17 @@ Admission validates local evidence consistency, not the manual/scientific gates.
 | 51 | 12 | 23 | `e9edbbaa366e718bd123e7aeee5c780db0aebbb574747eb8ae966953c171d546` |
 | 52 | 14 | 26 | `cef39bb77c1d5c8f18f92ba7dec40ed73361939680455c2bed4c42ef6279e4ba` |
 
-The final PDFs are:
+The standalone outputs are local regenerable files, not checked-in downloads:
 
-- [Chapter 48](../../../output/pdf/evolutor-ch48-review.pdf)
-- [Chapter 49](../../../output/pdf/evolutor-ch49-review.pdf)
-- [Chapter 50](../../../output/pdf/evolutor-ch50-review.pdf)
-- [Chapter 51](../../../output/pdf/evolutor-ch51-review.pdf)
-- [Chapter 52](../../../output/pdf/evolutor-ch52-review.pdf)
+- `output/pdf/evolutor-ch48-review.pdf`
+- `output/pdf/evolutor-ch49-review.pdf`
+- `output/pdf/evolutor-ch50-review.pdf`
+- `output/pdf/evolutor-ch51-review.pdf`
+- `output/pdf/evolutor-ch52-review.pdf`
+
+Coordinator link repair, 18 October: read the versioned
+[complete candidate](../../../artifacts/review/evolutor-complete-review.pdf)
+from a fresh checkout; rebuild individual chapter PDFs for standalone review.
 
 **124 assigned tests passed; zero failures, errors or skips.** Per-chapter JUnit
 reports are build/chNN/tests.xml; the combined assigned-only report is

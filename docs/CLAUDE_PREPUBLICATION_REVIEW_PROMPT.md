@@ -183,6 +183,11 @@ on your host. Local tools are XeLaTeX, latexmk, makeindex, Poppler and librsvg.
 Use an isolated environment if needed; do not modify unrelated global packages.
 
 From the repository root, use the verified interpreter for these commands:
+In a fresh checkout, first generate required fixtures and the cumulative
+candidate with `python3 scripts/build-convergence.py --through 52 --refresh-assets`.
+Only then run the checks below. Standalone-PDF tests can skip until their
+chapter PDFs are regenerated; report skips rather than equating them with the
+coordinator's fully populated local run.
 
 ```sh
 export OMP_NUM_THREADS=1

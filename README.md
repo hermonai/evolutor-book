@@ -46,8 +46,8 @@ export OMP_NUM_THREADS=1
 export PATH=/Library/TeX/texbin:/opt/homebrew/bin:$PATH
 
 python3 scripts/check-chapter-structure.py
-python3 -m pytest -q -o addopts=''
 python3 scripts/build-convergence.py --through 52 --refresh-assets
+python3 -m pytest -q -o addopts=''
 python3 scripts/review-convergence.py --pages all
 ```
 
@@ -56,6 +56,12 @@ review copy above makes this candidate readable from GitHub without a local TeX
 installation. Generated build/ and tmp/ material is ignored. A local rebuild need
 not have the same PDF bytes: source hashes, numerical fixtures and reviewed
 artifact identity are separate checks.
+
+Build before testing in a fresh checkout: generated numerical tables and
+literal listings are required by fixture checks. Standalone-PDF review tests
+may skip until their chapter PDFs have been rebuilt; the complete cumulative
+PDF does not populate those independent review outputs. The recorded local
+full run includes those outputs and passes 2,078 tests without skips.
 
 For one chapter, use its `drafts/chNN/build.py --render` and `--check` commands
 (NN is 04–52). A fresh checkout needs generated assets before `--check`.
