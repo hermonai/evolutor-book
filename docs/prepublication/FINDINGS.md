@@ -145,11 +145,80 @@ folio of the 643-page cumulative candidate).
   `chapter-amendments.json`. **Disposition:** recorded; recheck figures if the
   toolchain changes again.
 
+## Grayscale and figure legibility (pass of 19 October 2026)
+
+This pass read all 643 pages in grayscale and measured the book's colour and
+type instead of judging them by eye alone.
+
+### Palette measurement — the grayscale collisions are known
+Relative luminance of the book's palette (sRGB, 0 = black, 1 = white):
+
+| Colour | Hex | Luminance | 8-bit grey |
+|---|---|---|---|
+| Ink | `1F2A33` | 0.022 | 45 |
+| Blue | `173E60` | 0.045 | 62 |
+| Red | `AA354C` | 0.116 | 96 |
+| Green | `26714D` | 0.128 | 100 |
+| Slate | `5B6B78` | 0.141 | 105 |
+| Gold | `F2D799` | 0.698 | 217 |
+| GreenPale / Pale / GoldPale | — | 0.884 / 0.895 / 0.907 | 241 / 242 / 244 |
+
+**Red and Green differ by 0.011 in luminance, and the three pale tints by less
+than 0.03.** Any distinction carried by Red against Green, or by one tint box
+against another, is lost in monochrome.
+
+### F-gray-figures — no defect — colour is redundant in every figure that uses the colliding pair
+75 of the 235 figure sources use Red and Green together. All 75 were rendered at
+150 dpi, converted to grayscale and inspected one by one. In every case the
+distinction is also carried by text, a dash pattern, a marker shape or position,
+and most plates close with an explicit key — for example "Solid: forward value;
+dashed: backward dependency" (Fig. 6.5), "Filled: useful assignment. Cross:
+dropped. Pale: padded work." (Fig. 16.2), "Solid: parent edges. Dashed:
+serving-pointer history." (Fig. 43.1). Figure 11.3's caption states the rule the
+book follows: "Solid and dashed lines encode the two quantities independently of
+color." The three multi-curve plots in chapter sources and the 13 generated
+pgfplots figures all distinguish series by solid/dashed/dash-dotted strokes or
+marker shape. **Disposition: no change required.** This is a property of the
+book's drawing conventions, now measured rather than assumed.
+
+### F-gray-howto — defect — the two chapter boxes were identified by colour alone
+- **Source:** `tex/convergence/matter/how-to-use.tex`, "The shape of the book".
+- **Problem:** the text read "The blue box at the start of each chapter lists its
+  goals. The green *Key ideas* box before the exercises…". In grayscale both
+  boxes are the same pale grey, so a monochrome reader cannot act on the
+  sentence, and neither can a reader with a red-green colour vision deficiency.
+- **Adjustment:** identify the boxes by their printed headings instead: "A box
+  headed *In this chapter you will* opens each chapter with its goals, and a
+  *Key ideas* box before the exercises states what should stay with you."
+- **Disposition:** fixed; book p. vi (PDF page 6) re-rendered and inspected.
+
+### F-gray-labels — defect — one plate held the only figure labels below 8pt
+- **Evidence:** every text run in the PDF was measured with
+  `pdftohtml -xml -zoom 1`, which reports effective point size after a plate's
+  own scaling. Across 643 pages the smallest word label is 8pt on 70 pages, 9pt
+  on 83 and 10pt on 480. Exactly one page carried a word label below 8pt: page
+  609, the Epilogue plate, at 6pt. Everything else under 8pt is a second-order
+  mathematical sub- or superscript (`max`, `reset`, `master`, `upper`) or a code
+  listing's line number, which are normal at that size.
+- **Problem:** `tex/convergence/figures/three-meanings.tex` set its interface
+  labels and in-panel annotations in `\tiny`. Because the plate is already as
+  wide as the measure it cannot be enlarged, so those labels printed at 6pt —
+  below the floor every other figure in the book respects, and below what a
+  monochrome print run can be relied on to hold.
+- **Adjustment:** raise every label in the plate to `\scriptsize` (8pt), and
+  re-space the panels so nothing collides or overruns: the catalogue row's boxes
+  widened from 0.85 cm to 0.95 cm at 1.05 cm pitch, the plan and ablation boxes
+  from 2.9/3.4 cm to 3.3/3.7 cm, "strand displacement" set as two right-aligned
+  lines beside its arrow, "input strand" moved below the strand it names, and
+  the reporter note shortened to fit the panel.
+- **Disposition:** fixed. Re-measured: no figure label in the book is now below
+  8pt. Page 609 re-rendered at 150 dpi and inspected in colour and grayscale.
+
 ## Gates this pass could not close
 
 | ID | Gate | Why |
 |---|---|---|
-| G-grayscale | Grayscale inspection of every page; full-size views of every dense figure | Colour contact sheets (45–50 dpi) covered all pages; these are navigation, not proof of label legibility |
+| ~~G-grayscale~~ | Grayscale inspection of every page; full-size views of dense figures | **Closed 19 October 2026.** All 643 pages read in grayscale; every figure using the Red/Green pair read at 150 dpi in grayscale; every text run measured for size. Two defects found and fixed (F-gray-howto, F-gray-labels) |
 | G-specialist | Independent biology, DNA-computing and ML specialist review | Agent review is not peer review |
 | G-reader | Reader study for the new front matter and part openers | Not available to an agent |
 | G-rights | Citation, quotation and artwork rights audit; licence decision | The title page states this is an open gate; no licence was invented |

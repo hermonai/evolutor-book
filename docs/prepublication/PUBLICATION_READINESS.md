@@ -2,7 +2,7 @@
 
 Assessment after the agent prepublication pass of 18–19 October 2026. It covers
 `artifacts/review/evolutor-prepublication-review-2026-10-19.pdf`
-(SHA-256 `83e2fe42…7bc4`, 643 pages).
+(SHA-256 `6a33815a…a1fd`, 643 pages).
 
 ## Assessment
 
@@ -25,8 +25,10 @@ What this pass can support, because it was checked:
   with their controls and their chance baseline stated (F-ch22-a, F-ch23-a).
 - 2,080 tests pass, the production audit passes, and all 49 standalone chapters
   pass their `--check`.
-- Every page of the volume has been looked at in colour, and every changed page
-  of every rebuilt chapter has been inspected at full size.
+- Every page of the volume has been read in colour and in grayscale, every
+  changed page of every rebuilt chapter inspected at full size, and every text
+  run measured: no figure label is below 8pt, and no figure depends on colour
+  alone to carry its meaning.
 
 What this pass cannot support: anything about the book's scientific standing,
 its usefulness to real readers, its legal position, or its accessibility. Those
@@ -34,13 +36,15 @@ are the gates below.
 
 ## Blockers
 
-These must close before publication. None can be closed by an agent.
+These must close before publication. Five remain open and none of those can be
+closed by an agent; B3 closed on 19 October 2026 and is kept here, struck
+through, so the record shows what was done rather than what quietly vanished.
 
 | # | Blocker | Why it is open | Who |
 |---|---|---|---|
 | B1 | Independent scientific review | This is an additional agent review. The book's genomics, DNA-computing, systems and ML claims need specialists who did not write them. The Epilogue and Appendix A are new and have had no specialist read at all | Author, external reviewers |
 | B2 | Rights audit and licence decision | Citations, quotations and artwork have not been audited for reuse rights, and the repository has no reuse licence. The title page states this as an open gate; no licence was invented | Author, counsel |
-| B3 | Complete grayscale and full-size figure review | 161 grayscale contact sheets exist but were sampled, not read. Colour contact sheets do not prove small labels are legible, and the book must survive monochrome printing | Author or a later pass |
+| ~~B3~~ | Complete grayscale and full-size figure review | **Closed 19 October 2026.** All 643 pages read in grayscale; all 75 figures using the Red/Green pair read at 150 dpi in grayscale; every text run measured. Two defects fixed. What remains is a proof on paper: a monochrome test print, which needs a press, not an agent | — |
 | B4 | Accessibility | The PDF is not tagged, has no alt text, and no PDF/UA or EPUB validation was run. No compliance is claimed anywhere | Author, accessibility specialist |
 | B5 | Reader study | The new front matter, part openers and chapter guides were written to help readers; no reader has tried them | Author |
 | B6 | Frozen Chapter 1 paragraph | Chapter 1 still says the companion volume supplies molecular-computation foundations with a "new Chapter 1", which is out of date now that that volume is a complete 32-chapter edition. Chapter 1 is bound by a frozen acceptance record, so this pass did not touch it. Replacement text is drafted in FINDINGS.md (F-ch01-a) | Author |

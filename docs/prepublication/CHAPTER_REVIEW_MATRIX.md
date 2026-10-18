@@ -4,8 +4,10 @@ State after the 18–19 October 2026 agent pass. Every cell describes what this
 pass actually did. "Book contact sheets" means all physical pages of the
 643-page cumulative candidate were viewed in colour at 45–50 dpi, which shows
 layout, collisions and breaks but is not proof that small labels are legible.
-No grayscale pass was made (gate G-grayscale). No row is accepted or
-independently reviewed; those fields in the records are unchanged.
+A grayscale pass covering all 643 pages followed on 19 October 2026, with
+every figure that uses the Red/Green pair read at 150 dpi in grayscale and every
+text run measured for point size. No row is accepted or independently reviewed;
+those fields in the records are unchanged.
 
 "Goals/key ideas added (derived)" means the builder injects the chapter's goals
 and key-ideas boxes from `tex/convergence/chapter-guides.json` into the derived
@@ -18,11 +20,11 @@ this pass did not audit the companion code line by line.
 |---|---|---|---|
 | Title page | `tex/convergence/matter/titlepage.tex` | New: edition notice; rights audit stated as open | 80 dpi colour, final build |
 | Preface | `matter/preface.tex` | New: three senses of genomic computation, evidence discipline, readership, Raschka acknowledgment (once) | 80 dpi colour, final build |
-| How to use this book | `matter/how-to-use.tex`, `figures/reading-map.tex` | New: reading routes, chapter anatomy, conventions, commands | 80 dpi colour, final build |
+| How to use this book | `matter/how-to-use.tex`, `figures/reading-map.tex` | New: reading routes, chapter anatomy, conventions, commands; boxes named by heading rather than colour (F-gray-howto) | 120 dpi colour, final build |
 | Contents at a glance | generated `build/convergence/glance.tex` | New | 80 dpi colour, final build |
 | Full contents | LaTeX | Source notes now section-level entries | Contact sheets |
 | Part openers I–XII | `tex/convergence/parts/partNN.tex` | New: question, orientation, chapter list; Parts IV–V state the pilots honestly | Contact sheets; Parts VII–XII also at sheet scale in the second pass |
-| Epilogue | `matter/epilogue.tex`, `figures/three-meanings.tex` | New: frontier models, biosafety boundary, DNA computing frontier, five bridge hypotheses, AGI evidence questions, ten open problems | 80 dpi colour, final build |
+| Epilogue | `matter/epilogue.tex`, `figures/three-meanings.tex` | New: frontier models, biosafety boundary, DNA computing frontier, five bridge hypotheses, AGI evidence questions, ten open problems; plate labels raised to 8pt and re-spaced (F-gray-labels) | 150 dpi colour and grayscale, final build |
 | Appendix A, biology | `matter/appendix-biology.tex`, `figures/duplex-dogma.tex` | New: strand orientation, coordinate conventions (BED, VCF, GFF3 checked against official specifications), labels and assays; no procedures | 80 dpi colour, final build |
 | Appendix B, notation | `matter/appendix-notation.tex` | New | Contact sheets |
 | Appendix C, evidence classes | `matter/appendix-evidence.tex` | New: eight classes, claim template, ten questions | Contact sheets |
@@ -31,6 +33,8 @@ this pass did not audit the companion code line by line.
 | Index | makeindex | Unchanged mechanism | Contact sheets |
 
 ## Chapters
+
+Every chapter below was additionally read in grayscale on 19 October 2026.
 
 | Ch | Title | Source edit this pass | Science / evidence | Mathematics | Code / tests | Pedagogy | Sources | Figures | Render review |
 |---|---|---|---|---|---|---|---|---|---|

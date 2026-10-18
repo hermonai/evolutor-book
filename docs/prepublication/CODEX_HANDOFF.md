@@ -34,7 +34,7 @@ the pilots are reported as the negative results they are (F-ch22-a, F-ch23-a).
 
 | Item | State | Where |
 |---|---|---|
-| Grayscale inspection of every page, and full-size views of dense figures | Not done. All 643 pages were viewed in colour contact sheets; the new matter and every changed chapter page were viewed full size. `scripts/review-convergence.py --pages all` writes both colour and grayscale sheets to `tmp/pdfs/convergence-review/`; the grayscale set was sampled, not read in full | Gate G-grayscale |
+| ~~Grayscale inspection~~ | Done 19 October 2026: all 643 pages read in grayscale, all 75 Red/Green figures read at 150 dpi in grayscale, every text run measured with `pdftohtml -xml -zoom 1`. Two defects fixed. A monochrome **test print** is the one part an agent cannot do | FINDINGS.md, grayscale section |
 | Frozen Chapter 1 paragraph about the companion volume | Open; needs the author. Proposed replacement text is written out | F-ch01-a |
 | Chapter 47 exercise order | Open preference; exercises follow the closing bridge, unlike other chapters | F-ch47-order |
 | Standalone builders and stale `review.aux` | Open. Builders should regenerate or drop `build/chNN/review.aux` when the preamble changes, and a failed latexmk run should fail the build instead of leaving the previous PDF in place | F-build-stale-aux |

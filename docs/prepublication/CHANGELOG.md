@@ -20,6 +20,18 @@ finding it answers (FINDINGS.md), what changed, and its preservation consequence
 | Matter, guides and figure text hashed in the build record | builder | — | `build/convergence/build-record.json` binds 952 source hashes |
 | Builder tests | `tests/test_convergence_builder.py` | — | Two new tests (arXiv identity; source-note heading) |
 
+## Grayscale and legibility pass (19 October 2026)
+
+No chapter source changed in this pass; both edits are book-level matter.
+
+| Change | Files | Finding | Consequence |
+|---|---|---|---|
+| Identify the chapter boxes by their printed headings rather than by colour | `tex/convergence/matter/how-to-use.tex` | F-gray-howto | The sentence now works in monochrome and for red-green colour vision deficiency |
+| Raise every label in the three-senses plate from `\tiny` to `\scriptsize` and re-space the panels so nothing collides or overruns | `tex/convergence/figures/three-meanings.tex` | F-gray-labels | No figure label in the book is below 8pt; the plate's `.txt` companion still describes the same drawing |
+
+Only PDF pages 6 and 609 differ from the previous review edition; both were
+re-rendered at 120–150 dpi and inspected in colour and grayscale.
+
 ## Chapter source edits
 
 | Chapter | Change | Finding |

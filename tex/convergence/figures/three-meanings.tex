@@ -5,7 +5,7 @@
  val/.style={font=\sffamily\scriptsize,text=Ink,align=left,text width=4.15cm},
  flow/.style={-{Stealth[length=1.6mm]},line width=0.6pt,draw=#1},
  link/.style={{Stealth[length=1.8mm]}-{Stealth[length=1.8mm]},line width=0.7pt,draw=Ink},
- iface/.style={font=\sffamily\tiny,text=Ink,align=center}]
+ iface/.style={font=\sffamily\scriptsize,text=Ink,align=center}]
 \definecolor{CA}{HTML}{173E60}\definecolor{CW}{HTML}{9A6B00}\definecolor{CI}{HTML}{26714D}
 \newcommand{\Harp}{-{Straight Barb[left,length=1.7mm,width=1.4mm]}}
 \foreach \n/\x/\c in {a/0/CA,w/5.2/CW,i/10.4/CI}{\node[panel=\c,anchor=north west] (\n) at (\x,0) {};}
@@ -24,39 +24,39 @@
 \begin{scope}[shift={(0.3,-2.05)}]
 \node[draw=CA,fill=white,font=\ttfamily\scriptsize,minimum width=3.9cm,minimum height=0.45cm,anchor=west] at (0,0) {ACGTTGCAACGG\,\dots};
 \foreach \k in {0,1,2}{\draw[CA,fill=CA!15] (0.75+\k*1.0,-0.85) rectangle ++(0.8,-0.5);}
-\node[font=\sffamily\tiny,text=CA,anchor=north] at (1.95,-1.38) {sequence model};
+\node[font=\sffamily\scriptsize,text=CA,anchor=north] at (1.95,-1.38) {sequence model};
 \draw[flow=CA] (1.95,-0.25) -- (1.95,-0.82);
 \draw[flow=CA] (1.95,-1.65) -- (1.95,-2.0);
 \foreach \h [count=\k] in {0.15,0.35,0.6,0.3,0.12,0.5,0.75,0.25,0.1}{\fill[CA!70] (0.2+0.38*\k,-2.75) rectangle ++(0.26,\h);}
 \draw[Slate,line width=0.4pt] (0.4,-2.75) -- (3.9,-2.75);
-\node[font=\sffamily\tiny,text=Slate,anchor=north] at (2.1,-2.8) {predicted track along the sequence};
+\node[font=\sffamily\scriptsize,text=Slate,anchor=north] at (2.0,-2.8) {predicted track along the sequence};
 \end{scope}
 % sketch 2: toehold-mediated strand displacement -> readout
 \begin{scope}[shift={(5.5,-2.05)}]
 \draw[CW,line width=1.4pt,\Harp] (0.2,0) -- (2.6,0);
 \draw[CW!60!black,line width=1.4pt,\Harp] (2.6,-0.18) -- (0.6,-0.18);
 \foreach \t in {0.7,0.95,...,2.5}{\draw[Slate,line width=0.3pt] (\t,-0.03) -- (\t,-0.15);}
-\node[font=\sffamily\tiny,text=Slate,anchor=north] at (0.4,-0.24) {toehold};
+\node[font=\sffamily\scriptsize,text=Slate,anchor=north] at (0.4,-0.24) {toehold};
 \draw[Red,line width=1.4pt,\Harp] (4.1,-0.55) -- (2.9,-0.55);
-\node[font=\sffamily\tiny,text=Red,anchor=south] at (3.5,-0.5) {input strand};
+\node[font=\sffamily\scriptsize,text=Red,anchor=north east] at (4.12,-0.64) {input strand};
 \draw[flow=CW] (1.6,-0.45) -- (1.6,-1.15);
-\node[font=\sffamily\tiny,text=Slate,anchor=west,align=left] at (1.68,-0.8) {strand displacement};
+\node[font=\sffamily\scriptsize,text=Slate,anchor=east,align=right,text width=1.5cm] at (1.52,-1.05) {strand displacement};
 \draw[CW,line width=1.4pt,\Harp] (0.2,-1.45) -- (2.6,-1.45);
 \draw[Red,line width=1.4pt,\Harp] (2.6,-1.63) -- (0.2,-1.63);
 \draw[CW!60!black,line width=1.4pt,\Harp] (4.0,-1.55) -- (2.9,-1.55);
 \node[star,star points=6,fill=Gold,draw=CW,inner sep=1.4pt] at (4.15,-1.55) {};
 \draw[flow=CW] (3.45,-1.75) -- (3.45,-2.2);
-\node[font=\sffamily\tiny,text=Slate,anchor=north,align=center] at (2.05,-2.3) {released reporter $\Rightarrow$ fluorescence readout\\[-1pt]half-arrowheads mark $3'$ ends};
+\node[font=\sffamily\scriptsize,text=Slate,anchor=north,align=center] at (2.0,-2.3) {released reporter $\Rightarrow$ fluorescence\\[-1pt]half-arrowheads mark $3'$ ends};
 \end{scope}
 % sketch 3: catalog -> regulated plan -> test
 \begin{scope}[shift={(10.6,-2.05)}]
-\node[font=\sffamily\tiny,text=Slate,anchor=west] at (-0.05,0.0) {stored catalog};
-\foreach \k/\t in {0/clip,1/center,2/prefix,3/scale}{\node[draw=CI,fill=white,font=\sffamily\tiny,minimum width=0.85cm,minimum height=0.36cm] (m\k) at (0.45+\k*0.98,-0.45) {\t};}
-\node[draw=CI,fill=CI!15,font=\sffamily\tiny,minimum width=1.6cm,minimum height=0.4cm] (rg) at (1.95,-1.3) {regulator$(c)$};
+\node[font=\sffamily\scriptsize,text=Slate,anchor=west] at (-0.05,0.0) {stored catalog};
+\foreach \k/\t in {0/clip,1/center,2/prefix,3/scale}{\node[draw=CI,fill=white,font=\sffamily\scriptsize,minimum width=0.95cm,minimum height=0.4cm] (m\k) at (0.5+\k*1.05,-0.45) {\t};}
+\node[draw=CI,fill=CI!15,font=\sffamily\scriptsize,minimum width=1.6cm,minimum height=0.4cm] (rg) at (1.95,-1.3) {regulator$(c)$};
 \draw[flow=CI] (m0.south) -- (rg); \draw[flow=CI] (m2.south) -- (rg);
-\node[draw=CI,fill=white,font=\sffamily\tiny,minimum width=2.9cm,minimum height=0.4cm] (pl) at (1.95,-2.05) {expressed plan: clip $\to$ prefix};
+\node[draw=CI,fill=white,font=\sffamily\scriptsize,minimum width=3.3cm,minimum height=0.42cm] (pl) at (1.95,-2.05) {expressed plan: clip $\to$ prefix};
 \draw[flow=CI] (rg) -- (pl);
-\node[draw=CI,dashed,fill=white,font=\sffamily\tiny,minimum width=3.4cm,minimum height=0.4cm] (ab) at (1.95,-2.8) {ablation vs matched baseline};
+\node[draw=CI,dashed,fill=white,font=\sffamily\scriptsize,minimum width=3.7cm,minimum height=0.42cm] (ab) at (1.95,-2.8) {ablation vs matched baseline};
 \draw[flow=CI] (pl) -- (ab);
 \end{scope}
 % rows: success, evidence, examples

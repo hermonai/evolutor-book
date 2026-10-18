@@ -49,8 +49,8 @@ because all 49 were rebuilt during this pass.
 | Item | Value |
 |---|---|
 | PDF | `artifacts/review/evolutor-prepublication-review-2026-10-19.pdf` |
-| SHA-256 | `83e2fe42eab062a49649f476c194f21fff4fc2102f1a6c238f03713984077bc4` |
-| Bytes / pages | 3,626,608 / 643 |
+| SHA-256 | `6a33815aee31f0741cfd06078f223654de4f43b9ae01b84bdcd856463901a1fd` |
+| Bytes / pages | 3,626,590 / 643 |
 | Build record | `build/convergence/build-record.json`, same SHA-256, 952 bound source hashes |
 | Manifest | `artifacts/review/prepublication-2026-10-19-manifest.json`, `accepted: false`, `independent_review: false` |
 | Supersedes | `artifacts/review/evolutor-complete-review.pdf` (`89d1be51…6a6e`, 619 pages), left unchanged |
@@ -74,12 +74,18 @@ substitutes the upright shape; no reference, citation or label is undefined.
 | New front and back matter | title page, preface, how to use, contents at a glance, epilogue, Appendix A | 80 dpi full-page renders |
 | Changed standalone chapter pages | all 53 changed pages across 28 chapters | 75 dpi colour, one page at a time |
 | Specific repairs | Figures 9.6, 13.5, 20.2; Chapter 36 page 6; Chapter 20 pagination; Appendix A coordinate table | 70–110 dpi renders, before and after |
-| Grayscale | sampled, not complete | `review-convergence.py` wrote 161 grayscale sheets; the front matter and the three new plates were read in grayscale |
+| Complete volume, grayscale | all 643 pages | 27 sheets at 45 dpi, six pages per sheet, converted to grayscale and read in sequence (19 October) |
+| Figures using the Red/Green pair | all 75 | cropped from 150 dpi page renders, converted to grayscale, read four to a sheet |
+| Type size | every text run on every page | measured with `pdftohtml -xml -zoom 1`, which reports effective size after plate scaling |
 
-Contact sheets at 45 dpi show layout, collisions, breaks and widows. They do not
-prove that small figure labels are legible. A complete grayscale pass with
-full-size views of dense figures, mathematics, code and tables has **not** been
-performed (gate G-grayscale).
+Contact sheets at 45 dpi show layout, collisions, breaks and widows; they do not
+by themselves prove that a small label is legible. That question was answered
+instead by measuring every text run in the PDF: the smallest word label in the
+book is now 8pt, and the only smaller text is mathematical sub- and
+superscripts and code line numbers. Dense figures, listings and tables were read
+at 110–150 dpi wherever the measurement or the grayscale sheets raised a
+question, and the two defects that surfaced were fixed (F-gray-howto,
+F-gray-labels).
 
 ## Changed-page identification
 
@@ -113,6 +119,11 @@ source hash is unchanged.
   against the publisher pages for author list, title, venue, volume, pages, date
   and DOI. Entries copied from the companion DNA Computing book keep that book's
   verified metadata.
+- **Colour separability** was computed rather than judged: the palette's relative
+  luminances put Red at 0.116 and Green at 0.128, and the three pale tints within
+  0.03 of each other, so those pairs cannot be told apart in monochrome. Every
+  figure using Red with Green was then checked for a redundant non-colour cue;
+  all 75 carry one.
 - **Builder behaviour** gained two tests: arXiv identity normalisation across
   `abs`/`html`/`pdf` views and versions, with DOI still taking precedence; and
   the source-note heading rewrite, including the cases it must leave alone.
@@ -141,7 +152,15 @@ source hash is unchanged.
    Chapter 10's record, which `test_ch10_review` caught and the audit reported as
    uncovered source tests. The script now rehashes the superseded record's exact
    path set plus the current chapter files.
-5. **Ragged-right columns.** New matter tables first used a locally defined `L`
+5. **Raising the Epilogue plate's labels needed two corrections.** Setting every
+   label to `\scriptsize` first pushed three annotations past their panel
+   borders, and a second attempt stacked "toehold" directly against "strand
+   displacement" and ran "input strand" through the strand it names. The plate
+   was re-spaced — wider catalogue boxes at a wider pitch, the displacement label
+   set as two right-aligned lines lower beside its arrow, the input label moved
+   below its strand, the reporter note shortened — and re-rendered until the
+   measurement showed 8pt throughout and the page read cleanly in grayscale.
+6. **Ragged-right columns.** New matter tables first used a locally defined `L`
    column type; the repository already defines `P` for this in
    `tex/textbook/preamble.tex`, which the book loads, so the local definition was
    removed and the tables use `P`.
