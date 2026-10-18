@@ -7,8 +7,8 @@ examples, a regularizer that resists movement and a population search that
 chooses among learners introduce different costs and causal explanations.
 We derive those differences before using the word adaptation as evidence.
 
-The supplied quadratic learner and exploit/mutate example remain the numerical
-spine. We add an independent closed-form oracle, explicit retention conventions,
+A quadratic learner and an exploit/mutate example form the numerical spine. We add
+an independent closed-form oracle, explicit retention conventions,
 replay gradients, feasibility constraints and counted search opportunities.
 All reported values are synthetic arithmetic. No DOGMA or Hermon training
 improvement follows from them.
@@ -32,9 +32,9 @@ Chapter 13's search inherited masks with fresh weights; its alternative
 inheritance map was separately defined. The same discipline applies here.
 Copying weights alone differs from copying weights, optimizer moments,
 normalization statistics, data cursor and RNG. A structural mutation needs
-a semantic coordinate map, not merely tensors of matching length. The
-Chapter 43 governance adapter is a deferred integration dependency; the local
-reference neither self-modifies a runtime nor promotes an artifact.
+a semantic coordinate map, not merely tensors of matching length. The local
+reference is not connected to Chapter 43's governance registry; it neither
+self-modifies a runtime nor promotes an artifact.
 
 \section{A transparent acquisition--retention conflict}
 \index{acquisition}\index{catastrophic forgetting}
@@ -45,8 +45,8 @@ L_u(\theta)=\tfrac12\|\theta-u\|_2^2,
 \qquad Q_u(\theta)=\max\{0,1-\|\theta-u\|_2^2/4\}.
 \]
 $Q$ is not classification accuracy; its scale is chosen to make retention
-visible. The historical function name \texttt{accuracy\_matrix} is retained
-for provenance, with this semantic correction explicit. Clipping can hide
+visible. The reference function is still named \texttt{accuracy\_matrix}; it
+returns this score, not accuracy. Clipping can hide
 differences between very poor candidates, so an actual study should retain
 the underlying loss as well.
 
@@ -133,9 +133,9 @@ forgetting for each task as
 \[
 F_j=\max_{j\le t\le T}A_{t,j}-A_{T,j}.
 \]
-Including the final row makes this quantity nonnegative. The incoming prose's
-maximum over all earlier rows could include pre-acquisition values; the incoming
-code used the post-acquisition convention. We resolve that mismatch here.
+Including the final row makes this quantity nonnegative. Taking the maximum over
+all earlier rows instead would include pre-acquisition values; the post-acquisition
+convention used here avoids that.
 Last-task forgetting is zero by definition, not evidence of long-term retention.
 \Listing{forgetting}
 Signed backward transfer is

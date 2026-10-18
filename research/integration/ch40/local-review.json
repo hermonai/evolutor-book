@@ -1,72 +1,84 @@
 {
-  "date": "2026-10-18",
-  "chapter": 40,
-  "pdf": "output/pdf/evolutor-ch40-review.pdf",
-  "pdf_sha256": "4e9b076a9eff57c8d82f38fadddb9f0331ccbed631359f46946aa87c4c78c3f7",
-  "pages": 12,
-  "source_hashes": {
-    "drafts/ch40/README.md": "53b9497a2b818ec0c492407d8658a047b748076046e44b95af050452c0df6c6e",
-    "drafts/ch40/STORYBOARD.md": "a8add9d72e358e5046273b8633b11c16225e4e80038e65b81e4f404af516fa7d",
-    "drafts/ch40/build.py": "4c9f643b22215f3978947aa8621853e1c2562c534569d10f5b201de374532819",
-    "drafts/ch40/figures/01-provenance.tex": "a8f2b74c2f225c8e3b1fdc607ea5bc797479621f216c0877bbf43d2f3eb82f30",
-    "drafts/ch40/figures/01-provenance.txt": "799de7660301c54b00c2c93ed76e0a25380649cc993508ddf01409fdd62531e7",
-    "drafts/ch40/figures/02-alias.tex": "d1956657c5c0bde3feb118f89b77ec0c9b8b883bb77c90472f52ed6e4b756e27",
-    "drafts/ch40/figures/02-alias.txt": "d79b4cb3b03204f4da02670b48910b6170239f091385f12a7d2439bb504b640d",
-    "drafts/ch40/figures/03-budget.tex": "b2fb6012600fa4ac489d69f705cfea8d595d66e42d2b5cdbebadd37c5fef8245",
-    "drafts/ch40/figures/03-budget.txt": "46b998179dce154c46eff02ea44b515dad177735da02d0d4aa5bcacda2f5ce9e",
-    "drafts/ch40/manuscript.tex": "2ac0d777ffd6c02cccec27944906eced26d9091fbfe8821448dcef716f152479",
-    "drafts/ch40/reference.py": "e1f2e3edf3232627a5a25ef3e3635eff07b416b90ae914764ab18269b37c3c03",
-    "drafts/ch40/results.json": "9ecbbbf923a1ae6e5730910842021f232e5b80e971d463881b084a971b4aeb54",
-    "drafts/ch40/review.tex": "d33e8715ed8288f5758a87c4e866c5c564f1181da393c13bfd4d75104fc9c7fb",
-    "drafts/ch40/sources.tex": "fd02fec4b2724c725a50668748c108ee41170754e5e3c3143bada39fc40c0c76",
-    "tests/test_ch40_reference.py": "4562cf506396d6aff683cfa574ef10b2eb2e3d4a594dd8ad9d84e8b035294e3b"
-  },
-  "transitive_dependencies": {},
-  "research_hashes": {
-    "research/integration/ch40/package-integrity.json": "4bc19b69125dfc3e3a687a671c990506167138141bf57931a85b567fee2b2258",
-    "research/integration/ch40/package-adoption.md": "4612b0b66cf04cf02ba919f14b31e444a0abaa7f18251580c7416a71417ed5c3",
-    "research/integration/ch40/package-adoption.json": "89653faf5b237f6482b2e8768759f66c5d098c54b7c9e392370a7ce211af9a19",
-    "research/integration/ch40/source-verification.json": "8c22279144211f98404c6691fdf1c34e677eb12f568ae90046553241fcc32b56",
-    "research/integration/ch40/technical-audit.md": "09bc26dea47d3b210c5ae628c9536316979ae0fe7f510b80273cc8b0c1d354c7",
-    "research/integration/ch40/visual-review.json": "e64f48ce2790c4042683efd10d27d004a354c84fcc5b68dedfd6d0ade9fbc729"
-  },
-  "package_archive_sha256": "476b730a0794940152a613aebebefbea48425b87c5d15e9cb3aefe6fe682f993",
-  "tests": {
-    "chapter_passed": 37,
-    "chapter_failed": 0,
-    "chapter_skipped": 0,
-    "batch_passed": 189,
-    "report": "build/ch40/reference-tests.xml",
-    "report_sha256": "db2dee3ccc93361d7d705a3ce8e82f6fe5f64a6d41c514f608f9974f41c30e10",
-    "batch_report": "build/ch39/batch-B-reference.xml",
-    "batch_report_sha256": "c17c05ca1dd1b6ac2c69958f276aa690f49a6594b8183e6c9c872994003ee5c6",
-    "python": "3.13.6",
-    "torch": "2.10.0",
-    "repository_status": "not_run_by_batch_owner; reserved for final integration coordinator"
-  },
-  "derived_artifacts": {
-    "status": "passed",
-    "command": "python drafts/ch40/build.py --check"
-  },
-  "strict_compile": {
-    "status": "passed",
-    "overfull_boxes": 0,
-    "missing_glyphs": 0,
-    "unresolved_references_or_citations": 0,
-    "multiply_defined_labels": 0,
-    "log": "build/ch40/review.log",
-    "log_sha256": "ff55556370834aa82f72a8281ea031feeae10df4698389d15e747852541fb555"
-  },
-  "visual_review": {
-    "reviewer": "author/agent",
-    "status": "PASS WITH NOTES",
-    "mode": "all 12 physical standalone pages, color and grayscale",
-    "record": "research/integration/ch40/visual-review.json",
-    "notes": "Provenance paths, summary collision and bounded rehydration diagrams remain clear in grayscale. The short availability proposition and proof are kept together; whole-function listings fit. Rehydration index entries were consolidated. Closing vocabulary whitespace is intentional."
-  },
-  "mathematical_review": "See technical-audit.md and the premise-bound chapter proofs; independent reference oracles and negative controls cover the stated teaching contracts.",
-  "cross_batch_integration": "not implemented/tested by this batch; exact remaining checks are in research/integration/batches/B-handoff.md",
-  "independent_review": false,
-  "accepted": false,
-  "acceptance": "locally reviewed standalone integration candidate; cumulative integration and publication gates remain open"
+ "date": "2026-10-18",
+ "chapter": 40,
+ "pdf": "output/pdf/evolutor-ch40-review.pdf",
+ "pdf_sha256": "a3a214209b85c1a6a3a5cf0b8362893760893e3762b5790428cdde052fee69d8",
+ "pages": 12,
+ "source_hashes": {
+  "drafts/ch40/README.md": "53b9497a2b818ec0c492407d8658a047b748076046e44b95af050452c0df6c6e",
+  "drafts/ch40/STORYBOARD.md": "a8add9d72e358e5046273b8633b11c16225e4e80038e65b81e4f404af516fa7d",
+  "drafts/ch40/build.py": "4c9f643b22215f3978947aa8621853e1c2562c534569d10f5b201de374532819",
+  "drafts/ch40/figures/01-provenance.tex": "a8f2b74c2f225c8e3b1fdc607ea5bc797479621f216c0877bbf43d2f3eb82f30",
+  "drafts/ch40/figures/01-provenance.txt": "799de7660301c54b00c2c93ed76e0a25380649cc993508ddf01409fdd62531e7",
+  "drafts/ch40/figures/02-alias.tex": "d1956657c5c0bde3feb118f89b77ec0c9b8b883bb77c90472f52ed6e4b756e27",
+  "drafts/ch40/figures/02-alias.txt": "d79b4cb3b03204f4da02670b48910b6170239f091385f12a7d2439bb504b640d",
+  "drafts/ch40/figures/03-budget.tex": "b2fb6012600fa4ac489d69f705cfea8d595d66e42d2b5cdbebadd37c5fef8245",
+  "drafts/ch40/figures/03-budget.txt": "46b998179dce154c46eff02ea44b515dad177735da02d0d4aa5bcacda2f5ce9e",
+  "drafts/ch40/manuscript.tex": "0e12e470d054b05264c32a10f72adf975f363a19efcf86cfaf0b91163fa3d383",
+  "drafts/ch40/reference.py": "e1f2e3edf3232627a5a25ef3e3635eff07b416b90ae914764ab18269b37c3c03",
+  "drafts/ch40/results.json": "9ecbbbf923a1ae6e5730910842021f232e5b80e971d463881b084a971b4aeb54",
+  "drafts/ch40/review.tex": "d33e8715ed8288f5758a87c4e866c5c564f1181da393c13bfd4d75104fc9c7fb",
+  "drafts/ch40/sources.tex": "d3bc42008a983a5155e38abb4293809cb389b3a935b9ed9d9736cf4341adb71d",
+  "tests/test_ch40_reference.py": "4562cf506396d6aff683cfa574ef10b2eb2e3d4a594dd8ad9d84e8b035294e3b"
+ },
+ "transitive_dependencies": {},
+ "research_hashes": {
+  "research/integration/ch40/package-integrity.json": "4bc19b69125dfc3e3a687a671c990506167138141bf57931a85b567fee2b2258",
+  "research/integration/ch40/package-adoption.md": "4612b0b66cf04cf02ba919f14b31e444a0abaa7f18251580c7416a71417ed5c3",
+  "research/integration/ch40/package-adoption.json": "89653faf5b237f6482b2e8768759f66c5d098c54b7c9e392370a7ce211af9a19",
+  "research/integration/ch40/source-verification.json": "8c22279144211f98404c6691fdf1c34e677eb12f568ae90046553241fcc32b56",
+  "research/integration/ch40/technical-audit.md": "09bc26dea47d3b210c5ae628c9536316979ae0fe7f510b80273cc8b0c1d354c7",
+  "research/integration/ch40/visual-review.json": "e64f48ce2790c4042683efd10d27d004a354c84fcc5b68dedfd6d0ade9fbc729"
+ },
+ "package_archive_sha256": "476b730a0794940152a613aebebefbea48425b87c5d15e9cb3aefe6fe682f993",
+ "tests": {
+  "chapter_passed": 37,
+  "chapter_failed": 0,
+  "chapter_skipped": 0,
+  "batch_passed": 189,
+  "report": "build/ch40/reference-tests.xml",
+  "report_sha256": "db2dee3ccc93361d7d705a3ce8e82f6fe5f64a6d41c514f608f9974f41c30e10",
+  "batch_report": "build/ch39/batch-B-reference.xml",
+  "batch_report_sha256": "c17c05ca1dd1b6ac2c69958f276aa690f49a6594b8183e6c9c872994003ee5c6",
+  "python": "3.13.6",
+  "torch": "2.10.0",
+  "repository_status": "not_run_by_batch_owner; reserved for final integration coordinator"
+ },
+ "derived_artifacts": {
+  "status": "passed",
+  "command": "python drafts/ch40/build.py --check"
+ },
+ "strict_compile": {
+  "status": "passed",
+  "overfull_boxes": 0,
+  "missing_glyphs": 0,
+  "unresolved_references_or_citations": 0,
+  "multiply_defined_labels": 0,
+  "log": "build/ch40/review.log",
+  "log_sha256": "ff55556370834aa82f72a8281ea031feeae10df4698389d15e747852541fb555"
+ },
+ "visual_review": {
+  "reviewer": "author/agent",
+  "status": "PASS WITH NOTES",
+  "mode": "all 12 physical standalone pages, color and grayscale",
+  "record": "research/integration/ch40/visual-review.json",
+  "notes": "Provenance paths, summary collision and bounded rehydration diagrams remain clear in grayscale. The short availability proposition and proof are kept together; whole-function listings fit. Rehydration index entries were consolidated. Closing vocabulary whitespace is intentional."
+ },
+ "mathematical_review": "See technical-audit.md and the premise-bound chapter proofs; independent reference oracles and negative controls cover the stated teaching contracts.",
+ "cross_batch_integration": "not implemented/tested by this batch; exact remaining checks are in research/integration/batches/B-handoff.md",
+ "independent_review": false,
+ "accepted": false,
+ "acceptance": "locally reviewed standalone integration candidate; cumulative integration and publication gates remain open",
+ "prepublication_revision": {
+  "date": "2026-10-19",
+  "reviewer": "author/agent (Claude prepublication pass); not independent review",
+  "change": "Remove 'supplied package' production wording. Rewrite the Sources-and-evidence note without supplied-package, adoption-map or coordinator wording, keeping every external access-depth statement (originals archived verbatim in docs/provenance/source-notes-2026-10-19.md).",
+  "changed_pages_reinspected": [
+   5,
+   11
+  ],
+  "inspection": "Changed pages identified by per-page text and 60 dpi raster comparison against the prior standalone PDF; every changed page re-rendered at 75 dpi in colour and inspected. Changes are text-only; no figure source changed.",
+  "unchanged_page_policy": "Raster-identical pages retain the prior local inspection; no new independent review is claimed.",
+  "amendment_log": "docs/prepublication/chapter-amendments.json"
+ }
 }

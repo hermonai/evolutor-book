@@ -1,0 +1,45 @@
+{
+  "date": "2026-10-10",
+  "chapter": 32,
+  "pdf": "output/pdf/evolutor-ch32-review.pdf",
+  "pdf_sha256": "ed42f9d49ed89e910a485027b3604468dd77aba5e99db776f1577e8a0308acb0",
+  "pages": 14,
+  "source_hashes": {
+    "drafts/ch32/README.md": "ada7a95b75ba65741fa8efc7a76b3369774881743cd7b4f17a132766f32a7477",
+    "drafts/ch32/STORYBOARD.md": "8d8b74d066543c9075b3e741bacc739fb6fa2f322b9a76af74f04dfc5c890797",
+    "drafts/ch32/build.py": "beeb3b53d18835a9f99db8e3ede19ecc7d8a24b9013536759799ba19fa76a011",
+    "drafts/ch32/figures/01-logical-physical.tex": "5c31f585327d0d8fb27c97a88fc094ffb93182662e315dc39165044789f9814a",
+    "drafts/ch32/figures/01-logical-physical.txt": "21f771435c0bd64e7570da31ef0a04d75f69216016d844e1d1e049525e602fd1",
+    "drafts/ch32/figures/02-lifecycle.tex": "78b47d87ca12cb1fcfb33c0a5ac20e331bf4cdae62bfe0a396c69e187452697c",
+    "drafts/ch32/figures/02-lifecycle.txt": "d20a2f2b00727021568b38d5e898a15d4de849a45ac4426cce6dfab544e04a5c",
+    "drafts/ch32/figures/03-handle.tex": "903f625c5f61c643b0db67e48fca82e07924130e81899a184b98a45be6c047d3",
+    "drafts/ch32/figures/03-handle.txt": "7c5d83bc3fbd5c941f3802f29719856f0d6144f9a33bca89086902a7835d3b1f",
+    "drafts/ch32/figures/04-clone.tex": "5b9480e7465cb5ccb99537bc536349fb60a12580e8d94a79eb926a069bce21f3",
+    "drafts/ch32/figures/04-clone.txt": "d6075d598564785e8337cd82354a9c4fa3a614877ef6bd14853daa69f38d907b",
+    "drafts/ch32/figures/05-workspace.tex": "44354e81d83022430a227c85624396b65d941972678e2ef5f91f88d5a2e6f449",
+    "drafts/ch32/figures/05-workspace.txt": "5145f9e3997d47575b94526493dd912fa31c838dfbdaea39bceba644c9df5766",
+    "drafts/ch32/figures/06-isolation.tex": "3a9e8f7b2de8cb0c927866d2f7b964f3174564466b7e8a96065f53ac096b070f",
+    "drafts/ch32/figures/06-isolation.txt": "1e6562c79e44754a72c733a154232d2cd6294066b879a0985e1d45a0440d856e",
+    "drafts/ch32/manuscript.tex": "0c8094e8de5dd8b51e05997e3d054c39e95eab389e8f9c641510b59ce3fd0cf1",
+    "drafts/ch32/reference.py": "c0d0e3c7b9a985508a6dc0e519b79f44a0067a462dd26d5d586f0417607f2c3e",
+    "drafts/ch32/results.json": "1f61792a7091803a060dee621ff0640a1a09fdb6cfcef8da7e2118d8e0b070c1",
+    "drafts/ch32/review.tex": "ce575b2a52a4a75f14a3a687a9cb98fbd4b2a72ddbb2721518af098ccfbad03e",
+    "drafts/ch32/sources.tex": "b576879625e39c14b8b9c9110d9b08f414d146db20b320feb80dbb97bc7ba5ce",
+    "tests/test_ch32_reference.py": "fbe01fa1c530d56bc968a9b381cd7b6b9430fb6fb4328704e0d191cca708c009"
+  },
+  "tests": {
+    "repository_passed": 1212,
+    "repository_skipped": 0,
+    "chapter_passed": 40,
+    "report": "build/ch32/regression.xml",
+    "python": "3.13.6"
+  },
+  "visual_review": {
+    "reviewer": "author/agent",
+    "status": "PASS WITH NOTES",
+    "mode": "all 14 pages, color and grayscale contact sheets",
+    "notes": "All 14 pages inspected in color and grayscale. Last-acknowledgement label moved off the reclamation box and affected page reinspected. Lifecycle, two identity fences, cloning and capacity trace checked."
+  },
+  "mathematical_review": "Assumptions, independent oracles and falsifiers in technical-audit.md.",
+  "acceptance": "locally reviewed standalone integration candidate; not accepted publication edition"
+}

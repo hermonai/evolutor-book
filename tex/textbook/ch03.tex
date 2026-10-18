@@ -1,6 +1,5 @@
 % Authoritative LaTeX revision; do not regenerate from Markdown.
 \chapter{Differentiation, optimization and tensor programs}
-\Callout{Revision boundary}{This chapter revises the standalone review candidate. The previously accepted Chapters 1--2 and their source hashes remain unchanged. This combined volume is a new review candidate, not a new acceptance record.}
 \input{textbook/bridge.tex}
 
 
@@ -45,7 +44,7 @@ new mathematical rule. Each target \(y_i\) is an integer in
 \(\{0,\ldots,V-1\}\). The row logits \(Z_i\) parameterize a categorical
 distribution.
 
-\DeepFigure{EVOD-03-F1}{\textbf{EVOD-03-F1.} The fixed fixture uses \(B=3,D=2,H_d=2,V=3\). This
+\DeepFigure{EVOD-03-F1}{The fixed fixture uses \(B=3,D=2,H_d=2,V=3\). This
 is a generic three-class demonstration, not DNA-base prediction. The
 classification objective and the tensor shapes are explicit and
 independently checkable.}{fig:EVOD-03-F1}
@@ -137,7 +136,7 @@ Applying the same affine-layer argument at the input gives
 \nabla_bL=\sum_i(D_A)_i.
 \end{equation}
 
-\DeepFigure{EVOD-03-F2}{\textbf{EVOD-03-F2.} Bias gradients collect all uses of the shared
+\DeepFigure{EVOD-03-F2}{Bias gradients collect all uses of the shared
 parameter. Averaging these rows again would introduce an extra factor
 \(1/B\), because the mean-loss factor is already present in \(E\).}{fig:EVOD-03-F2}
 
@@ -149,7 +148,7 @@ zero-parameter fixture supplies an additional hand-computable check:
 with all targets in class zero, the output-bias gradient is
 \((-2/3,1/3,1/3)\), while the other parameter gradients vanish.
 
-\DeepFigure{EVOD-03-F5}{\textbf{EVOD-03-F5.} For output-bias coordinate \(c_1\), the three
+\DeepFigure{EVOD-03-F5}{For output-bias coordinate \(c_1\), the three
 contributions are approximately \(+0.099343,+0.098444,-0.226442\).
 Summing the unrounded values gives approximately \(-0.0286559439\). The
 negative contribution outweighs the two positive contributions; the
@@ -257,7 +256,7 @@ When we vary the input and rerun it, its numerical values follow
 4. But the recorded derivative graph treats the second factor as
 constant, producing derivative 2.
 
-\DeepFigure{EVOD-03-F3}{\textbf{EVOD-03-F3.} This is not evidence that autograd failed its
+\DeepFigure{EVOD-03-F3}{This is not evidence that autograd failed its
 contract: stop-gradient requested the altered derivative. It is evidence
 that the recorded gradient is not the derivative of the forward-value
 mapping under ordinary input perturbation. Whether that is a bug depends
@@ -301,7 +300,7 @@ can be worse. For our fixture, the recorded error falls from about
 No step size was tuned for model performance; these are derivative
 diagnostics.
 
-\DeepFigure{EVOD-03-F8}{\textbf{EVOD-03-F8.} Both axes are logarithmic. The points compare
+\DeepFigure{EVOD-03-F8}{Both axes are logarithmic. The points compare
 central differences with the hand-derived gradients over every parameter
 coordinate of the fixed network. The lines connect measured diagnostics,
 not samples from a fitted universal error law. The smallest error among
@@ -348,7 +347,7 @@ nonfinite comparison as success. It is a compact reference for finite
 logits, not a replacement for the full production loss contract, masking
 rules or mixed-precision policy.
 
-\DeepFigure{EVOD-03-F6}{\textbf{EVOD-03-F6.} Subtracting 1001 maps the logits to \((-1,0,-2)\).
+\DeepFigure{EVOD-03-F6}{Subtracting 1001 maps the logits to \((-1,0,-2)\).
 Their exponentials sum to \(1+\exp(-1)+\exp(-2)\); the target's shifted
 logit is zero. The aligned columns make it possible to reconstruct the
 final loss without interpreting a decorative softmax icon.}{fig:EVOD-03-F6}
@@ -389,7 +388,7 @@ For a nonzero starting value, convergence to zero requires
 the sign flips without shrinking. Above that boundary, the magnitude
 grows despite using the exact derivative at every step.
 
-\DeepFigure{EVOD-03-F4}{\textbf{EVOD-03-F4.} With \(\lambda=4\), learning rates .1, .5 and .6
+\DeepFigure{EVOD-03-F4}{With \(\lambda=4\), learning rates .1, .5 and .6
 respectively decrease, preserve and increase the loss magnitude
 sequence. The vertical axis is logarithmic so both decay and growth
 remain visible. These are analytic toy updates, not trained-model
@@ -434,7 +433,7 @@ statistical objective, not merely a repeated optimizer call. Chapter 4
 must preserve those semantics across data loading, checkpointing and
 evaluation.
 
-\DeepFigure{EVOD-03-F7}{\textbf{EVOD-03-F7.} With the parameters held fixed, weighting the two
+\DeepFigure{EVOD-03-F7}{With the parameters held fixed, weighting the two
 mean gradients by target counts matches the full-batch gradient to
 approximately \(5.12\times10^{-17}\) maximum absolute error. Equal
 averaging instead differs by approximately \(0.164\). These figures come
@@ -474,13 +473,13 @@ Regulatory binding can affect transcription initiation, as the textbook
 discussion} explains. A computational proposal must then specify its own
 operator. It must not infer differentiability from a biological name.
 
-\DeepFigure{EVOD-03-F9}{\textbf{EVOD-03-F9.} The upper panel is a simplified bacterial
+\DeepFigure{EVOD-03-F9}{The upper panel is a simplified bacterial
 mechanism. The lower panel is an intentionally discontinuous
 mathematical example, not a biochemical response curve. Their connection
 is a research question, not an equivalence.}{fig:EVOD-03-F9}
 
-Consider f(r)=2 when r is nonnegative and f(r)=−1 otherwise. Away from
-zero, f is locally constant and its ordinary derivative is zero. At zero
+Consider \(f(r)=2\) when \(r\ge0\) and \(f(r)=-1\) otherwise. Away from
+zero, \(f\) is locally constant and its ordinary derivative is zero. At zero
 its left and right limits disagree, so there is no classical derivative.
 A central difference across the boundary gives
 
@@ -488,17 +487,17 @@ A central difference across the boundary gives
 \frac{f(h)-f(-h)}{2h}=\frac{3}{2h},\qquad h>0,
 \end{equation}
 
-which diverges as h shrinks. This is not floating-point noise: the
+which diverges as \(h\) shrinks. This is not floating-point noise: the
 underlying function is discontinuous. A nonzero number returned by a
 numerical checker does not make a useful derivative exist.
 
-Now replace the constants by trainable a and b. For a fixed branch, a
+Now replace the constants by trainable \(a\) and \(b\). For a fixed branch, a
 loss can differentiate with respect to the selected parameter while
 assigning no contribution to the unselected one. That is a different
 question from how the loss changes when the branch choice changes. Our
 PyTorch check makes this explicit with \texttt{where}: the selected
 value receives its ordinary sensitivity, while the Boolean comparison
-does not create a differentiable path to r.
+does not create a differentiable path to \(r\).
 
 Later DOGMA research must decide how structural choices are proposed and
 evaluated. A smooth relaxation, a surrogate derivative and discrete
@@ -520,7 +519,7 @@ v_k=\mu v_{k-1}+g_k,\qquad
 \theta_k=\theta_{k-1}-\eta v_k.
 \end{equation}
 
-\DeepFigure{EVOD-03-F10}{\textbf{EVOD-03-F10.} For L(θ)=θ²/2, initial θ=1, η=.1 and μ=.9, the
+\DeepFigure{EVOD-03-F10}{For L(θ)=θ²/2, initial θ=1, η=.1 and μ=.9, the
 first gradient and buffer are both one, producing θ=.9. The second
 gradient is .9, but the buffer becomes 1.8, producing θ=.72. These are
 CPU float64 arithmetic checks, not a training benchmark.}{fig:EVOD-03-F10}
@@ -543,7 +542,7 @@ is 2(θ+s). At θ=2 and s=3 it equals ten. If both finite-difference
 evaluations hold s=3, they compare the same scalar function at nearby
 parameters.
 
-\DeepFigure{EVOD-03-F11}{\textbf{EVOD-03-F11.} With h=.001, the controlled difference is
+\DeepFigure{EVOD-03-F11}{With h=.001, the controlled difference is
 approximately ten. Changing the second evaluation's state to four
 instead gives about −5489. The large discrepancy diagnoses an
 uncontrolled comparison, not a derivative implementation defect in the
@@ -562,7 +561,7 @@ interventions that test causality.
 \section{The handoff to a reproducible training
 run}\label{the-handoff-to-a-reproducible-training-run}
 
-\DeepFigure{EVOD-03-F12}{\textbf{EVOD-03-F12.} The figure is Chapter 4's contract, not an
+\DeepFigure{EVOD-03-F12}{The figure is Chapter 4's contract, not an
 implemented end-to-end DOGMA or Hermon DNA training system. Parameters,
 optimizer state, relevant model state, random state and data position
 can all matter at restart.}{fig:EVOD-03-F12}
@@ -668,16 +667,6 @@ reasoning}\label{exercises-with-worked-reasoning}
   computation.
 \end{enumerate}
 
-\section{Publication work still
-required}\label{publication-work-still-required}
-
-All twelve storyboard figures are now produced. Momentum,
-discrete-selection and state-control diagnostics extend the executable
-reference. The standalone review edition includes a glossary, source
-list and tested code appendix; cumulative LaTeX integration and
-independent scientific review remain release gates. No trained
-DOGMA/Hermon model or specialized engine is claimed.
-
 \section{Selected glossary}\label{selected-glossary}
 
 \textbf{Adjoint:} reverse-mode sensitivity of the scalar objective to an
@@ -696,7 +685,7 @@ classical derivative.
 randomness except for the coordinate deliberately perturbed in a
 numerical check.
 
-\section{Appendix A. Executable boundary
+\section{Executable boundary
 diagnostics}\label{appendix-a.-executable-boundary-diagnostics}
 
 These functions are reproduced from completion\_diagnostics.py and
@@ -735,135 +724,25 @@ def state_control(h=.001, advance_state=False):
     return (plus-minus)/(2*h)
 \end{verbatim}
 
-\section{Appendix B. Sources and evidence
-boundaries}\label{appendix-b.-sources-and-evidence-boundaries}
+\section{Sources and further reading}\label{sources-and-further-reading}
 
-\subsection{Chapter 3 source ledger}\label{chapter-3-source-ledger}
-
-\subsubsection{Review-candidate extension, 12 September
-2026}\label{review-candidate-extension-12-september-2026}
-
-The historical entries below describe the first two passes. The current
-extension now implements momentum and two boundary controls, superseding
-the earlier statements that these were unproduced.
-
-\begin{itemize}
-\tightlist
-\item
-  \href{https://docs.pytorch.org/docs/2.10/generated/torch.optim.SGD.html}{PyTorch
-  2.10 SGD}: rechecked the first-buffer-equals-gradient convention,
-  retained momentum and dampening behavior. The implemented example has
-  zero dampening and weight decay. Two updates are compared with a
-  hand-computed golden trace and a reset-state counterexample; no Adam
-  result is claimed.
-\item
-  \href{https://docs.pytorch.org/docs/2.10/notes/autograd.html}{PyTorch
-  2.10 autograd mechanics}: rechecked the nondifferentiability
-  conventions. The hard selector example is an original piecewise
-  function. Tests distinguish the gradient of selected branch parameters
-  from a derivative through the Boolean predicate.
-\item
-  Alberts et al.,
-  \href{https://www.ncbi.nlm.nih.gov/books/NBK26872/}{How Genetic
-  Switches Work}, Molecular Biology of the Cell, 4th edition (2002):
-  relevant bacterial transcription-control discussion read for the
-  simplified repressor/promoter illustration. This mechanism motivates
-  conditional computation; it is not evidence that a protein occupancy
-  event is an exact binary gate or provides a software gradient rule.
-\end{itemize}
-
-The fixed-state versus changed-state finite-difference example is
-original and analytically checkable. RNG replay is explained as a
-requirement, not reported as an implemented stochastic-model experiment.
-All twelve figures are now produced. Full optimizer coverage,
-trained-model results and independent scientific review remain outside
-this checkpoint.
-
-Consulted 9 September 2026. Official documentation is pinned to version
-2.10 to match the observed CPU runtime, PyTorch 2.10.0. Search results
-for moving stable/main documentation were not treated as the
-specification for that installed version.
-
-\subsubsection{Directly read support}\label{directly-read-support}
-
-\begin{itemize}
-\tightlist
-\item
-  Baydin, Pearlmutter, Radul and Siskind,
-  \href{https://jmlr.org/papers/volume18/17-468/17-468.pdf}{\emph{Automatic
-  Differentiation in Machine Learning: a Survey}}, JMLR 18(153), 1-43
-  (2018). Read the distinction from numerical/symbolic differentiation
-  and the forward/reverse accumulation discussion in Sections 2-3,
-  especially the reverse-mode and storage account around pages 11-13. No
-  claim of having fully audited all historical priority attributions or
-  the whole survey bibliography.
-\item
-  \href{https://docs.pytorch.org/docs/2.10/notes/autograd.html}{PyTorch
-  2.10 autograd mechanics}: graph reconstruction, saved tensors,
-  derivative conventions and gradient-mode distinctions. The draft uses
-  a stateless smooth CPU function; it does not infer universal
-  correctness for arbitrary stateful or discrete programs.
-\item
-  \href{https://docs.pytorch.org/docs/2.10/notes/gradcheck.html}{PyTorch
-  2.10 gradcheck mechanics}: real-input central differences and
-  analytical reverse-mode comparisons. Complex Wirtinger derivatives are
-  outside this chapter core. A generated API URL did not load; it was
-  not treated as read support.
-\item
-  \href{https://docs.pytorch.org/docs/2.10/notes/numerical_accuracy.html}{PyTorch
-  2.10 numerical accuracy}: floating-point order, batched/sliced
-  differences, extreme values and nonfinite-input cautions. GPU backend
-  claims are not made by the CPU fixture.
-\item
-  \href{https://docs.pytorch.org/docs/2.10/generated/torch.nn.CrossEntropyLoss.html}{PyTorch
-  2.10 CrossEntropyLoss}: logits, class-index targets and reduction
-  semantics. The reference uses unweighted mean loss with every target
-  scored; it does not silently inherit weighted or ignored-target
-  formulas.
-\item
-  \href{https://docs.pytorch.org/docs/2.10/generated/torch.optim.SGD.html}{PyTorch
-  2.10 SGD}: update-rule options and implementation conventions. Only
-  plain gradient descent is implemented here. Momentum, Adam and decay
-  variants need a fuller directly sourced treatment before their planned
-  figures are produced.
-\end{itemize}
-
-\subsubsection{Original numerical and mathematical
-examples}\label{original-numerical-and-mathematical-examples}
-
-\paragraph{Second-pass evidence check}\label{second-pass-evidence-check}
-
-Rechecked the pinned autograd mechanics section on leaf-gradient
-accumulation. The new figures use generated per-row logit adjoints and
-count-weighted microbatch gradients. The component-wise bias proof,
-maximum-shift cancellation (including tied maxima), cube-root
-perturbation balance and two accumulation-loop identities are explicit
-pedagogical derivations, not quotations or new algorithm claims. Tests
-compare both accumulation implementations at fixed parameters, validate
-tied-logit value/gradient behavior, and expose a batch-centering
-counterexample where partitioning changes the forward function. These
-tests establish only the stated finite cases.
-
-The 3-by-2 input fixture, complete matrix-gradient derivation, explicit
-broadcast reductions, detached-operand negative control, step-size
-sweep, stable-logit example and scalar-quadratic traces are original
-small teaching examples. The forward primitives are shared across manual
-and automatic differentiation; the hand reverse equations, finite
-differences and zero-parameter golden case supply different checks.
-
-Parameters and targets are fixed in code. One rate (0.1) is declared for
-a single toy update; no optimizer tuning or held-out selection is
-performed. Quadratic rates 0.1, 0.5 and 0.6 are selected analytically to
-lie below, at and above the known stability boundary. There is no
-trained-model experiment or architecture comparison to register as
-completed in the parent experiment ledger.
-
-\subsubsection{Boundaries still requiring
-work}\label{boundaries-still-requiring-work}
-
-Non-square dimensions and noncontiguous parameter views are now tested.
-Full optimizer-state treatment, nonsmooth examples, richer directional
-checks, stateful controls and the final literature apparatus remain to
-be developed. Neither the derivative results nor the inherited Chapter 2
-causality controls establish a DOGMA/Hermon model result. Independent
-scholarly and reader review remain open.
+Baydin and colleagues survey forward- and reverse-mode automatic
+differentiation, including the distinction from finite differencing
+(\href{https://jmlr.org/papers/volume18/17-468/17-468.pdf}{JMLR 18,
+2018, Section 3}). The PyTorch 2.10 documentation for
+\href{https://docs.pytorch.org/docs/2.10/notes/autograd.html}{autograd
+mechanics},
+\href{https://docs.pytorch.org/docs/2.10/notes/gradcheck.html}{gradcheck},
+\href{https://docs.pytorch.org/docs/2.10/notes/numerical_accuracy.html}{numerical
+accuracy},
+\href{https://docs.pytorch.org/docs/2.10/generated/torch.nn.CrossEntropyLoss.html}{cross
+entropy} and
+\href{https://docs.pytorch.org/docs/2.10/generated/torch.optim.SGD.html}{SGD}
+defines the library conventions used in this chapter. The bacterial
+genetic-switch discussion in Alberts and colleagues
+(\href{https://www.ncbi.nlm.nih.gov/books/NBK26872/}{Molecular Biology
+of the Cell}) supplies the biological example in the section on
+discontinuous selectors. The chapter's numerical fixtures and diagnostics
+are produced by the companion programs in \texttt{drafts/ch03/}; the
+chapter's source-access ledger is kept in the repository provenance
+records rather than in the reading text.

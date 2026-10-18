@@ -1,11 +1,12 @@
 # Current manuscript and repository guide
 
-Updated 18 October 2026. **All 52 chapters are authored and assembled.**
+Updated 19 October 2026. **All 52 chapters are authored and assembled.**
 This is the complete-range review candidate, not an accepted publication edition.
 
 ## Start here
 
-- [Complete review PDF](artifacts/review/evolutor-complete-review.pdf)
+- [Prepublication review edition, 19 October 2026](artifacts/review/evolutor-prepublication-review-2026-10-19.pdf) and its [review records](docs/prepublication/)
+- [Complete review candidate, 18 October 2026](artifacts/review/evolutor-complete-review.pdf) (kept unchanged)
 - [All chapters, twelve parts and prerequisites](CHAPTER_STRUCTURE.md)
 - [Final integration report](FINAL_INTEGRATION_REPORT.md)
 - [Current source/PDF review closure](research/integration/continuous-through52-review.json)
@@ -21,7 +22,8 @@ This is the complete-range review candidate, not an accepted publication edition
 | Chapter 3 | tex/textbook/ch03.tex | Preserved authored opening |
 | Chapters 4–52 | drafts/chNN/manuscript.tex | Authored chapter candidates with executable companions |
 | Continuous Chapters 1–52 | output/pdf/evolutor-convergence.pdf | Complete source assembly, unified navigation and reference material |
-| Versioned complete PDF | artifacts/review/evolutor-complete-review.pdf | Readable GitHub review copy; not an accepted edition |
+| Prepublication review edition | artifacts/review/evolutor-prepublication-review-2026-10-19.pdf | Agent-reviewed edition with front/back matter; not an accepted edition |
+| Earlier complete PDF | artifacts/review/evolutor-complete-review.pdf | 18 October review copy, unchanged; not an accepted edition |
 | Chapter-local reviews | research/integration/chNN/ | Local author evidence, not independent specialist/reader review |
 | Historical editions | book/book.json, earlier plans/reports and preserved artifacts | Historical snapshots, not active authoring counters |
 

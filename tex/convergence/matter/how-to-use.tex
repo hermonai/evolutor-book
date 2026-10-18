@@ -1,0 +1,86 @@
+\chapter*{How to use this book}
+\addcontentsline{toc}{chapter}{How to use this book}
+\markboth{How to use this book}{How to use this book}
+
+\section*{The shape of the book}
+The 52 chapters are grouped into twelve parts. The parts form a dependency structure
+rather than a single line. The foundations in Part~II feed both the biological
+abstractions of Part~III and the two model directions, DOGMA (Part~IV) and Hermon DNA
+(Part~V). Part~VI's experimental contract governs every later comparison. The two engines
+(Parts~VII and~VIII) are developed separately and meet only in Evolutor's runtime and
+compiler (Part~IX). Industrial engineering, applications and synthesis then build on
+that layer. Figure~\ref{book:readingmap} shows the structure and five suggested reading
+routes.
+
+\BackPlate{reading-map}{The twelve parts and their main dependencies. Solid arrows mean
+``is needed by''. The coloured markers show five reading routes. Each route lists the
+parts it reads in order and can skip the others on a first pass. Chapter-level
+prerequisites are printed on every part page.}{book:readingmap}
+
+\begin{center}\small
+\begin{tabular}{@{}P{0.27\linewidth}P{0.33\linewidth}P{0.32\linewidth}@{}}
+\toprule
+Route & Chapters & What it emphasizes\\\midrule
+Model builder & 2--10, then 18--29 & Objectives and state semantics before comparing architectures\\
+Formal-systems reader & 11--17, then 39--43 & Separating biological analogy from typed semantics and legal lowering\\
+Inference engineer & 23, 25--38 & Keeping scalar and full-model oracles while storage and scheduling change\\
+Deployment engineer & 28--30, 32--38, 44--47 & Contracts that a reference test does not establish\\
+Application researcher & 2, 5, 17, 21, 24--29, 48--52 & Datasets, interventions and negative evidence\\
+\bottomrule
+\end{tabular}
+\end{center}
+Chapter~1 is common to every route, and Chapter~52 together with the Epilogue closes each
+one.
+
+\section*{The anatomy of a chapter}
+Every chapter follows the same progression, used with judgement rather than as a
+template:
+\begin{enumerate}
+\item \textbf{A concrete problem and a prediction.} Each chapter opens with a small case
+whose answer you can guess before reading on, such as ``must the resumed run take the same
+next step?'' or ``which tokens change when one base changes?''.
+\item \textbf{A derivation.} The mechanism is derived with every symbol, shape and unit
+defined, and its premises stated next to the result.
+\item \textbf{An implementation.} The printed listings are extracted from the tested
+reference program at build time, so the code you read is the code that runs.
+\item \textbf{A test or counterexample.} Each result is checked by an independent oracle,
+by a deliberately broken negative control, or by a counterexample that shows a missing
+premise matters.
+\item \textbf{The consequence.} The chapter says what the result licenses, and what it
+does not.
+\end{enumerate}
+The blue box at the start of each chapter lists its goals. The green \emph{Key ideas} box
+before the exercises states what should stay with you. Exercises come with worked
+solutions or marking rubrics. A closing \emph{Sources and evidence} note records which
+primary sources were consulted and how deeply each was read.
+
+\section*{Conventions}
+\begin{itemize}
+\setlength{\itemsep}{1pt}
+\item Arrays and token positions are zero-based. Genomic intervals are half-open,
+$[a,b)$, unless a file format states otherwise (Appendix~A).
+\item Tensor shapes are written in square brackets, for example $[B,T,D]$ for batch,
+time and width. Row vectors are used when the text follows PyTorch storage conventions.
+\item $\log$ and $\ln$ denote natural logarithms, and losses are in nats unless bits are
+stated. MiB and KiB are powers of 1024; MB and GB are powers of 1000.
+\item DNA strands are written $5'$ to $3'$. The reverse complement $R(x)$ reverses the
+order and complements each base; complementing alone is a different operation.
+\item ``Tick'' means a logical step of a reference program, not elapsed time. Every
+timing, throughput or memory figure states whether it was measured, modelled or
+assigned.
+\end{itemize}
+Appendix~B collects the notation, and Appendix~C collects the evidence classes and the
+claim-ledger template used throughout.
+
+\section*{Running the companion code}
+Each chapter from~4 onward has a reference program, generated tables and a test file. With
+the pinned Python environment installed, the commands below rebuild the whole volume and
+run every test. Rebuild the chapter assets before running the tests on a fresh checkout,
+because several tests compare printed tables and listings with regenerated ones.
+\begin{Verbatim}[fontsize=\small]
+python3 scripts/check-chapter-structure.py
+python3 scripts/build-convergence.py --through 52 --refresh-assets
+python3 -m pytest -q -o addopts=''
+\end{Verbatim}
+A single chapter can be rebuilt and checked with \texttt{python3 drafts/chNN/build.py
+--check}. All examples run on a CPU. None needs a GPU, a network service or private data.

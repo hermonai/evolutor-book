@@ -1,0 +1,76 @@
+{
+  "date": "2026-10-18",
+  "chapter": 39,
+  "pdf": "output/pdf/evolutor-ch39-review.pdf",
+  "pdf_sha256": "25b56c535a076f19ef6c5c19039494ac4db0ac8cf0038475529bacac42c49779",
+  "pages": 12,
+  "source_hashes": {
+    "drafts/ch39/README.md": "1f3b4ff8d959dc8138a579b9b27d335cb2aedd647ae83071bf6d51585634c7e9",
+    "drafts/ch39/STORYBOARD.md": "cf63e1e6eb5fe30108be1fa236c5cba7e35fc6d83096507128ad64428c24f494",
+    "drafts/ch39/build.py": "542979890d3f4b4c5ebf10b9587ab1e616219e327ac0aa52240310f624073e01",
+    "drafts/ch39/figures/01-dataflow.tex": "b9acfe97a26d162f6c396ed7912dcfae57d26057c0a75476922718e6feb1e4fb",
+    "drafts/ch39/figures/01-dataflow.txt": "e811903f49eb97d88ceb23da5bb3e8cd6bf370a869b3f7a754f001fb4ec05b5c",
+    "drafts/ch39/figures/02-handles.tex": "ca5479ccdddf409a474d73b37450037af898319b479d0d7a130f02b1d78b0c29",
+    "drafts/ch39/figures/02-handles.txt": "d8bf59d926af8a5264f883a517f510c78af860a9e02cf8c9b20426bf1e2eb8b9",
+    "drafts/ch39/figures/03-effect.tex": "e26bbca7ecde390c9d9b7a909d01354637f8e7ef0cc5cd989b2a3b0471238819",
+    "drafts/ch39/figures/03-effect.txt": "eee8e155cd210dd1bded517dd91492373d6068da03a1fdbd081d8fadfe9d02f0",
+    "drafts/ch39/manuscript.tex": "791f40e781fbb4cfea239a225c3351a6d1dc20d66e407e819dbe8a0aea1c7f19",
+    "drafts/ch39/reference.py": "e408a58c771c2e0ee09dae1d6f7c1430e25cd9091e03d6ccd8aa4fc3b0e2b4d4",
+    "drafts/ch39/results.json": "f2035123b95a0720465513b76b4484b1c2d01b5ce39e42d28964567da3bbf718",
+    "drafts/ch39/review.tex": "4848273b79702b4aefd4456e0d670e77d6e7069826475c2e1aa352179ded7053",
+    "drafts/ch39/sources.tex": "eda5fe0784589194f4df71867eab24556b77e63245d6734d709b75c6f8eeadfd",
+    "tests/test_ch39_reference.py": "c51f7eea0ba246c37584901a4771614eb67df0848385c240945b86a20380e4ad"
+  },
+  "transitive_dependencies": {
+    "drafts/ch23/reference.py": "a071820f55006631c2b26a4710dab8b16149fc9e2f1b57b546b955d2168d225b",
+    "drafts/ch31/reference.py": "b0c0f8cc3815ee9c3156f07e8e427878ef11c77b489139dcbb4835c305d88d9a",
+    "drafts/ch35/reference.py": "3861e11797f0d6c8e480d2426e110d29347c5e6a281742208e49a91ea3075e98"
+  },
+  "research_hashes": {
+    "research/integration/ch39/package-integrity.json": "e948e1f24caa6fa54829a09c5db6e8974d3d41ca0f1cea81f0fc30925d1620ee",
+    "research/integration/ch39/package-adoption.md": "12b51bdb4a545b1ec05312d9b364265c9a67677d39653a1c7225601f90168d6e",
+    "research/integration/ch39/package-adoption.json": "07a478914e5e0914487bcb3b88b27f09749ce82ba374cadbf3a4307a48a41493",
+    "research/integration/ch39/source-verification.json": "51097ceae3fa6af7e4491c41cf7cd714969b862743850809303d06fb6141b5e5",
+    "research/integration/ch39/technical-audit.md": "e17ec17f542a713a05675b0f00e6d2f92ec3ee4275e72f756fa3dbc2da783c34",
+    "research/integration/ch39/visual-review.json": "e8217587dfb62f647ad47122ca6abd06c1061d509f30a941e34537d1c9a02c6e"
+  },
+  "package_archive_sha256": "4ddbce75e60b5e6a8c97199d6ad85c6ad45465a645c96905107748469bd27561",
+  "tests": {
+    "chapter_passed": 34,
+    "chapter_failed": 0,
+    "chapter_skipped": 0,
+    "batch_passed": 189,
+    "report": "build/ch39/reference-tests.xml",
+    "report_sha256": "30a8a70f79669d06e7f74473f945986972c8ffa67ea2eef9850b58a36db16d29",
+    "batch_report": "build/ch39/batch-B-reference.xml",
+    "batch_report_sha256": "c17c05ca1dd1b6ac2c69958f276aa690f49a6594b8183e6c9c872994003ee5c6",
+    "python": "3.13.6",
+    "torch": "2.10.0",
+    "repository_status": "not_run_by_batch_owner; reserved for final integration coordinator"
+  },
+  "derived_artifacts": {
+    "status": "passed",
+    "command": "python drafts/ch39/build.py --check"
+  },
+  "strict_compile": {
+    "status": "passed",
+    "overfull_boxes": 0,
+    "missing_glyphs": 0,
+    "unresolved_references_or_citations": 0,
+    "multiply_defined_labels": 0,
+    "log": "build/ch39/review.log",
+    "log_sha256": "7e3f209c7a8ad2ca77d430cb8464e1284967c542dde4c3cd2a66b4e30db30635"
+  },
+  "visual_review": {
+    "reviewer": "author/agent",
+    "status": "PASS WITH NOTES",
+    "mode": "all 12 physical standalone pages, color and grayscale",
+    "record": "research/integration/ch39/visual-review.json",
+    "notes": "Native continuation and ownership diagrams are legible; whole-function listings remain together. Sources and references share a page. Duplicate Artifact binding index entries were consolidated. The short closing vocabulary page retains whitespace in this standalone wrapper."
+  },
+  "mathematical_review": "See technical-audit.md and the premise-bound chapter proofs; independent reference oracles and negative controls cover the stated teaching contracts.",
+  "cross_batch_integration": "not implemented/tested by this batch; exact remaining checks are in research/integration/batches/B-handoff.md",
+  "independent_review": false,
+  "accepted": false,
+  "acceptance": "locally reviewed standalone integration candidate; cumulative integration and publication gates remain open"
+}

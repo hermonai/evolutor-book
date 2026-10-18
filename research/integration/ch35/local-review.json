@@ -1,54 +1,65 @@
 {
-  "date": "2026-10-17",
-  "chapter": 35,
-  "pdf": "output/pdf/evolutor-ch35-review.pdf",
-  "pdf_sha256": "1c1f713c1ceac5deab548ac5abf0d1d7888736c1737ce922b9b798d7c31479a1",
-  "pages": 17,
-  "source_hashes": {
-    "drafts/ch35/README.md": "a072f27e3f1eb2c5d491102a6ab9c3a099740469aa7acbb31ac56ea7eed79a5c",
-    "drafts/ch35/STORYBOARD.md": "7a6e6c0805635944b0b487d88b78fcc69b99602040fcc6d523afc95b110e356f",
-    "drafts/ch35/build.py": "0f1f579724166acf61f4715a8c37f9a6e17ac2dac33eb79afa36bcb98b84b80e",
-    "drafts/ch35/figures/01-equivalence.tex": "ab9253795b7af7e088bba1eb040e144fc58c8358567d46f14c0f4e0e4a92ffcf",
-    "drafts/ch35/figures/01-equivalence.txt": "6f084815165b56d9f3d2de066a6ae0e0a4ce3614cf43080bf9af95bb27a982ef",
-    "drafts/ch35/figures/02-geometry.tex": "b2b0d5d71522ba3d296f91a31b3c03ca65130825b2ef1ec4a6f9517142157578",
-    "drafts/ch35/figures/02-geometry.txt": "a66cfb959baaad2946f700963915b70093c03c391860a60ab544432f5dfbb418",
-    "drafts/ch35/figures/03-offset.tex": "d462b5b5ec440df5f04f7cf747ad4dfef2e6c7a71fd5bf0749d639880b94be32",
-    "drafts/ch35/figures/03-offset.txt": "2fd9d9f19a03087658d5d23445155d7f99c193516daa1a9e0a6ffe28e517fe70",
-    "drafts/ch35/figures/04-context.tex": "183bf077b4e3315f0254874b52361af1acb9cd9d093dd7a6b94640f159d35e7a",
-    "drafts/ch35/figures/04-context.txt": "3ae2b4933edc40fd84f58aafa47d67637409340b4262432469f750d2f5d54775",
-    "drafts/ch35/figures/05-cost.tex": "512e32d15327d81dac7dd8cfb0f9feb3d6aac3f0d3d1673c87ac8890a86fcd57",
-    "drafts/ch35/figures/05-cost.txt": "4375bafe97e488de44cedd86ec6e8fa362f262d7825eb5329b4d62310d79daff",
-    "drafts/ch35/figures/06-refinement.tex": "26a3c19b79a79bb65efe420b9530ebc8a5df1683296a260fc91c60f454b4a9ed",
-    "drafts/ch35/figures/06-refinement.txt": "76fb1a12b5183449dc72ee52d04c4711bd09d0934683355879282c5456826103",
-    "drafts/ch35/manuscript.tex": "1df59417c47b52cb1447ec9c53887509da4881d957bffc3661654d688d00991b",
-    "drafts/ch35/reference.py": "3861e11797f0d6c8e480d2426e110d29347c5e6a281742208e49a91ea3075e98",
-    "drafts/ch35/results.json": "6c0020bcd266c736e13147a5dceab8dd20e47418e0daa9885b2cd90ea960b0e4",
-    "drafts/ch35/review.tex": "693480fbafd2eb6afd8aaab9374302eab0ba7c2e8dc2187c2ca918ed0b5d5723",
-    "drafts/ch35/sources.tex": "33cdda8632274fa30a4df3b7ea62e162adbfff16dee978ec70d021cc18e88e14",
-    "tests/test_ch35_reference.py": "5c60c319b578bc76e69cd7b4bdee9d32f847c8cab2598efe6bca5b33a4a3d480"
-  },
-  "transitive_dependencies": {
-    "drafts/ch23/reference.py": "a071820f55006631c2b26a4710dab8b16149fc9e2f1b57b546b955d2168d225b"
-  },
-  "tests": {
-    "chapter_passed": 85,
-    "repository_passed": 1416,
-    "repository_skipped": 0,
-    "repository_failed": 0,
-    "repository_status": "passed",
-    "report": "build/ch35/regression.xml",
-    "report_sha256": "3e70196c3e8f6de0856e160c0601ee475cc703a4efc46c69aaa1bf6bbcb5e852",
-    "python": "3.13.6",
-    "torch": "2.10.0"
-  },
-  "visual_review": {
-    "reviewer": "author/agent",
-    "status": "PASS WITH NOTES",
-    "mode": "all 17 physical standalone pages, color and grayscale",
-    "notes": "Six original editable TikZ/TXT plates; labels and layout corrected; complete short validation/completion listings kept together. Longer literal functions may continue across pages with line numbers. No clipped figures, missing glyphs or unresolved references. This is local author review."
-  },
-  "mathematical_review": "See technical-audit.md for premise-bound proofs, independent numerical controls, contract deviations and excluded claims.",
-  "independent_review": false,
-  "accepted": false,
-  "acceptance": "locally reviewed standalone integration candidate; publication gate open"
+ "date": "2026-10-17",
+ "chapter": 35,
+ "pdf": "output/pdf/evolutor-ch35-review.pdf",
+ "pdf_sha256": "e70060660e39fedd5d59b65a849895ccbf8df1125a98738b40be10f3caa8f7ed",
+ "pages": 17,
+ "source_hashes": {
+  "drafts/ch35/README.md": "a072f27e3f1eb2c5d491102a6ab9c3a099740469aa7acbb31ac56ea7eed79a5c",
+  "drafts/ch35/STORYBOARD.md": "7a6e6c0805635944b0b487d88b78fcc69b99602040fcc6d523afc95b110e356f",
+  "drafts/ch35/build.py": "0f1f579724166acf61f4715a8c37f9a6e17ac2dac33eb79afa36bcb98b84b80e",
+  "drafts/ch35/figures/01-equivalence.tex": "ab9253795b7af7e088bba1eb040e144fc58c8358567d46f14c0f4e0e4a92ffcf",
+  "drafts/ch35/figures/01-equivalence.txt": "6f084815165b56d9f3d2de066a6ae0e0a4ce3614cf43080bf9af95bb27a982ef",
+  "drafts/ch35/figures/02-geometry.tex": "b2b0d5d71522ba3d296f91a31b3c03ca65130825b2ef1ec4a6f9517142157578",
+  "drafts/ch35/figures/02-geometry.txt": "a66cfb959baaad2946f700963915b70093c03c391860a60ab544432f5dfbb418",
+  "drafts/ch35/figures/03-offset.tex": "d462b5b5ec440df5f04f7cf747ad4dfef2e6c7a71fd5bf0749d639880b94be32",
+  "drafts/ch35/figures/03-offset.txt": "2fd9d9f19a03087658d5d23445155d7f99c193516daa1a9e0a6ffe28e517fe70",
+  "drafts/ch35/figures/04-context.tex": "183bf077b4e3315f0254874b52361af1acb9cd9d093dd7a6b94640f159d35e7a",
+  "drafts/ch35/figures/04-context.txt": "3ae2b4933edc40fd84f58aafa47d67637409340b4262432469f750d2f5d54775",
+  "drafts/ch35/figures/05-cost.tex": "512e32d15327d81dac7dd8cfb0f9feb3d6aac3f0d3d1673c87ac8890a86fcd57",
+  "drafts/ch35/figures/05-cost.txt": "4375bafe97e488de44cedd86ec6e8fa362f262d7825eb5329b4d62310d79daff",
+  "drafts/ch35/figures/06-refinement.tex": "26a3c19b79a79bb65efe420b9530ebc8a5df1683296a260fc91c60f454b4a9ed",
+  "drafts/ch35/figures/06-refinement.txt": "76fb1a12b5183449dc72ee52d04c4711bd09d0934683355879282c5456826103",
+  "drafts/ch35/manuscript.tex": "1df59417c47b52cb1447ec9c53887509da4881d957bffc3661654d688d00991b",
+  "drafts/ch35/reference.py": "3861e11797f0d6c8e480d2426e110d29347c5e6a281742208e49a91ea3075e98",
+  "drafts/ch35/results.json": "6c0020bcd266c736e13147a5dceab8dd20e47418e0daa9885b2cd90ea960b0e4",
+  "drafts/ch35/review.tex": "693480fbafd2eb6afd8aaab9374302eab0ba7c2e8dc2187c2ca918ed0b5d5723",
+  "drafts/ch35/sources.tex": "34f750c19bc415572272bf8a6c716cb135832c92a7d3a64d800c3b1058e8bea4",
+  "tests/test_ch35_reference.py": "5c60c319b578bc76e69cd7b4bdee9d32f847c8cab2598efe6bca5b33a4a3d480"
+ },
+ "transitive_dependencies": {
+  "drafts/ch23/reference.py": "a071820f55006631c2b26a4710dab8b16149fc9e2f1b57b546b955d2168d225b"
+ },
+ "tests": {
+  "chapter_passed": 85,
+  "repository_passed": 1416,
+  "repository_skipped": 0,
+  "repository_failed": 0,
+  "repository_status": "passed",
+  "report": "build/ch35/regression.xml",
+  "report_sha256": "3e70196c3e8f6de0856e160c0601ee475cc703a4efc46c69aaa1bf6bbcb5e852",
+  "python": "3.13.6",
+  "torch": "2.10.0"
+ },
+ "visual_review": {
+  "reviewer": "author/agent",
+  "status": "PASS WITH NOTES",
+  "mode": "all 17 physical standalone pages, color and grayscale",
+  "notes": "Six original editable TikZ/TXT plates; labels and layout corrected; complete short validation/completion listings kept together. Longer literal functions may continue across pages with line numbers. No clipped figures, missing glyphs or unresolved references. This is local author review."
+ },
+ "mathematical_review": "See technical-audit.md for premise-bound proofs, independent numerical controls, contract deviations and excluded claims.",
+ "independent_review": false,
+ "accepted": false,
+ "acceptance": "locally reviewed standalone integration candidate; publication gate open",
+ "prepublication_revision": {
+  "date": "2026-10-19",
+  "reviewer": "author/agent (Claude prepublication pass); not independent review",
+  "change": "Rewrite the Sources-and-evidence note without supplied-package, adoption-map or coordinator wording, keeping every external access-depth statement (originals archived verbatim in docs/provenance/source-notes-2026-10-19.md).",
+  "changed_pages_reinspected": [
+   15
+  ],
+  "inspection": "Changed pages identified by per-page text and 60 dpi raster comparison against the prior standalone PDF; every changed page re-rendered at 75 dpi in colour and inspected. Changes are text-only; no figure source changed.",
+  "unchanged_page_policy": "Raster-identical pages retain the prior local inspection; no new independent review is claimed.",
+  "amendment_log": "docs/prepublication/chapter-amendments.json"
+ }
 }

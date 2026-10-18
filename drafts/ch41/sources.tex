@@ -1,10 +1,6 @@
 \chapter*{Sources and further reading}
 \addcontentsline{toc}{chapter}{Sources and further reading}
-Access checked 17 October 2026. The supplied compiler package was read in full.
-SSA, verification, folding, DCE, capability lowering, costs, liveness, source
-IDs and exercises were retained and deepened. Its classification of engine
-and retrieval operations as freely pure was not retained: our dialect preserves
-those observations and checks declared effects against operation semantics.
+Access checked 17 October 2026. Treating engine and retrieval operations as freely pure would be unsound here: the dialect preserves those observations and checks declared effects against operation semantics.
 The independent recursive arithmetic oracle and actual Chapter 39/40
 handlers test a more precise contract. Chapter 14 tensor typing,
 Chapter 15 transition semantics and Chapter 16 resource conventions were
@@ -14,7 +10,7 @@ The official MLIR language reference's high-level operation/value model and
 side-effect rationale's categorization/modeling sections were inspected.
 The TVM primary arXiv abstract was inspected for compiler organization only.
 This reference implements neither framework, target code generation nor
-hardware experiments. Chapter 36 integration and production serialization remain open.
+hardware experiments. Production serialization remains open; a companion example connects the compiler to Chapter 36's allocator.
 \begingroup
 \renewcommand{\bibname}{References}
 \let\chapter\section

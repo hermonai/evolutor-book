@@ -36,6 +36,36 @@ def test_exact_doi_dedup_not_fuzzy_title():
     assert r.identity("Same title 2025") != r.identity("Same title 2026")
 
 
+def test_arxiv_views_and_versions_share_one_identity():
+    base = r.identity(r"\url{https://arxiv.org/abs/2403.03234}")
+    assert base == r.identity(r"\url{https://arxiv.org/html/2403.03234v1}")
+    assert base == r.identity(r"\url{https://arxiv.org/pdf/2403.03234v2}")
+    assert base != r.identity(r"\url{https://arxiv.org/abs/2403.03235}")
+    # A DOI still takes precedence over an arXiv link in the same entry.
+    assert r.identity(
+        r"\url{https://doi.org/10.1/X} \url{https://arxiv.org/abs/2403.03234}"
+    ) == "doi:10.1/x"
+
+
+def test_source_note_becomes_a_section_of_its_chapter_in_the_book():
+    note = (
+        r"\chapter*{Sources and further reading}" + "\n"
+        + r"\addcontentsline{toc}{chapter}{Sources and further reading}" + "\nText."
+    )
+    assert r.evidence_heading(note) == (
+        r"\section*{Sources and further reading}" + "\n"
+        + r"\addcontentsline{toc}{section}{Sources and further reading}" + "\nText."
+    )
+    # Notes that already use a section, or a mismatched contents title, are untouched.
+    section = r"\section*{Sources and evidence}" + "\n" + r"\addcontentsline{toc}{section}{Sources and evidence}"
+    assert r.evidence_heading(section) == section
+    # A note without a contents line stays out of the contents.
+    assert r.evidence_heading(r"\chapter*{Evidence}" + "\nText.") == r"\section*{Evidence}" + "\nText."
+    # A mismatched contents title is not silently rewritten.
+    odd = r"\chapter*{A}" + "\n" + r"\addcontentsline{toc}{chapter}{B}"
+    assert r.evidence_heading(odd) == r"\section*{A}" + "\n" + r"\addcontentsline{toc}{chapter}{B}"
+
+
 def test_case_sensitive_url_paths_remain_distinct():
     assert r.identity(r"\url{https://example.org/A}") != r.identity(
         r"\url{https://example.org/a}"

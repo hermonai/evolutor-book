@@ -1,0 +1,45 @@
+{
+  "date": "2026-10-06",
+  "chapter": 23,
+  "pdf": "output/pdf/evolutor-ch23-review.pdf",
+  "pdf_sha256": "f89617f729342b266b17681b5164171b4b6377dd2ff2b1b8283faa6c2b48fc12",
+  "pages": 15,
+  "source_hashes": {
+    "drafts/ch23/README.md": "c9487bed4e5d39f9dfefd09c464cd4a0315330eba70b78a83746c8a19a888b6d",
+    "drafts/ch23/STORYBOARD.md": "d7c3066e3b1ee13c7449f84b7c82f38df44d02575182a838032207b7ca8eec1c",
+    "drafts/ch23/build.py": "998f44d7e966f1bd28f04a4c0b06d784b1f17be3b9057084fab97286e856c6b2",
+    "drafts/ch23/figures/01-block.tex": "445f235615ec335001a766320e064d0da2e8daab74df5e055748724c42c4d262",
+    "drafts/ch23/figures/01-block.txt": "b55b428b4806314d0b0d06ab149c307c6e9a32656040b1a77de0c8cdc463160a",
+    "drafts/ch23/figures/02-attention.tex": "624b8dd0eb3d9f6cb879f15611a160a7020bb7aeac3165218128d573dc1937a0",
+    "drafts/ch23/figures/02-attention.txt": "3fc39a83fdb7cdbf00c288eab23f984653b02a67f6ca68d2068bd285b68cc507",
+    "drafts/ch23/figures/03-masks.tex": "28b82773253ac3b98b910df72b65e1c5d4b9bb959fe55de1f0fa93508d94c005",
+    "drafts/ch23/figures/03-masks.txt": "8f9474baa98a4c948c38392a9af8da57609dfeec36a3e8e196bad2a6e5ca2b26",
+    "drafts/ch23/figures/04-rc.tex": "c7729799858c96bd060a54274d3739fcff4548bf22eb3bfe168c2805975695cd",
+    "drafts/ch23/figures/04-rc.txt": "8612db0e12c6580209bc79d9b34d9d2929e38b7286113ad434c2e130a8302e9a",
+    "drafts/ch23/figures/05-branches.tex": "777eeb6845ef215e066e9e29bb89680b627bcab52b8a97fcb3e1af208a2241c7",
+    "drafts/ch23/figures/05-branches.txt": "769ef6880a5838f02f456bd24f8490cd9b933769e06be4ca7fe63da8b33235d4",
+    "drafts/ch23/figures/06-evidence.tex": "01ae04705b1e82d79055640661b804adb0fcef2416bd86626cc0b52c9330bd63",
+    "drafts/ch23/figures/06-evidence.txt": "23f04da4c5d48be55665968d52b5ff456992a5e7b6ceb44ddcc47b0455cbcfa4",
+    "drafts/ch23/manuscript.tex": "9cbec63d3e07d18dc4a45feaf8f22f62ada981c9e11ea018937c1def7cb06583",
+    "drafts/ch23/reference.py": "a071820f55006631c2b26a4710dab8b16149fc9e2f1b57b546b955d2168d225b",
+    "drafts/ch23/results.json": "c98514874a804cda11baaaa4bffcf88e200cb8f0b8ee2728e92abc5a43d2ddbd",
+    "drafts/ch23/review.tex": "130202fc2f8e92502a37a4817e583b1b6042a1a83878fdff79cbfec1d3b4e409",
+    "drafts/ch23/sources.tex": "1f8f283f4b478c495cfa5b7f6769797dbaf8c080882f5591733db4b1eb7458e6",
+    "tests/test_ch23_reference.py": "92ab97a7a60bf72bcb19268804a7e18fbf4b49aca252c84dd709341bffd9d4ed"
+  },
+  "tests": {
+    "repository_passed": 844,
+    "repository_skipped": 0,
+    "chapter_passed": 19,
+    "report": "build/ch23/regression.xml",
+    "python": "3.13.6"
+  },
+  "visual_review": {
+    "reviewer": "author/agent",
+    "status": "PASS WITH NOTES",
+    "mode": "all 15 pages, color and grayscale contact sheets",
+    "notes": "All 15 pages inspected in color and grayscale. Crowded annotations corrected and rerendered. Full-book layout and independent specialist/reader review remain open."
+  },
+  "mathematical_review": "Assumptions, independent oracles and falsifiers in technical-audit.md.",
+  "acceptance": "locally reviewed standalone integration candidate; not accepted publication edition"
+}

@@ -17,8 +17,22 @@
 \newcommand{\Generated}{}
 \newcommand{\PlateDirectory}{}
 \newcommand{\ChapterNamespace}{}
+% Plates keep their designed type size: wide plates shrink to the measure;
+% narrow plates are enlarged by at most 15 percent rather than stretched.
+% varwidth measures the plate in paragraph mode, so a figure file may stack a
+% picture above a legend line exactly as in its standalone chapter.
+\usepackage{varwidth}
+\newsavebox{\PlateBox}
+% Plates sized from \linewidth still see the real measure inside the wide box.
+\newlength{\PlateMeasure}
+\newcommand{\PlaceScaledPlate}{%
+\ifdim\wd\PlateBox>\linewidth\resizebox{\linewidth}{!}{\usebox{\PlateBox}}%
+\else\ifdim1.15\wd\PlateBox<\linewidth\scalebox{1.15}{\usebox{\PlateBox}}%
+\else\resizebox{\linewidth}{!}{\usebox{\PlateBox}}\fi\fi}
 \newcommand{\Plate}[3]{\par\medskip\noindent\begin{minipage}{\linewidth}\centering
-\resizebox{\linewidth}{!}{\input{\PlateDirectory/#1.tex}}
+\setlength{\PlateMeasure}{\linewidth}%
+\sbox{\PlateBox}{\begin{varwidth}{8\PlateMeasure}\setlength{\linewidth}{\PlateMeasure}%
+\centering\input{\PlateDirectory/#1.tex}\end{varwidth}}\PlaceScaledPlate
 \captionof{figure}{#2}\begingroup
 \edef\CurrentBookFigureLabel{\noexpand\OriginalBookLabel{\ChapterNamespace#3}}\CurrentBookFigureLabel
 \endgroup\end{minipage}\par\medskip}
@@ -43,3 +57,65 @@
 \fancyhead[R]{\small\sffamily Chapter \thechapter}
 \setcounter{tocdepth}{1}
 \AtBeginDocument{\raggedright\setlength{\parindent}{0pt}}
+% ---------------------------------------------------------------------------
+% Book-level reading apparatus (prepublication revision, October 2026).
+% Chapter sources are unchanged; the continuous builder injects these boxes.
+\usepackage{tcolorbox}\tcbuselibrary{skins,breakable}
+% tcolorbox loads the verbatim package, which redefines {verbatim}; restore
+% the textbook preamble's breaking fvextra environment.
+\DefineVerbatimEnvironment{verbatim}{Verbatim}{breaklines,fontsize=\footnotesize}
+\definecolor{Ink}{HTML}{1F2A33}
+\definecolor{GreenPale}{HTML}{EAF4EE}
+\definecolor{GoldPale}{HTML}{FBF4E2}
+\definecolor{Slate}{HTML}{5B6B78}
+\newtcolorbox{EvolutorGoalsBox}{enhanced,breakable,colback=Pale,colframe=Blue,
+ boxrule=0pt,leftrule=2.6pt,arc=0pt,outer arc=0pt,left=9pt,right=9pt,top=6pt,bottom=5pt,
+ before skip=10pt,after skip=12pt,
+ before upper={{\sffamily\bfseries\small\color{Blue}In this chapter you will\par}\smallskip}}
+\newtcolorbox{EvolutorIdeasBox}{enhanced,colback=GreenPale,colframe=Green,
+ boxrule=0pt,leftrule=2.6pt,arc=0pt,outer arc=0pt,left=9pt,right=9pt,top=6pt,bottom=5pt,
+ before skip=12pt,after skip=12pt,
+ before upper={{\sffamily\bfseries\small\color{Green}Key ideas\par}\smallskip}}
+\newenvironment{ChapterGoals}{\begin{EvolutorGoalsBox}\small\begin{itemize}
+ \setlength{\itemsep}{1.5pt}\setlength{\parskip}{0pt}\setlength{\topsep}{0pt}}%
+ {\end{itemize}\end{EvolutorGoalsBox}}
+% Key ideas are short; the box is unbreakable and moves whole to the next page.
+\newenvironment{KeyIdeas}{\begin{EvolutorIdeasBox}\small\begin{itemize}
+ \setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}\setlength{\topsep}{0pt}}%
+ {\end{itemize}\end{EvolutorIdeasBox}}
+% Generic boxes for front and back matter.
+\newtcolorbox{EvolutorNote}[1]{enhanced,breakable,colback=GoldPale,colframe=Gold!80!black,
+ boxrule=0pt,leftrule=2.6pt,arc=0pt,outer arc=0pt,left=9pt,right=9pt,top=6pt,bottom=5pt,
+ before skip=10pt,after skip=10pt,
+ before upper={{\sffamily\bfseries\small\color{Ink}#1\par}\smallskip}}
+% Part pages: number, title, guiding question, orientation and chapter list.
+\newcommand{\PartBodyFile}{}
+\newcommand{\PartRoman}[1]{\uppercase\expandafter{\romannumeral#1}}
+\newcommand{\PartAfter}{\vspace{6mm}{\color{Blue}\rule{\linewidth}{0.8pt}}\par\vspace{7mm}%
+ \normalfont\normalsize\color{black}\raggedright
+ \OriginalBookLabel{book:part\arabic{part}}\input{\PartBodyFile}}
+\titleformat{\part}[display]{\raggedright\sffamily\color{Blue}}%
+ {\large\bfseries PART \thepart}{6pt}{\Huge\bfseries}[\PartAfter]
+\newcommand{\EvolutorPart}[3]{\renewcommand{\PartBodyFile}{#3}\part{#2}}
+\titlespacing*{\part}{0pt}{-6mm}{0pt}
+\newcommand{\PartQuestion}[1]{{\large\itshape\color{Blue}#1\par}\vspace{3mm}}
+\newenvironment{PartChapters}{\par\vspace{5mm}{\sffamily\bfseries\small\color{Blue}CHAPTERS IN THIS PART\par}\vspace{1.5mm}\small}{\par}
+\newcommand{\PartChapter}[3]{\par\noindent\hangindent=2.4em\hangafter=1%
+ \makebox[2.4em][l]{\sffamily\bfseries\color{Blue}#1}{\sffamily\bfseries #2}%
+ \enspace{\color{Slate}#3}\par\vspace{1.1mm}}
+% Contents at a glance.
+\newenvironment{GlanceTable}{\par\small}{\par}
+\newcommand{\GlancePart}[2]{\par\vspace{2.4mm}\noindent{\sffamily\bfseries\color{Blue}%
+ Part \PartRoman{#1}\quad #2}\hfill{\sffamily\color{Blue}\pageref{book:part#1}}\par\vspace{0.6mm}}
+\newcommand{\GlanceChapter}[3]{\noindent\hspace*{1.2em}\makebox[2.2em][l]{#1}#2\,\dotfill\,\pageref{#3}\par}
+% Back matter chapter styles.
+\newcommand{\EvolutorAppendixStyle}{%
+ \titleformat{\chapter}[display]{\raggedright\hyphenpenalty=10000\color{Blue}\sffamily\bfseries}%
+ {\large APPENDIX \thechapter}{8pt}{\huge}%
+ \fancyhead[R]{\small\sffamily Appendix \thechapter}%
+ \renewcommand{\thefigure}{\thechapter.\arabic{figure}}}
+\newcommand{\UnnumberedChapter}[2]{\chapter*{#1}\addcontentsline{toc}{chapter}{#1}%
+ \markboth{#1}{#1}\fancyhead[R]{\small\sffamily #2}}
+\newcommand{\BackPlate}[3]{\par\medskip\noindent\begin{minipage}{\linewidth}\centering
+\sbox{\PlateBox}{\input{convergence/figures/#1.tex}}\PlaceScaledPlate
+\captionof{figure}{#2}\OriginalBookLabel{#3}\end{minipage}\par\medskip}

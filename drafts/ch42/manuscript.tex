@@ -11,8 +11,8 @@ Database engines provide concrete precedents for separating intent, legal
 physical plans, execution, buffers, effects and recovery. We will borrow those
 mechanisms with explicit premises. A token generator is not a relational query,
 and a local dictionary simulating crash cuts is not a production database.
-The chapter retains the supplied comparison and WAL example while making
-semantic eligibility, record binding and the crash model precise.
+The chapter works through a plan-selection comparison and a small write-ahead-log
+example, making semantic eligibility, record binding and the crash model precise.
 
 \section{Logical requirements delimit physical alternatives}
 \label{evod42:plans}
@@ -76,8 +76,8 @@ state while models do.
 In a serving runtime, batching compatible requests can resemble vectorized
 operator execution, but each lane still needs its own local position, owner,
 artifact and completion fence. Chapter 34 proved such a lift for a restricted
-recurrence. The database analogy does not prove attention batching or make
-Chapter 36's unfinished physical allocation interface a passing dependency.
+recurrence. The database analogy does not prove attention batching, and it does not replace
+Chapter 36's own allocation proofs.
 
 \section{Buffer management needs object-specific validity}
 \label{evod42:buffers}
@@ -96,8 +96,8 @@ Pins protect physical lifetime, not logical validity. A pinned buffer with the
 wrong artifact is still wrong; a logically valid handle cannot be reclaimed
 while device work reads it. Chapter 32 implements generational native-pool
 ownership and delayed reclaim, while Chapter 35 specifies ordered layered KV.
-When Chapter 36 settles, its page-sharing and eviction tests must preserve
-both sets of relevant lifetime constraints. This chapter does not substitute
+Chapter 36's page-sharing and eviction tests are where those lifetime constraints
+meet paged attention state. This chapter does not substitute
 a generic byte-page demo for those implementations.
 
 Database index ideas also transfer with limits. Exact key/range access and
@@ -154,9 +154,8 @@ durable LSN as permission for arbitrary data. The third prevents a stale page
 write from overwriting a newer assignment.
 
 \Listing{WalStore.write_page}
-The package's simpler check tested only $\ell\le D$. It could therefore
-accept a different value or key under a valid record number. The strengthened
-negative controls reject both, reject flushes beyond log end and reject stale
+A simpler check that tests only $\ell\le D$ would accept a different value or key
+under a valid record number. The negative controls reject both, reject flushes beyond log end and reject stale
 per-key writes. A hash or LSN is meaningful only when it binds the actual
 state transition being certified.
 

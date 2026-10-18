@@ -12,6 +12,7 @@
 ## Review and publication
 
 - [Claude pre-publication review and revision prompt](CLAUDE_PREPUBLICATION_REVIEW_PROMPT.md)
+- [Prepublication review records, 19 October 2026](prepublication/): [plan](prepublication/REVIEW_PLAN.md), [findings](prepublication/FINDINGS.md), [chapter matrix](prepublication/CHAPTER_REVIEW_MATRIX.md), [changes](prepublication/CHANGELOG.md), [validation](prepublication/VALIDATION_REPORT.md), [readiness](prepublication/PUBLICATION_READINESS.md), [superseded records](prepublication/SUPERSESSION.md), [handoff](prepublication/CODEX_HANDOFF.md)
 - [Remaining roadmap](../ROADMAP.md)
 - [Publication gates and rights policy](../PUBLICATION_PLAN.md)
 - [Chapter production standard](../CHAPTER_STANDARD.md)
@@ -24,6 +25,8 @@
 - [Integration decisions](../research/integration/integration-decisions.md)
 - [Batch ownership and review obligations](../BATCH_PRODUCTION.md)
 - [Package audit](../research/integration/package-reuse-audit.json)
+- [Chapter 3 source ledger removed from the chapter](provenance/ch03-source-ledger.md)
+- [Chapter source notes before the 19 October 2026 edit](provenance/source-notes-2026-10-19.md)
 
 BOOK_PLAN.md and book/book.json are frozen acceptance snapshots. Root files
 such as UNDERGRADUATE_REBUILD_REPORT.md, DEEP_CHAPTER_1_REPORT.md and earlier

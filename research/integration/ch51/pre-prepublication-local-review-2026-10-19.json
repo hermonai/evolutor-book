@@ -1,0 +1,130 @@
+{
+  "chapter": 51,
+  "review_date": "2026-10-18",
+  "review_kind": "local author review of standalone integration candidate",
+  "pdf": "output/pdf/evolutor-ch51-review.pdf",
+  "pdf_sha256": "dd32af02fda526a6340648e8b484d625d81485edb94b2c47ad2457fdf0ddab35",
+  "pages": 12,
+  "source_hashes": {
+    "drafts/ch51/README.md": "91ac7fcac337a2309ba3f9bb8c8ffabf18bddfaa51936f3e26264f44efb62f6b",
+    "drafts/ch51/STORYBOARD.md": "45b6e98946168b4044d8d6d2f6661ac6f7de1e2b5ec81d2518977d5400291878",
+    "drafts/ch51/build.py": "2cbb980d9a626ad2fded3385cf694dc0710019e3271bcd3c6c6a8674745050f8",
+    "drafts/ch51/figures/01-evidence.tex": "4121ff1fee16d7551c39047063fb5415612122d6af6434d8edb33c15e0c29bef",
+    "drafts/ch51/figures/01-evidence.txt": "93b6a0d607068c358c0f00fbfe52e9d04b593c08fd04892c19331fc398d58155",
+    "drafts/ch51/figures/02-holdout.tex": "9e56c607ff91e69f8112a807ddb98ec5f906181d0ab26614dd6720ec64cd6250",
+    "drafts/ch51/figures/02-holdout.txt": "159dff2d8e104dc65903cfa3229e43470b8429e20776c9d17b3ca7aadfe784ed",
+    "drafts/ch51/figures/03-acquisition.tex": "b186b15cd1b7cfae3219e8a07a52eeed28508aedfda8b06e009f026aecd4edda",
+    "drafts/ch51/figures/03-acquisition.txt": "5d14bdebd8a3a7e874c2bc904c505336870f9cd016eda185f8a12acc61a5aac9",
+    "drafts/ch51/manuscript.tex": "bf9feda5b6b15ad3947f6cd6cf9c1ee3c1b96f153d1ef11f6d10d0714fdc255e",
+    "drafts/ch51/reference.py": "402dd2d8d4dc1fa1be771169e5ed2a047e2760fe30ad9008b86c0eadd43eb31a",
+    "drafts/ch51/results.json": "4c1b9d345d5417a6876ac9955378719d44daf080784bd34f7e71a479edb2911d",
+    "drafts/ch51/review.tex": "89ae0e47295c3db606a5839bb3080e3709a6d7ea1b7e2b6f4813480e9b232fe9",
+    "drafts/ch51/sources.tex": "a2b9666f3672153dea3273531b5cd8bbb2edb135063977d4719e3f3b6b223566",
+    "tests/test_ch51_reference.py": "86dba66101c2374fbc6ea6f57684cdbb2b01164829cf8b6fa36e5c74fb141f28"
+  },
+  "transitive_dependencies": {},
+  "dependency_scope": "Actual earlier reference sources used by assigned tests or owned code; not an inferred whole-book or environment closure.",
+  "research_hashes": {
+    "research/integration/ch51/hash-verification.json": "357df0297d5643e2247c6fe8bb91961f1da18e9e9e6b535ac56b0e3a14293863",
+    "research/integration/ch51/package-adoption.md": "37b94fa35f2577458b458a8c1b2bf808389d616cfce281ce596158d15c2d0ae2",
+    "research/integration/ch51/source-verification.json": "fb6b50899cd4dac832e668d41a178759664ccd7d716b0480a9e4045e1e3c4562",
+    "research/integration/ch51/technical-audit.md": "1dd024100567f76e73a9f23cddf70a67323b312d4f1b22f55b2a0396feebb6d5"
+  },
+  "build_evidence": {
+    "status": "PASS",
+    "numerical_fixture_check": "PASS",
+    "strict_standalone_repeat_build": "PASS",
+    "build_record": "build/ch51/build-record.json",
+    "build_record_sha256": "c28b299d49ffdaf18587afd79cc1a6e86e1f274064783570f44af945bd5f69bd",
+    "log": "build/ch51/review.log",
+    "log_sha256": "bec93ad99ba4c0bb17baf41ebe0978f5764db3cc3e4bfb519add98623557565a",
+    "checks": [
+      "overfull boxes",
+      "missing glyphs",
+      "unresolved references and citations",
+      "duplicate labels"
+    ],
+    "wrapper_note": "Chapter-local compatibility definition accepts legacy lineno auxiliary column markers on repeat builds; no shared TeX changes."
+  },
+  "tests": {
+    "chapter_passed": 23,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "report": "build/ch51/tests.xml",
+    "report_sha256": "f52cf2f07f7351984ffae55ca3fc31f3a487122caeecff77a051f50d5403532c",
+    "command": "/Users/wenyan/.pyenv/versions/3.13.6/bin/python3 -m pytest tests/test_ch51_reference.py -q -o addopts=''",
+    "python": "3.13.6",
+    "torch": "2.10.0 where actual-model tests require it",
+    "whole_repository_regression": "not run; outside batch author scope"
+  },
+  "visual_review": {
+    "status": "PASS",
+    "mode": "Agent local author visual inspection of every final rendered physical page in color and grayscale contact sheets, with individual-page inspection during corrections.",
+    "physical_pages": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12
+    ],
+    "render_dpi": 110,
+    "render_hashes": {
+      "tmp/pdfs/ch51-review/contact-1.png": "c372071c9dbd218c095df90f00348cf6d407a5c6994ad5e51501087dea1930af",
+      "tmp/pdfs/ch51-review/contact-2.png": "4d98205d33ae556baa9b35a0cf39c835a73fcc0f5abd2ebe1261cc4b8e6a9a4e",
+      "tmp/pdfs/ch51-review/contact-3.png": "1aec1752b78bffd3b3c52dd9a13c21d0f6cb3942c0f08b43650e84575a56ce8b",
+      "tmp/pdfs/ch51-review/grayscale-1.png": "b7240cb6b19cd8999595e6ba42ba32f03e31cb5a72020efe7ef33f4d856cf767",
+      "tmp/pdfs/ch51-review/grayscale-2.png": "85291c3148acb9ee76d6aa707ba961f26a6507731dc020bd9e41130e0005c294",
+      "tmp/pdfs/ch51-review/grayscale-3.png": "a21f4e84dcb59a0afdcbe78549c251b6b8872efd7c0cbb0e27524e9a324d4da0",
+      "tmp/pdfs/ch51-review/page-01.png": "e287a57e9f6acb1b7218e0eb1db2baa5d2ae91f7b5aca72c616d640e42af3998",
+      "tmp/pdfs/ch51-review/page-02.png": "85a90c8ff39943d4a231c8553cfba9f46adbb985e9ba0f7e28135c87b942fa33",
+      "tmp/pdfs/ch51-review/page-03.png": "6c1dd280affdbb2a1df195b441087429844baa18d5c9483c45af5e6eb24113f5",
+      "tmp/pdfs/ch51-review/page-04.png": "f406f7e0345c0ce7185ba38cacf076ac2a9a37e45dff91632c75535ed9826bbb",
+      "tmp/pdfs/ch51-review/page-05.png": "12cc8059a9189aa704c3e1f308b9cfa61ac2381fb127560ca5b292365b5879e7",
+      "tmp/pdfs/ch51-review/page-06.png": "110531ba1e4d34881de93053436467ba5945e62dbda59e388d5ab0e414790cfa",
+      "tmp/pdfs/ch51-review/page-07.png": "fee40057718fb5fa1ab8c9cffad541c0784720efe5b9002acea3bff5f0ce9a80",
+      "tmp/pdfs/ch51-review/page-08.png": "c36100a71230ae7906b20936eea497d7389b011e6a5f7721baa25c558b3f7d36",
+      "tmp/pdfs/ch51-review/page-09.png": "9f65e71f7ba83542f7267c15ca6638a637fcae355f5ff9ea4342952c93cb5eb3",
+      "tmp/pdfs/ch51-review/page-10.png": "0305f7558a7015e18f521884c6c28c48d19a3258a69bf107bee553ca31f2a0f8",
+      "tmp/pdfs/ch51-review/page-11.png": "576fbe71a70b6272a8a08e8f1ccf480c1401e73b0307cf8bcc4d661173880d80",
+      "tmp/pdfs/ch51-review/page-12.png": "e093a8622d7c97bec629cea67dfa786f9dd94ba89ced69e766a3083da590eb8d"
+    },
+    "checks": [
+      "legible mechanism and axis labels",
+      "no text/figure overlap or clipping",
+      "code pagination and numbered listings",
+      "table and proof flow",
+      "headers, footers, contents, bibliography, index",
+      "grayscale semantic distinctions"
+    ],
+    "notes": "Physical-page count includes standalone cover and contents. Review dates differ from the 17 October authoring date printed on covers. Cumulative pagination remains a separate gate."
+  },
+  "native_figure_count": 3,
+  "worked_exercise_count": 20,
+  "accepted": false,
+  "independent_review": false,
+  "cumulative_integration": false,
+  "limits": [
+    "Local tests and visual author review are not independent specialist or reader review.",
+    "No trained genomic performance, wet-lab experiment, general intelligence or production security/concurrency is established.",
+    "Cross-batch integration, global editorial convergence, whole-repository regression and publication gates remain open."
+  ],
+  "coordinator_revision": {
+    "date": "2026-10-18",
+    "change": "Remove stale authoring-batch wording; clarify completed manuscript and bounded integrated-spine companion. Chapter 52 gate artwork is a timeless evidence contract. No model, reference arithmetic or scientific theorem changed.",
+    "previous_author_review": "standalone-author-review-2026-10-18.json",
+    "changed_standalone_pages_reinspected_color_and_grayscale": [
+      8,
+      9
+    ],
+    "unchanged_page_policy": "Unchanged raster hashes retain prior local-author inspection; no new independent review claimed.",
+    "new_companion": "examples/integrated_spine/paged_runtime.py"
+  }
+}

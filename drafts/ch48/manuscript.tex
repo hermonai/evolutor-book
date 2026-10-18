@@ -112,10 +112,10 @@ alleles. Reversing positions without complementing bases produces the wrong
 variant. Unknown N is an observation symbol, not a fifth chemical base.}
 {evod48:strands}
 
-The original package used CG as its motif. CG is its own reverse complement,
-so that particular invariance test could pass without exercising two distinct
-motif orientations. We keep the motif-count example but use ACG and its
-reverse complement CGT. The assigned score for AACGTT is one, and the C-to-A
+CG is a tempting test motif, but it is its own reverse complement, so an
+invariance test built on it can pass without exercising two distinct motif
+orientations. The motif-count example therefore uses ACG and its reverse
+complement CGT. The assigned score for AACGTT is one, and the C-to-A
 change at index two removes both contributions, giving $\Delta=-1$.
 This is a detector calculation, not a learned affinity or expression change.
 

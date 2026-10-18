@@ -214,9 +214,9 @@ editing the store or forging evidence violates its premises.
 \section{Rollback is a governed switch, not time reversal}
 \label{evod43:rollback}
 \index{Rollback!eligibility}\index{state compatibility}
-The incoming reference allowed rollback to any registered artifact, including
-one that had never passed evaluation. We require a previously served,
-validated, currently retired target and the same promoter/revision checks.
+A naive registry would allow rollback to any registered artifact, including one
+that had never passed evaluation. We require a previously served, validated,
+currently retired target and the same promoter/revision checks.
 \Listing{Registry.rollback}
 
 A \Term{state fingerprint} names the exact continuation compatibility class,
@@ -230,9 +230,9 @@ independently validated restored state.
 \Plate{03-state}{Serving identity and in-flight state have different lifetimes. The fixture's drain flag expresses a precondition that a real service must verify.}{evod43:state}
 The registry stores a declared fingerprint string. It does not derive that
 fingerprint from Chapter 31/35 artifacts or implement a state migration.
-The coordinator must test old-request pinning, completion acknowledgement and
-new-request admission against the real Chapter 30/34/35 interfaces, then the
-stable Chapter 36 allocator. Local transition tests do not close that boundary.
+An integrated service must test old-request pinning, completion acknowledgement
+and new-request admission against the real Chapter 30, 34 and 35 interfaces and the
+Chapter 36 allocator. Local transition tests do not close that boundary.
 
 Rollback restores future serving choice; it cannot reverse messages, trades,
 deleted external objects or other irreversible actions already performed.

@@ -230,7 +230,7 @@ the mechanistic story is wrong or incomplete.
 
 \section{A small executable experiment}
 
-The package constructs a synthetic whole-record task. A record is positive when it
+The reference constructs a synthetic whole-record task. A record is positive when it
 contains motif ACG in either strand orientation; negatives are rejection-sampled so
 neither orientation occurs. Positives are explicitly implanted. This task is chosen
 because the offline dual mode has a legitimate symmetry to exploit. It is not a
@@ -258,11 +258,24 @@ state storage or tuning opportunity. DOGMA traverses two orientations while
 the learned comparison models traverse one. This table licenses no architecture
 superiority claim; Chapter 25 supplies a shared comparison contract.
 
-The generated \texttt{results.json} records actual losses, accuracies and parameter
-counts from this package run. These results establish only that the reference
-implementation can learn or fail on this controlled task under the recorded budget.
-They do not establish an advantage on genomic data, language, long context or
-production inference. The random-label control draws independent Bernoulli
+The generated \texttt{results.json} records every run's held-out loss, accuracy and
+parameter count. Read the table against chance before reading it against the other
+rows. Classes alternate, so the held-out set is exactly balanced and chance accuracy
+is $1/2$. With 128 held-out records, one run's accuracy under chance has standard error
+$\sqrt{0.25/128}\approx0.044$, so a run needs about $0.59$ to sit two standard errors
+above chance. By that yardstick the GRU and the MLP stay at chance, as does the
+random-label control. DOGMA dual's three runs ($0.56$, $0.60$, $0.56$) lie one to two
+standard errors above chance, and their held-out losses ($0.66$--$0.68$ nats) sit only
+slightly below $\ln2\approx0.693$: weak learning at best. The width-three CNN learns
+clearly in two of its three seeds ($0.84$ and $0.64$) and not in the third ($0.52$),
+which explains its large seed spread.
+
+The honest reading is a negative pilot. Under this budget no model reliably learned a
+task that an exact string detector solves perfectly. The table therefore says something
+about the budget and the optimization, not about which architecture is better. The next
+diagnostic steps are those of Chapter~25: overfit a tiny subset, inspect gradients, and
+then extend training or tuning with every change declared. The pilot establishes no
+advantage on genomic data, language, long context or production inference. The random-label control draws independent Bernoulli
 targets for both training and testing, rather than permuting training labels
 while scoring original motif labels. For independent uniform
 $Y\in\{1,\ldots,V\}$ and predictor $q$,
@@ -403,6 +416,11 @@ uncertainty, repeated seeds and independence before interpreting a deviation.
 \textbf{Answer:} $h_2=3/8$ and $M_1=1/5$, so
 $y_2=\tanh(0.575)\simeq0.519022$. Reading $M_2=0.35$ instead changes
 transition order.
+\item One pilot run scores $0.5625$ on 128 balanced held-out records. Is that
+evidence of learning? \textbf{Answer:} under chance the standard error is
+$\sqrt{0.25/128}\approx0.0442$, so the run is $(0.5625-0.5)/0.0442\approx1.4$
+standard errors above chance. That is weak evidence, and it says nothing about
+architecture without matched budgets and more seeds.
 \end{enumerate}
 
 \section{Vocabulary and next interface}

@@ -1,57 +1,68 @@
 {
-  "date": "2026-10-17",
-  "chapter": 34,
-  "pdf": "output/pdf/evolutor-ch34-review.pdf",
-  "pdf_sha256": "b8a4b021cd02e4d524c0eac68050e3c3312952df8d26b2d9cdf161c860a385ed",
-  "pages": 17,
-  "source_hashes": {
-    "drafts/ch34/README.md": "9c8869d1966a7f504f00db1417f897c504994936b84134260d178744c2b6e2f2",
-    "drafts/ch34/STORYBOARD.md": "a475524782229ee998e436d6d8d88dfae2e9b5ef64c2e642edf17db3f82f0664",
-    "drafts/ch34/build.py": "96569e2fec12e55a14e20c51bfa6b072ea5580c71aa9d86fa1d22f625ccb94ab",
-    "drafts/ch34/figures/01-clocks.tex": "c3cc1421074389ae952db0f615f444c617ec405e78e5caa967ed8d6baf427019",
-    "drafts/ch34/figures/01-clocks.txt": "c9aba28064fe88e8a51d9057b7b57c1b92ecfd8f9bc0d5a3f405b6c6795a3098",
-    "drafts/ch34/figures/02-gather.tex": "1a367f270e01212a6541c49463000b5c7ec193b99a1a41852fb726d41dc75372",
-    "drafts/ch34/figures/02-gather.txt": "57a30d121df61da81f9e943429ac5daf4de1c1690692e1a5e166ba5310d3c2f8",
-    "drafts/ch34/figures/03-mask.tex": "f0f04b64998b47ecbda5a3173ec0e32384443670af13a76e4ec26bf4eae65b2c",
-    "drafts/ch34/figures/03-mask.txt": "a6a2e7510538f926c92c0b9676e74fa4adf6d49547088081989fdbaaa956e2a8",
-    "drafts/ch34/figures/04-fence.tex": "8207b367628668caa33e41149742f302cdedb962fd43ef2a20d2232142b0a7ee",
-    "drafts/ch34/figures/04-fence.txt": "1a160ee490594f88cb0c75bcba4f5d0902232c9b060e152b72868fed27cd0b9c",
-    "drafts/ch34/figures/05-layout.tex": "978763e604a4d697a2f85ba4795589f83f1db6602d2438d7bc57b817a2de2d55",
-    "drafts/ch34/figures/05-layout.txt": "78c4448bb1e2e40e8fecbf5bb041712506f70ee77fdb0392220fbb04d9b482d3",
-    "drafts/ch34/figures/06-traffic.tex": "95fda6891fee459ef1132830d2efb3a645a691d6c0085f48e72f18a453398122",
-    "drafts/ch34/figures/06-traffic.txt": "eee163eb62957c1740234eb9092a5ea198f128c3555903e0b955c86f23930679",
-    "drafts/ch34/manuscript.tex": "0b19ec5d2f6f0e514682e13d4bfe7e1a7131c440ef1becee50c69bb2fef475b7",
-    "drafts/ch34/reference.py": "4195b04be6fae7d3ac29a3acda9e5fa959626f6b974720d1e4c179828ee90c58",
-    "drafts/ch34/results.json": "cd0acef506d5fd4f0de885f19a40ee6933a932964a3144267f867ff97faaed3a",
-    "drafts/ch34/review.tex": "b5b8cc49277553aeeb8831bd572f5073918a2e0cfd4ec8ac1c2cd971f9d56dc6",
-    "drafts/ch34/sources.tex": "e2757b35c6e0014d256fcd0549db967b239dc8bfc5a5ba78c37dfda621fd9090",
-    "tests/test_ch34_reference.py": "0b1c6b705979fd89230954df2e9da6a9a632c79ad24396a38d6e5144eb6a7c18"
-  },
-  "transitive_dependencies": {
-    "drafts/ch30/reference.py": "e81dba20d3c94b6e040089f9f3630d5d3e048ca349913f8e0005a4f0a49bf721",
-    "drafts/ch31/reference.py": "b0c0f8cc3815ee9c3156f07e8e427878ef11c77b489139dcbb4835c305d88d9a",
-    "drafts/ch32/reference.py": "c0d0e3c7b9a985508a6dc0e519b79f44a0067a462dd26d5d586f0417607f2c3e",
-    "drafts/ch33/reference.py": "2350c52adecc43e01078c46de7342d58c517a9cdb1c9f464ea8c5f61f083b635"
-  },
-  "tests": {
-    "chapter_passed": 47,
-    "repository_passed": 1416,
-    "repository_skipped": 0,
-    "repository_failed": 0,
-    "repository_status": "passed",
-    "report": "build/ch35/regression.xml",
-    "report_sha256": "3e70196c3e8f6de0856e160c0601ee475cc703a4efc46c69aaa1bf6bbcb5e852",
-    "python": "3.13.6",
-    "torch": "2.10.0"
-  },
-  "visual_review": {
-    "reviewer": "author/agent",
-    "status": "PASS WITH NOTES",
-    "mode": "all 17 physical standalone pages, color and grayscale",
-    "notes": "Six original editable TikZ/TXT plates; labels and layout corrected; complete short validation/completion listings kept together. Longer literal functions may continue across pages with line numbers. No clipped figures, missing glyphs or unresolved references. This is local author review."
-  },
-  "mathematical_review": "See technical-audit.md for premise-bound proofs, independent numerical controls, contract deviations and excluded claims.",
-  "independent_review": false,
-  "accepted": false,
-  "acceptance": "locally reviewed standalone integration candidate; publication gate open"
+ "date": "2026-10-17",
+ "chapter": 34,
+ "pdf": "output/pdf/evolutor-ch34-review.pdf",
+ "pdf_sha256": "9c2cb2ef6dd214dda7e72eb13078992d9261ef56f01aa0f1d26c24924a8768a7",
+ "pages": 17,
+ "source_hashes": {
+  "drafts/ch34/README.md": "9c8869d1966a7f504f00db1417f897c504994936b84134260d178744c2b6e2f2",
+  "drafts/ch34/STORYBOARD.md": "a475524782229ee998e436d6d8d88dfae2e9b5ef64c2e642edf17db3f82f0664",
+  "drafts/ch34/build.py": "96569e2fec12e55a14e20c51bfa6b072ea5580c71aa9d86fa1d22f625ccb94ab",
+  "drafts/ch34/figures/01-clocks.tex": "c3cc1421074389ae952db0f615f444c617ec405e78e5caa967ed8d6baf427019",
+  "drafts/ch34/figures/01-clocks.txt": "c9aba28064fe88e8a51d9057b7b57c1b92ecfd8f9bc0d5a3f405b6c6795a3098",
+  "drafts/ch34/figures/02-gather.tex": "1a367f270e01212a6541c49463000b5c7ec193b99a1a41852fb726d41dc75372",
+  "drafts/ch34/figures/02-gather.txt": "57a30d121df61da81f9e943429ac5daf4de1c1690692e1a5e166ba5310d3c2f8",
+  "drafts/ch34/figures/03-mask.tex": "f0f04b64998b47ecbda5a3173ec0e32384443670af13a76e4ec26bf4eae65b2c",
+  "drafts/ch34/figures/03-mask.txt": "a6a2e7510538f926c92c0b9676e74fa4adf6d49547088081989fdbaaa956e2a8",
+  "drafts/ch34/figures/04-fence.tex": "8207b367628668caa33e41149742f302cdedb962fd43ef2a20d2232142b0a7ee",
+  "drafts/ch34/figures/04-fence.txt": "1a160ee490594f88cb0c75bcba4f5d0902232c9b060e152b72868fed27cd0b9c",
+  "drafts/ch34/figures/05-layout.tex": "978763e604a4d697a2f85ba4795589f83f1db6602d2438d7bc57b817a2de2d55",
+  "drafts/ch34/figures/05-layout.txt": "78c4448bb1e2e40e8fecbf5bb041712506f70ee77fdb0392220fbb04d9b482d3",
+  "drafts/ch34/figures/06-traffic.tex": "95fda6891fee459ef1132830d2efb3a645a691d6c0085f48e72f18a453398122",
+  "drafts/ch34/figures/06-traffic.txt": "eee163eb62957c1740234eb9092a5ea198f128c3555903e0b955c86f23930679",
+  "drafts/ch34/manuscript.tex": "0b19ec5d2f6f0e514682e13d4bfe7e1a7131c440ef1becee50c69bb2fef475b7",
+  "drafts/ch34/reference.py": "4195b04be6fae7d3ac29a3acda9e5fa959626f6b974720d1e4c179828ee90c58",
+  "drafts/ch34/results.json": "cd0acef506d5fd4f0de885f19a40ee6933a932964a3144267f867ff97faaed3a",
+  "drafts/ch34/review.tex": "b5b8cc49277553aeeb8831bd572f5073918a2e0cfd4ec8ac1c2cd971f9d56dc6",
+  "drafts/ch34/sources.tex": "c01cc5964bac0bd0d4c01610a351c14f0717c5025e77b935f385d1c48bebf3c0",
+  "tests/test_ch34_reference.py": "0b1c6b705979fd89230954df2e9da6a9a632c79ad24396a38d6e5144eb6a7c18"
+ },
+ "transitive_dependencies": {
+  "drafts/ch30/reference.py": "e81dba20d3c94b6e040089f9f3630d5d3e048ca349913f8e0005a4f0a49bf721",
+  "drafts/ch31/reference.py": "b0c0f8cc3815ee9c3156f07e8e427878ef11c77b489139dcbb4835c305d88d9a",
+  "drafts/ch32/reference.py": "c0d0e3c7b9a985508a6dc0e519b79f44a0067a462dd26d5d586f0417607f2c3e",
+  "drafts/ch33/reference.py": "2350c52adecc43e01078c46de7342d58c517a9cdb1c9f464ea8c5f61f083b635"
+ },
+ "tests": {
+  "chapter_passed": 47,
+  "repository_passed": 1416,
+  "repository_skipped": 0,
+  "repository_failed": 0,
+  "repository_status": "passed",
+  "report": "build/ch35/regression.xml",
+  "report_sha256": "3e70196c3e8f6de0856e160c0601ee475cc703a4efc46c69aaa1bf6bbcb5e852",
+  "python": "3.13.6",
+  "torch": "2.10.0"
+ },
+ "visual_review": {
+  "reviewer": "author/agent",
+  "status": "PASS WITH NOTES",
+  "mode": "all 17 physical standalone pages, color and grayscale",
+  "notes": "Six original editable TikZ/TXT plates; labels and layout corrected; complete short validation/completion listings kept together. Longer literal functions may continue across pages with line numbers. No clipped figures, missing glyphs or unresolved references. This is local author review."
+ },
+ "mathematical_review": "See technical-audit.md for premise-bound proofs, independent numerical controls, contract deviations and excluded claims.",
+ "independent_review": false,
+ "accepted": false,
+ "acceptance": "locally reviewed standalone integration candidate; publication gate open",
+ "prepublication_revision": {
+  "date": "2026-10-19",
+  "reviewer": "author/agent (Claude prepublication pass); not independent review",
+  "change": "Rewrite the Sources-and-evidence note without supplied-package, adoption-map or coordinator wording, keeping every external access-depth statement (originals archived verbatim in docs/provenance/source-notes-2026-10-19.md).",
+  "changed_pages_reinspected": [
+   15
+  ],
+  "inspection": "Changed pages identified by per-page text and 60 dpi raster comparison against the prior standalone PDF; every changed page re-rendered at 75 dpi in colour and inspected. Changes are text-only; no figure source changed.",
+  "unchanged_page_policy": "Raster-identical pages retain the prior local inspection; no new independent review is claimed.",
+  "amendment_log": "docs/prepublication/chapter-amendments.json"
+ }
 }

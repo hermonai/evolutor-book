@@ -1,0 +1,645 @@
+{
+ "schema": "evolutor-prepublication-amendments-v1",
+ "date": "2026-10-19",
+ "reviewer": "author/agent (Claude prepublication pass); not independent review",
+ "inspection": "Changed pages identified by per-page text and 60 dpi raster comparison against the prior standalone PDF; every changed page re-rendered at 75 dpi in colour and inspected. Changes are text-only; no figure source changed.",
+ "chapters": [
+  {
+   "chapter": 10,
+   "change": "Replace a stale reference to an upcoming Chapters 1-10 integration pass with a pointer to Part III/Chapter 11.",
+   "changed_pages": [
+    2,
+    12,
+    13
+   ],
+   "pages": 15,
+   "unchanged_raster_pages": [
+    1,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    14,
+    15
+   ]
+  },
+  {
+   "chapter": 13,
+   "change": "Replace production wording ('compile this review PDF') in the reproduction paragraph.",
+   "changed_pages": [
+    10
+   ],
+   "pages": 12,
+   "unchanged_raster_pages": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    11,
+    12
+   ]
+  },
+  {
+   "chapter": 14,
+   "change": "Replace production wording ('compile this review PDF') in the reproduction paragraph.",
+   "changed_pages": [
+    10
+   ],
+   "pages": 12,
+   "unchanged_raster_pages": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    11,
+    12
+   ]
+  },
+  {
+   "chapter": 22,
+   "change": "Interpret the motif pilot against chance (binomial standard error on 128 balanced records); report it as a negative pilot; remove 'package' provenance wording; add one chance-level exercise.",
+   "changed_pages": [
+    2,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "pages": 15,
+   "unchanged_raster_pages": [
+    1,
+    3,
+    4,
+    5,
+    6,
+    7
+   ]
+  },
+  {
+   "chapter": 23,
+   "change": "Correct the pilot interpretation: Hermon accuracy equals the random-label control and training loss stays near ln 2 (no fit under the declared budget); add one exercise on the ln 2 plateau; adjust the evidence-ladder sentence. Rewrite the Sources-and-evidence note without supplied-package, adoption-map or coordinator wording, keeping every external access-depth statement (originals archived verbatim in docs/provenance/source-notes-2026-10-19.md).",
+   "changed_pages": [
+    2,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16
+   ],
+   "pages": 16,
+   "unchanged_raster_pages": [
+    1,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+   ]
+  },
+  {
+   "chapter": 24,
+   "change": "Replace a production provenance sentence about an incoming package with a pointer to the Chapter 23 negative pilot.",
+   "changed_pages": [
+    5,
+    12
+   ],
+   "pages": 15,
+   "unchanged_raster_pages": [
+    1,
+    2,
+    3,
+    4,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    13,
+    14,
+    15
+   ]
+  },
+  {
+   "chapter": 25,
+   "change": "Replace a provenance paragraph about an incoming package result with the Chapter 23 negative result as the worked diagnostic. Rewrite the Sources-and-evidence note without supplied-package, adoption-map or coordinator wording, keeping every external access-depth statement (originals archived verbatim in docs/provenance/source-notes-2026-10-19.md).",
+   "changed_pages": [
+    13,
+    17
+   ],
+   "pages": 19,
+   "unchanged_raster_pages": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    14,
+    15,
+    16,
+    18,
+    19
+   ]
+  },
+  {
+   "chapter": 32,
+   "change": "Remove 'incoming package' / 'original implementation' production wording.",
+   "changed_pages": [
+    3
+   ],
+   "pages": 14,
+   "unchanged_raster_pages": [
+    1,
+    2,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14
+   ]
+  },
+  {
+   "chapter": 33,
+   "change": "Rewrite the Sources-and-evidence note without supplied-package, adoption-map or coordinator wording, keeping every external access-depth statement (originals archived verbatim in docs/provenance/source-notes-2026-10-19.md).",
+   "changed_pages": [
+    14,
+    15
+   ],
+   "pages": 17,
+   "unchanged_raster_pages": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    16,
+    17
+   ]
+  },
+  {
+   "chapter": 34,
+   "change": "Rewrite the Sources-and-evidence note without supplied-package, adoption-map or coordinator wording, keeping every external access-depth statement (originals archived verbatim in docs/provenance/source-notes-2026-10-19.md).",
+   "changed_pages": [
+    15
+   ],
+   "pages": 17,
+   "unchanged_raster_pages": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    16,
+    17
+   ]
+  },
+  {
+   "chapter": 35,
+   "change": "Rewrite the Sources-and-evidence note without supplied-package, adoption-map or coordinator wording, keeping every external access-depth statement (originals archived verbatim in docs/provenance/source-notes-2026-10-19.md).",
+   "changed_pages": [
+    15
+   ],
+   "pages": 17,
+   "unchanged_raster_pages": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    16,
+    17
+   ]
+  },
+  {
+   "chapter": 36,
+   "change": "Rewrite the Sources-and-evidence note without supplied-package, adoption-map or coordinator wording, keeping every external access-depth statement (originals archived verbatim in docs/provenance/source-notes-2026-10-19.md). Page 6 also differs: the note label of Figure 36.3 is placed differently under TeX Live 2026 than in the TeX Live 2025 build of 17 October; the figure source hash is unchanged and the page was re-inspected.",
+   "changed_pages": [
+    6,
+    12
+   ],
+   "pages": 14,
+   "unchanged_raster_pages": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9,
+    10,
+    11,
+    13,
+    14
+   ]
+  },
+  {
+   "chapter": 37,
+   "change": "Remove 'supplied chapter' production wording. Rewrite the Sources-and-evidence note without supplied-package, adoption-map or coordinator wording, keeping every external access-depth statement (originals archived verbatim in docs/provenance/source-notes-2026-10-19.md).",
+   "changed_pages": [
+    3,
+    12
+   ],
+   "pages": 14,
+   "unchanged_raster_pages": [
+    1,
+    2,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    13,
+    14
+   ]
+  },
+  {
+   "chapter": 38,
+   "change": "Remove 'supplied package' production wording. Rewrite the Sources-and-evidence note without supplied-package, adoption-map or coordinator wording, keeping every external access-depth statement (originals archived verbatim in docs/provenance/source-notes-2026-10-19.md).",
+   "changed_pages": [
+    5,
+    13
+   ],
+   "pages": 15,
+   "unchanged_raster_pages": [
+    1,
+    2,
+    3,
+    4,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    14,
+    15
+   ]
+  },
+  {
+   "chapter": 39,
+   "change": "Rewrite the Sources-and-evidence note without supplied-package, adoption-map or coordinator wording, keeping every external access-depth statement (originals archived verbatim in docs/provenance/source-notes-2026-10-19.md).",
+   "changed_pages": [
+    11
+   ],
+   "pages": 12,
+   "unchanged_raster_pages": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    12
+   ]
+  },
+  {
+   "chapter": 40,
+   "change": "Remove 'supplied package' production wording. Rewrite the Sources-and-evidence note without supplied-package, adoption-map or coordinator wording, keeping every external access-depth statement (originals archived verbatim in docs/provenance/source-notes-2026-10-19.md).",
+   "changed_pages": [
+    5,
+    11
+   ],
+   "pages": 12,
+   "unchanged_raster_pages": [
+    1,
+    2,
+    3,
+    4,
+    6,
+    7,
+    8,
+    9,
+    10,
+    12
+   ]
+  },
+  {
+   "chapter": 41,
+   "change": "Rewrite the Sources-and-evidence note without supplied-package, adoption-map or coordinator wording, keeping every external access-depth statement (originals archived verbatim in docs/provenance/source-notes-2026-10-19.md).",
+   "changed_pages": [
+    12
+   ],
+   "pages": 13,
+   "unchanged_raster_pages": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    13
+   ]
+  },
+  {
+   "chapter": 42,
+   "change": "Remove 'supplied comparison' and 'package's simpler check' wording; correct two stale statements that Chapter 36 was unfinished or unsettled. Rewrite the Sources-and-evidence note without supplied-package, adoption-map or coordinator wording, keeping every external access-depth statement (originals archived verbatim in docs/provenance/source-notes-2026-10-19.md).",
+   "changed_pages": [
+    3,
+    5,
+    6,
+    10
+   ],
+   "pages": 11,
+   "unchanged_raster_pages": [
+    1,
+    2,
+    4,
+    7,
+    8,
+    9,
+    11
+   ]
+  },
+  {
+   "chapter": 43,
+   "change": "Remove 'incoming reference' wording; replace a coordinator/stable-Chapter-36 integration note with a reader-facing integration requirement. Rewrite the Sources-and-evidence note without supplied-package, adoption-map or coordinator wording, keeping every external access-depth statement (originals archived verbatim in docs/provenance/source-notes-2026-10-19.md).",
+   "changed_pages": [
+    7,
+    8,
+    11
+   ],
+   "pages": 12,
+   "unchanged_raster_pages": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    9,
+    10,
+    12
+   ]
+  },
+  {
+   "chapter": 44,
+   "change": "Remove 'supplied package' wording; correct a stale statement that Chapter 39 was unfinished. Rewrite the Sources-and-evidence note without supplied-package, adoption-map or coordinator wording, keeping every external access-depth statement (originals archived verbatim in docs/provenance/source-notes-2026-10-19.md).",
+   "changed_pages": [
+    5,
+    6,
+    12
+   ],
+   "pages": 13,
+   "unchanged_raster_pages": [
+    1,
+    2,
+    3,
+    4,
+    7,
+    8,
+    9,
+    10,
+    11,
+    13
+   ]
+  },
+  {
+   "chapter": 45,
+   "change": "Remove 'incoming nonce' wording; correct stale statements about Chapter 40 being unfinished and Chapter 41 not final. Rewrite the Sources-and-evidence note without supplied-package, adoption-map or coordinator wording, keeping every external access-depth statement (originals archived verbatim in docs/provenance/source-notes-2026-10-19.md).",
+   "changed_pages": [
+    5,
+    8,
+    11
+   ],
+   "pages": 12,
+   "unchanged_raster_pages": [
+    1,
+    2,
+    3,
+    4,
+    6,
+    7,
+    9,
+    10,
+    12
+   ]
+  },
+  {
+   "chapter": 46,
+   "change": "Remove 'package's' provenance wording. Rewrite the Sources-and-evidence note without supplied-package, adoption-map or coordinator wording, keeping every external access-depth statement (originals archived verbatim in docs/provenance/source-notes-2026-10-19.md).",
+   "changed_pages": [
+    4,
+    11
+   ],
+   "pages": 12,
+   "unchanged_raster_pages": [
+    1,
+    2,
+    3,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    12
+   ]
+  },
+  {
+   "chapter": 47,
+   "change": "Remove 'package's' provenance wording. Rewrite the Sources-and-evidence note without supplied-package, adoption-map or coordinator wording, keeping every external access-depth statement (originals archived verbatim in docs/provenance/source-notes-2026-10-19.md).",
+   "changed_pages": [
+    3,
+    11
+   ],
+   "pages": 12,
+   "unchanged_raster_pages": [
+    1,
+    2,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    12
+   ]
+  },
+  {
+   "chapter": 48,
+   "change": "Reword the CG reverse-complement teaching point without package provenance.",
+   "changed_pages": [
+    5
+   ],
+   "pages": 12,
+   "unchanged_raster_pages": [
+    1,
+    2,
+    3,
+    4,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ]
+  },
+  {
+   "chapter": 49,
+   "change": "Remove 'supplied example' wording; restate unimplemented production adapters for the Chapter 39/40/45 contracts.",
+   "changed_pages": [
+    3,
+    8
+   ],
+   "pages": 12,
+   "unchanged_raster_pages": [
+    1,
+    2,
+    4,
+    5,
+    6,
+    7,
+    9,
+    10,
+    11,
+    12
+   ]
+  },
+  {
+   "chapter": 50,
+   "change": "Remove 'supplied'/'incoming prose'/'incoming code' wording and a deferred-adapter note; reword the accuracy_matrix name note.",
+   "changed_pages": [
+    3,
+    6
+   ],
+   "pages": 13,
+   "unchanged_raster_pages": [
+    1,
+    2,
+    4,
+    5,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13
+   ]
+  },
+  {
+   "chapter": 51,
+   "change": "Remove 'supplied taxonomy'/'package' wording.",
+   "changed_pages": [
+    3,
+    6
+   ],
+   "pages": 12,
+   "unchanged_raster_pages": [
+    1,
+    2,
+    4,
+    5,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ]
+  },
+  {
+   "chapter": 52,
+   "change": "Remove 'this batch'/'incoming' wording and the separate-software-repository note; restate the completed-sequence gate.",
+   "changed_pages": [
+    3,
+    4,
+    5,
+    6,
+    7,
+    10
+   ],
+   "pages": 14,
+   "unchanged_raster_pages": [
+    1,
+    2,
+    8,
+    9,
+    11,
+    12,
+    13,
+    14
+   ]
+  }
+ ],
+ "toolchain": "All amended standalone PDFs were rebuilt with TeX Live 2026 (XeTeX 3.141592653-2.6-0.999998, xdvipdfmx 20260317). The superseded PDFs of Chapters 10, 13, 14, 22-38, 42, 45, 46 and 47 were TeX Live 2025 builds (xdvipdfmx 20250205); raster comparison therefore also catches toolchain-only differences."
+}

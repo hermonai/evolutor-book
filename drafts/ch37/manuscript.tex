@@ -8,8 +8,8 @@ sounds safe until a long generation fills its last slot. Lowering KV precision
 sounds helpful until a small numerical perturbation changes a sampled future.
 Serving needs explicit units for work, storage, output time and error.
 
-We retain the supplied chapter's decode-first/chunked-prefill policy and
-precision experiments, but execute the policy through the actual Chapter 36
+We study a decode-first, chunked-prefill policy and a set of precision
+experiments, and we execute the policy through the actual Chapter 36
 allocator and Chapter 35 Hermon stack. The fixture is deterministic greedy
 ACGT generation, CPU float64, abstract iteration ticks and serialized
 execution. A list of scheduled lanes does not constitute a fused ragged

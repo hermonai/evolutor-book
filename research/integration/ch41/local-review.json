@@ -1,89 +1,100 @@
 {
+ "date": "2026-10-18",
+ "chapter": 41,
+ "pdf": "output/pdf/evolutor-ch41-review.pdf",
+ "pdf_sha256": "30826819fe3ef98595b52e3643621f9cbe32bc6e70727d580fbe1209142f6b53",
+ "pages": 13,
+ "source_hashes": {
+  "drafts/ch41/README.md": "4f44ef6a8eb052dd511e35926aa72cb013739e953c6b50de07cce56427efc2c6",
+  "drafts/ch41/STORYBOARD.md": "8ab4a373f35c31308ad9cf552fea811cca8644ef5ad3ed8972d736661a9cfef0",
+  "drafts/ch41/build.py": "804244906e1a312980ee0d2707de207133505076d8dc3ae823d0d87593abfdd2",
+  "drafts/ch41/figures/01-effects.tex": "cfbcb033bc6ac639cba17dc98a9fe4e4ba5c4c592eb53b0cc035bc9414ae4ff4",
+  "drafts/ch41/figures/01-effects.txt": "539e3533d4db6ef70bbfbe01333141f5f9bfc74dbcddce1783636c0641abd55b",
+  "drafts/ch41/figures/02-passes.tex": "a75ab81d368d1a12da053282ca8fcb036348db9b17224ae7a8f6915c8057aa78",
+  "drafts/ch41/figures/02-passes.txt": "7470ef66cd36dd93229e1534d7d757b0f48bae2dd5b979fb6c8852666e8906ae",
+  "drafts/ch41/figures/03-liveness.tex": "e2f3fd3569aa18b35ae08618b52714b3fd3f6aee611768b8f52ca9e07b60f0d2",
+  "drafts/ch41/figures/03-liveness.txt": "89266019d2625ec8216c06e1287c5aaad2d82b44a13655c5af1ab2ad5b6608f3",
+  "drafts/ch41/manuscript.tex": "1efd212bc9b37238f63b279ecd0d5bd825fea5dcce24db5b8c774efc0856f00f",
+  "drafts/ch41/reference.py": "b191c4c8b819d7a54e2ffdd5fde9c7df2fdc2eb569fff322960a0b3eaa74bfc5",
+  "drafts/ch41/results.json": "494ecdd7cafb25cc228e448caf5e3a93f800dac1748b32f45706a5d2f580ab8a",
+  "drafts/ch41/review.tex": "a8bbb8e2bf60ab087abd33b50746e10b22d35e4a4e2b1fcce637884a8a53dbee",
+  "drafts/ch41/sources.tex": "d157697da91f3c26bf84bdafa2d6e41b5326385718fb3fbec544855d77ebea49",
+  "tests/test_ch41_reference.py": "806b8c4f24a9a828651d3d0f1d495c669db7a32510d13014c4b10db86c7562a6"
+ },
+ "transitive_dependencies": {
+  "drafts/ch23/reference.py": "a071820f55006631c2b26a4710dab8b16149fc9e2f1b57b546b955d2168d225b",
+  "drafts/ch31/reference.py": "b0c0f8cc3815ee9c3156f07e8e427878ef11c77b489139dcbb4835c305d88d9a",
+  "drafts/ch35/reference.py": "3861e11797f0d6c8e480d2426e110d29347c5e6a281742208e49a91ea3075e98",
+  "drafts/ch39/reference.py": "e408a58c771c2e0ee09dae1d6f7c1430e25cd9091e03d6ccd8aa4fc3b0e2b4d4",
+  "drafts/ch40/reference.py": "e1f2e3edf3232627a5a25ef3e3635eff07b416b90ae914764ab18269b37c3c03"
+ },
+ "research_hashes": {
+  "research/integration/ch41/package-integrity.json": "57e2084d7ef33ab4731773d2c5e29e310fe284e4f5776b1599c68707b7ed26a1",
+  "research/integration/ch41/package-adoption.md": "27869b194b34a216929cd6017c23cd4edf81073f2934a3b88f9c5558556bdfc0",
+  "research/integration/ch41/package-adoption.json": "49e705e8fad873edf7e44f1abcb98530134fee3eee34e158eec9a4e5432aa17d",
+  "research/integration/ch41/source-verification.json": "d3a5bc80d0233532df61734bc06cc9a3e319d950e024ab8a257241dbce95a386",
+  "research/integration/ch41/technical-audit.md": "6b7738e40972314fe91ffd8ce6d54ebd2854eda5c9c0a6f72d4dfa99c3ee14cf",
+  "research/integration/ch41/visual-review.json": "533d08f4dea73e8f4d75c1e30387b1209c389fb3e66d59d7ff98ffd7ed03eb51"
+ },
+ "package_archive_sha256": "48115730a862e95e82fcd323d9183890cbb71558a3948c23bc0e3fd5b493928e",
+ "tests": {
+  "chapter_passed": 50,
+  "chapter_failed": 0,
+  "chapter_skipped": 0,
+  "batch_passed": 189,
+  "report": "build/ch41/reference-tests.xml",
+  "report_sha256": "2fa11389f8f5b52f7b08c2bbd76eb8dc701137b6c5cdb5ace239e25c1e07ec01",
+  "batch_report": "build/ch39/batch-B-reference.xml",
+  "batch_report_sha256": "c17c05ca1dd1b6ac2c69958f276aa690f49a6594b8183e6c9c872994003ee5c6",
+  "python": "3.13.6",
+  "torch": "2.10.0",
+  "repository_status": "not_run_by_batch_owner; reserved for final integration coordinator"
+ },
+ "derived_artifacts": {
+  "status": "passed",
+  "command": "python drafts/ch41/build.py --check"
+ },
+ "strict_compile": {
+  "status": "passed",
+  "overfull_boxes": 0,
+  "missing_glyphs": 0,
+  "unresolved_references_or_citations": 0,
+  "multiply_defined_labels": 0,
+  "log": "build/ch41/review.log",
+  "log_sha256": "28c1fd13fd1b883c74423302c68e46922dce7955204f870f65af3c0ff4efbbd3"
+ },
+ "visual_review": {
+  "reviewer": "author/agent",
+  "status": "PASS WITH NOTES",
+  "mode": "all 13 physical standalone pages, color and grayscale",
+  "record": "research/integration/ch41/visual-review.json",
+  "notes": "Effect graph, pipeline and allocation-before-release bars are legible. Liveness bar endpoints agree with the release marker. The optimizer proposition/proof and short listings remain together. Effect index entries were consolidated."
+ },
+ "mathematical_review": "See technical-audit.md and the premise-bound chapter proofs; independent reference oracles and negative controls cover the stated teaching contracts.",
+ "cross_batch_integration": "not implemented/tested by this batch; exact remaining checks are in research/integration/batches/B-handoff.md",
+ "independent_review": false,
+ "accepted": false,
+ "acceptance": "locally reviewed standalone integration candidate; cumulative integration and publication gates remain open",
+ "coordinator_revision": {
   "date": "2026-10-18",
-  "chapter": 41,
-  "pdf": "output/pdf/evolutor-ch41-review.pdf",
-  "pdf_sha256": "c91e4bb746f294d9f9d69d383dec9534cbaf5af33f8fc2738f889be41a5a10bf",
-  "pages": 13,
-  "source_hashes": {
-    "drafts/ch41/README.md": "4f44ef6a8eb052dd511e35926aa72cb013739e953c6b50de07cce56427efc2c6",
-    "drafts/ch41/STORYBOARD.md": "8ab4a373f35c31308ad9cf552fea811cca8644ef5ad3ed8972d736661a9cfef0",
-    "drafts/ch41/build.py": "804244906e1a312980ee0d2707de207133505076d8dc3ae823d0d87593abfdd2",
-    "drafts/ch41/figures/01-effects.tex": "cfbcb033bc6ac639cba17dc98a9fe4e4ba5c4c592eb53b0cc035bc9414ae4ff4",
-    "drafts/ch41/figures/01-effects.txt": "539e3533d4db6ef70bbfbe01333141f5f9bfc74dbcddce1783636c0641abd55b",
-    "drafts/ch41/figures/02-passes.tex": "a75ab81d368d1a12da053282ca8fcb036348db9b17224ae7a8f6915c8057aa78",
-    "drafts/ch41/figures/02-passes.txt": "7470ef66cd36dd93229e1534d7d757b0f48bae2dd5b979fb6c8852666e8906ae",
-    "drafts/ch41/figures/03-liveness.tex": "e2f3fd3569aa18b35ae08618b52714b3fd3f6aee611768b8f52ca9e07b60f0d2",
-    "drafts/ch41/figures/03-liveness.txt": "89266019d2625ec8216c06e1287c5aaad2d82b44a13655c5af1ab2ad5b6608f3",
-    "drafts/ch41/manuscript.tex": "1efd212bc9b37238f63b279ecd0d5bd825fea5dcce24db5b8c774efc0856f00f",
-    "drafts/ch41/reference.py": "b191c4c8b819d7a54e2ffdd5fde9c7df2fdc2eb569fff322960a0b3eaa74bfc5",
-    "drafts/ch41/results.json": "494ecdd7cafb25cc228e448caf5e3a93f800dac1748b32f45706a5d2f580ab8a",
-    "drafts/ch41/review.tex": "a8bbb8e2bf60ab087abd33b50746e10b22d35e4a4e2b1fcce637884a8a53dbee",
-    "drafts/ch41/sources.tex": "5b9c8d9736d8dbdc2d0bc00479b5d4b83c121ccb85d3d60510eda2358aa45640",
-    "tests/test_ch41_reference.py": "806b8c4f24a9a828651d3d0f1d495c669db7a32510d13014c4b10db86c7562a6"
-  },
-  "transitive_dependencies": {
-    "drafts/ch23/reference.py": "a071820f55006631c2b26a4710dab8b16149fc9e2f1b57b546b955d2168d225b",
-    "drafts/ch31/reference.py": "b0c0f8cc3815ee9c3156f07e8e427878ef11c77b489139dcbb4835c305d88d9a",
-    "drafts/ch35/reference.py": "3861e11797f0d6c8e480d2426e110d29347c5e6a281742208e49a91ea3075e98",
-    "drafts/ch39/reference.py": "e408a58c771c2e0ee09dae1d6f7c1430e25cd9091e03d6ccd8aa4fc3b0e2b4d4",
-    "drafts/ch40/reference.py": "e1f2e3edf3232627a5a25ef3e3635eff07b416b90ae914764ab18269b37c3c03"
-  },
-  "research_hashes": {
-    "research/integration/ch41/package-integrity.json": "57e2084d7ef33ab4731773d2c5e29e310fe284e4f5776b1599c68707b7ed26a1",
-    "research/integration/ch41/package-adoption.md": "27869b194b34a216929cd6017c23cd4edf81073f2934a3b88f9c5558556bdfc0",
-    "research/integration/ch41/package-adoption.json": "49e705e8fad873edf7e44f1abcb98530134fee3eee34e158eec9a4e5432aa17d",
-    "research/integration/ch41/source-verification.json": "d3a5bc80d0233532df61734bc06cc9a3e319d950e024ab8a257241dbce95a386",
-    "research/integration/ch41/technical-audit.md": "6b7738e40972314fe91ffd8ce6d54ebd2854eda5c9c0a6f72d4dfa99c3ee14cf",
-    "research/integration/ch41/visual-review.json": "533d08f4dea73e8f4d75c1e30387b1209c389fb3e66d59d7ff98ffd7ed03eb51"
-  },
-  "package_archive_sha256": "48115730a862e95e82fcd323d9183890cbb71558a3948c23bc0e3fd5b493928e",
-  "tests": {
-    "chapter_passed": 50,
-    "chapter_failed": 0,
-    "chapter_skipped": 0,
-    "batch_passed": 189,
-    "report": "build/ch41/reference-tests.xml",
-    "report_sha256": "2fa11389f8f5b52f7b08c2bbd76eb8dc701137b6c5cdb5ace239e25c1e07ec01",
-    "batch_report": "build/ch39/batch-B-reference.xml",
-    "batch_report_sha256": "c17c05ca1dd1b6ac2c69958f276aa690f49a6594b8183e6c9c872994003ee5c6",
-    "python": "3.13.6",
-    "torch": "2.10.0",
-    "repository_status": "not_run_by_batch_owner; reserved for final integration coordinator"
-  },
-  "derived_artifacts": {
-    "status": "passed",
-    "command": "python drafts/ch41/build.py --check"
-  },
-  "strict_compile": {
-    "status": "passed",
-    "overfull_boxes": 0,
-    "missing_glyphs": 0,
-    "unresolved_references_or_citations": 0,
-    "multiply_defined_labels": 0,
-    "log": "build/ch41/review.log",
-    "log_sha256": "28c1fd13fd1b883c74423302c68e46922dce7955204f870f65af3c0ff4efbbd3"
-  },
-  "visual_review": {
-    "reviewer": "author/agent",
-    "status": "PASS WITH NOTES",
-    "mode": "all 13 physical standalone pages, color and grayscale",
-    "record": "research/integration/ch41/visual-review.json",
-    "notes": "Effect graph, pipeline and allocation-before-release bars are legible. Liveness bar endpoints agree with the release marker. The optimizer proposition/proof and short listings remain together. Effect index entries were consolidated."
-  },
-  "mathematical_review": "See technical-audit.md and the premise-bound chapter proofs; independent reference oracles and negative controls cover the stated teaching contracts.",
-  "cross_batch_integration": "not implemented/tested by this batch; exact remaining checks are in research/integration/batches/B-handoff.md",
-  "independent_review": false,
-  "accepted": false,
-  "acceptance": "locally reviewed standalone integration candidate; cumulative integration and publication gates remain open",
-  "coordinator_revision": {
-    "date": "2026-10-18",
-    "change": "Remove stale authoring-batch wording; clarify completed manuscript and bounded integrated-spine companion. Chapter 52 gate artwork is a timeless evidence contract. No model, reference arithmetic or scientific theorem changed.",
-    "previous_author_review": "standalone-author-review-2026-10-18.json",
-    "changed_standalone_pages_reinspected_color_and_grayscale": [
-      10,
-      11
-    ],
-    "unchanged_page_policy": "Unchanged raster hashes retain prior local-author inspection; no new independent review claimed.",
-    "new_companion": "examples/integrated_spine/paged_runtime.py"
-  }
+  "change": "Remove stale authoring-batch wording; clarify completed manuscript and bounded integrated-spine companion. Chapter 52 gate artwork is a timeless evidence contract. No model, reference arithmetic or scientific theorem changed.",
+  "previous_author_review": "standalone-author-review-2026-10-18.json",
+  "changed_standalone_pages_reinspected_color_and_grayscale": [
+   10,
+   11
+  ],
+  "unchanged_page_policy": "Unchanged raster hashes retain prior local-author inspection; no new independent review claimed.",
+  "new_companion": "examples/integrated_spine/paged_runtime.py"
+ },
+ "prepublication_revision": {
+  "date": "2026-10-19",
+  "reviewer": "author/agent (Claude prepublication pass); not independent review",
+  "change": "Rewrite the Sources-and-evidence note without supplied-package, adoption-map or coordinator wording, keeping every external access-depth statement (originals archived verbatim in docs/provenance/source-notes-2026-10-19.md).",
+  "changed_pages_reinspected": [
+   12
+  ],
+  "inspection": "Changed pages identified by per-page text and 60 dpi raster comparison against the prior standalone PDF; every changed page re-rendered at 75 dpi in colour and inspected. Changes are text-only; no figure source changed.",
+  "unchanged_page_policy": "Raster-identical pages retain the prior local inspection; no new independent review is claimed.",
+  "amendment_log": "docs/prepublication/chapter-amendments.json"
+ }
 }

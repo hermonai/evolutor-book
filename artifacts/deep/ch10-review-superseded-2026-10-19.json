@@ -1,0 +1,63 @@
+{
+  "pdf": "output/pdf/evolutor-ch10-review.pdf",
+  "pages": 15,
+  "sha256": "5db60c33da38a176fe7ee4d7b1f6308455a5ecfcb27cbdc5f0560f9183827880",
+  "status": "standalone authored-LaTeX review candidate; no acceptance promotion",
+  "sources": {
+    "drafts/ch09/reference.py": "ac80a913f91761fc3d8775d3dfd3cc488a0162b616d1f54dc4189ad3273a5bdf",
+    "drafts/ch10/README.md": "41a77a9d2ff3003c207869aced8d02762cb262410d91566793d2c9faa59297c9",
+    "drafts/ch10/STORYBOARD.md": "951744494f94299e5cdaf2866f20e0a96b626c78d703528a116225abe7a33006",
+    "drafts/ch10/build.py": "32c2375ac40f94f642e1415479a9c91bdb74e8e8c480682dd04be4bf2055c8f7",
+    "drafts/ch10/figures/01-routing.tex": "72aea91ca7044e45b44027073402f2cb991123ed0f0bbfacb4c15e1c90ee1edb",
+    "drafts/ch10/figures/01-routing.txt": "ce035816b01ea85210195b399dbef09387b657b8f6219fe0b02e7f9c4d2f55b1",
+    "drafts/ch10/figures/02-dispatch.tex": "59ab3ecd3e09f65deaa2db8a1ee6aca97fbeda0afd92a4f50f8eccb8465cdb17",
+    "drafts/ch10/figures/02-dispatch.txt": "9893eae7a10924447cad1d568cc0f46ae719021b64064aa31ecf71a4e1b2992f",
+    "drafts/ch10/figures/03-gradient.tex": "3d604574fd4638b53c014a1306f66157d272954d652cbcc9173379372397255f",
+    "drafts/ch10/figures/03-gradient.txt": "91151ebbda2e28294a0ff583974a460540f34b3720f3438aa05e7a3e1d2c4019",
+    "drafts/ch10/figures/04-cohort.tex": "687aa1e239770d892530d8daca48d299ed0a98fe16d5deb218c03f944f569e66",
+    "drafts/ch10/figures/04-cohort.txt": "818a470140b323ea602b76c0403f2aacc20d3778a2b7bd27b4416b8cd06b8c70",
+    "drafts/ch10/figures/05-capacity.tex": "2ee66fa529f46c0cc39a7a6760d7527b8956bcd1b4c24477c5ba17459f587d8e",
+    "drafts/ch10/figures/05-capacity.txt": "fce10dc49a2f6a8640d16376861cc60a28d8fedb5874b71b98c0587f17f65ef0",
+    "drafts/ch10/manuscript.tex": "7e6363ec7b8b300d2043c9f325d7aa1802d45be1fc0945f857e7d97be11b07fa",
+    "drafts/ch10/reference.py": "c3d7ca419652c727120d386b8de7ca235b24e385c9afe43b0b0df80426b0365d",
+    "drafts/ch10/results.json": "62da711c0d9298cf53180cfe3515760262e452f26ddd398eac33dd89f8cb8427",
+    "drafts/ch10/review.tex": "4152e653662ebd63a52512434f32e31d295865d4b2a1e004bbc012ecdfb3cc00",
+    "drafts/ch10/sources.tex": "d92bc71d7bd78a888a65133a20692b7992e4049230d1a14be5c84d6c6aec76bc"
+  },
+  "reviewedOn": "2026-09-21",
+  "reviewType": "author technical, editorial and visual review; not independent specialist acceptance",
+  "allPagesInspected": true,
+  "inspectedPhysicalPages": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+  ],
+  "grayscaleReview": "All pages inspected in color and grayscale contact sheets. Figure and code-listing pages inspected individually at page scale, along with references and index. Revised figure labels and the final cost-listing page re-inspected after corrections.",
+  "figures": 5,
+  "exercises": 12,
+  "openGates": [
+    "independent specialist review",
+    "reader feedback",
+    "cumulative integration, cross-chapter index and bibliography"
+  ],
+  "validation": {
+    "generatedArtifactsCheck": "passed",
+    "pdfWordsOutsidePage": 0,
+    "unresolvedReferenceMarkers": 0,
+    "fullSuitePassed": 398,
+    "fullSuiteSkipped": 0,
+    "priorEditionPreservationTests": "passed"
+  }
+}

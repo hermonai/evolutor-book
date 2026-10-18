@@ -1,0 +1,115 @@
+\chapter{Molecular biology for computing readers}
+\label{book:appendixA}
+
+This appendix collects the biology that the genomic chapters assume. It explains what
+the symbols in a sequence file refer to, why orientation and coordinates are part of
+the data contract, and which experimental measurements supply the labels that models
+predict. It is a reader's guide for computing specialists, not a laboratory manual. It
+contains no procedures, and it makes no clinical interpretation of variants. The
+standard textbook treatment is Alberts and colleagues~\cite{albertscontrol}.
+
+\section{The molecule behind the string}
+DNA is a polymer of nucleotides. Each nucleotide joins a deoxyribose sugar, a phosphate
+group and one of four bases: adenine (A), cytosine (C), guanine (G) or thymine (T).
+Phosphodiester linkages join the $3'$ carbon of one sugar, through a phosphate group, to
+the $5'$ carbon of the next.
+A single strand therefore has a chemical direction, and a sequence is written by
+convention from its $5'$ end to its $3'$ end.
+
+In the double helix two strands pair \emph{antiparallel}: one runs $5'\to3'$ left to
+right, the other $3'\to5'$. A pairs with T and G pairs with C. The second strand is
+therefore determined by the first, and reading it in its own $5'\to3'$ direction gives
+the \emph{reverse complement} $R(x)$. Chapters~5, 18, 21 and~24 build their strand
+symmetries on exactly this fact. Complementing without reversing describes the partner
+strand read in the wrong direction. It is a common bug, not a biological operation.
+
+\BackPlate{duplex-dogma}{Panel A: a short duplex. Each strand carries a half-arrowhead
+at its $3'$ end; grey rungs are base pairs. Read $5'\to3'$, the lower strand is the
+reverse complement of the upper one. Panel B: the flow from DNA to RNA to protein. RNA
+polymerase reads the template strand $3'\to5'$ and synthesizes RNA $5'\to3'$, so the RNA
+has the sequence of the coding strand with U in place of T. The ribosome reads codons
+$5'\to3'$. Regulatory factors (Chapter~11) act at several of these steps. Shapes are
+schematic.}{book:duplex}
+
+\section{Genomes, assemblies and coordinates}
+A \emph{genome} is the complete DNA of an organism, packaged into chromosomes. A
+\emph{reference assembly} is a versioned consensus sequence used as a coordinate system,
+and positions are meaningful only relative to a named assembly. The same variant can
+have different integer coordinates in two assemblies. Converting between assemblies is
+a separately versioned mapping that can fail or be ambiguous (Chapter~48). A
+\emph{locus} is a region in that coordinate system. It may contain a gene, a regulatory
+element or neither.
+
+File formats disagree about how positions are counted, which is a classic source of
+off-by-one errors:
+\begin{center}\small
+\begin{tabular}{@{}P{0.22\linewidth}P{0.34\linewidth}P{0.36\linewidth}@{}}
+\toprule
+Format & Position convention & Example\\\midrule
+BED & zero-based start, end excluded~\cite{ucscformats} & the first 100 bases are \texttt{0 100}\\
+VCF & one-based \texttt{POS}~\cite{vcfspec} & the first base has \texttt{POS}~1\\
+GFF3 & one-based start and end, start $\le$ end~\cite{gff3spec} & the first base starts at 1\\
+This book & zero-based, half-open $[a,b)$ & the first 100 bases are $[0,100)$\\
+\bottomrule
+\end{tabular}
+\end{center}
+Annotations also carry a strand (\texttt{+} or \texttt{-}). A feature on the minus
+strand is read from the reverse complement. Its coordinates map as $[a,b)\mapsto
+[L-b,L-a)$ inside a length-$L$ window (Chapters~21 and~24). The symbol \texttt{N}
+marks an unknown base. It is an observation symbol, not a fifth nucleotide, and the
+book's reference code rejects or masks it explicitly rather than mapping it to A.
+
+\section{From gene to function}
+Transcription copies a stretch of DNA into RNA. RNA polymerase reads the template
+strand and synthesizes RNA $5'\to3'$. In eukaryotes the initial transcript is
+processed: introns are removed by splicing, and the mature messenger RNA (mRNA) leaves
+the nucleus. Translation reads mRNA in three-base codons and assembles a protein. Many
+RNAs are never translated and act directly. ``Expression'' can therefore mean RNA
+abundance, protein abundance or a downstream activity. Chapter~11 shows why these must
+be named separately, and why protein data alone may be unable to identify the rates
+that produced them.
+
+Expression is regulated at many steps~\cite{albertscontrol}. \emph{Promoters} are
+regions where the transcription machinery assembles. \emph{Enhancers} and other
+regulatory elements, sometimes far from the gene, bind \emph{transcription factors}
+that recognize short sequence motifs. Whether a region is accessible depends on
+\emph{chromatin}, the packaging of DNA with histone proteins and its chemical
+modifications. In three dimensions, distant elements can come into contact. These
+facts motivate the book's interest in long context, distal access and stateful
+regulation. Remember throughout that a model's sensitivity to a motif is not proof that
+a protein binds it in a cell (Chapters~17 and~48).
+
+\section{Where the labels come from}
+Genomic models are trained and judged against measurements, and each kind of
+measurement defines a different prediction task. In outline:
+\begin{description}
+\setlength{\itemsep}{1pt}
+\item[RNA sequencing] counts transcripts and supplies expression levels.
+\item[Chromatin accessibility assays] mark regions open to cutting enzymes.
+\item[Immunoprecipitation-based assays] report where a chosen protein or histone mark
+associates with DNA.
+\item[Chromosome conformation assays] report which regions are near each other in
+three dimensions.
+\item[Massively parallel reporter assays] measure the regulatory activity of many
+designed sequences in one experiment.
+\end{description}
+Every assay has a cell type, condition, resolution, noise model and processing pipeline,
+and a label is only as meaningful as that provenance (Chapters~2, 25 and~48). A
+model that predicts one assay in one cell type has not thereby learned regulation in
+general.
+
+\section{Variation and relatedness}
+Genomes differ. A single-nucleotide variant (SNV) replaces one base. An insertion or
+deletion (indel) changes length, and structural variants rearrange larger segments.
+A variant is described by assembly, position, reference allele and alternate allele.
+Under reverse complementation both alleles are complemented and the position is
+mirrored (Chapter~48). Sequences also share ancestry. Homologous regions within and
+between species can be nearly identical, so a random split of genomic windows can put
+near-copies on both sides of a train/test boundary. This is why the book closes
+leakage relations transitively before splitting (Chapters~2, 25 and~48).
+
+\section{What this appendix does not cover}
+Laboratory methods, organism engineering and clinical genetics are outside the book.
+Where a chapter proposes biological validation, it names the hypothesis, intervention,
+controls and replication unit that specialists would need. It does not describe how to
+perform the experiment.

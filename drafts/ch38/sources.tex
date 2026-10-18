@@ -10,13 +10,10 @@ result was reproduced. FlashAttention-2 was inspected at abstract depth only.
 PyTorch 2.10 SDPA's boolean-mask, non-square causal, dropout and backend
 numerics documentation was inspected, and local tests use its CPU float64 path.
 
-The supplied r01 rejection algebra, TV relationship, worked distributions,
-online-softmax recurrence, traffic example, exercises and source leads are
-retained and deepened. Its list-of-distributions block is replaced by actual
-history-conditioned proposals and native paged speculative state. Complete
+The speculative block uses actual history-conditioned proposals and native paged speculative state rather than a list of unconditional distributions. Complete
 Hermon online-attention continuation is tested separately from the paged
 attention visitor; neither is represented as a measured GPU kernel.
-The adoption map and technical audit record the exact boundaries.
+
 \begin{thebibliography}{9}
 \bibitem{evod38:leviathan} Yaniv Leviathan, Matan Kalman and Yossi Matias.
 \emph{Fast Inference from Transformers via Speculative Decoding}. 2023.

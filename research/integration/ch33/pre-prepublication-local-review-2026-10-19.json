@@ -1,0 +1,56 @@
+{
+  "date": "2026-10-17",
+  "chapter": 33,
+  "pdf": "output/pdf/evolutor-ch33-review.pdf",
+  "pdf_sha256": "e885a77e8ffaa22d87efb0c21a46762ecef0aac489b12412573d334b0663ea5b",
+  "pages": 17,
+  "source_hashes": {
+    "drafts/ch33/README.md": "404807dd3d90d5d397704f227235db3a73b713c52060366901e1f787a9409d48",
+    "drafts/ch33/STORYBOARD.md": "75de60577dc893582574704a7df8e7c0afc43f19f6288757e10f59bab42f059a",
+    "drafts/ch33/build.py": "1b7cdea719b963ecbf47edabcacf1e757a85543062e08ff519b434103a1c3d04",
+    "drafts/ch33/figures/01-boundary.tex": "7e2b4c0fed7765419012d787f6b00644601573d8481c540feb895ff0292be8b0",
+    "drafts/ch33/figures/01-boundary.txt": "c7217309c11c75e79a49a1f26185baad04bbc076811cf45970950c8110ada522",
+    "drafts/ch33/figures/02-envelope.tex": "c7f4273fc4065a5a90580626cf5f5f0bfb333218006989d60c8bb36cb8a667f9",
+    "drafts/ch33/figures/02-envelope.txt": "2b59a1dec7118e8657f6e5ad4b23ae038023bd708268e20f640cb0f346e93aa4",
+    "drafts/ch33/figures/03-branches.tex": "78ddbdcafdf7eac62c65586216b02c8d4b58d517320477ea210e0f0a180892e5",
+    "drafts/ch33/figures/03-branches.txt": "4e2cf50c6186bb0ad09e2321c8b514b9eb89adca76b40336da7822d08cc31b10",
+    "drafts/ch33/figures/04-prefix.tex": "9d9ae5ea8a52c814c7efd7ad246ab259d9c50612a4ad9f5bd7ed6b103ec7a4a2",
+    "drafts/ch33/figures/04-prefix.txt": "98ecf369365781fe56f800e17bd2e4945b8c6d15050cb9f12c94e4d2817b20a8",
+    "drafts/ch33/figures/05-cow.tex": "fcf4ce345dd1f0547e26af84867789fbccbdd9395beb6411713b85738e864220",
+    "drafts/ch33/figures/05-cow.txt": "19166c16e2d08b076d5936258575366a9d05183feaf57b39fa3a16bc4551281a",
+    "drafts/ch33/figures/06-cost.tex": "74d4b3f84f42e49ba8785afbb2ae3a5ae6546dcc99fbd27db20b3258bfd217c2",
+    "drafts/ch33/figures/06-cost.txt": "a7d3284e56da4948ebec794ec067d0ab53284f9602e5b80930bb73e777b7713f",
+    "drafts/ch33/manuscript.tex": "5ed6c8d2832a04a526e6c6b08e52084b2eb992250a25ded60740318866d6f7a6",
+    "drafts/ch33/reference.py": "2350c52adecc43e01078c46de7342d58c517a9cdb1c9f464ea8c5f61f083b635",
+    "drafts/ch33/results.json": "b3f0efa108873579e73bd0dd5373e3398ac7cbb29918de2af099fd8e943e0a79",
+    "drafts/ch33/review.tex": "40f153545f119668dd07049b5e274169f747622193df8f7c99141b6795b833fb",
+    "drafts/ch33/sources.tex": "a1a38ce498e3cd5b8004a3aa0ff720a7e8fd511d8d0501ae2023aa8e25df8aaa",
+    "tests/test_ch33_reference.py": "46ed1510f12ce05f7617eb30df947b884679e60fbc90daffcd482498fb191ba4"
+  },
+  "transitive_dependencies": {
+    "drafts/ch30/reference.py": "e81dba20d3c94b6e040089f9f3630d5d3e048ca349913f8e0005a4f0a49bf721",
+    "drafts/ch31/reference.py": "b0c0f8cc3815ee9c3156f07e8e427878ef11c77b489139dcbb4835c305d88d9a",
+    "drafts/ch32/reference.py": "c0d0e3c7b9a985508a6dc0e519b79f44a0067a462dd26d5d586f0417607f2c3e"
+  },
+  "tests": {
+    "chapter_passed": 71,
+    "repository_passed": 1283,
+    "repository_skipped": 0,
+    "repository_failed": 0,
+    "repository_status": "passed",
+    "report_sha256": "3582678f0fd83237acf5e163c027ab984385a9c946fda886f46e1adfbd03bb35",
+    "report": "build/ch33/regression.xml",
+    "python": "3.13.6",
+    "torch": "2.10.0"
+  },
+  "visual_review": {
+    "reviewer": "author/agent",
+    "status": "PASS WITH NOTES",
+    "mode": "all 17 physical pages; color and grayscale",
+    "notes": "Expanded labels and corrected suffix-arrow placement; kept the short lookup listing together; closing section no longer splits across pages; index marks point to explanations. Six editable TikZ/TXT plates."
+  },
+  "mathematical_review": "Continuation induction, model-specific contraction and logical storage/replay derivations reviewed against stated assumptions. Rational, enumeration and native perturbation/argmax falsifiers are separate tests. See technical-audit.md.",
+  "independent_review": false,
+  "accepted": false,
+  "acceptance": "locally reviewed standalone integration candidate, not accepted publication edition"
+}

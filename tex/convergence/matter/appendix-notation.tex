@@ -1,0 +1,68 @@
+\chapter{Notation and conventions}
+\label{book:appendixB}
+
+Chapters define their symbols where they first use them. This appendix lists the
+conventions that hold across chapters, so that a symbol borrowed from an earlier
+chapter keeps its meaning.
+
+\section{Sequences, positions and strands}
+\begin{center}\small
+\begin{tabular}{@{}P{0.24\linewidth}P{0.70\linewidth}@{}}
+\toprule
+Symbol & Meaning\\\midrule
+$\Sigma$, $V$ & Token alphabet and its size; $\{A,C,G,T\}$ for canonical DNA\\
+$x=(x_0,\ldots,x_{L-1})$ & A record of length $L$, indexed from zero\\
+$[a,b)$ & Half-open base interval: $a\le p<b$\\
+$c(\cdot)$, $R(x)$ & Base complement and reverse complement, $R(x)_i=c(x_{L-1-i})$\\
+$u_t$, $y_t$ & Model input and next-token target at step $t$ ($y_t=x_{t+1}$ in causal mode)\\
+$m_t$, $v_t$ & Validity or target masks; a mask is a weight or a legality flag, never a label\\
+$\mathcal F(p)$ & Mutation footprint: the tokens whose spans contain base $p$\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{Tensors, models and state}
+\begin{center}\small
+\begin{tabular}{@{}P{0.24\linewidth}P{0.70\linewidth}@{}}
+\toprule
+Symbol & Meaning\\\midrule
+$[B,T,D]$ & Batch, time (positions) and feature width; $H$ heads of width $d_h=D/H$\\
+$\theta$, $\nabla_\theta\mathcal L$ & Learned parameters and the gradient of a scalar loss\\
+$h_t$, $M_t$ & Recurrent fast state and memory loci after step $t$\\
+$K^\ell,V^\ell$ & Layer-$\ell$ key and value cache, shape $[H,t,d_h]$\\
+$(a,b)$, $\star$ / $\otimes$ & Affine pair $h\mapsto a\odot h+b$ and its chronological composition\\
+$\odot$ & Elementwise product\\
+$\sigma(\cdot)$ & Logistic sigmoid $1/(1+e^{-z})$\\
+$\operatorname{softmax}$ & Row-wise $\exp(z_j)/\sum_k\exp(z_k)$ over \emph{allowed} entries\\
+$\operatorname{LN}$ & Layer normalization over the feature axis of one token\\
+\bottomrule
+\end{tabular}
+\end{center}
+In mathematics vectors are columns. When the text follows PyTorch storage, batches are
+rows and a linear layer applies the transpose of its stored weight matrix. Chapters say
+which convention a formula uses.
+
+\section{Probability, evaluation and units}
+\begin{center}\small
+\begin{tabular}{@{}P{0.24\linewidth}P{0.70\linewidth}@{}}
+\toprule
+Symbol & Meaning\\\midrule
+$\mathcal L$, nats & Mean negative log-likelihood with natural logarithms\\
+BPB & Bits per raw base: summed loss divided by $B\ln2$ for $B$ represented bases\\
+$D_{\mathrm{KL}}(p\Vert q)$ & Kullback--Leibler divergence $\sum_xp(x)\log(p(x)/q(x))$\\
+$\mathrm{TV}(p,q)$ & Total variation distance $\tfrac12\sum_x|p_x-q_x|$\\
+$\widehat\Delta$ & An estimated paired difference between two predictors\\
+$p_{\mathrm{upper}}=1-\alpha^{1/n}$ & One-sided upper bound on a failure rate after $n$ independent zero-failure trials\\
+MAC, FLOP & Multiply--accumulate; floating-point operation (a MAC is often counted as two FLOPs)\\
+KiB, MiB / KB, MB & Powers of 1024 / powers of 1000 bytes\\
+tick & One logical step of a reference program, not a time measurement\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{Typographic conventions}
+\texttt{Monospace} marks code, file names and literal sequences. A \Term{bold term} is
+defined where it appears and is listed in the index. Listings are extracted from the
+tested reference programs at build time and are never retyped. ``Generated'' tables
+come from running the chapter's reference code; ``assigned'' numbers are chosen by hand
+to make arithmetic visible and are not measurements.

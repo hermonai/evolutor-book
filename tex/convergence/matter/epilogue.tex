@@ -1,0 +1,208 @@
+\UnnumberedChapter{Epilogue: genomic computation in three senses}{Epilogue}
+\label{book:epilogue}\setcounter{figure}{0}\renewcommand{\thefigure}{E.\arabic{figure}}
+
+The preface separated three meanings of genomic computation. One is computation
+\emph{about} DNA, where recorded sequence is data. Another is computation \emph{with}
+DNA, where molecules are the machine. The third is computation \emph{inspired by} DNA,
+where genomic organization is a design hypothesis for digital systems. This book has
+worked almost entirely in the first and third senses. This epilogue steps back. It asks
+what the frontier in each sense has actually demonstrated, how the book's evidence
+discipline applies to each, and where the three might meet. It treats these meeting
+points as research hypotheses, not as forecasts.
+
+\BackPlate{three-meanings}{Three senses of genomic computation. Each has its own
+objects, its own notion of a successful computation and its own strongest form of
+evidence. The labelled interfaces between columns (sequencing and synthesis, design
+hypotheses, typed backends) are where the senses could meet, and each needs its own
+contract and test before it carries a claim.}{book:threemeanings}
+
+\section*{Computation about DNA: what the frontier models teach}
+Sequence models of genomes have changed quickly. DNABERT adapted masked pretraining to
+overlapping $k$-mer tokens~\cite{dnabert2021}, and DNABERT-2 made tokenization efficiency
+itself an architectural question~\cite{dnabert2}. Enformer predicted gene-expression
+and chromatin tracks from sequence by integrating information over distances of up to
+roughly a hundred kilobases~\cite{enformer2021}. Nucleotide Transformer showed the value
+of scale, data diversity and a systematic downstream evaluation
+protocol~\cite{nt2025}. HyenaDNA asked whether a non-attention operator could reach
+long single-nucleotide contexts~\cite{hyenadna}. Caduceus built reverse-complement
+equivariance and bidirectionality into the architecture~\cite{caduceus}. Evo and
+Evo~2 pushed single-nucleotide modelling to genome scale and across all domains of
+life~\cite{evo2024,evo2}. AlphaGenome predicts thousands of functional-genomic tracks,
+up to single-base resolution, from a one-megabase input window, and in its authors'
+evaluation it matched or exceeded the strongest external models on most of their
+variant-effect benchmarks~\cite{alphagenome2026}.
+
+Several of this book's chapters exist because these models made their questions
+unavoidable. Tokenization changes what a prediction means (Chapters~5 and~24). Strand
+symmetry is an architectural choice with a testable transformation law, not a
+data-augmentation habit (Chapters~18 and~21). Long context is first an access graph
+and only then a speed claim (Chapter~24). The hardest lessons concern evidence.
+Benchmark comparisons between DNA foundation models turn out to be task-dependent, and
+frozen representations and fine-tuned competitors answer different
+questions~\cite{evod48:benchmark}. Homologous and overlapping sequences can leak across
+a random split (Chapters~25 and~48). A model's sensitivity to a mutation is not the
+mechanism a cell uses (Chapters~17 and~48).
+
+Against this frontier, DOGMA and Hermon DNA are small and honest. They are reference
+implementations with exact contracts, not trained foundation models, and their pilots
+stayed at or near chance on a synthetic motif task under the declared budgets. The scientific
+value of the two directions is that their claims are now stated precisely enough to
+test. The three experiments that would most change the assessment are these:
+\begin{enumerate}
+\setlength{\itemsep}{1pt}
+\item a matched-budget comparison of DOGMA's addressable loci with a capacity-matched
+recurrent or state-space baseline on tasks with sparse, delayed dependencies;
+\item a Hermon DNA ablation that holds the Transformer backbone fixed and varies only a
+genomic mechanism (span-aware positions, tied strand features or local-plus-global
+access) on homology-aware splits;
+\item a study of the Evolutor runtime on persistent workflows that measures recovery,
+provenance and policy compliance together with task success.
+\end{enumerate}
+Each comes with a falsifier written before the run, as Chapters~22, 29 and~51 require.
+
+\begin{EvolutorNote}{A boundary this book keeps}
+Some frontier genomic models are also used to \emph{generate} biological sequences. This
+book does not cover designing sequences intended to function in living systems.
+Its examples are synthetic, its evaluation designs concern prediction, and its
+biological follow-up protocols stop at stating hypotheses and controls. Generative
+biological design raises biosafety and governance questions that need specialist
+oversight. Those questions fall outside an implementation textbook.
+\end{EvolutorNote}
+
+\section*{Computation with DNA: what molecules can now compute}
+In 1994 Adleman solved a small instance of a directed Hamiltonian path problem with DNA
+strands, ligation and selection~\cite{adleman1994}. The field that followed now has a
+programmable primitive in toehold-mediated strand displacement, whose kinetics can be
+tuned over many orders of magnitude~\cite{zhangwinfree2009}. It also has a compiler
+precedent: any formal chemical reaction network can, in principle, be approximated by
+DNA strand-displacement reactions~\cite{soloveichik2010}. Strand-displacement cascades
+compute digital circuits~\cite{qianwinfree2011} and implement neural
+networks~\cite{qianwinfreebruck2011}. Molecular winner-take-all networks recognize
+patterns of many bits~\cite{cherryqian2018}. Algorithmic self-assembly runs
+reprogrammable molecular algorithms from one tile set~\cite{woods2019}, and the
+nucleation kinetics of self-assembly can itself classify patterns~\cite{evans2024}.
+DNA also stores digital data at high density, with error-correcting codes designed for
+its synthesis and sequencing channel~\cite{church2012,goldman2013,erlich2017}.
+
+Two recent results changed what ``DNA computing'' can mean. In 2025, Cherry and Qian
+reported supervised learning carried out by DNA itself. Training examples were written
+into molecular concentration memories that then served as the weights for classifying
+test patterns, all in vitro~\cite{cherryqian2025}. In the same year, Song and Qian showed
+heat-rechargeable circuits and neural networks that compute repeatedly with new
+inputs~\cite{songqian2025}. Learning and reuse, long the weakest points of molecular
+computation, now have concrete demonstrations.
+
+The resource semantics of Chapter~16 apply directly, and they expose how different the
+substrate is. A molecular computation runs on very many molecules at once, but each
+bimolecular step at nanomolar concentration takes minutes to hours. Its ``memory'' is a
+set of concentrations with leak and decay, and its output is a fluorescence or
+sequencing measurement with noise, not a register read. A fair comparison with
+electronic computation must state units, workload and error model, exactly as
+Chapters~29 and~47 demand of silicon. On those terms molecular computers are not general
+replacements for electronic ones. Their distinctive strengths are operating where
+electronics cannot (inside a test tube or a sample), interfacing directly with
+biomolecules, and storing information densely and durably.
+
+\section*{Where the senses could meet}
+Evolutor's typed contracts suggest several concrete interfaces between the three
+senses. Each is stated as a hypothesis with the evidence it would need.
+
+\begin{description}
+\item[DNA as an archival memory class.] Chapter~40 separated native state, durable
+events, lossy summaries and addressable records. DNA storage could be a further class:
+very dense and long-lived, but slow to write and read and subject to a characteristic
+error channel. The hypothesis is that some evidence capsules and lineage records
+(Chapters~43 and~52) are written once and read rarely, so a durable molecular tier
+could hold them. Evidence would need a typed contract (capacity, write and read latency,
+retrieval granularity, error and erasure semantics) and a cost comparison with
+conventional archives under the same retention requirement. Deletion is especially
+hard, which matters for the forgetting semantics of Chapter~40.
+\item[A molecular backend behind the runtime.] Chapters~39 and~41 route typed operations
+to backends whose contracts are declared. A strand-displacement or self-assembly
+program could in principle be such a backend for operations that must happen in a
+sample. Its contract would include reaction semantics, concentration units,
+time-to-result, leak and error rates, single-use versus rechargeable
+resources~\cite{songqian2025} and the readout's measurement model. The compiler
+precedent already exists, from formal reaction networks to DNA
+reactions~\cite{soloveichik2010}. The open questions are verification and reliability
+at scale, together with an honest account of when a wet backend is worth its latency.
+\item[Models that read molecular programs.] Sequence models could help \emph{design and
+check} molecular computers: predicting hybridization, secondary structure and leak
+for strand-displacement components before synthesis. This keeps the model in the
+first sense (computation about DNA) and the machine in the second. It requires
+validation against measured kinetics, not against the model's own predictions.
+\item[Molecular learning as a comparison point.] Supervised learning in DNA neural
+networks~\cite{cherryqian2025} gives Part~VI's methodology an unusual test case. The
+same estimands, splits, controls and uncertainty apply, and so do the same warnings
+about selecting on the test set, whether the learner is silicon or chemistry.
+\item[Inspiration that must earn its keep.] The third sense, the book's own DOGMA and
+Evolutor directions, borrows organization rather than chemistry. The relevant evidence
+is never that a mechanism resembles biology. It is a matched-budget comparison in which
+removing the borrowed organization costs something measurable.
+\end{description}
+
+\section*{What would count as evidence of general or superhuman capability}
+Some readers will hope that systems built from these ideas lead towards artificial
+general intelligence, or towards capabilities beyond human performance across broad
+domains. Chapter~51 explained why no finite test establishes unrestricted generality,
+and why breadth, depth and autonomy form a vector rather than a
+level~\cite{evod51:levels}. The same discipline gives five questions to ask of any claim
+of general or superhuman capability, including claims made about this book's
+directions:
+\begin{enumerate}
+\setlength{\itemsep}{1pt}
+\item \textbf{Which task families, and how were they held out?} Name the population of
+tasks, show that development never saw the final suite, and audit pretraining exposure.
+\item \textbf{Against which human or system baseline, under what budget?}
+``Superhuman'' needs a defined comparison group, matched information and time, and
+reported uncertainty.
+\item \textbf{How efficiently is new skill acquired?} Report quality as a function of
+data, compute, actions and assistance, not only final scores (Chapter~51).
+\item \textbf{What happens out of distribution and under adversarial pressure?}
+Include the failure cases, deferral behaviour and calibration, not only the successes.
+\item \textbf{Is it reproducible and safe to operate?} Independent replication, policy
+compliance, isolation, revocation and human control need their own evidence. They do
+not follow from capability scores (Chapters~43--45).
+\end{enumerate}
+None of this book's results answers these questions. That is its scope, not a verdict
+on the questions. A research program that wants to answer them will need trained
+models at scale, sealed evaluations and independent replication. It will also need the
+habits this book has tried to make automatic: name the mechanism, derive the
+consequence, and test the claim in a way that could have failed.
+
+\section*{Open problems}
+The problems below collect the most consequential unresolved questions raised across
+the book. Each is phrased so that a result could settle it in either direction.
+\begin{enumerate}
+\setlength{\itemsep}{1pt}
+\item \textbf{Addressable versus compressed memory.} For a fixed task-information
+budget, when do explicit loci or retained KV beat a compressed state, measured as
+quality per state byte and per unit latency?
+\item \textbf{Regulation beyond gating.} Does any regulation-inspired mechanism improve
+quality or efficiency beyond ordinary input-dependent gating and routing after capacity
+matching?
+\item \textbf{Strand symmetry in practice.} On which genomic tasks does exact
+reverse-complement equivariance improve sample efficiency, and on which does it erase
+orientation-specific signal?
+\item \textbf{Long-context genomics.} Which distal dependencies do learned models
+actually use? Answer with distal-context ablations on homology-aware splits, not with
+attention maps.
+\item \textbf{Exact engines at scale.} Can the exact-refinement proofs of Parts~VII
+and~VIII (state pools, paged KV, speculative decoding) be carried into device kernels
+with tested completion fences and measured benefit?
+\item \textbf{Effects in compilers.} What effect system lets an AI-workflow compiler
+reorder and cache tool, memory and model calls safely, and how is that verified?
+\item \textbf{Continual adaptation without regression.} Can structural and parametric
+updates be promoted under the governance of Chapter~43 with measured, bounded
+regressions?
+\item \textbf{Persistent agents.} Do provenance-aware memory and intent-before-dispatch
+recovery reduce human intervention on long-horizon tasks without increasing policy
+violations?
+\item \textbf{Molecular tiers.} Under what retention and access patterns does a
+DNA-based archival tier beat conventional archives on total cost and durability?
+\item \textbf{Learning across substrates.} Can molecular learners and electronic learners
+be compared on a shared task with shared estimands and controls, and what does the
+comparison reveal about each substrate's limits?
+\end{enumerate}
+The book ends where research begins: with precise objects, honest negative results and
+experiments that have not yet been run.

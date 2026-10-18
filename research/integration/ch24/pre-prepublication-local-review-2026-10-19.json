@@ -1,0 +1,45 @@
+{
+  "date": "2026-10-06",
+  "chapter": 24,
+  "pdf": "output/pdf/evolutor-ch24-review.pdf",
+  "pdf_sha256": "b215350763bb18f07052a4978c5d48d630f1c4b0101c1b949d3d2b10393f8428",
+  "pages": 15,
+  "source_hashes": {
+    "drafts/ch24/README.md": "013ce793e21841e4ba995c80d007bb5f3e8f19e1f5058b8c8184e679b7e7cbad",
+    "drafts/ch24/STORYBOARD.md": "d0f167367d0d32e8ef164646b79f2861522ec10fca9405a79f9591227eed3d11",
+    "drafts/ch24/build.py": "a4590d2a14a967a086758767f6b241e4dc7b39bc0d87b99c6d6e82a7fa70ab48",
+    "drafts/ch24/figures/01-spans.tex": "85b2da255f794e3910bc19143d036d61e11b27d2168d181a84df4b729d1801a4",
+    "drafts/ch24/figures/01-spans.txt": "30f808bb58b7cf8e89e4d0c2c506476d94fa75f9c4c924d084247ffc96808900",
+    "drafts/ch24/figures/02-access.tex": "87c1e510c02f804479097dda0ff46f934e9ceaeba602bb629b276d75a15150e6",
+    "drafts/ch24/figures/02-access.txt": "9e58e15380786d8f91e1fe6532919f825aab0a1ddf613605e15b3b9d1c48a61d",
+    "drafts/ch24/figures/03-strand.tex": "82cda68e2b5d933cf448ab46ed227bce809094322a1077b0c7fb855122b0b114",
+    "drafts/ch24/figures/03-strand.txt": "30249a253294cf97a36d97d08e79095783e82637373e3ccfe744c92f2ff056c2",
+    "drafts/ch24/figures/04-rotary.tex": "a5a424ec85d21df50c6d7da4d72dfb5bf5a668fdd4021d71125ea0e3a7731619",
+    "drafts/ch24/figures/04-rotary.txt": "8bb936e58b0254dafce93d8e95777cb1a0345c5f9feea5da4647857d82ecefbf",
+    "drafts/ch24/figures/05-relay.tex": "624bf005eef560661bcbbcbe1e970f26091ee23931586fe9c596d70ea87ab855",
+    "drafts/ch24/figures/05-relay.txt": "7aafa46303ddb0eb5dc5fcc997b44549d4fc45318c94ea7bcf264ae019f2244b",
+    "drafts/ch24/figures/06-kernel.tex": "355b06369a31bee662261f5a23d4fd87cb75d3613aace0efb1bcaf0b0338ee9f",
+    "drafts/ch24/figures/06-kernel.txt": "d738d386be4162a112d062d294622cf163f9b103c9daf942c6bab7b4c2d91d53",
+    "drafts/ch24/manuscript.tex": "50ed45fb772268c060f0c20ea078ea97c0894ab5d152b3f4530c626837bf6264",
+    "drafts/ch24/reference.py": "406c17507280cbe011a1c50dfef58ae460d60b82e362814f780f291a28ca7a01",
+    "drafts/ch24/results.json": "33f6dda6b14e9a88e63912a093b431b7f026004fd03b9913059010a6c0763fcc",
+    "drafts/ch24/review.tex": "c6e08eb3e0868ecc670dbebd17991f0f246bf4c3222400e7496b2abcc2bf9fcc",
+    "drafts/ch24/sources.tex": "a7e0cc5bbf5943b3d06574bebe5bf41d4af777b3a0e001dbabc7cf7913e71da2",
+    "tests/test_ch24_reference.py": "90e552545604c2ad112a4b1af7dcfef804df01de50d1e6a413e828b0b3eeab13"
+  },
+  "tests": {
+    "repository_passed": 868,
+    "repository_skipped": 0,
+    "chapter_passed": 24,
+    "report": "build/ch24/regression.xml",
+    "python": "3.13.6"
+  },
+  "visual_review": {
+    "reviewer": "author/agent",
+    "status": "PASS WITH NOTES",
+    "mode": "all 15 pages, color and grayscale contact sheets",
+    "notes": "All 15 pages inspected in color and grayscale. Duplicate equation/figure label corrected and relay layer labels separated from nodes. Six mechanisms, tensors, listings and solutions remain readable. No genomic training or production-kernel speedup is claimed; full-book review and scientific acceptance remain open."
+  },
+  "mathematical_review": "Assumptions, independent oracles and falsifiers in technical-audit.md.",
+  "acceptance": "locally reviewed standalone integration candidate; not accepted publication edition"
+}

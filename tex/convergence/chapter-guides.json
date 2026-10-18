@@ -1,0 +1,786 @@
+{
+ "schema": "evolutor-chapter-guides-v1",
+ "purpose": "Reader-facing chapter goals and key ideas printed by the continuous builder. Book-level apparatus; chapter sources and their review records are unchanged.",
+ "chapters": [
+  {
+   "chapter": 1,
+   "goals": [
+    "separate stored structure, expressed computation and adapted structure, and say which intervention tests each",
+    "trace an exact typed expression example and compare it with its ordinary branching baseline",
+    "place DOGMA, Hermon DNA and Evolutor in the book's fixed taxonomy",
+    "count per-request memory for carried state and a key/value cache without mistaking the ratio for a speedup"
+   ],
+   "key_ideas": [
+    "Context changes test regulation; changes to the stored description test structural adaptation. Without an observable intervention, ``adaptive'' explains nothing.",
+    "An ordered plan carries information that a set of active modules cannot: \\texttt{clip} then \\texttt{prefix} differs from the reverse order.",
+    "Every idea in the chapter already has a conventional computer-science neighbour. A genomic proposal must name the property it adds and the comparison that would reveal it.",
+    "Physical DNA computing, genomic sequence modelling and biologically inspired digital organisation are three different subjects."
+   ]
+  },
+  {
+   "chapter": 2,
+   "goals": [
+    "distinguish data, task, model, objective and evaluation protocol",
+    "align next-base inputs and targets so that a causal mask actually prevents leakage",
+    "build relationship-aware splits by closing conflict relations before assigning folds",
+    "use the random-data entropy bound and finite future interventions as falsification instruments"
+   ],
+   "key_ideas": [
+    "For independent uniform targets, no permitted predictor can beat $\\ln V$ in expectation. A sustained advantage on fresh data is a reason to audit the pipeline.",
+    "A triangular mask is only correct relative to a declared target shift. Padding, packing, pooling and retrieval can each leak information.",
+    "Report the summed negative log-likelihood and the number of raw bases it covers. Perplexities computed under different tokenizers are not comparable.",
+    "Parameter, width, state, token, compute and wall-time matching are separate choices. No single scalar removes every confound."
+   ]
+  },
+  {
+   "chapter": 3,
+   "goals": [
+    "read an equation as a tensor program with explicit shapes and broadcasts",
+    "derive softmax cross-entropy and affine-layer gradients by hand and check them against autograd",
+    "explain why finite-difference error first falls and then rises as the step shrinks",
+    "implement microbatch accumulation that reproduces the declared full-batch objective"
+   ],
+   "key_ideas": [
+    "A shared bias collects one gradient contribution from every row. Dividing that sum again by the batch size changes the update.",
+    "Forward equality is not gradient equality: \\texttt{stop\\_gradient} can preserve values while changing derivatives.",
+    "An exact gradient does not choose a safe step. On $\\tfrac12\\lambda x^2$, gradient descent converges only for $0<\\eta<2/\\lambda$.",
+    "Weight microbatch gradients by their scored-target counts, not by the number of microbatches."
+   ]
+  },
+  {
+   "chapter": 4,
+   "goals": [
+    "construct shifted, padded and masked next-base targets with an explicit denominator",
+    "inventory everything a training transition depends on: parameters, momentum, sampler cursor and random state",
+    "serialize and restore a checkpoint that resumes exactly in a declared environment",
+    "use deliberately incomplete restores as negative controls"
+   ],
+   "key_ideas": [
+    "A training run has more state than its weights. Momentum, the data cursor and the dropout random stream all determine the next update.",
+    "The token mean and the mean of group means are different objectives. Choose one deliberately and test it.",
+    "Training mode and gradient recording are independent switches: \\texttt{no\\_grad()} does not disable dropout.",
+    "Exact replay is scoped to a tested environment, not promised across devices or library versions."
+   ]
+  },
+  {
+   "chapter": 5,
+   "goals": [
+    "define a token by its base interval as well as its text",
+    "build fixed-width base-four codes and a model vocabulary that keeps every short tail",
+    "detect objectives in which overlapping tokens reveal part of their own target",
+    "transform spans and token boundaries under reverse complementation"
+   ],
+   "key_ideas": [
+    "An integer ID decodes only together with its declared width: ID 1 is \\texttt{C} at width one and \\texttt{AAC} at width three.",
+    "With stride-one $k$-mers, the next token contains only one unseen base. Conditional entropy is $\\ln4$, not $k\\ln4$.",
+    "Token boundaries are a software choice, not covalent breaks. Disjoint chunks do not commute with reverse complementation.",
+    "A checkpoint must carry the vocabulary identity. Equal table shapes can give embedding rows entirely different meanings."
+   ]
+  },
+  {
+   "chapter": 6,
+   "goals": [
+    "unroll a recurrence and derive the Jacobian product that governs long-range gradients",
+    "implement LSTM and GRU cells and check values and gradients against PyTorch",
+    "hold state through padding, reset it at record boundaries and carry it across chunks",
+    "separate the numerical value of carried state from its gradient history"
+   ],
+   "key_ideas": [
+    "$\\partial h_T/\\partial h_k$ is a product of Jacobians. Contraction loses the distant past and expansion amplifies it.",
+    "Gate names are conventions: PyTorch's GRU applies reset after the hidden projection, and the order changes the values.",
+    "Detaching keeps the boundary value but cuts credit assignment; resetting changes the forward computation itself.",
+    "A gate half-life in token steps is not a genomic distance until the tokenization fixes what a step means."
+   ]
+  },
+  {
+   "chapter": 7,
+   "goals": [
+    "derive zero-order-hold discretization and contrast it with an unstable Euler step",
+    "expand a time-invariant recurrence into a causal convolution",
+    "make updates input-selective while keeping them affine in the previous state",
+    "compose interval summaries with an associative scan and check it against the sequential recurrence"
+   ],
+   "key_ideas": [
+    "Affine maps $h\\mapsto ah+b$ are closed under composition, and composition is associative. That closure is what makes a parallel scan legal.",
+    "Associativity permits regrouping, never reordering: $(0.5,1)\\star(0.25,2)\\ne(0.25,2)\\star(0.5,1)$.",
+    "Padding is the identity pair $(1,0)$; a reset before the current write is $(0,b_t)$; a chunk boundary carries the actual state.",
+    "Logarithmic dependency depth describes a possible schedule. It is not a measured speedup."
+   ]
+  },
+  {
+   "chapter": 8,
+   "goals": [
+    "compute attention by hand, separating addressing (queries and keys) from content (values)",
+    "build packed causal masks that also respect record boundaries and padding",
+    "derive the attention backward pass, including $\\partial o/\\partial z_j=p_j(v_j-o)$",
+    "append to a key/value cache with offset masks and verify chunked--full parity"
+   ],
+   "key_ideas": [
+    "Masking must happen before normalization. Masking afterwards leaves the forbidden entry in the denominator.",
+    "An all-masked row has no probability distribution. Its output needs an explicit policy.",
+    "A cached chunk's queries sit at absolute positions. Applying a local triangular mask hides most of the available history.",
+    "An attention weight is not an attribution: the values, later projections and residual paths also determine the output."
+   ]
+  },
+  {
+   "chapter": 9,
+   "goals": [
+    "assemble a pre-normalized block from attention, LayerNorm, a GELU feed-forward branch and residual paths",
+    "derive the LayerNorm backward pass, including the role of $\\epsilon$",
+    "add sinusoidal absolute positions and keep them consistent across cached chunks",
+    "count parameters by ownership and align next-token targets across records and padding"
+   ],
+   "key_ideas": [
+    "With both branches zeroed, a pre-normalized block returns its input exactly; a post-normalized block does not.",
+    "Normalization couples the features of one token, never positions or records. With $\\epsilon>0$ it is shift-invariant but not exactly scale-invariant.",
+    "Each block owns its own cache. Equal shapes do not make block~1's keys usable by block~2.",
+    "The attention mask decides which inputs a prediction may see; the target mask decides which predictions are scored. Either can be wrong while the other is right."
+   ]
+  },
+  {
+   "chapter": 10,
+   "goals": [
+    "separate router scoring, top-1 selection, capacity admission and probability weighting",
+    "gather admitted rows to experts and scatter results back, verified against a dense all-expert oracle",
+    "derive which gradients exist for a fixed routing decision, and which do not",
+    "account for demand, overflow, unused slots and multiply--accumulate counts"
+   ],
+   "key_ideas": [
+    "A capacity budget is not balanced demand. With demand $(3,2,1)$ and two slots per expert, one token is dropped while a slot stays empty.",
+    "Renormalizing over a single selected expert makes the gate identically one and erases the router's task-loss gradient.",
+    "Capacity counters are state: resetting them at a chunk boundary changes which tokens are admitted.",
+    "Compare routed arithmetic with the original dense layer, not with an all-expert oracle. Here the routed version does more work."
+   ]
+  },
+  {
+   "chapter": 11,
+   "goals": [
+    "normalize promoter-state weights and distinguish active occupancy from fold change",
+    "solve two-stage RNA/protein dynamics exactly over a constant-input interval",
+    "show that history, not present context alone, determines abundance",
+    "identify a structural non-identifiability in protein-only observations"
+   ],
+   "key_ideas": [
+    "At $u=0.2$, $r=1$ the active probability is $1/11$ while the fold change is $6/11$. These are different quantities.",
+    "Protein can keep rising after transcription stops, because surviving RNA continues to be translated.",
+    "Scaling $s\\to s/c$ and $k\\to ck$ leaves every protein trajectory unchanged. Better protein data cannot separate these parameter sets; RNA data or an intervention can.",
+    "Expert routing (Chapter~10) is instantaneous selection. Regulation here is stateful production with turnover. Calling both ``regulation'' does not make them the same."
+   ]
+  },
+  {
+   "chapter": 12,
+   "goals": [
+    "separate a stored specification, its construction procedure, the generated graph and its execution",
+    "implement simultaneous rewriting and derive its exponential growth",
+    "compile a recursive residual module into a typed, topologically ordered program",
+    "show that shared parameters accumulate gradients from every occurrence"
+   ],
+   "key_ideas": [
+    "A short rule need not give a small realization: $S\\mapsto SG$, $G\\mapsto GG$ doubles the word every generation.",
+    "Type validity is necessary but not sufficient. Adding the wrong width-$D$ value passes every check and computes the wrong function.",
+    "Sharing reduces stored parameters, not executed work. At depth six both policies run 1024 MACs per row.",
+    "Initially equal independent owners and one shared owner are different training systems once the first update is applied."
+   ]
+  },
+  {
+   "chapter": 13,
+   "goals": [
+    "distinguish state updates, parameter learning, structural proposals and population selection",
+    "derive closed-form oracles for gradient descent on a two-feature problem",
+    "run a deterministic elitist mask search with an explicit lineage",
+    "state an inheritance map and account for validation reuse during search"
+   ],
+   "key_ideas": [
+    "When two features agree in training, perfect training fit cannot identify the robust one. Only a validation set that breaks the agreement can.",
+    "Inheritance is a mapping, not a file copy. Newly enabled coordinates start from a declared value and stale weights are cleared.",
+    "A validation set that guides selection is part of the search, not an untouched test. With 20 independent null candidates at $\\alpha=0.05$, the chance of at least one false positive is about 0.64.",
+    "In evaluator-driven program evolution the evaluator is part of the specification, and a candidate can exploit its gaps."
+   ]
+  },
+  {
+   "chapter": 14,
+   "goals": [
+    "define tensor types with semantic axis names, sizes and element type",
+    "specify computational genes, genomes and explicit regulator decisions",
+    "type-check a genome as an environment transformation before any arithmetic",
+    "execute one expression step with snapshot reads and an atomic commit"
+   ],
+   "key_ideas": [
+    "Two $2\\times2$ arrays can be incompatible: \\texttt{(sample, feature)} is not \\texttt{(feature, sample)}.",
+    "A disabled gene follows a declared identity bypass, and it must still be valid.",
+    "Value names are single-assignment. State ownership is a separate constraint, with one writer per state owner.",
+    "A compact trace is not a replay record. Replay needs content identities for the genome, inputs, parameters, initial state and decisions."
+   ]
+  },
+  {
+   "chapter": 15,
+   "goals": [
+    "define configurations, events and a small-step relation for a register machine",
+    "prove a loop correct with an invariant and terminating with a ranking function",
+    "separate fuel exhaustion, explicit halt and runtime error",
+    "state when two state updates commute, and replay a trace to check a claimed execution"
+   ],
+   "key_ideas": [
+    "Types alone do not preserve a computation. Swapping \\texttt{add} and \\texttt{dec} keeps every type and gives $N(N-1)/2$ instead of $N(N+1)/2$.",
+    "Running out of fuel does not prove divergence: one step too little fuel also exhausts.",
+    "Disjoint read and write sets are sufficient for two updates to commute, but not necessary.",
+    "Replay recomputes each event from a trusted program and start state. A valid prefix does not prove completion, and an unauthenticated trace proves nothing about its producer."
+   ]
+  },
+  {
+   "chapter": 16,
+   "goals": [
+    "treat cost as a vector with units: parameters, MACs, routing, bytes, peak memory and events",
+    "derive expert-routing ledgers with and without padding and capacity drops",
+    "compute peak live memory for a schedule and show that legal schedules differ",
+    "prove an amortized bound with a potential function and place a design under a roofline envelope"
+   ],
+   "key_ideas": [
+    "Sparse routing can execute more arithmetic than its useful work. With padded capacity, four times as many expert MACs run as are needed.",
+    "Peak memory is a maximum over live sets, not a sum; the order $a,c,b,d,y$ lowers the peak from 300 to 210 bytes.",
+    "An amortized cost of three per append is not a latency bound. The append that triggers a resize still copies every element.",
+    "A roofline is a lower bound on time under stated ceilings. It is a hypothesis to measure, not a performance result."
+   ]
+  },
+  {
+   "chapter": 17,
+   "goals": [
+    "distinguish traces, gradients, credit allocations and interventions",
+    "implement structural interventions that recompute descendants",
+    "expose redundancy and synergy with complete response tables",
+    "compute exact Shapley credit and see what it hides"
+   ],
+   "key_ideas": [
+    "A bystander can predict perfectly on observations and fail every intervention: $\\hat y=5z$ fits until $z$ is set directly.",
+    "Single ablations cannot separate OR from AND. Both give Shapley credit $(\\tfrac12,\\tfrac12)$ despite opposite interaction signs.",
+    "Editing a logged value is not an intervention. The declared equation must be replaced and its descendants recomputed.",
+    "In a linear recurrence a patched input decays as $\\lambda^{t-k}$. In nonlinear systems, gradients and finite counterfactuals can disagree."
+   ]
+  },
+  {
+   "chapter": 18,
+   "goals": [
+    "define a DNA-addressed state primitive with ordered-pair channels",
+    "separate padding identity, record reset and zero retention",
+    "prove reverse-complement equivariance of the unit-retention histogram and construct its failure under decay",
+    "show by construction that a fixed state can discard order information"
+   ],
+   "key_ideas": [
+    "Addresses are ordered: G followed by A selects GA, not AG.",
+    "Equivariance means features transform by a known permutation; invariance means they do not change. Strand-specific labels need the first.",
+    "With retention below one, reversing orientation changes each pair's age and breaks the symmetry. Averaging both orientations repairs it, but it reads the whole record.",
+    "AACA and ACAA have identical final states, so no output head can tell them apart. Training cannot recover discarded information."
+   ]
+  },
+  {
+   "chapter": 19,
+   "goals": [
+    "derive a bounded selective update from separate write and retention gates",
+    "use the Chapter~18 collision as a constructive test of order sensitivity",
+    "prove causality and chunk equivalence for input-only coefficients",
+    "show how a state-dependent gate breaks both contraction and the affine scan"
+   ],
+   "key_ideas": [
+    "A write gate reweights the retained state as well as the candidate: $a=1-g(1-\\rho)$.",
+    "Convex updates keep every coordinate within the range of its inputs. A bounded state is not the same as a contraction.",
+    "Once a gate reads $h_{t-1}$, its coefficients cannot be prepared from tokens alone, and the scan theorem no longer applies.",
+    "$(g,\\rho)=(\\tfrac12,\\tfrac12)$ and $(\\tfrac34,\\tfrac23)$ give the same forward map. Fitting outputs cannot identify the gates separately."
+   ]
+  },
+  {
+   "chapter": 20,
+   "goals": [
+    "derive retention from a declared clock and convert it to e-fold time and half-life",
+    "build a multiscale exponential bank and a block-rate coarse summary",
+    "identify the complete carried state needed for exact chunk parity",
+    "prove limits on lossless memory with an aliasing example and a counting argument"
+   ],
+   "key_ideas": [
+    "Longer retention trades immediate write amplitude for persistence: at $a=7/8$, a fresh input moves the state by only $1/8$.",
+    "Slow updating is not slow retention. A block commit is constant between commits and has different gradient paths from a per-token exponential.",
+    "Dropping the pending sum and phase at a chunk boundary silently changes the model.",
+    "With $C$ bits of state and $2n>C$, two distinct DNA strings of length $n$ must share a state, so no fixed-size state stores every history."
+   ]
+  },
+  {
+   "chapter": 21,
+   "goals": [
+    "express reverse complementation as position reversal composed with a channel permutation",
+    "choose the output action (invariant, equivariant or label-swapping) that a task requires",
+    "lift a shared causal operator into a paired dual-direction state and prove its transformation law",
+    "prove that exact reversal symmetry and left causality together eliminate nonlocal context"
+   ],
+   "key_ideas": [
+    "The paired strand of $5'$-ACGA-$3'$, read $5'$ to $3'$, is TCGT. Complementing alone describes a different reading.",
+    "A readout preserves the symmetry only if its blocks are tied: $\\left(\\begin{smallmatrix}U&V\\\\V&U\\end{smallmatrix}\\right)$.",
+    "The aligned reverse branch reads the suffix, so the dual representation is offline by construction.",
+    "Reverse complementation reverses chunk order as well as each chunk. Transforming chunks in arrival order gives a different record."
+   ]
+  },
+  {
+   "chapter": 22,
+   "goals": [
+    "freeze a small reference DOGMA with explicit ownership of fast state and memory loci",
+    "trace one transition by hand and use it to detect read-before-write errors",
+    "separate causal streaming from offline strand-symmetric encoding",
+    "state ablations and a falsification matrix that could reject each DOGMA hypothesis"
+   ],
+   "key_ideas": [
+    "Reads use $M_{t-1}$ before the write at $t$. The assigned trace's first feature is $\\tanh(1/4)$, not $\\tanh(1/4+1/5)$.",
+    "Bounded state is a forward invariant, not a gradient guarantee: state-dependent gates add Jacobian terms.",
+    "Read the pilot honestly: on 128 balanced held-out records, a single run's accuracy has a chance-level standard error of about $0.044$. Most learned models in this budget sit within two standard errors of $0.5$.",
+    "If loci, strand tying and typed traces add nothing after budget matching, DOGMA should collapse toward a GRU or SSM. That would be a useful result."
+   ]
+  },
+  {
+   "chapter": 23,
+   "goals": [
+    "specify the Hermon DNA reference as a pre-norm Transformer over single nucleotides",
+    "trace one attention head by hand and check attention against an independent row oracle",
+    "separate offline and causal masks from padding, and build a shared-parameter reverse-complement-invariant head",
+    "read a small trained pilot correctly, including a model that fails to learn"
+   ],
+   "key_ideas": [
+    "An all-masked row has no softmax. The reference assigns it zero attention and zero output as an explicit padding convention.",
+    "Reverse-complement invariance follows from an involution on the sequence-and-mask pair. Reversing the sequence without its validity mask breaks it.",
+    "Dense attention keeps $BHT^2$ scores per layer. Doubling $T$ quadruples that term, which is why long genomic context needs a different access pattern.",
+    "In the 25-epoch pilot, Hermon's training loss stays at $\\ln2$ and its held-out accuracy equals the random-label control. A correct implementation is not a trained model."
+   ]
+  },
+  {
+   "chapter": 24,
+   "goals": [
+    "give every token a base span and compute exact mutation footprints",
+    "state span-level causality: a token containing the target base is illegal context",
+    "build a tied strand embedding with an exact reverse-complement action",
+    "derive rotary positions in base units and express long-context access as an attention graph with layer-counted paths"
+   ],
+   "key_ideas": [
+    "A triangular token mask cannot remove information already inside a token: ACG over $[0,3)$ contains the base it would predict.",
+    "Equivariant input features do not make a model equivariant. Every later layer must commute with the same action.",
+    "Rotary scores depend only on relative position, but that algebra is not evidence of length extrapolation.",
+    "A global relay needs two layers. Sparse semantics implemented with dense masked scores still uses dense memory."
+   ]
+  },
+  {
+   "chapter": 25,
+   "goals": [
+    "state an estimand before comparing DOGMA, Hermon DNA or baselines",
+    "close leakage relations transitively with union--find and audit the split",
+    "select preprocessing and thresholds from training data only",
+    "quantify paired and cluster-level uncertainty and keep seed variance separate"
+   ],
+   "key_ideas": [
+    "A shared experiment envelope fixes the question and the evidence. It need not give the models a shared internal state.",
+    "Reverse complements, group tags and curated links can chain together. The whole connected component must stay in one split.",
+    "Keep both predictions attached to each resampled unit. With four perfectly correlated clusters, the honest interval is $[-1,1]$, not the narrow row-level one.",
+    "A test-set bootstrap conditional on one fitted pair says nothing about variation across training seeds."
+   ]
+  },
+  {
+   "chapter": 26,
+   "goals": [
+    "derive chronological affine composition and check associativity with an independent matrix oracle",
+    "build an inclusive Hillis--Steele scan and fold resets and padding into effective pairs",
+    "carry chunk state without cutting its gradient, and derive a reverse-mode adjoint oracle",
+    "exhibit a real floating-point counterexample to unrestricted scan parity"
+   ],
+   "key_ideas": [
+    "The left operand happens first: $(2,1)\\otimes(3,4)=(6,7)$, while the reversed order gives $(6,9)$.",
+    "Padding is $(\\mathbf1,\\mathbf0)$ and reset-before-update is $(\\mathbf0,a_t h_{\\rm reset}+b_t)$. Setting padded coefficients to zero erases the state.",
+    "Detaching a chunk boundary keeps forward values and changes gradients, so forward parity cannot establish training parity.",
+    "In float64, $(10^{16},-10^{16},1)$ sums to 1 sequentially and to 0 under the scan's regrouping. State the tolerance and workload for any parity claim."
+   ]
+  },
+  {
+   "chapter": 27,
+   "goals": [
+    "separate persistent array inventories from peak memory",
+    "accumulate weighted microbatch numerators against one global denominator",
+    "check Adam's moments, bias-correction clock and updated parameters, not only gradients",
+    "use activation checkpointing without changing stochastic behaviour"
+   ],
+   "key_ideas": [
+    "Dividing each microbatch by its own mass and averaging changes the objective. In the fixture the gradient error is about $0.14$.",
+    "The optimizer clock advances once per complete update. Stepping after each microbatch is a different algorithm.",
+    "Clipping is nonlinear: clipping $2$ and $-1.5$ separately at one gives $0$, but clipping their sum gives $0.5$.",
+    "Checkpointing without preserving the random state gives an identical forward loss and a wrong backward pass."
+   ]
+  },
+  {
+   "chapter": 28,
+   "goals": [
+    "declare ownership of data, parameters, gradients and optimizer state before choosing a parallelism strategy",
+    "derive one global weighted objective and its collective scaling",
+    "shard arrays with explicit ranks, offsets and empty owners, and derive tensor-parallel operators",
+    "pin, validate and reload a model artifact from raw bytes in a fresh process"
+   ],
+   "key_ideas": [
+    "Average rank numerators against the global mass. Averaging rank-local means, or dropping an empty rank, gives the wrong gradient.",
+    "A contraction-axis split combines partial outputs by summation; an output-axis split combines them by concatenation. A replicated bias is added once.",
+    "Persistent $1/D$ storage is not $1/D$ peak memory, because gathered parameters, activations and buffers remain.",
+    "A hash detects change only relative to a trusted pin. A coherent forgery with a matching manifest passes any check that lacks one."
+   ]
+  },
+  {
+   "chapter": 29,
+   "goals": [
+    "freeze a falsifiable comparative claim before ranking models",
+    "compute paired accuracy differences with an exact bootstrap oracle and a conditional sign test",
+    "resample crossed seed and group dimensions, and recognize pseudoreplication",
+    "gate resource budgets coordinate by coordinate and design ablation, transplant and sham interventions"
+   ],
+   "key_ideas": [
+    "A benchmark is a measurement instrument, not a verdict on an architecture.",
+    "Two hundred duplicated windows from two independent groups are still two experimental units. A naive i.i.d. standard error is fourteen times too small here.",
+    "Task selection alone can reverse a ranking: A wins task one, while B wins the equal-weight two-task suite.",
+    "A matched sham separates a mechanism's effect from extra work, and a GC-matched pair rules out a composition shortcut."
+   ]
+  },
+  {
+   "chapter": 30,
+   "goals": [
+    "bind a request to tenant, pinned model identity, deadline and independent output ceilings before allocating state",
+    "separate lifecycle phase, terminal reason and cleanup",
+    "arbitrate one terminal winner and fence late results with generation-stamped leases",
+    "reserve output capacity before launching work, and reconcile work and output counters"
+   ],
+   "key_ideas": [
+    "Completion, cancellation and failure race; the serialized terminal transition is the linearization point. At the deadline itself, the deadline wins.",
+    "Cancelling is not preemption. A buffer still referenced by in-flight work cannot be reused until its completion is acknowledged.",
+    "Generation numbers defeat ABA reuse: a stale lease must not write into a new tenant's allocation that has the same slot name.",
+    "$L=S+P$ and $G=Q+D+X$ are invariants. A missing acknowledgement or a silent queue loss breaks one of them visibly."
+   ]
+  },
+  {
+   "chapter": 31,
+   "goals": [
+    "bind native state to tenant, request, content-addressed artifact and position",
+    "derive and hand-check an input-gated diagonal recurrence step",
+    "ingest masked chunks with full preflight, and verify a closed form and its derivative independently",
+    "stage a decode step so that cancellation cannot advance native state"
+   ],
+   "key_ideas": [
+    "This is a restricted teaching recurrence, not full DOGMA. Its input-only gate is exactly what makes the closed form possible.",
+    "A frozen dataclass does not freeze tensor storage, so the oracle rechecks the artifact digest at every step.",
+    "Masking holds state and position; it is not a reset. A new request needs a fresh state and owner.",
+    "\\texttt{detach()} keeps values but cuts gradients and still shares storage. An independent snapshot needs an explicit copy."
+   ]
+  },
+  {
+   "chapter": 32,
+   "goals": [
+    "separate logical state identity from physical slot residency",
+    "use generations to reject handles after reuse and versions to reject lost updates",
+    "pin in-flight work and defer reclamation until every pin is acknowledged",
+    "clone by value, bridge to native state, and state an honest scrubbing threat model"
+   ],
+   "key_ideas": [
+    "Generation answers ``is this still the same allocation?''; version answers ``was the result computed from the current payload?'' Neither substitutes for the other.",
+    "Release under a live pin marks the slot retiring. It is still occupied, so capacity is free $+$ owned $+$ retiring.",
+    "Clone-by-copy is the semantic oracle that any later copy-on-write optimization must refine.",
+    "Writing zeros clears what the API exposes. It is not cryptographic erasure of Python heap, VRAM or crash dumps."
+   ]
+  },
+  {
+   "chapter": 33,
+   "goals": [
+    "cut a computation at a semantic token boundary and prove continuation equivalence",
+    "bound checkpoint approximation error for a contracting recurrence",
+    "separate byte integrity, structural compatibility and replay consistency in a bounded data-only envelope",
+    "restore into fresh owners, look up the longest validated prefix and count checkpoint storage"
+   ],
+   "key_ideas": [
+    "Tensor equality is not state sufficiency: two snapshots with equal $h$ can continue differently if a phase or clock is missing.",
+    "A rehashed forgery passes the integrity and schema checks. Only replay or trusted provenance detects it.",
+    "Restore allocates a new owner; it never revives a stale handle. Branches own copied values, so evicting the source cannot break them.",
+    "Fixed-width state does not make a prefix cache constant-memory. Storing each complete prefix grows quadratically when $B=1$."
+   ]
+  },
+  {
+   "chapter": 34,
+   "goals": [
+    "lift one native transition to independent batch rows and prove permutation legality",
+    "implement inactivity as an identity, not as a zero token",
+    "separate scheduler ticks from request-local token clocks and gather and scatter through fenced lanes",
+    "bound numerical divergence and count bytes before claiming a kernel speedup"
+   ],
+   "key_ideas": [
+    "Row independence must be established. Batch normalization, batch-wide top-$k$ or shared random streams break it.",
+    "Masking must happen before the embedding lookup. Feeding token zero to an inactive lane still decays its state and advances its clock.",
+    "Each lane's acceptance is fenced separately: a cancelled lane rejects its result while a sibling commits. A batch is not a cross-request transaction.",
+    "Staging adds $4BDb$ bytes and roughly halves arithmetic intensity in the worked example. These are modelled bytes, not a roofline measurement."
+   ]
+  },
+  {
+   "chapter": 35,
+   "goals": [
+    "locate the state a causal Hermon DNA Transformer must retain: per-layer normalized keys and values",
+    "derive prefill and offset-masked chunk continuation for the actual two-layer reference",
+    "prove full/cached equivalence through the complete stack by induction over layers and chunks",
+    "count resident KV payload separately from the quadratic cost of repeated copying"
+   ],
+   "key_ideas": [
+    "Later-layer keys and values depend on earlier attention, residuals and feed-forward layers. Caching first-layer projections for every layer is wrong.",
+    "A continuation query sits at absolute position $t+i$. PyTorch's upper-left causal shortcut is shape-correct and semantically wrong here.",
+    "Learned absolute positions do not admit a rotary-style shift identity. Restarting the ordinal changes every layer.",
+    "Resident KV grows linearly ($384$\\,MiB at $t=4096$ in the large example), but copying the prefix on every append costs $2\\gamma GP+\\gamma G(G-1)$."
+   ]
+  },
+  {
+   "chapter": 36,
+   "goals": [
+    "translate logical token ordinals to physical pages through a block table",
+    "conserve generational references and reference counts across fork, append and release",
+    "copy-on-write a shared partial tail and preflight every page before publishing",
+    "measure physical utilization and logical multiplicity separately"
+   ],
+   "key_ideas": [
+    "Flattening the pages must reproduce the Chapter~35 cache exactly. Physical page IDs may change; logical order may not.",
+    "Reference counts carry lifetime and generations carry identity, but authorization still needs owner checks.",
+    "Writing into a shared partial tail through a shared pointer would rewrite another request's history.",
+    "Shared pages can push logical multiplicity above one, as in the $7/6$ example. Physical utilization never exceeds one."
+   ]
+  },
+  {
+   "chapter": 37,
+   "goals": [
+    "separate consumed positions from emitted outputs",
+    "reserve page credits at admission and prove the arena cannot overflow",
+    "plan decode-first, chunked-prefill iterations under a token-work budget, and report TTFT, ITL and throughput in their own units",
+    "attach precision to tensor roles and bound how KV error propagates into one attention head"
+   ],
+   "key_ideas": [
+    "$O$ outputs need $P+O-1$ consumed positions: the last prompt row already emits the first output.",
+    "A token budget bounds counted tokens, not milliseconds. One prompt token and one decode token can cost very different amounts.",
+    "A one-output request has no inter-token latency sample. That is undefined, not zero.",
+    "A small maximum logit error preserves an argmax only when the margin exceeds twice the error. Near-ties need explicit negative controls."
+   ]
+  },
+  {
+   "chapter": 38,
+   "goals": [
+    "derive the modified rejection sampler and prove it emits the target law",
+    "extend it across blocks of conditional proposals with tentative KV ownership",
+    "separate expected acceptance from speed",
+    "derive the online-softmax merge and preserve offset causality across tiles and pages"
+   ],
+   "key_ideas": [
+    "After rejection, sample from the normalized residual $(p-q)_+$. Resampling from $p$ itself gives token zero probability $.505$ instead of $.55$.",
+    "Expected acceptance is $1-\\mathrm{TV}(p,q)$, a statement about overlap. It says nothing about draft cost or latency.",
+    "Only the accepted contiguous prefix is reusable. Descendants of a rejected proposal were conditioned on a history that never happened.",
+    "When a larger maximum arrives, the online merge must rescale the old value accumulator as well as the normalizer."
+   ]
+  },
+  {
+   "chapter": 39,
+   "goals": [
+    "represent a heterogeneous workflow as a typed, single-assignment plan and validate it before any effect",
+    "separate planning from routing, and route on semantic capability before cost",
+    "address engine state through opaque, owner-bound handles",
+    "separate planned, authorized and completed tool effects, and trace execution without claiming hidden reasoning"
+   ],
+   "key_ideas": [
+    "Equal token IDs do not make two engines' inputs or logits comparable. Each backend is checked against its own oracle.",
+    "A fallback is legal only if it preserves the observable contract. Otherwise the planner must make a new plan and record the change.",
+    "Retrieved text is evidence, never a grant. Authorization comes only from configured policy, checked immediately before the effect.",
+    "If the effect succeeds but its receipt fails, completion is uncertain, and blind retry can repeat a non-idempotent action."
+   ]
+  },
+  {
+   "chapter": 40,
+   "goals": [
+    "distinguish engine-native state, durable events, lossy summaries and addressable records",
+    "define availability so that expiry and deletion propagate through a provenance DAG",
+    "witness exact information loss with a compression collision",
+    "bound rehydration and working-context promotion, and keep memory outside the authority boundary"
+   ],
+   "key_ideas": [
+    "A summary is available only if every ancestor is. A stale index entry cannot bring back a tombstoned source.",
+    "If two histories compress to the same text, no function of that text can recover which one occurred; only retained sources can.",
+    "UTF-8 bytes are not tokens, and a payload ratio is not total storage cost.",
+    "A tombstone denies future reads. It cannot recall a context already handed to a client or a running model."
+   ]
+  },
+  {
+   "chapter": 41,
+   "goals": [
+    "express a plan as a verified straight-line SSA IR with declared effects",
+    "define the observation a compiler pass must preserve",
+    "prove constant folding and dead-code elimination correct and test them against an independent oracle",
+    "lower to eligible implementations and plan peak live storage at allocation time"
+   ],
+   "key_ideas": [
+    "A producer cannot declare a tool or engine pure to unlock optimization. The verifier computes the expected effects for each kind.",
+    "Only total, deterministic pure operations may disappear. An unused tool or retrieval stays, because its effect is observable.",
+    "Floating-point reassociation is outside these proofs: $(10^{16}-10^{16})+1$ and $10^{16}+(-10^{16}+1)$ can differ.",
+    "Peak pressure occurs while an output is allocated, before its operands die, so $c=a+b$ needs three live values."
+   ]
+  },
+  {
+   "chapter": 42,
+   "goals": [
+    "separate a logical observation contract from its legal physical alternatives",
+    "transfer Volcano and Cascades structure without importing relational equivalence",
+    "attach object-specific validity to buffer management and transactions",
+    "derive a committed-redo-only write-ahead recovery contract and test it at every crash cut"
+   ],
+   "key_ideas": [
+    "Legality is a filter, not a cost penalty. The cheapest candidate here is ineligible.",
+    "Pins protect physical lifetime, not logical validity. A pinned buffer with the wrong artifact is still wrong.",
+    "A page write must cite a durable log record for the same key and value that does not regress the page's LSN. An LSN that certifies nothing specific certifies nothing.",
+    "Recovery restores durable metadata; replay reproduces execution observations. Neither reverses an external effect."
+   ]
+  },
+  {
+   "chapter": 43,
+   "goals": [
+    "name exactly which object a proposed adaptation changes and record immutable lineage",
+    "evaluate candidates with conjunctive gates bound to protocol, data and budget",
+    "contrast a parametric stability penalty (EWC) with structural legality checks",
+    "promote and roll back under role separation, revision guards and state compatibility"
+   ],
+   "key_ideas": [
+    "A large quality gain cannot buy back a failed safety gate. Eligibility is a conjunction.",
+    "Zero errors in 20 independent canary trials still allows a failure rate up to about $13.9\\%$ at one-sided 95\\%.",
+    "Rollback is a governed switch to a previously served, validated artifact. It is not time reversal and cannot undo external effects.",
+    "Equal tensor shapes do not make native state compatible. Carrying state across artifacts needs a verified conversion or a reset."
+   ]
+  },
+  {
+   "chapter": 44,
+   "goals": [
+    "bind model, runtime, configuration, interpretation contracts and provenance into one release identity",
+    "verify delivered bytes against an independently trusted manifest pin",
+    "separate liveness, readiness and the ability to reserve capacity, and drain by ownership conservation",
+    "observe without copying private content and turn observations into a falsifiable SLO with an error budget"
+   ],
+   "key_ideas": [
+    "Changing only the tokenizer must change the release digest. Interpretation is part of identity.",
+    "All hashes matching does not mean authenticated: an attacker who can replace the trust pin defeats byte consistency.",
+    "Promotion evidence must come from the candidate's own observations. The old revision's healthy history certifies nothing about the new one.",
+    "Accepted-only latency improves when you reject hard requests. Declare how rejections, timeouts and cancellations count."
+   ]
+  },
+  {
+   "chapter": 45,
+   "goals": [
+    "name the adversary and the trusted components before claiming isolation",
+    "take identity from authentication and authorize deny-by-default against an epoch-versioned grant set",
+    "issue capabilities with scope, session and expiry, and extend tenant namespaces through every stateful resource",
+    "reserve every resource dimension before allocating, and keep untrusted text away from tool authority"
+   ],
+   "key_ideas": [
+    "``I am the administrator'' inside a prompt changes neither the principal nor the grant set.",
+    "Unescaped concatenation can make $(\\texttt{A|B},\\texttt{C})$ and $(\\texttt{A},\\texttt{B|C})$ hash identically. A hash cannot repair an ambiguous encoding.",
+    "The logical noninterference proof covers values only. A shared global quota already lets one tenant change another's admission.",
+    "A system prompt guides behaviour; it is not access control. A deterministic check must gate the effect."
+   ]
+  },
+  {
+   "chapter": 46,
+   "goals": [
+    "separate the control plane from the data plane, and routing from placement",
+    "represent state identity independently of location with an owner and a fencing epoch",
+    "migrate from a stable snapshot through prepare, copy, verify and commit, and prove at most one owner in the serial model",
+    "reserve paired prefill and decode capacity and estimate state-transfer cost"
+   ],
+   "key_ideas": [
+    "Copying bytes does not move authority. Only the directory transition from epoch $e$ to $e+1$ does, and it fences the old owner.",
+    "Lease expiry on local clocks does not stop a paused old worker. Fencing must be enforced where the mutation is accepted.",
+    "Reserve both pools before starting prefill. Otherwise prefill can produce state with no admitted destination.",
+    "Replaying internal model state does not deduplicate external effects."
+   ]
+  },
+  {
+   "chapter": 47,
+   "goals": [
+    "establish correctness parity before any timing comparison",
+    "freeze a workload, an arrival process and a measurement population",
+    "derive TTFT, ITL, goodput and nearest-rank percentiles from a single observation clock",
+    "find the critical path, apply Amdahl's model and state roofline ceilings at a named memory boundary"
+   ],
+   "key_ideas": [
+    "A failed request with no output has no TTFT sample. Dropping it from the denominator creates survivor bias.",
+    "A maximum-gap SLO is stricter than mean TPOT: gaps $(1,99)$ average 50 but fail a 60\\,ms bound.",
+    "Parallel spans are not additive. Halving the off-path retrieval changes nothing; halving prefill makes retrieval critical.",
+    "One-query decode attention has intensity about $2/b$ FLOP/byte whatever the context length."
+   ]
+  },
+  {
+   "chapter": 48,
+   "goals": [
+    "turn a biological question into an observation contract: inputs, target, sampling unit and metric",
+    "close leakage relations (overlap and declared homology) transitively before splitting",
+    "transform sequences, coordinates and labels consistently under reverse complementation",
+    "report discrimination and probability metrics with declared tie and undefined-value policies, and keep variant scores separate from mechanisms"
+   ],
+   "key_ideas": [
+    "Windows $[0,100)$ and $[80,180)$ share evidence. A random window split tests a partly seen locus, not an unseen one.",
+    "CG is its own reverse complement, so it cannot test two orientations. Use ACG and CGT.",
+    "At 1\\% prevalence, an all-negative classifier has 99\\% accuracy, zero recall and undefined MCC.",
+    "Saliency and in-silico mutation measure a predictor's sensitivity. Showing that a protein binds a sequence in a cell needs a designed experiment, which this book does not perform."
+   ]
+  },
+  {
+   "chapter": 49,
+   "goals": [
+    "order events within a session and bound queues with visible rejection",
+    "keep native state, active context, durable memory and external state distinct",
+    "bind replay to identity and contract with a prefix digest",
+    "run a recovery state machine that records intent before dispatch and reconciles ambiguous crashes"
+   ],
+   "key_ideas": [
+    "A larger queue cannot fix a sustained arrival rate above the service rate; it only delays exhaustion.",
+    "The event log is not an engine checkpoint. Native carry and per-layer K/V each need their own artifact-bound state.",
+    "At most one local dispatch per key is not exactly-once external execution. A crash after intent requires reconciliation, not blind retry.",
+    "Replay reduces recorded observations into derived state. It never re-runs tools."
+   ]
+  },
+  {
+   "chapter": 50,
+   "goals": [
+    "separate context, memory, parameter, structural and population updates",
+    "derive acquisition, forgetting and an anchored compromise in a transparent quadratic",
+    "read the full experience matrix with a declared forgetting convention and backward transfer",
+    "count population-search opportunities and apply feasibility before Pareto selection"
+   ],
+   "key_ideas": [
+    "Sequential training on $(1,0)$ then $(0,1)$ ends at $(15/256,15/16)$: the objective forgets by construction.",
+    "Anchoring trades acquisition for retention and increases curvature, which tightens the stable learning-rate bound.",
+    "Last-task forgetting is zero by definition. That is not evidence of long-term retention.",
+    "A parent's score does not validate its mutations. Offspring are new candidates and need their own evaluation."
+   ]
+  },
+  {
+   "chapter": 51,
+   "goals": [
+    "separate evidence labels, from speculative to replicated, from performance numbers",
+    "treat breadth, depth and autonomy as separate dimensions of a capability vector",
+    "design unknown-task evaluation behind an information firewall, and report acquisition along a budget axis",
+    "prove that finite tests cannot establish unrestricted generality, and quantify what they can bound"
+   ],
+   "key_ideas": [
+    "A component inventory is not a capability argument. Memory, tools and self-editing name mechanisms, not demonstrated skills.",
+    "Autonomy is not a multiplier that converts narrow skill into breadth.",
+    "Two systems can agree on every observed history and differ on an unobserved one. Evidence supports scoped claims under assumptions, never universal competence.",
+    "This book demonstrates executable evidence contracts and falsifiable hypotheses. It demonstrates no AGI capability."
+   ]
+  },
+  {
+   "chapter": 52,
+   "goals": [
+    "state what is implemented and what remains a research claim for DOGMA, Hermon DNA and Evolutor",
+    "preserve the closest competitor in every evidence matrix",
+    "turn a symptom into a durable failure artifact and keep it after resolution",
+    "bind results to a dependency-closed capsule and state open problems as disconfirming experiments"
+   ],
+   "key_ideas": [
+    "A correct kernel does not prove a learning hypothesis, and a predictive gain does not validate a biological analogy.",
+    "A finite empirical loss can fall below $\\log V$ by chance. The bound concerns an expectation under independence.",
+    "A resolution adds evidence; it never deletes the original counterexample.",
+    "Implementation, integration, independent review and publication are separate gates and must not be collapsed into one percentage."
+   ]
+  }
+ ]
+}

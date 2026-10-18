@@ -74,9 +74,9 @@ that happen to remain equal. This is conservative global revocation.
 \Listing{Policy.issue}
 \Listing{Policy.verify}
 
-The incoming deterministic nonce was not checked against an issuance registry.
-Constructing an equal-looking record could pass whenever a grant existed.
-The revised model distinguishes an issued object from its copy. This is useful
+A deterministic nonce that is never checked against an issuance registry is not
+enough: constructing an equal-looking record would pass whenever a grant existed.
+The model here distinguishes an issued object from its copy. This is useful
 misuse protection for trusted callers; it is not a bearer-token format, MAC,
 signature or defense against code that can edit \texttt{issued}. A remote
 design needs issuer/audience binding, authenticated transport, anti-replay or
@@ -204,14 +204,14 @@ guarantee exactly-once effects in an external service.
 Retrieval must filter tenant scope before ranking and returning records.
 Deletion/tombstones and derived summaries preserve scope and provenance.
 Filtering only after global top-$k$ both risks disclosure and changes recall:
-other tenants can displace a caller's valid records. An unfinished Chapter 40
-memory API is not imported here; these are its integration requirements.
+other tenants can displace a caller's valid records. This chapter does not import
+Chapter 40's memory API; these are the requirements an integration must meet.
 
 An IR transformation may merge equal pure constants in a public domain, but
 equality of numerical tensors does not authorize private-state deduplication.
 Effect labels, tenant domain and policy version are legality premises for CSE,
-prefix reuse and materialization. Chapter 41 integration remains a separate
-test against its final effect/security representation.
+prefix reuse and materialization. Wiring these premises into
+Chapter 41's effect representation is a separate integration test.
 
 Continuous batching may colocate tenants physically. Preserve separate masks,
 page tables, state handles, output channels, cancellation and accounting. A

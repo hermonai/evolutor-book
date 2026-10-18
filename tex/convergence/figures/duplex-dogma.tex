@@ -1,0 +1,40 @@
+\begin{tikzpicture}[x=1cm,y=1cm,font=\sffamily\footnotesize,
+ b/.style={minimum width=0.5cm,minimum height=0.44cm,inner sep=0pt,font=\sffamily\bfseries\scriptsize,draw=white,line width=0.4pt},
+ rung/.style={draw=black!35,line width=0.9pt},
+ st/.style={line width=1.1pt,-{Straight Barb[left,length=1.8mm,width=1.5mm]}},
+ dstep/.style={-{Stealth[length=2mm]},line width=0.8pt,draw=Blue},
+ ttl/.style={font=\sffamily\bfseries\small,text=Blue,anchor=west}]
+\definecolor{bA}{HTML}{3C8D5A}\definecolor{bT}{HTML}{B5475E}\definecolor{bG}{HTML}{C9962B}\definecolor{bC}{HTML}{3D6E9E}\definecolor{bU}{HTML}{8A5A9E}
+\newcommand{\Base}[3]{\node[b,fill=b#1,text=white] at (#2,#3) {#1};}
+% ---------- Panel A: duplex and reverse complement
+\node[ttl] at (0,1.15) {A\enspace Antiparallel duplex};
+\foreach \u [count=\i from 0] in {A,C,G,G,T,C,A,T}{\Base{\u}{0.6+0.56*\i}{0.4}}
+\foreach \l [count=\i from 0] in {T,G,C,C,A,G,T,A}{\Base{\l}{0.6+0.56*\i}{-0.6}}
+\foreach \i in {0,...,7}{\draw[rung] (0.6+0.56*\i,0.17) -- (0.6+0.56*\i,-0.37);}
+\draw[st,Ink] (0.25,0.78) -- (4.85,0.78);
+\draw[st,Ink] (4.85,-0.98) -- (0.25,-0.98);
+\node[anchor=east,text=Ink] at (0.22,0.78) {$5'$}; \node[anchor=west,text=Ink] at (4.88,0.78) {$3'$};
+\node[anchor=east,text=Ink] at (0.22,-0.98) {$3'$}; \node[anchor=west,text=Ink] at (4.88,-0.98) {$5'$};
+\node[anchor=west,text=Slate,align=left,font=\sffamily\scriptsize] at (0.2,-1.65) {upper $5'\to3'$:\enspace\texttt{ACGGTCAT}\\
+lower read $5'\to3'$:\enspace\texttt{ATGACCGT} $=R(\texttt{ACGGTCAT})$\\
+complement only (wrong reading):\enspace\texttt{TGCCAGTA}};
+% ---------- Panel B: transcription and translation
+\begin{scope}[shift={(6.2,0)}]
+\node[ttl] at (0,1.15) {B\enspace DNA $\to$ RNA $\to$ protein};
+\foreach \u [count=\i from 0] in {A,T,G,G,C,A,C,T,G}{\Base{\u}{0.55+0.5*\i}{0.4}}
+\foreach \l [count=\i from 0] in {T,A,C,C,G,T,G,A,C}{\Base{\l}{0.55+0.5*\i}{-0.6}}
+\foreach \i in {0,...,8}{\draw[rung] (0.55+0.5*\i,0.17) -- (0.55+0.5*\i,-0.37);}
+\draw[st,Ink] (0.25,0.78) -- (4.85,0.78);\draw[st,Ink] (4.85,-0.98) -- (0.25,-0.98);
+\node[anchor=west,font=\sffamily\scriptsize,text=Slate] at (4.95,0.4) {coding strand};
+\node[anchor=west,font=\sffamily\scriptsize,text=Slate] at (4.95,-0.6) {template strand};
+\draw[dstep] (2.55,-1.2) -- (2.55,-1.85) node[midway,right,font=\sffamily\scriptsize,text=Ink,align=left]{transcription: RNA polymerase reads\\the template $3'\to5'$, builds RNA $5'\to3'$};
+\foreach \u [count=\i from 0] in {A,U,G,G,C,A,C,U,G}{\Base{\u}{0.55+0.5*\i}{-2.25}}
+\draw[st,bU] (0.25,-2.62) -- (4.85,-2.62);
+\node[anchor=west,font=\sffamily\scriptsize,text=Slate] at (4.95,-2.25) {mRNA (U replaces T)};
+\foreach \k in {0,1,2}{\draw[Blue,line width=0.5pt] (0.32+1.5*\k,-2.0) rectangle ++(1.46,-0.5);}
+\draw[dstep] (2.55,-2.85) -- (2.55,-3.45) node[midway,right,font=\sffamily\scriptsize,text=Ink,align=left]{translation: the ribosome reads\\codons $5'\to3'$};
+\foreach \aa/\x in {Met/1.05,Ala/2.55,Leu/4.05}{\node[circle,draw=Blue,fill=Pale,minimum size=0.62cm,inner sep=0pt,font=\sffamily\scriptsize\bfseries,text=Blue] (aa\x) at (\x,-3.85) {\aa};}
+\draw[Blue,line width=0.8pt] (1.36,-3.85) -- (2.24,-3.85); \draw[Blue,line width=0.8pt] (2.86,-3.85) -- (3.74,-3.85);
+\node[anchor=west,font=\sffamily\scriptsize,text=Slate] at (4.95,-3.85) {protein (N-terminus at left)};
+\end{scope}
+\end{tikzpicture}

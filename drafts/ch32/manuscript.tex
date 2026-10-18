@@ -10,10 +10,9 @@ does not mean logical-state equality.
 A safe design needs both temporal identity and a reclamation rule. Generation
 numbers reject old handles after reuse. They do not, by themselves, prevent an
 already-running kernel from touching memory before it has finished. This chapter
-therefore adds explicit in-flight pins and deferred release to the incoming
-package's generational pool.
+therefore adds explicit in-flight pins and deferred release to a generational pool.
 
-The original implementation is a serialized CPU inference oracle using copied
+The reference implementation is a serialized CPU inference oracle using copied
 scalar snapshots. It is not a concurrent GPU allocator, full DOGMA state layout,
 authentication mechanism or secure-erasure implementation. We use it to state
 and test the obligations that those systems would have to refine.

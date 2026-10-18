@@ -68,8 +68,8 @@ consistency model; do not infer it from engine-state ownership.
 \section{Derive migration from a stable snapshot}
 \index{migration}\index{snapshot}\index{reservation}
 \label{evod46:migrate}
-The package's prepare--copy--verify--commit sequence is retained, but preparing
-must also freeze updates or capture a versioned snapshot. Otherwise the source
+A prepare--copy--verify--commit sequence is the starting point, but preparing must
+also freeze updates or capture a versioned snapshot. Otherwise the source
 could advance while the old snapshot is copied and commit a stale continuation.
 We choose freezing to make the reference small and exact. Reads remain allowed;
 writes are rejected until commit or abort.

@@ -2,12 +2,7 @@
 \addcontentsline{toc}{chapter}{Sources and further reading}
 Access checked 17 October 2026. The original Chapter 23 model was read and
 imported, including learned absolute positions, pre-normalized blocks,
-mask conventions and offline/causal separation. The supplied Chapter 35
-package's rotary single-head attention was not silently adopted as Hermon's
-architecture. Its prefill/decode and storage questions were retained and
-extended into a full-model adapter with explicit offset masks and layered
-cache validation. The Chapter 36 allocation handoff was inspected, not
-integrated.
+mask conventions and offline/causal separation. A rotary single-head attention toy would test a different architecture, so the chapter serves the actual model through a full-model adapter with explicit offset masks and layered cache validation. Chapter 36 refines its storage.
 
 The Transformer HTML paper's attention and multi-head sections were inspected.
 PyTorch 2.10 SDPA documentation was read for boolean-mask polarity,

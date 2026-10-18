@@ -285,10 +285,23 @@ All per-seed losses, accuracies, parameter counts and training-loss traces are
 stored in the generated results, including weak or failed runs. No genomic,
 capacity-matched or compute-matched ranking follows from this table.
 
-The task is deliberately synthetic. It tests that attention, optimization and
-strand-symmetric readout can participate in a coherent trainable system. It does not
-show promoter recognition, variant-effect prediction, regulatory reasoning or
-genomic foundation-model capability.
+Now read the numbers. Classes alternate, so the held-out set is balanced and chance
+accuracy is $1/2$, with a single-run standard error of $\sqrt{0.25/128}\approx0.044$.
+The Hermon runs score $0.52$, $0.52$ and $0.54$, indistinguishable from the random-label
+control ($0.52$--$0.55$). Their training losses fall from about $0.71$ to $0.692$ in the
+first epochs and then stay near $\ln2\approx0.693$ for the rest of the run: under this
+budget the Transformer did not fit even its training set. The four-wide CNN, whose
+inductive bias matches a local motif, learns in two seeds ($0.71$ and $0.88$) and only
+weakly in the third ($0.58$).
+
+This is a negative result, and a useful one. The algebra of the preceding sections is
+correct, and the tests below confirm it. A correct implementation is still not a
+trained model, and 25 full-batch epochs at this learning rate do not train this one.
+Chapter~25 uses the pilot as its worked diagnostic: overfit a tiny subset, inspect
+gradient norms and learning-rate sensitivity, then extend training under a declared
+budget. The task is deliberately synthetic. Even a successful run would not show
+promoter recognition, variant-effect prediction, regulatory reasoning or genomic
+foundation-model capability.
 
 A proper genomic benchmark must address homology leakage, chromosome/species split
 policy, class balance, label provenance, sequence overlap, reverse-complement
@@ -323,8 +336,9 @@ biological mechanism claims require progressively stronger data and controls.}
 {evod23:evidence}
 
 A unit test can establish that the causal mask works. It cannot establish that a
-model learned causality in biology. A synthetic motif task can establish that the
-implementation trains. It cannot establish regulatory grammar. A held-out genomic
+model learned causality in biology. A synthetic motif task can establish whether the
+implementation trains under a stated budget; here it showed that it did not. It cannot
+establish regulatory grammar. A held-out genomic
 benchmark can establish predictive performance under its split. It does not by
 itself establish the molecular mechanism used by a cell. The chapter keeps those
 claims separate so later results have somewhere honest to land.
@@ -378,6 +392,11 @@ This reference assigns zero attention/output as a padding convention.
 changes which bases are observed and violates the pair-action contract.
 \item Does fixed-epoch comparison match FLOPs? \textbf{Answer:} no.
 Projection sizes, head counts and operator types change per-epoch work.
+\item The Hermon pilot's training loss stays at $0.692$ for most of training.
+What does that tell you? \textbf{Answer:} $\ln2\approx0.693$ is the loss of a
+constant prediction of $(1/2,1/2)$ on balanced labels. The model has not fit its
+training set, so held-out accuracy near $0.5$ reflects optimization under this budget
+rather than overfitting or a test-set problem.
 \item Derive Equation~\ref{evod23:params} at $D=24$, $L=2$, $T_{\max}=32$,
 $C=2$. \textbf{Answer:} embeddings use 864, blocks use 9744, final norm
 uses 48, and heads use 150: total 10806.

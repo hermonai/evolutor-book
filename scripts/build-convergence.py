@@ -56,6 +56,13 @@ def identity(body):
     dois = re.findall(r"https?://doi\.org/([^}\s]+)", body)
     if dois:
         return "doi:" + dois[0].rstrip(".").lower()
+    # One arXiv identifier names one work across abs/html/pdf views and
+    # versions; per-version access notes stay in the bibliography map.
+    arxiv = re.search(
+        r"arxiv\.org/(?:abs|html|pdf)/(\d{4}\.\d{4,5})(?:v\d+)?", body
+    )
+    if arxiv:
+        return "arxiv:" + arxiv[1]
     urls = re.findall(r"\\(?:url|href)\{(https?://[^}]+)\}", body)
     if urls:
         # URL paths can be case-sensitive; never merge distinct paths by case.
@@ -99,11 +106,139 @@ def cumulative_layout(number, text):
     return text
 
 
+EVIDENCE_CHAPTER_HEAD = re.compile(
+    r"\A(\s*)\\chapter\*\{([^{}]*)\}(?:(\s*)\\addcontentsline\{toc\}\{chapter\}\{\2\})?"
+)
+
+
+def evidence_heading(text):
+    """Typeset a chapter's source note as a section of that chapter.
+
+    Standalone review PDFs open the note as an unnumbered chapter; in the
+    continuous book that would start a page and add a chapter-level contents
+    entry. Only the derived copy changes.
+    """
+    def section(match):
+        lead, title, gap = match[1], match[2], match[3]
+        head = lead + rf"\section*{{{title}}}"
+        if gap is not None:
+            head += gap + rf"\addcontentsline{{toc}}{{section}}{{{title}}}"
+        return head
+
+    return EVIDENCE_CHAPTER_HEAD.sub(section, text, count=1)
+
+
 def chapter_dir(number):
     name = f"ch{number:02d}"
     if BOOK == "dna-computing" and number == 17:
         name += "-theory"
     return ROOT / "drafts" / name
+
+
+GUIDES = ROOT / "tex/convergence/chapter-guides.json"
+CHAPTER_HEAD = re.compile(
+    r"\\chapter\{(?:[^{}]|\{(?:[^{}]|\{[^{}]*\})*\})*\}(?:[ \t]*\\label\{[^}]*\})?"
+)
+EXERCISES_HEAD = re.compile(
+    r"\\section\*?\{(?:Exercises|Twenty worked|Twelve worked|Worked|Final exercises)"
+)
+
+
+def chapter_guides():
+    """Reader-facing goals and key ideas: book apparatus, not chapter sources."""
+    data = json.loads(GUIDES.read_text())
+    guides = {}
+    for entry in data["chapters"]:
+        number = entry["chapter"]
+        goals, ideas = entry["goals"], entry["key_ideas"]
+        if number in guides:
+            raise ValueError(f"Duplicate chapter guide: {number}")
+        if not (3 <= len(goals) <= 5 and 3 <= len(ideas) <= 5):
+            raise ValueError(f"Chapter {number} guide needs 3-5 goals and ideas")
+        guides[number] = entry
+    if sorted(guides) != list(range(1, len(guides) + 1)):
+        raise ValueError("Chapter guides must cover a contiguous chapter range")
+    return guides
+
+
+def guide_files(number, guide):
+    """Render one chapter's opening goals and closing key ideas."""
+    out = BUILD / "guides"
+    out.mkdir(parents=True, exist_ok=True)
+    items = lambda xs: "\n".join(rf"\item {x}" for x in xs)
+    (out / f"ch{number:02d}-goals.tex").write_text(
+        "\\begin{ChapterGoals}\n" + items(guide["goals"]) + "\n\\end{ChapterGoals}\n"
+    )
+    (out / f"ch{number:02d}-ideas.tex").write_text(
+        "\\begin{KeyIdeas}\n" + items(guide["key_ideas"]) + "\n\\end{KeyIdeas}\n"
+    )
+
+
+def inject_guide(number, text):
+    """Place goals after the chapter heading and key ideas before exercises.
+
+    Only derived copies change. The chapter-level label is unscoped so the
+    contents-at-a-glance page can reference every chapter uniformly.
+    """
+    head = CHAPTER_HEAD.search(text)
+    exercises = EXERCISES_HEAD.search(text)
+    if head is None or exercises is None or exercises.start() < head.end():
+        raise ValueError(f"Chapter {number}: guide anchors not found")
+    goals = (
+        "\n" + rf"\OriginalBookLabel{{book:ch{number:02d}}}"
+        + rf"\input{{../build/convergence/guides/ch{number:02d}-goals}}" + "\n"
+    )
+    ideas = rf"\input{{../build/convergence/guides/ch{number:02d}-ideas}}" + "\n"
+    return (
+        text[: head.end()]
+        + goals
+        + text[head.end() : exercises.start()]
+        + ideas
+        + text[exercises.start() :]
+    )
+
+
+def structure():
+    return json.loads((ROOT / "chapter-structure.json").read_text())
+
+
+def part_opener(part, chapters):
+    """Part page body: orientation file plus the generated chapter list."""
+    source = ROOT / f"tex/convergence/parts/part{part['number']:02d}.tex"
+    if not source.is_file():
+        raise ValueError(f"Missing part opener: {source.name}")
+    rows = [
+        rf"\PartChapter{{{c['number']}}}{{{c['title']}}}{{{c['purpose']}}}"
+        for c in chapters
+        if part["start"] <= c["number"] <= part["end"]
+    ]
+    out = BUILD / "parts"
+    out.mkdir(parents=True, exist_ok=True)
+    body = (
+        source.read_text().rstrip()
+        + "\n\\begin{PartChapters}\n"
+        + "\n".join(rows)
+        + "\n\\end{PartChapters}\n"
+    )
+    (out / f"part{part['number']:02d}.tex").write_text(body)
+    return (
+        rf"\EvolutorPart{{{part['number']}}}{{{part['title']}}}"
+        + rf"{{../build/convergence/parts/part{part['number']:02d}}}"
+    )
+
+
+def contents_at_a_glance(data):
+    lines = [r"\begin{GlanceTable}"]
+    for part in data["parts"]:
+        lines.append(rf"\GlancePart{{{part['number']}}}{{{part['title']}}}")
+        for c in data["chapters"]:
+            if part["start"] <= c["number"] <= part["end"]:
+                lines.append(
+                    rf"\GlanceChapter{{{c['number']}}}{{{c['title']}}}"
+                    + rf"{{book:ch{c['number']:02d}}}"
+                )
+    lines.append(r"\end{GlanceTable}")
+    (BUILD / "glance.tex").write_text("\n".join(lines) + "\n")
 
 
 def part_starts():
@@ -171,16 +306,33 @@ def assemble(through):
             }
         )
     parts = part_starts()
-    wrappers = [
-        rf"\part{{{parts[1]}}}",
-        r"\input{deep/ch01}",
-        rf"\part{{{parts[2]}}}",
-        r"\input{deep/ch02}",
-        r"\input{textbook/ch03}",
-    ]
+    data = structure()
+    guides = chapter_guides()
+    openers = {
+        p["start"]: part_opener(p, data["chapters"]) for p in data["parts"]
+    }
+    contents_at_a_glance(data)
+    opening = BUILD / "opening"
+    opening.mkdir(parents=True, exist_ok=True)
+    wrappers = []
+    # Opening chapters keep their preserved sources; only derived copies gain
+    # the book-level guide boxes. Their \input paths resolve from tex/.
+    for number, source in (
+        (1, ROOT / "tex/deep/ch01.tex"),
+        (2, ROOT / "tex/deep/ch02.tex"),
+        (3, ROOT / "tex/textbook/ch03.tex"),
+    ):
+        if number in openers:
+            wrappers.append(openers[number])
+        guide_files(number, guides[number])
+        (opening / f"ch{number:02d}.tex").write_text(
+            inject_guide(number, source.read_text())
+        )
+        wrappers.append(rf"\input{{../build/convergence/opening/ch{number:02d}}}")
     for number in range(4, through + 1):
         if number in parts:
-            wrappers.append(rf"\part{{{parts[number]}}}")
+            wrappers.append(openers[number])
+        guide_files(number, guides[number])
         directory = chapter_dir(number)
         source_file = directory / "sources.tex"
         source = source_file.read_text()
@@ -217,14 +369,15 @@ def assemble(through):
         for authored in directory.glob("*.tex"):
             if authored.name in ("review.tex", "sources.tex"):
                 continue
+            text = cumulative_layout(number, authored.read_text())
+            if authored.name == "manuscript.tex":
+                text = inject_guide(number, text)
             (out / authored.name).write_text(
-                rewrite_local_inputs(
-                    remap_cites(
-                        cumulative_layout(number, authored.read_text()), mapping
-                    )
-                )
+                rewrite_local_inputs(remap_cites(text, mapping))
             )
-        (out / "evidence.tex").write_text(remap_cites(strip_bib(source), mapping))
+        (out / "evidence.tex").write_text(
+            remap_cites(evidence_heading(strip_bib(source)), mapping)
+        )
         figures = out / "figures"
         figures.mkdir(exist_ok=True)
         for figure in sorted((directory / "figures").glob("*.tex")):
@@ -244,6 +397,32 @@ def assemble(through):
             ]
         )
     (BUILD / "chapters.tex").write_text("\n".join(wrappers) + "\n")
+    # Front/back matter written for the continuous book. Its own references
+    # join the single bibliography through the same exact-identifier rule.
+    matter = ROOT / "tex/convergence/matter"
+    matter_sources = matter / "sources.tex"
+    mapping = {}
+    for key, body in bib_items(matter_sources.read_text()):
+        ident = identity(body)
+        book_key = seen.get(ident, f"matter:{key}")
+        seen[ident] = book_key
+        entries.setdefault(book_key, body)
+        mapping[key] = book_key
+        provenance.append(
+            {
+                "source": str(matter_sources.relative_to(ROOT)),
+                "original_key": key,
+                "book_key": book_key,
+                "matched_identifier": ident,
+            }
+        )
+    derived = BUILD / "matter"
+    derived.mkdir(parents=True, exist_ok=True)
+    for authored in sorted(matter.glob("*.tex")):
+        if authored.name != "sources.tex":
+            (derived / authored.name).write_text(
+                remap_cites(authored.read_text(), mapping)
+            )
     bibliography = [
         r"\begin{thebibliography}{999}",
         r"\addcontentsline{toc}{chapter}{Bibliography}",
@@ -343,7 +522,9 @@ def main():
         + [
             Path(__file__),
             ROOT / "chapter-structure.json",
+            GUIDES,
         ]
+        + sorted((ROOT / "tex/convergence/figures").glob("*.txt"))
     )
     for number in range(4, args.through + 1):
         paths.extend(

@@ -1,0 +1,99 @@
+\chapter*{Preface}
+\addcontentsline{toc}{chapter}{Preface}
+\markboth{Preface}{Preface}
+
+A genome is a stored description that no single cell reads in full. Different cells
+carrying almost the same DNA express different parts of it, at different times and in
+response to different histories. Populations change the description itself over
+generations. Computing has its own versions of these separations: a program and its
+running state, a model's weights and its activations, a catalogue of modules and the
+plan selected for one request. This book asks whether making those separations explicit
+and typed, the way genomes and cells appear to separate them, can give computational
+organizations that are worth building. The question is \emph{whether}. The book does not
+start from the assumption that they are.
+
+\section*{Three meanings of genomic computation}
+The phrase ``genomic computation'' is used for three different subjects, and much
+confusion comes from sliding between them.
+
+\begin{description}
+\item[Computation about DNA.] Models that read recorded DNA sequence and predict
+something about it, such as genomic language models, variant scorers and assay
+predictors. Here DNA is \emph{data}.
+\item[Computation with DNA.] Molecules as the physical substrate of computation:
+strand-displacement circuits, molecular neural networks, algorithmic self-assembly and
+DNA data storage. Here DNA is the \emph{machine}. The companion volume
+\emph{DNA Computing: Molecular mechanisms, algorithms and evidence} develops this subject
+from first principles~\cite{dnacomputingbook}.
+\item[Computation inspired by DNA.] Digital architectures that borrow the
+\emph{organization} of genomic systems: stored versus expressed structure, regulated
+selection, strand symmetry, development and inheritance. Here DNA is a \emph{design
+hypothesis}.
+\end{description}
+
+Evolutor works in the first and third senses and keeps both apart from the second. A
+tokenized DNA string inside a neural network is not a molecule, and a software gate is not
+a promoter. The Epilogue returns to all three senses and asks where they might
+productively meet.
+
+\section*{Three research directions with fixed names}
+Throughout the book, \textbf{DOGMA} names a proposed non-Transformer, DNA-native research
+direction together with its state-native engine; \textbf{Hermon DNA} names a
+Transformer-based DNA research direction together with its attention-native engine; and
+\textbf{Evolutor} names the broader theory, compiler, runtime, memory and governance layer
+above both. The names are commitments about \emph{architecture}, not claims of success.
+Each direction is reduced to a small executable reference model whose behaviour can be
+checked exactly. The book then asks what experiment would show that the reference is worth
+scaling, and what result would show that it is not.
+
+\section*{What you will build}
+Part~II builds the machinery of modern sequence learning from first principles:
+objectives and legal information access, hand-derived gradients, reproducible training,
+tokenization, recurrence, state-space scans, attention, the Transformer block and
+conditional routing. Part~III maps real regulatory mechanisms to typed software
+abstractions and stops each mapping where the biology ends. Parts~IV and~V specify DOGMA
+and Hermon DNA. Part~VI fixes how unlike architectures can be compared without false
+equivalence. Parts~VII and~VIII turn both references into serving engines (state pools,
+checkpoints, batching, paged KV caches, continuous batching and speculative decoding)
+while preserving exactly what each model computes. Part~IX builds Evolutor's runtime,
+memory and compiler above both engines. Part~X covers deployment, isolation, distributed
+placement and measurement. Part~XI turns application and capability claims, including
+claims about general intelligence, into experimental designs. Part~XII collects
+failures, open problems and the evidence record.
+
+Almost every mechanism is implemented in a small reference program that you can run, and
+almost every implementation is checked against an independent oracle. Wherever a
+plausible bug exists, a deliberately broken negative control shows that the test can
+actually catch it.
+
+\section*{An evidence discipline}
+The book separates kinds of evidence that are easy to blur: a theorem under stated
+premises; a finite test of an implementation; a synthetic trace; a numerical emulation; a
+task-trained result on held-out data; a measurement on real hardware; a biological
+observation; and a hypothesis. Appendix~C summarizes what each can and cannot establish.
+The same discipline applies to the book's own results. Several small trained pilots in
+Parts~IV and~V stayed at or near chance under their declared budgets, and they are
+reported as negative results rather than hidden. A complete manuscript, a passing test suite or an
+elegant architecture diagram is not evidence of genomic usefulness, production readiness
+or general intelligence. These distinctions do not dampen ambition. They are what will
+make any eventual positive result credible.
+
+\section*{Who this book is for}
+The book is written for advanced undergraduates, graduate students, research engineers
+and scientists who want to build sequence-model systems rather than only use them. It
+assumes programming in Python, linear algebra, multivariable calculus and basic
+probability. Prior deep-learning experience helps but is not required: Part~II derives
+what later chapters need. No laboratory biology is assumed. Appendix~A gives the
+molecular biology, coordinate conventions and data formats used in the genomic chapters.
+The book contains no wet-laboratory procedures and no clinical interpretation of
+variants.
+
+\section*{Acknowledgments}
+The general implementation-first progression of predicting, deriving, implementing,
+testing and then examining consequences was informed by the author companion overview and
+chapter map for Sebastian Raschka's \emph{Build a Large Language Model (From
+Scratch)}~\cite{raschkaoverview}. The companion overview was inspected, not the full
+commercial text. The prose, reference implementations, numerical examples, exercises and
+illustrations of this book are its own unless explicitly attributed. Primary sources are
+cited where their ideas are used, and each chapter's source notes record how deeply each
+source was read.

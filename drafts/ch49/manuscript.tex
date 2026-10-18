@@ -6,8 +6,8 @@ what the external service did, not on how confident the model sounds. This
 small ambiguity connects streaming, memory, authority and persistence more
 directly than a large prompt does.
 
-We retain the supplied event/session example but replace its in-memory tool
-cache with replayable intents and results. The result is a serialized recovery
+We build an event/session example in which tool calls are replayable intents and
+results rather than an in-memory cache. The result is a serialized recovery
 oracle: it emits instructions to dispatch or reconcile, but executes no tools,
 stores no durable log and implements no production concurrency. Language and code
 are application workloads requiring their own trained models and evaluators.
@@ -225,9 +225,9 @@ silently accepting more risk can increase apparent autonomy.
 Trace session, plan, engine and tool spans with durations, queue pressure,
 retries, unresolved actions and budget use. Avoid secrets and unnecessary
 private content. Concurrent branches may share immutable sources but need a
-conflict rule for writes. The absent Chapter 39/40/45 production adapters remain
-integration dependencies: this chapter does not assume those contracts compose automatically or
-claim a passing multi-tenant persistent-agent deployment.
+conflict rule for writes. Production adapters for the Chapter 39, 40 and 45
+contracts are not implemented. This chapter does not assume those contracts compose
+automatically, and it claims no passing multi-tenant persistent-agent deployment.
 
 \section{Selective glossary}
 \begin{description}

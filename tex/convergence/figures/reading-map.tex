@@ -1,0 +1,50 @@
+\begin{tikzpicture}[x=1cm,y=1cm,font=\sffamily\footnotesize,
+ part/.style={draw=Blue,line width=0.6pt,fill=Pale,rounded corners=1.5pt,minimum width=6.1cm,minimum height=1.12cm,inner sep=0pt},
+ dep/.style={-{Stealth[length=1.8mm]},line width=0.6pt,draw=Slate},
+ rt/.style={circle,inner sep=0pt,minimum size=3.6mm,font=\sffamily\bfseries\tiny,text=white}]
+\definecolor{RMB}{HTML}{173E60}\definecolor{RFS}{HTML}{26714D}\definecolor{RIE}{HTML}{AA354C}
+\definecolor{RDE}{HTML}{9A6B00}\definecolor{RAR}{HTML}{6A4C93}
+% part node: name, x, y, numeral, chapters, title, route markers
+\newcommand{\PartNode}[7]{%
+ \node[part] (#1) at (#2,#3) {};
+ \node[anchor=north west,inner sep=0pt,text=Blue,font=\sffamily\bfseries\scriptsize] at ($(#1.north west)+(0.18,-0.14)$) {PART #4\enspace\textmd{\color{Slate}Ch.\,#5}};
+ \node[anchor=south west,inner sep=0pt,text width=5.75cm,align=left,font=\sffamily\footnotesize\bfseries,text=Ink] at ($(#1.south west)+(0.18,0.13)$) {#6};
+ \foreach \c/\l [count=\i] in {#7}{\node[rt,fill=\c] at ($(#1.north east)+(-0.3-0.42*\i+0.42,-0.27)$) {\l};}}
+\PartNode{p1}{7.5}{0}{I}{1}{The research question}{RAR/A,RDE/D,RIE/I,RFS/F,RMB/M}
+\PartNode{p2}{3.4}{-1.65}{II}{2--10}{Learning and sequence models}{RAR/A,RMB/M}
+\PartNode{p3}{11.6}{-1.65}{III}{11--17}{Biology to formal hypotheses}{RAR/A,RFS/F}
+\PartNode{p4}{3.4}{-3.3}{IV}{18--22}{DOGMA}{RAR/A,RMB/M}
+\PartNode{p5}{11.6}{-3.3}{V}{23--24}{Hermon DNA}{RAR/A,RIE/I,RMB/M}
+\PartNode{p6}{7.5}{-4.95}{VI}{25--29}{Training and fair experiments}{RAR/A,RDE/D,RIE/I,RMB/M}
+\PartNode{p7}{3.4}{-6.6}{VII}{30--34}{DOGMA Engine}{RDE/D,RIE/I}
+\PartNode{p8}{11.6}{-6.6}{VIII}{35--38}{Hermon DNA Engine}{RDE/D,RIE/I}
+\PartNode{p9}{7.5}{-8.25}{IX}{39--43}{Evolutor: heterogeneous execution}{RFS/F}
+\PartNode{p10}{3.4}{-9.9}{X}{44--47}{Industrial engineering}{RDE/D}
+\PartNode{p11}{11.6}{-9.9}{XI}{48--51}{Applications and capability}{RAR/A}
+\PartNode{p12}{7.5}{-11.55}{XII}{52}{Research synthesis}{RAR/A,RDE/D,RIE/I,RFS/F,RMB/M}
+\draw[dep] (p1.south) -- ++(0,-0.25) -| (p2.north);
+\draw[dep] (p1.south) -- ++(0,-0.25) -| (p3.north);
+\draw[dep] (p2.south) -- (p4.north);
+\draw[dep] (p3.south) -- (p5.north);
+\draw[dep] (p2.south east) -- (p5.north west);
+\draw[dep] (p3.south west) -- (p4.north east);
+\draw[dep] (p4.south) -- ++(0,-0.25) -| ([xshift=-1.0cm]p6.north);
+\draw[dep] (p5.south) -- ++(0,-0.25) -| ([xshift=1.0cm]p6.north);
+\draw[dep] ([xshift=-1.0cm]p6.south) -- ++(0,-0.25) -| (p7.north);
+\draw[dep] ([xshift=1.0cm]p6.south) -- ++(0,-0.25) -| (p8.north);
+\draw[dep] (p7.south) -- ++(0,-0.25) -| ([xshift=-1.0cm]p9.north);
+\draw[dep] (p8.south) -- ++(0,-0.25) -| ([xshift=1.0cm]p9.north);
+\draw[dep] (p3.east) -- ++(0.55,0) |- (p9.east);
+\draw[dep] ([xshift=-1.0cm]p9.south) -- ++(0,-0.25) -| (p10.north);
+\draw[dep] ([xshift=1.0cm]p9.south) -- ++(0,-0.25) -| (p11.north);
+\draw[dep] (p10.south) -- ++(0,-0.25) -| ([xshift=-1.0cm]p12.north);
+\draw[dep] (p11.south) -- ++(0,-0.25) -| ([xshift=1.0cm]p12.north);
+% legend
+\begin{scope}[shift={(0.35,-12.75)}]
+\foreach \c/\l/\t [count=\i] in {RMB/M/Model builder,RFS/F/Formal-systems reader,RIE/I/Inference engineer,RDE/D/Deployment engineer,RAR/A/Application researcher}{
+ \pgfmathsetmacro{\xx}{mod(\i-1,3)*4.95}\pgfmathsetmacro{\yy}{-floor((\i-1)/3)*0.5}
+ \node[rt,fill=\c] at (\xx,\yy) {\l};
+ \node[anchor=west,font=\sffamily\scriptsize,text=Ink] at (\xx+0.25,\yy) {\t};}
+\node[anchor=west,font=\sffamily\scriptsize,text=Slate] at (9.9,-0.5) {Arrows: earlier part is needed by later part};
+\end{scope}
+\end{tikzpicture}

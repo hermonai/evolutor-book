@@ -107,9 +107,8 @@ and this reasoning.
 \section{Compression preserves provenance, not all information}
 \label{evod40:compression}
 \index{compression!non-injectivity}\index{memory!payload accounting}
-The supplied package's compressor keeps the first distinct words encountered
-over ordered sources. We retain that transparent rule because it makes loss
-inspectable, rather than pretending an untrained summarizer has learned
+The reference compressor keeps the first distinct words encountered over ordered
+sources. We use that transparent rule because it makes loss inspectable, rather than pretending an untrained summarizer has learned
 semantic retention. Source IDs remain ordered and the compressor version
 includes the word limit.
 \Listing{Memory.summarize}

@@ -1,0 +1,60 @@
+{
+  "pdf": "output/pdf/evolutor-ch14-review.pdf",
+  "pages": 12,
+  "sha256": "e9ed58acd11258729faa53bec8834f34a2df9f9d5501801a36f30e7708ed4137",
+  "status": "standalone authored-LaTeX review candidate; no acceptance promotion",
+  "sources": {
+    "drafts/ch14/README.md": "dc7862a7972491bdc0d36d3afcf22ba0230f75a782eb370753a1452440bc9229",
+    "drafts/ch14/STORYBOARD.md": "024ac49e54422a09ba29f6328ed48d5d696e5191da59393ab0c4ff56b0282029",
+    "drafts/ch14/build.py": "915d9e3f91c91084da240576313d8af5a44bb9f864b3ba139efee8ff74262c9e",
+    "drafts/ch14/figures/01-types.tex": "e1a58c9c478e79c597a7a7b9a53ca9919642c4d18aa11869eda3b2389d5bcf33",
+    "drafts/ch14/figures/01-types.txt": "ad290b7093da59f6e5ffb9f3064d27dabaf5ffd58f090031fab3e167d5166d6d",
+    "drafts/ch14/figures/02-genome.tex": "565f8b3fcf1bf257d6681e131ef29dfe5f9f477f3ef7c5e6310fa80449bfb394",
+    "drafts/ch14/figures/02-genome.txt": "2e3b4cc2ede5931ed9838e8f664dff468bbb1404ba484d08ba22289ae6f8b399",
+    "drafts/ch14/figures/03-step.tex": "2ba5d8001f08979f8ded9867395c771cc44e15cdd01dc5b8b2b3ea948ca8f36a",
+    "drafts/ch14/figures/03-step.txt": "30b9f1f39d572b3dfee1b6104dae2f973c359534f0c1e7f11019edeaad7f3cd8",
+    "drafts/ch14/figures/04-rejection.tex": "e2825dbade4d15f9733e25ffebfcfff88a1668d0dca005b09644a9b1245e9d9a",
+    "drafts/ch14/figures/04-rejection.txt": "50d9f3b2b2d24a8022f5fa4df93e8c23a97a8b99985554162d1c5718f16dc7fd",
+    "drafts/ch14/figures/05-trace.tex": "9977733dd8e1dbef947b86e37263e4797139343d6e0f3d812c74d0a006c03390",
+    "drafts/ch14/figures/05-trace.txt": "6581583889132b3b3fa1215025982c4db62fcc964f1cb50b3f22c3562da3813f",
+    "drafts/ch14/manuscript.tex": "0cfa86d7fb72a4c65ddb626fec4595106cf44c6ffd8f75676b1491a6bf4b81fa",
+    "drafts/ch14/reference.py": "a753878df54e820f95f8111d2879b1fb6f9bf664eaee3e2ad9bb11ec738b9d36",
+    "drafts/ch14/results.json": "5388fe9d6c3dca252a287050625d0d908af20495364ebcbfe5d09dddacd4e623",
+    "drafts/ch14/review.tex": "37746650795d4befd222a8dbf4ce2e4a9509c3c3023126794c90f32d2f0d5384",
+    "drafts/ch14/sources.tex": "e16563907f8d9e2fc64290416d379644328e127e233f2b27c03de29fcb6ce522"
+  },
+  "reviewedOn": "2026-09-24",
+  "reviewType": "author technical, editorial and visual review; not independent specialist acceptance",
+  "allPagesInspected": true,
+  "inspectedPhysicalPages": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+  ],
+  "grayscaleReview": "All final pages inspected in grayscale contact sheets; color contact sheets and selected final mechanism, plot and code-listing pages inspected at page scale. Corrected labels and overflowing type example re-inspected after rebuilding.",
+  "figures": 5,
+  "exercises": 12,
+  "openGates": [
+    "independent specialist review",
+    "reader feedback",
+    "cumulative integration, cross-chapter index and bibliography"
+  ],
+  "validation": {
+    "generatedArtifactsCheck": "passed",
+    "pdfWordsOutsidePage": 0,
+    "unresolvedReferenceMarkers": 0,
+    "fullSuitePassed": 483,
+    "fullSuiteSkipped": 0,
+    "priorEditionPreservationTests": "passed",
+    "python": "3.13.6"
+  }
+}

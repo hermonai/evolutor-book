@@ -104,9 +104,9 @@ proves the joint law by induction over emitted positions.
 \end{proof}
 
 Merely passing a list of unconditional $p_i,q_i$ arrays is not a general
-autoregressive implementation. The supplied package's list-based example
-is retained as the one-position algebraic lead and extended into explicit
-prefix callbacks and recorded proposal laws. Tests enumerate a two-token,
+autoregressive implementation. A list-based example is useful only as the
+one-position algebraic lead. The reference extends it into explicit prefix callbacks
+and recorded proposal laws. Tests enumerate a two-token,
 two-symbol history-dependent case exactly, then check a seeded 20,000-run
 joint-frequency experiment with a predeclared .015 absolute tolerance.
 That finite statistical check supports the implementation; the proof, not

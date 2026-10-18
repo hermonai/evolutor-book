@@ -37,16 +37,15 @@ durable, concurrent production service\\
 \bottomrule
 \end{tabular}
 \end{center}
-These statements concern the book repository, not the independent Evolutor
-software repository. No source in that software repository was changed or
-validated here. The continuous candidate includes Chapters 1--52. Its separate
+These statements concern this book's reference code, not any separate Evolutor
+software product. The continuous candidate includes Chapters 1--52. Its separate
 paged-runtime companion connects the actual Chapter 36 allocator to the
 Chapter 39 runtime and Chapter 41 compiler, with full-model parity, ownership,
 failure-cleanup and effect-preservation checks. A complete manuscript and this
 bounded integration do not supply durable agent adapters, distributed fencing,
 device kernels or task-trained empirical evidence.
 
-The stable cross-chapter checks in this batch use the actual model interfaces:
+The cross-chapter checks in Chapters 48--52 use the actual model interfaces:
 Chapter 48 exercises Chapter 23's offline shared-RC path; Chapter 49 checks
 chunk continuation in Chapters 31 and 35; Chapter 52 checks the original
 Hermon causal path under a suffix perturbation. Local trusted serialized
@@ -90,7 +89,7 @@ column should appear as unmeasured, never as zero cost.
 
 \section{Turn a symptom into a durable failure artifact}
 \index{failure taxonomy}\index{counterexample}\index{negative evidence}
-The incoming taxonomy includes semantic correctness, numerical instability,
+A practical failure taxonomy includes semantic correctness, numerical instability,
 causality/target leakage, baseline and optimization regressions, scaling,
 contamination, reproducibility, security/policy, service SLOs, biological
 interpretation and capability overclaim. These categories may overlap. A
@@ -106,9 +105,9 @@ a resolution record and a regression test; it does not delete the original
 counterexample.
 
 \Listing{Ledger.add_failure}
-The new failure check binds claim and experiment to the same identity. The
-incoming reference checked that both existed but allowed a failure about one
-claim to name another claim's experiment. This relational error could make
+The failure check binds claim and experiment to the same identity. Checking only
+that both exist would allow a failure about one claim to name another claim's
+experiment. This relational error could make
 the wrong research direction appear disproved or resolved. The local tests
 include that mismatch as a negative control.
 
@@ -185,7 +184,7 @@ represented as real trained model artifacts. A real empirical claim must
 resolve its digests to accessible evidence, which this fixture does not do.
 
 The theorem ledger is different. It records hypotheses, domain/codomain,
-proof and dependencies. In this batch, split closure has a graph premise,
+proof and dependencies. In Chapters 48--52, split closure has a graph premise,
 at-most-one local dispatch has a serialized-history premise, anchored
 convergence has a curvature/rate premise, and finite-test underdetermination
 has a permissive system-class premise. Numerical tests check implementations
@@ -212,7 +211,7 @@ investigate than an undocumented one.
 
 The separate file manifest hashes eight actual reference sources: Chapters
 23, 31, 35 and 48--52~\cite{evod52:local}. This is a deliberately bounded code closure used by
-this batch's checks. It is not a whole-book capsule or an environment lock.
+the checks of Chapters 48--52. It is not a whole-book capsule or an environment lock.
 The local review records additionally bind each chapter's authored LaTeX,
 figures, tests and resulting PDF. Their claims are local author review with
 \texttt{accepted=false} and \texttt{independent\_review=false}.
@@ -303,8 +302,8 @@ interfaces, bibliography, labels, notation, glossary and index; reruns examples
 against their real dependencies; builds the continuous candidate; runs whole-repo
 regressions without concurrent author builds; and inspects the cumulative pages.
 Material revisions require those checks again. Independent specialist/reader review and rights/access auditing remain
-distinct release gates. The incoming package's completed-spine flag is not
-adopted as final-book acceptance. No stage in this chapter authorizes publishing.
+distinct release gates. A completed chapter sequence is not final-book
+acceptance. No stage in this chapter authorizes publishing.
 
 \section{Selective glossary}
 \begin{description}

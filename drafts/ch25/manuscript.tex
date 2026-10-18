@@ -303,13 +303,13 @@ additionally needs request ownership, reset, cancellation and cache-position
 tests before its timing results are interpretable.
 
 \section{Diagnose negative results without rewriting history}
-The incoming package referred to an old single Hermon motif result near
-47.7 percent. That is preserved as incoming provenance, not repeated as the
-current chapter result. The locally integrated Chapter 23 instead reports
-a three-seed synthetic pilot with mean Hermon accuracy about 0.528646,
-CNN about 0.723958 and random-target Hermon about 0.541667.
-Those experiments use their own frozen conditions and are not budget-matched
-architecture evidence.
+Chapter~23 supplies a real negative result to diagnose. Over three seeds the Hermon
+reference's mean held-out accuracy was about $0.529$, its random-target control about
+$0.542$ and a four-wide CNN about $0.724$. The Hermon training loss stayed near $\ln2$:
+the model never fit its training data. A negative result like this must be recorded as
+observed and then diagnosed. Rerunning until a better number appears, or relabelling the
+task afterwards, would rewrite history. These runs use their own frozen conditions and
+are not budget-matched architecture evidence.
 
 \Plate{06-diagnostic}{Verify labels and legal execution; try tiny-subset overfit;
 inspect gradients; compare task-relevant baselines; repeat the frozen design.

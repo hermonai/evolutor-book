@@ -9,11 +9,7 @@ inspected. This chapter's proofs assume serialized trusted callers.
 Generation checks, hashes and refcounts do not establish authentication,
 hostile-process isolation or asynchronous device safety.
 
-The supplied r01 manuscript, allocator, tests, six figure pairs, storyboard
-and source ledger are retained as text-only provenance. Its tuple allocator
-is extended into actual multi-layer KV storage, and its logical-multiplicity
-ratio is corrected to distinguish physical utilization. The adoption map
-records section-level destinations; packaged caches and QA flags are not evidence.
+The allocator stores actual multi-layer KV tensors rather than abstract tuples, and it separates logical multiplicity from physical utilization.
 \begin{thebibliography}{9}
 \bibitem{evod36:kwon} Woosuk Kwon et al.
 \emph{Efficient Memory Management for Large Language Model Serving with

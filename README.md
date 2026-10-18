@@ -13,7 +13,10 @@ counterexamples and worked exercises develop the ideas from the ground up.
 2026 integration completes the supplied chapter packages and the whole-book
 source spine. It is a review candidate, not an independently accepted edition.
 
-- [Read the complete review PDF](artifacts/review/evolutor-complete-review.pdf).
+- [Read the 19 October 2026 prepublication review edition](artifacts/review/evolutor-prepublication-review-2026-10-19.pdf)
+  (643 pages: preface, part openers, epilogue, appendices; [review records](docs/prepublication/)).
+- [The 18 October 2026 complete review candidate](artifacts/review/evolutor-complete-review.pdf), kept unchanged
+  with its own [source/PDF record](research/integration/continuous-through52-review.json).
 - [Chapter map and reading routes](CHAPTER_STRUCTURE.md).
 - [Verified integration results and remaining limits](FINAL_INTEGRATION_REPORT.md).
 - [Claude pre-publication review and revision prompt](docs/CLAUDE_PREPUBLICATION_REVIEW_PROMPT.md).
@@ -105,6 +108,10 @@ Independent scientific and reader review, whole-volume editorial polish, rights
 and licensing decisions, and accessibility remediation remain open. The PDF is
 not claimed tagged or PDF/UA-compliant. There is no general reuse license; public
 repository visibility does not supply one.
+
+An agent prepublication pass (18–19 October 2026) is recorded in
+[docs/prepublication/](docs/prepublication/); its
+[readiness assessment](docs/prepublication/PUBLICATION_READINESS.md) lists the gates that remain.
 
 Use [the Claude prompt](docs/CLAUDE_PREPUBLICATION_REVIEW_PROMPT.md) for a fresh
 chapter-by-chapter review and justified local corrections, then obtain the

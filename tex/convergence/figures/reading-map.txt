@@ -1,0 +1,8 @@
+Reading map (front matter). Twelve part boxes laid out top to bottom with dependency arrows ("is needed by"):
+I Research question (Ch 1) -> II Learning and sequence models (2-10) and III Biology to formal hypotheses (11-17);
+II and III -> IV DOGMA (18-22) and V Hermon DNA (23-24); IV and V -> VI Training and fair experiments (25-29);
+VI -> VII DOGMA Engine (30-34) and VIII Hermon DNA Engine (35-38); VII, VIII and III -> IX Evolutor heterogeneous execution (39-43);
+IX -> X Industrial engineering (44-47) and XI Applications and capability (48-51); X and XI -> XII Research synthesis (52).
+Lettered route markers (letters make routes distinguishable without colour): M model builder (II, IV, V, VI); F formal-systems reader (III, IX);
+I inference engineer (V, VI, VII, VIII); D deployment engineer (VI, VII, VIII, X); A application researcher (II, III, IV, V, VI, XI).
+All routes include parts I and XII. The map shows reading dependencies only, not evidence or acceptance status.
