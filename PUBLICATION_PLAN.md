@@ -1,11 +1,46 @@
-# Canonical deep publication policy
+# Publication policy and remaining gates
 
-Only astra-deep-rewrite advances. The undergraduate edition is frozen; a future introductory derivative will be selected from mature deep material, not synchronized chapter by chapter.
+Updated 18 October 2026. The active manuscript contains all 52 planned chapters.
+It is a complete-range review candidate, not an accepted publication edition.
+GitHub source publication is distinct from scientific/publication acceptance.
 
-Edition 4-deep has one accepted source, tex/deep/ch01.tex, and a distinct entry point tex/deep-evolutor.tex. make pdf builds output/pdf/deep-evolutor.pdf. The gate verifies the acceptance record and source hashes; it rejects preserved, later or unreviewed manuscripts. Numerical outputs and figures are checked against their generator before compilation.
+## Active and historical editions
 
-Every page must be rendered and inspected after material changes. Figures retain editable SVG and semantic Unicode TXT; code excerpts and tables come from executable files. The PDF is not tagged and is not claimed to satisfy PDF/UA. Independent subject review, technically mature reader review and accessibility remediation remain release work.
+The complete candidate uses tex/convergence/book.tex and
+`python3 scripts/build-convergence.py --through 52`. Its current guide is
+CURRENT_MANUSCRIPT.md, with chapter-level sources in CHAPTER_STRUCTURE.md.
+BOOK_PLAN.md, book/book.json, accepted opening records and earlier production
+reports retain their historical meaning. `make pdf` still checks the frozen
+opening edition; do not repurpose that acceptance gate for new sources.
 
-make historical-pdf is an explicit archival reproduction under build/; it never replaces a committed old PDF. Normal tests check frozen artifacts and only build the canonical deep prototype. No main merge, history rewrite, tag movement, licensing change or authorship change is authorized.
+Keep one active manuscript. Do not restart another parallel beginner edition
+or regenerate authored LaTeX from Markdown. Existing historical sources/PDFs
+remain preserved; no blanket cleanup, history rewrite or tag movement.
 
-The current user explicitly authorized committing and pushing astra-deep-rewrite after successful Chapter 1 review. This authorization does not establish a blanket future push policy. See [production report](DEEP_CHAPTER_1_REPORT.md).
+## Before an accepted release
+
+- Reproduce chapter fixtures and literal listings; run all tests without
+  concurrent PDF builds. Verify source, dependency and PDF identities.
+- Read every chapter, proof, example and exercise; resolve notation, transition,
+  bibliography, glossary and index issues across the complete book.
+- Inspect final rendered pages at readable size, in color and grayscale.
+  Compilation alone cannot establish diagram clarity or editorial quality.
+- Obtain appropriate external specialist and intended-reader review. A second
+  AI-agent pass is useful but is not independent scientific peer review.
+- Audit quotations, citations, illustrations, source redistribution and data
+  rights. The repository has no general reuse license; do not invent one or
+  change authorship without the owner's decision.
+- Review accessible structure, text alternatives, navigation and publication
+  formats. The current PDF is not claimed tagged, PDF/UA-compliant or an EPUB.
+- Rebuild and review changed material, then record acceptance against exact
+  final source/artifact hashes and obtain explicit human release authorization.
+
+Use [the Claude prompt](docs/CLAUDE_PREPUBLICATION_REVIEW_PROMPT.md) for a
+structured local review and bounded corrections. Track unresolved production
+integrations and empirical claims separately; a durable engine, hardware result,
+trained genomic finding or AGI result is not a prerequisite to explaining its
+research contract, but must not be described as already demonstrated.
+
+The author's 18 October request authorizes pushing the completed review work
+to GitHub. It does not authorize a final accepted release, main-branch merge,
+license choice or automatic future pushes by a reviewing agent.

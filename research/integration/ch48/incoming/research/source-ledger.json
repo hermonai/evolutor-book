@@ -1,0 +1,37 @@
+[
+  {
+    "key": "nt2025",
+    "claim": "Nucleotide Transformer studies DNA foundation models across curated genomic tasks and strong supervised baselines; performance/adaptation are task dependent.",
+    "primary": "https://www.nature.com/articles/s41592-024-02523-z",
+    "authors": "Hugo Dalla-Torre et al.",
+    "date": "2025",
+    "access_date": "2026-10-05",
+    "access_depth": "peer-reviewed Nature Methods article abstract/main/methods inspected"
+  },
+  {
+    "key": "hyenadna",
+    "claim": "HyenaDNA studies long-range genomic modeling at single-nucleotide resolution with contexts up to one million tokens.",
+    "primary": "https://arxiv.org/abs/2306.15794",
+    "authors": "Eric Nguyen et al.",
+    "date": "2023",
+    "access_date": "2026-10-05",
+    "access_depth": "primary arXiv abstract inspected"
+  },
+  {
+    "key": "caduceus",
+    "claim": "Caduceus introduces bidirectional long-range DNA models with an RC-equivariant MambaDNA construction.",
+    "primary": "https://arxiv.org/abs/2403.03234",
+    "authors": "Yair Schiff et al.",
+    "date": "2024",
+    "access_date": "2026-10-05",
+    "access_depth": "primary arXiv abstract inspected"
+  },
+  {
+    "key": "dfm-benchmark2025",
+    "claim": "A broad DNA foundation-model benchmark finds task-dependent performance and cases where specialized models outperform general foundation embeddings.",
+    "primary": "https://www.nature.com/articles/s41467-025-65823-8",
+    "date": "2025",
+    "access_date": "2026-10-05",
+    "access_depth": "peer-reviewed Nature Communications abstract/method summary inspected"
+  }
+]

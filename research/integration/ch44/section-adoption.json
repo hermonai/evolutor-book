@@ -1,0 +1,140 @@
+{
+  "chapter": 44,
+  "original_manuscript_sha256": "53b7e3e619dc3a3a79c2932b5eeb75794a77bda5d0b9ada483dc063c3197119d",
+  "section_hash_convention": "UTF-8 from section heading through before next section, exact trailing whitespace",
+  "sections": [
+    {
+      "title": "Release bundle",
+      "sha256": "9a4b6c8647a7b25c09baebf04b31f2c6db423f0a037f97e803873ac72c273c06",
+      "status": "expanded",
+      "destination": "evod44:bundle",
+      "reason": "Retain B=(M,R,C,S,P); canonical digest, tokenizer and dependency closure now explicit."
+    },
+    {
+      "title": "Supply-chain provenance",
+      "sha256": "3186ff725ddbacb55bd30038ab899d40f1694d118575c96c9d2366a08c17c6b8",
+      "status": "expanded",
+      "destination": "evod44:bundle",
+      "reason": "Retain SLSA lineage; distinguish URI/nonempty string from trusted attestation verification."
+    },
+    {
+      "title": "Compatibility gate",
+      "sha256": "385488a86f1267117eb9c566aceac5ededd0993b98b4c6910acc65b862b81856",
+      "status": "expanded",
+      "destination": "evod44:compat",
+      "reason": "Exact environment acceptance relation plus real prior native/KV interpretation requirements."
+    },
+    {
+      "title": "Rollout state machine",
+      "sha256": "23c360c51d5c75d0c65c08919ae35c11dff825d8c198b5bd30cc5feb84d87191",
+      "status": "expanded",
+      "destination": "evod44:rollout",
+      "reason": "Retain registered/canary/active/superseded/rollback; add candidate-local minimum evidence and outstanding work."
+    },
+    {
+      "title": "Liveness versus readiness",
+      "sha256": "691b9b288e90f584562b3ddb3dcd3b88b30cfdb3801069d120a7526a9c395ed1",
+      "status": "expanded",
+      "destination": "evod44:admit",
+      "reason": "Retain live versus ready; distinguish startup, dependencies and overload from restart."
+    },
+    {
+      "title": "Admission and overload",
+      "sha256": "eaf1d7cc66b0dba7f7d23c1029587759c1b9c8816cc233a2cd9ee865f60da970",
+      "status": "expanded",
+      "destination": "evod44:admit",
+      "reason": "Retain workload/memory/deadline admission; implement global issued-request capacity and idempotent settlement rejection."
+    },
+    {
+      "title": "Graceful draining",
+      "sha256": "e1485d87387f2bcdb1c82aa9e5dcbd34d07d0c33adc034e1656d93070f795a24",
+      "status": "expanded",
+      "destination": "evod44:admit",
+      "reason": "Preserve stop-admit-first scenario; derive A=C+I and distinguish logical terminality from physical acknowledgement."
+    },
+    {
+      "title": "Observable request lifecycle",
+      "sha256": "f17376a343f7145c2d41b1cce94659564b3d02a2bf16d178f9e147dc5fb7336a",
+      "status": "expanded",
+      "destination": "evod44:observe",
+      "reason": "Retain gateway/planner/compiler/router/engine/tool spans; add overlap, trust and telemetry-loss boundaries."
+    },
+    {
+      "title": "Metrics",
+      "sha256": "f55f99b63bcd30b40a180c743ad3f28c9010e94816278e3b1587de4208b1e270",
+      "status": "merged",
+      "destination": "evod44:observe; evod44:slo",
+      "reason": "Retain rate/error/duration and serving metrics; deepen bounded cardinality, unsampled denominators and chapter47 timing analysis."
+    },
+    {
+      "title": "Logs",
+      "sha256": "84d32792e4bee478c6c7044e6f830cf915bac1f9498887d3b2f5054963f8d54b",
+      "status": "expanded",
+      "destination": "evod44:observe",
+      "reason": "Retain safe correlation and no raw prompts/secrets; add exporter/redaction and audit limits."
+    },
+    {
+      "title": "SLOs",
+      "sha256": "0b9641d6fb02d2785b7c9664b346207ba84568104a95cd9d8f85d31fdf27f9ed",
+      "status": "expanded",
+      "destination": "evod44:slo",
+      "reason": "Retain TTFT objective; define eligible population/window and contrast completed-cohort gate."
+    },
+    {
+      "title": "Error budgets",
+      "sha256": "00a28b64c279a084353616dc1d68252df4a38d7b836c834d7b5fb93699ba4c55",
+      "status": "expanded",
+      "destination": "evod44:slo",
+      "reason": "Retain E=1-A*; derive count budget, burn rate and zero-failure confidence counterexample."
+    },
+    {
+      "title": "Configuration",
+      "sha256": "e729f6ceb7d4ba566ce3236730b4f35efed292ae61e1a891226b5ebea2eca47d",
+      "status": "merged",
+      "destination": "evod44:rollback",
+      "reason": "Retain immutable versus dynamic versioned configuration; bind effective policy at admission."
+    },
+    {
+      "title": "Secrets",
+      "sha256": "92b7fbc7e34fe804c2dda29b01bcef839cbd5ba43b5dd360fee0dfd92d5e5ada",
+      "status": "merged",
+      "destination": "evod44:rollback",
+      "reason": "Retain runtime secret references and rotation without reweighting; resolve nothing in fixture."
+    },
+    {
+      "title": "Rollback",
+      "sha256": "646640a91aa8da49327432f47dcceffb3486b026b9cfab1799622ebbe3954cd4",
+      "status": "expanded",
+      "destination": "evod44:rollback",
+      "reason": "Retain durable schema/external effect warning; implement compatibility/live-target gate and preserve candidate jobs."
+    },
+    {
+      "title": "Executable oracle",
+      "sha256": "32f6c34c1d1684b668ffbb9c521293bd15e02fded2da48bfdb884622e04c3806",
+      "status": "expanded",
+      "destination": "evod44:bundle; evod44:rollout; evod44:admit; evod44:rollback",
+      "reason": "Reuse Bundle/Revision/Deployment lifecycle design and scenario; replace vacuous global telemetry, implicit readiness and anonymous decrement with tested contracts."
+    },
+    {
+      "title": "Failure modes",
+      "sha256": "3e07089621c9f8769ba578342d3742cb47bd6ac5ed5707c6216892bb9150ad41",
+      "status": "expanded",
+      "destination": "evod44:failure",
+      "reason": "All supplied failure themes retained; add exhaustive 1024 short words and explicit production fault protocol."
+    },
+    {
+      "title": "Twelve worked exercises",
+      "sha256": "aee1b167f2835bbfb74aca993edbc43cc5bd69008ab4f8c68e626c2f32b4054f",
+      "status": "expanded",
+      "destination": "Twelve worked exercises",
+      "reason": "All twelve subject themes retained with computations, counterexamples and a scored experiment rubric."
+    },
+    {
+      "title": "Bridge",
+      "sha256": "a4ed0c9d974c2747886b46aa3c7004b0d86b555d4a9594d2fe659d52230d99ed",
+      "status": "retained",
+      "destination": "Terms and the next boundary",
+      "reason": "Keep chapter45 tenant/isolation handoff without claiming service completeness."
+    }
+  ]
+}

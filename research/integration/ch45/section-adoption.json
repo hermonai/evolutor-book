@@ -1,0 +1,168 @@
+{
+  "chapter": 45,
+  "original_manuscript_sha256": "ebae7c66c454b537fc2d2c60d8005897419f4037681f17fafc9739770e693e23",
+  "section_hash_convention": "UTF-8 from section heading through before next section, exact trailing whitespace",
+  "sections": [
+    {
+      "title": "Threat model",
+      "sha256": "c09609ded693b27cb62cd3cc5e708ec2f98c378fde6e8d9474288cf5189b6451",
+      "status": "expanded",
+      "destination": "evod45:threat",
+      "reason": "Retain malicious tenant/content/handles/exhaustion; specify trusted host and excluded adversaries."
+    },
+    {
+      "title": "Identity",
+      "sha256": "025fd1f05cf67b0888f563bc1ee9219ed8ced29f6abb2da871416453636bb77f",
+      "status": "expanded",
+      "destination": "evod45:identity",
+      "reason": "Preserve authenticated principal, extend session binding and distinguish baggage from authority."
+    },
+    {
+      "title": "Deny by default",
+      "sha256": "03c91bafbd2bccec19c60bc21f5cd44895b5356e4780178b1e1213a00b11bef2",
+      "status": "merged",
+      "destination": "evod45:identity",
+      "reason": "Retain explicit grant predicate and planner-proposes/runtime-authorizes split."
+    },
+    {
+      "title": "Capabilities",
+      "sha256": "bf06368e8d0edf8d15bd2ccc591cc4ef13e336fcaa262fc4e245b215f5f626f3",
+      "status": "expanded",
+      "destination": "evod45:capability",
+      "reason": "Retain scoped capability; add issuance registry, policy epoch, expiry and conservative revocation; explicitly no cryptographic auth."
+    },
+    {
+      "title": "Resource namespaces",
+      "sha256": "f10ac25a1f9f09aac9046f65da50642ed609825087d76765c1cdda9926642d77",
+      "status": "expanded",
+      "destination": "evod45:namespace",
+      "reason": "All state/cache/checkpoint/memory/tool/audit scopes retained with real prior-engine cautions."
+    },
+    {
+      "title": "Cache isolation",
+      "sha256": "0f5bc3b5ae188aeaae5152006decfe9dcf1d5853a5755d39959111fd76e80546",
+      "status": "expanded",
+      "destination": "evod45:namespace",
+      "reason": "Retain tenant/artifact/policy/prefix key; replace ambiguous delimiter string with structured encoding and envelope caveat."
+    },
+    {
+      "title": "Quota isolation",
+      "sha256": "991c4720945f375f292c7fa262acf1622e93f109551fef7cee16f99d29a0d1e5",
+      "status": "expanded",
+      "destination": "evod45:quota",
+      "reason": "Retain noisy-neighbor bounds; add componentwise tenant/global vector conservation and partial-acquisition negative control."
+    },
+    {
+      "title": "Prompt injection",
+      "sha256": "8d6df14b4cc2858236cb5ad8c9cb7b1b1037ec4411821bd95df588717d672f52",
+      "status": "expanded",
+      "destination": "evod45:tools",
+      "reason": "Retain malicious retrieval scenario and least privilege; labeled data does not prove attack recognition."
+    },
+    {
+      "title": "Tool security",
+      "sha256": "2f10d6fb93ac97505873a5fef26dd20e23d4d004457ab368d265bd605d3df9e3",
+      "status": "expanded",
+      "destination": "evod45:tools",
+      "reason": "Retain outside-model executor; implement closed echo target/argument schema and no real tools."
+    },
+    {
+      "title": "System prompts are not a security boundary",
+      "sha256": "6e11921867f1a9489d098be27358ea8af924a6e96d5f61d26ce89184dc805a86",
+      "status": "merged",
+      "destination": "evod45:tools",
+      "reason": "Retain deterministic boundary; system prompts guide behavior without granting permissions."
+    },
+    {
+      "title": "Memory isolation",
+      "sha256": "a1d161b6cdfc47d33dd46e49e427176064dae3a6ed432444fda45272ed953351",
+      "status": "expanded",
+      "destination": "evod45:engines",
+      "reason": "Retain filter-before-ranking, tombstone and summary scope; mark chapter40 integration dependency."
+    },
+    {
+      "title": "Engine-state isolation",
+      "sha256": "2639b1ef9cb6d65b13e851cd9cfa249a3e767e79f190173d1014f9bc38d7b690",
+      "status": "expanded",
+      "destination": "evod45:namespace; evod45:engines",
+      "reason": "Retain foreign-generation rejection and scrub-after-pins; distinguish logical removal from secure hardware erase."
+    },
+    {
+      "title": "Compiler and IR security",
+      "sha256": "94b68ec5a0d281e884e25379f27cff501f72d915d779e79d71748605af893d03",
+      "status": "expanded",
+      "destination": "evod45:engines",
+      "reason": "Retain security preconditions for CSE/prefix/materialization; defer integration against chapter41 final effects."
+    },
+    {
+      "title": "Batching",
+      "sha256": "1403a7df4e232a4da07cce2ffdff814b0961a59644b6725fcf95e26b909ef4fa",
+      "status": "expanded",
+      "destination": "evod45:engines",
+      "reason": "Retain independent masks/pages/outputs/cancel/accounting and add noninterference premises."
+    },
+    {
+      "title": "Side channels",
+      "sha256": "02ad71915626ad0fc77938317f361dcfbc30cb1d7b247d019397de5cd998c084",
+      "status": "expanded",
+      "destination": "evod45:engines; evod45:namespace",
+      "reason": "Retain explicit side-channel exclusion; prove only logical values and give global-quota availability counterexample."
+    },
+    {
+      "title": "Secrets",
+      "sha256": "0a6ed80b3a0950840e0e8e4fc6d5e166e4b76ff1a6884da15544f59fd95156a4",
+      "status": "merged",
+      "destination": "evod45:tools; evod45:audit",
+      "reason": "Retain secret-free prompts/artifacts and post-authorization scoped resolution."
+    },
+    {
+      "title": "Audit",
+      "sha256": "37aad835017c5107f57fbf35d4c9b24b38f58ef66fdd82a73c578a9507cceabd",
+      "status": "expanded",
+      "destination": "evod45:audit",
+      "reason": "Retain redacted decisions; distinguish authorization outcome, operation outcome and immutable storage."
+    },
+    {
+      "title": "Zero-trust comparison",
+      "sha256": "d93eb3eb6b37a16f39cd6618fdc9abde9cd767a0f2e134c7a2b16184edd9af7f",
+      "status": "merged",
+      "destination": "evod45:threat",
+      "reason": "Retain NIST no implicit network trust; narrow source-access claim to overview."
+    },
+    {
+      "title": "Executable oracle",
+      "sha256": "0e9453c2476dfb41bd3f6406ce53e15aceb70e7b55d3ba8cb2206b5dcfb55d5c",
+      "status": "expanded",
+      "destination": "evod45:capability; evod45:quota; evod45:tools",
+      "reason": "Reuse Principal/Capability/Policy/SecureStore designs and same-x/malicious-text scenarios; repair nonce/issuance and add time/quota/schema contracts."
+    },
+    {
+      "title": "Adversarial test matrix",
+      "sha256": "2558f71a88d12157b0028f9d53d7f29b09c5e40ee57ea1824852295be9c26d47",
+      "status": "expanded",
+      "destination": "evod45:tests",
+      "reason": "Retain all original attack classes; distinguish executed local cases from deferred concurrent/engine/hardware tests."
+    },
+    {
+      "title": "Failure modes",
+      "sha256": "2c9ffe1e88f32c5dee17004f1e4aa8ecb21ef935550ae4c84bc4c64adeb83436",
+      "status": "merged",
+      "destination": "evod45:tests; evod45:threat",
+      "reason": "All supplied failure themes become premises, negative controls or explicitly unimplemented production tests."
+    },
+    {
+      "title": "Twelve worked exercises",
+      "sha256": "6d36f5263c6c3480ceabbdd1e35a2bdcc4c35e4de3791878945779c7801837ff",
+      "status": "expanded",
+      "destination": "Twelve worked exercises",
+      "reason": "Retain authority/key/GPU/handle/CSE/prompt/audit/side-channel/rubric themes; add expiry and vector arithmetic."
+    },
+    {
+      "title": "Bridge",
+      "sha256": "6f5d574d8176053a1cef3d662896553df2f4854f33230c1c2dc1ae8b3a160cdc",
+      "status": "retained",
+      "destination": "Terms and the distribution boundary",
+      "reason": "Preserve logical-identity/authority placement constraint and chapter46 bridge."
+    }
+  ]
+}

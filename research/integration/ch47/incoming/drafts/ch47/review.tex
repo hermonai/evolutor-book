@@ -1,0 +1,10 @@
+\chapter*{Author technical review}
+\begin{itemize}
+\item Synthetic oracle values are labeled methodology fixtures, not hardware benchmarks.
+\item TTFT and ITL are separated from aggregate throughput.
+\item Goodput is SLO-qualified rather than raw request/token rate.
+\item Roofline values are upper bounds, not predicted achieved throughput.
+\item System-level profiling precedes kernel micro-optimization.
+\item Backend comparisons require correctness parity and reproducible environment records.
+\item CPU/Metal/CUDA/Vulkan sections avoid unsupported claims of universal superiority.
+\end{itemize}

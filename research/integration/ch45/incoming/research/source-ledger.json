@@ -1,0 +1,27 @@
+[
+  {
+    "key": "nist800207",
+    "claim": "Zero Trust Architecture removes implicit trust based on network location and emphasizes explicit resource access authentication/authorization.",
+    "primary": "https://csrc.nist.gov/pubs/sp/800/207/final",
+    "authors": "NIST",
+    "date": "2020",
+    "access_date": "2026-10-05",
+    "access_depth": "official publication/core architecture principle"
+  },
+  {
+    "key": "owasp-injection",
+    "claim": "OWASP GenAI guidance recommends least privilege, external privilege control, segregating untrusted content and approval for high-risk operations.",
+    "primary": "https://genai.owasp.org/llmrisk/llm01-prompt-injection/",
+    "authors": "OWASP GenAI Security Project",
+    "access_date": "2026-10-05",
+    "access_depth": "official current mitigation guidance"
+  },
+  {
+    "key": "owasp-prompt-boundary",
+    "claim": "Critical authorization and privilege separation should be enforced independently from the LLM/system prompt.",
+    "primary": "https://genai.owasp.org/llmrisk/llm072025-system-prompt-leakage/",
+    "authors": "OWASP GenAI Security Project",
+    "access_date": "2026-10-05",
+    "access_depth": "official mitigation guidance"
+  }
+]

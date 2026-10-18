@@ -1,0 +1,1 @@
+Routing is based on declared capability/constraints, not on pretending both engines expose the same state.

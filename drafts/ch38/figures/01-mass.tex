@@ -1,0 +1,10 @@
+\begin{tikzpicture}[x=10cm,y=1cm]
+\foreach \a/\b/\c/\txt in {0/.45/Pale/0,.45/.70/Gold!35/1,.70/.85/Pale/2,.85/.90/Gold!35/3}{
+ \draw[thick,fill=\c] (\a,1.2) rectangle (\b,1.8);
+ \node[smallnote] at ({(\a+\b)/2},1.5) {\txt};
+}
+\draw[thick,fill=Red!20] (.90,1.2) rectangle (1,1.8);
+\node[note,anchor=west] at (0,2.5) {Accepted mass $\min(p,q)$ totals .90; residual target mass totals .10};
+\node[note,anchor=west] at (0,.5) {Token 0: $.45+.10=.55$; token 1: $.25+0=.25$};
+\node[note,anchor=west] at (0,-.1) {Tokens 2 and 3: $.15$ and $.05$. On rejection, correction emits token 0.};
+\end{tikzpicture}

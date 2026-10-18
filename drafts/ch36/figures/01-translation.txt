@@ -1,0 +1,1 @@
+Five token ordinals map to pages 0,2,3; page1 belongs to junk. Each token cell holds all-layer all-head K/V slices. Final page has one unused slot.

@@ -1,0 +1,1 @@
+TileA scores0,log2 values2,4 has maxlog2 norm1.5 accumulator5. Merge tileB scorelog4 value8: rescaleA by.5; norm1.75 accumulator10.5; final output6.

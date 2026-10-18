@@ -1,0 +1,19 @@
+{
+  "gates": [
+    {
+      "revision": "r1",
+      "n": 3,
+      "p95": 130,
+      "errors": 0
+    },
+    {
+      "revision": "r2",
+      "n": 3,
+      "p95": 130,
+      "errors": 0
+    }
+  ],
+  "active": "r1",
+  "events": 19,
+  "source": "synthetic lifecycle"
+}

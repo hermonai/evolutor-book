@@ -1,0 +1,17 @@
+{
+  "cross_denied": true,
+  "quota": [
+    {
+      "tenant": "A",
+      "slots": 1,
+      "nbytes": 80
+    },
+    {
+      "tenant": "B",
+      "slots": 1,
+      "nbytes": 80
+    }
+  ],
+  "cache_partitioned": true,
+  "source": "serialized authority model"
+}

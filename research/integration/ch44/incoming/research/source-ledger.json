@@ -1,0 +1,16 @@
+[
+  {
+    "key": "otel",
+    "claim": "OpenTelemetry specifies APIs/data models and semantic conventions for traces, metrics and logs/resources.",
+    "primary": "https://opentelemetry.io/docs/specs/otel/",
+    "access_date": "2026-10-05",
+    "access_depth": "official specification overview and semantic conventions"
+  },
+  {
+    "key": "slsa12",
+    "claim": "SLSA provenance is verifiable information tracking software artifacts to where, when and how they were produced.",
+    "primary": "https://slsa.dev/spec/v1.2/provenance",
+    "access_date": "2026-10-05",
+    "access_depth": "official v1.2 provenance specification"
+  }
+]

@@ -1,0 +1,12 @@
+\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={note}]
+\draw[flow] (0,2)--(14,2);
+\foreach \x/\lab in {2/append v1,6/flush LSN 1,11/write page}{
+ \draw (\x,1.8)--(\x,2.2);\node[above] at (\x,2.3) {\lab};
+}
+\draw[thick,Blue] (0,1)--(6,1)--(6,1.5)--(14,1.5);
+\node[left] at (0,1) {log};\node[right] at (14,1.5) {1};
+\draw[thick,Green,dashed] (0,0)--(11,0)--(11,.5)--(14,.5);
+\node[left] at (0,0) {page};\node[right] at (14,.5) {1};
+\draw[Red,densely dotted,thick] (8,-.5)--(8,3);
+\node[below] at (8,-.7) {crash: redo durable v1 into absent page};
+\end{tikzpicture}

@@ -1,0 +1,10 @@
+[
+  {
+    "key": "kirkpatrick2017",
+    "claim": "EWC reduces catastrophic forgetting by slowing changes to parameters important to previous tasks.",
+    "primary": "https://doi.org/10.1073/pnas.1611835114",
+    "date": "2017",
+    "access_date": "2026-10-05",
+    "access_depth": "primary PNAS full-text method/equation and results context"
+  }
+]

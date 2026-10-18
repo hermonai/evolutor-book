@@ -1,0 +1,104 @@
+\chapter{Hybrid compressed and addressable memory}
+
+A persistent agent needs more than a larger context window. It needs explicit answers to four questions: what state is transient, what information becomes durable, what may be compressed, and what must remain addressable with provenance.
+
+\section{Four memory classes}
+We distinguish (1) engine-native transient state, (2) immutable durable events, (3) compressed summaries, and (4) addressable indexed records. These classes can refer to one another but are not interchangeable.
+\Plate{01-memory-classes}{Evolutor memory sits above native DOGMA/Hermon execution state.}{evod40:classes}
+
+DOGMA state may compact history into a recurrent/native representation. Hermon KV preserves token-addressable attention state. Neither is automatically an auditable long-term memory record.
+
+\section{Durable record}
+A durable record is
+\[
+R=(id,tenant,kind,payload,sources,t_{create},t_{expire},artifact).
+\]
+Identity and provenance survive retrieval and compression. Tenant and policy scope are part of semantics, not metadata decoration.
+
+\section{Compression}
+A compression operator
+\[
+C:\{R_1,\ldots,R_n\}\rightarrow S
+\]
+is generally non-injective. Multiple source sets can yield the same summary; a summary therefore cannot be treated as equivalent to its source events.
+\Plate{02-compression}{Compression is lossy but provenance-preserving.}{evod40:compression}
+
+The reference stores source IDs explicitly. A production compressor should also record model/version, prompt/policy, timestamp and quality checks.
+
+\section{Addressability}
+An addressable memory supports a query
+\[
+Q(q,\mathcal M,k)\rightarrow[(id_i,score_i)]_{i=1}^k.
+\]
+The index may be lexical, vector, graph, temporal or hybrid. The semantic requirement is that retrieved payloads can be traced to stable records.
+
+\Plate{03-retrieval}{Retrieval returns ranked records, not anonymous context text.}{evod40:retrieval}
+
+\section{Conditional retrieval}
+Retrieval has cost and can introduce irrelevant or adversarial context. It should be invoked when a plan requires external/durable evidence rather than mechanically before every model step. Adaptive retrieval work such as Self-RAG illustrates this broader principle.
+
+\section{Working set}
+The active working set is a bounded selection of durable records promoted into the current execution context. Promotion does not transfer authority: a retrieved tool instruction remains untrusted data unless policy independently authorizes it.
+
+\section{Rehydration}
+Compressed memory can be expanded by following provenance links:
+\[
+H(S,B)\rightarrow \{R_{i_1},\ldots,R_{i_m}\},\quad m\le B.
+\]
+\Plate{04-rehydrate}{Rehydration is a bounded provenance traversal, not inversion of a lossy summary.}{evod40:rehydrate}
+
+\section{Retention and forgetting}
+Retention is a policy over time, relevance, legal requirements, user intent, storage budget and evidence value. Expiry makes a record unavailable after a declared time. Explicit forgetting creates a tombstone so stale indexes cannot silently resurrect it.
+\Plate{05-lifecycle}{Deletion semantics must dominate indexes and caches.}{evod40:lifecycle}
+
+\section{Provenance}
+Every derived record carries source edges. This creates a memory DAG. Provenance supports auditing and targeted invalidation: if a source is deleted or corrected, dependent summaries can be marked stale and recomputed.
+
+\section{Consistency}
+The teaching oracle is single-process and strongly consistent. Distributed implementations must define whether index updates, object storage and tombstones are atomic, eventually consistent or transactionally coordinated. ``Memory'' without a consistency contract is underspecified.
+
+\section{Memory safety firewall}
+\Plate{06-firewall}{Memory content is evidence/context, never execution authority by itself.}{evod40:firewall}
+Retrieved text can contain stale facts, prompt injection or malicious tool instructions. The planner may use it as data; the policy layer independently decides whether an action is permitted.
+
+\section{Information accounting}
+Let source information be $X$ and compressed representation $Z=C(X)$. Unless $C$ is injective, there is no general inverse $C^{-1}$. A useful system therefore measures compression ratio separately from task retention:
+\[
+\rho=\frac{|Z|}{|X|},\qquad
+U=\operatorname{quality}(task\mid Z).
+\]
+Low $\rho$ is not success if $U$ collapses.
+
+\section{Native state versus durable memory}
+A native engine checkpoint can be useful for exact continuation but poor for semantic retrieval. A text/event record can be useful for retrieval but insufficient to restore numerical engine state. Evolutor may retain both, linked by provenance.
+
+\section{MemGPT comparison}
+MemGPT frames extended context as movement through a memory hierarchy. Evolutor adopts the explicit-tier lesson but adds a stronger separation between native engine state, durable event evidence, lossy summaries and addressable records because it must orchestrate two engine families.
+
+\section{Executable reference}
+\Listing{reference}
+The reference implements immutable event records, lossy summaries with source IDs, deterministic lexical retrieval, TTL expiry, tombstone forgetting and bounded source rehydration.
+
+The lexical ranker is intentionally simple. The chapter tests memory semantics, not retrieval SOTA.
+
+\section{Failure modes}
+Failures include cross-tenant retrieval, summary without provenance, deleted records surviving an index, unbounded rehydration, treating a summary as exact history, stale derived records, retrieval-as-authority and accidental serialization of secrets.
+
+\section{Twelve worked exercises}
+\begin{enumerate}
+\item Is a KV cache durable memory? \textbf{Not by default; it is native transient execution state.}
+\item Is compression invertible? \textbf{Only if the chosen transform is injective/lossless.}
+\item Why source IDs? \textbf{Audit, rehydration and invalidation.}
+\item Why tombstones? \textbf{To prevent stale indexes/caches from resurrecting deleted records.}
+\item Retrieval result trusted? \textbf{No.}
+\item What is promotion? \textbf{Selecting durable records into bounded working context.}
+\item What does TTL express? \textbf{A declared availability/retention horizon.}
+\item Why separate compression ratio and utility? \textbf{Smaller memory can destroy task-relevant information.}
+\item Can an event restore DOGMA state? \textbf{Not unless a declared decoder/checkpoint relation exists.}
+\item Can a DOGMA checkpoint answer semantic search directly? \textbf{Not necessarily.}
+\item Distributed memory needs what extra contract? \textbf{Consistency, replication, deletion and conflict semantics.}
+\item Release rubric? \textbf{Class separation; provenance; isolation; retention; tombstones; bounded retrieval/rehydration; injection firewall; utility tests.}
+\end{enumerate}
+
+\section{Bridge}
+Chapter 41 turns the Chapter 39 runtime and Chapter 40 memory operators into a typed intermediate representation. Planning becomes compilation: validate effects and capabilities, optimize only semantics-preserving regions, allocate resources, then lower each operation to its legal backend.

@@ -1,0 +1,17 @@
+{
+  "owner": "b",
+  "epoch": 1,
+  "transfer": [
+    {
+      "kind": "Native",
+      "nbytes": 8192,
+      "ms": 0.10819200000000001
+    },
+    {
+      "kind": "KV",
+      "nbytes": 402653184,
+      "ms": 402.75318400000003
+    }
+  ],
+  "source": "synthetic ownership and payload model"
+}

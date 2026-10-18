@@ -1,0 +1,37 @@
+{
+  "date": "2026-10-17",
+  "chapter": 50,
+  "package_sha256": "49f87d6f26b6408d751e8c0d8a79723d5cd87c7e29db5ea5650d65a8a9c490d7",
+  "inherited_validation_claims_adopted": false,
+  "source_access": "selected primary sections only; no inherited package access-depth claims",
+  "records": [
+    {
+      "key": "ewc",
+      "primary": "https://arxiv.org/html/1612.00796v2",
+      "depth": "Primary section2, equation3 and discussion/uncertainty-limit passages inspected; no full appendix replication.",
+      "evidence": "Quadratic penalty and diagonal Fisher approximation; local F=I is supplied and is explicitly not Fisher estimation or complete EWC."
+    },
+    {
+      "key": "pbt",
+      "primary": "https://arxiv.org/abs/1711.09846",
+      "depth": "Primary abstract only, revision v2; no full-paper or asynchronous implementation reconstruction.",
+      "evidence": "Population model/hyperparameter exploitation/exploration and schedule concept only; local deterministic mutation is narrower."
+    },
+    {
+      "key": "avalanche",
+      "primary": "https://arxiv.org/abs/2104.00405",
+      "depth": "Primary abstract only.",
+      "evidence": "End-to-end continual-learning framework motivation; no API, current feature or performance claims."
+    },
+    {
+      "key": "inheritance",
+      "primary": "local:drafts/ch13/manuscript.tex",
+      "depth": "Actual clocks, mask-search derivation, inheritance policy and adaptive validation discussion inspected.",
+      "evidence": "Retains separate parameter/structure/population update policies; no transfer of toy search superiority."
+    }
+  ],
+  "no_trained_genomic_results": true,
+  "no_wet_lab_measurements": true,
+  "no_agi_demonstration": true,
+  "independent_review": false
+}

@@ -1,0 +1,1 @@
+Source event e1 is tombstoned; event e2 remains live. Summary s1 depends on e1 and e2; summary s2 depends on s1 and e2. Arrows run from source to derived object. Every read recursively checks its ancestors, so s1 and s2 are unavailable even if an index retains their IDs. Red tint indicates unavailable records. Underlying bytes and already-issued contexts may still exist.

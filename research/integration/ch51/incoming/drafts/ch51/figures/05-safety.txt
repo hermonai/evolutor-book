@@ -1,0 +1,1 @@
+Capability and deployment safety are evaluated separately.

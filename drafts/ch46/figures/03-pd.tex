@@ -1,0 +1,14 @@
+\begin{tikzpicture}[x=1cm,y=1cm,font=\small\sffamily]
+\draw[Blue,fill=Pale] (0,0) rectangle (3.2,2.4);
+\node[align=center] at (1.6,1.8) {prefill pool};
+\node[draw,fill=Gold!30] (p) at (1.6,.7) {held slot};
+\draw[Blue,fill=Pale] (8.2,0) rectangle (11.4,2.4);
+\node[align=center] at (9.8,1.8) {decode pool};
+\node[draw,fill=Gold!30] (d) at (9.8,.7) {held slot};
+\draw[flow] (p)--node[above,font=\footnotesize,align=center]{KV bytes + positions\\verified transfer dependency} (d);
+\draw[Blue,thick] (0,3)--(11.4,3);
+\draw[Blue,thick] (0,2.8)--(0,3);\draw[Blue,thick] (11.4,2.8)--(11.4,3);
+\node[above,align=center] at (5.7,3) {One admission ticket reserves both pools before prefill begins};
+\node[anchor=west,font=\footnotesize,text=Red] at (0,-.8) {No decode capacity $\Rightarrow$ reject pair; no leaked prefill reservation.};
+\node[anchor=west,font=\footnotesize] at (0,-1.3) {Execution and ticket-to-request conversion are outside the reservation fixture.};
+\end{tikzpicture}

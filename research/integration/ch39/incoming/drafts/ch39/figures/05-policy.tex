@@ -1,0 +1,1 @@
+\begin{tikzpicture}[node distance=6mm]\node[draw](plan){tool step};\node[draw,right=of plan,fill=Pale](pol){policy/authority};\node[draw,above right=of pol,fill=Gold!35](ok){execute};\node[draw,below right=of pol](deny){deny + trace};\draw[->,Blue](plan)--(pol);\draw[->,Blue](pol)--(ok);\draw[->,Red](pol)--(deny);\end{tikzpicture}

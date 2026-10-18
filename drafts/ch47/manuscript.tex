@@ -1,0 +1,320 @@
+\chapter{Profiling, performance and hardware backends}
+\label{evod47:chapter}
+
+An optimization changes a kernel from 100 to 80 ms. Its speedup is 1.25, while
+latency falls 20\%. Now suppose that kernel occupied only one fifth of the
+request's critical path. Even an ideal twofold kernel improvement would reduce
+the request to 90\% of its old duration. Optimizing the wrong region can make
+an impressive profiler screenshot irrelevant to the user.
+
+This chapter retains the package's top-down measurement ladder and synthetic
+request trace. It adds explicit time populations, failure denominators,
+critical-path arithmetic, uncertainty and backend validation contracts.
+The executable analysis runs on assigned numbers. It reports no measured
+CPU, Metal, CUDA or Vulkan throughput and makes no hardware ranking.
+
+\section{Correctness is a precondition for comparison}
+\index{correctness parity}
+\label{evod47:correct}
+Fix model/artifact, tokenizer, position convention, accepted input stream,
+state lifetime, output semantics and numerical tolerance before timing.
+For Chapter 31's restricted native recurrence, compare hidden state and logits
+with its scalar path; do not call it the full DOGMA architecture. For Chapter
+35 use the actual Chapter 23 learned-absolute-position multi-layer Hermon
+Transformer and its original full causal oracle, including every layer's K/V.
+A detached rotary one-head fixture would test a different model.
+
+Test multiple shapes, empty/partial inputs, masks, capacity boundaries,
+permutations and cancellation. Close logits do not guarantee the same selected
+token near a tie. If a lower-precision or approximate kernel changes sampling
+behavior, report numerical and task-quality effects under the new contract.
+Correctness tests are necessary; they do not establish learned capability.
+
+\section{Freeze a workload and a measurement population}
+\index{benchmark record}\index{open-loop load}\index{closed-loop load}\index{warmup}
+\label{evod47:workload}
+A benchmark record includes commit/artifact and data hashes, hardware/firmware,
+OS, driver, compiler, backend libraries, precision/quantization, scheduler,
+memory budget, power/clocks, input/output lengths, arrival process, concurrency,
+cache policy, sampling, warmup, repetitions and raw outcomes. Preserve offered,
+accepted, rejected, cancelled, failed and completed counts separately.
+Report peak memory and energy only when actually measured. For energy per
+accepted token, declare the power-sampling boundary, idle subtraction, integration
+interval and accepted-token denominator; device and whole-host energy differ.
+
+An open-loop generator schedules arrivals independently of response time;
+a closed-loop generator waits for completion or a concurrency slot. Both are
+useful, but a slow closed-loop service reduces offered load automatically.
+It can hide the overload a production arrival stream would create. Fix and
+replay traces, include burstiness, and state whether the load generator itself
+became the bottleneck. Batching a preconstructed full tensor does not evaluate
+continuous serving under arrivals.
+
+Separate cold artifact loading, compilation/graph capture, allocator startup
+and cache warming from steady state unless cold start is the target metric.
+Specify warmup by iterations or a declared stationarity rule, and archive
+discarded warmup samples. Do not choose the cutoff after inspecting the best
+performance region. Thermal/power changes can invalidate stationarity.
+
+\section{Trace timestamps into user-visible metrics}
+\index{TTFT}\index{ITL}\index{TPOT}\index{Goodput}\index{survivor bias}
+\label{evod47:metrics}
+For request $r$, use a single observation clock: arrival $a_r$, first output
+token $t_{r,1}$ and subsequent token times $t_{r,2},\ldots,t_{r,n_r}$ in ms.
+The first token is not repeated in the subsequent-times tuple. Define
+\[
+ TTFT_r=t_{r,1}-a_r,\qquad
+ ITL_{r,i}=t_{r,i}-t_{r,i-1}\quad(i\ge2).
+\]
+There is no ITL for a one-token response. A failed zero-output request has no
+TTFT sample, not a zero-millisecond success. It requires an explicit terminal
+timestamp; requests with outputs may also specify one after their last token.
+Keep failures in the outcome denominator and check terminal time against the window.
+Cross-host clocks need synchronization and error bounds before subtraction.
+
+\Plate{01-timestamps}{The three supplied synthetic requests have different arrivals and token gaps. The first token counts once; TTFT includes waiting before it. The long third request violates both the 100 ms TTFT and 25 ms maximum-gap targets.}{evod47:timestamps}
+\Listing{Request.validate}
+
+For a closed completed cohort observed over $[s,e]$, raw output-token rate is
+$\sum_r n_r/((e-s)/1000)$ in tokens/s. Our goodput counts successful requests
+meeting TTFT and \emph{every} ITL bound, divided by the same seconds.
+This maximum-gap SLO is stricter than an average time-per-output-token
+(TPOT) target. A request with gaps $(1,99)$ ms has mean 50 ms but fails a
+60 ms maximum-gap objective. Do not compare systems using different SLOs
+under the same goodput label. DistServe uses a phase-sensitive TTFT/TPOT
+framework~\cite{distserve47}; we do not reproduce its experiment.
+
+\Listing{metrics}
+The supplied trace has arrivals $(0,10,20)$, first tokens $(40,70,150)$ and
+subsequent tokens $(55,70,85)$, $(90,110,130)$, $(180,210)$ ms. Over 250 ms,
+there are 11 tokens: 44 tokens/s. Two of three requests meet the 100/25 ms
+TTFT/ITL bounds: 8 good requests/s and attainment $2/3$. TTFTs are $(40,60,130)$;
+nearest-rank p50/p95 are 60/130 ms and pooled p95 ITL is 30 ms. Every number
+is synthetic arithmetic, not a service measurement.
+
+The analyzer requires all arrivals and emitted tokens to lie in its declared
+window. It is a closed-cohort analysis, not a streaming estimator with pending
+requests. A real offered-load SLO must also count requests unresolved at the
+deadline. Silently dropping them creates survivor bias. Token-weighted pooled
+ITL and request-weighted worst-gap distributions are different populations;
+long outputs contribute more samples to the first.
+
+\section{Percentiles and uncertainty need declared estimators}
+\index{percentile}\index{uncertainty}\index{paired runs}
+\label{evod47:uncertainty}
+For $n$ sorted durations and $0<q\le1$, nearest rank selects
+$x_{(\lceil qn\rceil)}$. The reference rejects empty samples, nonfinite or
+negative times and invalid quantiles. Missing ITL is represented as no value,
+not zero. A four-sample p95 is the maximum and cannot characterize a rare
+production tail reliably.
+\Listing{percentile}
+
+Repeat independent runs with matched workload traces and randomized execution
+order where feasible. Report sample sizes, run-level dispersion, raw samples
+and exclusions. Thousands of correlated token gaps from one run are not
+thousands of independent experiments. Block bootstrap or a hierarchical
+model can respect trace/run clustering, but assumptions and interval method
+must be explicit. The fixture computes only mean, sample standard deviation
+and range of matched-run speedup ratios; it supplies no confidence interval.
+\Listing{paired_ratio}
+For paired durations $(100,120,80)$ and $(80,100,64)$ ms, ratios are
+$(1.25,1.2,1.25)$. Their mean is about 1.233 and sample deviation 0.0289.
+This is different from dividing arbitrary unpaired best runs. Repetitions
+that share a thermal drift or queue regime are not independent evidence.
+
+\section{Measure a critical path before summing durations}
+\index{Critical path}\index{Amdahl model}
+\label{evod47:path}
+A latency decomposition such as queue + prefill + transfer + decode + tools
++ serialization is exact only for nonoverlapping serial phases covering the
+whole request. If retrieval overlaps prefill, summing both overcounts.
+Represent a dependency DAG with span duration $d_i$ and predecessor set
+$pred(i)$; assuming sufficient resources and earliest-start scheduling,
+\[
+ E_i=d_i+\max_{j\in pred(i)}E_j,\qquad
+ L=\max_i E_i,
+\]
+where the maximum of an empty predecessor set is zero. Resource contention
+must be represented by additional edges or measured waiting spans.
+\Listing{critical_path}
+
+The exact fixture has queue 10 ms, then prefill 40 and retrieval 30 ms in
+parallel, followed by decode 20 ms waiting for both. The path is 70 ms,
+whereas summing all spans gives 100. Halving retrieval to 15 changes no
+critical-path latency. Halving prefill to 20 gives $10+30+20=60$ ms; retrieval
+becomes the limiting branch.
+
+\Plate{02-timeline}{Parallel spans are not additive latency components. After shortening prefill, the retrieval branch becomes critical. Solid connectors denote dependencies; horizontal extent denotes assigned duration.}{evod47:timeline}
+
+For a serial fraction $f$ sped up by $s$, Amdahl's model gives
+\[
+ S_{total}=\frac{1}{(1-f)+f/s}.
+\]
+Derive it by dividing original total time $T$ into $(1-f)T$ unchanged and
+$fT/s$ improved. With $f=0.2,s=2$, total speedup is $1/0.9\approx1.111$,
+even though the region doubled. It assumes fixed work and no new overhead,
+queue feedback or overlap changes; service optimization often violates those
+assumptions. Measure the resulting system, not only the local ratio.
+
+\section{Count arithmetic and traffic at a named boundary}
+\index{Arithmetic intensity}\index{roofline}\index{memory traffic}
+\label{evod47:roofline}
+For $F$ operations and $B$ bytes moved at a specified memory level,
+arithmetic intensity $I=F/B$ has units FLOP/byte. With compute ceiling $P$
+FLOP/s and bandwidth $W$ bytes/s, a throughput ceiling is
+\[
+ P_{attainable}\le\min(P,WI),\qquad I^*=P/W.
+\]
+Equivalently, ideal execution time is at least $\max(F/P,B/W)$ under these
+resource assumptions. Adding synchronization/launch overhead can only increase
+time. The Roofline model provides useful ceilings~\cite{roofline47}; peaks,
+measured sustainable bandwidth and actual traffic must not be interchanged.
+\Listing{roofline_bound}
+
+\Plate{03-roofline}{Assigned ceilings of 100 TFLOP/s and 2 TB/s decimal meet at 50 FLOP/byte. The point at intensity 2 has a 4 TFLOP/s ceiling. These curves are a model, not a device profile.}{evod47:rooflineplate}
+
+The same operation can have different intensity at register, shared/on-chip,
+last-level-cache and device-memory boundaries. Tensor element counts alone
+do not reveal all device traffic. Include output writes, staging, spills,
+alignment, metadata and parameter reads where the scope requires them.
+Comparing useful operations to total physical bytes can differ sharply from
+comparing nominal dense operations to ideal tensor payloads.
+
+\subsection{Attention and native examples without a false speed ranking}
+For one decode query per layer/head, QK and AV interactions cost approximately
+$4LHtd_h$ multiply/add FLOPs, excluding softmax, projections and other layers.
+Reading K/V once costs $2LHtd_hb$ logical bytes. Their ratio is $2/b$ FLOP/byte.
+At two-byte elements, it is one, independent of retained length; total work
+and bytes still grow with $t$. Batch reuse, GQA, cache layout and kernel fusion
+change the traffic. FlashAttention's IO-aware tiling is a relevant mechanism
+comparison~\cite{flash47}; it does not make this CPU oracle an optimized kernel.
+
+Chapter 34's actual restricted recurrence counts $2BDV+4BD$ multiply/add
+operations, sigmoid evaluations separately, and resident payload
+$B(3D+V)b$. Gather/scatter adds $4BDb$. With batch $B=8$, width $D=64$,
+vocabulary $V=4$ and element width $b=8$, the generated values are:
+\begin{center}\input{\Generated/costs.tex}\end{center}
+The attention row uses Chapter 35's large storage geometry, not the small
+two-layer executed fixture. The native operation count excludes sigmoid and
+shared parameter traffic; it is not a complete FLOP count. These rows cannot
+rank capabilities, latency or energy. They expose declared accounting scopes.
+
+\section{Profile top down with tools appropriate to the backend}
+\index{profiling}\index{CPU backend}\index{Metal backend}\index{CUDA backend}\index{Vulkan backend}
+\label{evod47:backends}
+First measure offered-load SLOs and request phases. Then inspect system
+timeline gaps, transfers, allocator stalls and synchronization. Only after
+locating a critical region inspect operators and kernel counters. PyTorch
+Profiler can collect operator activity, shapes/stacks and device activity
+where supported~\cite{torch47}. Detailed collection itself adds overhead;
+confirm final performance with an appropriately uninstrumented protocol.
+
+Nsight Systems supports CPU/GPU system tracing and focused regions; Nsight
+Compute analyzes CUDA kernels~\cite{nsys47,ncu47}. Use phase annotations to
+connect prefill, decode, native steps, memory and transfer to a request trace.
+Counter collection/replay can perturb cache state and timing. Architecture-specific
+occupancy is evidence to interpret, not a universal objective to maximize.
+
+\begin{center}\small
+\begin{tabular}{p{19mm}p{54mm}p{65mm}}
+\toprule Backend & Record explicitly & Investigate on that platform\\\midrule
+CPU & ISA, core/NUMA topology, affinity, threads & Vectorization, caches, memory bandwidth, dispatch\\
+Metal & SoC, OS/framework, precision, memory pressure & Native GPU capture/counters, scheduling, bandwidth\\
+CUDA & GPU, driver/toolkit, clocks/power, sharing & System timeline, kernel metrics, interconnect\\
+Vulkan & Device/driver, shader compiler, subgroup features & Barriers, timestamp support, layout, vendor counters\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+These are experiment fields, not measurements. Apple's Metal tooling supports
+platform GPU performance investigation~\cite{metal47}; unified memory does
+not remove bandwidth/capacity limits or synchronization. Vulkan exposes
+explicit synchronization responsibilities~\cite{vulkan47}; portability of an
+API does not imply portable performance. Do not mechanically translate CUDA
+counters into Metal or Vulkan terms. Unsupported operators, precision and
+fallbacks must be disclosed before comparing backends.
+
+\section{Time asynchronous work at an intentional boundary}
+\index{synchronization}\index{device timing}
+\label{evod47:sync}
+Host timing around an enqueue can measure submission rather than completion.
+Device events or a synchronized wall-clock boundary are needed for completed
+work, with exact scope documented. Synchronizing every operation can destroy
+the overlap the service normally uses. Compare equivalent timing boundaries
+and include required output materialization. CPU/GPU clock domains and profiler
+timestamps are not automatically interchangeable.
+
+Batching may improve device occupancy but increase queue delay and token gaps.
+Sweep concurrency and arrival rate, report occupancy distributions, and
+distinguish useful accepted tokens from padded/cancelled work. For distributed
+placement, measure queue, serialization, network, reconstruction and commit
+with overlap and clock error stated. Chapter 46's bandwidth model is a
+hypothesis to calibrate against real transfer traces, not a measured input.
+
+\section{An optimization loop that can reject its own hypothesis}
+\label{evod47:loop}
+Freeze baseline and workload; reproduce correctness; locate the critical
+region; state one mechanism and predicted signature; change it; recheck
+correctness; remeasure paired runs. For example, fusion predicts fewer
+intermediate bytes and launches. It may fail because register pressure or
+specialization overhead grows. Archive that failure, raw traces and all
+configuration changes. A speedup without the predicted signature invites a
+different causal explanation such as changed workload or warmup.
+
+The reference tests exact synthetic outcomes, percentile permutation
+invariance, invalid clocks, missing-token outcomes, maximum-gap versus mean
+SLOs, a throughput/goodput reversal, DAG overlap, roofline units, Amdahl and
+the earlier chapters' declared traffic arithmetic. It launches no hardware
+backend. Backend quality/performance experiments against completed Chapters
+34/38/46 remain integration work; synthetic success is never their substitute.
+
+\section{Terms and the application boundary}
+\Term{Goodput} counts successful work satisfying a declared service objective.
+\Term{Critical path} is the longest causal duration under stated resource
+assumptions. \Term{Arithmetic intensity} names both work and a memory boundary.
+The industrial contracts now define what a service would have to preserve
+and measure. They do not establish production readiness. Chapter 48 returns
+to genomic applications, where task-specific biological evidence remains a
+separate requirement from a correct or fast runtime.
+
+\section{Twelve worked exercises}
+\begin{enumerate}
+\setlength{\itemsep}{1pt}\setlength{\parsep}{0pt}\setlength{\parskip}{0pt}
+\item \textbf{Fastest kernel, fastest service?} \emph{Solution:} only if its
+critical contribution and system effects support that conclusion. The parallel
+retrieval example changes no latency when shortened alone.
+\item \textbf{Compute TTFT and ITL.} Arrival 10, first 70, then 90 and 110 ms.
+\emph{Solution:} TTFT 60 ms; gaps 20,20 ms. First token is counted once.
+\item \textbf{Throughput versus goodput.} Why retain failed requests?
+\emph{Solution:} omitting them inflates attainment. Goodput counts successful
+SLO-qualified requests per common observation time; raw tokens can include
+partial failed responses if explicitly reported.
+\item \textbf{Calculate a ceiling.} $I=2$ FLOP/B and $W=2$ TB/s.
+\emph{Solution:} bandwidth ceiling 4 TFLOP/s decimal; take the minimum with
+compute peak. It is not achieved throughput.
+\item \textbf{Name the byte boundary.} Is tensor size equal to DRAM traffic?
+\emph{Solution:} no; caches, rereads, writes, spills, staging and metadata alter it.
+\item \textbf{Warmup honestly.} Remove the slowest first ten samples after seeing
+results? \emph{Solution:} not as a predeclared steady-state protocol. State and
+archive the rule before collecting comparison evidence.
+\item \textbf{Trace before counters.} What might dominate besides kernels?
+\emph{Solution:} queueing, copies, launch gaps, allocator waits and synchronization.
+Use the critical path to choose detailed profiling scope.
+\item \textbf{Quote CUDA peak.} Does it establish application performance?
+\emph{Solution:} no; collect workload timings and relevant achieved counters,
+with exact precision, sharing mode, versions and clocks.
+\item \textbf{Unified memory.} Does Metal avoid all movement cost?
+\emph{Solution:} no; bandwidth, capacity, locality and synchronization still matter.
+Use native evidence rather than a CUDA analogy.
+\item \textbf{Speedup arithmetic.} 20 to 10 ms is $2\times$; 100 to 80 is
+$1.25\times$ and 20\% reduction. \emph{Solution:} divide old time by new for
+speedup, divide saved time by old time for fractional reduction.
+\item \textbf{Synthetic versus measured.} May the 44 tokens/s trace be labeled
+a GPU benchmark? \emph{Solution:} no; all timestamps were assigned. A hardware
+claim needs archived real samples and the complete measurement contract.
+\item \textbf{Design a backend comparison.} \emph{Rubric:} fix model/tolerance,
+workload/arrivals and versions/hardware; separate warmup; time completed work;
+archive repeated raw outcomes, tails/goodput/memory, explanatory profiles and
+uncertainty. Disclose unsupported paths and failed changes.
+\end{enumerate}
+

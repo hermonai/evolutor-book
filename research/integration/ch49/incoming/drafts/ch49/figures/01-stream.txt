@@ -1,0 +1,1 @@
+Streaming systems make event order and backpressure explicit rather than pretending the whole interaction fits one prompt.

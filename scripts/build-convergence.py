@@ -74,11 +74,46 @@ def remap_cites(text, mapping):
     return re.sub(r"\\cite\{([^}]+)\}", rewrite, text)
 
 
+def safe_figure_loop_variable(text):
+    """Alpha-rename a reserved TikZ loop variable in derived figures only.
+
+    Some legacy plates use the LaTeX cross-reference command as a loop variable.
+    Its redefinition conflicts with scoped book labels on current PGF/Hyperref.
+    Do not change the artwork, its geometry or historical reviewed source bytes.
+    Reject mixed uses rather than accidentally renaming a real reference label.
+    """
+    if not re.search(r"\\foreach\s+[^{}]*?/\\label\b", text):
+        return text
+    if re.search(r"\\label\s*\{", text) or r"\EvolutorLoopText" in text:
+        raise ValueError("Ambiguous figure label/loop-variable use")
+    return re.sub(r"\\label\b", lambda _: r"\EvolutorLoopText", text)
+
+
+def cumulative_layout(number, text):
+    """A reviewed local pagination adjustment, without changing chapter sources."""
+    if number == 37:
+        # In the continuous geometry the opening definition otherwise leaves
+        # its final word alone above the display on the next physical page.
+        heading = r"\section{Construct the next mixed iteration}"
+        text = text.replace(heading, r"\Needspace{8\baselineskip}" + "\n" + heading)
+    return text
+
+
 def chapter_dir(number):
     name = f"ch{number:02d}"
     if BOOK == "dna-computing" and number == 17:
         name += "-theory"
     return ROOT / "drafts" / name
+
+
+def part_starts():
+    """The same twelve-part navigation drives the source map and printed book."""
+    data = json.loads((ROOT / "chapter-structure.json").read_text())
+    parts = data["parts"]
+    coverage = [n for p in parts for n in range(p["start"], p["end"] + 1)]
+    if coverage != list(range(1, data["planned_chapters"] + 1)):
+        raise ValueError("Part ranges must cover the planned spine exactly once")
+    return {p["start"]: p["title"] for p in parts}
 
 
 def run(command, cwd=ROOT):
@@ -135,8 +170,17 @@ def assemble(through):
                 "book_key": key,
             }
         )
-    wrappers = [r"\input{deep/ch01}", r"\input{deep/ch02}", r"\input{textbook/ch03}"]
+    parts = part_starts()
+    wrappers = [
+        rf"\part{{{parts[1]}}}",
+        r"\input{deep/ch01}",
+        rf"\part{{{parts[2]}}}",
+        r"\input{deep/ch02}",
+        r"\input{textbook/ch03}",
+    ]
     for number in range(4, through + 1):
+        if number in parts:
+            wrappers.append(rf"\part{{{parts[number]}}}")
         directory = chapter_dir(number)
         source_file = directory / "sources.tex"
         source = source_file.read_text()
@@ -174,13 +218,19 @@ def assemble(through):
             if authored.name in ("review.tex", "sources.tex"):
                 continue
             (out / authored.name).write_text(
-                rewrite_local_inputs(remap_cites(authored.read_text(), mapping))
+                rewrite_local_inputs(
+                    remap_cites(
+                        cumulative_layout(number, authored.read_text()), mapping
+                    )
+                )
             )
         (out / "evidence.tex").write_text(remap_cites(strip_bib(source), mapping))
         figures = out / "figures"
         figures.mkdir(exist_ok=True)
         for figure in sorted((directory / "figures").glob("*.tex")):
-            (figures / figure.name).write_text(remap_cites(figure.read_text(), mapping))
+            (figures / figure.name).write_text(
+                remap_cites(safe_figure_loop_variable(figure.read_text()), mapping)
+            )
         wrappers.extend(
             [
                 r"\clearpage\begingroup",
@@ -287,7 +337,14 @@ def main():
     output.parent.mkdir(parents=True, exist_ok=True)
     shutil.copyfile(BUILD / (name + ".pdf"), output)
     info = subprocess.check_output(["pdfinfo", str(output)], text=True)
-    paths = list((ROOT / "tex").rglob("*.tex")) + svgs + [Path(__file__)]
+    paths = (
+        list((ROOT / "tex").rglob("*.tex"))
+        + svgs
+        + [
+            Path(__file__),
+            ROOT / "chapter-structure.json",
+        ]
+    )
     for number in range(4, args.through + 1):
         paths.extend(
             p

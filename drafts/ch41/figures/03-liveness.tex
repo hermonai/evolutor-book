@@ -1,0 +1,11 @@
+\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={note}]
+\foreach \x/\label in {1/inputs live,6/allocate c,11/release a and b}{\node at (\x,3) {\label};}
+\foreach \y/\name in {2/a,1/b}{
+ \draw[line width=5pt,Blue!55] (1,\y)--(11,\y);
+ \node[left] at (0,\y) {$\name$};
+}
+\draw[line width=5pt,Green!65] (6,0)--(13,0);\node[left] at (0,0) {$c$};
+\draw[dashed,Red] (6,-.5)--(6,2.5);
+\node[Red,below] at (6,-.7) {peak = 3 simultaneous values};
+\draw[flow] (0,-1.8)--(14,-1.8) node[right] {time};
+\end{tikzpicture}

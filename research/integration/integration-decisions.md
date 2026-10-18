@@ -57,6 +57,36 @@ candidate. Prior accepted editions and historical review records are unchanged.
 
 Package assertions are imported provenance, not local verification.
 
+## EVOD-52-COMPLETE-INTEGRATION — 18 October 2026
+
+All four completed batches returned ownership. The continuous authored-source
+candidate now contains Chapters 1–52 in twelve printed parts (619 pages), with
+the complete supplied package range recorded in the current inventory. This is
+manuscript completion, not independent scientific or publication acceptance.
+
+A separate companion joins the actual Chapter 36 all-layer paged KV pool to
+the Chapter 39 opaque runtime and Chapter 41 effect-aware compiler. Sixteen
+new checks cover full-model continuation, COW isolation, ownership, allocation
+failure, preserved effects and cleanup; no mock state machine replaces the
+real Hermon function. CPU serialization, contiguous compute staging and the
+distinct Chapter 37/38 token clocks remain explicit limitations.
+
+All 49 standalone result/listing fixtures reproduce. The final whole-repository
+regression passes 2,078 tests. New part navigation, label-safe derived TikZ,
+caption namespacing, cumulative spacing and range rendering have targeted
+regressions. The original hash-frozen Makefile and acceptance records remain
+unchanged; current complete-book convenience targets live in complete-book.mk.
+The source-bound through52 record distinguishes full rendering from the exact
+inspected page ranges. Historical throughNN reviews retain their original scope.
+
+The README and active documentation now describe the complete review candidate,
+not an unfinished chapter queue. The versioned PDF has a byte manifest. A Claude
+handoff requests fresh all-chapter science/code/pedagogy/source review, complete
+visual polish and a persistent findings matrix, while reserving independent
+specialist/reader/accessibility review and release authorization to separate gates.
+The user authorizes a normal push of the integration branch, not a main merge,
+new license, accepted-edition flag, tag or publication release.
+
 ## EVOD-30
 
 Full incoming ZIP and neighboring chapter boundaries inspected before explicit

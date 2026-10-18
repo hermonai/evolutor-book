@@ -1,0 +1,1 @@
+Engine-native transient state is distinct from durable event, compressed and addressable memory.

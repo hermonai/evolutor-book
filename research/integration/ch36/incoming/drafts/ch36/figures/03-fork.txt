@@ -1,0 +1,1 @@
+A fork initially shares immutable page references. Reference counts represent owners, not token multiplicity.

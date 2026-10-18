@@ -1,0 +1,119 @@
+\chapter{Speculative decoding and attention kernels}
+
+Autoregressive decoding is serial at the semantic level: a target distribution is produced, one token is selected, and that token changes the next prefix. This chapter studies two ways to reduce execution cost without changing those semantics. Speculative decoding uses a cheaper proposal model to expose parallel target verification. IO-aware attention reorganizes the exact attention calculation around the memory hierarchy. Neither earns a speed claim merely by reducing an operation count.
+
+\section{Modified rejection sampling}
+At a fixed prefix let $p(x)$ be the target distribution and $q(x)$ the draft distribution over the same vocabulary. Draw $x\sim q$ and accept it with
+\[
+\alpha(x)=\min\left(1,\frac{p(x)}{q(x)}\right).
+\]
+If rejected, draw from
+\[
+r(x)=\frac{(p(x)-q(x))_+}{\sum_y(p(y)-q(y))_+}.
+\]
+\Plate{02-rejection}{Accepted proposal mass plus residual correction reconstructs the target law.}{evod38:rejection}
+
+Accepted output mass is $q(x)\alpha(x)=\min(p(x),q(x))$. Rejection mass is
+\[
+R=1-\sum_x\min(p_x,q_x)=\sum_x(p_x-q_x)_+.
+\]
+Therefore
+\[
+\Pr(Y=x)=\min(p_x,q_x)+Rr(x)=p_x.
+\]
+The proposal may be poor; correctness survives while acceptance falls.
+
+\section{Acceptance and total variation}
+Expected one-position acceptance is
+\[
+A=\sum_x\min(p_x,q_x)=1-\frac12\sum_x|p_x-q_x|=1-\operatorname{TV}(p,q).
+\]
+This is an algorithmic quantity, not a latency number. A more accurate but expensive draft can lose end-to-end.
+
+\section{Speculative blocks}
+The draft proposes $k$ sequential candidates and the target verifies their conditional probabilities in a block.
+\Plate{01-draft-verify}{Draft proposal and target verification have different authority.}{evod38:draft}
+Accepted candidates form a contiguous prefix. The first rejection changes history, invalidating later draft candidates conditioned on the rejected token.
+\Plate{03-block}{The first rejection is a semantic commit boundary.}{evod38:block}
+
+Practical algorithms may emit a target bonus token when all candidates are accepted. The reference isolates the rejection-correction core because it is the correctness primitive.
+
+\section{Identity and sampling contracts}
+The proof assumes target and draft probabilities refer to the same token IDs, prefix, masks, temperature and sampling transformation. Tokenizer or grammar mismatch invalidates the direct ratio. RNG policy belongs in reproducibility metadata even though distributional equivalence does not imply token-for-token equality with a target-only random run.
+
+\section{State commit and rollback}
+Only state corresponding to committed target history may survive. Draft-only and rejected target suffix state must be discarded or rolled back. Chapter 33's branch semantics and Chapter 36's page reference counts provide the lifetime machinery.
+
+\section{Speed model}
+A speculative iteration pays draft cost, target verification, synchronization and cache bookkeeping while committing a random number of tokens. Report acceptance distribution, target calls per committed token, generated tokens/s, TTFT and ITL tails. High acceptance alone is not evidence of speedup.
+
+\section{Exact attention}
+For query $q\in\mathbb R^d$, keys $K\in\mathbb R^{T\times d}$ and values $V$,
+\[
+y=\operatorname{softmax}\left(\frac{Kq}{\sqrt d}\right)^\top V.
+\]
+A naive implementation can materialize the full score vector or matrix in high-bandwidth memory.
+
+\section{Online softmax}
+For a score tile with maximum $m_b$, maintain running maximum $m$, normalizer $\ell$ and value accumulator $a$:
+\[
+m'=\max(m,m_b),
+\]
+\[
+\ell'=e^{m-m'}\ell+\sum_{j\in b}e^{s_j-m'},
+\]
+\[
+a'=e^{m-m'}a+\sum_{j\in b}e^{s_j-m'}V_j.
+\]
+After all tiles, $y=a/\ell$.
+\Plate{04-attention}{Tiling reorganizes exact softmax/value accumulation around limited fast memory.}{evod38:attention}
+
+\section{FlashAttention and IO awareness}
+FlashAttention demonstrates that exact attention can be made substantially more IO-efficient by tiling and avoiding large intermediate HBM round trips. FlashAttention-2 improves parallelism and work partitioning. These are implementation advances, not different attention semantics.
+
+\section{Simplified traffic model}
+Both paths read Q/K/V payload and write output. A score-materializing one-query path additionally writes and rereads roughly $T$ score values:
+\[
+M_{\mathrm{score}}\approx 2Tb.
+\]
+The executable model counts only this pedagogical difference. Real HBM traffic depends on cache behavior, tiling, fusion, layouts and hardware.
+
+\section{Fusion}
+\Plate{05-fusion}{Fusion can retain intermediates on chip.}{evod38:fusion}
+Fusion can also increase register pressure, reduce occupancy or restrict shapes. Benchmark the actual head dimensions, sequence lengths, page geometry and dtype.
+
+\section{Paged and low-precision attention}
+Paged KV need not be flattened if a kernel traverses block tables in logical order. Low-precision kernels must satisfy Chapter 37's numerical and task-quality gates. Validate combinations against a trusted contiguous reference before measuring speed.
+
+\section{Executable oracle}
+\Listing{reference}
+The first oracle analytically computes the speculative output distribution. The second compares dense attention with tiled online softmax. Float64 makes semantic discrepancies easy to detect; it is not a GPU implementation.
+
+\section{Evidence ladder}
+\Plate{06-evidence}{A proof and a byte model precede, but do not replace, hardware and service evidence.}{evod38:evidence}
+A defensible kernel claim requires warmup, synchronization, declared hardware/software versions, shape distributions and numerical parity. A serving claim additionally requires offered load, prompt/output distributions and p50/p95/p99 TTFT/ITL.
+
+\section{Failure modes}
+Failures include target/draft vocabulary mismatch, wrong residual correction, committing suffix state after rejection, stale speculative pages, unstable softmax, page-order corruption, unsupported precision, unsynchronized timing and cherry-picked short contexts.
+
+\section{Twelve worked exercises}
+\begin{enumerate}
+\item If $p=q$, expected acceptance? \textbf{One.}
+\item Acceptance in terms of TV? \textbf{$1-\mathrm{TV}(p,q)$.}
+\item Why stop after first rejection? \textbf{Later candidates used an uncommitted history.}
+\item Same distribution means same RNG path? \textbf{No.}
+\item Can high acceptance be slower? \textbf{Yes.}
+\item Why $(p-q)_+$? \textbf{It supplies target mass missing after accepted proposal mass.}
+\item Online-softmax state? \textbf{Running max, normalizer and value accumulator.}
+\item Is tiled attention inherently approximate? \textbf{No.}
+\item Why can fusion hurt? \textbf{Register, occupancy and shape constraints.}
+\item Does paging change logical KV order? \textbf{No.}
+\item Modeled bytes equal measured HBM traffic? \textbf{No.}
+\item Release rubric? \textbf{Distribution proof/statistical test; identity checks; rollback; dense parity; edge shapes; synchronized kernel and end-to-end SLO benchmarks.}
+\end{enumerate}
+
+\section{Closing the engine layer}
+Chapters 30--34 constructed DOGMA Engine's state-native runtime. Chapters 35--38 constructed Hermon DNA's Transformer/KV runtime. They deliberately expose different state semantics. Neither is declared universally superior.
+
+\section{Bridge}
+Chapter 39 introduces Evolutor above both engines: typed planning, capability routing, opaque engine-state handles, retrieval/tools/symbolic modules and an append-only execution trace.

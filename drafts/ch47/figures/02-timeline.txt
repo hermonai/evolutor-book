@@ -1,0 +1,1 @@
+Before: queue 10 ms precedes parallel prefill 40 and retrieval 30; decode 20 waits for both. Critical path is 70 ms rather than 100 summed span-ms. After halving prefill, retrieval limits the join and critical path is 60 ms. Bars use a common time scale; connectors indicate dependencies. Durations are assigned and assume enough resources for the depicted overlap.

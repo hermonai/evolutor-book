@@ -1,0 +1,1 @@
+\begin{tikzpicture}[node distance=7mm]\node[draw](i){token index $t$};\node[draw,right=of i](bo){$b=\lfloor t/P\rfloor$\\$o=t\bmod P$};\node[draw,right=of bo,fill=Pale](ref){PageRef(id,generation)};\node[draw,right=of ref,fill=Gold!35](row){KV row at offset $o$};\draw[->,Blue](i)--(bo);\draw[->,Blue](bo)--(ref);\draw[->,Blue](ref)--(row);\end{tikzpicture}

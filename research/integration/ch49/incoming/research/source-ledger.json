@@ -1,0 +1,20 @@
+[
+  {
+    "key": "memgpt",
+    "claim": "MemGPT proposes virtual context management across memory tiers to support contexts beyond the LLM window and evaluates document analysis/multi-session chat.",
+    "primary": "https://arxiv.org/abs/2310.08560",
+    "authors": "Charles Packer et al.",
+    "date": "2023",
+    "access_date": "2026-10-05",
+    "access_depth": "primary arXiv abstract inspected"
+  },
+  {
+    "key": "sweagent",
+    "claim": "SWE-agent studies agent-computer interface design for software-engineering agents and reports that interface design materially affects agent performance.",
+    "primary": "https://papers.nips.cc/paper_files/paper/2024/hash/5a7c947568c1b1328ccc5230172e1e7c-Abstract-Conference.html",
+    "authors": "John Yang et al.",
+    "date": "2024",
+    "access_date": "2026-10-05",
+    "access_depth": "NeurIPS 2024 official abstract inspected"
+  }
+]

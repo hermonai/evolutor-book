@@ -1,0 +1,1 @@
+Authorization creates narrowly scoped authority after deterministic policy evaluation.

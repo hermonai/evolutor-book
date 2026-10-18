@@ -1,0 +1,1 @@
+A live process can still be unready for traffic; admission follows readiness, not mere process existence.

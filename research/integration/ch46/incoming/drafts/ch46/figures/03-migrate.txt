@@ -1,0 +1,1 @@
+Migration commits a new owner and epoch only after destination preparation and transfer verification.

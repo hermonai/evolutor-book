@@ -1,0 +1,1 @@
+Per-tenant resource budgets limit noisy-neighbor and exhaustion effects.

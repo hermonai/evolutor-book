@@ -1,0 +1,25 @@
+[
+  {
+    "key": "kwon2023",
+    "claim": "PagedAttention addresses dynamically growing KV caches using paging-inspired allocation and enables flexible cache sharing; measured benefits are workload/system specific.",
+    "primary": "https://arxiv.org/abs/2309.06180",
+    "authors": "Woosuk Kwon et al.",
+    "date": "2023",
+    "access_date": "2026-10-05",
+    "access_depth": "primary abstract inspected; paper is canonical systems source"
+  },
+  {
+    "key": "EVOD35",
+    "claim": "Contiguous causal KV history is the semantic oracle that paging must preserve.",
+    "primary": "external EVOD-35 package",
+    "access_date": "2026-10-05",
+    "access_depth": "complete package continuity"
+  },
+  {
+    "key": "EVOD32-33",
+    "claim": "Generational lifetime, immutable sharing and copy-on-write/deep-copy oracle are prior runtime contracts.",
+    "primary": "external EVOD-32/33 packages",
+    "access_date": "2026-10-05",
+    "access_depth": "complete package continuity"
+  }
+]

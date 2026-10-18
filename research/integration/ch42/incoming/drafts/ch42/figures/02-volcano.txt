@@ -1,0 +1,1 @@
+Volcano motivates separating operator semantics from parallel execution mechanism.

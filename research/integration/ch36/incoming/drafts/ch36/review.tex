@@ -1,0 +1,9 @@
+\chapter*{Author technical review}
+\begin{itemize}
+\item Semantic review: physical page order never enters logical KV order; flattening is the independent oracle.
+\item Ownership review: every physical reference is generational and refcounted; stale references are rejected.
+\item Mutation review: shared partial tails are copied before append; shared full pages remain immutable.
+\item Failure review: capacity exhaustion, stale references, direct shared-page mutation and eviction-with-live-reference are tested.
+\item Evidence boundary: no throughput or memory-utilization improvement is claimed without hardware/workload measurement.
+\end{itemize}
+Independent specialist and render reviews remain open.

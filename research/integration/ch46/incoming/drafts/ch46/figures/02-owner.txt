@@ -1,0 +1,1 @@
+Physical location is versioned ownership metadata; tenant/artifact/schema identity remains unchanged.

@@ -1,0 +1,11 @@
+{
+  "p": "target distribution",
+  "q": "draft distribution",
+  "alpha": "acceptance probability",
+  "r": "residual correction",
+  "A": "expected acceptance",
+  "TV": "total variation",
+  "m": "online-softmax max",
+  "ell": "normalizer",
+  "a": "value accumulator"
+}

@@ -1,0 +1,1 @@
+Three candidate context records contain 10, 10 and 12 UTF-8 payload bytes. A 20-byte prefix budget admits the first two whole records. This payload count excludes object and tokenizer overhead. A separate configured grant feeds tool authorization; a dashed crossed-out edge from retrieved content shows that record text cannot mint a permission.

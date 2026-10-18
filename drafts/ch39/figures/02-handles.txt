@@ -1,0 +1,1 @@
+Two adapter instances can both allocate serial zero. UUID, backend, artifact, tenant/request and serial together select a live private state. The red dashed cross-instance edge is forbidden even if serial, owner and tensor dimensions coincide. Closing A:0 removes only A's map entry. UUIDs and equality checks do not authenticate hostile callers.

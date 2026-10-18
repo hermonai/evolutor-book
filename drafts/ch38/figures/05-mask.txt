@@ -1,0 +1,1 @@
+Past3 chunk2 mask: absolute query3 allows keys0..3, query4 allows0..4. First query blocks only key4. Physical block IDs never define causality.

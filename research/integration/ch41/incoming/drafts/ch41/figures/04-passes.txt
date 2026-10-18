@@ -1,0 +1,1 @@
+Optimizations operate only where semantic/effect rules permit them.

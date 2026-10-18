@@ -1,0 +1,1 @@
+Candidates A, B and C each receive two task scores. Selection consumes six candidate-task evaluations, excluding their training. A selected parent generates two coordinate mutations by dashed inheritance edges. The offspring have no evaluation evidence until their own tests run. This is a deterministic exploit/mutate teaching fixture, not asynchronous population-based training.

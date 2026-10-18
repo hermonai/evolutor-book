@@ -1,0 +1,1 @@
+A document influences a model proposal via a dashed data arrow. The proposal and separately authenticated principal/policy feed a deterministic gate. Principal, exact issued capability, expiry and tool schema must pass before an in-memory echo executor runs. A denial branch executes nothing. The figure distinguishes influence from authority and does not depict an attack detector.

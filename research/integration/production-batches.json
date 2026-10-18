@@ -3,8 +3,8 @@
   "date": "2026-10-17",
   "baseline_commit": "698f309",
   "coordinator_thread": "01a0695f-1db9-7043-ba07-46fdd09e5318",
-  "authoring_stage": "four user-visible authoring chats dispatched; standalone production pending",
-  "integrated_through": 35,
+  "authoring_stage": "all four authoring batches handed off; all 52 chapters assembled as a review candidate",
+  "integrated_through": 52,
   "planned_through": 52,
   "batches": [
     {
@@ -15,7 +15,7 @@
       "focus": "Finish paged KV/prefix sharing and allocation; continuous batching and precision; speculative decoding and exact/online attention kernels. Bind paging to the actual Chapter 35 multi-layer Hermon cache, not merely a detached list. Prove refcount/partial-tail-COW invariants, offset-mask/native parity, scheduler accounting, distribution-preserving speculative sampling and stable online-softmax algebra. Preserve the incoming examples and source leads, extending their tests and derivations.",
       "thread_id": "01a14961-32fe-7593-9365-6d6527e4a5b7",
       "host_id": "local",
-      "status": "dispatched",
+      "status": "authored_and_assembled_review_candidate",
       "handoff": "research/integration/batches/A-handoff.md",
       "independently_reviewed": false,
       "accepted": false
@@ -28,7 +28,7 @@
       "focus": "Author the heterogeneous runtime, hybrid compressed/addressable memory, typed compiler/IR and execution planning, bounded database-engine comparison, and structural-adaptation lifecycle governance. Preserve incoming typed operations, planner/router separation, durable-memory firewall, effect-aware optimizations, database comparisons, lineage/promotion/rollback scenarios. Strengthen formal contracts, real prior-engine interfaces where stable, independent interpreter/optimization oracles and failure controls. Do not invent a passing dependency on still-unfinished Chapter 36; explicitly record cross-batch integration tests for the coordinator.",
       "thread_id": "01a14961-374e-7532-a126-475bf137eb22",
       "host_id": "local",
-      "status": "dispatched",
+      "status": "authored_and_assembled_review_candidate",
       "handoff": "research/integration/batches/B-handoff.md",
       "independently_reviewed": false,
       "accepted": false
@@ -41,7 +41,7 @@
       "focus": "Author reproducible packaging/deployment/observability; tenant isolation/security; distributed serving/state placement; profiling/performance/hardware backends. Preserve the supplied scenarios and examples, expand precise threat/failure models and falsifiable engineering contracts, test artifact/rollout/authority/placement/accounting oracles, and distinguish cost models/synthetic traces from measured real backends. Never touch running services, credentials, finance repositories, real funds or remote systems. Security is a chapter subject, not authorization for a live penetration test.",
       "thread_id": "01a14961-3d20-76f2-98d3-7b9642bb00c3",
       "host_id": "local",
-      "status": "dispatched",
+      "status": "authored_and_assembled_review_candidate",
       "handoff": "research/integration/batches/C-handoff.md",
       "independently_reviewed": false,
       "accepted": false
@@ -54,10 +54,11 @@
       "focus": "Complete genomic applications, streaming/language/code/persistent agents, continual/population adaptation, capability hypotheses/limits, and reproducible final synthesis. Reuse incoming biological/task/scenario/exercise/ledger material extensively and expand academic evidence, derivations, protocols and independent checks. Include appropriate biology/biochemistry-style mechanism illustrations for biological explanations. Do not invent trained genomic results, real wet-lab measurements, AGI capability or final-book acceptance; the synthesis must distinguish what is actually implemented from hypotheses and staged cross-batch work.",
       "thread_id": "01a14961-449f-7c60-b098-b968bbe844e2",
       "host_id": "local",
-      "status": "dispatched",
+      "status": "authored_and_assembled_review_candidate",
       "handoff": "research/integration/batches/D-handoff.md",
       "independently_reviewed": false,
       "accepted": false
     }
-  ]
+  ],
+  "integration_date": "2026-10-18"
 }

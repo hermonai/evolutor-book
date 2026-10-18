@@ -1,0 +1,1 @@
+Self-modification remains separate from deployment authority.

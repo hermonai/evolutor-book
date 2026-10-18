@@ -1,15 +1,30 @@
-# Evolutor: deep technical edition
+# Evolutor: from complete manuscript to reviewed publication
 
-Status: canonical deep Chapters 1–2 remain internally reviewed development manuscripts. Chapter 3 now has an authored LaTeX review manuscript in the combined textbook candidate; cumulative acceptance and independent review remain open. Chapter 4 onward remains planned. Prior editions and their accepted source hashes are preserved. See [the textbook revision](TEXTBOOK_REVISION.md).
+Updated 18 October 2026. All 52 chapters have authored sources and executable
+companions. The remaining milestone is pre-publication review, not Chapter 4
+or another bootstrap edition. See [current status](CURRENT_MANUSCRIPT.md) and
+the [integration report](FINAL_INTEGRATION_REPORT.md) for verified build scope.
 
-DOGMA = non-Transformer DNA-native model + DOGMA Engine; Hermon DNA = Transformer-based DNA model + Hermon DNA Engine; Evolutor = broader genomic computation theory, research and eventual runtime above both.
+1. **Complete review candidate:** assemble all chapters, reproduce generated
+   fixtures, run whole-repository regression, reconcile navigation and inspect
+   cumulative layout. Keep exact evidence in research/integration/.
+2. **Fresh technical/editorial pass:** use the
+   [Claude review prompt](docs/CLAUDE_PREPUBLICATION_REVIEW_PROMPT.md). Review
+   every chapter, figures, worked solutions, sources and cross-chapter contracts;
+   record findings and justified changes, not merely another “PASS” label.
+3. **Independent specialist and reader review:** biological mechanisms, formal
+   claims, numerical/statistical protocols, systems/security boundaries and
+   whether intended readers can reconstruct the examples.
+4. **Publication production:** resolve rights, licensing/author decisions,
+   copyediting, navigation and accessibility. Validate final source/PDF hashes
+   after corrections; human approval precedes an accepted edition or release.
+5. **Research beyond the book:** trained genomic controls, real datasets,
+   measured backends and durable concurrent services require new experiments.
+   They are not established by a complete chapter count.
 
-## Research and production roadmap
-
-1. **Current milestone:** LaTeX-first Chapters 1–3 review candidate, native/vector mechanisms, worked solutions and reproducible source checks.
-2. **Next execution:** close Chapter 3 specialist review and cumulative acceptance gates, then Chapter 4 — Reproducible PyTorch training. Keep authored LaTeX as the new manuscript source.
-3. **Subsequent production:** follow chapter dependencies; retain negative evidence and verify cross-book imports before assuming them.
-4. **Research and engineering:** formal semantics → reference implementation → exact/parity tests → experiments → profile → optimized systems.
-5. **Release:** independent subject and reader review, rights/provenance audit, accessibility work and full reproducibility checks.
-
-No first-pass figure brief is artwork; no plan is an engine. New training libraries or IRs require demonstrated need. Keep the main text focused on mechanisms and reasoning; place full evidence ledgers in research appendices.
+DOGMA = non-Transformer DNA-native direction; Hermon DNA = Transformer-based DNA
+direction; Evolutor is the wider theory/compiler/runtime direction.
+Full cumulative acceptance and independent review remain open.
+Preserve explicit limitations,
+counterexamples and negative evidence. Do not claim novelty, influence, AGI,
+biological equivalence or production readiness from reference-code tests.

@@ -1,0 +1,7 @@
+\chapter*{Source notes}
+\begin{itemize}
+\item Kwon et al. (2023), \emph{Efficient Memory Management for Large Language Model Serving with PagedAttention}, arXiv:2309.06180: paging-inspired KV allocation, reduced fragmentation and flexible sharing motivate the chapter's systems design.
+\item EVOD-35: full causal/contiguous KV execution is the semantic oracle that paging must preserve.
+\item EVOD-32--33: generational ownership, reference lifetime, immutable sharing and copy-on-write correctness concepts.
+\item Classical virtual-memory paging is used as a systems analogy only: LLM KV block tables are application-managed data structures with model-specific semantics rather than an operating-system address space.
+\end{itemize}

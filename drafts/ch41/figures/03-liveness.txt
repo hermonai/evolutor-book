@@ -1,0 +1,1 @@
+For c=add(a,b), a and b must remain live during allocation of c unless an explicitly legal in-place form is used. Peak count is three, then a and b can be released. The count is a storage-pressure proxy, not a byte estimate. Model parameters, engine pins, shared pages, workspaces and externally retained values require separate lifetime accounting.

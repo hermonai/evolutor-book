@@ -1,0 +1,12 @@
+\begin{tikzpicture}[x=1cm,y=1cm]
+\node[note,draw] (base) at (1.7,2.6) {live: $[p_0,p_1]$};
+\node[note,draw,fill=Pale] (fork) at (7.7,2.6) {verify fork: $[p_0,p_2,p_3]$};
+\node[note] at (1.7,1.6) {unchanged prefix};
+\node[note,text width=3.5cm] at (10.5,1.6) {COW tail +\\tentative suffix};
+\draw[flow] (base)--node[above,smallnote]{fork then propose}(fork);
+\draw[flow,Red] (fork)--(7.7,.5);
+\node[note,draw,fill=Gold!35] (drop) at (7.7,.25) {release tentative fork};
+\node[note,draw] (commit) at (2,.25) {recompute committed prefix};
+\draw[flow] (drop)--(commit);
+\node[smallnote] at (6,-.7) {Rollback deletes tentative ownership; it does not shorten a shared physical page in place.};
+\end{tikzpicture}

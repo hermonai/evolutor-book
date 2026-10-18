@@ -1,0 +1,1 @@
+Log-log roofline plot uses hypothetical 100 TFLOP/s compute peak and decimal 2 TB/s bandwidth. Bandwidth line 2I meets the horizontal 100 ceiling at intensity 50 FLOP/byte. A labeled point at I=2 has a 4 TFLOP/s ceiling. Solid curve, dashed ridge and explicit labels remain distinguishable in grayscale. This is arithmetic modeling without measured hardware points.

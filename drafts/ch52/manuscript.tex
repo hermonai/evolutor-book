@@ -1,0 +1,381 @@
+\chapter{Failures, open problems and reproducible synthesis}
+\label{evod52:chapter}
+A final ledger contains one hypothesis, one unsuccessful comparison and one
+preserved counterexample. Has the project failed, or has it learned something?
+The useful answer names what the counterexample rules out, which implementation
+still behaves correctly, and what experiment comes next. A research book should
+end with fewer vague claims than it began with.
+
+This chapter joins the failure taxonomy, claim/experiment/theorem ledgers and
+post-book agenda to the repository's actual evidence. All 52 chapters are now
+assembled as a complete manuscript candidate with executable references.
+That is not publication acceptance, a deployed production Evolutor runtime,
+a trained genomic result or a demonstration of AGI.
+
+\section{What is actually implemented, and what is still staged?}
+\index{model semantics}\index{execution systems}\index{capability science}
+\index{research synthesis!evidence boundaries}
+Separate three research layers. Model semantics define functions and state
+transitions. Systems engineering preserves those functions while changing
+storage, scheduling and execution. Capability science tests behavior on held-out
+tasks. A correct kernel does not prove a learning hypothesis; a predictive gain
+does not validate a biological analogy.
+
+\begin{center}\small
+\begin{tabular}{p{.19\linewidth}p{.37\linewidth}p{.33\linewidth}}
+\toprule Direction & Concrete local evidence & Remaining claim boundary\\
+\midrule
+DOGMA & Earlier model references and the actual Chapter 31 restricted
+input-gated diagonal recurrence; tested native state operations & Restricted
+engine teaching recurrence is not full DOGMA or a trained genomic benchmark\\
+Hermon DNA & Chapter 23 multi-layer Transformer and Chapter 35 exact causal
+prefill/chunk/decode contract with learned absolute positions & Cache parity is
+not genomic skill, RC usefulness or device performance\\
+Evolutor & Typed research/runtime contracts; split, recovery,
+adaptation and evidence oracles & Reference composition is not an integrated,
+durable, concurrent production service\\
+\bottomrule
+\end{tabular}
+\end{center}
+These statements concern the book repository, not the independent Evolutor
+software repository. No source in that software repository was changed or
+validated here. The continuous candidate includes Chapters 1--52. Its separate
+paged-runtime companion connects the actual Chapter 36 allocator to the
+Chapter 39 runtime and Chapter 41 compiler, with full-model parity, ownership,
+failure-cleanup and effect-preservation checks. A complete manuscript and this
+bounded integration do not supply durable agent adapters, distributed fencing,
+device kernels or task-trained empirical evidence.
+
+The stable cross-chapter checks in this batch use the actual model interfaces:
+Chapter 48 exercises Chapter 23's offline shared-RC path; Chapter 49 checks
+chunk continuation in Chapters 31 and 35; Chapter 52 checks the original
+Hermon causal path under a suffix perturbation. Local trusted serialized
+checks establish the stated behavior on these fixtures. They do not establish
+production concurrency, security isolation or learned language-agent ability.
+
+\Plate{01-dependencies}{Solid arrows denote source-level reuse of the actual
+earlier Hermon model and the owned capability contract. Dashed arrows denote
+cross-chapter test probes. A manifest can name all eight reference files without
+claiming that every node imports every other node. External runtime/library
+versions remain an additional closure dimension.}{evod52:dependencies}
+
+\section{Evidence matrices should preserve the closest competitor}
+\index{baseline controls}\index{budget accounting}
+For DOGMA, the central question is quality--memory--latency tradeoff against
+strong recurrent/SSM and other appropriate baselines. Markov/MLP/CNN controls
+matter when local statistics or motifs can solve the task. Transformer and
+long-context controls matter when addressable history is the claimed advantage.
+Non-Transformer identity is an architectural fact, not evidence of superiority.
+
+For Hermon DNA, hold the Transformer backbone, training opportunity and task
+contract fixed while ablating the proposed genomic mechanism. Compare
+strand-aware transformations against augmentation and shared two-pass pooling;
+compare coordinate policies at the same legal information boundary. A faster
+attention kernel can improve serving cost while leaving learned quality
+unchanged. Charge extra data, context and tuning rather than crediting those
+gains to the biological inductive bias.
+
+For Evolutor, evaluate persistent workflow completion, state recovery,
+provenance, authorization, governance and resource accounting. Measure human
+intervention as part of the workload. A policy gate can correctly deny an action
+that would have increased raw completion rate. Task success and policy success
+need distinct denominators and a declared joint admissibility rule.
+
+Every comparison records parameters, training examples/tokens, optimizer and
+tuning budget, state/context budget, precision, hardware time, seeds and service
+constraints, under the earlier shared evidence contracts~\cite{evod52:contracts}.
+Modeled operation counts, synthetic scores, CPU timings and actual
+accelerator measurements are different evidence. Absence of a measured hardware
+column should appear as unmeasured, never as zero cost.
+
+\section{Turn a symptom into a durable failure artifact}
+\index{failure taxonomy}\index{counterexample}\index{negative evidence}
+The incoming taxonomy includes semantic correctness, numerical instability,
+causality/target leakage, baseline and optimization regressions, scaling,
+contamination, reproducibility, security/policy, service SLOs, biological
+interpretation and capability overclaim. These categories may overlap. A
+noncausal feature can cause both an implausible loss and a false capability claim.
+Store a primary category plus the causal explanation instead of forcing every
+failure into exactly one box.
+
+Reduce a failing run to the smallest input that preserves the discrepancy.
+Keep the original run too: minimization can remove conditions relevant to
+deployment frequency. Record expected behavior, observed behavior, artifact,
+environment, command, data identity and exact comparison rule. A later fix adds
+a resolution record and a regression test; it does not delete the original
+counterexample.
+
+\Listing{Ledger.add_failure}
+The new failure check binds claim and experiment to the same identity. The
+incoming reference checked that both existed but allowed a failure about one
+claim to name another claim's experiment. This relational error could make
+the wrong research direction appear disproved or resolved. The local tests
+include that mismatch as a negative control.
+
+Known audit targets include overlapping-window and homology leakage, target
+bases embedded in tokens, incompatible RC labels, cross-record state carry,
+stale generations, silent fallback, invalid perplexity denominators, external
+tool replay and tuned-on final benchmarks. These are failure hypotheses to
+test continually, not a claim that every current system exhibits them.
+
+\section{Random-data sanity is an expectation with assumptions}
+\index{cross entropy!uniform target}\index{Jensen inequality}
+Let the target $Y$ be uniformly distributed over $V$ classes and independent
+of the predictor's permitted context. Conditional on that context, the
+predictor supplies probabilities $q_1,\ldots,q_V>0$ summing to one.
+The expected next-target cross entropy in nats is
+\begin{equation}\label{evod52:entropy}
+\mathbb E[-\log q_Y]= -\frac1V\sum_{i=1}^V\log q_i
+=\log V+D_{\mathrm{KL}}(U\|q)\ge\log V.
+\end{equation}
+Equivalently, Jensen's inequality for convex $-\log$ gives
+$-V^{-1}\sum_i\log q_i\ge-\log(V^{-1}\sum_iq_i)=\log V$.
+Equality holds for uniform $q$. Zero probability for a possible target gives
+infinite expected loss. This is a population statement under independence.
+
+For $V=4$, uniform prediction gives $\log4\approx1.38629$ nats.
+For assigned $q=(.7,.1,.1,.1)$ the expected loss is larger, but one sampled
+A has loss $-\log .7\approx.356675$, below $\log4$. Thus a finite empirical
+average below the expectation is not logically impossible. Report variation,
+sample size, class distribution and dependence before declaring leakage.
+Sustained implausible gains warrant audits of target alignment, overlapping
+tokens, padding, masks and loss denominators. A shuffled-label control must
+also preserve the intended sampling structure; shuffling within leaked groups
+can leave an unintended shortcut.
+
+\section{Causality tests need a changing negative control}
+\index{causality!suffix intervention}\index{negative control}
+For a causal predictor, changing suffix $x_{p:}$ while retaining prefix
+$x_{:p}$ must not change logits strictly before $p$. Freeze model mode and
+numerical conditions. A test comparing an output tensor with itself proves
+nothing; the changed suffix must actually be different, and at least one
+permitted later output should change in a suitable positive control.
+
+The local test calls Chapter 35's full oracle, which calls the original
+Chapter 23 causal path. It compares ACGT and ACAA: the first two logits are
+equal and later logits differ on the assigned model. This checks a real
+implemented interface without substituting a detached attention toy. It does
+not prove every possible model setting by finite sampling. The architectural
+causal proof still depends on legal feature construction and layer masks.
+An offline reverse-complement average is useful for an invariant classification
+task but cannot silently feed future sequence into a next-base predictor.
+
+\section{A ledger distinguishes plans, observations and conclusions}
+\index{claim ledger}\index{experiment ledger}\index{theorem ledger}\index{failure resolution}
+Each claim has exact wording, scope, evidence stage and falsifier. Each
+experiment has a hypothesis link, baseline, budget, metric, threshold,
+data/artifact identity, seeds, sampling unit and an outcome. A planned run has
+no observed confidence bound. A completed failed run is evidence against the
+criterion, not an implementation milestone that unlocks a benchmark claim.
+
+\Listing{Ledger.promote}
+The reference imports the owned Chapter 51 evidence contract. It rejects
+empirical promotion while a linked counterexample remains unresolved. A
+resolution must cite a distinct supporting experiment; the failure remains in
+the capsule. This policy deliberately favors explicit treatment of negative
+evidence. It does not adjudicate scientific disputes: an experiment labeled
+successful may still be invalid, and an apparent resolution requires human
+mechanistic/statistical review.
+
+\begin{center}\input{\Generated/ledger_counts.tex}\end{center}
+The one-experiment fixture is explicitly synthetic. Its assigned candidate
+quality $.7$ loses to baseline $.8$ in one case. The research claim stays
+hypothesized. The placeholder artifact digests have valid syntax but are not
+represented as real trained model artifacts. A real empirical claim must
+resolve its digests to accessible evidence, which this fixture does not do.
+
+The theorem ledger is different. It records hypotheses, domain/codomain,
+proof and dependencies. In this batch, split closure has a graph premise,
+at-most-one local dispatch has a serialized-history premise, anchored
+convergence has a curvature/rate premise, and finite-test underdetermination
+has a permissive system-class premise. Numerical tests check implementations
+and counterexamples. They do not silently extend those proofs to production
+concurrency, full DOGMA, biological causation or universal capability.
+
+\section{Reproducibility is a dependency closure, not one checksum}
+\index{artifact capsule}\index{dependency closure}\index{content digest}
+\index{reproducibility!capsule}
+A result capsule needs source revision and dirty-tree identity; data,
+tokenizer/model identities and licenses; complete configuration and seeds;
+compiler, runtime, library, driver and hardware versions; precision; exact
+commands; raw measurements/checkpoints/logs; analysis scripts; tolerances;
+known failures and exclusions. A seed alone fixes none of the missing inputs.
+Private or licensed data may need controlled access rather than publication,
+but the access limitation must be stated.
+
+\Listing{Ledger.capsule}
+The ledger capsule canonically sorts records, serializes their exact content
+and hashes it. Record insertion order cannot change its identity. Changing a
+failure or result changes the digest. Byte integrity and scientific validity
+remain distinct: a reproducible error is still an error, but is easier to
+investigate than an undocumented one.
+
+The separate file manifest hashes eight actual reference sources: Chapters
+23, 31, 35 and 48--52~\cite{evod52:local}. This is a deliberately bounded code closure used by
+this batch's checks. It is not a whole-book capsule or an environment lock.
+The local review records additionally bind each chapter's authored LaTeX,
+figures, tests and resulting PDF. Their claims are local author review with
+\texttt{accepted=false} and \texttt{independent\_review=false}.
+
+\Listing{verify_files}
+The manifest verifier reports missing and changed files. A separate envelope
+hash detects changes to its listed mapping relative to the trusted envelope.
+Canonical relative paths and exclusion of symlinks narrow its input boundary;
+this trusted local reader is not a hardened hostile-filesystem service. A
+concurrent file replacement can invalidate assumptions between checks and use.
+
+\Plate{02-capsule}{One source mutation changes its file digest and therefore
+the manifest digest. The old trusted manifest reports a changed file; creating
+a new manifest changes identity rather than certifying the old result. The
+dependency order additionally checks declared references, while undeclared
+dependencies remain a separate audit responsibility.}{evod52:capsule}
+
+\Listing{dependency_order}
+The declared dependency graph must name every referenced artifact and contain
+no cycle. Depth-first validation marks active ancestors; re-entering one detects
+a cycle. After all dependencies of a node are completed, append that node.
+By induction, every dependency precedes its consumer in the returned order.
+This is a proof about the supplied graph. The routine does not infer imports,
+external datasets or dynamic dependencies, so completeness remains an explicit
+closure audit.
+
+\section{Open problems require disconfirming experiments}
+\subsection{State, regulation and structural learning}
+Which information should remain exactly addressable, and which can be
+compressed without damaging the task? Compare retention/retrieval distortion
+against state bytes and measured latency, including adversarial collisions
+and delayed-use tasks. A fixed-size vector is bounded storage, not a guarantee
+of sufficient memory.
+
+Does a proposed regulation mechanism improve quality or efficiency beyond
+ordinary gating, routing or conditional computation? Name the nearest existing
+mechanism, freeze opportunity, and ablate the claimed difference. If gains
+disappear under a matched gate control, revise the explanation. For structural
+learning, count all proposals, invalid candidates and tuning; test bounded
+complexity, inheritance compatibility and regression. Search over structures
+is distinct from gradient learning and from deployment authorization.
+
+\subsection{Memory, continual learning and genomic inductive bias}
+A rate--distortion--retrievability study can vary exact records, lossy summaries,
+native state and parameters under fixed task information. Measure errors caused
+by compression separately from retrieval failure and misuse. Include provenance
+and deletion constraints, which an unconstrained accuracy objective can ignore.
+
+Continual learning should report acquisition, peak forgetting, signed transfer,
+calibration, training cost and replay storage under declared data access. Test
+novel skills and poisoning resistance without assuming that a growing memory
+store is learning. Genomic inductive-bias tests need coordinate-correct variant
+pairs, strand-label actions, homology-aware splits, matched GC controls, task
+trained baselines and independent biological follow-up where mechanistic claims
+are made. Better synthetic motif arithmetic is not a wet-lab result.
+
+\subsection{World models, agents, self-improvement and open-endedness}
+Persistent agents should be tested under controlled stale observations,
+ambiguous effects, tool failures and long-horizon changes. Ablate native state,
+retrieval and external simulators separately to identify their contribution.
+Record human intervention and reconciliation costs. A service that merely
+continues running has not thereby solved a longer task.
+
+For self-improvement, preregister held-out criteria and matched search controls
+across repeated generations; charge the evaluator and failed proposals too.
+For open-endedness, define useful niches and sustained novelty before scoring
+new skills. For AGI, retain the unresolved breadth/depth/acquisition questions
+from Chapter 51. No finite book artifact closes them. Safety, authority and
+human control require their own evidence rather than being assumed from
+capability scores.
+
+\section{A staged program and a separate release decision}
+\index{integration gate}\index{independent review}\index{publication authorization}
+Phase A freezes tasks, baselines and datasets. Phase B tests DOGMA/Hermon scaling
+and mechanism ablations. Phase C studies memory and continual adaptation.
+Phase D tests persistent interactive agents. Phase E seeks independent
+replication and adversarial evaluation. Each phase has a stopping rule: failure
+to meet a predeclared effect, budget or policy constraint can end the hypothesis.
+Phases are research dependencies, not promised successes or deadlines.
+
+\Plate{03-gates}{A chapter can pass local code and render checks while whole-book
+integration and independent review remain open. Publication is a distinct
+authorization gate. These evidence dimensions must not be collapsed into one
+percentage-complete indicator.}{evod52:gates}
+
+Whole-book integration reconciles source adoption, stable cross-chapter
+interfaces, bibliography, labels, notation, glossary and index; reruns examples
+against their real dependencies; builds the continuous candidate; runs whole-repo
+regressions without concurrent author builds; and inspects the cumulative pages.
+Material revisions require those checks again. Independent specialist/reader review and rights/access auditing remain
+distinct release gates. The incoming package's completed-spine flag is not
+adopted as final-book acceptance. No stage in this chapter authorizes publishing.
+
+\section{Selective glossary}
+\begin{description}
+\item[Counterexample.] A concrete input and expected/observed discrepancy that
+contradicts a stated property under its assumptions.
+\item[Resolution record.] New evidence addressing a failure while preserving its
+original identity and symptom.
+\item[Capsule.] Bound artifacts, environment, commands, raw observations and
+analysis needed to reconstruct a scoped result.
+\item[Dependency closure.] The complete declared set of inputs and their
+relationships; validating a declared graph does not infer hidden dependencies.
+\item[Acceptance gate.] A review or authorization decision with its own scope,
+separate from passing local tests or producing a PDF.
+\end{description}
+
+\section{Final exercises and worked solutions}
+\begin{enumerate}
+\item A chapter test passes. Which layer is evidenced? \textbf{Answer:}
+its stated local semantics, not every capability motivated by the chapter.
+\item Is Chapter 31 full DOGMA? \textbf{Answer:} no; it is the actual restricted
+input-gated diagonal teaching recurrence used by these engine checks.
+\item Does Hermon cache parity establish genomic usefulness? \textbf{Answer:}
+no; it preserves a function whose task quality requires separate evaluation.
+\item Candidate beats a smaller baseline. Architecture gain? \textbf{Answer:}
+not without capacity/opportunity controls appropriate to the claim.
+\item Name three failure categories for suspicious loss. \textbf{Answer:}
+target leakage, invalid loss denominator and distribution mismatch; finite
+sample variation is another explanation to quantify.
+\item Derive the expected uniform-target bound. \textbf{Answer:} apply Jensen
+to $-\log$ over the normalized probabilities, obtaining $\log V$.
+\item Can one random target beat that value empirically? \textbf{Answer:}
+yes; a chance A under probability $.7$ has loss $.356675<\log4$.
+\item Why change the suffix in a causality test? \textbf{Answer:} identical
+inputs or accidentally ignored suffixes can make a test pass vacuously.
+\item What does the later-output control add? \textbf{Answer:} evidence that
+the assigned perturbation actually changes a permitted part of the computation.
+\item Is a planned experiment sufficient for empirical promotion? \textbf{Answer:}
+no; it contains no observed successful result or justified confidence bound.
+\item Can a failure cite another claim's experiment? \textbf{Answer:} no;
+the relational check rejects that inconsistent link.
+\item Does resolution delete the failure? \textbf{Answer:} no; it adds a
+distinct supporting reference while retaining the counterexample.
+\item A digest changed after editing source. \textbf{Answer:} the artifact
+identity changed; the old review cannot certify the new bytes.
+\item Does a manifest prove dependency completeness? \textbf{Answer:} no;
+it verifies named files, while hidden/dynamic dependencies require audit.
+\item Prove dependency-before-consumer order. \textbf{Answer:} each node is
+appended only after recursively completing all named dependencies; active-stack
+re-entry rejects cycles that would violate this ordering.
+\item Does a seed form a complete capsule? \textbf{Answer:} no; data, code,
+configuration, environment, analysis and failures remain necessary.
+\item Design an independent reproduction. \textbf{Rubric:} verified inputs,
+matching scoped contract, separate evaluator, raw results, declared numerical
+tolerances, failure preservation and externally checked independence.
+\item Design a state-memory study. \textbf{Rubric:} fixed information/budget,
+exact and compressed controls, delayed retrieval, collision/shift tests,
+quality--latency--memory curves, provenance and deletion costs.
+\item What remains after manuscript integration? \textbf{Answer:} independent
+scientific and reader review, full editorial and accessibility checks, and
+explicitly unimplemented production interfaces and empirical studies. A passing
+reference adapter does not close those distinct gates.
+\item What is the defensible final synthesis? \textbf{Answer:} a collection
+of precise implementations, premise-bound proofs and falsifiable research
+contracts whose broader empirical claims still require evidence.
+\end{enumerate}
+
+\section{Final synthesis}
+DOGMA asks whether DNA-native computational organization can provide useful
+non-Transformer alternatives. Hermon DNA asks how genomic structure and
+Transformer semantics can be combined and served. Evolutor asks how heterogeneous
+models, memory, tools, learning and governance can form a persistent research
+system. Their strongest future claims must be earned by experiments that can
+also reject them. Preserve failures, bind conclusions to exact artifacts, and
+keep implementation, integration, independent review and publication separate.

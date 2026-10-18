@@ -1,0 +1,73 @@
+{
+  "chapter": 42,
+  "date": "2026-10-18",
+  "reviewer": "author/agent",
+  "independent_review": false,
+  "pdf": "output/pdf/evolutor-ch42-review.pdf",
+  "pdf_sha256": "8dc7f160fd88add593c2d2f4f24c6ecb1c06c144dbc5319640933021785d8f15",
+  "physical_pages": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+  ],
+  "color_pages_inspected": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+  ],
+  "grayscale_pages_inspected": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+  ],
+  "render_dpi": 110,
+  "method": "Poppler page PNGs, four-page contact sheets in color and grayscale, with targeted full-page inspection during authoring. After index-only cleanup, raster comparison identified only the final index page as changed in Chapters39/40/41/43; those latest pages were reinspected in both modes.",
+  "status": "PASS WITH NOTES",
+  "notes": "All eleven latest physical pages were reinspected after strict scalar-type checks were added to the displayed WAL write. Plan eligibility, object validity and log/page frontier diagrams are legible in grayscale. Recovery proposition/proof and complete listings fit; sources and index are readable.",
+  "page_png_hashes": {
+    "tmp/pdfs/ch42-review/page-01.png": "d56cb3586b0381899dc0048a1fb3bd541b41cfde7fd22975bdbe6c01263b9326",
+    "tmp/pdfs/ch42-review/page-02.png": "faf04318b224a69e21499291e39e567f4c99c38202b4a7c42041f2c1a780e2c9",
+    "tmp/pdfs/ch42-review/page-03.png": "6e8d2a0f2f013a0a64d0d551a7f0947d5fb52e401f9db07cf1c8369ad3d5ca90",
+    "tmp/pdfs/ch42-review/page-04.png": "6e7bcdbd69393e9c7da08b1285343d658511ab7e3b16c010eddd1c2defd83870",
+    "tmp/pdfs/ch42-review/page-05.png": "3e8e57387ca641f752a906d51d278713b147ce7b38af124f0b206c3d58634ec1",
+    "tmp/pdfs/ch42-review/page-06.png": "237d029474ecba4119cab7bbf34e7b921a6e34374917da4f38dd9f02009ab87a",
+    "tmp/pdfs/ch42-review/page-07.png": "b63f30ae20b718c9fdeab3370154c066a77a303e50370dc5e30ab63386ce761b",
+    "tmp/pdfs/ch42-review/page-08.png": "7eada81b9784965c0f8d492dab09dc715bb2433345420d96228afa916e1a5de1",
+    "tmp/pdfs/ch42-review/page-09.png": "264c04abd622243ca396bcc0ffa0666e8b1b781ee580b7c0d95199ff5716bcea",
+    "tmp/pdfs/ch42-review/page-10.png": "2d9b34f352d19e0601daf395df3efefdc1a5a9c9e34d260eaa9cde1cef472abd",
+    "tmp/pdfs/ch42-review/page-11.png": "2a671fea0d5b8bd2d5d475ceda9cbc92ac01e549814410696a5acf6b731efc64"
+  },
+  "contact_sheet_hashes": {
+    "tmp/pdfs/ch42-review/contact-1.png": "9ae16abb7560ec158178e2c3c32d17727e53cab98eafc6456badf405fbcf6c70",
+    "tmp/pdfs/ch42-review/contact-2.png": "262880b9fa4bbee18c9f29ec9a0557f6364aa94b6e3df9edbe29cd8ccb356d77",
+    "tmp/pdfs/ch42-review/contact-3.png": "b9a3fb16749f29157b0ebdb245beb01c97133caf0f7fac3546500207c7dfb108",
+    "tmp/pdfs/ch42-review/grayscale-1.png": "2dabf205cb8cc7d026ebc3f59592b12c68508400d198a217a8129559ece5fa0a",
+    "tmp/pdfs/ch42-review/grayscale-2.png": "006a549c7affb37f3e0c5fddd4ec156286cb3f944ee6e7b1bf1a821dca0149ee",
+    "tmp/pdfs/ch42-review/grayscale-3.png": "a23eeb6b0138e1b6fbd3de2dc6ba2ae464ffc089c7d088a4b33844aa342f9a47"
+  },
+  "limits": "Local author review only. Standalone pagination does not establish cumulative-book layout or independent reader acceptance."
+}

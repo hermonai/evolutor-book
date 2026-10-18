@@ -1,0 +1,109 @@
+\chapter{Packaging, deployment and observable services}
+
+A model artifact is not yet a service. Industrial deployment requires an immutable release identity, compatibility contract, rollout state machine, health semantics, admission control, graceful shutdown, telemetry and rollback.
+
+\section{Release bundle}
+Define a release bundle
+\[
+B=(M,R,C,S,P),
+\]
+where $M$ is model/artifact identity, $R$ runtime/compiler identity, $C$ configuration, $S$ schema/API compatibility and $P$ provenance. Its digest is content-derived.
+\Plate{01-artifact}{A deployable revision binds all execution-critical identities.}{evod44:artifact}
+
+A mutable tag such as ``latest'' is convenient for discovery but insufficient as execution identity.
+
+\section{Supply-chain provenance}
+SLSA formalizes provenance as verifiable information about how an artifact was produced. Evolutor should record source revision, builder identity, dependencies, build parameters and resulting digests. Provenance does not prove model quality; it establishes artifact lineage and supports verification.
+
+\section{Compatibility gate}
+Before rollout, verify runtime ABI/API, model format, tokenizer/config, IR dialect, checkpoint/state schema, device requirements and policy schema. Incompatible state should fail closed rather than be silently coerced.
+
+\section{Rollout state machine}
+A minimal lifecycle is
+\[
+registered\rightarrow canary\rightarrow active\rightarrow superseded
+\]
+with rollback/termination branches.
+\Plate{02-rollout}{Promotion is evidence-gated rather than a file-copy operation.}{evod44:rollout}
+
+Canary traffic limits blast radius while producing representative service evidence. Shadow execution can compare a candidate without serving its output.
+
+\section{Liveness versus readiness}
+Liveness asks whether the service process can continue operating. Readiness asks whether it should receive new requests.
+\Plate{03-health}{Admission follows readiness, not mere process existence.}{evod44:health}
+
+A service may be live but unready while warming weights, rebuilding indexes, exhausting memory, draining or failing a dependency.
+
+\section{Admission and overload}
+Admission should consider request class, model, estimated prompt/output cost, memory/KV/native-state capacity, deadlines and tenant quotas. Rejecting or queueing work early can be safer than accepting work that cannot meet its contract.
+
+\section{Graceful draining}
+\Plate{04-drain}{Shutdown is a lifecycle protocol.}{evod44:drain}
+First stop new admissions. Then allow or cancel in-flight work according to policy, flush durable state/telemetry, release engine resources, and terminate only after ownership reaches zero.
+
+\section{Observable request lifecycle}
+A request crosses gateway, Evolutor planner, compiler/IR, router, engine/module calls, memory and tools. A trace correlates these spans through a request/trace context.
+\Plate{05-observability}{Observability correlates service operations across heterogeneous modules.}{evod44:observability}
+
+OpenTelemetry provides common data models and semantic conventions for traces, metrics and logs. Evolutor should reuse standardized attributes where applicable and add narrowly namespaced domain attributes.
+
+\section{Metrics}
+Useful serving metrics include request rate, error rate, latency distributions, TTFT, ITL, tokens/s, queue delay, admission rejection, batch occupancy, KV/state-pool utilization, cache hit rates, tool/retrieval latency and rollback events.
+
+Averages are insufficient for user-facing latency. Report p50/p95/p99 under declared offered load and prompt/output distributions.
+
+\section{Logs}
+Logs record discrete diagnostic/security/operational events. They should carry trace/request IDs where safe, but raw prompts, model outputs, credentials and retrieved private content should not be logged by default.
+
+\section{SLOs}
+An SLI is a measured service indicator. An SLO declares a target, for example:
+\[
+P(L_{TTFT}\le 500\mathrm{ms})\ge 0.99
+\]
+for a specified workload class and observation window.
+
+\Plate{06-slo}{SLO evidence can gate promotion or trigger rollback.}{evod44:slo}
+
+A kernel benchmark cannot establish an end-to-end SLO.
+
+\section{Error budgets}
+For availability target $A^*$ over a window, a simple error budget is
+\[
+E=1-A^*.
+\]
+Consumption rate can govern rollout velocity. If a candidate burns the budget too quickly, stop promotion or rollback.
+
+\section{Configuration}
+Separate immutable release configuration from dynamic policy knobs. Every dynamic change should be versioned, validated and observable. A deployment whose behavior cannot be reconstructed from artifact plus configuration is not reproducible.
+
+\section{Secrets}
+Secrets are references resolved at runtime through an authorized secret mechanism, not embedded in model packages, prompts, traces or provenance payloads. Rotation should not require rebuilding model weights.
+
+\section{Rollback}
+Rollback must verify compatibility with durable memory, checkpoint/state schemas and external side effects. Reverting binaries does not undo an already executed tool action.
+
+\section{Executable oracle}
+\Listing{reference}
+The reference models bundle identity, compatibility, canary/promotion, readiness, admission, in-flight draining, SLO gates and rollback. Its telemetry is deterministic and intentionally small.
+
+\section{Failure modes}
+Important failures include mutable artifacts, unverified provenance, liveness/readiness conflation, accepting traffic while draining, terminating owned work, logging secrets, measuring only averages, unsynchronized version changes, and rollback into incompatible state.
+
+\section{Twelve worked exercises}
+\begin{enumerate}
+\item Why bind config into release identity? \textbf{Configuration can change semantics.}
+\item Provenance proves quality? \textbf{No; it proves/records artifact lineage and production context.}
+\item Live means ready? \textbf{No.}
+\item First drain action? \textbf{Stop new admissions.}
+\item Why trace IDs in logs? \textbf{Cross-signal correlation.}
+\item Why p95/p99? \textbf{Tail latency is operationally important.}
+\item Kernel speedup proves SLO? \textbf{No.}
+\item Can rollback undo an email/tool side effect? \textbf{No.}
+\item Why schema compatibility? \textbf{State/artifact interpretation must remain valid.}
+\item Where should secrets live? \textbf{External authorized secret storage/runtime resolution.}
+\item Why canary? \textbf{Bound blast radius while gathering representative evidence.}
+\item Release rubric? \textbf{Immutable identity/provenance; compatibility; readiness; admission/drain; correlated telemetry; SLO gates; rollback; secret hygiene.}
+\end{enumerate}
+
+\section{Bridge}
+Chapter 45 assumes this service is exposed to mutually untrusted tenants and untrusted retrieved/tool content. It makes identity, authorization, resource isolation, cache/state partitioning, secret boundaries and adversarial tests explicit.

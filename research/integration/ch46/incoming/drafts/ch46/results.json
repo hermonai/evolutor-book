@@ -1,0 +1,12 @@
+{
+  "new_owner": "d1",
+  "epoch": 1,
+  "payload": [
+    1,
+    2,
+    3
+  ],
+  "stale_rejected": true,
+  "pd_same_zone": true,
+  "events": 7
+}

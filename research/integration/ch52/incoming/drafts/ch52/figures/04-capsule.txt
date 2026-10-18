@@ -1,0 +1,1 @@
+A reproducibility capsule binds executable artifacts to the exact reported evidence.

@@ -1,0 +1,23 @@
+[
+  {
+    "key": "EVOD18-24",
+    "claim": "DOGMA and Hermon DNA are intentionally distinct model/state directions.",
+    "primary": "internal chapter continuity",
+    "access_date": "2026-10-05",
+    "access_depth": "book continuity contract"
+  },
+  {
+    "key": "EVOD30-38",
+    "claim": "The two engine families expose different lifecycle, state, memory and execution contracts.",
+    "primary": "internal chapter continuity",
+    "access_date": "2026-10-05",
+    "access_depth": "engine-section continuity"
+  },
+  {
+    "key": "runtime-principle",
+    "claim": "Typed interfaces, opaque handles, explicit policy gates and observable traces are used as systems-engineering mechanisms; no novelty or capability claim depends on an external source.",
+    "primary": "chapter-defined engineering contract",
+    "access_date": "2026-10-05",
+    "access_depth": "self-contained formal/reference definition"
+  }
+]

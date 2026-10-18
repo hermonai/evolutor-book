@@ -1,0 +1,26 @@
+[
+  {
+    "key": "graefe1994",
+    "claim": "Volcano uses a standard operator interface and exchange operator to support extensibility/parallelism.",
+    "primary": "https://doi.org/10.1109/69.273032",
+    "date": "1994",
+    "access_date": "2026-10-05",
+    "access_depth": "primary-paper abstract and section map"
+  },
+  {
+    "key": "graefe1995",
+    "claim": "Cascades is an extensible rule/memoization-based query optimization framework.",
+    "primary": "https://dblp.org/rec/journals/debu/Graefe95a.html",
+    "date": "1995",
+    "access_date": "2026-10-05",
+    "access_depth": "bibliographic record plus abstract summary"
+  },
+  {
+    "key": "mohan1992",
+    "claim": "ARIES uses WAL, LSNs, redo/repeating history and rollback mechanisms for recovery.",
+    "primary": "https://research.ibm.com/publications/aries-a-transaction-recovery-method-supporting-fine-granularity-locking-and-partial-rollbacks-using-write-ahead-logging",
+    "date": "1992",
+    "access_date": "2026-10-05",
+    "access_depth": "IBM primary publication abstract plus accessible paper text"
+  }
+]

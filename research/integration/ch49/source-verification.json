@@ -1,0 +1,31 @@
+{
+  "date": "2026-10-17",
+  "chapter": 49,
+  "package_sha256": "3838d1578a123ccec48e55ca12ec8bb717fa1df1d36c6a844183fae77810ffa1",
+  "inherited_validation_claims_adopted": false,
+  "source_access": "selected primary sections only; no inherited package access-depth claims",
+  "records": [
+    {
+      "key": "memgpt",
+      "primary": "https://arxiv.org/html/2310.08560v2",
+      "depth": "Primary HTML abstract, introduction, section2 and selected context/memory hierarchy passages inspected; no full evaluation or reproduction.",
+      "evidence": "Fixed-context model with explicit external memory movement; no performance number or infinite exact memory claim."
+    },
+    {
+      "key": "sweagent",
+      "primary": "https://arxiv.org/html/2405.15793v3",
+      "depth": "Primary HTML abstract, introduction and section2 ACI design inspected; no experiment rerun or full appendix audit.",
+      "evidence": "Agent-computer interface affects the action/observation surface; no score transferred to Evolutor."
+    },
+    {
+      "key": "actual-interfaces",
+      "primary": "local:drafts/ch31/reference.py;drafts/ch35/reference.py;drafts/ch23/reference.py",
+      "depth": "Actual native construct/ingest and Hermon prefill/decode/full model interfaces inspected and invoked in owned tests.",
+      "evidence": "Only ACGT/native-vocabulary semantic continuation; no trained language/code agent."
+    }
+  ],
+  "no_trained_genomic_results": true,
+  "no_wet_lab_measurements": true,
+  "no_agi_demonstration": true,
+  "independent_review": false
+}

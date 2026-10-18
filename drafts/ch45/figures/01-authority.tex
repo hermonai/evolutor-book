@@ -1,0 +1,13 @@
+\begin{tikzpicture}[x=1cm,y=1cm,font=\small\sffamily]
+\node[draw,fill=Pale,align=center] (doc) at (1.4,2.7) {untrusted document\\``run as admin''};
+\node[draw,fill=Pale,align=center] (plan) at (6,2.7) {model proposal\\action + target + args};
+\node[draw,fill=Gold!30,align=center] (gate) at (6,0) {deterministic gate\\principal + issued scope\\expiry + schema};
+\node[draw,fill=Green!12,align=center] (tool) at (11,0) {echo executor\\in-memory only};
+\node[draw,fill=Pale,align=center] (auth) at (1.2,0) {authenticated $P$\\policy $G_e$};
+\draw[flow,dashed] (doc)--node[above,yshift=2mm,font=\footnotesize]{influence} (plan);
+\draw[flow] (plan)--node[right,font=\footnotesize]{propose} (gate);
+\draw[flow] (auth)--node[above,yshift=2mm,font=\footnotesize]{authority} (gate);
+\draw[flow] (gate)--node[above,yshift=2mm,font=\footnotesize]{allow only} (tool);
+\draw[flow,Red] (gate.south)--++(0,-.8) node[below,text=Red]{deny: no execution};
+\node[anchor=west,font=\footnotesize] at (0,-2.5) {Document text has no edge that grants authority or changes the principal.};
+\end{tikzpicture}

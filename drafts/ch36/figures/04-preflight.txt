@@ -1,0 +1,1 @@
+Shared one-row tail P2 needs one COW page plus two new pages for append5. Need3 exceeds free1. Preflight fails with tables, generations and references unchanged.

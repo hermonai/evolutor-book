@@ -1,0 +1,11 @@
+\begin{tikzpicture}[x=1.6cm,y=1.1cm,font=\small\sffamily]
+\foreach \j in {1,2,3} {\node at (\j,3.7) {task \j};}
+\foreach \t in {1,2,3} {\node[anchor=east] at (.3,4-\t) {after $E_{\t}$};
+\foreach \j in {1,2,3} {\pgfmathtruncatemacro{\v}{\t-\j}
+\ifnum\v=0 \fill[Gold!65] (\j-.45,3.65-\t) rectangle (\j+.45,4.35-\t);\else
+\ifnum\v>0 \fill[Blue!15] (\j-.45,3.65-\t) rectangle (\j+.45,4.35-\t);\else
+\draw[dashed,gray] (\j-.45,3.65-\t) rectangle (\j+.45,4.35-\t);\fi\fi
+\node at (\j,4-\t) {$A_{\t,\j}$};}}
+\node[anchor=west,align=left] at (3.9,3) {diagonal: acquisition\\lower: retention\\upper: pre-acquisition};
+\draw[flow] (3.8,.2)--(.6,.2) node[midway,below] {final row: retained performance};
+\end{tikzpicture}

@@ -1,0 +1,1 @@
+Assigned action budgets 0,1,2 have early-acquisition qualities 0,0.8,1 and late-acquisition qualities 0,0.2,1. Solid circles and dashed squares distinguish the curves without color. Both end at quality one; normalized trapezoidal areas are 0.65 and 0.35. These are constructed curves, not measured benchmark results.

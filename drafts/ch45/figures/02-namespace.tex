@@ -1,0 +1,10 @@
+\begin{tikzpicture}[x=1cm,y=1cm,font=\small\sffamily]
+\foreach \x/\t/\v in {0/A/A-private,6.3/B/B-private}{
+\draw[Blue,thick,fill=Pale] (\x,0) rectangle ++(5.5,3.2);
+\node[anchor=west,font=\bfseries\sffamily] at (\x+.25,2.8) {Tenant \t};
+\node[draw,fill=white,align=left,minimum width=4.7cm] at (\x+2.75,1.9) {object key $(\t,\mathtt{x})$\\value: \v};
+\node[draw,fill=Gold!25,align=center,minimum width=4.7cm] at (\x+2.75,.7) {cache key: $H([\t,M,P,X])$\\$M$: artifact; $P$: policy; $X$: prefix};}
+\draw[Red,thick,dashed] (5.9,-.2)--(5.9,3.4);
+\node[anchor=west,font=\footnotesize] at (0,-.65) {Same object ID and prefix digest; distinct tenant-qualified keys.};
+\node[anchor=west,font=\footnotesize] at (0,-1.2) {No cross-tenant lookup, merge or shared authority is implied by equal values.};
+\end{tikzpicture}

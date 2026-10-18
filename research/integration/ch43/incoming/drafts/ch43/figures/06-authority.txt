@@ -1,0 +1,1 @@
+Proposal and deployment authority are deliberately separated.

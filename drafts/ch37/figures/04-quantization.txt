@@ -1,0 +1,1 @@
+INT8 dynamic scale1000/127 about7.874 maps values .99 and1 both to0. Fixed calibration scale.01 clips10 to127 reconstruct1.27. Rounding bound excludes saturation.

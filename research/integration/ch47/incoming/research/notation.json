@@ -1,0 +1,9 @@
+{
+  "TTFT": "time to first token",
+  "ITL": "inter-token latency",
+  "G": "SLO-qualified goodput",
+  "I": "arithmetic intensity in FLOP/byte",
+  "P_peak": "peak compute throughput",
+  "BW": "memory bandwidth",
+  "S": "speedup"
+}

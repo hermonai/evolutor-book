@@ -1,0 +1,217 @@
+{
+  "chapter": 47,
+  "original_manuscript_sha256": "f764594efdc5968ecac2facb8553d8fb8260d7c8e88868b38ac7be10b183e62e",
+  "section_hash_convention": "UTF-8 from section heading through before next section, exact trailing whitespace",
+  "sections": [
+    {
+      "title": "Correctness before speed",
+      "sha256": "44ab1ea388811bcc288f7db2092ff66932a35e370cfbc3bf8ba2cc886ad14273",
+      "status": "expanded",
+      "destination": "evod47:correct",
+      "reason": "Retain numerical oracle before speed; bind actual Chapter31 and Chapter35/23 semantics and selection/tolerance boundary."
+    },
+    {
+      "title": "Workload contract",
+      "sha256": "112090a9bb4b01edf0654265ef6f559d6d08e134105919ccf61c092ac7fb70dd",
+      "status": "expanded",
+      "destination": "evod47:workload",
+      "reason": "Retain artifact/precision/load/cache/scheduler contract; add offered versus accepted counts and open/closed-loop distinction."
+    },
+    {
+      "title": "Latency decomposition",
+      "sha256": "1887d8ec762008fb662e72c7a8d583934d6475cd12661e1fea91021882c64489",
+      "status": "expanded",
+      "destination": "evod47:path",
+      "reason": "Retain phase decomposition but repair unconditional additive latency with dependency-DAG critical path."
+    },
+    {
+      "title": "TTFT and ITL",
+      "sha256": "9b3bc7f7282e29217618981dc0d032a05698f93a67c137d24680c741543e9bb0",
+      "status": "expanded",
+      "destination": "evod47:metrics",
+      "reason": "Retain arrival/first/subsequent timestamps and supplied three-request example; reject invalid chronology and require failure terminal time."
+    },
+    {
+      "title": "Throughput and goodput",
+      "sha256": "b9aade04ca7b26c8f243f4e7be28a32855d44d8022588ca84da0e225ffd8fe3b",
+      "status": "expanded",
+      "destination": "evod47:metrics",
+      "reason": "Retain token rate and request goodput; distinguish maximum-gap SLO from mean TPOT, failed-zero-token and survivor bias."
+    },
+    {
+      "title": "Percentiles",
+      "sha256": "77339a23bec07c7316420401a7029c4d179f0af964ce16bdf7374035895806d0",
+      "status": "expanded",
+      "destination": "evod47:uncertainty",
+      "reason": "Retain nearest-rank style estimator; define q/domain/missing statistics exactly and test permutations."
+    },
+    {
+      "title": "Warmup and steady state",
+      "sha256": "8c34f4fa50d4a9c921de131700a51636348422e19e09d52660d3b70bd8c012f2",
+      "status": "merged",
+      "destination": "evod47:workload",
+      "reason": "Retain startup/compilation/cache/allocator exclusions; predeclare cutoff and archive warmup samples."
+    },
+    {
+      "title": "Repetitions and uncertainty",
+      "sha256": "04d6c59e2a5ae8a9a37c660c6e27f66da7d7ae1cca7e9bcab32dcfbd2318cadc",
+      "status": "expanded",
+      "destination": "evod47:uncertainty",
+      "reason": "Retain repetitions/dispersion; add matched runs, pseudoreplication and no fabricated confidence interval."
+    },
+    {
+      "title": "Arithmetic intensity",
+      "sha256": "8d7825181241b391d4ec8d8e2614ade0f9bae1f6368ad2b784a2691bdbe63eec",
+      "status": "expanded",
+      "destination": "evod47:roofline",
+      "reason": "Retain F/B with named memory boundary, units and staging/parameter exclusions."
+    },
+    {
+      "title": "Roofline",
+      "sha256": "4f0d9ddcfe9698516f11199e78612c512e451cd38bf5d16b9ca2a0a7c6a134cf",
+      "status": "expanded",
+      "destination": "evod47:roofline",
+      "reason": "Retain min(P,WI) and ridge; derive time lower bound and original labeled synthetic curve."
+    },
+    {
+      "title": "Attention example",
+      "sha256": "8589fa037084bb70c1c247496c7eceec864ffe5452b89981a37a03df9cc6b81b",
+      "status": "expanded",
+      "destination": "Attention and native examples without a false speed ranking",
+      "reason": "Retain growing KV/FlashAttention hypothesis; derive QK+AV FLOPs/read payload and state actual architecture."
+    },
+    {
+      "title": "DOGMA example",
+      "sha256": "5a0fb619db0ae4db3b8956e3201d3665401130f82235123157287322ce44cd67",
+      "status": "expanded",
+      "destination": "Attention and native examples without a false speed ranking",
+      "reason": "Retain bounded native-state caution; use actual Chapter34 embedding-driven cost and exclude sigmoid explicitly."
+    },
+    {
+      "title": "System timeline",
+      "sha256": "6e8ec93de75023c0784eb2f6bf21f44189a9155df64d17e4ae3240bd04d3f834",
+      "status": "expanded",
+      "destination": "evod47:path; evod47:backends",
+      "reason": "Retain CPU launch/copies/sync; implement overlap counterexample and profiler scope."
+    },
+    {
+      "title": "Focused profiling",
+      "sha256": "e43bc9d1f4204dcf9452903306869275a6679d24db0cde2ad6384d03f0a17aaa",
+      "status": "merged",
+      "destination": "evod47:backends",
+      "reason": "Retain NVTX/focused region lead; verify official guide passages without running profiler."
+    },
+    {
+      "title": "Operator profiling",
+      "sha256": "72b833e0f6ee803e96e9f30f1a015334b1346062e779caa176d855f930c07d90",
+      "status": "merged",
+      "destination": "evod47:backends",
+      "reason": "Retain torch.profiler shapes/stacks/device traces; version-pin docs and note overhead."
+    },
+    {
+      "title": "Kernel profiling",
+      "sha256": "58669c3197ccc056574ab70765c4c1c6483af08f86251097c404bb930d40dfcf",
+      "status": "merged",
+      "destination": "evod47:backends",
+      "reason": "Retain critical-kernel counters and architecture-specific/replay perturbations."
+    },
+    {
+      "title": "CPU backend",
+      "sha256": "fed2c7e0104eb313ae23999fb115117db9ce1a5a9610835871366cd8da51efc9",
+      "status": "merged",
+      "destination": "evod47:backends",
+      "reason": "Retain ISA/threads/NUMA/cache/bandwidth in comparative experiment table."
+    },
+    {
+      "title": "Metal backend",
+      "sha256": "64eb26dec22ae9adf1632f6516b550b1c0a1670c2c8d0c0b1a712316f0fd1c08",
+      "status": "expanded",
+      "destination": "evod47:backends",
+      "reason": "Retain exact SoC/OS/unified-memory caveat; add official Metal tools overview, no measured ranking."
+    },
+    {
+      "title": "CUDA backend",
+      "sha256": "e1076eea87f7d74f083c781a7b1fd4c4efd223d4a62f2bb00c1f24b30e7a3418",
+      "status": "merged",
+      "destination": "evod47:backends",
+      "reason": "Retain versions/clocks/sharing/interconnect and Nsight; peaks not results."
+    },
+    {
+      "title": "Vulkan backend",
+      "sha256": "5618e191cc64a48db4a1e889370bbad0229277c380d53caa25cb894c0a02c262",
+      "status": "expanded",
+      "destination": "evod47:backends",
+      "reason": "Retain device/driver/subgroups/layout/sync; verify Khronos guide, no portability performance promise."
+    },
+    {
+      "title": "Backend comparison",
+      "sha256": "18a8b8fbb42417e7037f7d97e945385db363109e187184d472cb23c316183748",
+      "status": "merged",
+      "destination": "evod47:correct; evod47:workload; evod47:backends",
+      "reason": "Retain parity/protocol/memory/energy/profile requirements; no unsupported backend implementation."
+    },
+    {
+      "title": "Batching",
+      "sha256": "a2d1103c38d41dada54665229d0383f5a7736455c858450970abc6e44436e463",
+      "status": "merged",
+      "destination": "evod47:sync; evod47:workload",
+      "reason": "Retain utilization/queue/ITL tradeoff and arrival-process rather than full-batch-only measurement."
+    },
+    {
+      "title": "Synchronization",
+      "sha256": "544e159818b28d2f4c5312ef0473462e05185c63a4e133cf5a7b62b2817869f1",
+      "status": "expanded",
+      "destination": "evod47:sync",
+      "reason": "Retain device-aware timing; explain host enqueue, completed work and overlap perturbation."
+    },
+    {
+      "title": "Distributed performance",
+      "sha256": "56d8185b3b2eba7bf98ee4a67af7d149e42e6e50f80ddf6d1373942bf2ab3421",
+      "status": "expanded",
+      "destination": "evod47:sync",
+      "reason": "Retain Chapter46 phase decomposition/topology; require clock-error/overlap, no synthetic calibration claimed."
+    },
+    {
+      "title": "Speedup arithmetic",
+      "sha256": "3d47f165d49df9817177a201ae51c68537eee2c80ae8aed3e1e4ca5e10b55c4d",
+      "status": "expanded",
+      "destination": "evod47:path; opening example",
+      "reason": "Preserve 100 to80 =1.25 and 20% distinction; add premise-bound Amdahl and branch-switch counterexamples."
+    },
+    {
+      "title": "Benchmark record",
+      "sha256": "8f250c20300d17f7c68a225b5a257cc45223a854a88388717ba740226c0b6fde",
+      "status": "merged",
+      "destination": "evod47:workload",
+      "reason": "Retain full record fields/raw samples; clarify offered counts and actual backend evidence absent."
+    },
+    {
+      "title": "Executable analysis oracle",
+      "sha256": "514ddff5b74c7afacd4d07398ec01f3068b74aad4b49671c19502dff9b23d706",
+      "status": "expanded",
+      "destination": "evod47:metrics; evod47:roofline; evod47:loop",
+      "reason": "Reuse Request/percentile/metrics/roofline/speedup and exact original trace; add strict validation, failure denominator, DAG and matched runs."
+    },
+    {
+      "title": "Optimization loop",
+      "sha256": "48ea6903a5453ed4f1dfb29d92ef540a55e8d6b9312df00ee8ecc33ff49415d4",
+      "status": "expanded",
+      "destination": "evod47:loop",
+      "reason": "Retain measure-hypothesize-change-check-remeasure; add falsifiable fusion signature and failed-optimization ledger."
+    },
+    {
+      "title": "Twelve worked exercises",
+      "sha256": "f347dddba229895879b3c17f909df69d5a2bd3eb581e204ada129ab41a785c02",
+      "status": "expanded",
+      "destination": "Twelve worked exercises",
+      "reason": "Retain all twelve original subject themes; expand arithmetic, uncertainty, controls and protocol rubric."
+    },
+    {
+      "title": "Bridge",
+      "sha256": "4792eb8e04035adaa067a07ebbdd4f99df5c406532f7f34fb8ed81c5266ac7d6",
+      "status": "expanded",
+      "destination": "Terms and the application boundary",
+      "reason": "Retain genomic-application bridge; remove claim that industrial runtime is complete."
+    }
+  ]
+}

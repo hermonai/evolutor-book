@@ -1,0 +1,1 @@
+Logits1,.99 perturbed to.98,1.01 change winner with max error.02. Gap.01 is below2epsilon.04. Numerical and task gates remain separate.

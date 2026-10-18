@@ -1,0 +1,72 @@
+{
+  "date": "2026-10-18",
+  "chapter": 42,
+  "pdf": "output/pdf/evolutor-ch42-review.pdf",
+  "pdf_sha256": "8dc7f160fd88add593c2d2f4f24c6ecb1c06c144dbc5319640933021785d8f15",
+  "pages": 11,
+  "source_hashes": {
+    "drafts/ch42/README.md": "2897f43869250c2edc0b3454ac95ea226b42784a37a49448ccc028471246f92f",
+    "drafts/ch42/STORYBOARD.md": "87d664d4f0c5b59427ad38e96a9affeffa7fff1e61052901da0cf1096e126f57",
+    "drafts/ch42/build.py": "71291d4e3eb27186563587fcd658ab33610b46bd3e23ff32b790da7caf0a83a6",
+    "drafts/ch42/figures/01-wal.tex": "661e0022e4b1e20cdd44ccae03f296aef562dffc7cdddd38023591c73ec46430",
+    "drafts/ch42/figures/01-wal.txt": "e59c36a59271b0e3eb429b40a87dc171592b66ab5745554e5bc04ab6928db31b",
+    "drafts/ch42/figures/02-objects.tex": "fd438460e7d37485056aba063e0d04f9d0d9e7e280a3a330c768cd0061052aa5",
+    "drafts/ch42/figures/02-objects.txt": "47a15cfdc51719351dda22a9bd82c11333d5ae21827741bd18302941ba60477c",
+    "drafts/ch42/figures/03-plans.tex": "252037f4ca3e3d1337a22d1c960951dc19e6bce76f13bf9fc0903b1dc2370bd0",
+    "drafts/ch42/figures/03-plans.txt": "777d26ec82314a04e2a46cbd7a46213ec18ac3cec52f1f401ced076fbb7a1538",
+    "drafts/ch42/manuscript.tex": "edd6bdb48a7b474a1982eeb3f9400586b8c87a95a45447e1f33e15bc737f2c5d",
+    "drafts/ch42/reference.py": "9c1cea8a32b7f7fd7e8e160a7e67e76bc286d8390a8222685ad8626952fd7f0f",
+    "drafts/ch42/results.json": "4a498600b69bd53c199923e4ae5e5c0cf6d873631a34f3d99da2deb03b6551b5",
+    "drafts/ch42/review.tex": "18534ee1b0ec49deca9dbc5062f61317afaff7b736a267cf0c7e6521c5e3557b",
+    "drafts/ch42/sources.tex": "b3e3d9918c9e9783e20567d24169e76c8840cc735fd9cf952eed3561a043ef8f",
+    "tests/test_ch42_reference.py": "72a6f41a552437a0e4bbcd68efecc826194c2eec1dec3f4c2fa2657aac1df681"
+  },
+  "transitive_dependencies": {},
+  "research_hashes": {
+    "research/integration/ch42/package-integrity.json": "a43ae34e8f7a6f94dad7354ccfd739b83985ca08f5ba0b27165be6b2320f18c3",
+    "research/integration/ch42/package-adoption.md": "e1bebf8ff55997cbb4d24a2f66478d0a58b424a011ebafe5ae20a3f148f19de0",
+    "research/integration/ch42/package-adoption.json": "f89015c2f10f48093d46d4b353f5111b0d26c30a752ea4c6c741d78b98eef14c",
+    "research/integration/ch42/source-verification.json": "9607e65ff539849a37f2c54be3a4761149cff262784c03f4859ca89e69b21147",
+    "research/integration/ch42/technical-audit.md": "adc48dbf4cdf0b10dc1621f6273186a7fd64746e982feae03b240eb72e70bddd",
+    "research/integration/ch42/visual-review.json": "c254ed9dad98c3e5a1923c101b28762ece8176628ad7a69f44a3aab6ea6d7008"
+  },
+  "package_archive_sha256": "9102e1b3bfcbf72ad53705bda4d306aa88599a510cf31a2b5b6f2592ef3ff7f6",
+  "tests": {
+    "chapter_passed": 40,
+    "chapter_failed": 0,
+    "chapter_skipped": 0,
+    "batch_passed": 189,
+    "report": "build/ch42/reference-tests.xml",
+    "report_sha256": "e3895fb9747931abb514489394cbad70c1711f71aff4d816f25f7a4ea59d4856",
+    "batch_report": "build/ch39/batch-B-reference.xml",
+    "batch_report_sha256": "c17c05ca1dd1b6ac2c69958f276aa690f49a6594b8183e6c9c872994003ee5c6",
+    "python": "3.13.6",
+    "torch": "2.10.0",
+    "repository_status": "not_run_by_batch_owner; reserved for final integration coordinator"
+  },
+  "derived_artifacts": {
+    "status": "passed",
+    "command": "python drafts/ch42/build.py --check"
+  },
+  "strict_compile": {
+    "status": "passed",
+    "overfull_boxes": 0,
+    "missing_glyphs": 0,
+    "unresolved_references_or_citations": 0,
+    "multiply_defined_labels": 0,
+    "log": "build/ch42/review.log",
+    "log_sha256": "6128a013293f28168750df2e682f52e049b591dff54e9ed0bd21fd82898cda55"
+  },
+  "visual_review": {
+    "reviewer": "author/agent",
+    "status": "PASS WITH NOTES",
+    "mode": "all 11 physical standalone pages, color and grayscale",
+    "record": "research/integration/ch42/visual-review.json",
+    "notes": "All eleven latest physical pages were reinspected after strict scalar-type checks were added to the displayed WAL write. Plan eligibility, object validity and log/page frontier diagrams are legible in grayscale. Recovery proposition/proof and complete listings fit; sources and index are readable."
+  },
+  "mathematical_review": "See technical-audit.md and the premise-bound chapter proofs; independent reference oracles and negative controls cover the stated teaching contracts.",
+  "cross_batch_integration": "not implemented/tested by this batch; exact remaining checks are in research/integration/batches/B-handoff.md",
+  "independent_review": false,
+  "accepted": false,
+  "acceptance": "locally reviewed standalone integration candidate; cumulative integration and publication gates remain open"
+}

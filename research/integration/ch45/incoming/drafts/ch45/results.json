@@ -1,0 +1,10 @@
+{
+  "own_read": "tenant-A-secret",
+  "cross_tenant_denied": true,
+  "tool_result": {
+    "executed": "echo",
+    "tenant": "A"
+  },
+  "cache_keys_differ": true,
+  "audit_events": 4
+}

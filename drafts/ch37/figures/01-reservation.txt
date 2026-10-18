@@ -1,0 +1,1 @@
+Eight credit arena: A reserves3 B reserves2;3 unreserved. Actual allocation cannot exceed reservations. Reservation is a promise separate from payload.

@@ -16,20 +16,11 @@ def outputs(data,contract,outline):
     state=json.loads((ROOT/"book/textbook-progress.json").read_text())
     if state["accepted"] != [1,2] or state["review"] != [3] or state["format"] != "latex":
         raise ValueError("Progress must preserve accepted Chapters 1--2 and Chapter 3 review status")
-    text=result["ROADMAP.md"]
-    note=("Status: canonical deep Chapters 1–2 remain internally reviewed development manuscripts. "
-          "Chapter 3 now has an authored LaTeX review manuscript in the combined textbook candidate; "
-          "cumulative acceptance and independent review remain open. Chapter 4 onward remains planned. "
-          "Prior editions and their accepted source hashes are preserved. "
-          "See [the textbook revision](TEXTBOOK_REVISION.md).\n")
-    text=re.sub(r"^Status:.*\n",lambda _:note,text,flags=re.M)
-    text=re.sub(r"^1\. \*\*Current milestone:\*\*.*\n",
-                "1. **Current milestone:** LaTeX-first Chapters 1–3 review candidate, native/vector mechanisms, worked solutions and reproducible source checks.\n",text,flags=re.M)
-    next_title=data["chapters"][3]["title"]
-    next_line=("2. **Next execution:** close Chapter 3 specialist review and cumulative acceptance gates, then Chapter 4 — "
-               +next_title+". Keep authored LaTeX as the new manuscript source.\n")
-    text=re.sub(r"^2\. \*\*Next execution:\*\*.*\n",lambda _:next_line,text,flags=re.M)
-    result["ROADMAP.md"]=text
+    # Only this current overlay advances. The accepted generator and all other
+    # accepted outputs remain untouched; the authored current template is
+    # mirrored to the root so the preservation checks still detect drift.
+    template=(ROOT/"docs/roadmap-current.md").read_text()
+    result["ROADMAP.md"]=re.sub(r"\]\(\.\./", "](", template)
     return result
 
 def main():
@@ -42,12 +33,14 @@ def main():
     stale=[]
     for name,text in generated.items():
         if args.check:
-            if (ROOT/name).read_text()!=text: stale.append(name)
+            if (ROOT/name).read_text()!=text:
+                stale.append(name)
         elif name=="ROADMAP.md":
             (ROOT/name).write_text(text)
         elif (ROOT/name).read_text()!=text:
             raise SystemExit("Refusing to rewrite accepted planning inputs: "+name)
-    if stale: raise SystemExit("Stale current planning view: "+", ".join(stale))
+    if stale:
+        raise SystemExit("Stale current planning view: "+", ".join(stale))
     print("Current planning view agrees; frozen accepted generator is unchanged.")
 
 if __name__=="__main__":

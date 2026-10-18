@@ -1,0 +1,25 @@
+\begin{thebibliography}{9}
+\addcontentsline{toc}{chapter}{Sources and references}
+\bibitem{nist45} Scott Rose, Oliver Borchert, Stu Mitchell and Sean Connelly.
+\emph{Zero Trust Architecture}. NIST SP 800-207, 2020. Official publication
+overview inspected for resource authentication/authorization and network-location
+trust boundary.
+\url{https://csrc.nist.gov/pubs/sp/800/207/final}.
+\bibitem{injection45} OWASP Gen AI Security Project.
+\emph{LLM01:2025 Prompt Injection}. Types and mitigation sections inspected.
+\url{https://genai.owasp.org/llmrisk/llm01-prompt-injection/}.
+\bibitem{boundary45} OWASP Gen AI Security Project.
+\emph{LLM07:2025 System Prompt Leakage}. Mitigation/privilege-boundary guidance
+inspected. \url{https://genai.owasp.org/llmrisk/llm072025-system-prompt-leakage/}.
+\end{thebibliography}
+
+\section*{Evidence scope}
+Access checked 17 October 2026. NIST's publication overview was inspected for
+the no-implicit-network-trust principle; this is not a full implementation
+audit against every SP 800-207 requirement. OWASP's current LLM01:2025 and
+LLM07:2025 pages were inspected for mitigation and external authorization
+boundaries. Their recommendations are source leads, not authorization to test
+live systems. No penetration test was performed. The capability registry,
+namespace proof, quota oracle, local adversaries and mechanism figures are
+original extensions of the supplied scenarios. They assume trusted serialized
+host code and do not establish cryptographic or hardware isolation.

@@ -1,0 +1,8 @@
+{
+  "C_s": "capabilities required by a plan step",
+  "C_e": "capabilities exposed by an engine/module",
+  "Q_s": "step constraints",
+  "h": "opaque backend-bound state handle",
+  "E_i": "observable trace event",
+  "J(e)": "illustrative multi-objective routing cost"
+}

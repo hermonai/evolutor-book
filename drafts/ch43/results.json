@@ -1,0 +1,39 @@
+{
+  "lineage": [
+    {
+      "candidate": "base",
+      "stage": "active",
+      "served": 1
+    },
+    {
+      "candidate": "unsafe",
+      "stage": "rejected",
+      "served": 0
+    },
+    {
+      "candidate": "v2",
+      "stage": "retired",
+      "served": 1
+    }
+  ],
+  "revision": 3,
+  "active_restored": true,
+  "quadratic": [
+    {
+      "strength": 0,
+      "optimum": 2.0
+    },
+    {
+      "strength": 1,
+      "optimum": 0.5
+    },
+    {
+      "strength": 3,
+      "optimum": 0.2
+    },
+    {
+      "strength": 10,
+      "optimum": 0.06451612903225806
+    }
+  ]
+}

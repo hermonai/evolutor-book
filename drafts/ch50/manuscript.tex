@@ -1,0 +1,296 @@
+\chapter{Continual learning and population adaptation}
+\label{evod50:chapter}
+Train a two-coordinate learner toward $(1,0)$, then toward $(0,1)$.
+Should it finish at the new target, the midpoint, or somewhere else? Each
+answer optimizes a different objective. A memory store that preserves old
+examples, a regularizer that resists movement and a population search that
+chooses among learners introduce different costs and causal explanations.
+We derive those differences before using the word adaptation as evidence.
+
+The supplied quadratic learner and exploit/mutate example remain the numerical
+spine. We add an independent closed-form oracle, explicit retention conventions,
+replay gradients, feasibility constraints and counted search opportunities.
+All reported values are synthetic arithmetic. No DOGMA or Hermon training
+improvement follows from them.
+
+\section{Five adaptation layers and their owners}
+\index{parameter learning}\index{structural adaptation}\index{inheritance}
+\index{continual learning!adaptation layers}
+Context updates change current inputs. Durable memory updates change later
+retrieval opportunities. Parameter or adapter updates change the function.
+Structural changes alter its graph, routing or memory topology. Population
+updates change which candidates exist and are selected. A saved conversation
+changes neither weights nor architecture merely by being stored.
+
+Let $h_t$ be inference state, $M_v$ a memory version, $\theta_k$ weights,
+$G_s$ a structure and $\mathcal P_g$ a population. The indices name update
+events, not a universal ordering of time scales. A deployment should identify
+which versions a request sees. Changing $\theta$ while retaining an incompatible
+native carry or K/V state can silently change the request's meaning.
+
+Chapter 13's search inherited masks with fresh weights; its alternative
+inheritance map was separately defined. The same discipline applies here.
+Copying weights alone differs from copying weights, optimizer moments,
+normalization statistics, data cursor and RNG. A structural mutation needs
+a semantic coordinate map, not merely tensors of matching length. The
+Chapter 43 governance adapter is a deferred integration dependency; the local
+reference neither self-modifies a runtime nor promotes an artifact.
+
+\section{A transparent acquisition--retention conflict}
+\index{acquisition}\index{catastrophic forgetting}
+Let $\theta\in\mathbb R^2$ and task target $u\in\mathbb R^2$ be dimensionless.
+Define a task loss and a bounded teaching score
+\[
+L_u(\theta)=\tfrac12\|\theta-u\|_2^2,
+\qquad Q_u(\theta)=\max\{0,1-\|\theta-u\|_2^2/4\}.
+\]
+$Q$ is not classification accuracy; its scale is chosen to make retention
+visible. The historical function name \texttt{accuracy\_matrix} is retained
+for provenance, with this semantic correction explicit. Clipping can hide
+differences between very poor candidates, so an actual study should retain
+the underlying loss as well.
+
+Gradient descent with rate $\eta$ gives
+$\theta_{k+1}=(1-\eta)\theta_k+\eta u$.
+Subtracting $u$ and iterating yields
+\[
+\theta_n-u=(1-\eta)^n(\theta_0-u).
+\]
+For $0<\eta<2$ the error contracts. Starting at zero, four steps at $\eta=1/2$
+toward $u_1=(1,0)$ give $\theta_A=(15/16,0)$. Four more toward $u_2=(0,1)$ give
+\[
+\theta_B=(15/256,15/16).
+\]
+The new task is almost fitted; the first coordinate has mostly been forgotten.
+This is the objective's behavior, not a software bug.
+
+\Plate{01-quadratic}{Parameter space contains two task optima. Four half-rate
+updates approach task one, then task two. An anchor changes the second objective
+and converges to a compromise. The path is a deterministic numerical fixture,
+not a trajectory measured in a trained neural network.}{evod50:quadratic}
+
+\section{Derive an anchored objective and its stability bound}
+\index{elastic weight consolidation}\index{learning rate!curvature bound}\index{closed-form oracle}
+EWC uses a quadratic penalty weighted by parameter importance estimates
+\cite{evod50:ewc}. In the usual approximation, a diagonal Fisher-information
+estimate represents local importance around a previous optimum. The original
+paper discusses approximations and uncertainty limits; the method does not
+guarantee retention on arbitrary new tasks. Our teaching fixture sets
+$F_i=1$ explicitly. It does not estimate a Fisher matrix and is therefore
+an EWC-like anchored quadratic, not a reproduction of the complete method.
+
+With anchor $a$ and nonnegative weights $F_i$, let
+\[
+L(\theta)=\tfrac12\|\theta-u\|^2+
+\tfrac\lambda2\sum_i F_i(\theta_i-a_i)^2,\qquad\lambda\ge0.
+\]
+Coordinate differentiation gives
+\[
+g_i=(\theta_i-u_i)+\lambda F_i(\theta_i-a_i),\quad
+\theta_i^*=\frac{u_i+\lambda F_i a_i}{1+\lambda F_i}.
+\]
+Set $c_i=1+\lambda F_i$. Subtracting the optimum from one gradient step gives
+\begin{equation}\label{evod50:contraction}
+\theta_{k+1,i}-\theta_i^*=(1-\eta c_i)(\theta_{k,i}-\theta_i^*),
+\quad
+\theta_{n,i}=\theta_i^*+(1-\eta c_i)^n(\theta_{0,i}-\theta_i^*).
+\end{equation}
+Thus all coordinates contract when
+$0<\eta<2/\max_i c_i$. Stronger anchoring increases curvature and can require
+a smaller learning rate. An implementation can be arithmetically correct while
+its optimization diverges. The negative control takes $\eta=3$ on the
+unanchored scalar loss and observes increasing error.
+
+\Listing{step}
+\Listing{closed_form}
+With $a=\theta_A$, $F=(1,1)$, $\lambda=1$ and $\eta=1/2$, the contraction
+factor is zero. One second-task step reaches $(15/32,1/2)$ exactly, and the
+remaining steps leave it there. Old-task retention improves relative to the
+naive path, while new-task acquisition worsens. This tradeoff is the central
+result of the fixture; reporting only reduced forgetting would hide its cost.
+
+\begin{center}\input{\Generated/adaptation.tex}\end{center}
+The generated values use four updates per experience and the stated synthetic
+score. The tests compare loops with the affine formula, exact rational first-task
+values and a finite-difference gradient. These checks have different failure
+modes: a wrong update count, derivative or normalization can be detected without
+reusing the same iterative implementation as its own oracle.
+
+\section{Read the full experience matrix}
+\index{forgetting!peak convention}\index{backward transfer}\index{forward transfer}
+For experiences $E_1,\ldots,E_T$, let $A_{t,j}$ be the evaluation score on task
+$j$ after training through task $t$. Row $t$ uses one fixed artifact; column
+$j$ uses one fixed evaluation distribution. The diagonal measures immediate
+acquisition, and entries below it measure later retention.
+
+\Plate{02-matrix}{A matrix entry binds one model time and one evaluation task.
+Diagonal cells mark acquisition; lower cells are retention; upper cells concern
+pre-acquisition behavior and are not training data. Future evaluations must stay
+hidden from the learner and selection process.}{evod50:matrix}
+
+Average final score is $T^{-1}\sum_jA_{T,j}$. We define nonnegative peak
+forgetting for each task as
+\[
+F_j=\max_{j\le t\le T}A_{t,j}-A_{T,j}.
+\]
+Including the final row makes this quantity nonnegative. The incoming prose's
+maximum over all earlier rows could include pre-acquisition values; the incoming
+code used the post-acquisition convention. We resolve that mismatch here.
+Last-task forgetting is zero by definition, not evidence of long-term retention.
+\Listing{forgetting}
+Signed backward transfer is
+\[
+\mathrm{BWT}=\frac1{T-1}\sum_{j<T}(A_{T,j}-A_{j,j}),\qquad T>1.
+\]
+It can be positive even when peak forgetting is zero. For $A_{1,1}=.6$ and
+$A_{2,1}=.8$, backward transfer is $.2$, while peak forgetting is zero.
+Forward transfer needs a target-only or pretraining baseline before acquisition;
+an off-diagonal number alone does not supply that counterfactual.
+
+The two-task oracle allows the analyst to calculate both task scores at every
+row, since both quadratics are known. The learner's update uses only the current
+target and its permitted anchor. In a real online protocol, future task labels
+cannot guide updates or selection. Declare whether task IDs and boundaries are
+given, how often evaluations occur, and which evaluations may be inspected.
+Avalanche is prior work on a shared continual-learning experimental framework
+\cite{evod50:avalanche}; using a common framework does not itself make two
+data-access protocols equivalent.
+
+\section{Replay and modularity change different terms}
+\index{replay!mixture objective}\index{adapters}
+If a replay batch mixes old and new losses with old-data fraction $\rho$,
+\[
+L_{\mathrm{mix}}=(1-\rho)L_{u_2}+\rho L_{u_1},\qquad
+\nabla L_{\mathrm{mix}}=\theta-[(1-\rho)u_2+\rho u_1].
+\]
+The fixture therefore uses the mixture target directly. At $\rho=1/2$,
+starting from zero with half-rate learning produces $(.25,.25)$ in one step.
+Replay with a finite biased buffer does not equal the exact old-data objective.
+Report buffer bytes, selection policy, old/new exposures and privacy restrictions.
+\Listing{replay_step}
+Adapters can isolate new parameters but still share routing, normalization or
+base representations. A router regression can prevent access to an intact
+old adapter. A no-interference claim therefore needs end-to-end task tests,
+not merely a check that old weight bytes were unchanged. A joint/offline
+reference has access to all allowed data and a different training opportunity;
+call it an upper reference only under the actual task/optimization assumptions,
+not a guaranteed mathematical upper bound on every algorithm.
+
+\section{Population search counts all its opportunities}
+\index{population search}\index{budget parity}
+Population-based training interleaves model training with exploitation and
+hyperparameter exploration \cite{evod50:pbt}. Our preserved fixture is much
+narrower: evaluate each two-coordinate candidate on each target, retain the
+best mean quality, then create two deterministic coordinate mutations. It has
+no asynchronous workers or learned hyperparameter schedule. Ties retain the
+first candidate in declared input order, so completion speed cannot decide them.
+
+For $N$ candidates and $J$ tasks the selection uses $NJ$ candidate-task
+evaluations. A budget below $NJ$ rejects before selection. This count excludes
+candidate training and runtime overhead, which actual studies must also charge.
+Offspring are proposals and require their own future evaluation. Their parent
+score cannot certify the changed coordinates.
+
+\Plate{03-population}{Three candidates receive two task evaluations each,
+consuming six opportunities. The selected parent supplies inherited coordinates
+to two new proposals. Dashed descent indicates inheritance; it does not carry
+the parent's evaluation evidence to the mutations.}{evod50:population}
+
+Selection only by current mean can erase complementary skills. Diversity can
+be measured in behavior, architecture or failures; parameter distance need not
+imply behavioral diversity. A useful evaluation freezes population size,
+mutation rate, inheritance map, training budget and selection data. Compare
+equal total work as well as per-candidate work, and reserve a final evaluation
+that search never queries. Repeated search on a public test is development.
+
+\section{Feasibility, Pareto comparisons and poisoning}
+\index{Pareto dominance}\index{poisoning}\index{rollback}
+A scalar fitness $q-\alpha c-\beta r-\gamma f$ combines unlike units only
+after explicit scaling and policy weights. A risk constraint is often better
+expressed as a hard admission condition. Our reference first removes candidates
+above a stated risk ceiling, then computes the Pareto set for quality
+(maximize), cost and forgetting (minimize). Candidate A dominates B if it is
+no worse on every axis and strictly better on at least one. Incomparable
+candidates remain; the frontier is not an automatic deployment choice.
+\Listing{pareto}
+The synthetic candidates \texttt{a} and \texttt{b} survive, a dominated
+candidate is removed, and a high-quality unsafe candidate fails feasibility.
+Risk here is a supplied number, not a measured probability or security
+certification. Tests enforce the mathematical selection rule only.
+
+For a real update, preserve parent lineage, data admission decisions, optimizer,
+seeds, artifact identity, acquisition/retention matrix, calibration, budgets and
+failure cases. Quarantine untrusted experience before training: poisoning can
+persist in memory and weights. An anomaly filter has false negatives; no one
+filter guarantees clean training. Ablate replay, importance penalty, mutation
+and selection separately, including matched random-change controls.
+
+Promotion remains an external authority decision. A canary needs bounded scope,
+duration, observable failure thresholds and a rollback artifact. Rollback restores
+future behavior under an old version; it cannot erase messages already emitted
+or outside actions already performed. Correct data deletion may require removing
+derived memory and retraining artifacts, not merely changing a version pointer.
+
+\section{Selective glossary}
+\begin{description}
+\item[Acquisition.] Performance on a task after its learning experience under
+the declared update budget.
+\item[Peak forgetting.] Best post-acquisition score minus final score, including
+the final row in the maximum under this chapter's convention.
+\item[Backward transfer.] Signed final-minus-acquisition score on earlier tasks;
+positive values indicate improvement rather than loss.
+\item[Replay mixture.] A training objective combining permitted old and new
+data, with memory and exposure costs explicitly counted.
+\item[Pareto dominance.] No worse on every chosen objective and strictly better
+on at least one, after hard feasibility constraints are applied.
+\end{description}
+
+\section{Exercises and worked solutions}
+\begin{enumerate}
+\item Saving a dialogue changes which layer? \textbf{Answer:} durable evidence
+or context, unless a separate parameter update actually runs.
+\item Derive unanchored $\theta_n$. \textbf{Answer:} subtract $u$ from the
+update and iterate the factor $(1-\eta)$.
+\item Four half-rate steps from zero toward $(1,0)$? \textbf{Answer:}
+$(15/16,0)$.
+\item Four further steps toward $(0,1)$? \textbf{Answer:} $(15/256,15/16)$.
+\item Is $Q$ classification accuracy? \textbf{Answer:} no; it is an explicitly
+clipped quadratic score and can hide differences below its floor.
+\item Derive anchored optimum. \textbf{Answer:} set the coordinate gradient
+to zero, yielding $(u_i+\lambda F_i a_i)/(1+\lambda F_i)$.
+\item Why may stronger anchoring destabilize an old rate? \textbf{Answer:}
+curvature becomes $1+\lambda F_i$, tightening the contraction bound.
+\item Does $F_i=1$ reproduce Fisher estimation? \textbf{Answer:} no; it is
+a supplied identity importance matrix for a quadratic fixture.
+\item What is the one-step optimum for the anchored second task? \textbf{Answer:}
+$(15/32,1/2)$ under the stated half-rate and unit penalty.
+\item Why report both task scores? \textbf{Answer:} retention can improve by
+refusing new acquisition; reduced forgetting alone hides this cost.
+\item Last-task peak forgetting? \textbf{Answer:} zero by definition, since
+only its acquisition/final row has been observed.
+\item Old score improves $.6\to.8$. \textbf{Answer:} BWT $.2$, nonnegative
+peak-forgetting convention zero.
+\item Does an upper matrix cell prove forward transfer? \textbf{Answer:}
+no; compare the permitted pre-acquisition behavior with a target-only baseline.
+\item Derive the replay target. \textbf{Answer:} combine gradients linearly,
+giving $(1-\rho)u_2+\rho u_1$.
+\item Three candidates, two tasks, budget five? \textbf{Answer:} reject;
+six candidate-task evaluations are needed before any new offspring evaluations.
+\item Does a parent's score validate its mutation? \textbf{Answer:} no;
+changed coordinates define a new candidate.
+\item Why can two Pareto survivors remain? \textbf{Answer:} one can have
+higher quality and higher cost, so neither dominates the other.
+\item Design an adaptation ablation. \textbf{Rubric:} frozen/sequential/replay/
+anchor controls, declared task access, equal total data and search budget,
+seed distributions, full retention matrix, calibration and untouched final tests.
+\item Design a poisoning test. \textbf{Rubric:} bounded injected experience,
+source provenance, quarantine controls, targeted and clean-task evaluations,
+persistence/deletion checks and no claim of security certification.
+\item Can rollback undo outside side effects? \textbf{Answer:} no; restore
+artifact behavior separately from reconciling external state.
+\end{enumerate}
+
+\section{Bridge}
+Adaptation mechanisms can pass every numerical contract and still fail to
+acquire useful skills. Chapter 51 turns that gap into operational capability
+hypotheses with explicit evidence and falsifiers.

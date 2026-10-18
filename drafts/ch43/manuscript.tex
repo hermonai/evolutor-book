@@ -1,0 +1,308 @@
+\chapter{Structural adaptation and lifecycle governance}
+\label{evod43:chapter}
+
+A candidate improves a quality score from .80 to .95 but lowers a safety
+invariant score from 1 to .5. Another reaches quality .85 while retaining
+safety 1. Which may become active? The first fails the required gate despite
+its larger quality gain. A system that can propose new structures is not
+thereby entitled to deploy them.
+
+Chapter 13 distinguished transient state, learned weights, structural proposals
+and population selection. Chapters 39--41 supplied typed operations, memory
+and legal compilation. This chapter governs changes to those objects through
+immutable identity, evidence, bounded canaries, promotion and rollback.
+Its local registry is a serial specification, not a signed release service or
+a demonstration of autonomous scientific improvement.
+
+\section{Name the object that changes}
+\label{evod43:objects}
+\index{adaptation!structural versus parametric}\index{artifact!immutable lineage}
+Candidates can change weights, adapters, memory policies, retrieval indexes,
+compiler rules, prompts/policies or topology. These have different evaluation
+and state-compatibility requirements. A token-level router selecting an expert
+from a fixed graph is not automatically structural learning. Updating recurrent
+activation state is not parameter learning. ``Self-improvement'' is too coarse
+a type for an engineering change.
+
+Let $A$ be an immutable artifact and $T$ a declared transformation with recipe,
+data and budget. A proposal creates $A'=T(A)$ with explicit parent identity;
+it never rewrites the active artifact's bytes. The executable registry stores
+payload, recipe, training-data identity and a native-state fingerprint in the
+content identity. Lifecycle stage and measured metrics live in separate records.
+Changing a stage therefore does not change artifact bytes or its identity.
+
+\Listing{Registry.create}
+Duplicate creation is idempotent: it returns the existing artifact without
+resetting a rejected or active stage. A parent must already exist. With a
+fresh child identity and immutable parent field, every new parent edge points
+to an older registered object, giving an acyclic lineage. Multiple children
+can share a parent, preserving rejected branches as evidence rather than
+rewriting the history around a winning candidate.
+
+\Plate{01-lineage}{The unsafe branch remains in lineage but never serves. Promotion and rollback move serving identity; they do not reverse parent edges.}{evod43:lineage}
+
+The hash binds these declared strings; it does not prove that named data were
+actually used, that the payload is a real trained model or that a producer is
+authorized. Production packaging must bind verified artifact bytes and complete
+configuration, and authenticated release mechanisms must enforce authority.
+Here role labels are trusted caller inputs and strings are explicit fixture
+provenance, not cryptographic attestations.
+
+\section{A gate is a conjunction of constraints}
+\label{evod43:gates}
+\index{evaluation!conjunctive gates}\index{nonfinite metrics}
+For a metric vector $m$, define each gate as a metric name, direction and
+threshold. Some metrics require lower bounds, others upper bounds:
+\[
+ Eligible(m)=\bigwedge_{i\in I_{min}}[m_i\ge g_i]
+ \ \wedge\!\bigwedge_{j\in I_{max}}[m_j\le g_j].
+\]
+Our fixed registry policy requires quality at least .8, safety at least 1,
+and latency at most 10. Latency uses fixture milliseconds; quality and safety
+are stipulated dimensionless scores. They are not measured validation accuracy
+or a general safety probability. Missing metrics fail a gate; NaN, infinity,
+Boolean values and invalid gate directions are rejected before stage mutation.
+An empty gate set is not accepted through vacuous truth.
+
+\Listing{gates_pass}
+Gates belong to the registry's configured policy, not to the proposing candidate.
+The evaluator cannot pass a new empty or weaker gate set on each call.
+More realistic policies include confidence intervals, absolute invariants,
+regression budgets and workload slices. Hard constraints such as tenant
+isolation, authority-before-side-effect, bounded memory and complete lifecycle
+traces cannot be traded for a higher aggregate task score.
+
+If all $k$ deterministic gates pass, eligibility is true by conjunction.
+That logical statement says nothing about estimation error. With statistical
+metrics, each reported estimate needs its sample size and uncertainty. Testing
+many candidates against the same held-out set also adapts to that set;
+selection then needs a fresh final evaluation or an explicit sequential/multiple
+testing design. Calling the selection set held-out does not make it untouched.
+
+\section{Bind evaluation to candidate, protocol and budget}
+\label{evod43:evaluation}
+\index{evaluation!held-out data}\index{population search!budgets}
+Evaluation is legal once from candidate stage. Its immutable report binds
+artifact ID, suite version, evaluation-data identity, evaluator, budget,
+metric tuple and pass decision. The registry requires its configured held-out
+data/suite labels and rejects data equal to the artifact's declared training
+data. A second evaluation of the same object is rejected; a new versioned
+candidate/evidence protocol is needed rather than overwriting its history.
+
+These checks prevent certain bookkeeping errors, not data leakage by a dishonest
+producer. Dataset labels are not content hashes or proof of non-overlap.
+A real evaluation artifact must record exact examples/splits, task conventions,
+code, seeds, compute budgets, hardware, aggregation and uncertainty. Genomic
+splits may need sequence/homology/species controls; tool safety needs negative
+and adversarial workloads. This registry executes none of those experiments.
+
+Population search should compare siblings under matched budgets or report
+their differences. Preserve failed candidates, negative controls and the
+selection rule. The learned or search-generated proposal can be wrong while
+the governance mechanism correctly rejects it. Conversely, a passed synthetic
+registry test does not establish that a structural change is useful.
+
+\section{Separate parametric stability from structural legality}
+\label{evod43:ewc}
+\index{elastic weight consolidation}\index{stability and plasticity}
+EWC provides a concrete parametric stability/plasticity method. Its paper
+uses a diagonal Fisher-weighted quadratic around previous parameters,
+\[
+ L(\theta)=L_B(\theta)+\frac\lambda2
+       \sum_i F_i(\theta_i-\theta^*_{A,i})^2,
+\]
+motivated by a local approximate posterior~\cite{evod43:ewc}.
+This is an approximate method, not a universal guarantee against forgetting
+and not an authorization protocol. The empirical tasks in that paper are not
+reproduced by our registry.
+
+To see the tradeoff without claiming trained behavior, stipulate one-coordinate
+task loss $L_B=\tfrac c2(\theta-b)^2$, previous optimum $a$, importance $F\ge0$,
+$c>0$ and $\lambda\ge0$. Differentiate:
+\[
+ \frac{dL}{d\theta}=c(\theta-b)+\lambda F(\theta-a)=0,
+ \qquad
+ \theta^*=\frac{cb+\lambda Fa}{c+\lambda F}.
+\]
+The second derivative $c+\lambda F>0$ proves a unique global minimizer for
+this stipulated quadratic. With $a=0,b=2,c=1,F=3$, it becomes
+$2/(1+3\lambda)$. Increasing the penalty keeps the coordinate nearer the
+old optimum while sacrificing the new task optimum.
+\begin{center}\input{\Generated/quadratic.tex}\end{center}
+Tests compare this closed form with an independent finite-difference derivative
+and endpoint objective values. The numbers are algebra, not a neural-network
+experiment or an estimated Fisher matrix.
+
+Structural changes require different checks. Adding a memory operator,
+rerouting a tool or changing a compiler rule can alter dependency topology
+and effect order even if weights are unchanged. Chapter 41's original/optimized
+observations, verifier failures and native interfaces need regression coverage.
+A parameter regularizer cannot establish those compiler properties.
+
+\section{Make lifecycle transitions explicit}
+\label{evod43:lifecycle}
+\index{canary!statistical limits}\index{shadow evaluation}
+The stages are candidate, evaluated, canary, active, retired and rejected.
+Passing offline gates moves candidate to evaluated; failure moves it to
+rejected. A bounded successful canary is required before promotion.
+Rejected objects have no direct serving path. Changing a failed object and
+trying again creates a new immutable child with new evidence.
+
+\Plate{02-lifecycle}{Guards constrain every serving path. Rollback has its own eligibility rule and cannot bypass rejection by naming an arbitrary object.}{evod43:stages}
+
+Shadow evaluation observes production-like inputs without controlling visible
+outputs. It must still isolate memory writes and tools; a shadow call that
+executes real effects is not harmless. Canary deployment serves a bounded
+fraction under predefined limits and rollback conditions. It follows offline
+correctness gates rather than using user exposure to discover basic type or
+authorization failures.
+
+Our canary specification accepts an exposure fraction in $(0,.1]$, at least
+20 observations, valid error counts and nonnegative p95 latency. Zero errors
+and p95 at most 10 move the candidate to canary; otherwise it is rejected.
+These are caller-supplied observations, not actual traffic routing or quantile
+measurement. A drain flag later is also a caller assertion, not implemented
+request draining.
+
+Even honest zero errors among 20 independent Bernoulli trials gives weak
+statistical assurance. If the true error probability is $p$, the chance of
+zero errors is $(1-p)^{20}$. Solving $(1-p)^{20}=.05$ gives one-sided upper
+bound $p=1-.05^{1/20}\approx .139$. A small zero-error canary is therefore a
+transition fixture, not evidence of a tiny production failure rate. Dependence,
+nonstationarity and workload slices further limit that calculation.
+
+\section{Promote with authority and a current revision}
+\label{evod43:promotion}
+\index{Promotion!revision guard}\index{authority!release roles}
+Proposal, evaluation and promotion have separate caller roles in the reference:
+search, lab and release. Promotion checks passed offline/canary evidence and
+the current serving revision before changing any stage or pointer. Two
+release decisions based on revision $r$ cannot both succeed against the
+serialized store: the first increments it, making the second stale.
+
+\Listing{Registry._switch}
+The switch preflights all checks before mutating active identity, stages,
+history, revision and audit tuple. It retires the old active object, activates
+the target and appends a transition. This is one serialized method under
+trusted callers. It is not a database transaction: an interpreter crash,
+allocation failure or concurrent unsynchronized caller can break assumptions.
+A real implementation needs a durable transaction/CAS over the whole state
+and audit record, authenticated role separation and verified signatures/hashes.
+Chapter 42's redo-only dictionary does not supply that infrastructure.
+
+\par\medskip\noindent\begin{minipage}{\linewidth}
+\begin{proposition}[Serving path and revision invariant]
+Starting from an empty registry, assume only successful public transitions,
+serialized calls and untampered internal dictionaries. Every active artifact
+has passed offline and canary evaluation, has appeared in serving history,
+and is the only artifact in active stage. Every successful switch increases
+revision by one.
+\end{proposition}
+\begin{proof}
+Creation and evaluation cannot create active stage. Promotion requires canary
+with passed evidence. A switch retires the previous active before activating
+its target, records that target and increments revision. Rollback requires
+a retired target already in serving history with passed evaluation, so by
+the induction hypothesis it originally passed canary through promotion.
+No other legal transition creates active state. Revision increments once in
+the common switch routine and nowhere else.
+\end{proof}
+\end{minipage}\par\medskip
+This is a reachability invariant, not an empirical safety claim. Directly
+editing the store or forging evidence violates its premises.
+
+\section{Rollback is a governed switch, not time reversal}
+\label{evod43:rollback}
+\index{Rollback!eligibility}\index{state compatibility}
+The incoming reference allowed rollback to any registered artifact, including
+one that had never passed evaluation. We require a previously served,
+validated, currently retired target and the same promoter/revision checks.
+\Listing{Registry.rollback}
+
+A \Term{state fingerprint} names the exact continuation compatibility class,
+including model parameters, tokenizer, native schema and numerical semantics.
+An interface version or tensor shape alone is insufficient. Incompatible
+promotion or rollback requires explicit drain/reset. Existing requests should
+remain pinned to their original artifact until a lifecycle fence proves their
+work and output are settled. New requests start with the target's fresh or
+independently validated restored state.
+
+\Plate{03-state}{Serving identity and in-flight state have different lifetimes. The fixture's drain flag expresses a precondition that a real service must verify.}{evod43:state}
+The registry stores a declared fingerprint string. It does not derive that
+fingerprint from Chapter 31/35 artifacts or implement a state migration.
+The coordinator must test old-request pinning, completion acknowledgement and
+new-request admission against the real Chapter 30/34/35 interfaces, then the
+stable Chapter 36 allocator. Local transition tests do not close that boundary.
+
+Rollback restores future serving choice; it cannot reverse messages, trades,
+deleted external objects or other irreversible actions already performed.
+Memory schema rollback can also require forward-compatible readers or an
+explicit migration. The active pointer, native execution state, durable
+memory state and external effects are distinct coordinates.
+
+\section{Read the lineage result and monitor after promotion}
+\label{evod43:evidence}
+\index{drift monitoring}
+\begin{center}\input{\Generated/lineage.tex}\end{center}
+The generated trace serves baseline, rejects the high-quality unsafe child,
+serves compatible-by-reset v2, then returns to baseline with another reset.
+The final serving revision is three. Immutable parent links and all rejected
+evidence remain intact. These are deterministic fixture states, not deployment
+events or measured capability improvements.
+
+Negative controls attempt empty/missing/NaN gates, training-data evaluation,
+unknown suites, wrong roles, insufficient canary observations, canary failures,
+promotion before canary, stale revisions, incompatible no-drain switches and
+rollback to never-served candidates. Tests verify failure leaves the serving
+state unchanged where the operation is rejected before mutation.
+
+After real promotion, monitor workload distribution, regression/safety slices,
+latency/resource SLOs, memory changes and anomalous tool behavior. A drift
+signal can trigger investigation, bounded rollback authority or a halt.
+Unbounded automated rollback loops can themselves damage availability;
+define observation windows, thresholds, cooldowns and manual escalation.
+Monitoring adds evidence; it does not retrospectively justify a missing gate.
+
+\section{Twelve worked exercises}
+\label{evod43:exercises}
+\begin{enumerate}
+\item Why reject quality .95 and safety .5? \textbf{Answer:} Safety must
+reach 1 under the fixed conjunctive policy. Quality cannot compensate.
+\item Does stage change alter artifact identity? \textbf{Answer:} No.
+Stage/evidence live separately from immutable content and lineage fields.
+\item What prevents duplicate creation from reviving a rejected object?
+\textbf{Answer:} The content ID lookup returns the existing artifact without
+resetting its stage or evaluation.
+\item Why are parent edges acyclic? \textbf{Answer:} A fresh child's parent
+must already exist; immutable edges always point to earlier registered objects.
+\item Derive the stipulated regularized optimum. \textbf{Answer:} Set
+$c(\theta-b)+\lambda F(\theta-a)=0$ and divide by the positive
+$c+\lambda F$, yielding the displayed weighted average.
+\item Does EWC prove a compiler rewrite legal? \textbf{Answer:} No. It
+regularizes parameters; data/effect observations need separate compiler tests.
+\item What does zero canary errors in 20 independent trials establish?
+\textbf{Answer:} Under the Bernoulli premise, a one-sided 95\% upper bound
+is about 13.9\%, far from a tiny failure-rate assurance.
+\item Two promoters read revision 1. What follows? \textbf{Answer:} The
+first successful switch moves it to 2; the second's expected revision 1 fails.
+A real concurrent implementation needs an atomic durable check/update.
+\item May rollback target a rejected child? \textbf{Answer:} No. It must
+be previously served, validated and currently retired.
+\item Same tensor shape, different model bytes: may state carry over?
+\textbf{Answer:} Not without an independently verified conversion. Exact
+artifact-bound recurrence/KV semantics can change despite equal geometry.
+\item Model rollback reverses external effects? \textbf{Answer:} No.
+External systems need their own reconciliation or compensation, if possible.
+\item Design a structural-adaptation evaluation. \textbf{Rubric:} Specify
+transformation and inheritance, matched budgets, untouched final data, compiler
+and native-state regressions, hard policy invariants, bounded shadow/canary
+effects, authenticated promotion, state compatibility and rollback monitoring.
+Synthetic registry reachability alone is not evidence of learned improvement.
+\end{enumerate}
+
+\section{Vocabulary and industrial handoff}
+\Term{Lineage}: immutable derivation relations among artifacts.
+\Term{Promotion}: a governed change to serving identity after evidence gates.
+\Term{Rollback}: a validated switch to a previously served compatible object,
+with state reset when needed. Chapter 44 turns these requirements into
+packaging, deployment and observable service contracts.

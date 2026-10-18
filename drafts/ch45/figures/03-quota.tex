@@ -1,0 +1,13 @@
+\begin{tikzpicture}[x=.085cm,y=1.15cm,font=\small\sffamily]
+\fill[Pale] (0,0) rectangle (100,2);
+\draw[flow] (0,0)--(130,0) node[right]{bytes};
+\draw[flow] (0,0)--(0,3) node[above]{slots};
+\draw[Blue,dashed] (100,0)--(100,2.5);
+\draw[Blue,dashed] (0,2)--(115,2);
+\foreach \x in {50,100}{\draw (\x,.05)--(\x,-.05) node[below]{\x};}
+\node[anchor=east] at (-2,2) {2};
+\node[align=center] at (45,1) {tenant-feasible\\$s\le2,\ b\le100$};
+\node[draw,fill=Gold!25,align=left,anchor=west] at (135,2.1) {Global cap: 150 B\\A holds 80 B};
+\node[draw,fill=Red!8,align=left,anchor=west] at (135,.8) {B asks $(1,80)$\\$80+80>150$: reject};
+\node[anchor=west,align=left] at (0,-1.1) {All dimensions checked before acquisition.\\After rejection: A holds $(1,80)$; B holds $(0,0)$.};
+\end{tikzpicture}

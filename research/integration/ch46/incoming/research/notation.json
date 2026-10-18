@@ -1,0 +1,7 @@
+{
+  "H": "distributed mutable-state handle",
+  "owner": "authoritative physical worker",
+  "epoch": "monotonic ownership version",
+  "E(r)": "eligible worker set",
+  "T_transfer": "estimated state-transfer cost"
+}

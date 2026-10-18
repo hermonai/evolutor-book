@@ -1,0 +1,11 @@
+\begin{tikzpicture}[x=.7cm,y=1cm]
+\foreach \row/\p/\n in {0/2/14,1/4/16,2/8/16}{
+ \node[note,anchor=east] at (-.4,-\row) {$P=\p$};
+ \foreach \i in {0,...,12}{\draw[fill=Pale] (\i,-\row-.3) rectangle ++(1,.6);}
+ \foreach \i in {13,...,\n}{}
+ \pgfmathtruncatemacro{\last}{\n-1}
+ \foreach \i in {13,...,\last}{\draw[dashed] (\i,-\row-.3) rectangle ++(1,.6);}
+ \node[note,anchor=west] at (16.5,-\row) {$W=\n-13$};
+}
+\node[smallnote,anchor=west] at (0,-3) {$T=13$ occupied rows. Solid cells are payload; dashed cells are unused capacity.};
+\end{tikzpicture}

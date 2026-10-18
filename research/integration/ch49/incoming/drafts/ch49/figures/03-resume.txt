@@ -1,0 +1,1 @@
+A checkpoint binds session identity, log position and digest so resume can reject divergent history.

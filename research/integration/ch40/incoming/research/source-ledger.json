@@ -1,0 +1,20 @@
+[
+  {
+    "key": "packer2023",
+    "claim": "MemGPT proposes virtual context management inspired by hierarchical memory systems to move information across memory tiers beyond the model context window.",
+    "primary": "https://arxiv.org/abs/2310.08560",
+    "authors": "Charles Packer et al.",
+    "date": "2023",
+    "access_date": "2026-10-05",
+    "access_depth": "primary arXiv abstract/core system claim"
+  },
+  {
+    "key": "asai2023",
+    "claim": "Self-RAG makes retrieval adaptive/on-demand rather than unconditionally retrieving a fixed set of passages.",
+    "primary": "https://arxiv.org/abs/2310.11511",
+    "authors": "Akari Asai et al.",
+    "date": "2023",
+    "access_date": "2026-10-05",
+    "access_depth": "primary arXiv abstract/core retrieval claim"
+  }
+]

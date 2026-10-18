@@ -1,0 +1,160 @@
+{
+  "chapter": 41,
+  "incoming_manuscript_sha256": "8328be287e7c144e1ef7cc934b055edaaffa866a87d6dc942ed8d128dab54bdd",
+  "sections": [
+    {
+      "incoming_section": "Why an IR",
+      "incoming_section_sha256": "5ac9ee11a8acc916b85151a03e74ff15c4dd2b143ac7dfeb40044b666041ab07",
+      "disposition": "expanded",
+      "destination": "evod41:ir",
+      "reason": "Define program, operation, SSA observations and a concrete before/after example."
+    },
+    {
+      "incoming_section": "SSA-like values",
+      "incoming_section_sha256": "27029ecf76a2aa312141aca9c16a50a6021ce7567db278b95cc20c10e5c4e823",
+      "disposition": "retained",
+      "destination": "evod41:ir",
+      "reason": "Retain one definition per value and producer dependencies."
+    },
+    {
+      "incoming_section": "Operation schema",
+      "incoming_section_sha256": "ba8de4e03362067ee78e19a5ef09d725104f59d15f40fce52218a6cf9b746952",
+      "disposition": "expanded",
+      "destination": "evod41:ir",
+      "reason": "Add immutable attributes and explicit memory effects."
+    },
+    {
+      "incoming_section": "Verifier",
+      "incoming_section_sha256": "188dd857471fba0413119159896cb75b2ac9a2243b16f90c83af27e2493adcd2",
+      "disposition": "expanded",
+      "destination": "evod41:verify",
+      "reason": "Reject effect lies, unknown schemas and malformed attributes before passes."
+    },
+    {
+      "incoming_section": "Effects",
+      "incoming_section_sha256": "ae60d672b77671a33aeb8534c595fabe335b68ae3c61ce42d6e6c55d86a74e3b",
+      "disposition": "expanded",
+      "destination": "evod41:semantics",
+      "reason": "Remove unsafe purity of engine/retrieval; preserve all declared observations."
+    },
+    {
+      "incoming_section": "Constant folding",
+      "incoming_section_sha256": "a81032bc91bc2242fc16407a93fcb257ebe742b0ca96057134b8dd755536662e",
+      "disposition": "expanded",
+      "destination": "evod41:passes",
+      "reason": "Add exact-integer observation proof and floating arithmetic counterexample."
+    },
+    {
+      "incoming_section": "Dead-code elimination",
+      "incoming_section_sha256": "caae450c9c8c7eeb5662aa8dc5913f53ac0d4851e976433c44db8ef8df091dca",
+      "disposition": "expanded",
+      "destination": "evod41:passes",
+      "reason": "Backward liveness proof retains reads, engine state, memory and tools."
+    },
+    {
+      "incoming_section": "Common subexpressions and caching",
+      "incoming_section_sha256": "6b860f15cd4d82990e2a851ee7a7bd2feb9a57202c4c75a88eb149f69d27052a",
+      "disposition": "merged",
+      "destination": "evod41:lower",
+      "reason": "Keep artifact/RNG/state/version prerequisites; no unsupported CSE pass claimed."
+    },
+    {
+      "incoming_section": "Capability-aware lowering",
+      "incoming_section_sha256": "67bffbe9faf38ee18b3917adc9f60dd07a0b7fa3b23b04d95a5025f5cd29c582",
+      "disposition": "expanded",
+      "destination": "evod41:lower",
+      "reason": "Call actual Ch39 router with exact artifact; preserve source IDs."
+    },
+    {
+      "incoming_section": "Multi-level IR",
+      "incoming_section_sha256": "7555fb833d29da654396840a096da6fdb05c8f548c6ce92340312aae3b94de12",
+      "disposition": "merged",
+      "destination": "evod41:semantics",
+      "reason": "Verify narrow comparison against official MLIR docs; no framework implementation claim."
+    },
+    {
+      "incoming_section": "TVM comparison",
+      "incoming_section_sha256": "417a53329f3da0f44e4396710733102eb977143c32adc2edd343bfc20eaf9e8b",
+      "disposition": "retained",
+      "destination": "evod41:lower",
+      "reason": "Keep narrow graph/schedule/codegen organization comparison."
+    },
+    {
+      "incoming_section": "Resource planning",
+      "incoming_section_sha256": "2d4bbf2d2b63f6726661aaa6f5a68732a8f8d196ab1ac8c315efa914c7682bbd",
+      "disposition": "expanded",
+      "destination": "evod41:liveness",
+      "reason": "Derive peak bytes including workspace/external state, separate from count proxy."
+    },
+    {
+      "incoming_section": "Liveness",
+      "incoming_section_sha256": "c2c871c5be1bc17f612f3b82340496af9c0805d4f17a08734a984b7bb1dbdeb9",
+      "disposition": "expanded",
+      "destination": "evod41:liveness",
+      "reason": "Fix peak timing to allocation before input release and keep output values live."
+    },
+    {
+      "incoming_section": "Scheduling",
+      "incoming_section_sha256": "b77edc1f2204a4cddbb57102702e1dbf5e3f3fe081ccb77dc48e0e19a3cc33ad",
+      "disposition": "expanded",
+      "destination": "evod41:lower",
+      "reason": "Build data dependencies plus a conservative ordered-effect chain."
+    },
+    {
+      "incoming_section": "Cost model",
+      "incoming_section_sha256": "67204dac2674cfa63b541bb0fb57d8d5fef1229244aa8146fed3929ac25d5bf1",
+      "disposition": "merged",
+      "destination": "evod41:lower",
+      "reason": "Retain legal-before-cheap and measured-versus-estimated boundary, developed Ch39/42."
+    },
+    {
+      "incoming_section": "Optimization legality",
+      "incoming_section_sha256": "a4eb9845e47e0d35394835a75e82b741b6bd56cd75a6b23fcb1a75e58f33c037",
+      "disposition": "expanded",
+      "destination": "evod41:passes",
+      "reason": "State pass proof premises and excluded batching/prefix/fusion rewrites."
+    },
+    {
+      "incoming_section": "Executable compiler",
+      "incoming_section_sha256": "156ddbfae9377d6b20a32b36ca50abc3246c7a5df183f109f6764f51763711d6",
+      "disposition": "expanded",
+      "destination": "evod41:oracles",
+      "reason": "Add independent recursive oracle and real Ch39/40 handlers."
+    },
+    {
+      "incoming_section": "Negative tests",
+      "incoming_section_sha256": "345eaa9844a97a3b21769189be8e9363a737b8b18e3e8e9c7f5c3bbf632fdad7",
+      "disposition": "expanded",
+      "destination": "evod41:oracles",
+      "reason": "Add randomized DAGs, denial preservation, effect-erasure and result-type controls."
+    },
+    {
+      "incoming_section": "IR serialization",
+      "incoming_section_sha256": "ce4cf4cacc8b02b5636c3de15482eb6086d2b7224166a540d4f9bb5f61f10a49",
+      "disposition": "expanded",
+      "destination": "evod41:boundaries",
+      "reason": "Pin schema and distinguish trusted objects from an untrusted decoder."
+    },
+    {
+      "incoming_section": "Debuggability",
+      "incoming_section_sha256": "b77b9032036c093c9a45c076fb4f707612a7efd634ac3a5e37f339878001e3f4",
+      "disposition": "expanded",
+      "destination": "evod41:boundaries",
+      "reason": "Preserve source IDs and explain future many-source fusion lineage."
+    },
+    {
+      "incoming_section": "Twelve worked exercises",
+      "incoming_section_sha256": "76b3342e06685c52766842eb01ac6ccbd00200246b5375c942b574367d2b5b81",
+      "disposition": "expanded",
+      "destination": "evod41:exercises",
+      "reason": "Retain concepts with concrete answers and scheduling rubric."
+    },
+    {
+      "incoming_section": "Bridge",
+      "incoming_section_sha256": "06a59857654882026573a0c95cbbdf61ed13c738434edf65158c8c2d64b5fece",
+      "disposition": "relocated",
+      "destination": "final Vocabulary section",
+      "reason": "Final Vocabulary and comparison boundary transitions to databases."
+    }
+  ]
+}

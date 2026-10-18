@@ -1,0 +1,16 @@
+\begin{tikzpicture}[x=1cm,y=1cm]
+\node[note,anchor=west] at (0,3.6) {Iteration budget 4 tokens; prompt chunk at most 2};
+\foreach \x in {1,...,5}{\node[note] at (1.9*\x,2.9) {\x};}
+\foreach \row/\name in {0/A,1/B,2/C}{\node[note] at (0,2.2-.8*\row) {\name};}
+% The table is generated from reference results; plate highlights policy only.
+\foreach \x/\txt in {1/P2,2/P2,3/P1,4/D1,5/D1}{
+ \node[note,draw,fill=Pale,minimum width=1.5cm] at (1.9*\x,2.2) {\txt};
+}
+\foreach \x/\txt in {2/P1,3/D1}{
+ \node[note,draw,fill=Gold!35,minimum width=1.5cm] at (1.9*\x,1.4) {\txt};
+}
+\foreach \x/\txt in {3/P2,4/P1}{
+ \node[note,draw,minimum width=1.5cm] at (1.9*\x,.6) {\txt};
+}
+\node[smallnote,anchor=west] at (0,-.2) {P = consumed prompt tokens; D = consumed previous output. Final P and each D emit one output.};
+\end{tikzpicture}

@@ -1,0 +1,1 @@
+Evidence ladder prevents architecture from silently becoming a capability claim.

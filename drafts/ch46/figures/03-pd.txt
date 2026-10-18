@@ -1,0 +1,1 @@
+Prefill and decode pools each hold a slot under one admission ticket. A causal KV-transfer arrow runs from prefill to decode, labeled with bytes, positions and verification. A bracket spanning both pools indicates paired reservation before execution. If decode capacity is absent, no prefill reservation is acquired. Ticket conversion and real transport are not implemented.

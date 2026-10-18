@@ -1,0 +1,144 @@
+\chapter{Compiler, IR and execution planning}
+
+Chapter 39 gave Evolutor typed runtime operations. Chapter 40 added explicit memory operations. Executing those structures directly is possible, but a compiler layer creates a crucial separation:
+\[
+\text{intent/plan}\rightarrow\text{IR}\rightarrow\text{verify}\rightarrow\text{optimize}\rightarrow\text{lower}\rightarrow\text{schedule}.
+\]
+\Plate{01-pipeline}{Compilation separates semantic validation from backend execution.}{evod41:pipeline}
+
+\section{Why an IR}
+A runtime plan is user/problem oriented. An intermediate representation is machine-checkable. It names values, types, effects, capabilities, artifacts and dependencies explicitly.
+
+This makes three questions separable: Is the program legal? Which transformations preserve meaning? Which backend should execute each legal operation?
+
+\section{SSA-like values}
+The teaching IR uses single-assignment values. If operation $o_i$ produces value $v$, no later operation may redefine $v$. This simplifies dataflow and liveness reasoning.
+\Plate{02-ir}{Typed SSA-like dataflow coexists with explicit effect operations.}{evod41:ir}
+
+\section{Operation schema}
+An operation has
+\[
+o=(id,kind,inputs,output,type,attributes,effects).
+\]
+Representative kinds are `retrieve`, `engine`, `const`, `add`, `tool`, memory operations and later control-flow/communication forms.
+
+Attributes include required capability, artifact/model binding, precision, tenant scope or tool name.
+
+\section{Verifier}
+Verification checks:
+\begin{enumerate}
+\item every input value is defined;
+\item output names are single-assignment;
+\item input/output types satisfy operation contracts;
+\item required attributes exist;
+\item effects are declared;
+\item program outputs exist;
+\item backend-independent legality constraints hold.
+\end{enumerate}
+\Plate{03-verify}{Invalid IR is rejected before optimization.}{evod41:verify}
+
+\section{Effects}
+Pure operations may be reordered or removed if dependencies permit. A tool call may change the outside world. It cannot be deleted merely because it has no returned SSA value.
+
+An effect system therefore marks barriers such as external mutation, nondeterministic read, durable-memory write or policy decision.
+
+\section{Constant folding}
+For pure exact arithmetic,
+\[
+\operatorname{add}(\operatorname{const}(a),\operatorname{const}(b))
+\Rightarrow\operatorname{const}(a+b).
+\]
+The reference folds only this transparent case. Model execution is not ``constant folded'' merely because its prompt happens to be static: model version, sampling and numerical policy are part of semantics.
+
+\section{Dead-code elimination}
+A pure operation whose output cannot reach a program output or effect can be removed. Effectful operations remain unless an effect analysis proves removal legal.
+\Plate{04-passes}{Optimization passes are bounded by semantic and effect rules.}{evod41:passes}
+
+\section{Common subexpressions and caching}
+Two retrievals or model calls that look syntactically equal may not be interchangeable if corpus version, time, RNG, model artifact or policy differs. Common-subexpression elimination therefore requires an explicit purity/version contract.
+
+\section{Capability-aware lowering}
+An engine op declares a capability such as compressed native state or addressable KV. Lowering chooses an adapter satisfying that capability:
+\[
+L(o,C,Q)\rightarrow (backend,lowered\_op).
+\]
+\Plate{05-lowering}{The IR is shared; native state representation is not.}{evod41:lowering}
+
+DOGMA lowering may allocate state-pool handles and state-native kernels. Hermon lowering may allocate KV pages and continuous-batching slots. Their lowered forms need not resemble one another.
+
+\section{Multi-level IR}
+MLIR demonstrates the utility of retaining multiple abstraction levels instead of forcing all transformations into one universal representation. Evolutor follows that lesson conceptually: high-level agent/memory/tool operations can lower into engine-level execution and then hardware/runtime-specific forms while preserving explicit boundaries.
+
+\section{TVM comparison}
+TVM separates graph-level optimization, operator scheduling and hardware-specific code generation. Evolutor has a broader operator vocabulary, including retrieval and effects, but shares the systems principle that heterogeneous targets need explicit lowering and cost-aware optimization rather than ad hoc dispatch.
+
+\section{Resource planning}
+A compiler can attach estimated memory, compute, communication and latency:
+\[
+B(o)=(M_o,F_o,C_o,L_o).
+\]
+These estimates support admission and placement. They are predictions until calibrated against measurement.
+
+\section{Liveness}
+For SSA value $v$, lifetime extends from definition to last use. Reusing storage after last use can reduce peak memory. Engine-native handles require stronger lifetime rules: a checkpoint, shared prefix or external consumer can extend liveness beyond the immediate IR use.
+
+\section{Scheduling}
+After lowering, the scheduler orders operations subject to data/effect dependencies and resource constraints.
+\Plate{06-schedule}{A schedule binds legal lowered operations to resources and trace identities.}{evod41:schedule}
+
+Independent pure branches may execute concurrently. Effect order must remain consistent with declared semantics.
+
+\section{Cost model}
+For candidate lowering $b$:
+\[
+J(b)=w_L\hat L_b+w_M\hat M_b+w_C\hat C_b+w_E\hat E_b+w_R\hat R_b.
+\]
+Hats emphasize estimates. Chapter 47 will compare estimates with profiled hardware measurements.
+
+\section{Optimization legality}
+Every pass should state a proof obligation. Examples:
+\begin{itemize}
+\item constant fold: operator pure and arithmetic semantics identical;
+\item DCE: removed op pure and result unreachable;
+\item batch merge: requests compatible in model, precision, state and policy;
+\item prefix reuse: checkpoint/prefix identity valid;
+\item backend substitution: required capability and observable contract preserved.
+\end{itemize}
+
+\section{Executable compiler}
+\Listing{reference}
+The reference defines typed operations/programs, verifies SSA/type rules, folds constant integer addition, removes unused pure values while retaining tools, lowers engine capabilities to DOGMA/Hermon and computes a simple live-value pressure proxy.
+
+The compiler is intentionally small enough to inspect line by line.
+
+\section{Negative tests}
+Tests deliberately construct undefined inputs, type errors, SSA redefinitions and unknown engine capabilities. A compiler is valuable partly because it rejects programs before expensive or side-effecting execution.
+
+\section{IR serialization}
+Production IR needs a versioned schema. A serialized plan should include compiler version, IR dialect version, artifact references, policy identity and deterministic hashes. Unknown required fields or newer incompatible dialects should fail closed rather than silently reinterpret semantics.
+
+\section{Debuggability}
+Each lowered operation retains its source IR ID. Runtime trace events can therefore map back to the high-level plan:
+\[
+trace\rightarrow lowered\ op\rightarrow IR\ op\rightarrow plan\ step.
+\]
+This is essential for explaining routing, resource failures and policy denials without exposing hidden model reasoning.
+
+\section{Twelve worked exercises}
+\begin{enumerate}
+\item Why SSA? \textbf{It simplifies dataflow, dependency and liveness analysis.}
+\item Verify before optimize? \textbf{Optimizers should not reason over malformed programs.}
+\item Can unused tool calls be DCE'd? \textbf{Not merely because their return value is unused.}
+\item Can two model calls be CSE'd? \textbf{Only with matching artifact/RNG/purity semantics.}
+\item Shared IR means shared native state? \textbf{No.}
+\item What is lowering? \textbf{Mapping a legal abstract op to a target-specific implementation.}
+\item Why multiple IR levels? \textbf{Different transformations need different semantic detail.}
+\item Cost estimate equals measurement? \textbf{No.}
+\item What extends handle liveness? \textbf{Branches, checkpoints, sharing or external consumers.}
+\item When can branches run concurrently? \textbf{When dependencies/effects/resources permit.}
+\item Why preserve source IDs? \textbf{Traceability from runtime behavior back to plan.}
+\item Release rubric? \textbf{Typed schema; verifier; effect system; pass legality; negative tests; backend-specific lowering; resource/liveness plan; versioned serialization; trace mapping.}
+\end{enumerate}
+
+\section{Bridge}
+Chapter 42 compares this architecture with database engines. The goal is not to claim that inference is SQL, but to identify which mature database ideas transfer cleanly---logical/physical plans, cost models, buffer management, transactions and observability---and where autoregressive/stateful model execution fundamentally differs.

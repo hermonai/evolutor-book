@@ -1,0 +1,1 @@
+Disaggregated Transformer serving separates prefill/decode but introduces explicit KV transfer/topology cost.

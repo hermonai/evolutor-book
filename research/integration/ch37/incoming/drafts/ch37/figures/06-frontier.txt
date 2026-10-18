@@ -1,0 +1,1 @@
+Serving optimization is a frontier: a scheduler can trade throughput against TTFT/ITL tails. Report the operating point and workload, not a context-free best number.

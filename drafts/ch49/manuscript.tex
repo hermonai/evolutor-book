@@ -1,0 +1,296 @@
+\chapter{Streaming, language, code and persistent agents}
+\label{evod49:chapter}
+A code agent submits a tool action, the process crashes, and no acknowledgement
+was recorded. Should restart submit the action again? The answer depends on
+what the external service did, not on how confident the model sounds. This
+small ambiguity connects streaming, memory, authority and persistence more
+directly than a large prompt does.
+
+We retain the supplied event/session example but replace its in-memory tool
+cache with replayable intents and results. The result is a serialized recovery
+oracle: it emits instructions to dispatch or reconcile, but executes no tools,
+stores no durable log and implements no production concurrency. Language and code
+are application workloads requiring their own trained models and evaluators.
+Neither the ACGT Transformer nor the restricted native recurrence becomes a
+language agent by being placed behind this shell.
+
+\section{Events, ordering and bounded pressure}
+\index{backpressure}\index{event ordering}\index{immutable payloads}
+\index{persistent agents!event log}
+An event is $(i,k,p)$: a sequence number $i$, a kind $k$ and a typed payload
+$p$. Within one session the log orders accepted observations and decisions.
+It does not recover the true wall-clock order of all outside events. If two
+producers race, a sequencer or transactional append rule must decide the order.
+The reference has one serialized caller, so $i$ is exactly the previous length.
+
+User input, proposals and emitted output are observations. Tool intents and
+results change a recovery state machine. Closure is a terminal event. Large
+artifacts belong behind immutable handles with content identity and access
+checks; copying binaries into every event multiplies retention and privacy cost.
+Our small payloads are canonical JSON strings. Freezing only a dataclass while
+retaining a mutable dictionary would still permit old history to change through
+an alias.
+
+Let $a_t$ be arrivals, $d_t$ departures and $q_t$ queue occupancy after service
+at tick $t$. For a capacity $K$, accepted arrivals satisfy
+\[
+q_{t+1}=q_t+a_t-d_t,\qquad 0\le q_{t+1}\le K.
+\]
+If an arrival would violate $K$, the protocol must block, reject, persist to
+another bounded tier or shed under a declared policy. Changing $K$ cannot solve
+a sustained arrival rate above service rate. Dropping a tool completion is also
+different from dropping a best-effort telemetry sample.
+\Listing{Stream}
+The generated FIFO test pushes two items, rejects the third, then returns
+the first two unchanged. Its conservation check concerns accepted items only;
+the rejected producer remains responsible for the item.
+Capacity here counts items, not bytes; large variable payloads require a byte
+budget too. The reference retains its event list in memory without compaction.
+It establishes neither bounded total-history storage nor durable retention.
+
+\Plate{01-pressure}{The upper trace shows bounded queue occupancy; the third
+arrival is rejected while two credits are occupied. The lower trace shows
+the two accepted items leaving in FIFO order. Rejection transfers no ownership
+and must be visible to the producer.}{evod49:pressure}
+
+\section{Four states that cannot substitute for one another}
+\index{memory!tiers}\index{native state}\index{KV cache}
+Keep engine-native state, active model context, durable addressable memory
+and authoritative external state separate. DOGMA-style native state is a
+model-specific compressed representation. Hermon's per-layer K/V retains
+addressable attention history. Active context is the input selected for a
+model call. Durable memory is a versioned record store. Files, databases and
+tool-side objects are authoritative external state.
+
+MemGPT provides prior work on managing a bounded context through memory tiers
+and function calls \cite{evod49:memgpt}. The applicable systems lesson is
+explicit movement between tiers. A summary remains a lossy view of source
+events. It cannot silently become an instruction with greater authority than
+its source, and a deletion/retention policy must address summaries and indexes
+as well as original records.
+
+The event log is not automatically an engine checkpoint. To resume Chapter 31,
+the native carry needs its artifact, owner and consumed-token position. For
+Chapter 35, the ordered K/V at every layer needs its model identity and learned
+absolute positions. Their shapes and meanings differ. The local tests call
+the real stable interfaces and check whole-versus-chunk continuation on their
+actual vocabularies. No conversion between the two state types is invented.
+
+\section{Identity binds replay to one contract}
+\index{session identity}\index{checkpoint!prefix digest}
+A session identity contains tenant, session, artifact and policy version.
+The checkpoint also binds context limit, action budget and lease expiration.
+These latter fields are contract configuration, not text that the model may
+rewrite. Migration to a new model or policy requires an explicit transition
+and an appropriate state reset or proven migration.
+
+For a log prefix of $n$ events define
+\begin{equation}\label{evod49:digest}
+D_n=\operatorname{SHA256}(\operatorname{canonical}(I,C,E_{0:n})),
+\end{equation}
+where $I$ is identity and $C$ the session contract. We use an event count $n$,
+so an empty prefix has $n=0$. This avoids interpreting a negative array index
+as a checkpoint. Later append-only events leave $D_n$ unchanged. Altering a
+prefix payload, artifact, policy or budget invalidates the checkpoint.
+
+A digest detects inconsistency against a trusted recorded digest. An adversary
+able to replace both log and checkpoint can recompute both. Authentication,
+authorization, encryption, retention and crash-atomic storage remain separate
+requirements. A valid digest also does not prove that a recorded tool result
+is true; it only binds the bytes of that observation.
+
+\section{An action state machine for ambiguous crashes}
+\index{idempotency key}\index{reconciliation}\index{budget reservation}
+\index{idempotency!recovery}
+For each operation key $k$, record a fingerprinted command and one of three
+states: absent, intent-only, or completed. The command includes operation name
+and canonical arguments. Reusing $k$ with a different command is an error.
+The key's scope includes session/tenant identity; global raw keys would allow
+cross-session conflicts.
+
+\Plate{02-recovery}{The same operation key can denote only one command. A new
+admission records intent before dispatch. A crash before a result leaves an
+unresolved intent, which requires reconciliation. Only a recorded completion
+allows returning a cached result. No transition assumes that a timeout means
+the outside effect did not occur.}{evod49:recovery}
+
+\Listing{Session.issue}
+The policy decision is supplied by trusted application code, never extracted
+from a proposal string. The reference requires the literal Boolean true,
+rejects an expired lease, then reserves one action budget unit before dispatch.
+Repeated lookups do not reserve another unit. Admission counts distinct intents,
+including failed or unresolved actions; refund policies would be a separate
+contract. An action admitted before expiration may complete afterward, so its
+observation must still be recorded. Expiration blocks new dispatch, not truth.
+Ticks and authorization decisions are trusted caller inputs in this oracle;
+a host must supply a trusted clock and policy service. The code does not read
+an external clock or protect itself against a privileged caller forging history.
+
+\Listing{Session.complete}
+Duplicate identical completion is harmless; a different value for the same key
+is a conflict. Closure requires every intent to have a result in this narrow
+reference. A real service might instead close with explicit unresolved/cancelled
+states and a separate reconciliation owner. It cannot silently forget them.
+
+\begin{proposition}[At most one local dispatch instruction per key]
+In one serialized valid session history, the reference returns
+\texttt{dispatch} for a key at most once.
+\end{proposition}
+\begin{proof}
+The first dispatch records an intent for that key before returning. Every
+later issue either rejects changed arguments, returns the recorded result,
+or returns reconciliation. None of those paths dispatches. Resume reconstructs
+the same intent set from the log before allowing further issue calls.
+\end{proof}
+The theorem is about local instructions. It is not exactly-once external
+execution. A dispatcher can fail between accepting the instruction and sending
+it, or an external tool can execute before the result is logged. A tool protocol
+with durable idempotency may permit a same-key retry; without it, query the
+authoritative state or require reconciliation by an operator. No prompt can
+supply missing external transactional semantics.
+
+\begin{center}\input{\Generated/trace.tex}\end{center}
+This generated trace has one admitted read, restart with no result, then a
+recorded result. It is a constructed event sequence, not a failure-injected
+distributed-service measurement.
+
+\section{Replay is reduction, not re-execution}
+\index{replay}\index{crash recovery}
+\Listing{resume}
+Replay applies validated event transitions to fresh derived state and verifies
+the checkpoint prefix. The full provided suffix is also validated. It does
+not call a model, rerun a shell command or resend an action. Its event schemas
+reject out-of-order sequence numbers, result-before-intent, duplicate intents,
+and events after closure. The log is trusted input for authorization history:
+replay validation establishes internal consistency, not that its original
+producer had permission.
+
+Use induction to justify reconstruction. The empty log yields empty intent
+and result maps. A valid observation leaves them unchanged. A valid intent
+adds exactly the recorded key/command; a valid result adds its unique value.
+Thus after every prefix the replay maps equal the maps obtained by original
+serialized application of that prefix. This proves replay consistency under
+deterministic reduction, not disk durability or linearizability.
+
+Model replay is a different issue. Reproducing sampled tokens additionally
+requires the artifact, sampler, RNG state, tokenizer and numerical environment.
+For audit, recording emitted tokens and tool observations is usually stronger
+than assuming a future call will regenerate them exactly. Once output has been
+emitted, a rollback cannot make a recipient unsee it.
+
+\section{Language and code workloads need task evidence}
+\index{agent-computer interface}\index{sandbox}\index{patch validation}
+For language streams, measure turn completion, contextual consistency,
+retrieval quality, latency and cancellation under bounded context. Retain
+authoritative user constraints outside an evictable summary. Test whether an
+old correction survives summarization, whether a deleted source is still
+retrieved, and whether ambiguous references produce calibrated deferral.
+These are evaluation proposals, not capabilities demonstrated by our event log.
+
+For a coding task bind repository revision, working tree identity, task,
+dependency lockfiles, environment and allowed operations. A patch candidate
+is meaningful only relative to that base. Inspection, editing, static checks,
+targeted tests and diff review provide different evidence. A passed unit test
+does not certify security, compatibility or every hidden requirement.
+
+SWE-agent studies how an agent-computer interface changes software-engineering
+agent performance \cite{evod49:swe}. Our proposed interface uses typed
+operation names, structured arguments, immutable resource handles and explicit
+errors. It exposes useful observations but never grants authority merely
+because a tool name exists. Sandbox filesystem, network, process, credential
+and resource permissions are supplied by the host. Generated code and retrieved
+repository text are untrusted inputs.
+
+\Plate{03-code}{A patch is evaluated against a specific base revision. If the
+base changes during evaluation, the tested candidate and promotion target no
+longer agree. The conflict path requires rebase/revalidation rather than reusing
+the earlier test result. This is a version contract, not an implementation of
+repository transactions or a sandbox.}{evod49:code}
+
+\section{Plans, leases, humans and observability}
+\index{lease}\index{human assistance}\index{observability}
+A long-horizon plan is a versioned hypothesis with preconditions and completion
+evidence. Re-read mutable external state before acting on stale assumptions.
+A lease specifies lifetime; budgets specify tokens, compute, storage and tools
+in their own units. An integer tool-count bound in our code is not monetary
+accounting. For concurrent work, reserve resources atomically before launch and
+reconcile completion charges rather than checking only after consumption.
+
+If approval is required by the application policy, bind it to the concrete
+action, resource version, scope and expiry. A changed action invalidates the
+approval. A summary saying ``approved'' is not an approval record. Human
+intervention rate, success rate and violations should be reported separately;
+silently accepting more risk can increase apparent autonomy.
+
+Trace session, plan, engine and tool spans with durations, queue pressure,
+retries, unresolved actions and budget use. Avoid secrets and unnecessary
+private content. Concurrent branches may share immutable sources but need a
+conflict rule for writes. The absent Chapter 39/40/45 production adapters remain
+integration dependencies: this chapter does not assume those contracts compose automatically or
+claim a passing multi-tenant persistent-agent deployment.
+
+\section{Selective glossary}
+\begin{description}
+\item[Intent.] A recorded admission for one fingerprinted operation key, before
+its dispatch outcome is known.
+\item[Reconciliation.] Determining an unresolved external outcome using its
+tool protocol or authoritative state rather than blindly repeating the effect.
+\item[Idempotency key.] A scoped identity whose repeated use denotes the same
+command; safety depends on the external service honoring the protocol.
+\item[Replay.] Deterministic reduction of recorded events into derived state,
+separate from re-execution of effects.
+\item[Lease.] A bounded lifetime for authority, distinct from a count or cost
+budget; late observations may still require recording.
+\end{description}
+
+\section{Exercises and worked solutions}
+\begin{enumerate}
+\item A producer sends three items into an empty capacity-two queue without
+service. \textbf{Answer:} two are accepted; the third is rejected and retained
+by the producer under this contract.
+\item Derive queue conservation. \textbf{Answer:} add accepted arrivals and
+subtract departures; neither blocked arrivals nor retries count as new stored items.
+\item Can a larger queue fix indefinite overload? \textbf{Answer:} no; it only
+delays exhaustion when arrival rate exceeds service rate.
+\item Is K/V durable memory? \textbf{Answer:} it is artifact-specific native
+attention history, not a general authoritative record store.
+\item What does an empty checkpoint count? \textbf{Answer:} zero events,
+with a digest over empty history and the bound identity/contract.
+\item Append after a checkpoint: must it fail? \textbf{Answer:} no; the bound
+prefix remains unchanged and suffix transitions are validated.
+\item Can replacing log and digest evade detection? \textbf{Answer:} yes;
+unauthenticated hashes do not establish origin or authority.
+\item Why canonical strings rather than frozen dict fields? \textbf{Answer:}
+nested mutable dictionaries would preserve aliases into history.
+\item Same key, changed path? \textbf{Answer:} reject the fingerprint conflict.
+\item Crash after intent, before acknowledgement? \textbf{Answer:} reconcile
+the external outcome; do not assume absent acknowledgement means absent effect.
+\item Does the dispatch theorem prove exactly-once effects? \textbf{Answer:}
+no; dispatch and external execution are different boundaries.
+\item Does a cached lookup bypass current policy? \textbf{Answer:} not here;
+issue checks current authorization and lease before returning a result.
+\item Why reserve before dispatch? \textbf{Answer:} post hoc accounting can
+overspend when multiple actions are in flight.
+\item May an admitted result arrive after expiry? \textbf{Answer:} yes;
+recording its outcome is needed for reconciliation even when new dispatch is denied.
+\item Replay calls the tool again? \textbf{Answer:} no; it reduces observations
+into derived maps and leaves unresolved intents explicit.
+\item What does a source-less summary lose? \textbf{Answer:} provenance,
+fine detail and potentially valid deletion/authority interpretation.
+\item A patch passed tests on revision A; deploy to changed B? \textbf{Answer:}
+reconcile the base and revalidate; the old evidence concerns a different object.
+\item Design a crash test. \textbf{Rubric:} enumerate before-intent,
+after-intent, after-effect and after-result crashes; specify durable records,
+tool idempotency, reconciliation and duplicate-result expectations.
+\item Design a language-memory test. \textbf{Rubric:} held-out sessions,
+provenance/deletion controls, fixed retrieval budget, paired summarization baseline,
+success/latency/deferral metrics and audited human intervention.
+\item Why are the real-engine continuation tests limited? \textbf{Answer:}
+they preserve actual native semantics on existing vocabularies; they do not
+train language models, implement cross-engine conversion or validate a service.
+\end{enumerate}
+
+\section{Bridge}
+Persistent state changes what evidence is available at the next decision.
+Chapter 50 asks which changes are learning, how they interfere with old skills,
+and what tests an update must face before becoming an active artifact.

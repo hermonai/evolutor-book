@@ -1,0 +1,154 @@
+{
+  "chapter": 46,
+  "original_manuscript_sha256": "0ef1f02c35e2a7e20291ad1f59ade0846e04963e046ca1c2967602fdfa5c58c9",
+  "section_hash_convention": "UTF-8 from section heading through before next section, exact trailing whitespace",
+  "sections": [
+    {
+      "title": "Control and data planes",
+      "sha256": "b2614388f6fa90bc6cc6e66fb4d92303283e4f1f04ef34a8670d7312c8bf1932",
+      "status": "expanded",
+      "destination": "evod46:control",
+      "reason": "Retain advertisements/control/data distinction; add freshness and revalidation."
+    },
+    {
+      "title": "Placement function",
+      "sha256": "9ef6fbdb6b36bcf2d64bab20bed4147a2dc4fc08cabd0884e60cdf7635b6d22c",
+      "status": "expanded",
+      "destination": "evod46:control",
+      "reason": "Retain hard feasible set before weighted estimates; define units and deterministic synthetic tie-breaking."
+    },
+    {
+      "title": "State ownership",
+      "sha256": "21e68d3480fb7f9c3a5f84cd802b81f35531e9ca9f7e992fd21fad0bcb4024d3",
+      "status": "expanded",
+      "destination": "evod46:owner",
+      "reason": "Retain sid/tenant/artifact/schema/owner/epoch; bind backend and distinguish fencing from model position."
+    },
+    {
+      "title": "Immutable versus mutable replication",
+      "sha256": "b61c4f16bf2044e7c8f1f9f2a7ac009f2b28f1a57afec72d8c0f890e1df2aca5",
+      "status": "merged",
+      "destination": "evod46:owner",
+      "reason": "Retain immutable replication versus mutable single owner and separate durable-memory consistency."
+    },
+    {
+      "title": "Migration protocol",
+      "sha256": "310b6cf803451e1c34a6bb786f72e94a1121577aaa890df875ae603a00dcce28",
+      "status": "expanded",
+      "destination": "evod46:migrate",
+      "reason": "Retain prepare/copy/verify/commit; add source freezing, destination reservations, abort, issued transfer identity and proof premises."
+    },
+    {
+      "title": "DOGMA placement",
+      "sha256": "82af0067fa5de3eca99dc961aa45e30fabc97d2e90d44e5361daab31afd004c1",
+      "status": "expanded",
+      "destination": "evod46:representations",
+      "reason": "Preserve compact-native hypothesis without universal benefit; use actual restricted Chapter31 continuation fixture."
+    },
+    {
+      "title": "Hermon placement",
+      "sha256": "5776ebda873c403d232d9af2aec1f7edadfcd83f92effadb3b969625caadfccd",
+      "status": "expanded",
+      "destination": "evod46:representations",
+      "reason": "Preserve ordered KV movement plus metadata; use actual Chapter35/23 learned-position layered fixture."
+    },
+    {
+      "title": "Prefill/decode disaggregation",
+      "sha256": "e60511968f22921e4446bbd2e9f102b28535ac2151e50198c1ca9ebaccf62939",
+      "status": "expanded",
+      "destination": "evod46:pd",
+      "reason": "Retain DistServe lead, phase separation and communication tradeoff; inspect primary paper selected passages, no borrowed speedups."
+    },
+    {
+      "title": "Topology",
+      "sha256": "0239e12ce95897e02f52215f2cfb446942c985b30791d9e0534dc9b8679b775c",
+      "status": "merged",
+      "destination": "evod46:observe; evod46:pd",
+      "reason": "Retain GPU/host/rack/zone topology; distinguish byte model from measured path."
+    },
+    {
+      "title": "Routing versus placement",
+      "sha256": "121378c25bdcc770bfcb7fb7c595748ad0b3e733f8c91a3ac300df81d02a5864",
+      "status": "merged",
+      "destination": "evod46:control",
+      "reason": "Retain logical implementation versus physical worker distinction."
+    },
+    {
+      "title": "Admission",
+      "sha256": "062c65269d0388a60a61c82466e509bda037cdb931cb219adc5dd52362c712ca",
+      "status": "expanded",
+      "destination": "evod46:pd",
+      "reason": "Retain downstream capacity; implement paired all-or-none logical reservations and issued release tickets."
+    },
+    {
+      "title": "Failure model",
+      "sha256": "4fcb85467e1cf257ef522f664e0ad15c46cd4e218a15b6c989db565774ab925e",
+      "status": "expanded",
+      "destination": "evod46:failure",
+      "reason": "Retain crash/reset/loss/partition/stale-membership; enumerate protocol windows and trusted evidence."
+    },
+    {
+      "title": "Exactly-once warning",
+      "sha256": "0be97249b9bc470ce70496046765ba90a3ad18c424ae4e1521ef47d3d9105d4f",
+      "status": "merged",
+      "destination": "evod46:failure",
+      "reason": "Retain duplicate external effect warning; no live tools or generic exactly-once guarantee."
+    },
+    {
+      "title": "Cancellation",
+      "sha256": "13b7a74637778b31c70b091a9a211c1f7cac483149e3ad662d0e4a24b1172cdd",
+      "status": "expanded",
+      "destination": "evod46:failure",
+      "reason": "Retain authoritative epoch; terminal cancellation aborts staging and forbids resurrection."
+    },
+    {
+      "title": "Backpressure",
+      "sha256": "4626b09b6aa096a9022fa1b26222eeae4cd47109c1fb88c01a4e36252de29767",
+      "status": "merged",
+      "destination": "evod46:observe",
+      "reason": "Retain upstream pressure and bounded queues; no unimplemented distributed scheduler claim."
+    },
+    {
+      "title": "Distributed observability",
+      "sha256": "86228c166744948fadfa49b1fc754a72d945e775710ac45005f7d74c6828782a",
+      "status": "expanded",
+      "destination": "evod46:observe",
+      "reason": "Retain placement provenance; add causal spans, local durations and clock-error boundary."
+    },
+    {
+      "title": "Consistency boundary",
+      "sha256": "a0c18cbc2880313a4f7ab645f2382d93093fdb9b1ea411894d0684892ba988b2",
+      "status": "merged",
+      "destination": "evod46:owner; evod46:failure",
+      "reason": "Retain distinct durable-memory versus engine-state protocols; no consensus implementation claim."
+    },
+    {
+      "title": "Executable oracle",
+      "sha256": "0f4c5d6fff54939ae6c3335f6dc45ee59073280db0d1cd1586b89fac34273875",
+      "status": "expanded",
+      "destination": "evod46:migrate; evod46:pd; evod46:failure",
+      "reason": "Reuse Worker/StateHandle/Cluster scenario; add hard destination compatibility, freeze, reservation accounting, abort/cancel, trusted replay digest."
+    },
+    {
+      "title": "Failure injection",
+      "sha256": "be9ef2d73abf3c1a565aa60169374b40cdd4c2e638795128487b3de7f25ed59b",
+      "status": "expanded",
+      "destination": "evod46:tests",
+      "reason": "Retain fault plan; execute only local corruption/phase/capacity/failure controls and actual-model snapshot continuations."
+    },
+    {
+      "title": "Twelve worked exercises",
+      "sha256": "525da0f4ec3f404586720adbaa4407f1971b13aad47c05330ef6fc91e94a4763",
+      "status": "expanded",
+      "destination": "Twelve worked exercises",
+      "reason": "Retain all twelve themes; add movement arithmetic and concrete fault-state rubric."
+    },
+    {
+      "title": "Bridge",
+      "sha256": "90b4fef0f25e257feb5f16f8feee80b5a2fbd48796adfb886878ada19cb56f8d",
+      "status": "retained",
+      "destination": "Terms and the measurement boundary",
+      "reason": "Keep measured versus estimated Chapter47 bridge without claiming industrial distribution complete."
+    }
+  ]
+}

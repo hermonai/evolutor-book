@@ -1,0 +1,1 @@
+Placement decisions and ownership transitions are observable so latency and failures can be attributed.

@@ -1,0 +1,1 @@
+Write-ahead ordering protects recoverable lifecycle metadata.

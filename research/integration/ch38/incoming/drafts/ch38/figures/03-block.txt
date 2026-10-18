@@ -1,0 +1,1 @@
+Only the contiguous accepted prefix is valid after verification.

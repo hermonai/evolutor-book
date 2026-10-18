@@ -1,8 +1,8 @@
 {
   "schema": "evolutor-chapter-structure-v1",
-  "updated": "2026-10-17",
+  "updated": "2026-10-18",
   "planned_chapters": 52,
-  "authored_through": 35,
+  "authored_through": 52,
   "current_acceptance": "No cumulative publication acceptance; preserve frozen Ch1-2 records separately.",
   "parts": [
     {
@@ -655,15 +655,15 @@
       "number": 36,
       "id": "EVOD-36",
       "title": "Paged KV, prefix sharing and allocation",
-      "source": null,
+      "source": "drafts/ch36/manuscript.tex",
       "part": 8,
       "prerequisites": [
         32,
         35
       ],
       "purpose": "Refine exact ordered KV into pages, sharing and safe allocation.",
-      "authoring_stage": "staged_package_not_integrated",
-      "local_review_stage": "not_rerun",
+      "authoring_stage": "authored_in_continuous_candidate",
+      "local_review_stage": "source_bound_local_review; complete-range cumulative review candidate",
       "independent_acceptance": false,
       "frozen_acceptance_record": false,
       "package": "evolutor-ch36-r01.zip"
@@ -672,7 +672,7 @@
       "number": 37,
       "id": "EVOD-37",
       "title": "Continuous batching and precision",
-      "source": null,
+      "source": "drafts/ch37/manuscript.tex",
       "part": 8,
       "prerequisites": [
         34,
@@ -680,8 +680,8 @@
         36
       ],
       "purpose": "Schedule mixed attention workloads and evaluate precision trade-offs.",
-      "authoring_stage": "staged_package_not_integrated",
-      "local_review_stage": "not_rerun",
+      "authoring_stage": "authored_in_continuous_candidate",
+      "local_review_stage": "source_bound_local_review; complete-range cumulative review candidate",
       "independent_acceptance": false,
       "frozen_acceptance_record": false,
       "package": "evolutor-ch37-r01.zip"
@@ -690,7 +690,7 @@
       "number": 38,
       "id": "EVOD-38",
       "title": "Speculative decoding and attention kernels",
-      "source": null,
+      "source": "drafts/ch38/manuscript.tex",
       "part": 8,
       "prerequisites": [
         29,
@@ -699,8 +699,8 @@
         37
       ],
       "purpose": "Test speculative verification and optimized attention kernels.",
-      "authoring_stage": "staged_package_not_integrated",
-      "local_review_stage": "not_rerun",
+      "authoring_stage": "authored_in_continuous_candidate",
+      "local_review_stage": "source_bound_local_review; complete-range cumulative review candidate",
       "independent_acceptance": false,
       "frozen_acceptance_record": false,
       "package": "evolutor-ch38-r01.zip"
@@ -709,7 +709,7 @@
       "number": 39,
       "id": "EVOD-39",
       "title": "Evolutor runtime above both engines",
-      "source": null,
+      "source": "drafts/ch39/manuscript.tex",
       "part": 9,
       "prerequisites": [
         14,
@@ -719,8 +719,8 @@
         35
       ],
       "purpose": "Orchestrate heterogeneous engines under explicit common contracts.",
-      "authoring_stage": "staged_package_not_integrated",
-      "local_review_stage": "not_rerun",
+      "authoring_stage": "authored_in_continuous_candidate",
+      "local_review_stage": "source_bound_local_review; complete-range cumulative review candidate",
       "independent_acceptance": false,
       "frozen_acceptance_record": false,
       "package": "evolutor-ch39-r01.zip"
@@ -729,7 +729,7 @@
       "number": 40,
       "id": "EVOD-40",
       "title": "Hybrid compressed and addressable memory",
-      "source": null,
+      "source": "drafts/ch40/manuscript.tex",
       "part": 9,
       "prerequisites": [
         20,
@@ -737,8 +737,8 @@
         39
       ],
       "purpose": "Combine compressed and addressable memory with testable policies.",
-      "authoring_stage": "staged_package_not_integrated",
-      "local_review_stage": "not_rerun",
+      "authoring_stage": "authored_in_continuous_candidate",
+      "local_review_stage": "source_bound_local_review; complete-range cumulative review candidate",
       "independent_acceptance": false,
       "frozen_acceptance_record": false,
       "package": "evolutor-ch40-r01.zip"
@@ -747,7 +747,7 @@
       "number": 41,
       "id": "EVOD-41",
       "title": "Compiler, IR and execution planning",
-      "source": null,
+      "source": "drafts/ch41/manuscript.tex",
       "part": 9,
       "prerequisites": [
         14,
@@ -756,8 +756,8 @@
         39
       ],
       "purpose": "Lower typed IR through legal transformations and costed plans.",
-      "authoring_stage": "staged_package_not_integrated",
-      "local_review_stage": "not_rerun",
+      "authoring_stage": "authored_in_continuous_candidate",
+      "local_review_stage": "source_bound_local_review; complete-range cumulative review candidate",
       "independent_acceptance": false,
       "frozen_acceptance_record": false,
       "package": "evolutor-ch41-r01.zip"
@@ -766,7 +766,7 @@
       "number": 42,
       "id": "EVOD-42",
       "title": "Database engines as a systems comparison",
-      "source": null,
+      "source": "drafts/ch42/manuscript.tex",
       "part": 9,
       "prerequisites": [
         32,
@@ -774,8 +774,8 @@
         41
       ],
       "purpose": "Use database execution as a bounded systems comparison.",
-      "authoring_stage": "staged_package_not_integrated",
-      "local_review_stage": "not_rerun",
+      "authoring_stage": "authored_in_continuous_candidate",
+      "local_review_stage": "source_bound_local_review; complete-range cumulative review candidate",
       "independent_acceptance": false,
       "frozen_acceptance_record": false,
       "package": "evolutor-ch42-r01.zip"
@@ -784,7 +784,7 @@
       "number": 43,
       "id": "EVOD-43",
       "title": "Structural adaptation and lifecycle governance",
-      "source": null,
+      "source": "drafts/ch43/manuscript.tex",
       "part": 9,
       "prerequisites": [
         13,
@@ -792,8 +792,8 @@
         41
       ],
       "purpose": "Govern structural proposals, promotion, lineage and rollback.",
-      "authoring_stage": "staged_package_not_integrated",
-      "local_review_stage": "not_rerun",
+      "authoring_stage": "authored_in_continuous_candidate",
+      "local_review_stage": "source_bound_local_review; complete-range cumulative review candidate",
       "independent_acceptance": false,
       "frozen_acceptance_record": false,
       "package": "evolutor-ch43-r01.zip"
@@ -802,7 +802,7 @@
       "number": 44,
       "id": "EVOD-44",
       "title": "Packaging, deployment and observable services",
-      "source": null,
+      "source": "drafts/ch44/manuscript.tex",
       "part": 10,
       "prerequisites": [
         28,
@@ -810,8 +810,8 @@
         39
       ],
       "purpose": "Package reproducible services with observability and failure behavior.",
-      "authoring_stage": "staged_package_not_integrated",
-      "local_review_stage": "not_rerun",
+      "authoring_stage": "authored_in_continuous_candidate",
+      "local_review_stage": "source_bound_local_review; complete-range cumulative review candidate",
       "independent_acceptance": false,
       "frozen_acceptance_record": false,
       "package": "evolutor-ch44-r01.zip"
@@ -820,7 +820,7 @@
       "number": 45,
       "id": "EVOD-45",
       "title": "Multi-tenancy, isolation and security",
-      "source": null,
+      "source": "drafts/ch45/manuscript.tex",
       "part": 10,
       "prerequisites": [
         30,
@@ -830,8 +830,8 @@
         44
       ],
       "purpose": "Enforce tenant boundaries, quotas and explicit authority.",
-      "authoring_stage": "staged_package_not_integrated",
-      "local_review_stage": "not_rerun",
+      "authoring_stage": "authored_in_continuous_candidate",
+      "local_review_stage": "source_bound_local_review; complete-range cumulative review candidate",
       "independent_acceptance": false,
       "frozen_acceptance_record": false,
       "package": "evolutor-ch45-r01.zip"
@@ -840,7 +840,7 @@
       "number": 46,
       "id": "EVOD-46",
       "title": "Distributed serving and state placement",
-      "source": null,
+      "source": "drafts/ch46/manuscript.tex",
       "part": 10,
       "prerequisites": [
         28,
@@ -849,8 +849,8 @@
         45
       ],
       "purpose": "Place and migrate distributed state without breaking semantics.",
-      "authoring_stage": "staged_package_not_integrated",
-      "local_review_stage": "not_rerun",
+      "authoring_stage": "authored_in_continuous_candidate",
+      "local_review_stage": "source_bound_local_review; complete-range cumulative review candidate",
       "independent_acceptance": false,
       "frozen_acceptance_record": false,
       "package": "evolutor-ch46-r01.zip"
@@ -859,7 +859,7 @@
       "number": 47,
       "id": "EVOD-47",
       "title": "Profiling, performance and hardware backends",
-      "source": null,
+      "source": "drafts/ch47/manuscript.tex",
       "part": 10,
       "prerequisites": [
         16,
@@ -869,8 +869,8 @@
         46
       ],
       "purpose": "Profile real workloads and compare measured hardware backends.",
-      "authoring_stage": "staged_package_not_integrated",
-      "local_review_stage": "not_rerun",
+      "authoring_stage": "authored_in_continuous_candidate",
+      "local_review_stage": "source_bound_local_review; complete-range cumulative review candidate",
       "independent_acceptance": false,
       "frozen_acceptance_record": false,
       "package": "evolutor-ch47-r01.zip"
@@ -879,7 +879,7 @@
       "number": 48,
       "id": "EVOD-48",
       "title": "Genomic sequence applications",
-      "source": null,
+      "source": "drafts/ch48/manuscript.tex",
       "part": 11,
       "prerequisites": [
         5,
@@ -889,8 +889,8 @@
         29
       ],
       "purpose": "Evaluate genomic tasks with leakage-resistant biological controls.",
-      "authoring_stage": "staged_package_not_integrated",
-      "local_review_stage": "not_rerun",
+      "authoring_stage": "authored_in_continuous_candidate",
+      "local_review_stage": "source_bound_local_review; complete-range cumulative review candidate",
       "independent_acceptance": false,
       "frozen_acceptance_record": false,
       "package": "evolutor-ch48-r01.zip"
@@ -899,7 +899,7 @@
       "number": 49,
       "id": "EVOD-49",
       "title": "Streaming, language, code and persistent agents",
-      "source": null,
+      "source": "drafts/ch49/manuscript.tex",
       "part": 11,
       "prerequisites": [
         29,
@@ -908,8 +908,8 @@
         45
       ],
       "purpose": "Test persistent streaming/agent tasks without capability inflation.",
-      "authoring_stage": "staged_package_not_integrated",
-      "local_review_stage": "not_rerun",
+      "authoring_stage": "authored_in_continuous_candidate",
+      "local_review_stage": "source_bound_local_review; complete-range cumulative review candidate",
       "independent_acceptance": false,
       "frozen_acceptance_record": false,
       "package": "evolutor-ch49-r01.zip"
@@ -918,7 +918,7 @@
       "number": 50,
       "id": "EVOD-50",
       "title": "Continual learning and population adaptation",
-      "source": null,
+      "source": "drafts/ch50/manuscript.tex",
       "part": 11,
       "prerequisites": [
         13,
@@ -926,8 +926,8 @@
         43
       ],
       "purpose": "Measure transfer, forgetting and population adaptation.",
-      "authoring_stage": "staged_package_not_integrated",
-      "local_review_stage": "not_rerun",
+      "authoring_stage": "authored_in_continuous_candidate",
+      "local_review_stage": "source_bound_local_review; complete-range cumulative review candidate",
       "independent_acceptance": false,
       "frozen_acceptance_record": false,
       "package": "evolutor-ch50-r01.zip"
@@ -936,7 +936,7 @@
       "number": 51,
       "id": "EVOD-51",
       "title": "AGI capability hypotheses and limits",
-      "source": null,
+      "source": "drafts/ch51/manuscript.tex",
       "part": 11,
       "prerequisites": [
         17,
@@ -947,8 +947,8 @@
         50
       ],
       "purpose": "Form falsifiable capability hypotheses and document their limits.",
-      "authoring_stage": "staged_package_not_integrated",
-      "local_review_stage": "not_rerun",
+      "authoring_stage": "authored_in_continuous_candidate",
+      "local_review_stage": "source_bound_local_review; complete-range cumulative review candidate",
       "independent_acceptance": false,
       "frozen_acceptance_record": false,
       "package": "evolutor-ch51-r01.zip"
@@ -957,7 +957,7 @@
       "number": 52,
       "id": "EVOD-52",
       "title": "Failures, open problems and reproducible synthesis",
-      "source": null,
+      "source": "drafts/ch52/manuscript.tex",
       "part": 12,
       "prerequisites": [
         29,
@@ -969,8 +969,8 @@
         51
       ],
       "purpose": "Synthesize failures, unresolved questions and reproducible evidence.",
-      "authoring_stage": "staged_package_not_integrated",
-      "local_review_stage": "not_rerun",
+      "authoring_stage": "authored_in_continuous_candidate",
+      "local_review_stage": "source_bound_local_review; complete-range cumulative review candidate",
       "independent_acceptance": false,
       "frozen_acceptance_record": false,
       "package": "evolutor-ch52-r01.zip"

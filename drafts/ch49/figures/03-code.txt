@@ -1,0 +1,1 @@
+Base revision A receives patch P, and tests bind A, P and the environment. Another change creates current revision B. The earlier test edge cannot certify the patch on B. A dashed conflict path requires reconciliation, rebase and retesting. No repository operation is executed by this diagram.

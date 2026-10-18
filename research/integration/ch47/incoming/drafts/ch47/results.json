@@ -1,0 +1,15 @@
+{
+  "metrics": {
+    "requests": 3,
+    "p50_ttft": 60.0,
+    "p95_ttft": 130.0,
+    "p95_itl": 30.0,
+    "output_tokens_per_s": 44.0,
+    "goodput_req_per_s": 8.0,
+    "slo_attainment": 0.6666666666666666
+  },
+  "ai_flop_per_byte": 2.0,
+  "roofline_tflops": 4.0,
+  "region": "memory-bound-region",
+  "speedup_example": 2.0
+}

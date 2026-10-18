@@ -1,0 +1,38 @@
+[
+  {
+    "key": "leviathan2023",
+    "claim": "Speculative decoding uses a faster approximation model with target-distribution-preserving acceptance/correction.",
+    "primary": "https://arxiv.org/abs/2211.17192",
+    "authors": "Yaniv Leviathan, Matan Kalman, Yossi Matias",
+    "date": "2023",
+    "access_date": "2026-10-05",
+    "access_depth": "primary paper metadata/abstract and algorithm claim"
+  },
+  {
+    "key": "chen2023",
+    "claim": "Speculative sampling uses modified rejection sampling to preserve target-model distribution within implementation numerics.",
+    "primary": "https://arxiv.org/abs/2302.01318",
+    "authors": "Charlie Chen et al.",
+    "date": "2023",
+    "access_date": "2026-10-05",
+    "access_depth": "primary paper metadata/abstract and algorithm claim"
+  },
+  {
+    "key": "dao2022",
+    "claim": "FlashAttention is IO-aware exact attention using tiling/online softmax.",
+    "primary": "https://arxiv.org/abs/2205.14135",
+    "authors": "Tri Dao et al.",
+    "date": "2022",
+    "access_date": "2026-10-05",
+    "access_depth": "primary paper abstract/core algorithm claim"
+  },
+  {
+    "key": "dao2023",
+    "claim": "FlashAttention-2 improves work partitioning and parallelism.",
+    "primary": "https://arxiv.org/abs/2307.08691",
+    "authors": "Tri Dao",
+    "date": "2023",
+    "access_date": "2026-10-05",
+    "access_depth": "primary paper abstract/core systems claim"
+  }
+]

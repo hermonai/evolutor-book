@@ -1,0 +1,38 @@
+\chapter*{Sources and further reading}
+\addcontentsline{toc}{chapter}{Sources and further reading}
+Access checked 17 October 2026. The supplied database-comparison package was
+read in full. Logical/physical plans, Volcano/Cascades, buffering,
+transactions, indexes, statistics, materialization, recovery/replay and analogy
+limits were retained. The WAL was strengthened with exact log/page
+binding, bounded flushes, stale-write rejection, crash images and an independent
+durable-prefix oracle. It remains committed-redo-only, not an ARIES clone.
+
+Volcano's primary-paper text was inspected for the standard interface,
+buffer-manager mechanism/policy separation and exchange description. Cascades'
+primary-paper sections on optimization tasks, memoization and on-demand
+exploration were inspected. ARIES access was narrower: publisher metadata/
+abstract and an indexed primary-paper excerpt on log forcing/LSNs were read;
+two attempted full-PDF retrievals timed out. No full-paper reconstruction or
+ARIES implementation is claimed. The WAL proof is self-contained under this
+chapter's stated crash model. Source records distinguish these depths.
+\begingroup
+\renewcommand{\bibname}{References}
+\let\chapter\section
+\begin{thebibliography}{9}
+\bibitem{evod42:volcano} Goetz Graefe.
+\emph{Volcano---An Extensible and Parallel Query Evaluation System}.
+IEEE TKDE 6(1), 120--135, 1994. Primary interface/buffer/exchange passages.
+\url{https://people.eecs.berkeley.edu/~prabal/teaching/resources/eecs582/graefe94volcano.pdf}.
+\bibitem{evod42:cascades} Goetz Graefe.
+\emph{The Cascades Framework for Query Optimization}.
+IEEE Data Engineering Bulletin 18(3), 19--29, 1995. Primary paper,
+optimization tasks and exploration sections.
+\url{https://15721.courses.cs.cmu.edu/spring2019/papers/22-optimizer1/graefe-ieee1995.pdf}.
+\bibitem{evod42:aries} C. Mohan, Don Haderle, Bruce Lindsay, Hamid Pirahesh
+and Peter Schwarz.
+\emph{ARIES: A Transaction Recovery Method Supporting Fine-Granularity Locking
+and Partial Rollbacks Using Write-Ahead Logging}. ACM TODS 17(1), 94--162, 1992.
+Publisher record and indexed primary excerpt; full-PDF access incomplete.
+\url{https://doi.org/10.1145/128765.128770}.
+\end{thebibliography}
+\endgroup

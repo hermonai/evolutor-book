@@ -1,0 +1,1 @@
+Retention and forgetting are explicit lifecycle operations, not accidental context eviction.

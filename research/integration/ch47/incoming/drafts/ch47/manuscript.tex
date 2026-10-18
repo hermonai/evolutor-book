@@ -1,0 +1,194 @@
+\chapter{Profiling, performance and hardware backends}
+
+Performance engineering begins with a refusal: do not optimize what you have not measured, and do not promote a microbenchmark into a system claim.
+
+For Evolutor the measurement ladder is:
+\[
+\text{SLO}\rightarrow\text{request}\rightarrow\text{phase}\rightarrow
+\text{operator}\rightarrow\text{kernel}\rightarrow\text{hardware counter}.
+\]
+\Plate{01-ladder}{Profile top-down from user-visible behavior.}{evod47:ladder}
+
+\section{Correctness before speed}
+Every optimization is paired with a correctness oracle. Compare logits/state/output distributions as appropriate before comparing time. A 2x speedup that changes semantics outside the declared numerical tolerance is a different implementation, not a valid optimization.
+
+\section{Workload contract}
+Record prompt/input length distribution, output length, concurrency/arrival process, model/artifact, precision/quantization, sampling, cache state, scheduler, batch limits and memory budget.
+
+Performance without workload definition is not reproducible.
+
+\section{Latency decomposition}
+For one request:
+\[
+L_{e2e}=L_q+L_{prefill}+L_{transfer}+L_{decode}+L_{tool/memory}+L_{serialization}.
+\]
+Terms depend on architecture. DOGMA may have native state-ingestion/step phases rather than Transformer prefill/KV semantics.
+
+\section{TTFT and ITL}
+Time to first token:
+\[
+TTFT=t_{first}-t_{arrival}.
+\]
+Inter-token latency:
+\[
+ITL_i=t_i-t_{i-1}.
+\]
+\Plate{02-metrics}{TTFT and ITL expose different serving phases.}{evod47:metrics}
+
+For Transformer systems, TTFT is strongly influenced by queue/prefill and ITL by decode scheduling. Report distributions, not a single average.
+
+\section{Throughput and goodput}
+Raw throughput may be output tokens/s or requests/s. Goodput counts only work satisfying the declared SLO:
+\[
+G=\frac{\#\{r:\ r\text{ successful and SLO-compliant}\}}{\Delta t}.
+\]
+A system can increase raw throughput while making most interactive requests unusable.
+
+\section{Percentiles}
+For a benchmark population report at least p50 and a tail percentile such as p95/p99. State the percentile estimator for small samples. Tail latency often reflects queueing, synchronization and interference rather than one slow kernel.
+
+\section{Warmup and steady state}
+Separate cold artifact loading, compilation/graph capture, cache warming and allocator initialization from steady-state execution unless cold start is itself the metric.
+
+Use explicit warmup iterations and record them.
+
+\section{Repetitions and uncertainty}
+Repeat experiments across runs/seeds/workload traces. Report sample count and dispersion/confidence intervals where appropriate. Do not report more precision than the measurement supports.
+
+\section{Arithmetic intensity}
+For an operator with $F$ floating-point operations and $B$ bytes transferred from the limiting memory level:
+\[
+I=\frac{F}{B}\quad[\mathrm{FLOP/byte}].
+\]
+\Plate{03-roofline}{Arithmetic intensity connects algorithm work to hardware ceilings.}{evod47:roofline}
+
+The relevant byte count depends on cache reuse and memory hierarchy; naive tensor-size sums may misestimate actual traffic.
+
+\section{Roofline}
+Given peak compute $P_{peak}$ and bandwidth $BW$:
+\[
+P\le \min(P_{peak}, BW\cdot I).
+\]
+The ridge point is
+\[
+I^*=\frac{P_{peak}}{BW}.
+\]
+If $I<I^*$, the roofline region is memory-bandwidth limited; otherwise the compute ceiling dominates. This is an upper-bound model, not achieved performance.
+
+\section{Attention example}
+Decode attention often reads a growing KV history for relatively little new-token work, making memory traffic central. FlashAttention-style tiled algorithms change IO behavior by increasing on-chip reuse; Chapter 38 derived online softmax correctness. Chapter 47 asks whether the intended IO reduction occurs on the target hardware.
+
+\section{DOGMA example}
+A recurrent/native DOGMA step may touch a bounded state representation each token. Its arithmetic intensity depends on actual state width, gates, memory banks, precision and kernel fusion. Do not infer performance from ``linear recurrence'' alone.
+
+\section{System timeline}
+\Plate{04-timeline}{Timeline profiling exposes gaps between useful kernels.}{evod47:timeline}
+Measure CPU scheduling, kernel launches, synchronization, host/device copies, collective communication, allocator stalls and idle gaps.
+
+NVIDIA recommends Nsight Systems for system-wide CPU/GPU tracing and Nsight Compute for detailed CUDA kernel analysis. citeturn0search1turn0search0
+
+\section{Focused profiling}
+Profile representative critical regions rather than drowning in initialization. Nsight Systems supports focused regions/NVTX annotations; this lets Evolutor label prefill, decode, DOGMA step, retrieval, transfer and tool phases on one timeline. citeturn0search6
+
+\section{Operator profiling}
+PyTorch Profiler can identify expensive model operators, inspect input shapes/stacks, device kernel activity and execution traces. This is useful for training and inference prototypes before descending into backend-specific kernels. citeturn0search5
+
+\section{Kernel profiling}
+Once a kernel is proven to lie on the critical path, inspect achieved occupancy, memory throughput, instruction mix, cache behavior, stalls and launch configuration with the backend's kernel profiler.
+
+Counter interpretation is architecture-specific; collecting many counters can perturb execution.
+
+\section{CPU backend}
+CPU profiling emphasizes vectorization, cache locality, NUMA placement, thread pools, memory bandwidth and branch/dispatch overhead. Small-batch/edge workloads can be dominated by launch/framework overhead rather than nominal FLOPs.
+
+Record ISA, core count, affinity and thread settings.
+
+\section{Metal backend}
+On Apple hardware, record exact SoC, macOS, Metal/runtime/framework version, unified-memory pressure and precision. Unified memory changes transfer mechanics but does not eliminate bandwidth/capacity limits.
+
+Use platform-native GPU/system profiling for real claims; do not translate CUDA counters mechanically into Metal terminology.
+
+\section{CUDA backend}
+CUDA offers mature system and kernel profiling through Nsight Systems/Compute. Record GPU model, driver/toolkit, clocks/power mode, MIG/MPS state, interconnect and library/kernel versions.
+
+Peak Tensor Core specifications are not achieved application throughput.
+
+\section{Vulkan backend}
+Vulkan compute portability can broaden hardware coverage. Performance depends on driver, shader compiler, subgroup features, memory layout and synchronization. Report exact device/driver and use platform/vendor profiling tools where available.
+
+A portable API does not imply portable performance.
+
+\section{Backend comparison}
+\Plate{05-backends}{Compare backends only under semantic and workload parity.}{evod47:backends}
+For CPU/Metal/CUDA/Vulkan compare:
+\begin{enumerate}
+\item identical model/state semantics and numerical tolerance;
+\item identical prompt/output workload;
+\item comparable precision/quantization;
+\item warmup and steady-state protocol;
+\item latency distributions and throughput/goodput;
+\item peak memory and energy/power when measured;
+\item backend-specific profile explaining the bottleneck.
+\end{enumerate}
+
+\section{Batching}
+Batching can raise device utilization while increasing queue delay or ITL. Plot performance against concurrency/batch occupancy instead of reporting one ``optimal'' batch in isolation.
+
+Continuous batching should be evaluated under an arrival process, not only a preconstructed full batch.
+
+\section{Synchronization}
+A synchronization inserted for timing can itself change execution. GPU timing requires device-aware events or profiler timelines. Wall-clock timing must synchronize at the measurement boundary intentionally and consistently.
+
+\section{Distributed performance}
+For Chapter 46 placement:
+\[
+L_{migration}=L_{queue}+L_{serialize}+L_{network}+L_{deserialize}+L_{commit}.
+\]
+Measure each term. Prefill/decode disaggregation can reduce phase interference, as DistServe reports, but introduces transfer/topology costs and must be evaluated under TTFT/TPOT constraints. citeturn0academia36
+
+\section{Speedup arithmetic}
+Speedup is
+\[
+S=\frac{T_{baseline}}{T_{new}}.
+\]
+Reducing 100 ms to 80 ms is $1.25\times$ speedup, not ``20x''. Percent latency reduction is a different statistic:
+\[
+\frac{100-80}{100}=20\%.
+\]
+
+\section{Benchmark record}
+\Plate{06-record}{A performance claim includes enough context to reproduce it.}{evod47:record}
+Record commit/artifact hashes, hardware, firmware/driver, OS, compiler/runtime, backend libraries, power/clocks, precision, scheduler, workload generator, warmup, repetitions, raw samples and analysis script.
+
+\section{Executable analysis oracle}
+\Listing{reference}
+The reference computes percentile latency, TTFT/ITL, token throughput, SLO-qualified goodput, arithmetic intensity, roofline bounds and speedup from synthetic inputs.
+
+Its numbers are deliberately synthetic and must never appear as measured hardware results.
+
+\section{Optimization loop}
+Use:
+\[
+measure\rightarrow locate\ bottleneck\rightarrow hypothesize\rightarrow
+change\ one\ mechanism\rightarrow correctness\ test\rightarrow remeasure.
+\]
+Keep failed optimizations in the experiment ledger; they prevent repeated folklore.
+
+\section{Twelve worked exercises}
+\begin{enumerate}
+\item Fastest kernel means fastest service? \textbf{No; it must be on the critical path and system effects matter.}
+\item TTFT versus ITL? \textbf{First-token latency versus spacing between generated tokens.}
+\item Throughput versus goodput? \textbf{Goodput counts only SLO-compliant successful work.}
+\item $I=2$ FLOP/B, $BW=2$ TB/s: bandwidth roof? \textbf{4 TFLOP/s.}
+\item Roofline bound equals achieved throughput? \textbf{No.}
+\item Why warmup? \textbf{Separate initialization/compilation/cache effects from steady state.}
+\item Why profile system before kernel? \textbf{The bottleneck may be queueing, copies, launch or synchronization.}
+\item CUDA peak spec enough? \textbf{No.}
+\item Unified memory means unlimited/free memory traffic? \textbf{No.}
+\item 20 ms to 10 ms speedup? \textbf{2x.}
+\item Can synthetic oracle results be quoted as GPU benchmarks? \textbf{No.}
+\item Release rubric? \textbf{Correctness parity; workload contract; percentiles; TTFT/ITL/goodput; warmup/repeats; top-down profiles; roofline with valid bytes; backend versions; raw evidence; reproducible analysis.}
+\end{enumerate}
+
+\section{Bridge}
+The industrial runtime foundation is now complete enough to return to applications. Chapter 48 applies the model/runtime stack to genomic sequence tasks while preserving the book's central discipline: biological sequence is data with domain-specific structure, not proof that a computational mechanism is biologically faithful.

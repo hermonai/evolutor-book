@@ -1,0 +1,279 @@
+\chapter{Database engines as a systems comparison}
+\label{evod42:chapter}
+
+An artifact-promotion record has been appended to a log, but the process crashes
+before the serving metadata page is updated. Which version is active after
+restart? Now move the crash earlier, before the log reaches durable storage.
+The answer should change. Merely saying ``use transactions'' does not specify
+either case.
+
+Database engines provide concrete precedents for separating intent, legal
+physical plans, execution, buffers, effects and recovery. We will borrow those
+mechanisms with explicit premises. A token generator is not a relational query,
+and a local dictionary simulating crash cuts is not a production database.
+The chapter retains the supplied comparison and WAL example while making
+semantic eligibility, record binding and the crash model precise.
+
+\section{Logical requirements delimit physical alternatives}
+\label{evod42:plans}
+\index{logical and physical plans}\index{cost model!hard constraints}
+Let $G$ denote a required logical observation contract and
+$\mathcal P(G)$ the physical implementations that preserve it. A cost optimizer
+may choose
+\[
+ p^\star=\arg\min_{p\in\mathcal P(G),\ M_p\le M_{max},\ R_p\le R_{max}} J(p).
+\]
+The legal set is not a penalty term. An implementation with a different
+tokenizer, artifact, numerical policy or state-continuation rule does not
+become equivalent because it is cheap. Chapter 41's verifier and lowerer
+determine legality before placement and scheduling optimize predicted cost.
+
+Our fixture offers two abstract native-v1 alternatives and a cheaper
+attention-v1 alternative. These are stipulated contracts, not measurements of
+DOGMA versus Hermon quality. With latency in milliseconds, payload residency
+in MiB, risk a dimensionless policy proxy, and weights
+$w=(1,0.1,10)$, the illustrative score is
+\[
+ J=L_{ms}+0.1M_{MiB}+10R.
+\]
+Weights carry reciprocal units into one score. Risk remains subject to a hard
+ceiling in addition to its score term. It is not a calibrated failure
+probability in this example.
+
+\Plate{03-plans}{The cheapest candidate is ineligible. Contract and hard resource filters precede ranking, so the fixture chooses native-B.}{evod42:plansplate}
+\begin{center}\input{\Generated/alternatives.tex}\end{center}
+\Listing{choose}
+Selection validates finite nonnegative metrics and weights, unique names,
+resource ceilings and risk range. It breaks ties by name and fails explicitly
+when no legal alternative remains. A NaN must not silently win or evade a
+comparison. A model substitution that changes quality is a new task-level
+choice, not automatically an equivalent physical-plan rewrite.
+
+\section{Volcano and Cascades transfer structure, not equivalence}
+\label{evod42:precedents}
+\index{Volcano}\index{Cascades}\index{prefix-dependent generation}
+Volcano's operator interface separates execution mechanics from the semantics
+of individual item operations. Its exchange operator encapsulates parallel
+data movement~\cite{evod42:volcano}. The transferable lesson is to keep module
+boundaries stable while changing execution mechanism. A native state step,
+attention decode, retrieval read and symbolic operation may share lifecycle
+entry points without sharing an internal tensor representation.
+
+Cascades organizes alternative expressions and physical requirements through
+memoized optimization tasks and rule-guided search~\cite{evod42:cascades}.
+Evolutor could similarly search legal implementations under required properties,
+but needs an equivalence relation for each rule. A memo entry keyed only by
+prompt text could incorrectly merge different owners, model versions or
+random streams. We implement no Cascades memo or search algorithm here.
+
+An autoregressive token step is prefix-stateful. Its selected output can become
+the next input, changing future state and work. It is not an iterator over
+independent rows. Nor is a database operator necessarily stateless: joins and
+aggregates retain state. The useful distinction concerns the declared algebra
+and legal transformations, not the simplistic claim that databases have no
+state while models do.
+
+In a serving runtime, batching compatible requests can resemble vectorized
+operator execution, but each lane still needs its own local position, owner,
+artifact and completion fence. Chapter 34 proved such a lift for a restricted
+recurrence. The database analogy does not prove attention batching or make
+Chapter 36's unfinished physical allocation interface a passing dependency.
+
+\section{Buffer management needs object-specific validity}
+\label{evod42:buffers}
+\index{buffer manager}\index{pin!physical lifetime}\index{index!authority}
+A buffer manager tracks residency, ownership, pins and replacement. These
+mechanisms are relevant to weights, native recurrence state, attention KV,
+durable records and retrieved context. Their reconstruction rules differ.
+An immutable weight tensor can be reloaded from a verified artifact; a native
+state needs a complete checkpoint or exact replay; Hermon KV needs the exact
+ordered prefix, model and learned positions; a forgotten event may no longer
+be eligible for restoration at all.
+
+\Plate{02-objects}{Representation and recovery semantics remain attached to each object type. Allocating equal-size pages does not make their contents interchangeable.}{evod42:objects}
+
+Pins protect physical lifetime, not logical validity. A pinned buffer with the
+wrong artifact is still wrong; a logically valid handle cannot be reclaimed
+while device work reads it. Chapter 32 implements generational native-pool
+ownership and delayed reclaim, while Chapter 35 specifies ordered layered KV.
+When Chapter 36 settles, its page-sharing and eviction tests must preserve
+both sets of relevant lifetime constraints. This chapter does not substitute
+a generic byte-page demo for those implementations.
+
+Database index ideas also transfer with limits. Exact key/range access and
+approximate vector retrieval support different query contracts. An index is
+an access path, not the authoritative evidence object. Chapter 40 checks current
+tombstones and all summary ancestors before returning a stale index hit.
+Promoting the hit into context does not give it policy authority.
+
+\section{Transactions belong to particular durable mutations}
+\label{evod42:transactions}
+\index{transactions!external effects}\index{materialization}
+Atomicity, consistency, isolation and durability can describe metadata writes,
+memory updates and an artifact-pointer switch when backed by a real
+transaction system. They do not by themselves describe sampling. A generated
+token may be computed privately, accepted into a request's output stream, or
+delivered to a client; those are separate events with different rollback
+possibilities.
+
+Isolation should likewise name the shared resource. Concurrent durable updates
+to a tenant's memory might need serializable transactions. Separate request-local
+KV tensors need ownership and lifetime isolation. A phrase such as ``serializable
+generation'' does not specify either contract. External actions may support
+an idempotency key or compensation, but a database rollback cannot reverse an
+already sent message or completed physical action.
+
+Materialization is a useful comparison for immutable prefixes, compiled
+artifacts and derived summaries. Reuse requires exact semantic identity,
+tenant/policy scope, source availability and the relevant artifact versions.
+An engine-native prefix cache and a semantic document cache are different
+materialized objects with different keys and invalidation rules.
+
+\section{Derive a small write-ahead recovery contract}
+\label{evod42:wal}
+\index{write-ahead logging}\index{log sequence number}\index{page LSN}
+ARIES is a primary precedent for WAL, log sequence numbers and recovery that
+repeats history with rollback machinery~\cite{evod42:aries}. Our reference is
+\emph{committed-redo-only}: every assignment becomes an independently committed
+unit when its log prefix is flushed. There are no concurrent transactions,
+uncommitted page writes, undo, compensation log records, checkpoints, torn
+pages, media loss or real \texttt{fsync}. It is not an ARIES implementation.
+
+The crash model has a volatile append-only log, durable prefix boundary $D$,
+durable scalar pages $data[k]$, and page sequence numbers $P_k$. Appending an
+assignment creates immutable record $(\ell,k,v)$ with the next LSN $\ell$.
+Flushing advances $D$ only over existing contiguous records. A page write is
+legal only when
+\begin{equation}
+ 1\le\ell\le D,\qquad log[\ell]=(\ell,k,v),\qquad P_k\le\ell.
+ \label{evod42:walrule}
+\end{equation}
+The first condition is log-before-page ordering. The second binds the proposed
+page contents to the record, preventing a caller from using an unrelated
+durable LSN as permission for arbitrary data. The third prevents a stale page
+write from overwriting a newer assignment.
+
+\Listing{WalStore.write_page}
+The package's simpler check tested only $\ell\le D$. It could therefore
+accept a different value or key under a valid record number. The strengthened
+negative controls reject both, reject flushes beyond log end and reject stale
+per-key writes. A hash or LSN is meaningful only when it binds the actual
+state transition being certified.
+
+\Plate{01-wal}{The durable log frontier precedes the durable page frontier. A crash in between requires redo; a crash before log flush loses the volatile assignment.}{evod42:walplate}
+
+On crash, discard the volatile tail above $D$ and keep durable pages.
+Recovery scans retained records in LSN order and writes a record only when
+its page LSN is older.
+\Listing{WalStore.recover}
+
+\begin{proposition}[Redo correctness and idempotence]
+Assume initially empty pages, only legal page writes under
+Equation~\ref{evod42:walrule}, and a retained correct contiguous log prefix
+$1,\ldots,D$. Recovery leaves each key equal to its latest assignment in that
+prefix, or absent if it has no assignment. Running recovery again changes
+neither data nor page LSNs.
+\end{proposition}
+\begin{proof}
+For key $k$, let $\ell_k$ be its maximum retained LSN. Legal page writes
+ensure any existing $P_k$ names an actual retained record for $k$ and
+$P_k\le\ell_k$. Scanning in increasing order either skips an already newer
+page or advances it to the record being scanned. By the time $\ell_k$ is
+visited, the page equals that assignment and its LSN is $\ell_k$. A second
+scan finds every record's LSN at most the current page LSN and skips it.
+Keys absent from the retained log cannot have a legal page write.
+\end{proof}
+Corruption, missing log ranges or forged page LSNs violate the premises.
+Production storage needs checksums, validated recovery metadata and a real
+durability mechanism. The theorem does not turn an in-memory copy into a
+disk-crash guarantee.
+
+\section{Crash cuts need an independent expected state}
+\label{evod42:controls}
+\index{crash-cut testing}\index{redo!idempotence}
+The second recovery oracle simply applies last assignment per key over the
+durable prefix. It never invokes the page-LSN algorithm.
+\Listing{replay_prefix}
+
+\begin{center}\input{\Generated/crashes.tex}\end{center}
+Cuts zero through six occur before work and after each append, flush and page
+write for v1 and v2. After append without flush, recovery cannot see the new
+assignment. After flush without page write, recovery supplies it. After page
+write, redo is a no-op for that record. The generated table and assigned
+expected answer vector test these distinctions rather than only asserting
+that recovery returns \emph{something}.
+
+Randomized schedules append assignments to three keys, flush varying prefixes,
+write some eligible pages and crash after every iteration. Recovered maps
+must equal the independent prefix specification, and second recovery must be
+idempotent. These tests exercise a stipulated fault model; they do not measure
+power-loss behavior, torn writes or an operating system's durability semantics.
+
+\section{Recovery, replay and stale statistics are different problems}
+\label{evod42:limits}
+\index{recovery versus replay}\index{optimizer!statistics}
+Recovery restores a consistent durable metadata state. Replay reproduces
+declared execution observations under captured inputs, artifacts, RNG and
+numerical policy. A recovered serving pointer can be correct without
+regenerating every historical token. Conversely, numerically replaying a
+request does not prove its external tool effect was committed only once.
+
+Cost statistics can be wrong while a plan remains legal. Relevant serving
+statistics include prompt/output lengths, native-state bytes, prefix reuse,
+speculative acceptance, batch occupancy, backend queues and retrieval quality.
+They need workload identity, collection time and uncertainty. Misestimation
+can cause a poor memory/latency choice; it must not expand semantic eligibility.
+The figures here contain assigned arithmetic, not measured workload statistics.
+
+Four limits keep the comparison bounded: prefix-dependent token generation
+does not inherit relational rewrite laws; sampling is not ACID commit; native
+and KV objects have model-specific validity; and task quality/risk needs its
+own evidence beyond a physical cost estimate. Database engines are useful
+because they make such contracts explicit, not because using their vocabulary
+makes an inference runtime a database.
+
+\section{Twelve worked exercises}
+\label{evod42:exercises}
+\begin{enumerate}
+\item Why reject a cost 0.11 candidate when another costs 5.0?
+\textbf{Answer:} The cheaper candidate has the wrong logical contract and is
+outside $\mathcal P(G)$.
+\item Compute native-A's score for $(5\,ms,4\,MiB,.03)$.
+\textbf{Answer:} $5+.1(4)+10(.03)=5.7$ under the declared weights.
+\item What transfers from Volcano? \textbf{Answer:} Stable operator boundaries
+and encapsulated execution/parallelism. A shared interface does not equate
+native recurrence state and layered attention KV.
+\item Is every database operator stateless? \textbf{Answer:} No; joins and
+aggregates retain state. The legal algebra and observations determine rewrites.
+\item Is an unpinned but logically valid page reclaimable?
+\textbf{Answer:} Only after all relevant owners, references and in-flight
+consumers release it under the actual allocator contract.
+\item What three checks authorize the miniature page write?
+\textbf{Answer:} Its LSN exists and is durable, its key/value matches that
+record, and it does not regress the page's LSN.
+\item Crash after append but before flush: what survives?
+\textbf{Answer:} The new assignment is outside the durable prefix and is lost.
+Earlier durable assignments remain recoverable.
+\item Crash after flush but before page write: what happens?
+\textbf{Answer:} Redo installs the retained assignment if the page LSN is older.
+\item Why is redo idempotent? \textbf{Answer:} After first recovery each
+page's LSN is its latest durable assignment; all older/equal records are skipped.
+\item Does this reference implement transaction rollback?
+\textbf{Answer:} No. Every flushed assignment is committed; undo and multi-record
+atomicity are excluded. It cannot model an uncommitted transaction's dirty page.
+\item Can model rollback reverse an external action?
+\textbf{Answer:} No. A tool needs its own idempotency, reconciliation or
+compensation protocol; an irreversible effect remains irreversible.
+\item Design a real durability experiment. \textbf{Rubric:} Define storage
+and flush guarantees, inject crashes at named cuts, reopen actual files,
+validate log/page integrity and committed-prefix behavior, repeat recovery,
+and distinguish application-process failure from power loss. Dictionary copying
+alone does not qualify.
+\end{enumerate}
+
+\section{Vocabulary and the governance boundary}
+\Term{Physical alternative}: an implementation satisfying a fixed logical
+contract. \Term{WAL}: durable-log-before-durable-page ordering under a specified
+fault model. \Term{Recovery}: restoring consistent durable state, distinct from
+replaying model execution. Chapter 43 applies these lessons to immutable
+candidate lineage, controlled promotion and validated rollback.

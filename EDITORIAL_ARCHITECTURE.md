@@ -1,7 +1,7 @@
 # Editorial architecture and release roadmap
 
-Updated 17 October 2026. This is the current execution map, not a claim
-that every planned chapter is written or independently reviewed.
+Updated 18 October 2026. All 52 chapters are authored and assembled in the
+complete review candidate. This is not independent publication acceptance.
 
 ## One manuscript, distinct review stages
 
@@ -15,12 +15,13 @@ to change their progress labels.
 Chapters 1-2 retain their internal acceptance records. Chapter 3 has standalone
 and combined LaTeX review candidates. Chapters 4-21 have isolated authored-LaTeX
 review candidates with code, vector figures, and worked solutions.
-Chapters 22-35 have source-bound locally reviewed standalone integration
-candidates. Chapters 36-52 remain staged ZIP candidates requiring semantic
-inspection and their own validation gates. Chapters 11-21 were authored at the
-reader's explicit request while the Chapters 1-10 integration milestone remains
-pending. These standalone candidates do not substitute for that integration.
-Independent specialist review and cumulative integration are still open.
+Chapters 22-52 have source-bound locally reviewed standalone candidates. All
+four remaining production batches have handed off and the complete manuscript
+is assembled with unified bibliography, glossary, index and twelve-part
+navigation. Chapter references and cross-batch examples remain bounded teaching
+implementations. The complete source range does not establish production-service
+composition, scientific validity or independent specialist/reader acceptance.
+See FINAL_INTEGRATION_REPORT.md for exact validation and render-review scope.
 
 ## Give each architectural layer a distinct responsibility
 
@@ -224,23 +225,25 @@ Both chapters have six original vector/TXT mechanism plates and twenty worked
 exercises. Their local source/test/render records do not imply independent
 acceptance, trained genomic capability or a measured production advantage.
 
-Next: Chapter 36 preserves Chapter 35's exact ordered per-layer KV while deriving
-paged placement, prefix sharing, partial-tail COW and reference-safe reclamation.
-Chapter 37 adds continuous scheduling/precision; Chapter 38 evaluates speculative
-verification and attention-kernel transformations.
+Chapters 36-38 now preserve actual layered KV through paging, prefix sharing,
+partial-tail COW, resource-aware scheduling, speculative verification and online
+attention. Their reference contracts explicitly differ from optimized device
+kernels and asynchronous serving. The separate examples/integrated_spine/
+companion binds the actual allocator to Chapters 39/41 routing and effects;
+it does not silently claim the full production lifecycle has been implemented.
 
 ## Pending milestone: cumulative editorial and independent review
 
 Audit record validity, tensor notation, normalization conventions, routing
 cohorts, gradient history, and source closure, including the interfaces now
 used by Chapters 11-21. Separate biological regulation from expert routing.
-The continuous authored-source entry point now builds Chapters 1-35 with unified
+The continuous authored-source entry point now builds Chapters 1-52 with unified
 bibliography, glossary and index. Its compilation does not close this editorial
 or independent review milestone. Retain standalone candidates and accepted
 editions unchanged. Do not promote acceptance
 without independent review and the existing release gates.
 
-## Quality gates before widening the manuscript
+## Quality gates before publication
 
 1. Complete a reproducible chapter: explanations, derivations, documented
    source access, tested examples, worked exercises, and figure TXT companions.
@@ -250,7 +253,7 @@ without independent review and the existing release gates.
    layout. Hash the reviewed source set and PDF.
 3. Obtain independent specialist and reader review; record corrections.
    Author-agent review does not satisfy this gate.
-4. After Chapter 10, prepare a combined Chapters 1-10 integration candidate:
+4. Review the complete Chapters 1-52 integration candidate:
    reconcile notation, shared examples, prerequisites, citations, index,
    and the model/runtime vocabulary. Reviews may start before this milestone.
 5. Advance cumulative acceptance only through the existing gates. Do not

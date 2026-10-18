@@ -1,0 +1,199 @@
+\chapter{Continuous batching and precision}
+
+Paged KV solves a storage problem; it does not decide who runs next. A serving engine receives prompts of different lengths at different times while existing requests expect regular next-token progress. A second pressure appears simultaneously: KV and model traffic consume memory bandwidth, encouraging lower precision. Both policies can improve resource efficiency and both can damage user-visible quality if treated as slogans.
+
+This chapter makes the policies explicit.
+
+\section{Iteration-level scheduling}
+Autoregressive generation is multi-iteration. A request that produces 200 output tokens re-enters the model roughly 200 decode iterations after prefill. Request-level static batching waits too long to change membership.
+
+Orca's iteration-level scheduling formalized the idea that finished requests can leave and new work can enter between iterations. This chapter adopts the concept but defines its own teaching policy.
+
+\section{Resource-aware admission}
+Before scheduling, admission verifies model availability and enough KV/page capacity under Chapter 36's allocator policy.
+\Plate{01-admission}{A scheduler cannot repair an admission promise that exceeds physical state capacity.}{evod37:admission}
+
+Admission and scheduling remain different: admission says work may enter; scheduling chooses the next iteration's work.
+
+\section{Prefill and decode are different}
+A prompt prefill can contain hundreds or thousands of tokens. A decode request typically needs one new token step. Combining an arbitrarily long prefill with ongoing decodes can create large iteration-time variance and poor token latency.
+
+Treating both as simply ``one request'' hides the work asymmetry.
+
+\section{Chunked prefill}
+Split a prompt into chunks of at most $C$ tokens. With iteration token budget $B$, schedule
+\[
+n_{\rm prefill}\le \min(C,B_{\rm remaining}).
+\]
+\Plate{02-mix}{The teaching scheduler services ready decodes then fills remaining budget with bounded prefill chunks.}{evod37:mix}
+
+Decode-first is an explicit policy choice here, not a theorem. Prefill-prioritizing or balanced policies may produce better throughput or fairness under other SLOs.
+
+\section{Continuous batch churn}
+After each iteration:
+\begin{enumerate}
+\item mark completed decodes;
+\item release/request cache pages as appropriate;
+\item admit eligible waiting requests;
+\item form the next mixed iteration.
+\end{enumerate}
+A request's causal order is never changed even as batch membership changes.
+
+\section{TTFT}
+For arrival time $a_r$ and first emitted output time $f_r$:
+\[
+\operatorname{TTFT}_r=f_r-a_r.
+\]
+Time to first token includes queueing, prefill and the first decode. A scheduler that protects ongoing decodes can increase a new long prompt's TTFT.
+
+\section{Inter-token latency}
+For output timestamps $t_1,\ldots,t_n$:
+\[
+\operatorname{ITL}_i=t_{i+1}-t_i.
+\]
+\Plate{03-metrics}{TTFT and ITL expose different phases of service.}{evod37:metrics}
+
+Report mean only with distributions/tails. Interactive quality is often dominated by p95/p99 stalls, not average token spacing.
+
+\section{Throughput is another axis}
+Throughput can be measured as useful generated tokens/s, total processed tokens/s or requests/s. Name the numerator.
+
+A scheduler that increases total prompt-token throughput while causing long decode stalls may be unacceptable for interactive SLOs.
+
+\Plate{06-frontier}{Serving systems operate on a throughput--latency frontier rather than at one universally optimal point.}{evod37:frontier}
+
+\section{Fairness}
+Work conservation does not imply fairness. Large prompts, long generations or clients with many concurrent requests can dominate service under naive policies.
+
+Recent serving research explicitly studies fairness under continuous batching. A production scheduler should state its unit of fairness: request, token work, client, weighted entitlement or deadline/SLO class.
+
+\section{Precision is typed}
+``INT8 model'' is incomplete. Distinguish:
+\[
+P=(P_W,P_A,P_{KV},P_{\rm accum},P_{\rm out}).
+\]
+\Plate{04-precision}{Weights, activations, KV and accumulators have separate precision contracts.}{evod37:precision}
+
+A system may use low-precision storage while accumulating a reduction at higher precision.
+
+\section{FP16 and BF16}
+Both occupy 16 bits but trade exponent and mantissa differently. BF16's wider exponent range can tolerate large magnitudes that overflow FP16 more easily; FP16 has greater significand precision over values it can represent.
+
+The right choice depends on model/kernel/hardware and numerical behavior. This chapter's Python conversions study representation error only.
+
+\section{FP8}
+FP8 families use eight-bit floating formats with different exponent/mantissa allocations and often scaling metadata. Hardware such as modern accelerators can provide fast FP8 matrix operations, but speed depends on supported kernels and shape/layout.
+
+Do not infer an FP8 speedup from the bit width alone.
+
+\section{INT8}
+For symmetric per-tensor INT8 quantization:
+\[
+s=\frac{\max_i|x_i|}{127},\qquad
+q_i=\operatorname{clip}(\operatorname{round}(x_i/s),-127,127),\qquad
+\hat x_i=sq_i.
+\]
+One outlier sets $s$ for all coordinates and can waste resolution. Per-channel/group scales and techniques such as SmoothQuant address different aspects of this problem.
+
+\section{SmoothQuant as an example of a method}
+SmoothQuant does more than call tensors INT8. It applies a mathematically equivalent rescaling that moves quantization difficulty from activation outliers toward weights, then evaluates W8A8 inference empirically.
+
+The lesson is methodological: quantization is transformation + calibration/configuration + kernel + evaluation.
+
+\section{KV precision}
+KV is unusual because it persists and is repeatedly read. Quantizing KV can reduce memory and bandwidth, potentially increasing batch capacity, but its error influences attention scores/values across many later decode steps.
+
+Evaluate KV precision across context lengths and positions rather than only one short prompt.
+
+\section{Error metrics}
+For reference vector $y$ and low-precision $\hat y$ report, at minimum:
+\[
+e_\infty=\max_i|y_i-\hat y_i|,
+\qquad
+e_{\rm rel}=\frac{\|y-\hat y\|_2}{\max(\|y\|_2,\epsilon)}.
+\]
+Logit argmax agreement is useful but weak: two distributions can share argmax while calibration/ranking changes substantially.
+
+\section{Quality gates}
+\Plate{05-gate}{A precision policy needs numerical and task/output-quality evidence plus fallback.}{evod37:gate}
+Define a gate using representative data and the actual model:
+\begin{enumerate}
+\item baseline outputs/metrics at trusted precision;
+\item candidate low-precision outputs;
+\item numerical parity distribution;
+\item task/perplexity/accuracy/structured-output metrics as appropriate;
+\item long-context and adversarial/outlier cases;
+\item explicit acceptance thresholds;
+\item fallback when unsupported.
+\end{enumerate}
+
+The reference's max-error/relative-error/argmax gate is only a teaching example.
+
+\section{Calibration}
+Post-training quantization parameters are learned/selected from calibration data or model statistics. Calibration data should represent expected activation distributions, context lengths and domains.
+
+A tiny convenient calibration sample can pass while production outliers fail.
+
+\section{Saturation and underflow}
+Low precision can saturate large values or erase small ones. Tests should include extreme values and compare where the first material divergence enters the graph.
+
+Silently clipping is a numerical policy and must be measured.
+
+\section{Precision and batching interact}
+Lower KV bytes/token can admit more pages/requests; larger batches can improve utilization. But larger batches may increase queueing or per-iteration duration. Precision can therefore shift the throughput--latency operating frontier rather than merely scale memory.
+
+Measure the combined configuration.
+
+\section{Chunked prefill and tails}
+Long prefills can stall decodes if executed as monoliths. Chunking bounds how much prompt work joins one iteration, but smaller chunks increase scheduling overhead and can reduce prefill efficiency.
+
+Sarathi-Serve studies this latency-throughput tension through stall-free/chunked batching. Its measured results are system-specific; the general lesson is to report both throughput and token-latency tails.
+
+\section{Reference scheduler}
+\Listing{reference}
+The executable scheduler uses abstract token-work units. It prioritizes one decode token for each ready decode request, then spends remaining budget on bounded prompt chunks. The simulation records first-token and subsequent-token iteration indices.
+
+These ticks are not GPU milliseconds.
+
+\section{Reference precision oracle}
+The same file implements FP16 conversion, a BF16-like float32 rounding transform and symmetric INT8 quantize/dequantize. The test suite checks bounded error, zero behavior and a negative case where small logit perturbations flip argmax.
+
+That negative control matters: low RMSE does not guarantee the same discrete output.
+
+\section{SLO experiment design}
+A production evaluation should define:
+\[
+\mathcal W=(\lambda,\mathcal D_P,\mathcal D_O,\text{arrival process},\text{tenant mix}),
+\]
+where $\lambda$ is load and $\mathcal D_P,\mathcal D_O$ prompt/output-length distributions.
+
+For each configuration report throughput, TTFT p50/p95/p99, ITL p50/p95/p99, completion latency, memory high-water mark and rejection/preemption rates.
+
+\section{No context-free winner}
+A configuration can dominate at low load and lose near saturation. Compare curves across offered load, not one cherry-picked point.
+
+Likewise, a quantization policy can pass one benchmark and fail another domain or long-context regime.
+
+\section{What Chapter 37 does not establish}
+It does not supply a production fairness scheduler, native FP8/INT8 kernels or a universal quality threshold. It establishes the experiment/control plane required before such claims.
+
+Speculative decoding and attention-kernel fusion remain Chapter 38.
+
+\section{Twelve worked exercises}
+\begin{enumerate}
+\item Why iteration-level batching? \textbf{Requests enter/leave between autoregressive steps instead of waiting for whole-batch completion.}
+\item Why chunk prefill? \textbf{Bound prompt work per iteration and reduce decode stalls.}
+\item Decode-first always optimal? \textbf{No; it is one SLO policy.}
+\item TTFT versus ITL? \textbf{Arrival-to-first-output versus gaps between later outputs.}
+\item Throughput numerator? \textbf{Must state generated tokens, total tokens or requests.}
+\item BF16 advantage over FP16? \textbf{Wider exponent range; FP16 has more significand precision in-range.}
+\item Does INT8 halve FP16 bytes? \textbf{Payload often does, but scales/metadata/alignment/kernel workspace remain.}
+\item Why are outliers problematic for per-tensor INT8? \textbf{They set a coarse scale for ordinary values.}
+\item Same argmax means same model quality? \textbf{No.}
+\item Why test KV quantization at long context? \textbf{Its stored error is reused throughout later attention.}
+\item Why evaluate load curves? \textbf{Scheduling behavior changes near saturation.}
+\item Release rubric? \textbf{Workload declaration; token/page budgets; TTFT/ITL tails; fairness policy; typed precision; calibration provenance; numerical+task gates; fallback; load curves; baseline comparison.}
+\end{enumerate}
+
+\section{Bridge}
+Chapter 38 adds two final engine optimizations: speculative draft/verify execution and optimized attention kernels. Both must preserve the causal/paged/precision contracts developed in Chapters 35--37 and earn speed claims through synchronized hardware measurement.

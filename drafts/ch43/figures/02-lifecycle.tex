@@ -1,0 +1,11 @@
+\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={note}]
+\node[draw] (c) at (1,2) {candidate};\node[draw] (e) at (5,2) {evaluated};
+\node[draw] (k) at (9,2) {canary};\node[draw,fill=Green!12] (a) at (13,2) {active};
+\node[draw,fill=Red!12] (r) at (5,-.5) {rejected};\node[draw] (t) at (12,-.5) {retired};
+\draw[flow] (c)--node[above] {all gates} (e);
+\draw[flow] (e)--node[above] {bounded trial} (k);
+\draw[flow] (k)--node[above] {CAS + role} (a);
+\draw[flow,Red] (c)--node[below,sloped] {gate failure} (r);
+\draw[flow,Red] (e)--(r);\draw[flow] (a)--(t);
+\draw[flow,Green,bend right=25] (t) to node[left] {validated rollback} (a);
+\end{tikzpicture}

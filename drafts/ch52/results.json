@@ -1,0 +1,37 @@
+{
+  "ledger_counts": [
+    {
+      "kind": "Claims",
+      "count": 1
+    },
+    {
+      "kind": "Experiments",
+      "count": 1
+    },
+    {
+      "kind": "Preserved failures",
+      "count": 1
+    }
+  ],
+  "claim_level": "hypothesized",
+  "capsule_sha256": "e6138b221009a975850be949d97209dfb276e0c8b64785c92bb44adecc9574df",
+  "reference_closure": {
+    "files": {
+      "drafts/ch23/reference.py": "a071820f55006631c2b26a4710dab8b16149fc9e2f1b57b546b955d2168d225b",
+      "drafts/ch31/reference.py": "b0c0f8cc3815ee9c3156f07e8e427878ef11c77b489139dcbb4835c305d88d9a",
+      "drafts/ch35/reference.py": "3861e11797f0d6c8e480d2426e110d29347c5e6a281742208e49a91ea3075e98",
+      "drafts/ch48/reference.py": "091d484996c48e887a62c04e9047941e99d7d30465fce671dd2c3a8f4cf7736e",
+      "drafts/ch49/reference.py": "f7c04567ee0b283b0034d8a0dff7393eace8dbbc2ea4ac19df07e543dd948b50",
+      "drafts/ch50/reference.py": "2ca907dda111d7e4220d73179621fcb887ebb15de1117aca89f43d6732b422d1",
+      "drafts/ch51/reference.py": "402dd2d8d4dc1fa1be771169e5ed2a047e2760fe30ad9008b86c0eadd43eb31a",
+      "drafts/ch52/reference.py": "5403c1d898d39e987bc39d3f8d2a27e22fc7eb9722d57f7a9f7527a25362d5e4"
+    },
+    "sha256": "d774c2e77a122b9ad1e2750669df9b95699f1f473bbc4c18784c632148b38091"
+  },
+  "reference_verification": {
+    "missing": [],
+    "changed": []
+  },
+  "uniform_ce": 1.3862943611198906,
+  "biased_ce": 1.816107555730217
+}

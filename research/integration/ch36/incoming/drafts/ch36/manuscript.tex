@@ -1,0 +1,183 @@
+\chapter{Paged KV, prefix sharing and allocation}
+
+Chapter 35 made a deliberately inefficient promise: store each request's causal keys and values as one logically contiguous history. That representation made correctness transparent. It also exposed the systems problem. Request lengths are unknown, caches grow token by token, branches duplicate prefixes, and reserving one worst-case contiguous region per request wastes memory.
+
+Paging changes physical placement without changing the sequence of K/V vectors seen by attention.
+
+\section{The invariant}
+Let the contiguous oracle for one layer be
+\[
+C_T=[(K_1,V_1),\ldots,(K_T,V_T)].
+\]
+A paged representation is correct iff logical lookup reconstructs exactly the same ordered rows:
+\[
+\operatorname{flatten}(\operatorname{Paged}(C_T))=C_T.
+\]
+Everything else in this chapter serves that equality plus ownership/lifetime safety.
+
+\section{Logical blocks and physical pages}
+Choose page capacity $P$ tokens. Logical block
+\[
+b=\left\lfloor t/P\right\rfloor,\qquad o=t\bmod P
+\]
+contains logical token $t$ at offset $o$.
+\Plate{01-translation}{Block tables decouple logical order from physical placement.}{evod36:translation}
+
+A block table stores a physical page reference for each logical block. Physical pages may be scattered.
+
+\section{Generational page references}
+Use
+\[
+\rho=(i,g),
+\]
+where $i$ is physical page ID and $g$ its allocation generation.
+\Plate{02-index}{Logical lookup validates generation before reading the requested offset.}{evod36:index}
+
+When a page becomes free, scrub it and increment $g$. A stale table entry cannot become valid merely because page ID $i$ is reused.
+
+\section{Reference counts}
+Physical pages may have multiple owners: a live request, a forked branch, or a prefix-cache entry. Maintain
+\[
+r_i=\text{number of live references to page }i.
+\]
+Reclaim only when $r_i=0$.
+
+A refcount is a lifetime mechanism, not authorization. Tenant/cache policy still decides who may acquire a reference.
+
+\section{Appending}
+For sequence length $T$, if $T\bmod P=0$, append allocates a new empty page and writes at offset zero. Otherwise the tail page has free capacity.
+
+If the partial tail has refcount one, append may mutate it. If its refcount exceeds one, mutation would alter another logical sequence.
+
+\section{Copy-on-write}
+\Plate{04-cow}{A shared partial tail is copied before one branch appends.}{evod36:cow}
+Let shared tail page contain rows $R$. On append by branch B:
+\[
+R_B\leftarrow \operatorname{copy}(R),\qquad
+R_B\leftarrow R_B\Vert (K_{T+1},V_{T+1}).
+\]
+Branch A keeps the original page.
+
+This deep-copy behavior is the correctness oracle for any optimized page-level COW implementation.
+
+\section{Why full pages are simpler}
+A full page never needs append in place. Once logically immutable, it may be shared among many prefixes. Branches can diverge by allocating different later pages while retaining identical references to earlier full pages.
+
+Partial blocks are the subtle case because the next token would otherwise mutate shared storage.
+
+\section{Prefix sharing}
+Suppose requests A and B share exact model/token prefix $x_{1:T}$. Their K/V rows for that prefix are equal under deterministic model execution. Instead of duplicating pages, the prefix cache can reference the same immutable blocks.
+
+\Plate{03-fork}{A fork increments references; it does not copy immutable full-prefix bytes.}{evod36:fork}
+
+Prefix identity must include the model artifact, position convention, adapters and any state that changes K/V. Chapter 33's content-key discipline still applies.
+
+\section{Eviction}
+Evicting a prefix-cache entry removes the cache's ownership:
+\[
+r_i\leftarrow r_i-1
+\]
+for each referenced page. It does not free a page while a live branch still holds it.
+\Plate{05-refcount}{Physical reclamation occurs only after the final reference disappears.}{evod36:refcount}
+
+This distinction prevents a classic use-after-free bug under cache churn.
+
+\section{Internal fragmentation}
+A sequence with $T>0$ and page capacity $P$ uses
+\[
+N_p=\left\lceil T/P\right\rceil
+\]
+pages and has tail waste
+\[
+W=N_pP-T,\qquad 0\le W<P.
+\]
+The last page is the only internally unused token region for a simple per-sequence block table.
+
+Across many requests, expected tail waste depends on the length distribution.
+
+\Plate{06-fragmentation}{Page size trades tail waste against metadata and lookup overhead.}{evod36:fragmentation}
+
+\section{External fragmentation}
+A fixed-size page allocator eliminates the requirement for one large physically contiguous range, greatly reducing the classical external-fragmentation problem for KV payload. Device allocators may still reserve larger arenas and exhibit their own fragmentation outside this logical model.
+
+Do not report ``zero fragmentation'' without naming the level being measured.
+
+\section{Page size}
+Smaller $P$ lowers worst-case tail waste but increases block-table entries, allocation operations and lookup pressure. Larger $P$ does the reverse.
+
+Kwon et al.'s PagedAttention demonstrates that paging-style KV management can substantially reduce waste and increase flexible sharing in serving workloads. Their measured throughput improvements belong to their implementation/workloads; this chapter does not transfer those numbers to Hermon DNA.
+
+\section{Allocation failure}
+If no free page exists, append must fail atomically. It may trigger eviction, preemption/spill, or request admission control under policy. It must not steal a page whose refcount is nonzero.
+
+A failed allocation must leave the original sequence and refcounts unchanged.
+
+\section{Block-table integrity}
+A block table is semantically sensitive metadata. Corruption can reorder history even when page payloads are intact. Validation includes page generation, model/layout identity, logical length and offset bounds.
+
+Durable block tables additionally need checkpoint integrity from Chapter 33.
+
+\section{Attention over pages}
+An optimized paged-attention kernel can stream page references and operate without first materializing a contiguous K/V tensor. The semantic oracle remains:
+\[
+\text{paged attention result}
+\approx
+\text{attention over flattened contiguous K/V}
+\]
+within a declared numerical tolerance.
+
+Chapter 38 owns optimized attention-kernel implementation/profiling.
+
+\section{Branches and beam/search workloads}
+Branching workloads can share large immutable prefixes and allocate only divergent suffix pages. Memory savings depend on branch fanout, divergence point, page size and whether a partial shared tail must be copied.
+
+A branch count alone is not a memory-savings percentage.
+
+\section{Reference implementation}
+\Listing{reference}
+The reference models one K/V row as a tuple, avoiding attention arithmetic so allocation can be tested independently. It implements page generations, refcounts, append, fork, COW, flatten, release, prefix-cache ownership and eviction.
+
+The central test compares every paged sequence against an independently grown contiguous tuple.
+
+\section{Worked result}
+A three-token prefix with page size two occupies one full page and one partial page. Forking increments both refcounts. Appending to the child copies only the shared partial tail. The parent remains byte-for-byte equal to its contiguous oracle.
+
+\section{Memory accounting}
+If one token's KV payload across all layers is $s$ bytes, a physical page payload is approximately $Ps$. For $N$ allocated pages:
+\[
+M_{\rm payload}=NPs.
+\]
+Add block tables, allocator/refcount metadata, alignment and reserved arena space separately.
+
+Logical live-token utilization is
+\[
+U=\frac{\sum_r T_r}{NP}.
+\]
+Do not conflate $U$ with whole-device utilization.
+
+\section{Security and isolation}
+Cross-tenant sharing can expose timing/cache-existence information even when bytes are immutable. Production policy must decide whether prefix pages are shareable globally, per tenant or only for public system prompts/trust domains.
+
+Reference counts guarantee lifetime, not confidentiality.
+
+\section{What Chapter 36 does not establish}
+It does not prove an optimized paged kernel is faster than contiguous attention. It does not choose a universal page size. It does not define scheduling priority or precision. Those are Chapter 37 responsibilities.
+
+\section{Twelve worked exercises}
+\begin{enumerate}
+\item Token 13 with $P=4$: block/offset? \textbf{$b=3,o=1$.}
+\item Maximum tail waste? \textbf{$P-1$ token slots for a nonempty sequence.}
+\item Why generation in PageRef? \textbf{To reject stale references after physical page reuse.}
+\item Refcount reaches one after cache eviction: free? \textbf{No; one live owner remains.}
+\item Shared partial tail append? \textbf{Copy before write.}
+\item Shared full page append? \textbf{Allocate a new next page; the full page remains shared.}
+\item Does fixed paging eliminate all allocator waste? \textbf{No; it bounds logical tail waste but metadata/arena/device allocator overhead remains.}
+\item Why flatten oracle? \textbf{It independently defines the ordered KV history paging must preserve.}
+\item Can page ID authorize access? \textbf{No; ownership/trust policy is separate.}
+\item What must prefix identity include? \textbf{Model/token/position and any configuration that changes K/V.}
+\item How should OOM behave? \textbf{Atomically fail/evict/preempt under policy; never overwrite referenced pages.}
+\item Release rubric? \textbf{Flatten parity; generation; refcount; COW; failure atomicity; eviction/live refs; block-table integrity; sharing policy; measured page-size/utilization study.}
+\end{enumerate}
+
+\section{Bridge}
+Chapter 37 uses these pages as a finite serving resource. It decides which prefills and decodes enter each iteration and which numerical precision those operations may use while keeping quality and tail latency inside declared envelopes.

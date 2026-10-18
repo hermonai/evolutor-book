@@ -1,0 +1,12 @@
+\begin{tikzpicture}[x=1cm,y=1cm,font=\sffamily]
+\node[anchor=east] at (0,2.5) {5$'$};\node[anchor=east] at (0,1.5) {3$'$};
+\foreach \x/\a/\b in {1/A/T,2/A/T,3/C/G,4/G/C,5/T/A,6/T/A} {
+\node[draw,fill=Pale,minimum width=.7cm] at (\x,2.5) {\a};
+\node[draw,fill=Gold!40,minimum width=.7cm] at (\x,1.5) {\b};
+\draw[dashed] (\x,1.8)--(\x,2.2);}
+\draw[Blue,thick] (.6,2.9)--(6.4,2.9);\draw[Blue,thick] (.6,1.1)--(6.4,1.1);
+\node at (6.8,2.5) {3$'$};\node at (6.8,1.5) {5$'$};
+\draw[flow] (6,.5)--(1,.5) node[midway,below] {read lower strand 5$'$ to 3$'$};
+\node[align=left,anchor=west] at (8,2.2) {forward $p=2$: C $\to$ A\\RC $p'=3$: G $\to$ T};
+\node[align=left,anchor=west] at (8,.8) {$R$: reverse + complement\\$R^2=I$};
+\end{tikzpicture}

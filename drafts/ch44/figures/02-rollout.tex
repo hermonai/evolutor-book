@@ -1,0 +1,15 @@
+\begin{tikzpicture}[x=1cm,y=1cm,font=\small\sffamily]
+\node[draw,fill=Pale,minimum width=2.1cm] (r) at (1,2.5) {registered};
+\node[draw,fill=Gold!30,minimum width=2cm] (c) at (4.1,2.5) {canary};
+\node[draw,fill=Green!12,minimum width=2cm] (a) at (8.2,2.5) {active r2};
+\node[draw,fill=Pale,minimum width=2.5cm] (s) at (8.2,.4) {superseded r1};
+\draw[flow] (r)--node[above,yshift=3mm,font=\footnotesize]{load / health} (c);
+\draw[flow] (c)--node[above,yshift=3mm,font=\footnotesize,align=center]{revision-local\\evidence passes} (a);
+\draw[flow] (a)--node[right,font=\footnotesize,align=left]{r1 closes new admission\\old r1 requests settle} (s);
+\node[draw,fill=Red!8] (b) at (3.8,-1.5) {rolled back r2};
+\node[draw,fill=Green!12] (t) at (8.2,-1.5) {active r1};
+\draw[flow,dashed] (s)--node[right,font=\footnotesize]{compatible rollback} (t);
+\draw[flow] (a.west) -- ++(-.55,0) |- (b.east);
+\node[align=left,anchor=west,font=\footnotesize] at (0,.25) {A routing change does not erase\\issued request ownership.};
+\node[anchor=west,font=\footnotesize,text=Red] at (0,-2.3) {r2 must still complete or drain its issued work before termination.};
+\end{tikzpicture}

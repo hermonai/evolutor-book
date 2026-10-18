@@ -1,0 +1,1 @@
+Definitions a=7 and b=8 feed n=add(a,b); n feeds an effect-only tool call act. Retrieval ret produces docs with no value consumer, but is retained because corpus reads are observable effects in this dialect. A dashed dependency orders ret before act. The dialect supplies effects and rejects a caller declaration that erases them.

@@ -1,0 +1,132 @@
+{
+  "chapter": 40,
+  "incoming_manuscript_sha256": "db2116842cc4e149b44563a7a96e830e09e72c3e1a94cde12eb01834e3c1da57",
+  "sections": [
+    {
+      "incoming_section": "Four memory classes",
+      "incoming_section_sha256": "da96756f5c4cebb974cf4d6ded8f56f3114f13299754e42286231b1401fd8c16",
+      "disposition": "expanded",
+      "destination": "evod40:classes",
+      "reason": "Clarify roles overlap: addressability is an access property."
+    },
+    {
+      "incoming_section": "Durable record",
+      "incoming_section_sha256": "2ba3ef15c3a124aa14ac2e79891019e1d2a1c3796275194b4035f6a3fe3241d7",
+      "disposition": "expanded",
+      "destination": "evod40:records",
+      "reason": "Add occurrence identity, compressor/schema artifact and logical tick units."
+    },
+    {
+      "incoming_section": "Compression",
+      "incoming_section_sha256": "5bc214f699d8ff291d2cbe192ff6b24894891f85b4fdbf864e33f04e050cdba1",
+      "disposition": "expanded",
+      "destination": "evod40:compression",
+      "reason": "Keep distinct-word rule and source edges; show exact collision."
+    },
+    {
+      "incoming_section": "Addressability",
+      "incoming_section_sha256": "ac49b2d04614df2b25fd6b0085ef497c5d37c3ad8a81a8a187f03ab4db916796",
+      "disposition": "expanded",
+      "destination": "evod40:retrieval",
+      "reason": "Specify lexical score, scope checks, tie-breaks and stale candidate IDs."
+    },
+    {
+      "incoming_section": "Conditional retrieval",
+      "incoming_section_sha256": "136f8bca543668acd1dc580016ea44c2282e899b913e1252ecbc0da42ce9588a",
+      "disposition": "merged",
+      "destination": "evod40:retrieval",
+      "reason": "Keep conditional evidence need and narrow Self-RAG comparison."
+    },
+    {
+      "incoming_section": "Working set",
+      "incoming_section_sha256": "77c42eae19271183707a36fbdf45a117713e041288de7b6f7932118bcea5c9f0",
+      "disposition": "expanded",
+      "destination": "evod40:rehydrate",
+      "reason": "Define whole-set admission and UTF-8 payload budget."
+    },
+    {
+      "incoming_section": "Rehydration",
+      "incoming_section_sha256": "0381aed2ea838ec399929c5119fefa895daebccb889debc11028f7940a504883",
+      "disposition": "expanded",
+      "destination": "evod40:rehydrate",
+      "reason": "Add DAG breadth-first traversal, unique visits and two budgets."
+    },
+    {
+      "incoming_section": "Retention and forgetting",
+      "incoming_section_sha256": "f067c11aded7b2cd69831a9a012e644fdf73084d2ce29bd671e4a670e890367c",
+      "disposition": "expanded",
+      "destination": "evod40:firewall",
+      "reason": "Tombstones dominate descendants; issued contexts and physical bytes are separate."
+    },
+    {
+      "incoming_section": "Provenance",
+      "incoming_section_sha256": "e4fd1d1e1e260fc81d44f5ecb69066aba156e055513eb25d78e373d6cadcfa03",
+      "disposition": "expanded",
+      "destination": "evod40:records",
+      "reason": "Define finite DAG and ancestor-availability proof."
+    },
+    {
+      "incoming_section": "Consistency",
+      "incoming_section_sha256": "5634c5b99a7fc91427aeebc2b544f4a2067c1ebf13fe52dba1dea30670a49af7",
+      "disposition": "expanded",
+      "destination": "evod40:evidence",
+      "reason": "Separate serialized local semantics from distributed authority/deletion protocols."
+    },
+    {
+      "incoming_section": "Memory safety firewall",
+      "incoming_section_sha256": "652ab346a8d29c07e8929bb18211f49b60dcdbbdeeee63d79dcf987f5e9660f8",
+      "disposition": "expanded",
+      "destination": "evod40:firewall",
+      "reason": "Memory contexts carry no authority; policy grants remain separate."
+    },
+    {
+      "incoming_section": "Information accounting",
+      "incoming_section_sha256": "40eb6fed53eb9b1815574ceb19876a950bfa9fe6fb1b6fb13cd22f3ee232e5f9",
+      "disposition": "expanded",
+      "destination": "evod40:compression",
+      "reason": "Distinguish payload ratio, total storage and task utility."
+    },
+    {
+      "incoming_section": "Native state versus durable memory",
+      "incoming_section_sha256": "57ad041971d0999741b916c70655480b4d27ab4632564f8899d0b7f253cfa2e6",
+      "disposition": "retained",
+      "destination": "evod40:classes",
+      "reason": "Keep checkpoint continuation versus searchable evidence distinction."
+    },
+    {
+      "incoming_section": "MemGPT comparison",
+      "incoming_section_sha256": "e8165a99aa19de0d04059e750521a65b331008340e448da285a9a5d541c32ed4",
+      "disposition": "merged",
+      "destination": "evod40:retrieval",
+      "reason": "Narrow to abstract-verified tier movement; no reproduction/performance transfer."
+    },
+    {
+      "incoming_section": "Executable reference",
+      "incoming_section_sha256": "e266d3894d721ec7c5cc073ff879a54b2b813950a279f01077bfd9a2eb3f71ec",
+      "disposition": "expanded",
+      "destination": "evod40:records",
+      "reason": "Show full availability, summarize, rehydrate and promote functions."
+    },
+    {
+      "incoming_section": "Failure modes",
+      "incoming_section_sha256": "9873f70e7f20e97102e807812460d487046b495e6abdbea2ddb495f01a0a7540",
+      "disposition": "expanded",
+      "destination": "evod40:evidence",
+      "reason": "Add stale summaries, equal-text reinsertion, cycles and in-flight revocation controls."
+    },
+    {
+      "incoming_section": "Twelve worked exercises",
+      "incoming_section_sha256": "d7c987fdf8f36f15eff71ec7b0b85ca438164a8733a44cbe24d383a27fe8137d",
+      "disposition": "expanded",
+      "destination": "evod40:exercises",
+      "reason": "Preserve every topic with byte arithmetic and evaluation rubric."
+    },
+    {
+      "incoming_section": "Bridge",
+      "incoming_section_sha256": "11feb63aa8083d7bb87d4427fb3c5cc1648aa42ec7feb27e6cc97182f362d990",
+      "disposition": "relocated",
+      "destination": "final Vocabulary section",
+      "reason": "Final Vocabulary and compiler boundary hands memory effects to Ch41."
+    }
+  ]
+}

@@ -1,0 +1,105 @@
+{
+  "date": "2026-10-17",
+  "chapter": 47,
+  "package_sha256": "cf060ff4ae16a104a25b690fa06c701ce1ef7f6718e2bcbb039e465abe75a77a",
+  "original_archive": {
+    "archive": "/Users/wenyan/Downloads/evolutor-ch47-r01.zip",
+    "archive_sha256": "cf060ff4ae16a104a25b690fa06c701ce1ef7f6718e2bcbb039e465abe75a77a",
+    "manifest_entries_verified": 36,
+    "mismatches": [],
+    "incoming_text_files": [
+      "CONTINUATION.md",
+      "INTEGRATION.md",
+      "PACKAGE_README.md",
+      "checksums.sha256",
+      "drafts/ch47/README.md",
+      "drafts/ch47/STORYBOARD.md",
+      "drafts/ch47/build.py",
+      "drafts/ch47/figures/01-ladder.tex",
+      "drafts/ch47/figures/01-ladder.txt",
+      "drafts/ch47/figures/02-metrics.tex",
+      "drafts/ch47/figures/02-metrics.txt",
+      "drafts/ch47/figures/03-roofline.tex",
+      "drafts/ch47/figures/03-roofline.txt",
+      "drafts/ch47/figures/04-timeline.tex",
+      "drafts/ch47/figures/04-timeline.txt",
+      "drafts/ch47/figures/05-backends.tex",
+      "drafts/ch47/figures/05-backends.txt",
+      "drafts/ch47/figures/06-record.tex",
+      "drafts/ch47/figures/06-record.txt",
+      "drafts/ch47/manuscript.tex",
+      "drafts/ch47/reference.py",
+      "drafts/ch47/results.json",
+      "drafts/ch47/review.tex",
+      "drafts/ch47/sources.tex",
+      "manifest.json",
+      "research/notation.json",
+      "research/source-ledger.json",
+      "tests/test_ch47_reference.py"
+    ],
+    "qa_flags_adopted": false,
+    "executed_packaged_code": false
+  },
+  "inherited_validation_claims_adopted": false,
+  "sources": [
+    {
+      "url": "https://crd.lbl.gov/assets/pubs_presos/parlab08-roofline.pdf",
+      "access": "Packaged URL failed through browser; no full-paper inspection claimed here.",
+      "claim": "Replaced source route by author-hosted Berkeley report below."
+    },
+    {
+      "url": "https://escholarship.org/uc/item/5tz795vq",
+      "access": "Landing page encountered robot/JavaScript challenge; not treated as paper access.",
+      "claim": "Not used for mechanistic evidence."
+    },
+    {
+      "url": "https://www2.eecs.berkeley.edu/Pubs/TechRpts/2008/EECS-2008-134.pdf",
+      "access": "Primary author report PDF accessed; Section3 pp1-2 (physical PDF pages3-4), intensity at memory boundary, ceiling formula and sustainable bandwidth discussion inspected. Not full-paper independent evaluation.",
+      "claim": "Original 2008 report rather than inaccessible packaged 2009 route; min compute/bandwidth ceilings and explicit traffic boundary."
+    },
+    {
+      "url": "https://www.usenix.org/system/files/osdi24-zhong-yinmin.pdf",
+      "access": "Same selected primary abstract/introduction and phase/metric passages as chapter46; no experimental replication.",
+      "claim": "TTFT/TPOT objectives differ from this fixture's maximum-gap ITL SLO."
+    },
+    {
+      "url": "https://arxiv.org/abs/2205.14135",
+      "access": "Primary abstract only.",
+      "claim": "IO-aware tiling reduces HBM traffic in exact attention; no kernel implementation or copied measurements."
+    },
+    {
+      "url": "https://docs.pytorch.org/docs/2.10/profiler.html",
+      "access": "Version-pinned official API/scheduling/activity and overhead passages, including shape/stack tracing caveat, inspected.",
+      "claim": "Operator/device activity and instrumentation overhead; no profiler run."
+    },
+    {
+      "url": "https://docs.nvidia.com/nsight-systems/UserGuide/index.html",
+      "access": "Official selected overview/options/NVTX focused capture and overhead passages inspected; full 7000-line guide not read.",
+      "claim": "System timeline/focused regions, not a CUDA profile."
+    },
+    {
+      "url": "https://docs.nvidia.com/nsight-compute/ProfilingGuide/index.html",
+      "access": "Official profiling overview and kernel/application/range replay passages inspected; not every counter definition.",
+      "claim": "Detailed kernel metrics and replay perturbation, no measured counters."
+    },
+    {
+      "url": "https://developer.apple.com/documentation/metal/performance",
+      "access": "URL inaccessible via browser; not claimed as read.",
+      "claim": "Used tools overview instead."
+    },
+    {
+      "url": "https://developer.apple.com/metal/tools/",
+      "access": "Official overview inspected: Metal debugger, system trace, dependencies and memory investigation.",
+      "claim": "Platform-native tools; no Metal timing/API benchmark."
+    },
+    {
+      "url": "https://docs.vulkan.org/guide/latest/synchronization.html",
+      "access": "Official guide overview, validation and pipeline barrier sections inspected.",
+      "claim": "Explicit synchronization responsibility, no Vulkan backend implemented."
+    }
+  ],
+  "local_dependencies": [],
+  "external_replication": false,
+  "hardware_measurement": false,
+  "independent_review": false
+}

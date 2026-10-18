@@ -1,0 +1,1 @@
+\begin{tikzpicture}[node distance=4mm]\node[draw](q){Q/K/V};\node[draw,right=of q](s){scores};\node[draw,right=of s](m){softmax};\node[draw,right=of m](v){value accum};\node[draw,right=of v,fill=Gold!35](o){output};\draw[->,Blue](q)--(s);\draw[->,Blue](s)--(m);\draw[->,Blue](m)--(v);\draw[->,Blue](v)--(o);\end{tikzpicture}

@@ -1,0 +1,13 @@
+\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={note}]
+\node[draw,circle,fill=Pale,minimum size=1.2cm] (base) at (1.5,2) {base};
+\node[draw,fill=Red!12,align=left] (bad) at (9,3) {quality .95, safety .5; rejected};
+\node[draw,fill=Green!12,align=left] (good) at (9,1) {v2: quality .85, safety 1; retired};
+\draw[flow] (base)--node[above,sloped] {parent} (bad);
+\draw[flow] (base)--node[below,sloped] {parent} (good);
+\node at (1.5,-.5) (p1) {base / rev 1};
+\node at (6.5,-.5) (p2) {v2 / rev 2};
+\node at (11.5,-.5) (p3) {base / rev 3};
+\draw[flow,dashed] (p1)--node[above] {promote + reset} (p2);
+\draw[flow,dashed,Green] (p2)--node[above] {rollback + reset} (p3);
+\node at (6.5,-1.4) {Solid: parent edges. Dashed: serving-pointer history.};
+\end{tikzpicture}

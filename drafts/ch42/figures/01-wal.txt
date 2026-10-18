@@ -1,0 +1,1 @@
+An assignment appends log record 1, then flushes log prefix through 1, then writes a page marked LSN1. Solid blue durable-log track rises before dashed green durable-page track. A crash between flush and page write can recover by replaying the durable assignment. Before flush, the log tail is volatile. Tracks describe a stipulated crash model; no real fsync operation is measured.

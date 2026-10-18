@@ -1,0 +1,118 @@
+{
+  "chapter": 42,
+  "incoming_manuscript_sha256": "56b84110d2d86f2a4cc77d96a0fdfeba72de84b9831ef4e02ede8520eb5d0f68",
+  "sections": [
+    {
+      "incoming_section": "Comparison map",
+      "incoming_section_sha256": "db39bf127eb250b813bb9f75cb12476671d00dc9eb9c4d1760120ccfeab82a61",
+      "disposition": "expanded",
+      "destination": "evod42:precedents",
+      "reason": "Bound Volcano/Cascades transfer with primary text and explicit non-equivalence."
+    },
+    {
+      "incoming_section": "Logical and physical plans",
+      "incoming_section_sha256": "ad9c7756677a073e8c63ce83d8410ef9d3c590a75b1761d2ea314af74261392d",
+      "disposition": "expanded",
+      "destination": "evod42:plans",
+      "reason": "Filter exact contracts and hard ceilings before weighted score."
+    },
+    {
+      "incoming_section": "Iterator and dataflow precedent",
+      "incoming_section_sha256": "e96a0f294e7d7b22925f7ddfd1d4b8114dc2610a50af47c28bcb93595e0c4bf2",
+      "disposition": "expanded",
+      "destination": "evod42:precedents",
+      "reason": "Explain prefix state without falsely calling all DB operators stateless."
+    },
+    {
+      "incoming_section": "Buffer manager comparison",
+      "incoming_section_sha256": "9c7528bc6d6c266226c2d06fa20ef4490ca02303ab41031ed963ad7da4e7bc87",
+      "disposition": "expanded",
+      "destination": "evod42:buffers",
+      "reason": "Separate reconstruction validity, pins and retention for real prior-state types."
+    },
+    {
+      "incoming_section": "Transactions and effects",
+      "incoming_section_sha256": "c45e1c415ea0aa9a292ead3ce664b0408669fc4b1e1e38613afe1c409d0bf2ad",
+      "disposition": "expanded",
+      "destination": "evod42:transactions",
+      "reason": "Locate ACID requirements in specific durable mutations, not sampling."
+    },
+    {
+      "incoming_section": "WAL and recovery",
+      "incoming_section_sha256": "385c29083184454c75008cfaf4799ecb11adae793eaa73870cce52f3f1aec77b",
+      "disposition": "expanded",
+      "destination": "evod42:wal",
+      "reason": "Specify committed-redo crash model and prove correctness/idempotence."
+    },
+    {
+      "incoming_section": "Isolation",
+      "incoming_section_sha256": "ee3c27b1cf48b5ec953d76416ae34803c1d7a686079ab51dcbe4595fcb8d5e90",
+      "disposition": "merged",
+      "destination": "evod42:transactions",
+      "reason": "Separate durable shared mutations from request-local ownership."
+    },
+    {
+      "incoming_section": "Indexes",
+      "incoming_section_sha256": "2c9af482b87ca939bae2d736e812de62347b32dbfafe0f6a1920b562b60f6c9d",
+      "disposition": "retained",
+      "destination": "evod42:buffers",
+      "reason": "Keep access path versus authority and Ch40 tombstone dominance."
+    },
+    {
+      "incoming_section": "Optimizer statistics",
+      "incoming_section_sha256": "0b2fa0e6847a56e195520f24725808ccf0b054c5564bca04ad251653b819ab25",
+      "disposition": "expanded",
+      "destination": "evod42:limits",
+      "reason": "Keep stale-estimate failure distinct from contract eligibility."
+    },
+    {
+      "incoming_section": "Materialization and caching",
+      "incoming_section_sha256": "fd664c95bd09e89d5d64fed87352929758cbaeb7b29cbed3408b56c8b05f9e91",
+      "disposition": "expanded",
+      "destination": "evod42:transactions",
+      "reason": "Retain reuse keys and semantic invalidation rules."
+    },
+    {
+      "incoming_section": "Recovery versus replay",
+      "incoming_section_sha256": "a65284d5df7b9744a20dfc19fb074f18e4006cce07ae59db9e6b8d6571d4d7c8",
+      "disposition": "expanded",
+      "destination": "evod42:limits",
+      "reason": "Distinguish consistent durable pointer from captured token/effect replay."
+    },
+    {
+      "incoming_section": "Where SQL analogy breaks",
+      "incoming_section_sha256": "a5887dc90a210f2ca86c87dbe199f49f1e479fbba88eeaaf14f1bdb485083901",
+      "disposition": "retained",
+      "destination": "evod42:limits",
+      "reason": "Preserve all four hard breaks and qualify database statefulness."
+    },
+    {
+      "incoming_section": "Executable comparison",
+      "incoming_section_sha256": "c2c526542588388030a0c20b9c7e5d773901423974f77a17e762d0f69b207c3f",
+      "disposition": "expanded",
+      "destination": "evod42:controls",
+      "reason": "Add named crash cuts, assigned vector and independent last-assignment oracle."
+    },
+    {
+      "incoming_section": "Failure modes",
+      "incoming_section_sha256": "1477cb6c4c334c2b97338a834b8d4fde9a149e55e96fdf4cce670e44c3d7ea52",
+      "disposition": "expanded",
+      "destination": "evod42:controls",
+      "reason": "Reject mismatched key/value/LSN, stale writes, impossible flushes and nonfinite costs."
+    },
+    {
+      "incoming_section": "Twelve worked exercises",
+      "incoming_section_sha256": "b8be3bd7ecde1dc2ad2b889249d5143d840789cf0140d5fb180b6de970b9635f",
+      "disposition": "expanded",
+      "destination": "evod42:exercises",
+      "reason": "Keep comparison topics and add exact arithmetic/recovery proof questions."
+    },
+    {
+      "incoming_section": "Bridge",
+      "incoming_section_sha256": "6b988824c497455df9d7ac1f54bfb64d6a2fd6e93370af98019ab27bf40449f2",
+      "disposition": "relocated",
+      "destination": "final Vocabulary section",
+      "reason": "Final Vocabulary and governance boundary supplies Ch43 transition."
+    }
+  ]
+}

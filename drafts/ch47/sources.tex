@@ -1,0 +1,43 @@
+\begin{thebibliography}{99}
+\addcontentsline{toc}{chapter}{Sources and references}
+\bibitem{roofline47} Samuel Williams, Andrew Waterman and David Patterson.
+\emph{Roofline: An Insightful Visual Performance Model for Floating-Point
+Programs and Multicore Architectures}. UCB/EECS-2008-134, 2008.
+Primary author technical report, Section 3 inspected; predecessor of the
+2009 CACM publication.
+\url{https://www2.eecs.berkeley.edu/Pubs/TechRpts/2008/EECS-2008-134.pdf}.
+\bibitem{distserve47} Yinmin Zhong et al. \emph{DistServe}. OSDI 2024.
+Selected mechanism/metric passages inspected, not reproduced.
+\url{https://www.usenix.org/system/files/osdi24-zhong-yinmin.pdf}.
+\bibitem{flash47} Tri Dao et al. \emph{FlashAttention: Fast and Memory-Efficient
+Exact Attention with IO-Awareness}. 2022. Primary abstract only.
+\url{https://arxiv.org/abs/2205.14135}.
+\bibitem{torch47} PyTorch contributors. \emph{torch.profiler}, version 2.10.
+API, scheduling and shape/stack overhead guidance inspected.
+\url{https://docs.pytorch.org/docs/2.10/profiler.html}.
+\bibitem{nsys47} NVIDIA. \emph{Nsight Systems User Guide}. Timeline, focused
+collection/NVTX and overhead guidance inspected.
+\url{https://docs.nvidia.com/nsight-systems/UserGuide/index.html}.
+\bibitem{ncu47} NVIDIA. \emph{Nsight Compute Profiling Guide}.
+Kernel-profiling and counter/replay overview inspected.
+\url{https://docs.nvidia.com/nsight-compute/ProfilingGuide/index.html}.
+\bibitem{metal47} Apple. \emph{Metal Developer Tools}. Tools, dependencies and
+memory-inspection overview inspected; not an API benchmark.
+\url{https://developer.apple.com/metal/tools/}.
+\bibitem{vulkan47} Khronos. \emph{Vulkan Guide: Synchronization}.
+Synchronization, validation and pipeline-barrier overview inspected.
+\url{https://docs.vulkan.org/guide/latest/synchronization.html}.
+\end{thebibliography}
+
+\section*{Evidence scope}
+Access checked 17 October 2026. The packaged Roofline URL was inaccessible;
+the authors' Berkeley 2008 technical-report version was accessed instead,
+especially Section 3's memory-boundary definition and ceiling formula.
+DistServe's abstract/introduction and selected phase/placement passages were
+inspected. FlashAttention access was abstract-only. Official profiler guides
+were inspected at overview/API and relevant overhead/synchronization passages;
+no profiler was run. Apple's tools overview and Khronos's synchronization
+overview support narrow platform distinctions, not backend performance rankings.
+All chapter traces, ceilings and operation/byte rows are assigned or analytic.
+No real-backend result is supplied. Original analysis/tests and figures are
+not copied empirical results or independent validation.

@@ -16,17 +16,23 @@
  smallnote/.style={font=\footnotesize\sffamily,align=center}}
 \newcommand{\Generated}{}
 \newcommand{\PlateDirectory}{}
+\newcommand{\ChapterNamespace}{}
 \newcommand{\Plate}[3]{\par\medskip\noindent\begin{minipage}{\linewidth}\centering
 \resizebox{\linewidth}{!}{\input{\PlateDirectory/#1.tex}}
-\captionof{figure}{#2}\label{#3}\end{minipage}\par\medskip}
+\captionof{figure}{#2}\begingroup
+\edef\CurrentBookFigureLabel{\noexpand\OriginalBookLabel{\ChapterNamespace#3}}\CurrentBookFigureLabel
+\endgroup\end{minipage}\par\medskip}
 \newcommand{\Listing}[1]{\par\Needspace{5\baselineskip}
 \VerbatimInput[breaklines,breakanywhere,fontsize=\small,frame=single,numbers=left,numbersep=4pt]{\Generated/#1.py}\par\medskip}
 \let\OriginalBookLabel\label
 \let\OriginalBookRef\ref
 \let\OriginalBookAutoref\autoref
 \makeatletter
+% fvextra/lineno can leave a one-column bookkeeping marker in an incremental
+% auxiliary file even when the current wrapper does not activate lineno.
+% Consume that legacy marker without changing numbered VerbatimInput listings.
+\providecommand\@LN@col[1]{}
 \let\OriginalBookDisplayLabel\label@in@display
-\newcommand{\ChapterNamespace}{}
 \newcommand{\ScopedChapterLabels}{
 \renewcommand{\label}[1]{\edef\CurrentBookLabel{\noexpand\OriginalBookLabel{\ChapterNamespace##1}}\CurrentBookLabel}
 \renewcommand{\label@in@display}[1]{\edef\CurrentBookLabel{\noexpand\OriginalBookDisplayLabel{\ChapterNamespace##1}}\CurrentBookLabel}

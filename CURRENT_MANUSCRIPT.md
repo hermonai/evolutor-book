@@ -1,99 +1,92 @@
 # Current manuscript and repository guide
 
-Updated 17 October 2026. Active authored content reaches Chapter 35 of 52.
-Locally reviewed candidates are not an accepted publication edition.
+Updated 18 October 2026. **All 52 chapters are authored and assembled.**
+This is the complete-range review candidate, not an accepted publication edition.
 
 ## Start here
 
-- [Complete 52-chapter structure, parts and prerequisites](CHAPTER_STRUCTURE.md)
-- [Chapter 34 — DOGMA batching and state-native kernels](drafts/ch34/README.md)
-- [Chapter 35 — Hermon DNA prefill, decode and KV state](drafts/ch35/README.md)
-- [Editorial architecture and release gates](EDITORIAL_ARCHITECTURE.md)
-- [Package convergence matrix](research/integration/chapter-convergence-matrix.md)
-- [Continuous PDF hash and actual review scope](research/integration/continuous-through35-review.json)
-- [Textbook standard](TEXTBOOK_STANDARD.md) and [chapter standard](CHAPTER_STANDARD.md)
-- [Four-batch production and ownership rules](BATCH_PRODUCTION.md)
+- [Complete review PDF](artifacts/review/evolutor-complete-review.pdf)
+- [All chapters, twelve parts and prerequisites](CHAPTER_STRUCTURE.md)
+- [Final integration report](FINAL_INTEGRATION_REPORT.md)
+- [Current source/PDF review closure](research/integration/continuous-through52-review.json)
+- [Claude review and adjustment prompt](docs/CLAUDE_PREPUBLICATION_REVIEW_PROMPT.md)
+- [Documentation map](docs/README.md)
+- [Editorial architecture](EDITORIAL_ARCHITECTURE.md) and [publication gates](PUBLICATION_PLAN.md)
 
 ## One manuscript, explicit stages
 
-| Material | Active location | Status |
+| Material | Active source/artifact | Status |
 |---|---|---|
-| Opening Chapters 1–3 | tex/ and TEXTBOOK_REVISION.md | Preserved opening review sources |
-| Chapters 4–21 | drafts/ch04/ through drafts/ch21/ | Existing authored candidates |
-| Chapters 22–35 | drafts/ch22/ through drafts/ch35/ | Source-bound local integration candidates |
-| Continuous Chapters 1–35 | output/pdf/evolutor-convergence.pdf | Authored-source cumulative candidate |
-| Chapters 36–52 | Supplied ZIPs and chapter-local working directories | Four authoring chats active; not yet in the continuous candidate |
-| Accepted Chapters 1–2 | book/book.json and acceptance records | Frozen internal records, unchanged |
-| Historical editions | Existing sources and preservation tests | Archives, not parallel authoring |
+| Chapters 1–2 | tex/deep/ch01.tex and ch02.tex | Preserved opening sources; historical internal acceptance unchanged |
+| Chapter 3 | tex/textbook/ch03.tex | Preserved authored opening |
+| Chapters 4–52 | drafts/chNN/manuscript.tex | Authored chapter candidates with executable companions |
+| Continuous Chapters 1–52 | output/pdf/evolutor-convergence.pdf | Complete source assembly, unified navigation and reference material |
+| Versioned complete PDF | artifacts/review/evolutor-complete-review.pdf | Readable GitHub review copy; not an accepted edition |
+| Chapter-local reviews | research/integration/chNN/ | Local author evidence, not independent specialist/reader review |
+| Historical editions | book/book.json, earlier plans/reports and preserved artifacts | Historical snapshots, not active authoring counters |
 
-Every requested evolutor-ch30-r01.zip through evolutor-ch52-r01.zip is
-inventoried with digest, mapping and separate gates. Chapters 30–35 have now
-been used and semantically integrated. Chapter 36's continuity note was
-inspected for the allocation handoff, not silently integrated. Incoming
-validation labels remain provenance, not local verification.
+All supplied evolutor-ch22-r01.zip through evolutor-ch52-r01.zip are inventoried.
+The requested Chapters 30–52 are used and accounted for rather than silently
+omitted. New batch adoption maps explain each incoming section, reference/test
+correction and figure disposition. ZIP hashes and packaged QA labels never
+substitute for local semantic verification.
 
-`chapter-structure.json` is the current machine-readable navigation map;
-`CHAPTER_STRUCTURE.md` supplies human reading routes. Actual authored titles
-supersede old planned title variants without rewriting the frozen BOOK_PLAN.md
-acceptance snapshot. Run the structure checker after future integrations.
+chapter-structure.json is the current machine-readable map. Its source titles
+and direct reading prerequisites drive the human map and printed twelve-part
+navigation. Frozen BOOK_PLAN.md and opening acceptance records are not rewritten.
 
 ## Build and verify
 
-Use Python 3.13.6 at /Users/wenyan/.pyenv/versions/3.13.6/bin/python3 and
-OMP_NUM_THREADS=1 for declared CPU references. Requirements and fonts are in README.
+Use a Python with the dependencies in requirements-review.txt. Recorded local
+Python: /Users/wenyan/.pyenv/versions/3.13.6/bin/python3. Set OMP_NUM_THREADS=1.
 
-- Standalone: `python3 drafts/ch34/build.py --render` and the corresponding ch35 command.
-- Derived-data checks: chapter builder `--check`.
 - Structure: `python3 scripts/check-chapter-structure.py`.
-- Production handoffs: `python3 scripts/audit-production.py` (read-only; no stage promotion).
-- Continuous: `python3 scripts/build-convergence.py --through 35 --refresh-assets`.
-- Scoped rendering: `python3 scripts/review-convergence.py --pages <physical-ranges>`.
-- Regression: `python3 -m pytest -q -o addopts=''`.
-- Do not build PDFs concurrently with preservation tests in this repository.
+- Full tests: `python3 -m pytest -q -o addopts=''`.
+- Complete fresh build: `python3 scripts/build-convergence.py --through 52 --refresh-assets`.
+- Repeat build: the same command without `--refresh-assets`.
+- All cumulative renders: `python3 scripts/review-convergence.py --pages all`.
+- One chapter: `python3 drafts/chNN/build.py --render` and `--check` (NN=04–52).
+- Handoff evidence: `python3 scripts/audit-production.py --require-ready`.
+- Paged runtime/compiler example: `python3 examples/integrated_spine/paged_runtime.py`.
 
-The cumulative builder assembles authored LaTeX, consolidated bibliography,
-global glossary and index. Its front matter carries the general pedagogical
-acknowledgment once. A successful compile is not cumulative scientific,
-editorial or visual acceptance. Scoped renders go to `tmp/pdfs/convergence-review/`.
+Do not run PDF builds concurrently with preservation tests. Missing ignored
+PDFs/build logs on a fresh checkout are missing local evidence, not a license
+to fabricate review hashes. Generate chapter artifacts before running their
+derived-file checks or reconstructing local admission evidence.
 
-## Folder and cleanup policy
+The cumulative builder assembles authored LaTeX, not old PDFs. It consolidates
+exact bibliography identifiers, scopes labels, uses the common glossary and
+index, and keeps the general pedagogical acknowledgment in front matter once.
+A strict compile is not scientific or whole-volume editorial acceptance.
 
-Authored drafts/, tex/, figures/, examples/ and tests/ are source, not cache.
-research/integration/ holds durable package provenance and local review records.
-output/pdf/ contains readable candidates and preserved editions; inspect
-provenance before removal. build/ contains generated tables/listings/compiler
-outputs; tmp/pdfs/ contains regenerable visual-review images.
+## What integration does and does not establish
 
-The legacy cleanup recorded on 27 September remains historical: dated macOS
-Trash and its recovery receipt preserved authored/accepted sources. Do not
-blanket-delete directories to make the tree appear tidy. Current chapter folders
-have one authored manuscript, one tested reference and one standalone builder.
+The four batches covering 36–38, 39–43, 44–47 and 48–52 have handed off.
+Their original records remain provenance. Coordinator revisions to Chapters
+41/49/51/52 remove stale production-time wording and link the actual paged
+runtime/compiler companion; the superseded author-review records are retained.
 
-## Current handoff: Chapters 36–52 in production
+The companion connects actual Chapter 36 pages to Chapter 39's protocol and
+Chapter 41's handlers. Its tests preserve Chapter 23/35 learned-position
+Transformer outputs and effect traces, including shared tails and failure
+cleanup. The chapter-local adapter remains contiguous. No hidden substitution
+of a one-head toy or a different architecture is claimed.
 
-Four disjoint authoring chats cover Chapters 36–38, 39–43, 44–47 and 48–52.
-Their working files do not change the integrated-through-35 baseline. Each
-batch returns a source-bound handoff before the coordinator runs cross-batch
-tests and cumulative assembly. See BATCH_PRODUCTION.md for ownership and the
-read-only admission check; unfinished references are not executed by that check.
+Chapter 37 scheduler output and Chapter 38 speculative output have distinct
+consumed/emitted-token conventions. Joining their serving schedules, asynchronous
+completion fences, durable agent/memory adapters, distributed authority,
+authenticated deployment, real backend measurements and trained genomic studies
+remain explicitly unimplemented or unevaluated where the chapters say so.
+A complete book can explain these contracts without claiming those systems exist.
 
-Chapter 34 batches the actual gated state from Chapter 31, through pool pins
-and independently restored Chapter 33 branches. It preserves masked identity,
-owner/generation/version fences and per-request clocks. Per-lane scatter is
-not an atomic cross-request transaction or integrated network-output publication.
+## Review handoff and preservation
 
-Chapter 35 caches the actual Chapter 23 Hermon model, including learned
-absolute positions and all residual/normalization/FFN layers. Its independent
-full-model oracle, every fixture chunk composition, per-layer KV hooks and
-offset-mask counterexample are retained for allocator refinement.
+Next: run the Claude pre-publication prompt across all 52 chapters and front/back
+matter, then obtain appropriate independent specialist/reader review and resolve
+rights, licensing, accessibility and final editorial decisions. Record actual
+page coverage and exact revised source/artifact hashes.
 
-Next, Chapter 36 must change physical allocation without changing ordered
-logical K/V. Derive blocks, partial tails, generations, reference counts,
-immutable prefix sharing, copy-on-write and eviction versus live ownership.
-Chapters 37–38 then address scheduling/precision and speculative/attention
-kernel experiments. Do not equate state geometry or operation counts with
-learned capability or observed speed.
-
-Independent specialist/reader review, cumulative editorial/accessibility QA,
-rights/source audit and publication acceptance remain open. No acceptance
-promotion is implied by authoring progress.
+Source drafts/, tex/, figures/, examples/ and tests/ are not cache.
+research/integration/ holds durable provenance. build/ and tmp/ are derived.
+Do not blanket-delete old PDFs or rewrite old acceptance records. The historical
+cleanup receipts and earlier review snapshots retain their original scope.

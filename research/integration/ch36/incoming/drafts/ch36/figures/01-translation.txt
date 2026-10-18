@@ -1,0 +1,1 @@
+Logical token order is translated through a block table; physical page adjacency is not part of attention semantics.

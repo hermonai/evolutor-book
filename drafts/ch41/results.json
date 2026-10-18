@@ -1,0 +1,45 @@
+{
+  "passes": [
+    {
+      "stage": "original",
+      "operations": 6,
+      "peak": 3,
+      "effects": 2,
+      "answer": 15
+    },
+    {
+      "stage": "folded",
+      "operations": 6,
+      "peak": 2,
+      "effects": 2,
+      "answer": 15
+    },
+    {
+      "stage": "DCE",
+      "operations": 3,
+      "peak": 2,
+      "effects": 2,
+      "answer": 15
+    }
+  ],
+  "schedule": [
+    {
+      "oid": "sum",
+      "backend": "host",
+      "dependencies": []
+    },
+    {
+      "oid": "ret",
+      "backend": "retriever",
+      "dependencies": []
+    },
+    {
+      "oid": "act",
+      "backend": "toolhost",
+      "dependencies": [
+        "ret",
+        "sum"
+      ]
+    }
+  ]
+}

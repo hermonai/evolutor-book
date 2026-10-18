@@ -1,0 +1,9 @@
+\chapter*{Author technical review}
+\begin{itemize}
+\item Artifact identity binds model/runtime/config/schema/provenance.
+\item Liveness and readiness are separated.
+\item Draining prevents new admissions and waits for in-flight ownership.
+\item Promotion is SLO-gated and rollback is explicit.
+\item Telemetry semantics separate traces, metrics and logs and avoid requiring sensitive content.
+\item The oracle proves state-machine invariants, not production availability.
+\end{itemize}

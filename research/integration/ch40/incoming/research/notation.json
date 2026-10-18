@@ -1,0 +1,8 @@
+{
+  "R": "durable record",
+  "C": "compression operator",
+  "Q": "addressable retrieval",
+  "H": "bounded rehydration",
+  "rho": "compression ratio",
+  "U": "task utility retained by compressed representation"
+}

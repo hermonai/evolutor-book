@@ -1,0 +1,1 @@
+Three-token prefix with P2: full page0 shared. Parent keeps tail page1 containing ordinal2; child copies it to page2 then appends ordinal3. Only child table changes.

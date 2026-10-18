@@ -1,0 +1,10 @@
+{
+  "P": "KV token rows per physical page",
+  "T": "logical retained token count",
+  "N_p": "pages used by one sequence",
+  "W": "internal tail waste in token slots",
+  "PageRef": "(page_id,generation)",
+  "r_i": "physical page reference count",
+  "U": "logical token-slot utilization",
+  "C_T": "contiguous KV oracle"
+}

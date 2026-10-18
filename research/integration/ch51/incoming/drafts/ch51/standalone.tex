@@ -1,0 +1,11 @@
+\documentclass[11pt]{book}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,booktabs,enumitem,tikz}
+\usetikzlibrary{positioning,arrows.meta}
+\newcommand{\Plate}[3]{\begin{figure}[ht]\centering\input{figures/#1.tex}\caption{#2}\label{#3}\end{figure}}
+\newcommand{\Listing}[1]{\par\medskip\noindent\textbf{Executable reference:} \texttt{#1.py}\par\medskip}
+\begin{document}
+\input{manuscript.tex}
+\input{review.tex}
+\end{document}

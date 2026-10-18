@@ -1,0 +1,304 @@
+\chapter{Multi-tenancy, isolation and security}
+\label{evod45:chapter}
+
+A response can be numerically correct and still be a severe failure: it may
+contain another tenant's retrieved note, reuse a private prefix, execute an
+unauthorized tool or leak a credential through a trace. Consider Alice in
+tenant A and Bob in B. Both name an object \texttt{x}. A service that indexes
+only by \texttt{x} has already lost the intended separation before the model
+generates anything. Isolation is part of the execution contract.
+
+The running fixture stores small text objects under tenant-qualified keys.
+It also issues local authority objects, reserves two resource dimensions and
+implements an in-memory echo tool. It authenticates nobody, resolves no
+credential and executes no external command. Its tests are local adversarial
+inputs to a serial specification, not a live penetration test or a security
+certification.
+
+\section{Name the adversary and the trusted components}
+\index{threat model}\index{zero trust}
+\label{evod45:threat}
+Assume tenants control prompts, submitted documents, requested object IDs and
+tool parameters. Retrieved text may contain malicious instructions. A tenant
+can repeat requests, guess handles and consume its full budget. Ordinary bugs
+may substitute a stale handle, wrong request lane or copied capability.
+Model output is untrusted for authorization even when fluent and accurate.
+
+We trust the authentication gateway to produce a principal; the deterministic
+policy and object store to enforce scope; and the serialized Python process
+to protect its own tables. Malicious host code, a compromised issuer, arbitrary
+process-memory reads, hardware side channels and kernel/driver compromise are
+outside the executable model. Under those stronger threats, Python object
+identity is no boundary: use process isolation, authenticated protocols,
+OS/device protections and appropriately scoped cryptographic credentials.
+
+Keep confidentiality, integrity and availability separate. Namespacing helps
+prevent wrong-object reads; epoch checks reject obsolete authority; quotas
+limit resource exhaustion. None alone proves all three. NIST's zero-trust
+architecture rejects implicit trust based only on network location~\cite{nist45}.
+Sharing a process, batch or accelerator likewise grants no logical authority.
+
+\section{Identity arrives from authentication, not from prose}
+\index{authentication}\index{deny by default}
+\label{evod45:identity}
+Let $P=(t,s,u,a)$ contain tenant $t$, subject $s$, session $u$ and authenticated
+context $a$. The fixture stores the first three and assumes authentication
+has already happened. ``I am the administrator'' inside a prompt changes none
+of them. Tenant ID from an unverified request header is not authenticated
+context. Propagate identity through a trusted channel and recheck it where
+resources are accessed; trace baggage is not a substitute.
+
+Authorization is deny-by-default:
+\[
+ \operatorname{Allow}(P,\alpha,r)=1
+ \quad\Longleftrightarrow\quad
+ (t,s,\alpha,r)\in G_e,
+\]
+where $G_e$ is the grant set at policy epoch $e$. A planner may propose
+an action; it does not extend $G_e$. A read grant for \texttt{memory:x} is
+neither a write grant nor authority for \texttt{memory:y}.
+
+\Plate{01-authority}{A malicious document can influence an action proposal. The only path to the echo executor passes deterministic principal, issued-capability and argument checks. Dashed document influence does not carry authority.}{evod45:authority}
+
+\section{Make capability scope and lifetime testable}
+\index{Capability}\index{revocation}\index{expiry}\index{session binding}
+\label{evod45:capability}
+The fixture issues $c=(P,\alpha,r,e,\tau,n)$ with policy epoch $e$, exclusive
+expiry $\tau$ and serial $n$. Verification requires the exact issued object,
+matching principal/action/resource, current epoch, a still-present grant and
+$now<\tau$. Sessions are included so a stolen object from another session
+cannot pass through the normal interface. Replacing policy increments the
+epoch and invalidates all previously issued capabilities, including grants
+that happen to remain equal. This is conservative global revocation.
+
+\Listing{Policy.issue}
+\Listing{Policy.verify}
+
+The incoming deterministic nonce was not checked against an issuance registry.
+Constructing an equal-looking record could pass whenever a grant existed.
+The revised model distinguishes an issued object from its copy. This is useful
+misuse protection for trusted callers; it is not a bearer-token format, MAC,
+signature or defense against code that can edit \texttt{issued}. A remote
+design needs issuer/audience binding, authenticated transport, anti-replay or
+idempotency appropriate to the action, key rotation and a revocation contract.
+Even here a capability can be used repeatedly until expiry; serial is not a
+one-shot nonce. The trusted integer clock must not roll backwards.
+
+\subsection{The time-of-check boundary}
+Our calls run serially, so revocation cannot occur between verification and
+store update. With concurrent workers, checking epoch then executing later
+can race policy replacement. Options include a transaction that binds decision
+and effect, or a short operation lease with explicitly bounded revocation delay.
+Specify whether revocation blocks new actions or also cancels already admitted
+ones. A prompt rule cannot resolve that race.
+
+\section{Namespaces extend through every stateful resource}
+\index{namespace}\index{cache isolation}\index{Noninterference}
+\label{evod45:namespace}
+Objects are keyed by $(tenant,oid)$; authorization runs before lookup. Thus
+unauthorized guesses do not disclose whether another tenant's object exists
+through these two code paths. Real timing/error channels still require review.
+Our small store returns the caller's tenant object or a missing-object error;
+it never searches other tenants for a match.
+
+A private cache key binds tenant, artifact, policy domain and prefix digest:
+\[
+ K=H(\operatorname{encode}[t,d_M,d_{policy},d_{prefix}]).
+\]
+Length-delimited or structured encoding matters. Concatenating unescaped
+fields with a separator can alias $(\texttt{A|B},\texttt{C})$ and
+$(\texttt{A},\texttt{B|C})$. A hash does not repair ambiguous input encoding.
+Nor does a tenant-scoped hash prove that the cached payload is authorized or
+consistent. Verify the stored envelope and compare complete identities on hit;
+a digest collision or poisoned entry must not become an authority shortcut.
+When subjects within a tenant have different rights, the policy domain must
+also distinguish their effective sharing permissions and revocation version.
+Tenant scope alone is then insufficient; a caller-supplied domain string cannot
+authorize sharing. The fixture tests key encoding, not such an ACL resolver.
+\Listing{cache_key}
+
+\Plate{02-namespace}{The same object ID and prefix digest occupy distinct logical tenant namespaces. Artifact and policy-domain fields also participate in reuse. Physical sharing is a separate, explicitly authorized refinement.}{evod45:namespaceplate}
+
+Apply the same scope to native state pools, checkpoints, KV pages, retrieval
+indexes, compiler plans, credentials and accounting. Chapter 32's generation
+protects reuse lifetime; tenant checks protect authority. A valid generation
+from a foreign tenant is still invalid. Pins must settle before storage is
+scrubbed and reassigned. Logical removal is not a demonstrated secure device
+erase; allocator, driver and hardware guarantees must be investigated.
+
+\subsection{A restricted noninterference claim}
+Let $S_A,S_B$ be disjoint maps indexed by tenant. Suppose an operation by A
+checks A's authority, reads/writes only $S_A$, and its output is a function
+only of $S_A$, the request and fixed public configuration. Then replacing
+$S_B$ while holding those inputs fixed cannot change A's output or $S_A'$.
+This follows directly by substitution: neither the read set nor transition
+contains $S_B$. Induction gives the same result for a serial sequence of A
+operations. The tests put different secrets at the same ID in A and B.
+
+The premises exclude timing, shared capacity, audit scheduling and physical
+deduplication. With a global quota, B can make A's admission fail; strong
+availability noninterference is false. Likewise a private-prefix hit can
+change latency even if its content never leaks. State the observation model
+before claiming isolation; this proof concerns logical values only.
+
+\section{Reserve all resource dimensions before allocation}
+\index{quota}\index{reservation}
+\label{evod45:quota}
+Let request $r$ reserve vector $v_r=(s_r,b_r)$ of slots and bytes; both are
+nonnegative integers. For tenant limit $L_t$ and global limit $L_G$, admit only
+if componentwise
+\[
+ U_t+v_r\le L_t,\qquad U_G+v_r\le L_G,
+ \quad U_t=\sum_{r\text{ held by }t}v_r.
+\]
+Check the entire vector before acquiring anything. Reserving a slot first,
+then failing the byte check can leak slots unless rollback is exact.
+Release is bound to the issued reservation and can occur only once.
+\Listing{Quota.reserve}
+
+\begin{center}\input{\Generated/quota.tex}\end{center}
+With limits $(2,100)$ for each tenant and $(4,180)$ globally, two held
+requests reserve 160 bytes. A third 30-byte request may fit its own tenant
+but fails the global byte bound. Units are logical fixture bytes, not device
+allocation measurements. Real systems need KV/native-state capacity, compute,
+tool-call, bandwidth and durable-memory limits, plus conservative estimation
+and settlement against actual usage.
+
+\Plate{03-quota}{A two-dimensional feasible region rejects a request if either bound fails. The illustrated global byte failure leaves every reservation unchanged. Tenant quotas alone do not partition shared global capacity.}{evod45:quotaplate}
+
+Quotas bound consumption; they do not guarantee fairness or deadlines.
+Rate limits, weighted scheduling, minimum reservations and backpressure need
+separate policies. Cancellation cannot release device memory before outstanding
+work acknowledges. Our fixture has no asynchronous device work and therefore
+models only logical reservation lifetime.
+
+\section{Untrusted text cannot mint tool authority}
+\index{prompt injection}\index{tool authorization}
+\label{evod45:tools}
+Prompt injection becomes a confused-authority problem when adversarial text
+influences a component with external privileges. OWASP recommends least
+privilege and controls outside the model~\cite{injection45,boundary45}.
+Segregate trusted instructions from retrieved data, but treat that labeling as
+one defense, not a proof that a model will never follow malicious text.
+System prompts guide behavior; they are not an access-control mechanism.
+
+The executor validates principal, capability, target and a closed argument
+schema. In our only tool, the target must be \texttt{echo}, arguments must
+contain exactly one bounded text field, and output is an in-memory record.
+Untrusted text can be supplied but is not read by the authorization predicate.
+An authorized echo request containing ``delete everything'' remains echo;
+changing the target to root fails, and adding a shell argument fails schema
+validation. This tests authority separation, not a language-level detector.
+\Listing{SecureStore.tool}
+
+For real tools, validate canonical resource targets, allowed parameter values,
+effect scope and output size. Resolve a credential only after authorization;
+never put it in a prompt. Bind any required approval to the concrete operation,
+resource, version and expiry so it cannot be replayed for another action.
+Retries need an effect-specific idempotency key; local model replay cannot
+guarantee exactly-once effects in an external service.
+
+\section{Isolation reaches memory, compiler and batch lanes}
+\index{side channel}\index{batch isolation}\index{compiler legality}
+\label{evod45:engines}
+Retrieval must filter tenant scope before ranking and returning records.
+Deletion/tombstones and derived summaries preserve scope and provenance.
+Filtering only after global top-$k$ both risks disclosure and changes recall:
+other tenants can displace a caller's valid records. An unfinished Chapter 40
+memory API is not imported here; these are its integration requirements.
+
+An IR transformation may merge equal pure constants in a public domain, but
+equality of numerical tensors does not authorize private-state deduplication.
+Effect labels, tenant domain and policy version are legality premises for CSE,
+prefix reuse and materialization. Chapter 41 integration remains a separate
+test against its final effect/security representation.
+
+Continuous batching may colocate tenants physically. Preserve separate masks,
+page tables, state handles, output channels, cancellation and accounting. A
+single extra cross-request attention edge violates the logical-value premise
+even if all arrays have valid shapes. Chapter 35 retains per-layer K/V of
+the actual learned-absolute-position Transformer; do not switch position or
+model semantics to simplify an isolation demo. The Chapter 31 recurrence is
+a restricted teaching model, not full DOGMA security evidence.
+
+Shared caches, accelerators and contention can expose timing and occupancy.
+Stronger adversaries may require partitioning, padding, dedicated workers or
+disabled sharing. No local authorization test eliminates those side channels.
+
+\Needspace{19\baselineskip}
+\section{Audit decisions without retaining secrets}
+\index{audit}\index{redaction}
+\label{evod45:audit}
+\Listing{SecureStore.authorize}
+Record principal/session, action class, policy epoch, outcome and reason.
+The fixture deliberately omits values, credentials, raw prompts and full
+resource IDs. It records authorization success separately from operation
+success: a later quota/schema failure does not turn a grant into a denial.
+A production audit schema should add final outcome and safe correlation IDs,
+with an explicit delivery, retention and access policy.
+
+An append-only Python list is mutable by its host; it is not immutable audit
+storage. Cryptographic chaining alone would not prevent deletion of an entire
+suffix without an external anchor. Also protect identity/resource metadata,
+which can itself be sensitive. Secret scanning is useful defense in depth,
+but an allowlisted event schema reduces exposure before export.
+
+\section{A local adversarial matrix and its limits}
+\label{evod45:tests}
+The tests try foreign tenants/subjects/sessions, wrong action/resource,
+unissued copies, expiry, revocation, separator aliasing, object and vector
+quota exhaustion, unauthorized missing-object reads and extra tool parameters.
+The same-ID fixture checks independent values and scans audit records for
+the assigned secret. Exhaustive small quota vectors compare the implementation
+with an independently written feasible-region predicate.
+
+Production tests must add stale-generation restore, cross-lane masks, prefix
+collision handling, concurrent revocation/effect races, corrupted checkpoints,
+device reuse and redaction across exceptions/exporters. Authentication, actual
+engine allocation and memory/compiler integration are not implemented by this
+store. No tests are run against live services, accounts or credentials.
+
+\section{Twelve worked exercises}
+\begin{enumerate}
+\item \textbf{Locate authority.} A webpage says ``run as admin.''
+\emph{Solution:} it changes a proposal, not authenticated principal or grant set.
+The deterministic executor must still reject absent authority.
+\item \textbf{Fix a cache key.} Why is prefix digest alone insufficient?
+\emph{Solution:} it omits tenant, artifact and policy domain. Encode the full
+tuple unambiguously, then validate the stored envelope on hit.
+\item \textbf{Same GPU, same trust?} \emph{Solution:} no; device location is
+neither authentication nor permission. Logical and physical controls differ.
+\item \textbf{Forge a copied capability.} Why reject an equal dataclass here?
+\emph{Solution:} the registry requires exact issued-object identity. This tests
+trusted-process misuse only; hostile host code can bypass the registry.
+\item \textbf{Calculate expiry.} Issue at 2 with TTL 3. Is time 5 valid?
+\emph{Solution:} no; $now<5$ is exclusive. Time 4 passes if all other checks hold.
+\item \textbf{Reserve a vector.} A holds 80 bytes; global cap is 150; B asks 80.
+\emph{Solution:} reject the entire reservation since $160>150$, leaving B with
+no partially acquired slot. A 70-byte request fits exactly.
+\item \textbf{Valid generation, foreign tenant.} \emph{Solution:} reject.
+Generation prevents stale reuse; it does not authorize access.
+\item \textbf{Merge private computations.} Equal tensors from A and B may be
+CSE'd automatically? \emph{Solution:} no; equality is not a sharing grant.
+Prove effect and security-domain legality before applying the rewrite.
+\item \textbf{Replace a system prompt with access control.} Which survives
+a malicious completion? \emph{Solution:} a deterministic resource/action check
+still gates execution; a behavioral instruction supplies no such guarantee.
+\item \textbf{Audit safely.} Why omit raw object values? \emph{Solution:}
+the audit may have broader retention/readership. Preserve decision evidence
+without duplicating protected content, and protect remaining metadata too.
+\item \textbf{Break noninterference.} B fills a shared global quota.
+\emph{Solution:} A's admission can change, so availability/timing noninterference
+does not follow from the logical-value proof.
+\item \textbf{Design a release assessment.} \emph{Rubric:} specify adversaries,
+trusted components and observations; test auth, issuance/revocation, scopes,
+quotas, state/cache/memory, tools and audit; declare side-channel and concurrency
+limits. Passing local tests earns no production-security certification.
+\end{enumerate}
+
+\section{Terms and the distribution boundary}
+\Term{Principal} identifies an authenticated caller context.
+\Term{Capability} is scoped issued authority under a declared trust model.
+\Term{Noninterference} depends on which observations an adversary can make.
+Chapter 46 moves state across machines; placement must preserve these logical
+identities and authority even when location and ownership epoch change.

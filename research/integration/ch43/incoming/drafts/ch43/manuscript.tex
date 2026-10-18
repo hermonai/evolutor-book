@@ -1,0 +1,82 @@
+\chapter{Structural adaptation and lifecycle governance}
+A system that can propose new structures is not thereby entitled to deploy them. Evolutor therefore separates adaptation from authority:
+\[
+\text{propose}\rightarrow\text{evaluate}\rightarrow\text{canary}\rightarrow\text{promote}
+\]
+with rejection and rollback as first-class outcomes.
+
+\section{What may adapt}
+Candidates can change model weights, adapters, memory policies, retrieval indexes, compiler rules, prompts/policies or topology. These objects have different evaluation and rollback semantics. ``Self-improvement'' is too coarse a systems type.
+
+\section{Immutable artifact lineage}
+Every candidate has immutable identity, parent identity, transformation recipe, data/evaluation provenance and compatibility metadata. The lineage forms a DAG. Mutation creates a new artifact; it does not rewrite the active artifact in place.
+
+\section{Lifecycle state machine}
+Stages are candidate, evaluated, canary, active, retired and rejected. Promotion is legal only through required gates. The executable registry enforces this state machine.
+
+\section{Evaluation gates}
+Let metrics be vector $m$ and required thresholds $g$. A simple gate requires
+\[
+m_i\ge g_i\quad\forall i,
+\]
+but real gates include upper bounds, confidence intervals, regression budgets, safety invariants and workload-specific slices. Passing one aggregate score is insufficient.
+
+\section{Continual learning and forgetting}
+Sequential adaptation can degrade earlier capabilities. Elastic Weight Consolidation is a concrete method that penalizes movement of parameters judged important to previous tasks:
+\[
+L(\theta)=L_B(\theta)+\frac{\lambda}{2}\sum_i F_i(\theta_i-\theta_{A,i}^\star)^2.
+\]
+This is evidence that stability/plasticity can be operationalized; it is not a universal solution. Evolutor requires regression suites regardless of adaptation algorithm.
+
+\section{Candidate creation}
+A candidate records parent, transformation, code/data versions, seeds and budgets. Training or editing occurs in an isolated workspace. Active serving artifacts remain immutable.
+
+\section{Shadow and canary}
+Shadow evaluation observes production-like inputs without controlling user-visible output. Canary deployment serves a bounded fraction under explicit rollback thresholds. Neither substitutes for offline correctness/safety gates.
+
+\section{Promotion}
+Promotion is a durable governance transaction: validate signatures/hashes, gate results, compatibility and policy approval; atomically move the serving pointer; append an audit record. The artifact bytes do not change during promotion.
+
+\section{Rollback}
+Rollback selects a previously validated compatible artifact and changes serving state. Runtime state compatibility must be checked: old DOGMA checkpoints or Hermon KV state may be invalid across model/tokenizer changes. Rollback of model version does not imply rollback of irreversible external tool effects.
+
+\section{Structural versus parametric adaptation}
+Weight updates are parametric. Adding a memory operator, routing rule or module changes structure. Structural changes require compiler/IR compatibility tests because they can alter execution topology and effect ordering.
+
+\section{Population search}
+Multiple candidates may descend from one parent. Selection should compare candidates under matched budgets and held-out evaluation, preserving rejected branches for evidence rather than rewriting history.
+
+\section{Governance authority}
+Proposal, evaluation and promotion should be separable authorities. An LLM or evolutionary search may propose a candidate; deterministic policy and signed release mechanisms decide whether it can become active.
+
+\section{Safety invariants}
+Some gates are hard constraints rather than objectives: tenant isolation, authorization-before-side-effect, artifact integrity, bounded resources and trace completeness. Optimization cannot trade these away for benchmark score.
+
+\section{Drift and monitoring}
+After promotion, monitor workload distribution, quality/safety slices, latency/resource SLOs and anomalous tool behavior. Drift can trigger investigation or rollback, but automated rollback itself must have bounded authority.
+
+\section{Executable registry}
+\Listing{reference}
+The reference creates immutable lineage IDs, evaluates threshold gates, enforces canary-before-promotion, retires the old active artifact and supports explicit rollback. A candidate that improves quality but fails safety is rejected.
+
+\section{Failure modes}
+Failures include in-place mutation, evaluating on training data, one-score promotion, incompatible checkpoint reuse, unsigned artifacts, hidden policy changes, irreversible actions during experiments and deleting failed candidates from the evidence ledger.
+
+\section{Twelve worked exercises}
+\begin{enumerate}
+\item Why immutable active artifacts? \textbf{Reproducibility and safe rollback.}
+\item Candidate parent? \textbf{The exact artifact from which it was derived.}
+\item Can a rejected candidate canary? \textbf{No.}
+\item Why canary after offline gates? \textbf{It tests bounded production conditions, not basic legality.}
+\item EWC addresses what? \textbf{A stability/plasticity aspect of catastrophic forgetting.}
+\item Is EWC sufficient governance? \textbf{No.}
+\item Structural change example? \textbf{Adding/rerouting a memory or tool operator.}
+\item Promotion changes artifact bytes? \textbf{No; it changes the active reference.}
+\item Model rollback reverses tool effects? \textbf{No.}
+\item Why preserve rejected branches? \textbf{Evidence, diagnosis and reproducibility.}
+\item Who may propose versus promote? \textbf{They can be different authorities.}
+\item Release rubric? \textbf{Immutable lineage; matched evaluation; hard invariants; canary; signed promotion; compatibility checks; monitoring; rollback; audit trail.}
+\end{enumerate}
+
+\section{Bridge}
+Chapter 44 begins industrial engineering: packaging, deployment and observable services. Lifecycle governance becomes concrete release artifacts, service contracts, health/readiness, telemetry and deployment automation.

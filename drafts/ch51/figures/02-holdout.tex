@@ -1,0 +1,11 @@
+\begin{tikzpicture}[x=1cm,y=1cm,font=\small\sffamily]
+\node[draw,fill=Pale,align=center,minimum width=3.1cm] (l) at (0,1.4) {frozen learner\\+ adaptation rule};
+\node[draw,fill=Gold!35,align=center,minimum width=3cm] (e) at (5,1.4) {environment\\permitted observations};
+\node[draw,align=center,minimum width=3cm] (v) at (10,1.4) {sealed evaluator\\withheld labels};
+\draw[Red,dashed] (7.4,-.1)--(7.4,3.3);
+\draw[flow] (l) to[bend left=18] node[above] {actions} (e);
+\draw[flow] (e) to[bend left=18] node[below] {observations} (l);
+\draw[flow] (e)--(v) node[midway,above,fill=white,inner sep=1pt] {trajectory};
+\node[align=center] at (10,0) {score after freeze\\no tuning feedback};
+\node[anchor=west] at (-1.5,-1.2) {Allowed online experience differs from access to final evaluation answers.};
+\end{tikzpicture}

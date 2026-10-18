@@ -1,0 +1,7 @@
+{
+  "A_tj": "performance on evaluation experience j after learning experience t",
+  "ACC_T": "final average retained performance",
+  "F_j": "forgetting on experience j",
+  "theta": "model parameters",
+  "J": "multi-objective population fitness"
+}

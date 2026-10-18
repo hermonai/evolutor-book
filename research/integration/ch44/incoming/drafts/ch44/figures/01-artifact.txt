@@ -1,0 +1,1 @@
+A deployable revision binds model, runtime, configuration, schema and verifiable provenance.

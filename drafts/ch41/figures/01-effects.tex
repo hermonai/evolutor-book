@@ -1,0 +1,9 @@
+\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={note}]
+\node[draw] (a) at (1,2) {$a=7$};\node[draw] (b) at (1,0) {$b=8$};
+\node[draw,fill=Pale] (n) at (6,1) {$n=add(a,b)$};
+\node[draw,fill=Gold!30] (act) at (12,1) {act: tool$(n)$\\no SSA result};
+\draw[flow] (a)--(n);\draw[flow] (b)--(n);\draw[flow] (n)--(act);
+\node[draw,fill=Gold!30] (ret) at (6,3.3) {ret: retrieve\\unused docs};
+\draw[flow,dashed] (ret)--node[above,sloped] {effect order} (act);
+\node[align=left] at (6,-1.3) {Solid: value dependency. Dashed: ordered effect.\\Unused document value does not make retrieval erasable.};
+\end{tikzpicture}

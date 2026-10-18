@@ -1,0 +1,44 @@
+[
+  {
+    "key": "roofline2009",
+    "claim": "Roofline relates attainable performance to peak compute, memory bandwidth and operational/arithmetic intensity, providing compute and memory ceilings.",
+    "primary": "https://crd.lbl.gov/assets/pubs_presos/parlab08-roofline.pdf",
+    "authors": "Samuel Williams, Andrew Waterman, David Patterson",
+    "date": "2009",
+    "access_date": "2026-10-05",
+    "access_depth": "primary paper/core model"
+  },
+  {
+    "key": "nsight-systems",
+    "claim": "Nsight Systems provides system-wide sampling/tracing and CUDA CPU/GPU timeline analysis, with focused profiling/NVTX support.",
+    "primary": "https://docs.nvidia.com/nsight-systems/UserGuide/index.html",
+    "authors": "NVIDIA",
+    "access_date": "2026-10-05",
+    "access_depth": "official current user guide"
+  },
+  {
+    "key": "nsight-compute",
+    "claim": "Nsight Compute is NVIDIA's detailed CUDA kernel profiler with performance metrics and analysis.",
+    "primary": "https://docs.nvidia.com/cuda/nsight-compute/index.html",
+    "authors": "NVIDIA",
+    "access_date": "2026-10-05",
+    "access_depth": "official current documentation"
+  },
+  {
+    "key": "torch-profiler",
+    "claim": "torch.profiler collects performance information for training/inference, including operator costs, shapes/stacks, device kernel activity and traces.",
+    "primary": "https://docs.pytorch.org/docs/main/profiler",
+    "authors": "PyTorch",
+    "access_date": "2026-10-05",
+    "access_depth": "official current documentation"
+  },
+  {
+    "key": "distserve2024",
+    "claim": "Disaggregated prefill/decode can reduce interference but introduces communication/topology considerations and is evaluated against TTFT/TPOT constraints.",
+    "primary": "https://arxiv.org/abs/2401.09670",
+    "authors": "Yinmin Zhong et al.",
+    "date": "2024",
+    "access_date": "2026-10-05",
+    "access_depth": "primary arXiv abstract/core claim"
+  }
+]

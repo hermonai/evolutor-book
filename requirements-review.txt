@@ -1,0 +1,6 @@
+# Recorded numerical/review environment: Python 3.13.6, CPU references.
+# TeX/Poppler/librsvg and fonts are system dependencies listed in README.md.
+torch==2.10.0
+numpy==2.4.3
+pytest==9.0.2
+Pillow==12.1.1

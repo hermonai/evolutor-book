@@ -1,0 +1,1 @@
+\begin{tikzpicture}[node distance=6mm]\node[draw](p){prefix};\node[draw,right=of p,fill=Pale](d){draft: propose $k$};\node[draw,right=of d,fill=Gold!35](t){target: verify};\node[draw,right=of t](c){commit/correct};\draw[->,Blue](p)--(d);\draw[->,Blue](d)--(t);\draw[->,Blue](t)--(c);\end{tikzpicture}

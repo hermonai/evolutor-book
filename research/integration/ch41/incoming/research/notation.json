@@ -1,0 +1,7 @@
+{
+  "o": "IR operation",
+  "v": "SSA-like value",
+  "L": "lowering function",
+  "B(o)": "resource estimate vector",
+  "J(b)": "estimated multi-objective lowering cost"
+}

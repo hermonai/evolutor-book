@@ -1,0 +1,10 @@
+\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={note}]
+\node[draw,fill=Pale] (x) at (2,2) {alpha beta omitted-x};
+\node[draw,fill=Pale] (y) at (2,0) {alpha beta omitted-y};
+\node[draw] (sx) at (8,2) {alpha beta\\sources: $[id_x]$};
+\node[draw] (sy) at (8,0) {alpha beta\\sources: $[id_y]$};
+\draw[flow] (x)-- node[above] {first 2 words} (sx);
+\draw[flow] (y)-- node[above] {first 2 words} (sy);
+\draw[<->,thick,Red] (sx)--node[right] {same text $\neq$ same record} (sy);
+\node at (6,-1.2) {No payload-only inverse can choose x versus y.};
+\end{tikzpicture}

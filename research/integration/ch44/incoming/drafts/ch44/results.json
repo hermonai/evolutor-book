@@ -1,0 +1,10 @@
+{
+  "active_after_rollback": "r1",
+  "states": {
+    "r1": "active",
+    "r2": "rolled_back"
+  },
+  "requests": 1,
+  "error_rate": 0.0,
+  "events": 9
+}

@@ -1,0 +1,7 @@
+\begin{tikzpicture}[x=1cm,y=1cm]
+\node[note,draw,minimum width=4.8cm] (a) at (2.5,2.5) {tile A: scores $(0,\log2)$\\values $(2,4)$\\$m_A=\log2,\ \ell_A=1.5,\ a_A=5$};
+\node[note,draw,minimum width=4.8cm] (b) at (10,2.5) {tile B: score $\log4$\\value $8$\\$m_B=\log4,\ \ell_B=1,\ a_B=8$};
+\node[note,draw,fill=Pale] (merge) at (6.25,.55) {$m=\log4$;\quad $\ell=.5(1.5)+1=1.75$;\quad $a=.5(5)+8=10.5$};
+\draw[flow] (a.south)--(merge.north west);\draw[flow] (b.south)--(merge.north east);
+\node[note] at (6.25,-.35) {$y=a/\ell=6=(1\cdot2+2\cdot4+4\cdot8)/(1+2+4)$};
+\end{tikzpicture}

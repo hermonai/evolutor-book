@@ -1,0 +1,136 @@
+\chapter{AGI capability hypotheses and limits}
+
+Evolutor is an architecture and research program. It is not evidence of artificial general intelligence.
+
+This chapter therefore replaces rhetorical AGI claims with a capability ledger:
+\[
+\boxed{\text{claim}=(capability,\ operational\ test,\ evidence,\ budget,\ limits)}.
+\]
+
+\section{Evidence ladder}
+\Plate{01-evidence}{Every capability statement receives an evidence level.}{evo51:evidence}
+Use six labels:
+\begin{enumerate}
+\item \textbf{implemented}: mechanism exists;
+\item \textbf{tested}: local invariants/unit experiments pass;
+\item \textbf{benchmark-demonstrated}: preregistered or held-out benchmark evidence exists;
+\item \textbf{replicated}: independent or cross-lab reproduction exists;
+\item \textbf{hypothesized}: architecture plausibly supports the capability but evidence is insufficient;
+\item \textbf{speculative}: research direction without a validated mechanism.
+\end{enumerate}
+Implemented memory is not demonstrated continual learning; a planner is not demonstrated general reasoning.
+
+\section{Breadth, depth and autonomy}
+The Levels of AGI framework separates performance/depth from generality/breadth and treats autonomy as a deployment dimension. This is useful because a highly autonomous narrow system and a broad low-autonomy assistant pose different questions.
+
+Evolutor records breadth, performance and autonomy separately rather than compressing them into one ``AGI score.''
+
+\section{Capability taxonomy}
+The research ledger tracks at least: generalization, transfer, reasoning, planning, continual learning, memory, adaptation, tool use, world modeling, self-improvement, metacognition, open-ended learning, autonomy and general intelligence.
+
+\section{Generalization}
+Operational question: does the system succeed on held-out distributions, tasks or environments not encoded during development? Report contamination controls, priors and adaptation budget.
+
+In-distribution accuracy is useful skill evidence but insufficient evidence of general intelligence.
+
+\section{Transfer}
+Transfer asks whether learning on source experience improves acquisition or performance on a distinct target. Compare against a target-only baseline under matched budget.
+
+\section{Reasoning}
+Reasoning is not one scalar. Evaluate compositional, causal, spatial, symbolic, quantitative and interactive reasoning separately. Chain-of-thought-like text is not proof that the latent mechanism performed valid reasoning.
+
+\section{Planning}
+A planner must achieve goals over horizons under action costs, uncertainty and replanning. Measure success, actions, compute, violations and recovery. A static plan-shaped response is not enough.
+
+\section{Continual learning}
+Chapter 50 provides the protocol: acquisition plus retention/transfer under a stream. Updating durable memory alone is not parameter learning.
+
+\section{Memory}
+Memory has multiple forms: native engine state, active context, durable addressable records and learned parameters. Evaluate retention horizon, retrieval precision/recall, interference, provenance, deletion and security.
+
+\section{Adaptation}
+Adaptation includes test-time state change, retrieval, parameter/adaptor update, structural change and population search. Report which layer changed and its data/compute budget.
+
+\section{Tool use}
+Tool use is demonstrated when the system selects valid tools, forms correct typed calls, handles errors and completes tasks under deterministic authorization. Having an API connector is only implementation evidence.
+
+\section{World modeling}
+A world model should predict consequences or latent dynamics sufficiently to improve decisions in held-out environments. Narrative descriptions of the world are not necessarily predictive models.
+
+\section{Metacognition}
+Operationalize uncertainty calibration, error detection, strategy switching and knowing when to defer. Self-reported confidence without calibration is weak evidence.
+
+\section{Self-improvement}
+\Plate{02-self}{Improvement proposals remain subject to external evaluation and deployment authority.}{evo51:self}
+A system that edits its code is not necessarily improving. Self-improvement requires repeated, causally attributed gains on held-out evaluations under fixed or declared budgets, without unacceptable regression.
+
+\section{Open-ended learning}
+Open-endedness requires sustained production/acquisition of new useful skills or niches rather than convergence on a fixed task set. It remains a research hypothesis for Evolutor.
+
+\section{Autonomy}
+Autonomy measures how much human intervention is required across task selection, planning, execution, recovery and continuation. Higher autonomy is not synonymous with higher intelligence and increases governance requirements.
+
+\section{Skill-acquisition efficiency}
+ARC-AGI emphasizes generalization and the efficiency with which new skills are acquired, not merely task-specific skill. ARC-AGI-2 adds explicit efficiency/cost reporting, and ARC-AGI-3 extends evaluation into interactive environments with exploration, goal acquisition, memory and action efficiency.
+
+This motivates:
+\[
+\eta=\frac{\Delta capability}{data+compute+actions+risk},
+\]
+as a conceptual efficiency ratio. Its denominator is multi-dimensional; a single scalar requires a declared policy.
+
+\section{Unknown-task evaluation}
+\Plate{03-novel}{Unknown task/environment → limited experience → acquired skill.}{evo51:novel}
+Holdouts must remain genuinely held out. Repeated manual tuning against a public evaluation set converts it into development data.
+
+\section{Interactive evaluation}
+Static benchmarks miss exploration, recovery and long-horizon interaction. Interactive environments can measure world-model acquisition, action efficiency, memory and planning, but they still cover only a bounded domain.
+
+\section{DOGMA hypotheses}
+DOGMA's compressed/native state motivates hypotheses about efficient persistent state and non-Transformer sequence processing. Those hypotheses require matched comparisons against GRU/SSM/Transformer and capacity/compute controls. Non-Transformer architecture is not itself evidence of greater generality.
+
+\section{Hermon DNA hypotheses}
+Hermon DNA preserves Transformer semantics while exploring DNA/genomic inductive biases and serving/runtime innovations. Better genomic benchmarks would establish domain skill, not AGI.
+
+\section{Evolutor hypotheses}
+Evolutor's compiler/runtime/memory/governance layers may support persistent, tool-using, adaptive systems. Integration breadth is an engineering property until held-out capability evaluations demonstrate generalization.
+
+\section{Capability matrix}
+\Plate{04-matrix}{Capability × benchmark × evidence × budget × failure matrix.}{evo51:matrix}
+For every claimed capability record: definition, test suite, held-out policy, baseline, budget, metric, confidence interval, failure cases, evidence level and reproducibility status.
+
+\section{No single benchmark}
+ARC-like tests, software engineering, science, embodied/interactive tasks, continual learning and tool use probe different dimensions. Passing one does not entail the others.
+
+\section{Safety is not intelligence}
+\Plate{05-safety}{Capability evaluation and safety/governance evaluation are orthogonal axes.}{evo51:safety}
+A capable system can be unsafe; a safe system can be limited. Evaluate authorization, isolation, monitoring, rollback and human control independently of capability scores.
+
+\section{Stopping rules}
+Research claims should have falsifiers. Example: if DOGMA does not outperform capacity/compute-matched recurrent/SSM baselines across preregistered long-context tasks and seeds, retract the claim that its state mechanism yields a general efficiency advantage.
+
+\section{Executable claim ledger}
+\Listing{reference}
+The reference implements evidence levels, capability records and promotion rules. It deliberately prevents ``implemented'' from being promoted directly to ``demonstrated'' without benchmark evidence.
+
+\section{Current conclusion}
+The defensible statement is: Evolutor is a systems and research architecture for testing hypotheses about persistent, adaptive and governed AI. DOGMA and Hermon DNA are model/runtime research programs. None of the architecture, chapter or teaching-oracle results establish AGI.
+
+\section{Twelve worked exercises}
+\begin{enumerate}
+\item Planner implemented means planning demonstrated? \textbf{No.}
+\item Memory means continual learning? \textbf{No.}
+\item Domain benchmark success means AGI? \textbf{No.}
+\item Why held-out tasks? \textbf{To measure generalization rather than development fit.}
+\item Autonomy equals intelligence? \textbf{No.}
+\item Tool connector equals tool-use competence? \textbf{No.}
+\item Why efficiency? \textbf{Brute-force skill can hide poor acquisition/generalization.}
+\item Public eval repeatedly tuned against remains held out? \textbf{No.}
+\item Self-editing equals self-improvement? \textbf{No.}
+\item One benchmark sufficient? \textbf{No.}
+\item Safety score part of intelligence score? \textbf{Track separately.}
+\item Strongest current Evolutor claim? \textbf{Research architecture with testable hypotheses, not demonstrated AGI.}
+\end{enumerate}
+
+\section{Bridge}
+Chapter 52 closes the book by consolidating failures, unresolved hypotheses, reproducibility artifacts and a falsifiable research agenda. The final synthesis should make it easier to disprove weak Evolutor claims, not harder.

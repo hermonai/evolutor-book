@@ -1,0 +1,1 @@
+Fusion can reduce intermediate traffic while increasing register/occupancy pressure.

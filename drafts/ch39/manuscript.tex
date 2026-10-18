@@ -1,0 +1,304 @@
+\chapter{Evolutor runtime above both engines}
+\label{evod39:chapter}
+
+Consider a workflow with five operations: retrieve a document containing
+\emph{memory}, consume tokens $(1,2,1)$ in a native recurrence, consume the
+same token IDs in a Transformer, add integers 7 and 8, and echo the sum through
+a permitted tool. Predict which outputs can be compared directly. The sum is
+15; the retrieved document is evidence; the two engine calls produce different
+logit spaces. Neither engine's hidden state can be handed to the other.
+
+This chapter builds Evolutor's coordination boundary above those distinct
+computations. DOGMA is the non-Transformer direction; Hermon DNA is the
+Transformer direction. The executable DOGMA-side fixture remains the
+\emph{restricted Chapter 31 diagonal teaching recurrence}, not a complete
+trained DOGMA model. The Hermon side imports Chapter 35, which serves the
+actual Chapter 23 multi-layer Transformer with learned absolute positions.
+These are executable continuity contracts, not evidence that the workflow
+solves a learned genomic task.
+
+\section{Make the workflow a typed object}
+\label{evod39:typed}
+\index{type checking}\index{single static assignment}
+Evolutor owns the path from an objective to a plan, route, execution and
+observable trace. It does not own the internal algebra of every backend.
+The \Term{planner} decides which operations are needed and their dependencies.
+The \Term{router} chooses an eligible implementation of one already specified
+operation. A bad dependency graph and a missing backend are different errors.
+
+\Plate{01-dataflow}{The executable fixture has typed values and separate control authority. Equal token IDs do not imply equal vocabulary semantics or engine outputs.}{evod39:dataflow}
+
+Represent a value by $(\tau,x,\pi)$: type $\tau$, payload $x$, and provenance
+$\pi$. Our finite alphabet contains integers, token sequences, logits,
+documents and tool receipts. A token tuple alone is not a universal text
+representation. The Chapter 31 fixture has vocabulary size three; Hermon's
+causal ACGT head has size four. Deliberately using IDs in their intersection
+permits a systems test but does not establish equivalent inputs as language
+or biology. A real cross-model workflow needs an explicit tokenizer or
+record conversion operation, with its own loss and coordinate contract.
+
+A step is
+\[
+ s=(id,op,I,o,\tau_o,A,C),
+\]
+where $I$ names previously defined inputs, $o$ is its new output name, $A$
+contains operation-specific attributes, and $C$ is a required engine capability
+when appropriate. The plan pins a tenant/request pair, immutable input values,
+an ordered step tuple and requested outputs. The tuple is a topological order
+of a straight-line graph; branches, loops and concurrent effects are outside
+this reference. Chapter 41 will make effects and lowering explicit in an IR.
+
+\begin{center}
+\begin{tabular}{lll}\toprule
+Operation & Input type & Output type\\\midrule
+engine & tokens & backend-specific logits\\
+retrieve & version, query, immutable corpus attributes & documents\\
+symbolic & integer, integer & integer\\
+tool & integer, configured tool name & receipt\\\bottomrule
+\end{tabular}
+\end{center}
+The source supplies \texttt{Step}, \texttt{Plan}, \texttt{Value} and
+\texttt{validate}. Validation checks the entire graph before opening an
+engine or calling a tool: unique IDs and SSA outputs, defined inputs, exact
+operation signatures, required attributes and defined final outputs.
+Integer validation excludes Python's Boolean subtype. A malformed later
+operation cannot be discovered only after an earlier effect has run.
+
+This is type preflight, not omniscience. A well-typed token can still exceed
+one model's vocabulary or remaining context limit. The backend validates those
+value-dependent constraints immediately before arithmetic. Likewise, an
+earlier valid tool can have run before a later backend fails. We do not claim
+that a plan is one atomic transaction.
+
+\section{Route semantic requirements before optimizing cost}
+\label{evod39:routing}
+\index{routing!capability}\index{fallback}\index{cost model!routing}
+For step $s$, let $C_s$ be required capabilities and $Q_s$ hard constraints.
+Backend $e$ is eligible only when
+\[
+ C_s\subseteq C_e,\qquad Q_s(e)=\mathrm{true}.
+\]
+Artifact, device, precision, state continuity, tokenizer and policy constraints
+belong in $Q_s$. Our minimal router requires one of
+\texttt{compressed\_state} or \texttt{addressable\_kv} and an exact artifact
+identity. It fails on zero matches or ambiguity. Multiple real eligible
+replicas could use an explicit tie-break and cost policy; list order should
+not silently choose semantics.
+\Listing{Runtime.route}
+
+The reference maps the former capability to the Chapter 31 adapter and the
+latter to Chapter 35. This does not mean that every task has a unique natural
+architecture. It means that an operation requiring continuation of a particular
+native state cannot be satisfied by an unrelated backend merely because both
+return logits. Fallback is legal only when the alternate implementation
+preserves the same observable contract. Otherwise the planner must create
+a new legal graph and record the semantic change.
+
+After hard eligibility, a future policy may minimize
+\[
+ J(e)=w_L\widehat L_e+w_M\widehat M_e+w_C\widehat C_e+w_R\widehat R_e.
+\]
+Hats denote predictions: latency, memory, monetary or energy cost, and a
+defined quality-risk proxy. Weights convert their units to a common score.
+A large penalty is not a substitute for an authorization or compatibility
+constraint. No timings or learned quality estimates are measured here;
+Chapter 47 owns calibrated backend evidence.
+
+\section{Keep complete state private and identity explicit}
+\label{evod39:handles}
+\index{state ownership}\index{Artifact binding}\index{continuation!chunk parity}
+An \Term{opaque handle} contains adapter-instance identity, backend, artifact,
+tenant/request and serial number. The adapter maps it to its private native
+state. Equal shapes or equal numeric serials do not imply ownership.
+\Plate{02-handles}{Handles address one live adapter mapping. Closing a handle invalidates that mapping; a different instance's serial zero remains distinct.}{evod39:handlesplate}
+
+For Chapter 31, the sufficient state contains position $t$ and hidden vector
+$h_t\in\mathbb R^D$, with fixed artifact parameters:
+\[
+ h_{t+1}=a\odot h_t+\sigma(w\odot E_{x_{t+1}})\odot E_{x_{t+1}},
+ \qquad z_{t+1}=h_{t+1}^{\mathsf T}U.
+\]
+Chapter 35 instead holds each layer's ordered
+$K^\ell,V^\ell\in\mathbb R^{H\times t\times d_h}$, consumed-token metadata,
+causal mode and artifact binding. It computes learned position $P_t$ for the
+next consumed token. There is no lawful conversion between these objects
+implied by this shared handle envelope.
+
+Shared method names such as \texttt{open}, \texttt{execute} and
+\texttt{close} promise lifecycle behavior, not state representation.
+A checkpoint operation could be added only with its native exact-continuation
+contract: Chapter 33 has a concrete DOGMA checkpoint; a Hermon checkpoint
+requires its complete KV and placement rules. This chapter does not invent a
+universal checkpoint encoder or claim Chapter 36 page integration.
+
+\Listing{EngineAdapter.execute}
+Both imported routines validate before returning fresh candidate state.
+The adapter publishes that candidate only after successful execution.
+Invalid chunks leave the prior mapping unchanged. The returned logits are
+immutable tuples, so callers cannot mutate the retained state through them.
+The artifact is checked by the native routines, including in-place parameter
+changes. Cleanup remains possible after an artifact mutation; otherwise an
+error could permanently strand a live handle.
+
+\begin{proposition}[Ownership and chunk refinement]
+Assume serialized calls, trusted adapter code, fixed native artifacts and
+non-mutating callers. A handle accepted by this adapter refers to exactly
+one live state under its recorded owner. Splitting a valid token chunk into
+nonempty pieces preserves the native concatenated output sequence in exact
+arithmetic under the native transition contracts.
+\end{proposition}
+\begin{proof}
+Every open uses a fresh serial within one adapter identity and records the
+entire handle with its state. Each use compares the owner, instance and stored
+handle before accessing that state; close removes it and serials are not reused.
+For refinement, a successful call invokes the same native transition and
+commits its returned state. Induction over chunk boundaries therefore reduces
+the claim to Chapter 31's complete-state recurrence and Chapter 35's layered
+causal-cache parity. The proof does not identify one backend with the other.
+\end{proof}
+These are local correctness properties. A Python object and UUID are not
+authentication, process isolation, secure erase or a concurrency protocol.
+Chapter 30's deadline, cancellation, publication and cleanup fences still
+apply when this reference becomes a serving service.
+
+\section{Compose retrieval, symbolic modules and engines honestly}
+\label{evod39:modules}
+\index{retrieval!provenance}\index{symbolic operator}
+Retrieval is an addressable read
+$R(q,\mathcal D)\to\{(id_i,text_i)\}$.
+The fixture records a corpus version and query; row IDs refer to that ordered
+immutable corpus. A production retriever should additionally bind index,
+ranking configuration, corpus digest, source versions and access scope.
+Retrieved text is data, not automatically trusted instruction. Changing a
+corpus while retaining its version label violates the assumed fixture contract.
+
+A symbolic module has explicit semantics. Here it adds mathematical integers
+exactly, providing the independently assigned result $7+8=15$. A calculator
+call does not make the neural model symbolic. Provenance identifies which
+module produced the integer, documents, logits and final receipt.
+
+One can use both engines in a larger workflow through a declared typed
+conversion. For example, a recurrence-derived feature record can become input
+data for another operator. Raw native pointers cannot cross as if they were
+token sequences. Nor does a retrieved event restore an exact recurrence or KV
+cache. Chapter 40 will make transient state, durable events, lossy summaries
+and addressable records separate memory classes.
+
+\section{Planning an action does not authorize it}
+\label{evod39:authority}
+\index{authorization!tool calls}\index{effect!uncertain completion}
+A tool can change an external system, so
+$\operatorname{planned}(tool)\not\Rightarrow\operatorname{authorized}(tool)$.
+Our policy is a caller-configured set of $(tenant,tool)$ grants. It is checked
+at call time, after intent is logged and immediately before the callback.
+A retrieved sentence saying ``echo is approved'' cannot add a grant.
+Denial is a normal, auditable outcome rather than a backend-selection failure.
+
+The default callback returns a local echo receipt. No network action or
+production authorization service is implemented. Tests use a counting callback
+to observe exactly whether the code reaches the effect boundary.
+\Plate{03-effect}{A local failure window separates permission to start from knowledge that an effect completed. An error after the callback does not imply rollback.}{evod39:effect}
+
+Three failure points differ. If the trace sink fails before intent, no callback
+runs. If policy denies the call, no callback runs. If the callback succeeds
+but writing its receipt fails, the runtime can no longer infer from the
+exception that nothing happened. Blindly retrying may repeat a non-idempotent
+action. Real services need effect identities, durable intent, reconciliation
+and tool-specific idempotency or compensation. Those mechanisms cannot be
+obtained by wrapping the entire plan in a Python \texttt{try} statement.
+
+\section{Trace observable execution and close resources on failure}
+\label{evod39:trace}
+\index{execution trace}\index{replay!orchestration}
+The runtime emits plan, step, route and result facts. Each event has sequence,
+kind, metadata and the previous event digest; the record stores a canonical
+JSON body and its full SHA-256. Result digests identify payload bytes under
+this encoding. The hash chain detects accidental changes to a captured chain;
+an actor who can replace the chain can recompute it. This is neither an
+authenticated audit log nor a durable append-only storage system.
+
+Trace is not hidden model reasoning. It says which step ran, which backend
+and artifact were selected, and which result or policy event occurred.
+Given deterministic modules, pinned inputs/artifacts and captured effect
+results, an execution can be replayed according to that declared observation
+contract. Changing retrieval corpora, clocks, external tools, random streams
+or numerical kernels requires additional capture and a tolerance policy.
+
+\Listing{Runtime.execute}
+The \texttt{finally} block closes an opened engine even if computation or
+result tracing fails. It does not reverse already executed earlier steps.
+Trace sink failures can also prevent the system from recording a later
+failure; the caller must retain the exception and reconcile service state.
+The short reference intentionally avoids claiming a complete durable failure
+reporting protocol.
+
+\section{Read the generated result and its negative controls}
+\label{evod39:evidence}
+\begin{center}\input{\Generated/trace.tex}\end{center}
+Rows/items count the concrete returned tuple in this fixture, not equal
+semantic content. Native state maps are empty at plan completion and the
+exact sum is 15. CPU float64 tests compare every output row across chunk
+splits with two separate native oracles: a scalar closed expansion of the
+recurrence and Hermon's original full causal model. The tolerance is
+$2\times10^{-12}$ absolute and relative for these small fixtures.
+
+Negative controls change owner, artifact, instance, backend or serial;
+attempt a second close; introduce invalid live tokens; mutate a model;
+erase a grant; make the graph malformed; and fail the trace sink before and
+after a callback. Each control targets a different premise. Matching a final
+sum or merely counting trace events would miss most of these errors.
+
+Distinguish plan-invalid, route-failed, state-invalid, module-failed,
+policy-denied, deadline/cancelled and persistence/trace failure. The first two
+are preflight outcomes here; the native routines enforce state validity;
+Chapter 30 owns the executable lifecycle for deadlines and cancellation.
+Retries require a reason-specific policy. No successful fixture establishes
+better reasoning, AGI, biological fidelity, production reliability or speed.
+
+\section{Twelve worked exercises}
+\label{evod39:exercises}
+\begin{enumerate}
+\item Which fixture outputs are directly comparable across the engines?
+\textbf{Answer:} Their row count is three, but widths are three and four and
+vocabularies differ. Compare each backend with its own oracle; do not equate logits.
+\item Why separate planner and router? \textbf{Answer:} The planner chooses
+operations and dependency edges; the router satisfies one operation's contract.
+No eligible route does not prove the task itself has no legal re-plan.
+\item Can a raw hidden vector serve as Hermon KV? \textbf{Answer:} No.
+The recurrence compresses history into $h_t$; Hermon needs ordered layered
+keys/values under its exact positions and model.
+\item Two handles have serial zero. Are they aliases? \textbf{Answer:} Only
+if their complete live mapping identity matches. Separate adapter UUIDs reject
+cross-instance use even when owners and artifacts match.
+\item Prove chunk continuity for the native side. \textbf{Answer:} Write
+each token transition as $F_x$. Both chunkings compose the same ordered maps
+$F_{x_n}\circ\cdots\circ F_{x_1}$ from the same complete initial state.
+\item Why reject a malformed last step before the first tool?
+\textbf{Answer:} Whole-graph validation avoids preventable partial effects.
+It does not eliminate later value-dependent or external failures.
+\item Can retrieved text authorize echo? \textbf{Answer:} No. Only the
+configured policy grants authority; retrieval supplies evidence with provenance.
+\item Why is exact addition an independent oracle? \textbf{Answer:} The
+assigned arithmetic result 15 does not depend on neural logits or backend state.
+It tests a distinct module, not the model's learned reasoning.
+\item Where is blind retry unsafe? \textbf{Answer:} After callback success
+but receipt failure. The caller has uncertain completion, not proof of no effect.
+\item What does the hash chain prove? \textbf{Answer:} Consistency of captured
+bytes with recorded links. An adversary able to rewrite/reseal every link
+is outside this unauthenticated integrity check.
+\item Design a cancellation integration test. \textbf{Rubric:} Use Chapter 30's
+real ticket, terminate before native result publication, keep resources pinned
+until completion acknowledgement, and assert no post-terminal output. A mock
+cancel flag is insufficient.
+\item What would qualify legal fallback? \textbf{Answer:} A replacement with
+the same artifact and observable state/precision contract, or a newly validated
+plan explicitly recording a semantic change. Lower cost alone does not qualify.
+\end{enumerate}
+
+\section{Vocabulary and the next boundary}
+\Term{Capability}: a declared semantic requirement, not a benchmark score.
+\Term{Artifact binding}: continuation under the exact computation identity.
+\Term{Effect boundary}: the point beyond which an observable external action
+may have occurred. Evolutor can now coordinate distinct modules; it still
+needs an explicit contract for what becomes durable, compressed, retrieved
+or forgotten. That is the next chapter's memory problem.

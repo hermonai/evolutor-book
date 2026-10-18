@@ -1,0 +1,1 @@
+Axes show one tenant's nonnegative slot/byte feasible rectangle with two-slot and 100-byte limits. Separate annotations show a global 150-byte cap: A holds 80 bytes, B's 80-byte request is tenant-feasible but globally rejected. The rejection acquires no slot and no bytes for B. Geometry describes logical reservations, not measured physical memory.

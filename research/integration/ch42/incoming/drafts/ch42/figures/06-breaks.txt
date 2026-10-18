@@ -1,0 +1,1 @@
+The chapter records where relational/transaction metaphors stop being valid.

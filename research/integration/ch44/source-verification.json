@@ -1,0 +1,65 @@
+{
+  "date": "2026-10-17",
+  "chapter": 44,
+  "package_sha256": "f3daf39fbe694e92ed71ef54f422f5128adb30b3285278e73dcd8657eb6732c6",
+  "original_archive": {
+    "archive": "/Users/wenyan/Downloads/evolutor-ch44-r01.zip",
+    "archive_sha256": "f3daf39fbe694e92ed71ef54f422f5128adb30b3285278e73dcd8657eb6732c6",
+    "manifest_entries_verified": 36,
+    "mismatches": [],
+    "incoming_text_files": [
+      "CONTINUATION.md",
+      "INTEGRATION.md",
+      "PACKAGE_README.md",
+      "checksums.sha256",
+      "drafts/ch44/README.md",
+      "drafts/ch44/STORYBOARD.md",
+      "drafts/ch44/build.py",
+      "drafts/ch44/figures/01-artifact.tex",
+      "drafts/ch44/figures/01-artifact.txt",
+      "drafts/ch44/figures/02-rollout.tex",
+      "drafts/ch44/figures/02-rollout.txt",
+      "drafts/ch44/figures/03-health.tex",
+      "drafts/ch44/figures/03-health.txt",
+      "drafts/ch44/figures/04-drain.tex",
+      "drafts/ch44/figures/04-drain.txt",
+      "drafts/ch44/figures/05-observability.tex",
+      "drafts/ch44/figures/05-observability.txt",
+      "drafts/ch44/figures/06-slo.tex",
+      "drafts/ch44/figures/06-slo.txt",
+      "drafts/ch44/manuscript.tex",
+      "drafts/ch44/reference.py",
+      "drafts/ch44/results.json",
+      "drafts/ch44/review.tex",
+      "drafts/ch44/sources.tex",
+      "manifest.json",
+      "research/notation.json",
+      "research/source-ledger.json",
+      "tests/test_ch44_reference.py"
+    ],
+    "qa_flags_adopted": false,
+    "executed_packaged_code": false
+  },
+  "inherited_validation_claims_adopted": false,
+  "sources": [
+    {
+      "url": "https://slsa.dev/spec/v1.2/provenance",
+      "access": "Official v1.2 approved definition and provenance track links inspected; no verifier or SLSA level audited.",
+      "claim": "Provenance is artifact-production information; a string is not verification."
+    },
+    {
+      "url": "https://opentelemetry.io/docs/specs/otel/overview/",
+      "access": "Official overview read for signal, span/context, metric, log and semantic-convention terminology; not exhaustive semantic-convention specification.",
+      "claim": "Correlation and telemetry signal vocabulary, no exported telemetry experiment."
+    },
+    {
+      "url": "https://kubernetes.io/docs/concepts/configuration/liveness-readiness-startup-probes/",
+      "access": "Official conceptual probe purposes inspected.",
+      "claim": "Liveness, readiness and startup are distinct probe purposes."
+    }
+  ],
+  "local_dependencies": [],
+  "external_replication": false,
+  "hardware_measurement": false,
+  "independent_review": false
+}

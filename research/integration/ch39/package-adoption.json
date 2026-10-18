@@ -1,0 +1,160 @@
+{
+  "chapter": 39,
+  "incoming_manuscript_sha256": "d332af387de7cda9621eabadba9f0e57d2bf2767c882f403a67fe2b576f62c8a",
+  "sections": [
+    {
+      "incoming_section": "Runtime responsibility",
+      "incoming_section_sha256": "e697cfef8502ab9dd0dbe978ec8bb5a079497e1e590cfe56bd1faa0daeb2bbd4",
+      "disposition": "expanded",
+      "destination": "evod39:typed",
+      "reason": "Separate objective, plan, route and execution with a concrete five-operation graph."
+    },
+    {
+      "incoming_section": "Typed operations",
+      "incoming_section_sha256": "165af98e4eca1715c15d8c9a2b45401dceb061c278c070819d7cd95757692f2c",
+      "disposition": "expanded",
+      "destination": "evod39:typed",
+      "reason": "Define SSA edges, runtime Value types and complete preflight."
+    },
+    {
+      "incoming_section": "Capability routing",
+      "incoming_section_sha256": "2f5f70c3191fcc7ff746b256725fb349a3e50112e2cdd36e4b5d0bc92e96a822",
+      "disposition": "expanded",
+      "destination": "evod39:routing",
+      "reason": "Pin actual artifact and unique semantic eligibility before costs."
+    },
+    {
+      "incoming_section": "Opaque state handles",
+      "incoming_section_sha256": "9e77da92acf9e17ad0d534e901500e1a8be7de7838d83ee7774698d0d45a5c46",
+      "disposition": "expanded",
+      "destination": "evod39:handles",
+      "reason": "Add adapter-instance identity, owner and live serial checks."
+    },
+    {
+      "incoming_section": "Adapter contract",
+      "incoming_section_sha256": "41c528fe30945c3182c0db45916bccfbfe37f02868f4f7dd8965e5c80ff4f1b5",
+      "disposition": "expanded",
+      "destination": "evod39:handles",
+      "reason": "Replace mock arithmetic with actual Ch31/35 continuation and cleanup."
+    },
+    {
+      "incoming_section": "Planner versus router",
+      "incoming_section_sha256": "fa892470bcbec883aac381c52399d0b172463649658c2aedea90b67d4fb17f84",
+      "disposition": "retained",
+      "destination": "evod39:typed",
+      "reason": "Preserve the responsibility distinction in the opening construction."
+    },
+    {
+      "incoming_section": "Retrieval",
+      "incoming_section_sha256": "f83186b33704004b43013c343900afe0bda5d15accb8d6dc804a325c24932f1e",
+      "disposition": "expanded",
+      "destination": "evod39:modules",
+      "reason": "Pin corpus version/query and preserve record IDs; text remains data."
+    },
+    {
+      "incoming_section": "Symbolic modules",
+      "incoming_section_sha256": "d14b2aec5b2405f5730726ade6baa5545f98443096e682fd56f8462b433a4bd8",
+      "disposition": "retained",
+      "destination": "evod39:modules",
+      "reason": "Keep exact integer addition and producer provenance."
+    },
+    {
+      "incoming_section": "Tools and side effects",
+      "incoming_section_sha256": "80b4c6f68103dd39e88cda7488184ced7ed4871353cad979a4be4993aa374973",
+      "disposition": "expanded",
+      "destination": "evod39:authority",
+      "reason": "Keep policy-before-callback; add pre/post-effect trace failure windows."
+    },
+    {
+      "incoming_section": "Module composition",
+      "incoming_section_sha256": "c05829cc9a712c70570226dcc48971a73df625e159c4a2d13e1c6e5d7beac896",
+      "disposition": "merged",
+      "destination": "evod39:modules",
+      "reason": "Combine typed module boundaries with conversion semantics rather than a generic hub diagram."
+    },
+    {
+      "incoming_section": "Trace",
+      "incoming_section_sha256": "48d8018282a4453bd463da4e9a13aa5a2d6d5de0080e8344e7c2e413c9138446",
+      "disposition": "expanded",
+      "destination": "evod39:trace",
+      "reason": "Use full chained canonical event digests; distinguish integrity from authentication."
+    },
+    {
+      "incoming_section": "Determinism boundary",
+      "incoming_section_sha256": "2ea690c177dfc75ce5b2533ba954e00492ffb0f80c9259a5b5df83e953a18e53",
+      "disposition": "expanded",
+      "destination": "evod39:trace",
+      "reason": "Define replay observations and captured inputs/effects, not hidden reasoning."
+    },
+    {
+      "incoming_section": "Failure taxonomy",
+      "incoming_section_sha256": "ffd350ffc2f9a440ed21010571e2d5954116283543ffdb9775c540ea6d0fc1a7",
+      "disposition": "expanded",
+      "destination": "evod39:evidence",
+      "reason": "Retain all seven classes and identify Ch30 cancellation/deadline ownership."
+    },
+    {
+      "incoming_section": "Fallback",
+      "incoming_section_sha256": "b0706cb900d323905ff8f5e8741cd4b3b1e3f43fb8a2b40dedaf98574c5077a0",
+      "disposition": "merged",
+      "destination": "evod39:routing",
+      "reason": "Constrain fallback to equivalent semantics or explicit replanning."
+    },
+    {
+      "incoming_section": "Cost and routing",
+      "incoming_section_sha256": "e3ef0291764ddce6975ed2460291d1e3cb17f195071b68ce61516739ad47c665",
+      "disposition": "expanded",
+      "destination": "evod39:routing",
+      "reason": "State prediction units, hard constraints and absence of measurements."
+    },
+    {
+      "incoming_section": "Multi-model workflows",
+      "incoming_section_sha256": "35a9814e51b8a3ac7aaefb7ecd1af39cf328bdcb2a3d53cf284620003b2e5e66",
+      "disposition": "expanded",
+      "destination": "evod39:modules",
+      "reason": "Require explicit vocabulary/record conversion; fixture logits differ."
+    },
+    {
+      "incoming_section": "Memory boundary",
+      "incoming_section_sha256": "274ffdff00df9a8f1a68c83ca72d0cb9766a5d387f0b5051317f12d92c344a7e",
+      "disposition": "merged",
+      "destination": "evod39:modules",
+      "reason": "Keep native state versus evidence distinction and hand off to Ch40."
+    },
+    {
+      "incoming_section": "Executable reference",
+      "incoming_section_sha256": "1f6cd2efa41348c900135c712bd736116053b66b89cd014b0feb679d2e100292",
+      "disposition": "expanded",
+      "destination": "evod39:handles",
+      "reason": "Print whole actual-adapter functions and Runtime execution, not mocks."
+    },
+    {
+      "incoming_section": "Security boundary",
+      "incoming_section_sha256": "24d505823116be44f5c1125ae8238c56c2ac8effd9beaeaf0552b2355b5dcb84",
+      "disposition": "merged",
+      "destination": "evod39:handles",
+      "reason": "State trusted serialized-call premise and Ch30/45 production limits."
+    },
+    {
+      "incoming_section": "Evidence boundary",
+      "incoming_section_sha256": "a7623c14ab16c57d149dcb5237cd78ed73938887a8e8a283694ff772a268fbfa",
+      "disposition": "expanded",
+      "destination": "evod39:evidence",
+      "reason": "Add native independent oracles and specific failure controls."
+    },
+    {
+      "incoming_section": "Twelve worked exercises",
+      "incoming_section_sha256": "0c7b64dfd1eeabee36a563319bfe1d282e010411a25d9a970239b4a7f6a92870",
+      "disposition": "expanded",
+      "destination": "evod39:exercises",
+      "reason": "Retain all twelve concepts; deepen with calculations, proofs and failure rubrics."
+    },
+    {
+      "incoming_section": "Bridge",
+      "incoming_section_sha256": "f7620e87f479ae7d56d48169445ec77ca27b3e55d9c95637cd380b1e078c3103",
+      "disposition": "relocated",
+      "destination": "final Vocabulary section",
+      "reason": "Bridge is final Vocabulary and the next boundary section."
+    }
+  ]
+}

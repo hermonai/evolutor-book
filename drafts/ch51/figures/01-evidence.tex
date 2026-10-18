@@ -1,0 +1,12 @@
+\begin{tikzpicture}[x=1cm,y=1cm,font=\small\sffamily]
+\foreach \x/\t in {0/implemented,4/tested,8/benchmark,12/replicated} {
+\node[draw,fill=Pale,minimum height=.9cm] (n\x) at (\x,1.4) {\t};}
+\draw[flow] (n0)--(n4);\draw[flow] (n4)--(n8);\draw[flow] (n8)--(n12);
+\node[align=center] at (0,0) {artifact\\identity};
+\node[align=center] at (4,0) {local invariants\\+ test identity};
+\node[align=center] at (8,0) {held-out result\\+ baseline + budget};
+\node[align=center] at (12,0) {distinct evaluator\\+ matching scope};
+\node[draw=Red,fill=Red!5] (f) at (8,3) {negative result / failed criterion};
+\draw[Red,dashed,->] (f)--(n8);
+\node[anchor=west] at (-1,-1.2) {Every record names one scope and falsifier; a broader claim needs new evidence.};
+\end{tikzpicture}

@@ -1,0 +1,10 @@
+\begin{tikzpicture}[x=1cm,y=1cm,font=\small\sffamily]
+\node[draw,circle,minimum size=1.5cm] (a) at (0,1) {absent};
+\node[draw,fill=Gold!40,align=center,minimum height=1.5cm] (b) at (4.2,1) {intent only\\key + command};
+\node[draw,fill=Pale,align=center,minimum height=1.5cm] (c) at (9,1) {completed\\key + result};
+\draw[flow] (a)--(b) node[midway,above] {record intent};
+\draw[flow] (b)--(c) node[midway,above] {record outcome};
+\draw[flow] (b) to[out=90,in=90,looseness=5] node[above] {restart: reconcile} (b);
+\draw[flow] (c) to[out=-60,in=-120,looseness=5] node[below] {same key: cached} (c);
+\node[align=left,anchor=west] at (0,-1.6) {Different command under the same key: reject.\\No recorded result does not imply no external effect.};
+\end{tikzpicture}

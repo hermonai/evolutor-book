@@ -1,0 +1,1 @@
+Page size trades block-table/allocator overhead against internal tail fragmentation; it is a workload-specific tuning parameter.

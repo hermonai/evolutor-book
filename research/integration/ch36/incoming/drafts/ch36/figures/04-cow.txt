@@ -1,0 +1,1 @@
+Appending to a shared partial tail requires copy-on-write. Full shared pages remain immutable and can continue to be shared.

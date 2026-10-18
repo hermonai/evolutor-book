@@ -1,0 +1,12 @@
+\begin{tikzpicture}[x=1cm,y=1cm]
+\foreach \x/\r/\txt in {0/3/parent + child + cache,3.5/2/parent + child,7/1/child,10.5/0/no owner}{
+ \draw[thick,fill=Pale] (\x,1) rectangle ++(2.7,1.1);
+ \node[note] at (\x+1.35,1.7) {refs = \r};
+ \node[smallnote,text width=2.8cm] at (\x+1.35,.3) {\txt};
+}
+\draw[flow] (2.7,1.55)--node[above,smallnote]{evict}(3.5,1.55);
+\draw[flow] (6.2,1.55)--node[above,smallnote]{release}(7,1.55);
+\draw[flow] (9.7,1.55)--node[above,smallnote]{release}(10.5,1.55);
+\node[note,draw,fill=Gold!35] at (11.85,-.65) {scrub; generation $g+1$};
+\node[smallnote,anchor=west] at (0,-1.45) {Eviction removes one table's ownership, never a live branch's ownership.};
+\end{tikzpicture}

@@ -1,0 +1,1 @@
+Promotion is a state transition gated by readiness and declared service objectives.

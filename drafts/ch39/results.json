@@ -1,0 +1,37 @@
+{
+  "trace": [
+    {
+      "step": "ret",
+      "operation": "retrieve",
+      "type": "docs",
+      "items": 1
+    },
+    {
+      "step": "d",
+      "operation": "engine",
+      "type": "logits",
+      "items": 3
+    },
+    {
+      "step": "h",
+      "operation": "engine",
+      "type": "logits",
+      "items": 3
+    },
+    {
+      "step": "sum",
+      "operation": "symbolic",
+      "type": "int",
+      "items": 1
+    },
+    {
+      "step": "act",
+      "operation": "tool",
+      "type": "receipt",
+      "items": 2
+    }
+  ],
+  "sum": 15,
+  "events": 17,
+  "native_state_leaks": 0
+}

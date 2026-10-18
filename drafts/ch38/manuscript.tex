@@ -1,0 +1,391 @@
+\chapter{Speculative decoding and attention kernels}
+\label{evod38:chapter}
+
+Suppose the target next-token law is $(.55,.25,.15,.05)$ while a cheaper
+draft proposes from $(.45,.35,.15,.05)$. Accepting every proposal is fast
+but wrong: it overproduces token one and underproduces token zero. Rejecting
+some proposals and sampling from the original target distribution after
+rejection also gives the wrong mixture. The correction must supply precisely
+the target mass left uncovered by accepted proposals.
+
+This chapter finishes two distinct engine mechanisms. Speculation changes
+which future computations are attempted before their need is known. Online
+attention changes how the exact normalization/value sum is accumulated.
+Both retain the actual Chapter 23/35 Hermon model and Chapter 36 page
+lifetime contracts. Our complete-stack implementations are CPU references;
+the title's kernel discussion supplies derivations and backend obligations,
+not an unmeasured GPU speed claim.
+
+\section{Construct a target-preserving one-token sampler}
+\index{Speculative decoding}\index{Modified rejection sampling}\index{Residual correction}\index{Total variation}
+\label{evod38:sampling}
+Fix a finite vocabulary and prefix $h$. Let $p(x\mid h)$ be the intended
+target distribution and $q(x\mid h)$ the actual draft proposal law, both
+nonnegative and normalized. Draw $X\sim q$ and independent $U\sim
+\mathrm{Uniform}[0,1)$. Accept $X$ when
+\[
+ U<\alpha(X),\qquad \alpha(x)=\min(1,p_x/q_x)\quad(q_x>0).
+\]
+A $q_x=0$ token is never proposed, so no division is needed there.
+Define $d_x=(p_x-q_x)_+$ and $R=\sum_x d_x$. If a proposal is rejected,
+draw a fresh token from $r_x=d_x/R$. When $R=0$, $p=q$ and rejection has
+zero probability in ideal arithmetic; the reference returns $p$ as an
+unused correction fallback.
+
+\begin{proposition}[One-position exact law]
+Under those distributions and independent exact random draws, the emitted
+token $Y$ has distribution $p$.
+\end{proposition}
+\begin{proof}
+The joint probability of proposing and accepting token $x$ is
+$q_x\alpha(x)=\min(p_x,q_x)$. Since $p$ and $q$ sum to one, their total
+positive and negative difference masses agree. Thus
+\[
+ 1-\sum_x\min(p_x,q_x)=\sum_x(p_x-q_x)_+=R.
+\]
+The probability of rejecting any proposal and then emitting $x$ is
+$Rr_x=d_x$. These disjoint paths sum to
+$\min(p_x,q_x)+(p_x-q_x)_+=p_x$.
+The $R=0$ case emits only accepted proposals, which already have law $p$.
+\end{proof}
+
+This is the modified rejection mechanism used in speculative decoding
+\cite{evod38:leviathan,evod38:chen}. The reference uses $p$ for target and
+$q$ for draft; some papers reverse those letters. Track roles, not letters.
+
+\begin{center}\input{\Generated/acceptance.tex}\end{center}
+\Plate{01-mass}{Accepted proposal mass totals .90. The missing .10 belongs entirely to token zero, so every rejection correction selects that token in this example.}{evod38:mass}
+
+Here $R=.10$ and $r=(1,0,0,0)$. If we incorrectly used $p$ itself after
+rejection, token zero would receive $.45+.10(.55)=.505$, not .55.
+The negative test makes this incorrect fallback fail visibly. Support
+gaps are allowed: if $p=(.5,.5)$ and $q=(1,0)$, acceptance supplies .5 at
+token zero and correction supplies .5 at token one.
+
+The expected acceptance is
+\[
+ A=\sum_x\min(p_x,q_x)
+ =1-\tfrac12\sum_x|p_x-q_x|=1-\mathrm{TV}(p,q).
+\]
+This measures distribution overlap at a specified prefix. It does not
+measure draft cost, cache allocation, communication or latency.
+
+\section{A block contains conditional proposals, not independent rows}
+\index{Autoregressive distribution}\index{Conditional proposal}\index{Sampling!random streams}
+\label{evod38:blocks}
+The draft proposes $x_1,\ldots,x_k$ sequentially, retaining each actual
+law $q_i(\cdot\mid h,x_{<i})$. The target computes
+$p_i(\cdot\mid h,x_{<i})$ for the same candidate prefixes. Chapter 35's
+offset-masked causal chunk allows these target rows to be evaluated
+together. The verification draws use independent uniforms; at the first
+rejection $i$, emit accepted $x_{<i}$ followed by a correction $y_i$, and
+stop. Candidate $x_{i+1}$ was conditioned on $x_i$, not $y_i$.
+
+\Plate{02-dependencies}{Only a contiguous accepted prefix is reusable. A rejection invalidates all descendants conditioned on the rejected proposal, even when their tensors are already computed.}{evod38:dependencies}
+
+\Listing{verify}
+
+\begin{proposition}[Autoregressive law across blocks]
+Suppose target/draft callbacks depend only on the declared token prefix,
+both use the same token identities, and each proposal/verification draw is
+fresh with the prescribed conditional law. Repeated corrected blocks,
+truncated to a requested output length, have target joint distribution
+$\prod_j p(y_j\mid h,y_{<j})$.
+\end{proposition}
+\begin{proof}
+At the first uncommitted position, the one-position construction supplies
+the target conditional. If accepted, the next candidate was proposed at
+exactly the new committed prefix, so the same argument applies to that
+position. If rejected, the correction has completed the one-position
+mixture; later candidates are discarded and a fresh block starts at the
+corrected committed prefix. Thus every transition supplies the target law
+at its actual prefix. Multiplying conditional transition probabilities
+proves the joint law by induction over emitted positions.
+\end{proof}
+
+Merely passing a list of unconditional $p_i,q_i$ arrays is not a general
+autoregressive implementation. The supplied package's list-based example
+is retained as the one-position algebraic lead and extended into explicit
+prefix callbacks and recorded proposal laws. Tests enumerate a two-token,
+two-symbol history-dependent case exactly, then check a seeded 20,000-run
+joint-frequency experiment with a predeclared .015 absolute tolerance.
+That finite statistical check supports the implementation; the proof, not
+one histogram, establishes the ideal law.
+
+\subsection{Identity, transforms and randomness}
+The target $p$ must include the intended temperature, grammar mask, top-k
+or nucleus transformation and renormalization. The ratio must use the law
+from which the draft actually sampled. The draft may use a \emph{different}
+temperature or support restriction: the proof does not require $p=q$ or
+identical transforms, only correctly recorded laws on compatible token IDs.
+A tokenizer mismatch or probabilities from an earlier prefix invalidate it.
+
+Exact distribution equality does not mean token-for-token equality under
+the same seed as target-only sampling: the algorithms consume different
+random draws. Record RNG implementation, seed/stream policy, target/draft
+artifacts, transforms and numerical representation for reproducibility.
+Floating-point normalization and pseudorandom sampling approximate the
+ideal proof. The reference rejects nonfinite/negative vectors, mismatched
+vocabulary sizes and impossible zero-mass proposals; it rescales finite
+unnormalized inputs before summing to avoid overflow.
+
+\section{Verification state is tentative ownership}
+\index{Speculative decoding!rollback}\index{KV cache!tentative fork}
+\label{evod38:commit}
+The native adapter starts from a nonempty consumed prefix and obtains its
+initial next-token logits. It forks the Chapter 36 live handle into a
+same-tenant verification owner and consumes the draft block there. If the
+prefix has length $t$, the initial logits supply $p_1$; the row computed
+after consuming $x_i$ supplies $p_{i+1}$. Shifting these rows by one would
+verify each proposal against the wrong conditional.
+
+After sampling the accepted/corrected output, it releases the entire
+tentative fork and recomputes only the committed tokens on the original
+handle. This conservative strategy avoids shortening shared physical pages.
+It is deliberately expensive, but a simple correctness target for a future
+transactional suffix adoption operation.
+
+\Plate{03-rollback}{The live table survives verification unchanged. Releasing tentative ownership reclaims only unreferenced pages; committed recomputation then advances the live cache.}{evod38:rollback}
+\Listing{native_speculative}
+
+In this adapter, every returned token has also been consumed into KV.
+Callers must not consume it again. This differs from Chapter 37's final
+unconsumed-output convention and requires an explicit integration adapter.
+The no-bonus variant returns at most $k$ tokens. Standard variants can
+emit a target bonus after all $k$ proposals are accepted, provided their
+distribution comes from the full accepted prefix and its cache accounting
+is correct. Omitting a bonus changes throughput, not the corrected target law.
+
+On capacity failure, the verification fork is released in a \texttt{finally}
+block and the live prefix remains unchanged. Tests force OOM on a shared
+partial tail and compare payload seals, refcounts and live-handle count.
+On successful commits, tests reconstruct the whole prefix with the original
+full model and compare every layer's K/V. Local serial cleanup does not
+certify concurrent cancellation or crash recovery.
+
+\section{Acceptance is not a speed measurement}
+\index{Acceptance probability}\index{Bonus token}\index{Tail-sum identity}
+\label{evod38:cost}
+Let $N$ be emitted tokens per no-bonus iteration. It emits at least one;
+for $j\ge2$, $N\ge j$ exactly when the first $j-1$ proposals are accepted.
+The tail-sum identity gives
+\[
+ \mathbb E[N]=\sum_{j=1}^k\Pr(N\ge j)
+ =1+\sum_{i=1}^{k-1}\Pr(\text{first }i\text{ accepted}).
+\]
+Under the additional approximation that acceptance events are independent
+with constant probability $A$, this becomes
+$\sum_{i=0}^{k-1}A^i=(1-A^k)/(1-A)$ for $A\ne1$, and $k$ for $A=1$.
+History-dependent real acceptance generally violates that approximation.
+
+For $k=3,A=.9$, the no-bonus model emits $1+.9+.81=2.71$ tokens per
+iteration on average. A bonus variant adds $.9^3=.729$, giving 3.439.
+With draft cost $kc_d$, target verification cost $c_v(k)$ and bookkeeping
+$c_b$, estimated time per emitted token is
+\[
+ \frac{kc_d+c_v(k)+c_b}{\mathbb E[N]}.
+\]
+Compare this with measured target-only per-token time. Do not set
+$c_v(k)$ equal to a scalar decode cost without profiling. Our adapter also
+does prefix replay and committed recomputation; it has no speedup claim.
+
+\section{Attention can avoid a global score buffer}
+\index{Online softmax}\index{Attention!tiled reduction}\index{Masked attention!empty row}
+\label{evod38:attention}
+For one query $q\in\mathbb R^{d}$, keys $k_j\in\mathbb R^d$, values
+$v_j\in\mathbb R^{d_v}$ and allowed index set $J$,
+\[
+ s_j=q^\top k_j/\sqrt d,\qquad
+ y=\frac{\sum_{j\in J} e^{s_j}v_j}{\sum_{j\in J}e^{s_j}}.
+\]
+Direct exponentiation overflows for large scores. Subtracting a common
+maximum preserves the ratio. To traverse tiles, retain summary
+\[
+ m_J=\max_{j\in J}s_j,\quad
+ \ell_J=\sum_{j\in J}e^{s_j-m_J},\quad
+ a_J=\sum_{j\in J}e^{s_j-m_J}v_j.
+\]
+Here $m$ and $\ell$ are scalars, $a\in\mathbb R^{d_v}$. For several
+heads/queries, maintain one such state per row. Values need not be positive;
+the normalizer is positive for every nonempty allowed set.
+
+For disjoint tiles A and B, use $m=\max(m_A,m_B)$ and
+\begin{align*}
+ \ell&=e^{m_A-m}\ell_A+e^{m_B-m}\ell_B,\\
+ a&=e^{m_A-m}a_A+e^{m_B-m}a_B.
+\end{align*}
+This rescales the \emph{old accumulator too}. Updating only the normalizer
+when a larger maximum arrives produces a wrong weighted value sum.
+
+\begin{proposition}[Online-softmax invariant]
+After any collection of disjoint allowed tiles, the merged summary equals
+$(m_J,\ell_J,a_J)$ for their union in real arithmetic. Consequently
+$a_J/\ell_J$ is the dense attention result. Merge is associative for
+nonempty sets under these exact summaries.
+\end{proposition}
+\begin{proof}
+Each old term obeys
+$e^{m_A-m}e^{s_j-m_A}=e^{s_j-m}$, and similarly for B. Summing the
+rescaled normalizers and vector accumulators therefore gives exactly the
+definitions for the union. The maximum also equals the union maximum.
+The union operation is associative, so any merge tree gives the same
+summary. Division cancels the common $e^{-m}$ factor. Induction over tiles
+proves the online recurrence.
+\end{proof}
+
+\Plate{04-online}{A larger second-tile maximum rescales the first tile by one half. The merged output is six, exactly the dense weighted mean.}{evod38:onlineplate}
+
+The empty-set identity needs care: represent it by $m=-\infty,\ell=0,a=0$
+but never evaluate $-\infty-(-\infty)$. The implementation substitutes a
+safe finite shift for an entirely masked row; all its exponential weights
+are zero. It returns zero attention when the full allowed set is empty,
+matching the earlier chapters' explicit policy. For a nonempty row at least
+one shifted weight is one, so the denominator cannot vanish ideally.
+Finite inputs that overflow the score dot product are rejected separately.
+
+\Listing{online_attention}
+
+Floating-point merge is not bitwise associative. Tile sizes and reduction
+order can change low-order bits. Tests compare tile sizes 1, 2, 3, 7 and
+oversized tiles against an independent dense implementation and PyTorch
+2.10 SDPA, with explicit boolean masks and inference dropout zero
+\cite{evod38:sdpa}. They include extreme finite scores, initially masked
+tiles and all-masked rows. A normalization proof does not by itself validate
+every device backend.
+
+\section{Preserve offset causality and the complete model}
+\index{Offset causal mask}\index{Attention!paged traversal}
+\label{evod38:native}
+With $t$ past tokens and a $c$-token chunk, local query $i$ is absolute
+position $t+i$, so key $j$ is allowed exactly when $j\le t+i$. A physical
+page boundary does not reset that ordinal. For $t=3,c=2$, the allowed row
+counts are four and five, not one and two from an upper-left triangle.
+
+\Plate{05-mask}{The same causal mask applies across tiles and scattered pages. The blocked future cell belongs to the new chunk, not to an arbitrary physical page boundary.}{evod38:mask}
+
+\texttt{online\_consume} replaces only the attention reduction in the
+actual native stack: learned absolute embeddings, normalized QKV,
+multi-head output projection, residuals, FFN, final normalization and LM
+head remain. It preserves all layer caches and the token/owner/artifact
+contract. Whole-function extraction keeps printed code bound to the tested
+implementation.
+
+\Listing{online_consume}
+\begin{center}\input{\Generated/attention.tex}\end{center}
+
+The table compares continuation after a three-token prefix across tile
+sizes against the original full causal model. Additional tests vary every
+split of the six-token record and compare every layer's K/V. The separate
+\texttt{paged\_attention} function visits Chapter 36 pages in table order
+without flattening them for the attention reduction. Its queries and masks
+use logical ordinals; a scattered physical layout is a test fixture.
+That page visitor is not yet the complete model's in-place paged append
+kernel. The distinction is an explicit remaining backend integration task.
+
+\section{IO awareness, fusion and evidence}
+\index{FlashAttention}\index{Kernel fusion}\index{Memory traffic!model}
+\label{evod38:io}
+FlashAttention's tiled exact-attention algorithm and on-chip fusion provide
+the primary systems comparison~\cite{evod38:flash}; FlashAttention-2 further
+changes parallelism/work partitioning~\cite{evod38:flash2}. These are backend
+designs, not a claim that any Python tiled loop has the same performance.
+Fusion can reduce global intermediate transfers while increasing register
+pressure, reducing occupancy or restricting shapes. Measure the combined
+page size, head geometry, dtype, masking and batch distribution.
+
+For a deliberately narrow one-query traffic model, assume each Q/K/V input
+is read once and output written once, with element width $b$ bytes. The
+base payload is
+\[
+ b(d+Td+Td_v+d_v).
+\]
+An explicitly materialized score vector that is written once and read once
+adds $2Tb$ bytes. We exclude probability buffers, cache effects, repeated
+tile loads, metadata, weights and workspaces. This model cannot stand in
+for FlashAttention's multi-query IO complexity theorem or measured HBM traffic.
+\begin{center}\input{\Generated/traffic.tex}\end{center}
+For $T=4096,d=d_v=128,b=2$, the isolated saving is 16,384 bytes,
+less than one percent of this one-query payload model. It would be
+misleading to turn that number into a universal speedup. Multi-query
+score matrices and their reuse require a different calculation.
+
+Low-precision tiled attention must satisfy Chapter 37's numerical/task
+gates; exact algebra does not erase storage or reduction error. Speculative
+verification must use the intended target policy, including its actual
+precision. A quantized target's exact sampling law is not automatically
+the original float64 model's law.
+
+A credible kernel study proceeds from semantics and adversarial parity to
+declared traffic/work models, then synchronized hardware profiles and
+finally service measurements. Record warmup, hardware/software versions,
+repetitions, shape distribution, offered load, TTFT/ITL tails, throughput,
+memory high-water and rejected/preempted work. Correctness, model arithmetic,
+CPU experiments, device measurements and end-to-end SLO results are distinct
+evidence levels.
+
+\section{Selective glossary}
+\begin{description}
+\item[Proposal law] Actual conditional distribution used by the draft to draw a candidate.
+\item[Residual correction] Normalized positive target-minus-draft mass used after rejection.
+\item[Accepted prefix] Contiguous candidates verified before the first rejection.
+\item[Tentative KV] Computed state owned by verification, not yet part of committed history.
+\item[Online summary] Maximum, shifted exponential sum and shifted value accumulator for processed allowed keys.
+\item[Exact attention] The same mathematical softmax/value map, with finite-precision differences governed by a numerical contract.
+\item[IO model] Declared transfer-count assumptions; it is distinct from observed hardware traffic or service latency.
+\end{description}
+
+\section{Twenty worked exercises}
+\label{evod38:exercises}
+\begin{enumerate}
+\item \textbf{Equal laws.} $p=q$? \emph{Solution:} acceptance one;
+correction branch has zero probability.
+\item \textbf{Support gap.} $p=(.5,.5),q=(1,0)$?
+\emph{Solution:} token zero accepted with .5; rejection corrects to token one.
+\item \textbf{Compute overlap.} Supplied four-token example?
+\emph{Solution:} $.45+.25+.15+.05=.90=1-\mathrm{TV}$.
+\item \textbf{Reject the wrong fallback.} Sample $p$ after rejection?
+\emph{Solution:} token-zero probability becomes .505 instead of .55.
+\item \textbf{Conditional rows.} Which prefix supplies $p_3$?
+\emph{Solution:} original $h$ followed by proposed $x_1,x_2$.
+\item \textbf{First rejection.} Why discard $x_3$ when $x_2$ rejects?
+\emph{Solution:} $x_3$ used a history that was not committed.
+\item \textbf{Transforms.} Must draft temperature equal target temperature?
+\emph{Solution:} no; ratio must use actual $q$ and intended transformed $p$.
+\item \textbf{Reproduce seeds.} Does same seed force target-only equality?
+\emph{Solution:} no; draw counts/order differ even when laws agree.
+\item \textbf{Shift logits.} Which row verifies first proposal?
+\emph{Solution:} last old-prefix logits, before consuming that proposal.
+\item \textbf{Commit state.} Can a rejected suffix stay in live KV?
+\emph{Solution:} no; discard tentative ownership and install only committed history.
+\item \textbf{Compare API clocks.} Returned native speculative tokens?
+\emph{Solution:} already consumed; avoid consuming them a second time.
+\item \textbf{Expected count.} No bonus, $k=3,A=.9$ independent?
+\emph{Solution:} $1+.9+.81=2.71$ emitted, not $3(.9)$.
+\item \textbf{Add a bonus.} Same approximation? \emph{Solution:}
+add $.729$ to get 3.439; this requires the extra target conditional.
+\item \textbf{Merge summaries.} Plate's $(m,\ell,a)$?
+\emph{Solution:} $(\log4,1.75,10.5)$; ratio six.
+\item \textbf{Find an unstable update.} Rescale $\ell$ but not $a$?
+\emph{Solution:} plate would use $a=13$ instead of 10.5, giving a wrong mean.
+\item \textbf{Empty masks.} How avoid $-\infty-(-\infty)$?
+\emph{Solution:} safe finite shift for empty rows, zero weights and explicit zero output.
+\item \textbf{Offset mask.} Past three, chunk two?
+\emph{Solution:} allowed counts four and five across all page tiles.
+\item \textbf{Traffic.} $2Tb$ for $T=4096,b=2$?
+\emph{Solution:} 16,384 isolated score-buffer bytes, not measured speed.
+\item \textbf{Design a distribution test.} \emph{Rubric:} include zero
+support, $p=q$, a history-dependent exact enumeration, seeded statistics
+with fixed tolerances and a known wrong correction control.
+\item \textbf{Design a backend release gate.} \emph{Rubric:} whole-stack
+and per-layer parity, page-order/mask adversaries, precision/task gates,
+rollback/completion fences, synchronized device profiles and service load curves.
+\end{enumerate}
+
+\section{Closing the two engine directions}
+Chapters 30--34 supplied runtime/state-native references for a restricted
+DOGMA teaching recurrence; Chapters 35--38 now supply causal Hermon
+Transformer cache, allocation, scheduling and exact-attention references.
+Neither establishes equal learned capability or universal performance
+superiority. Evolutor's next layer must route typed work above those distinct
+semantics without exposing either engine's mutable internals as a universal
+state format. Chapter 39 owns that heterogeneous runtime boundary.

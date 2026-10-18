@@ -1,0 +1,40 @@
+\chapter*{Sources and further reading}
+\addcontentsline{toc}{chapter}{Sources and further reading}
+Source access checked 17 October 2026. Leviathan et al.'s primary HTML
+Section 2/Algorithm 1 and Appendix A.1 proof were inspected. Chen et al.'s
+Algorithm 2 and Section 4 conditional-scoring discussion were inspected;
+that paper reverses our target/draft letter convention. FlashAttention's
+primary HTML online-softmax derivation, Algorithm 1 and correctness/IO
+theorem statements were inspected; no CUDA implementation or empirical
+result was reproduced. FlashAttention-2 was inspected at abstract depth only.
+PyTorch 2.10 SDPA's boolean-mask, non-square causal, dropout and backend
+numerics documentation was inspected, and local tests use its CPU float64 path.
+
+The supplied r01 rejection algebra, TV relationship, worked distributions,
+online-softmax recurrence, traffic example, exercises and source leads are
+retained and deepened. Its list-of-distributions block is replaced by actual
+history-conditioned proposals and native paged speculative state. Complete
+Hermon online-attention continuation is tested separately from the paged
+attention visitor; neither is represented as a measured GPU kernel.
+The adoption map and technical audit record the exact boundaries.
+\begin{thebibliography}{9}
+\bibitem{evod38:leviathan} Yaniv Leviathan, Matan Kalman and Yossi Matias.
+\emph{Fast Inference from Transformers via Speculative Decoding}. 2023.
+Section 2 and Appendix A.1 inspected.
+\url{https://arxiv.org/html/2211.17192v2}.
+\bibitem{evod38:chen} Charlie Chen et al.
+\emph{Accelerating Large Language Model Decoding with Speculative Sampling}.
+2023. Algorithm 2 and Section 4 inspected.
+\url{https://arxiv.org/html/2302.01318v1}.
+\bibitem{evod38:flash} Tri Dao et al.
+\emph{FlashAttention: Fast and Memory-Efficient Exact Attention with
+IO-Awareness}. 2022. Online reduction and Algorithm 1 inspected.
+\url{https://arxiv.org/html/2205.14135}.
+\bibitem{evod38:flash2} Tri Dao.
+\emph{FlashAttention-2: Faster Attention with Better Parallelism and Work
+Partitioning}. 2023. Primary abstract inspected.
+\url{https://arxiv.org/abs/2307.08691}.
+\bibitem{evod38:sdpa} PyTorch contributors.
+\emph{scaled\_dot\_product\_attention}. Version 2.10 documentation.
+\url{https://docs.pytorch.org/docs/2.10/generated/torch.nn.functional.scaled_dot_product_attention.html}.
+\end{thebibliography}

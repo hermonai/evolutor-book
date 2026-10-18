@@ -1,0 +1,1 @@
+Logical semantics can admit multiple physical plans.

@@ -1,0 +1,1 @@
+Live table unchanged while tentative verification fork holds COW/new suffix. Release fork then recompute committed rows on live handle. Shared physical tail is never truncated in place.

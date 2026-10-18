@@ -1,0 +1,27 @@
+{
+  "metrics": [
+    {
+      "metric": "Accuracy",
+      "value": 0.5
+    },
+    {
+      "metric": "MCC",
+      "value": 0.0
+    },
+    {
+      "metric": "Brier",
+      "value": 0.19249999999999998
+    },
+    {
+      "metric": "AP",
+      "value": 0.8333333333333333
+    }
+  ],
+  "rc": "NACGTT",
+  "score": 1.0,
+  "delta": -1.0,
+  "cluster_interval": [
+    0.5,
+    0.5
+  ]
+}

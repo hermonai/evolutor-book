@@ -1,0 +1,1 @@
+Adaptation creates a new artifact with explicit lineage rather than mutating the active artifact.

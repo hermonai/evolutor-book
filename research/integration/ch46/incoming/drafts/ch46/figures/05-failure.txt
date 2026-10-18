@@ -1,0 +1,1 @@
+Recovery policy depends on durable checkpoints/replayability and never guesses missing mutable state.

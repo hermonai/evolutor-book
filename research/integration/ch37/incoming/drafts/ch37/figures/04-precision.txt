@@ -1,0 +1,1 @@
+Precision is not one model-wide bit width. Each tensor class and accumulation path can have a different format and error contract.

@@ -1,0 +1,151 @@
+\chapter{Evolutor runtime above both engines}
+
+The previous nine chapters built two engines. DOGMA Engine owns compact/native recurrent state with explicit construction, pooling, checkpointing, branching and state-native batching. Hermon DNA Engine owns Transformer execution with prefill/decode, paged K/V, continuous batching, precision, speculative verification and IO-aware attention.
+
+Evolutor begins by refusing a tempting mistake: it does not erase those differences behind a fictitious universal tensor state. It coordinates typed work above them.
+
+\section{Runtime responsibility}
+Evolutor owns:
+\[
+\text{objective}\rightarrow\text{plan}\rightarrow\text{route}\rightarrow\text{execute}\rightarrow\text{trace}.
+\]
+It does not own the internal algebra of every backend.
+\Plate{01-plan}{Planning and legality validation occur before backend execution.}{evod39:plan}
+
+\section{Typed operations}
+A plan is an ordered graph of operations with typed inputs, outputs, required capabilities and side-effect class. A minimal step may request engine execution, retrieval, a symbolic operation or a tool.
+
+Types make illegal compositions visible before execution. Chapter 41 will turn this into a fuller IR.
+
+\section{Capability routing}
+Let request step $s$ require capability set $C_s$ and constraints $Q_s$. An engine $e$ is eligible only if
+\[
+C_s\subseteq C_e
+\]
+and its model/artifact/device/policy constraints satisfy $Q_s$.
+\Plate{02-router}{DOGMA and Hermon DNA expose different native capabilities.}{evod39:router}
+
+The reference deliberately makes `compressed_state` route to DOGMA and `addressable_kv` route to Hermon. This is not a claim that either engine can only perform one task; it demonstrates that routing should preserve semantic requirements.
+
+\section{Opaque state handles}
+Evolutor receives a handle
+\[
+h=(\text{backend},\text{model},\text{request},\text{opaque-id})
+\]
+rather than the native state object.
+\Plate{03-handles}{Opaque handles preserve ownership without flattening native state semantics.}{evod39:handles}
+
+A DOGMA handle cannot be passed to a Hermon adapter. A handle from model artifact A cannot silently target artifact B. This is the orchestration analogue of the generational ownership rules developed earlier.
+
+\section{Adapter contract}
+A practical engine adapter can expose operations such as:
+\[
+\{\texttt{open},\texttt{ingest/prefill},\texttt{step},\texttt{checkpoint},\texttt{close}\}.
+\]
+The names can be shared while semantics remain backend-specific. `checkpoint` for DOGMA may serialize compact native state; Hermon may bind page-table/KV state. The adapter contract specifies behavior, not representation.
+
+\section{Planner versus router}
+The planner decides which operations are needed and their dependencies. The router chooses an eligible implementation for one typed operation. Combining these roles makes it hard to distinguish a bad plan from a bad backend choice.
+
+\section{Retrieval}
+Retrieval is an addressable external-memory operation:
+\[
+R(q,\mathcal D)\rightarrow \{d_1,\ldots,d_k\}.
+\]
+Its evidence includes corpus identity, index version, query, ranking scores and returned document IDs. Retrieved text is data, not automatically trusted instruction.
+
+\section{Symbolic modules}
+A symbolic operator has explicit semantics, such as exact arithmetic, parsing, constraint solving or graph transformation. It can provide an independent oracle for a subproblem.
+
+Calling a calculator does not make the neural model ``symbolic.'' Evolutor records which module produced which value.
+
+\section{Tools and side effects}
+A tool can change an external system. Therefore:
+\[
+\text{planned(tool)}\not\Rightarrow\text{authorized(tool)}.
+\]
+\Plate{05-policy}{Policy/authority is checked at execution time before side effects.}{evod39:policy}
+
+A denied action is a normal auditable runtime outcome.
+
+\section{Module composition}
+\Plate{04-modules}{Engines, retrieval, symbolic modules and tools remain distinct operator classes.}{evod39:modules}
+A plan may retrieve evidence, invoke an engine to transform/contextualize it, use a symbolic module to check a calculation and finally request a tool action. Each edge should carry typed data and provenance.
+
+\section{Trace}
+The runtime emits append-only observable events:
+\[
+E_i=(i,\text{kind},\text{request},\text{module},\text{artifact},\text{metadata}).
+\]
+\Plate{06-trace}{Trace links plan, route, module execution and result provenance.}{evod39:trace}
+
+The trace is not hidden model reasoning. It records external runtime facts: which plan step ran, which backend was selected, which artifact/version was used, which tool was denied or executed and what result object was returned.
+
+\section{Determinism boundary}
+Given deterministic modules, fixed artifacts, fixed input and fixed RNG, the orchestration path should be replayable. External tools, changing retrieval corpora and nondeterministic kernels require explicit version/time/result capture.
+
+Replay means reproducing declared observable behavior, not reconstructing an internal chain of thought.
+
+\section{Failure taxonomy}
+Distinguish:
+\begin{enumerate}
+\item plan-invalid: type/dependency/capability error;
+\item route-failed: no eligible backend;
+\item state-invalid: stale/foreign handle;
+\item module-failed: engine/retrieval/symbolic error;
+\item policy-denied: action not authorized;
+\item deadline/cancelled: lifecycle outcome;
+\item trace/persistence failure: observability durability problem.
+\end{enumerate}
+Different classes deserve different retry policies.
+
+\section{Fallback}
+Fallback is legal only when the alternate backend satisfies the same required semantic contract. ``Try Hermon if DOGMA fails'' is unsafe when the step explicitly requires DOGMA-native state continuity.
+
+Fallback can instead re-plan the task into a different legal operation graph, with the change recorded.
+
+\section{Cost and routing}
+A future router may optimize a vector
+\[
+J(e)=w_L L(e)+w_M M(e)+w_C C(e)+w_Q Q_{\rm risk}(e),
+\]
+for latency, memory, monetary/energy cost and quality risk. The weights and constraints are policy inputs. Chapter 41 will formalize cost-aware lowering; Chapter 47 will supply measured hardware evidence.
+
+\section{Multi-model workflows}
+A plan can legally use both engines if their outputs cross a typed boundary. For example, DOGMA may produce a compact streaming representation that is serialized into an explicit record consumed by another operator. It may not hand a raw native-state pointer to Hermon.
+
+This boundary is where provenance and conversion semantics matter.
+
+\section{Memory boundary}
+Evolutor needs memory that can sometimes be compressed/native and sometimes addressable/retrievable. Chapter 40 will build that hybrid memory layer. EVOD-39 only establishes that backend state, retrieved documents and long-lived runtime memory are different objects.
+
+\section{Executable reference}
+\Listing{reference}
+The reference implements two mock adapters, capability routing, opaque handles, deterministic retrieval, a symbolic addition operator, policy-gated tools and an append-only event trace.
+
+The mock engine output is intentionally trivial. The chapter tests orchestration invariants rather than claiming model capability.
+
+\section{Security boundary}
+Opaque handles reduce accidental state mixing but do not by themselves provide isolation. Tenant identity, authorization, secret handling, sandboxing and resource quotas belong in the industrial security layer of Chapter 45.
+
+\section{Evidence boundary}
+A successful orchestration demo proves only that typed routing and lifecycle invariants work for the fixture. It does not establish better reasoning, AGI, biological fidelity or production reliability.
+
+\section{Twelve worked exercises}
+\begin{enumerate}
+\item Why not one universal state tensor? \textbf{DOGMA native state and Hermon KV have different semantics/lifetimes.}
+\item Planner versus router? \textbf{Planner chooses operations/dependencies; router chooses an eligible implementation.}
+\item What does an opaque handle expose? \textbf{Identity/lifetime metadata, not native state representation.}
+\item Can a DOGMA handle be used by Hermon? \textbf{No.}
+\item Retrieval output is trusted instruction? \textbf{No; it is external data with provenance.}
+\item Symbolic calculator makes the model symbolic? \textbf{No.}
+\item Planned tool call authorized automatically? \textbf{No.}
+\item What belongs in trace? \textbf{Observable plan/route/module/artifact/result/policy events.}
+\item Does trace expose chain-of-thought? \textbf{No.}
+\item When is fallback legal? \textbf{When semantic requirements remain satisfied or a new legal plan is produced.}
+\item Why artifact binding? \textbf{State/output semantics depend on the exact model/module version.}
+\item Release rubric? \textbf{Typed plan; unique/legal routing; opaque ownership; policy-before-side-effect; provenance; failure classes; replay contract; negative foreign-handle/tool tests.}
+\end{enumerate}
+
+\section{Bridge}
+Chapter 40 designs hybrid compressed and addressable memory above these modules: what is retained, compressed, indexed, forgotten, retrieved and routed back into DOGMA/Hermon execution without confusing engine-native transient state with durable agent memory.

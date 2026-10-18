@@ -1,0 +1,17 @@
+\begin{tikzpicture}[x=.05cm,y=1cm,font=\small\sffamily]
+\draw[flow] (0,0)--(230,0) node[right]{ms};
+\foreach \x in {0,50,100,150,200}{\draw (\x,.08)--(\x,-.08) node[below]{\x};}
+\foreach \y/\lab/\arrival/\first in {3/r1/0/40,2/r2/10/70,1/r3/20/150}{
+\node[anchor=east] at (-8,\y) {\lab};
+\draw[Blue,thick] (\arrival,\y)--(\first,\y);
+\draw[Blue,fill=white] (\arrival,\y) circle (2pt);
+\fill[Blue] (\first,\y) circle (2pt);
+\node[above,font=\footnotesize] at ({(\arrival+\first)/2},\y) {TTFT};}
+\foreach \x in {55,70,85}{\draw[Green,thick] (\x,2.85)--(\x,3.15);}
+\foreach \x in {90,110,130}{\draw[Green,thick] (\x,1.85)--(\x,2.15);}
+\foreach \x in {180,210}{\draw[Red,thick] (\x,.85)--(\x,1.15);}
+\draw[Green,dashed] (40,3)--(85,3);\draw[Green,dashed] (70,2)--(130,2);
+\draw[Red,dashed] (150,1)--(210,1);
+\node[anchor=west,font=\footnotesize] at (0,-1) {Open circle: arrival\quad filled circle: first token\quad tick: later token};
+\node[anchor=west,font=\footnotesize] at (0,-1.55) {Assigned synthetic timestamps; r3 gaps = 30 ms, above the 25 ms target.};
+\end{tikzpicture}

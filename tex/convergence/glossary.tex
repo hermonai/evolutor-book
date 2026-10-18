@@ -137,4 +137,49 @@ layer's normalized projection boundary for a causal prefix.
 read key $j$ exactly when $j\le t+i$; a rectangular upper-left triangle differs.
 \item[Cache content seal] Integrity check over cache context and values;
 resealing by a trusted producer is not authentication or native replay proof.
+\item[Logical block and physical page] A block names an ordered token interval;
+a page is its current storage allocation. A block table preserves the logical
+order even when physical addresses are scattered.
+\item[Prefix sharing] Multiple live owners reference immutable prefix pages;
+an append to a shared partial tail must obtain a private copy before mutation.
+\item[Page credit] Conservative capacity reserved for a request's declared
+future prefix growth; not a measurement of device memory or a fairness theorem.
+\item[Speculative verification] A target model checks draft proposals under a
+declared acceptance/correction law. Only committed tokens may advance the
+authoritative continuation state.
+\item[Online softmax summary] Running maximum, scaled normalizer and weighted
+value sum that permit exact attention reduction in real arithmetic without
+storing the entire score matrix; floating-point order still matters.
+\item[Capability routing] Choose an implementation satisfying the requested
+semantics, artifact and resource constraints before comparing predicted costs.
+Here capability means an interface property, not general intelligence.
+\item[Effect trace] Ordered observable reads, writes, state operations and tool
+actions; output-value equality alone does not establish equivalent execution.
+\item[Provenance DAG] A directed acyclic record of source dependencies used to
+check derived-memory visibility. Revoking future reads does not erase copies
+already issued or prove neural unlearning.
+\item[Write-ahead log] Recovery records made durable before their dependent
+data writes under a stated storage protocol; a dictionary crash model does not
+by itself supply durable transactions.
+\item[Serving revision] Immutable artifact/configuration identity attached to
+admitted requests, distinct from the mutable pointer selecting future requests.
+\item[Ownership epoch] Monotonically advancing authority version checked at a
+resource boundary; a metadata counter alone cannot fence a remote stale writer.
+\item[Goodput] Rate of eligible useful completions satisfying declared quality
+and service constraints. The workload, time interval and denominator must be named.
+\item[Time to first token] Elapsed time from the declared request origin to the
+first visible output; prefill's final prediction can produce that output without
+first consuming it as a new input token.
+\item[Reconciliation] Resolve an already admitted action whose external result
+is uncertain before deciding whether another dispatch is safe. A local idempotency
+record is not an external exactly-once guarantee.
+\item[Acquisition--retention tradeoff] Improvement on a new task can come at a
+cost to earlier tasks, while anchoring earlier parameters can restrict acquisition.
+The manuscript's assigned quadratic illustrates this, not a trained benchmark.
+\item[Evidence level] Editorial classification distinguishing hypotheses,
+formal or implemented contracts, evaluated tasks and replication. A valid label
+or digest cannot establish the truth of its supporting observations.
+\item[Reproducibility capsule] A declared manifest of source, configuration,
+data and environment inputs. Its completeness must be audited; a correct hash
+over an incomplete subset does not close the dependency boundary.
 \end{description}

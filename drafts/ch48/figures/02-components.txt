@@ -1,0 +1,1 @@
+A covers [0,4), B [3,7), C [20,24), and D [24,28). A and B overlap. B and C share declared homology family h. These two edge types connect A,B,C transitively. D is adjacent to C but does not overlap. Selecting A for holdout selects the whole three-record component.

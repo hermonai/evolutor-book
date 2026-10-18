@@ -1,0 +1,35 @@
+{
+  "chapter": 40,
+  "date": "2026-10-17",
+  "archive_record": "package-integrity.json",
+  "full_incoming_text_read": true,
+  "incoming_validation_claims_adopted": false,
+  "external_sources": [
+    {
+      "title": "MemGPT",
+      "url": "https://arxiv.org/abs/2310.08560",
+      "access_depth": "primary abstract, tier movement only",
+      "verified": "2026-10-17",
+      "empirical_results_reproduced": false
+    },
+    {
+      "title": "Self-RAG",
+      "url": "https://arxiv.org/abs/2310.11511",
+      "access_depth": "primary abstract, adaptive retrieval only",
+      "verified": "2026-10-17",
+      "empirical_results_reproduced": false
+    }
+  ],
+  "local_continuity_files": {
+    "drafts/ch20/manuscript.tex": "202439ce2c540e4b69f6964b60af0acb1f0990c98e8039ee6e1ed5a4243d0b38",
+    "drafts/ch20/reference.py": "9ad7fbabeb24ad4fd222929156fe75f6c88d1ed6c39d7675e551f2e838814a85",
+    "drafts/ch35/manuscript.tex": "1df59417c47b52cb1447ec9c53887509da4881d957bffc3661654d688d00991b",
+    "drafts/ch35/reference.py": "3861e11797f0d6c8e480d2426e110d29347c5e6a281742208e49a91ea3075e98",
+    "drafts/ch39/manuscript.tex": "791f40e781fbb4cfea239a225c3351a6d1dc20d66e407e819dbe8a0aea1c7f19",
+    "drafts/ch39/reference.py": "e408a58c771c2e0ee09dae1d6f7c1430e25cd9091e03d6ccd8aa4fc3b0e2b4d4"
+  },
+  "limits": "Source access is claim-specific. Internal imports are actual stable interfaces; local author review is not independent acceptance. No Chapter36 import or fabricated allocation pass.",
+  "package_sha256": "476b730a0794940152a613aebebefbea48425b87c5d15e9cb3aefe6fe682f993",
+  "inherited_validation_claims_adopted": false,
+  "continuity_hashes_finalized": "2026-10-18"
+}

@@ -1,0 +1,1 @@
+Coding agents operate on versioned repository state and validate changes before promotion.

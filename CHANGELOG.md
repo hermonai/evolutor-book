@@ -1,5 +1,20 @@
 # Changelog
 
+## 2026-10-18 — Complete 52-chapter review candidate
+
+- Integrate all seventeen remaining chapters from the four authoring batches,
+  preserving supplied-package adoption and source-bound local review records.
+- Reproduce chapter fixtures and run complete regression; exact final counts
+  and artifact identities are in FINAL_INTEGRATION_REPORT.md.
+- Add an actual paged-KV/runtime/compiler companion and cross-batch tests.
+- Repair cumulative figure label scoping and incremental TeX compatibility
+  without altering frozen opening sources or historical chapter artwork.
+- Reconcile the chapter map, inventory, glossary, active guides and publication
+  roadmap; provide a Claude pre-publication review/adjustment prompt.
+- Retain independent scientific/reader review, rights, accessibility and final
+  publication acceptance as open gates. No trained genomic, AGI, measured GPU
+  or production-service result is inferred from manuscript completion.
+
 ## 2026-09-06 — Undergraduate-first architecture reset
 
 - Preserve the two-chapter astra-rewrite edition and start astra-undergraduate-rewrite.

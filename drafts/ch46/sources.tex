@@ -1,0 +1,20 @@
+\begin{thebibliography}{9}
+\addcontentsline{toc}{chapter}{Sources and references}
+\bibitem{distserve46} Yinmin Zhong et al.
+\emph{DistServe: Disaggregating Prefill and Decoding for Goodput-optimized
+Large Language Model Serving}. OSDI 2024, pp. 193--210.
+Primary PDF, selected mechanism sections inspected.
+\url{https://www.usenix.org/system/files/osdi24-zhong-yinmin.pdf}.
+\end{thebibliography}
+
+\section*{Evidence scope}
+Access checked 17 October 2026. DistServe's primary OSDI paper PDF was accessed;
+abstract/introduction and selected architecture/phase-allocation passages were
+inspected, not every evaluation or appendix. The chapter cites the disaggregation
+and bandwidth-aware placement mechanism without adopting its performance
+numbers. The serial ownership proof, transfer/capacity oracle, fault fixtures
+and illustrations are original extensions of the package's migration scenario.
+Actual Chapter 31/35 and transitive Chapter 23 sources provide local model
+interfaces for test-only snapshot continuation. This is not a production
+distributed engine or a proof of consensus, transport authentication, durable
+recovery or exactly-once tools. Independent review remains open.

@@ -1,0 +1,15 @@
+{
+  "blocked_without_benchmark_contract": true,
+  "demonstrated": {
+    "capability": "persistent-memory",
+    "level": "benchmark-demonstrated",
+    "benchmark": "heldout-memory-suite",
+    "held_out": true,
+    "baseline": true,
+    "budget_declared": true
+  },
+  "scorecard": {
+    "persistent-memory": "benchmark-demonstrated",
+    "AGI": "hypothesized"
+  }
+}

@@ -1,0 +1,124 @@
+\chapter{Streaming, language, code and persistent agents}
+
+A chatbot turn is ephemeral. A persistent agent is a stateful service that may receive events for hours or months, survive process restarts, operate tools, modify repositories and accumulate memory. Persistence magnifies both usefulness and failure.
+
+The architectural invariant remains:
+\[
+\boxed{\text{model proposes}\rightarrow\text{policy authorizes}\rightarrow\text{deterministic service executes}\rightarrow\text{event log records}.}
+\]
+
+\section{Events, not one giant prompt}
+Represent an interaction as an ordered event stream $E=(e_0,e_1,\ldots)$ with monotonic sequence numbers and typed payloads.
+\Plate{01-stream}{Streaming makes order, pressure and replay explicit.}{evod49:stream}
+
+Events include user input, model proposals, memory reads/writes, tool intents/results, checkpoints, cancellations and policy decisions. Large binary artifacts are referenced by immutable handles rather than copied into every event.
+
+\section{Backpressure}
+If producers can outpace consumers indefinitely, memory grows without bound. A stream therefore has bounded queues or credits. When capacity is exhausted, upstream must block, shed, persist or reject according to policy.
+
+Backpressure is correctness under load, not merely optimization.
+
+\section{Four kinds of state}
+A persistent agent separates:
+\begin{enumerate}
+\item engine-native transient state (DOGMA state or Hermon KV);
+\item active model context;
+\item durable addressable memory from Chapter 40;
+\item authoritative external state in files, databases and tools.
+\end{enumerate}
+\Plate{02-memory}{Persistence does not collapse all memory into the context window.}{evod49:memory}
+
+MemGPT explores an OS-inspired virtual-context approach that moves information between memory tiers to support contexts beyond the underlying LLM window and multi-session chat. citeturn1academia26 Evolutor adopts the systems lesson while retaining explicit provenance, policy and engine-state boundaries.
+
+\section{Session identity}
+A session is bound to tenant, agent configuration, artifact/model versions, policy version and event-log identity. Reusing a conversation ID with a different policy/model without recording the transition destroys reproducibility.
+
+\section{Checkpoint and resume}
+A checkpoint contains
+\[
+C=(session,seq,digest,artifact,policy,memory\_refs,engine\_checkpoint?).
+\]
+\Plate{03-resume}{Resume verifies history before reconstructing active state.}{evod49:resume}
+
+The event-prefix digest detects divergent history. Engine-native checkpoints follow the semantics of Chapters 33/35; they are not interchangeable.
+
+\section{Replay}
+Replay rebuilds derived state from recorded events. It must distinguish pure/replayable operations from external effects. A model call may also be nondeterministic unless artifact, sampler, RNG and numerical environment are fixed.
+
+\section{Idempotency}
+External operations use an idempotency key when the tool supports it. If a network timeout occurs after execution but before acknowledgement, retrying with the same key can prevent duplicate effects.
+
+Idempotency is a property of the tool protocol, not a prompt instruction.
+
+\section{Agent-computer interface}
+\Plate{04-aci}{The ACI exposes typed operations; policy controls their authority.}{evod49:aci}
+SWE-agent demonstrates that the interface presented to an LM agent can materially affect software-engineering performance, motivating explicit agent-oriented computer interfaces rather than arbitrary shell transcripts. citeturn1search5
+
+An Evolutor ACI describes operation names, typed arguments/results, error contracts, resource handles and observation formatting. It does not embed unrestricted credentials.
+
+\section{Language streams}
+For conversational language, the system maintains bounded active context plus summaries/retrieval candidates. Summarization is lossy: the original durable events remain the provenance source where retention policy allows.
+
+A summary cannot silently replace authoritative user instructions or security policy.
+
+\section{Streaming generation}
+Generated tokens are a stream with cancellation and backpressure. Once tokens are externally emitted, rollback cannot make the recipient unsee them. Streaming therefore creates an irreversible-output boundary even before tool use.
+
+\section{Code agents}
+A coding session binds repository revision/worktree, task, environment, dependency lockfiles and test commands.
+\Plate{05-code}{Code modification is a versioned transaction-like workflow, not free-form text generation.}{evod49:code}
+
+A safe loop is inspect→plan→edit→format/static-check→test→review diff→candidate commit. Tests are evidence, not proof; hidden requirements and security review remain possible.
+
+\section{Sandboxing}
+Generated code executes in a sandbox with declared filesystem, network, process, credential and resource permissions. The model cannot grant itself additional capability by writing code that asks for it.
+
+\section{Persistent memory}
+Durable memory records retain source/provenance and tenant scope. Retrieval proposes context. It does not create authority. Expired/deleted sources cannot be reconstituted merely because an old summary cites them.
+
+\section{Long-horizon planning}
+Plans are versioned hypotheses. Each step records preconditions, observations and completion evidence. When the world changes, re-plan rather than forcing execution of an obsolete plan.
+
+\section{Leases and budgets}
+\Plate{06-lifecycle}{Persistence requires explicit lifetime and resource governance.}{evod49:lifecycle}
+A long-running agent receives a lease with expiration/renewal policy plus budgets for tokens, compute, storage, tool calls and monetary spend. Exhaustion pauses or terminates according to policy.
+
+No agent receives infinite lifetime or budget merely because it can continue generating actions.
+
+\section{Human interaction}
+High-impact or ambiguous actions can create an approval event and suspend the plan. Approval is scoped to a specific action/resource/version; it should not become a blanket future privilege.
+
+\section{Crash recovery}
+After restart, load the durable event prefix, verify checkpoint identity, reconstruct derived state, reacquire valid capabilities and resume only operations whose recovery semantics are known. In-flight external actions enter reconciliation rather than blind replay.
+
+\section{Concurrency}
+Multiple agent branches may read shared immutable memory but concurrent writes require a conflict policy. Repository branches/worktrees, optimistic versions or transactions make conflicts explicit.
+
+\section{Observability}
+Trace session→plan→IR→engine/tool spans. Operational telemetry records durations, retries, queue pressure, checkpoint/recovery and budget consumption without copying secrets or unnecessary private content.
+
+\section{Executable oracle}
+\Listing{reference}
+The reference implements an append-only typed event log, bounded active context, prefix-digest checkpoints, verified resume, idempotent tool results, stream backpressure and session closure. Tool authorization is supplied by deterministic policy rather than event text.
+
+\section{Failure modes}
+Important failures are context treated as durable truth, summary provenance loss, unbounded queues, duplicate tool effects, stale checkpoints, replay of irreversible actions, unrestricted shell/network access, cross-session memory leakage, immortal agents and budgets enforced only after spending.
+
+\section{Twelve worked exercises}
+\begin{enumerate}
+\item Why not keep all history in the prompt? \textbf{Context is bounded/costly and is not durable authoritative storage.}
+\item What detects divergent resume history? \textbf{Session/sequence-bound event-prefix digest.}
+\item Tool timeout means safe retry? \textbf{Only with known idempotency/reconciliation semantics.}
+\item Can retrieved text authorize a tool? \textbf{No.}
+\item Why typed ACI? \textbf{Constrain/clarify actions, observations and errors for agents and policy.}
+\item Tests prove a code patch correct? \textbf{No; they provide bounded evidence.}
+\item Why sandbox generated code? \textbf{Code is untrusted executable behavior.}
+\item Can a summary replace source events? \textbf{Not as authoritative provenance.}
+\item What happens after lease expiry? \textbf{Pause/terminate unless explicitly renewed.}
+\item Can emitted tokens be rolled back? \textbf{Not from the recipient's observation.}
+\item Why reconcile after crash? \textbf{An external effect may have completed without acknowledgement.}
+\item Release rubric? \textbf{Event log; bounded context; provenance memory; verified checkpoints; replay classes; idempotency; typed ACI; sandbox; budgets/leases; approval; crash reconciliation; observability.}
+\end{enumerate}
+
+\section{Bridge}
+Chapter 50 asks how such a persistent system may learn over time without turning every interaction into uncontrolled parameter drift. It separates within-session memory from parameter updates, continual-learning algorithms, population adaptation and governed promotion.

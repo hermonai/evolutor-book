@@ -1,0 +1,6 @@
+{
+  "m": "evaluation metric vector",
+  "g": "gate thresholds",
+  "theta": "model parameters",
+  "F_i": "EWC importance/Fisher term"
+}

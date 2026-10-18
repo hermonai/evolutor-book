@@ -1,0 +1,298 @@
+\chapter{Distributed serving and state placement}
+\label{evod46:chapter}
+
+Where does a live request's state reside? A single process hides that question
+behind a pointer. Across hosts, moving the bytes and moving authority become
+different operations. Suppose worker a owns state at epoch 7 and worker b
+receives a copy. If both accept the next token, the request has forked even
+though the copied bytes were perfect. If neither accepts it after a crash,
+availability has failed even though confidentiality may remain intact.
+
+Our central contract is that placement may change location but never logical
+identity or authority. A serialized cluster model will make preparation,
+reservation, verification, commit, cancellation and recovery explicit.
+It is a specification for a future distributed implementation, not a network
+transport, consensus service, RDMA system or live cluster experiment.
+
+\section{Separate control decisions from data movement}
+\index{control plane}\index{data plane}\index{placement}\index{routing}
+\label{evod46:control}
+The control plane records worker membership, capabilities, capacity, artifacts,
+health and topology. The data plane carries token/tensor/state traffic.
+Advertisements are evidence with a freshness interval, not permanent facts:
+a worker may lose its accelerator after announcing free memory. Workers must
+revalidate reservations when accepting work. Authenticate control messages;
+being reachable on an internal network is not authority.
+
+A useful advertisement includes device/backend, precision and kernel support,
+loaded artifact digests, available memory, zone/rack, schema and health epoch.
+Routing chooses a logical implementation; placement chooses a physical
+instance of that implementation. The scheduler cannot silently substitute a
+different model or precision merely because a worker is idle.
+
+For request $r$, choose from hard-feasible set $\mathcal E(r)$ before ranking:
+\[
+ w^*=\arg\min_{w\in\mathcal E(r)}
+ \bigl(\alpha Q_w+\beta T_{rw}+\gamma C_w+\delta R_w\bigr).
+\]
+$Q_w,T_{rw}$ are predicted queue/transfer durations in milliseconds;
+$C_w,R_w$ are declared cost/risk scores with weights converting to the same
+objective units. They are estimates, not measured latency guarantees. Empty
+$\mathcal E(r)$ means reject or queue, not relax tenant or artifact constraints.
+
+\Listing{Cluster.eligible}
+The fixture requires live membership, exact backend/schema, artifact residency,
+tenant permission and an available slot. It then adds a synthetic 10 ms
+nonpreferred-zone penalty to queue time and breaks ties by occupancy and ID.
+A locality preference is soft; authority and compatibility are hard.
+
+\section{Represent identity independently of location}
+\index{ownership epoch}\index{fencing}
+\label{evod46:owner}
+The handle is $H=(sid,t,d_M,schema,backend,owner,e)$.
+Logical ID $sid$, tenant $t$, artifact $d_M$, state interpretation and backend
+contract survive migration. Owner and monotonic epoch $e$ change together.
+Epoch is a fencing generation, not wall-clock time and not a model-token
+position. Value equality with the authoritative directory is required for a
+handle to operate in the fixture. This rejects accidental foreign/stale
+records; it is not authentication against a hostile process reading the directory.
+
+Immutable weights, tokenizers and compiler outputs can be replicated after
+digest verification. Mutable request state instead needs a consistency
+protocol. We choose one authoritative owner, with temporary destination copies
+that cannot execute. A replicated durable-memory service can have another
+consistency model; do not infer it from engine-state ownership.
+
+\Plate{01-owner}{A copied snapshot at b is not an owner. Only the directory transition from epoch 7 to 8 authorizes b and fences a. The identity fields above the timeline remain fixed.}{evod46:ownerplate}
+
+\section{Derive migration from a stable snapshot}
+\index{migration}\index{snapshot}\index{reservation}
+\label{evod46:migrate}
+The package's prepare--copy--verify--commit sequence is retained, but preparing
+must also freeze updates or capture a versioned snapshot. Otherwise the source
+could advance while the old snapshot is copied and commit a stale continuation.
+We choose freezing to make the reference small and exact. Reads remain allowed;
+writes are rejected until commit or abort.
+
+\Listing{Cluster.prepare}
+Preparation checks the complete destination contract before reserving one
+slot. It registers an exact transfer object containing the source handle,
+destination, immutable byte snapshot and digest. A production transfer needs
+an authenticated envelope binding these fields, size bounds and chunk numbers;
+a bare hash over bytes is not a MAC and does not establish who sent them.
+
+Copy verification checks bytes, then commit changes owner and epoch in one
+serialized directory transition. Destination capacity was already reserved.
+The source reservation is released only at commit; during the transfer both
+source storage and destination staging consume capacity.
+\Listing{Cluster.commit}
+
+\Plate{02-migrate}{Prepare reserves b and freezes a; a corrupted copy cannot cross the commit point. Abort restores a's writable state and releases b. Successful commit changes directory owner/epoch once and rejects old-epoch operations.}{evod46:migrationplate}
+
+\Needspace{20\baselineskip}
+\subsection{Safety proof and its distributed premise}
+\begin{proposition}[Single authoritative owner in the serial model]
+Starting from one current handle per live state, any sequence of accepted
+create, prepare, abort, commit, cancel and recover calls leaves at most one
+handle accepted for mutation of each logical state.
+\end{proposition}
+\begin{proof}
+Create installs one handle. Prepare retains it but freezes writes; its copied
+payload grants no execution authority. Abort retains the handle and unfreezes
+it. Commit replaces it by an otherwise identical handle with a new owner and
+epoch. Exact directory comparison rejects the old handle. Cancel marks state
+terminal and advances its epoch; recovery replaces a failed owner's handle
+with a new epoch. No operation creates a second authoritative directory row.
+Induction over calls proves the property.
+\end{proof}
+
+This proof assumes one serial, durable-in-concept authority transition and
+that every side effect respects its fence. Two partitioned controllers each
+claiming authority violate the premise. A distributed implementation needs a
+linearizable metadata service, fenced storage operations or another explicitly
+proved protocol. Expiring a lease using local clocks does not by itself stop
+a paused old worker from resuming and writing. Fencing must be enforced at
+the resource that accepts the mutation. Our Python assignment supplies neither
+consensus nor crash durability.
+
+\subsection{Conserve both owners and staging reservations}
+For worker $w$, let $O_w$ be current noncancelled owners, $T_w$ incoming
+prepared transfers and $D_w$ held prefill/decode reservations. With capacity
+$C_w$ in fixture slots,
+\[
+ used_w=|O_w|,\quad reserved_w=|T_w|+|D_w|,
+ \qquad used_w+reserved_w\le C_w.
+\]
+Preparing adds $T_w$; commit exchanges one destination staging slot for an
+owner slot and removes the source owner slot. Abort removes only staging.
+Cancellation removes the owner and any pending transfer exactly once.
+Repeated migrations and fault tests check these equalities against directory
+and transfer tables rather than merely checking the final payload.
+
+\section{Failure windows, cancellation and recovery}
+\index{cancellation}\index{replay}\index{exactly-once effects}
+\label{evod46:failure}
+Before prepare, failure leaves no destination obligation. During copy,
+destination failure permits abort if the source remains usable; source failure
+requires evidence-backed recovery or request failure. After commit, the old
+handle is stale even if the acknowledgement was lost. Retrying must query the
+authoritative directory by migration identity; blindly replaying commit can
+allocate twice. The reference rejects settled transfer objects rather than
+implementing a durable retry journal.
+
+Cancellation targets the current owner epoch, aborts a prepared transfer and
+makes state terminal. A late old transfer cannot resurrect it. Real
+cancellation also requires propagation, device acknowledgement and delayed
+physical reclamation; changing a directory flag cannot stop a kernel already
+accessing memory. We model only serialized logical state and capacity.
+
+\Needspace{23\baselineskip}
+\Listing{Cluster.recover}
+Recovery requires a failed active owner, a compatible destination and replay
+bytes matching a digest supplied by a trusted checkpoint/replay ledger.
+The expected digest must be independent evidence: hashing arbitrary replay
+and passing that same hash proves nothing. The fixture checks equality but
+implements neither that durable ledger nor deterministic replay itself.
+If no valid checkpoint or replay source exists, fail or restart the request;
+never guess missing state. An owner failing during a frozen transfer requires
+explicit abort before this recovery path.
+
+Internal state replay does not guarantee exactly-once external effects. A tool
+may commit an action and crash before recording its acknowledgement. Retrying
+can duplicate it unless the external service supports an idempotency or
+transaction protocol. The logical model performs no external action.
+
+\section{DOGMA and Hermon move different representations}
+\index{DOGMA!state movement}\index{Hermon DNA!KV movement}
+\label{evod46:representations}
+Chapter 31's restricted diagonal recurrence carries a hidden vector and token
+position; it is not full DOGMA. For a width $D$ float-$b$ vector, the hidden
+payload is $Db$ bytes, excluding metadata, banks and parameters. A broader
+native model may carry much more. Compactness alone says nothing about equal
+task capacity or speed.
+
+Chapter 35's causal Hermon adapter uses the actual Chapter 23 multi-layer
+Transformer with learned absolute positions. Its K/V payload is
+\[
+ M_{KV}=2LtH_{kv}d_hb\quad\text{bytes},
+\]
+for $L$ layers, $t$ consumed tokens, $H_{kv}$ KV heads and width $d_h$.
+Migration must preserve ordered per-layer content, absolute consumed position,
+owner and artifact/mode metadata. A paged representation adds page tables,
+partial tails and references. Paging solves local allocation, not transport.
+
+The local tests serialize actual Chapter 31 hidden values and actual Chapter
+35 per-layer K/V into bounded data-only fixture envelopes, transfer them and
+reconstruct through those same model interfaces. One-token suffix logits
+match the unmoved state exactly. This is a trusted test-local adapter; it is
+not an untrusted checkpoint loader, page migration, pool ownership transfer
+or an integrated distributed engine. No detached toy replaces either model.
+
+\section{Place prefill and decode together only when justified}
+\index{prefill/decode disaggregation}\index{transfer model}
+\label{evod46:pd}
+Transformer prefill and decode can interfere and favor different parallelism.
+DistServe studies their separation, phase-specific allocation and bandwidth-aware
+placement~\cite{distserve46}. Its evaluated system is not this oracle, and its
+reported improvements cannot be transferred to Hermon or DOGMA without measurement.
+
+Disaggregation introduces state transfer between phases. With payload $B$
+bytes, sustained bandwidth $W$ bytes/s and fixed serialization/coordination
+cost $\ell$ ms, a simple estimate is
+\[
+ T_{move}=\ell+1000 B/W\quad\text{ms}.
+\]
+It excludes contention, packet retries, overlap and reconstruction costs.
+Separate when predicted queue/interference savings exceed added critical-path
+transfer and coordination under the stated SLO. This is a plan-selection
+hypothesis, not a universal performance claim.
+
+\begin{center}\input{\Generated/transfer.tex}\end{center}
+The assigned comparison uses 1 GB/s decimal bandwidth and 0.1 ms fixed cost.
+The 8,192-byte vector is a width-1,024 float64 payload example. The 384 MiB KV
+example uses $L=24,t=4096,H_{kv}=8,d_h=128,b=2$ from Chapter 35's arithmetic
+example. These are different representations, not equal-capability models;
+neither row measures actual network or device performance.
+
+\Plate{03-pd}{Admission reserves both pools before starting prefill. The KV transfer is an explicit causal dependency before decode; a full decode pool rejects the reservation without stranding prefill work.}{evod46:pdplate}
+\Listing{pd_reserve}
+
+Our paired reservation checks both pools before changing either counter, and
+returns a ticket released once. It does not start prefill or convert that ticket
+into a live engine request. A concurrent coordinator needs transactional or
+leased reservations and crash cleanup. Per-tenant quota also remains an
+upstream prerequisite, not an implemented distributed quota ledger.
+
+\section{Topology, backpressure and distributed observations}
+\index{topology}\index{backpressure}\index{clock synchronization}
+\label{evod46:observe}
+GPU-to-GPU, host, rack and zone links differ in latency, bandwidth and failure
+domain. A faster empty worker can lose to a nearby loaded one after transfer;
+a nearby incompatible worker remains ineligible. Measure serialization,
+network, destination reconstruction and commit separately, while recording
+overlap. Backpressure must expose downstream reservations and queue pressure
+upstream; unbounded queues merely move overload and grow retained state.
+
+Each placement/migration record should bind request-safe correlation ID,
+tenant scope, artifact, logical backend, worker, owner epoch, reason and
+estimated/actual transfer bytes. Trace prefill, transfer and decode as distinct
+causal spans. Across hosts, clock offsets can make naive subtraction invalid;
+use local durations and explicit clock synchronization/error bounds where
+cross-host timestamps are compared. The reference records sequential event
+IDs only and does not measure distributed time.
+
+\section{Fault injection is a protocol test, not a slogan}
+\label{evod46:tests}
+Tests corrupt transfer bytes, copy issued transfer objects, kill source or
+destination during copy, cancel before/after preparation and commit, fill
+destination capacity, attempt incompatible placements, repeat migrations and
+reject unverified replay. Actual native/KV continuation fixtures test byte
+preservation at the model boundary. A destination reservation is not counted
+as a second owner, and failed preparation must not alter capacity.
+
+Production validation should delay/duplicate messages, lose commit replies,
+partition the metadata service, restart processes with persistent journals,
+kill a worker at every protocol boundary and race real device completion.
+Write the expected owner, epoch, capacity and output disposition for each
+fault before running it. No network fault or remote experiment occurs here.
+
+\section{Twelve worked exercises}
+\begin{enumerate}
+\item \textbf{Routing or placement?} Choosing Hermon versus a native engine is
+routing; choosing worker b for that engine is placement. \emph{Solution:}
+preserve the semantic choice while optimizing its physical realization.
+\item \textbf{Migrate epoch 7.} Which fields change? \emph{Solution:} owner and
+epoch, now 8. Logical ID, tenant, artifact, schema and backend remain fixed.
+\item \textbf{Corrupt the copy.} When can authority move? \emph{Solution:}
+only after verification. Failure retains source authority and staging until abort.
+\item \textbf{Use the old handle.} It still has correct bytes.
+\emph{Solution:} reject owner/epoch mismatch; numerical validity is not authority.
+\item \textbf{Replicate weights versus request state.} \emph{Solution:}
+immutable digest-verified weights have no update race. Mutable replicas require
+an explicit consistency/ownership protocol.
+\item \textbf{Compute movement.} Transfer 1 MB at 1 GB/s with 0.1 ms fixed cost.
+\emph{Solution:} $1000(10^6/10^9)+0.1=1.1$ ms, before contention or reconstruction.
+\item \textbf{Replay an acknowledged tool?} \emph{Solution:} model-state replay
+does not deduplicate an external effect; use the tool's own idempotency contract.
+\item \textbf{Lose state without evidence.} \emph{Solution:} fail/restart the
+request. A plausible invented state violates continuation correctness.
+\item \textbf{Reserve downstream first.} Decode is full but prefill is empty.
+\emph{Solution:} reject the pair before acquiring either reservation; otherwise
+prefill can produce state that has no admitted destination.
+\item \textbf{Backpressure or larger queues?} \emph{Solution:} bound queues and
+expose pressure. Larger unbounded queues increase memory and tail latency.
+\item \textbf{Compact state guarantees cheaper service?} \emph{Solution:} no;
+include actual representation, serialization, weights, computation, capability
+and topology. The payload table proves none of these end-to-end comparisons.
+\item \textbf{Design distributed validation.} \emph{Rubric:} define hard placement
+constraints; directory linearization/fencing; stable snapshots; reservation
+accounting; crash/cancel/retry outcomes; trusted replay evidence and tool effects;
+measure topology and trace provenance. A serial oracle cannot close those gates.
+\end{enumerate}
+
+\section{Terms and the measurement boundary}
+\Term{Fencing epoch} rejects operations from an obsolete owner.
+\Term{Staging reservation} accounts for a copy that cannot execute.
+\Term{Linearization point} is the single authority transition assumed here.
+Chapter 47 asks which placement and kernel costs are actually measured, and
+which remain arithmetic estimates or synthetic traces.

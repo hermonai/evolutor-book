@@ -1,0 +1,1 @@
+Novel architectures are evaluated only after transparent capacity-appropriate baselines.

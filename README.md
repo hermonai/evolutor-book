@@ -1,101 +1,107 @@
 # Evolutor
 
-**Genomic computation: models, state and systems**
+## Genomic computation: models, state and systems
 
 An implementation-first research textbook connecting sequence models, biological
-inspiration, typed computation, experimental evidence and engine design.
-Derivations, original editable vectors, executable reference models,
-counterexamples and worked exercises develop each mechanism.
+inspiration, formal semantics, experimental evidence and execution systems.
+Original derivations, editable mechanism illustrations, executable references,
+counterexamples and worked exercises develop the ideas from the ground up.
 
-## Current manuscript
+## Complete manuscript candidate
 
-As of **17 October 2026**, authored-source assembly reaches **Chapter 35 of 52**
-(443 pages). Both new standalone chapters are 17 pages. Full regression:
-**1,416 passed**, including 47 Chapter 34 tests, 85 Chapter 35 tests and the
-new project-structure check.
-The [complete chapter structure](CHAPTER_STRUCTURE.md) organizes all 52 chapters
-into twelve parts with direct prerequisites and honest authoring/review stages.
+**All 52 chapters are authored and assembled in twelve parts.** The 18 October
+2026 integration completes the supplied chapter packages and the whole-book
+source spine. It is a review candidate, not an independently accepted edition.
 
-The two newest chapters extend the actual preceding implementations:
+- [Read the complete review PDF](artifacts/review/evolutor-complete-review.pdf).
+- [Chapter map and reading routes](CHAPTER_STRUCTURE.md).
+- [Verified integration results and remaining limits](FINAL_INTEGRATION_REPORT.md).
+- [Claude pre-publication review and revision prompt](docs/CLAUDE_PREPUBLICATION_REVIEW_PROMPT.md).
+- [Current manuscript guide](CURRENT_MANUSCRIPT.md) and [documentation map](docs/README.md).
 
-- [Chapter 34 — DOGMA batching and state-native kernels](drafts/ch34/README.md):
-  rowwise native parity, inactive identity, request clocks, pinned/fenced
-  completion, cancellation, layouts and honest traffic accounting.
-- [Chapter 35 — Hermon DNA prefill, decode and KV state](drafts/ch35/README.md):
-  full Transformer-stack cache parity, learned absolute positions, per-layer KV,
-  offset masks, context/integrity limits and cumulative copying cost.
+The book moves from learning and sequence-model foundations to biological
+abstractions, DOGMA and Hermon DNA, fair experiments, inference engines,
+heterogeneous execution, industrial engineering, genomic applications and
+research synthesis. The printed contents and PDF navigation follow the same
+twelve-part structure as the machine-readable chapter map.
 
-Each contains six original editable vector/TXT mechanism plates and twenty
-worked exercises. Tests use rational arithmetic, actual scalar/full-model
-oracles, checkpoint-restored branches, every fixture chunk partition,
-layer-wise KV hooks, cancellation/version fences and negative controls.
+DOGMA is the non-Transformer DNA-native research direction; Hermon DNA is the
+Transformer-based direction; Evolutor is the broader theory/compiler/runtime
+program. The Chapter 31 diagonal teaching model is not full DOGMA, and cache
+parity is not learned genomic competence. Synthetic arithmetic, measured
+performance and biological evidence remain separate.
 
-These are locally reviewed manuscript candidates, not an independently reviewed
-publication, a trained genomic capability demonstration or production engines.
-See the [current guide](CURRENT_MANUSCRIPT.md),
-[editorial architecture](EDITORIAL_ARCHITECTURE.md), and
-[source-bound cumulative review](research/integration/continuous-through35-review.json).
+## Reproduce the book
 
-## Read and reproduce
-
-- [Continuous Chapters 1–35](output/pdf/evolutor-convergence.pdf).
-- [Standalone Chapter 34](output/pdf/evolutor-ch34-review.pdf).
-- [Standalone Chapter 35](output/pdf/evolutor-ch35-review.pdf).
-- [Complete structure and reading routes](CHAPTER_STRUCTURE.md).
-- [Chapter/package convergence matrix](research/integration/chapter-convergence-matrix.md).
-
-PDFs are generated locally and ignored by Git unless explicitly preserved as
-historical releases. The source files and review records are versioned.
-
-Requirements: Python 3.11+, PyTorch, pytest, Pillow, XeLaTeX/latexmk, makeindex,
-Poppler, librsvg and the project's TeX Gyre/DejaVu fonts.
-Declared local numerical checks use Python 3.13.6 and CPU float64 PyTorch.
+Python 3.11+ is required; the recorded numerical environment is Python 3.13.6,
+PyTorch 2.10.0, NumPy 2.4.3, pytest 9.0.2 and Pillow 12.1.1. Use an isolated
+environment and [the pinned review dependencies](requirements-review.txt).
+PDF production additionally needs XeLaTeX/latexmk, makeindex, Poppler, librsvg,
+TeX Gyre Pagella/Heros/math fonts and DejaVu Sans Mono.
 
 ```sh
+python3 -m pip install -r requirements-review.txt
 export OMP_NUM_THREADS=1
-python3 drafts/ch34/build.py --render
-python3 drafts/ch35/build.py --render
-python3 drafts/ch34/build.py --check
-python3 drafts/ch35/build.py --check
+# On this Mac; use your installation paths on other hosts.
+export PATH=/Library/TeX/texbin:/opt/homebrew/bin:$PATH
+
 python3 scripts/check-chapter-structure.py
 python3 -m pytest -q -o addopts=''
-python3 scripts/build-convergence.py --through 35 --refresh-assets
+python3 scripts/build-convergence.py --through 52 --refresh-assets
+python3 scripts/review-convergence.py --pages all
 ```
 
-Do not rebuild PDFs concurrently with preservation tests. The historical
-`make pdf` gate still belongs to the frozen accepted Chapters 1–2; it is not
-the current 35-chapter assembly command.
+The generated working PDF is output/pdf/evolutor-convergence.pdf. The versioned
+review copy above makes this candidate readable from GitHub without a local TeX
+installation. Generated build/ and tmp/ material is ignored. A local rebuild need
+not have the same PDF bytes: source hashes, numerical fixtures and reviewed
+artifact identity are separate checks.
 
-## Source organization and evidence
+For one chapter, use its `drafts/chNN/build.py --render` and `--check` commands
+(NN is 04–52). A fresh checkout needs generated assets before `--check`.
+`make -f complete-book.mk complete-book` builds the full candidate; the target `complete-book-fresh`
+refreshes all chapter assets. Do not build PDFs concurrently with preservation
+tests. Historical `make pdf` still belongs to the frozen opening edition.
 
-- `tex/deep/` and `tex/textbook/` supply the active opening Chapters 1–3.
-- `drafts/ch04/` through `drafts/ch35/` contain current authored LaTeX,
-  reference code, figure sources, semantic TXT companions and standalone builders.
-- `code/` contains reusable teaching libraries; `tests/` contains regression checks.
-- `research/integration/` preserves package provenance and local review evidence.
-- `build/` is generated compiler/asset cache; `tmp/pdfs/` holds visual-review images.
-- Earlier editions, acceptance records and historical preservation tests remain
-  unchanged. Do not overwrite them to update current progress labels.
+## Follow the actual execution path
 
-The 52-chapter architecture is retained. Four authoring chats are producing
-Chapters 36–52 from the supplied packages; their working files are not yet
-integrated chapters. [Batch ownership and handoff checks](BATCH_PRODUCTION.md)
-keep concurrent authoring separate from cumulative assembly. Run
-`python3 scripts/audit-production.py` for a read-only evidence check. The next
-integration begins with **Paged KV, prefix sharing and allocation**, preserving
-exact ordered K/V while changing physical storage.
+[The integrated-spine companion](examples/integrated_spine/README.md) connects
+Chapter 36's real all-layer paged KV storage to Chapters 39/41's opaque runtime
+and effect-aware compiler. Tests cover native full-model parity, shared-tail
+copy-on-write, prefix eviction, ownership, allocation failure and cleanup.
+It is serialized CPU reference evidence, not a GPU kernel or serving benchmark.
 
-DOGMA denotes the non-Transformer DNA-native research direction plus its engine;
-Hermon DNA denotes the Transformer-based direction and engine; Evolutor is the
-broader theory/compiler/runtime program above both. These identities do not
-establish novelty, biological equivalence or capability.
+```sh
+OMP_NUM_THREADS=1 python3 examples/integrated_spine/paged_runtime.py
+python3 -m pytest tests/test_integrated_spine.py -q -o addopts=''
+```
 
-Follow the [chapter standard](CHAPTER_STANDARD.md) and
-[LaTeX-first textbook standard](TEXTBOOK_STANDARD.md).
-The [shared front-matter note](tex/frontmatter/about-this-book.tex) contains the
-one-time pedagogical acknowledgment and general evidence policy. Chapter sources
-record specific assumptions and primary-source access depth.
+## Repository organization
 
-Independent specialist/reader review, cumulative scientific/editorial and
-accessibility QA, bibliography/index reconciliation and rights auditing remain
-publication gates. A successful build or test suite does not close them.
+| Location | Role |
+|---|---|
+| tex/deep/, tex/textbook/ | Active opening Chapters 1–3; frozen records remain separate |
+| drafts/ch04/ … drafts/ch52/ | Authored LaTeX, tested reference, generated fixture, native figures/TXT, standalone builder |
+| code/, examples/, tests/ | Reusable teaching libraries, examples and regression checks |
+| tex/convergence/, scripts/ | Whole-book composition, glossary, bibliography/index and production tooling |
+| research/integration/ | Package provenance, adoption decisions, local reviews and current source/PDF closure |
+| artifacts/review/ | Versioned complete review candidate and artifact manifest |
+| docs/ | Current documentation map and pre-publication review prompt |
+| build/, tmp/, output/ | Regenerable local compiler outputs, renders and working PDFs |
+
+[BOOK_PLAN.md](BOOK_PLAN.md), book/book.json and earlier reset/edition reports
+retain historical acceptance snapshots. They are not current chapter counters.
+No parallel beginner edition is maintained. See [contribution guidance](CONTRIBUTING.md).
+
+## Before publication
+
+Independent scientific and reader review, whole-volume editorial polish, rights
+and licensing decisions, and accessibility remediation remain open. The PDF is
+not claimed tagged or PDF/UA-compliant. There is no general reuse license; public
+repository visibility does not supply one.
+
+Use [the Claude prompt](docs/CLAUDE_PREPUBLICATION_REVIEW_PROMPT.md) for a fresh
+chapter-by-chapter review and justified local corrections, then obtain the
+external review and human release decisions in [PUBLICATION_PLAN.md](PUBLICATION_PLAN.md).
+Do not infer genomic capability, AGI, production security or durable distributed
+execution from a passing test suite or a complete manuscript.

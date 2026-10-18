@@ -1,0 +1,7 @@
+{
+  "P": "authenticated principal",
+  "a": "requested action",
+  "r": "resource",
+  "Allow": "deterministic authorization predicate",
+  "K": "tenant/security-scoped cache key"
+}

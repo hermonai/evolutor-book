@@ -1,0 +1,11 @@
+\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={note}]
+\draw[flow] (0,0)--(14.5,0) node[right] {time};
+\foreach \x/\lab in {1/intent,4/policy,8/callback,12/receipt}{
+ \draw[thick] (\x,-.15)--(\x,.15);
+ \node[above] at (\x,.2) {\lab};
+}
+\fill[Green] (2.5,0) circle (2pt);\node[below,Green,align=center] at (2.5,-.25) {sink fails here:\\no callback};
+\fill[Red] (10,0) circle (2pt);\node[below,Red,align=center] at (10,-.25) {sink fails here:\\effect already occurred};
+\draw[decorate,decoration={brace,amplitude=4pt}] (8,1.2)--(12,1.2);
+\node at (10,1.7) {uncertain completion window};
+\end{tikzpicture}

@@ -1,0 +1,7 @@
+{
+  "E": "ordered event stream",
+  "C": "session checkpoint",
+  "seq": "monotonic event sequence number",
+  "ACI": "agent-computer interface",
+  "lease": "bounded authorization/lifetime grant"
+}

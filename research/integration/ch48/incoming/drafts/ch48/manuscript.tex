@@ -1,0 +1,97 @@
+\chapter{Genomic sequence applications}
+
+This chapter applies Evolutor to genomic sequence data without confusing three different statements: DNA is biological material; DNA sequence is symbolic data; a model trained on sequence is not therefore a biological mechanism.
+
+\section{Start from the biological question}
+A task is specified by $(X,Y,U,M)$: sequence/context $X$, target $Y$, sampling unit $U$, and evaluation metric $M$. Examples include promoter classification, splice-site segmentation, chromatin-profile prediction and variant-effect scoring.
+\Plate{01-task}{Architecture follows a falsifiable application contract.}{evod48:task}
+
+\section{Coordinates and provenance}
+Every example should retain reference assembly, chromosome/contig, interval, strand, assay/source, preprocessing version and label provenance. Sequence alone is insufficient for reproducible genomics.
+
+\section{Leakage is the first adversary}
+Randomly splitting overlapping windows can put nearly identical sequence into train and test. Related individuals, homologous loci, duplicate peaks and alternate representations create additional leakage channels.
+\Plate{02-split}{Split by biological/genomic grouping when the generalization question requires it.}{evod48:split}
+
+A defensible split states what independence it approximates: unseen chromosome, locus, individual, species, cell type or experiment. No split is universally correct.
+
+\section{Reverse complement}
+For DNA alphabet $\Sigma=\{A,C,G,T,N\}$ define complement $c(A)=T,c(C)=G,c(G)=C,c(T)=A,c(N)=N$. For $x=x_1\ldots x_n$,
+\[
+RC(x)=c(x_n)c(x_{n-1})\ldots c(x_1),\qquad RC(RC(x))=x.
+\]
+\Plate{03-rc}{Reverse-complement behavior is part of the task semantics.}{evod48:rc}
+
+For a strand-invariant label, a desirable predictor satisfies $f(x)\approx f(RC(x))$. Other tasks are strand-specific and should not impose this invariance. Caduceus demonstrates that RC equivariance can be built architecturally rather than approximated only through augmentation. citeturn0academia21
+
+\section{Tokenization and resolution}
+Single-nucleotide tokens preserve base-level resolution but lengthen sequences. Fixed $k$-mers shorten token sequences but entangle neighboring bases and complicate single-base perturbations. Nucleotide Transformer uses six-mer tokenization in its original models, whereas HyenaDNA studies single-nucleotide long-context modeling. citeturn0search0turn1academia25
+
+The correct choice follows the task and architecture; it is not a biological truth.
+
+\section{Baseline ladder}
+\Plate{04-baselines}{Every architectural claim is compared against transparent baselines.}{evod48:baselines}
+Use a shared dataset/split/evaluation harness for Markov or $k$-mer counts, linear/MLP, CNN, GRU, Transformer and SSM/long-convolution baselines before DOGMA/Hermon innovations. Match parameter/compute budgets where the scientific question concerns architecture rather than scale.
+
+\section{DOGMA hypothesis}
+DOGMA can be tested as a non-Transformer state-native sequence model. Relevant hypotheses include whether bounded/compressed state retains useful long-range genomic context at favorable memory/runtime cost. This must be demonstrated against capacity-matched recurrent/SSM/convolutional baselines.
+
+\section{Hermon DNA hypothesis}
+Hermon DNA can use Transformer semantics and the serving machinery developed in Chapters 35--38. Its genomic value is an empirical question: attention does not become biologically correct merely because the input is DNA.
+
+\section{Long context}
+Regulatory effects can depend on distal context, motivating long-sequence models. HyenaDNA reports contexts up to one million single-nucleotide tokens and explores long-range genomic tasks. citeturn1academia25 Longer context is useful only if the dataset/task contains learnable information at those distances and evaluation prevents shortcut leakage.
+
+\section{Foundation models and specialized models}
+Nucleotide Transformer reports useful transferable representations across multiple genomic prediction tasks and compares them with supervised baselines. citeturn0search0 A later broad benchmark finds substantial task dependence and cases where specialized models outperform general DNA foundation embeddings. citeturn0search1
+
+Therefore ``foundation'' is a training/use pattern, not evidence of universal superiority.
+
+\section{Metrics under imbalance}
+Accuracy can be misleading for rare positives. Report confusion counts and suitable metrics such as MCC, AUROC and especially AUPRC when class prevalence is low. For probabilities, also report calibration (Brier score/reliability) rather than only ranking.
+
+For binary predictions,
+\[
+MCC=\frac{TP\,TN-FP\,FN}{\sqrt{(TP+FP)(TP+FN)(TN+FP)(TN+FN)}}.
+\]
+
+\section{Uncertainty}
+Use multiple seeds and confidence intervals or bootstrap intervals over the appropriate independent unit. Bootstrapping overlapping windows as if independent exaggerates certainty.
+
+\section{Variant effects}
+A variant score compares reference and alternate sequence under a declared context:
+\[
+\Delta(x,v)=s(x_{alt})-s(x_{ref}).
+\]
+Strand normalization, reference assembly and allele representation must be explicit. Predictive $\Delta$ is not automatically a causal effect.
+
+\section{Interpretability}
+Attention maps, saliency and perturbation scores can suggest model-sensitive sequence features. They require controls: shuffled labels, motif insertion/deletion, RC consistency, matched GC content and known positive/negative elements.
+\Plate{05-eval}{Evaluation combines discrimination, calibration and structured error analysis.}{evod48:eval}
+
+\section{Biological validation boundary}
+\Plate{06-interpret}{Prediction narrows hypotheses; experiments establish molecular claims.}{evod48:interpret}
+A computational association can prioritize a motif, enhancer or variant. Strong mechanistic claims require independent biological evidence such as perturbation/assay results and domain-appropriate replication.
+
+\section{Executable oracle}
+\Listing{reference}
+The reference implements reverse complement and its involution, GC content, one-hot encoding, chromosome/group-aware splitting, an explicitly RC-invariant toy score, MCC, Brier score and deterministic bootstrap intervals. All fixtures are synthetic and establish software invariants only.
+
+\section{Twelve worked exercises}
+\begin{enumerate}
+\item Why not random overlapping windows? \textbf{Near-duplicate sequence can leak across splits.}
+\item $RC(RC(x))$? \textbf{$x$, under a valid complement map.}
+\item Must every genomic label be RC invariant? \textbf{No; strand-specific tasks exist.}
+\item Why a CNN baseline? \textbf{Local motifs are strong genomic signals and CNNs are transparent competitors.}
+\item Why capacity controls? \textbf{Separate architecture effects from scale.}
+\item Accuracy for 1\% positives? \textbf{Potentially misleading; include PR/MCC/confusion/calibration.}
+\item Longer context guarantees better biology? \textbf{No.}
+\item Attention equals mechanism? \textbf{No.}
+\item Foundation model universally best? \textbf{No; performance is task-dependent.}
+\item Variant score proves causality? \textbf{No.}
+\item What is the independent bootstrap unit? \textbf{The unit matching the generalization claim, not blindly every overlapping window.}
+\item Release rubric? \textbf{Provenance; leakage-resistant split; RC contract; baseline ladder; seeds/uncertainty; calibration; perturbation controls; bounded biological claims.}
+\end{enumerate}
+
+\section{Bridge}
+Chapter 49 leaves genomics and tests whether the same runtime abstractions survive persistent streaming, language, code and agent workloads. The common theme is state over time: what belongs in native model state, active context, durable memory, checkpoints and external tools?

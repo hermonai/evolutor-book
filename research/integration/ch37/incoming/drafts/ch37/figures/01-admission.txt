@@ -1,0 +1,1 @@
+Continuous batching begins with resource-aware admission; scheduling cannot promise work whose KV/state allocation is unavailable.

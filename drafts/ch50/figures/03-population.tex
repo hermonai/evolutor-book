@@ -1,0 +1,12 @@
+\begin{tikzpicture}[x=1cm,y=1cm,font=\small\sffamily]
+\foreach \x/\n in {0/A,3/B,6/C} {
+\node[draw,circle,fill=Pale] at (\x,3) {\n};
+\node[draw,minimum width=1.8cm,align=center] at (\x,1.8) {$Q_1(\n)$\\$Q_2(\n)$};
+\draw[flow] (\x,2.6)--(\x,2.2);}
+\node[anchor=west,align=left] at (7.4,2.4) {3 candidates $\times$ 2 tasks\\= 6 evaluations};
+\node[draw,fill=Gold!45] (p) at (3,.3) {selected parent};
+\foreach \x in {0,3,6} {\draw[flow] (\x,1.35)--(p);}
+\node[draw] (m) at (0,-1.2) {mutation 1};\node[draw] (n) at (6,-1.2) {mutation 2};
+\draw[Blue,dashed,->] (p)--(m);\draw[Blue,dashed,->] (p)--(n);
+\node[align=left,anchor=west] at (7.4,-.6) {inherit coordinates;\\evaluate offspring anew};
+\end{tikzpicture}

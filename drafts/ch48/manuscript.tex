@@ -1,0 +1,295 @@
+\chapter{Genomic sequence applications}
+\label{evod48:chapter}
+Two windows from the same locus can look like two examples while carrying
+almost the same evidence. Suppose window A covers bases $[0,100)$ and B
+covers $[80,180)$. A random split can train on A and test on B, sharing twenty
+bases and possibly the very motif that defines the label. A larger model
+cannot repair the resulting scientific question. We begin with the unit of
+generalization, then make sequence orientation, metrics and interpretation
+equally explicit.
+
+DNA is biological material; a recorded DNA sequence is symbolic data; a
+predictor operating on that sequence is a computational hypothesis. These
+three statements do not collapse into one another. The executable work here
+checks a genomic evaluation harness. It trains no genomic model and reports
+no measured molecular effect.
+
+\section{From a biological question to an observation contract}
+\index{genomics!task contract}
+Write the task as $(X,Y,U,M)$: permitted sequence and metadata $X$, target
+$Y$, sampling unit $U$, and metric $M$. A promoter classifier predicts a
+window label; a splice-site segmenter predicts positions; a chromatin-profile
+model predicts assay tracks; a variant scorer compares two alleles in a
+declared context. They have different losses, resolutions and information
+boundaries. An offline chromatin predictor may use both flanks. A causal
+next-base predictor may not inspect its target through an overlapping token.
+
+For a promoter application, specify the organism, assembly, cell condition,
+assay, positive-label rule and negative-sampling process. Promoters are DNA
+regions at which transcription machinery associates to initiate transcription
+\cite{evod48:promoter}. Sequence is only one part of that physical process.
+The diagram distinguishes base pairing, protein association and transcription;
+none of its arrows is an edge in a neural network.
+
+\Plate{01-mechanism}{A schematic transcription setting supplies the biological
+question. Solid paired rails denote DNA backbones, dashed rungs complementary
+bases, and the oval associated transcription machinery. The RNA product grows
+5$'$ to 3$'$. Sequence-based classification observes a window and an assay-derived
+label; it does not simulate the machinery or establish its binding mechanism.}
+{evod48:mechanism}
+
+Each observation retains assembly, contig, zero-based half-open interval,
+orientation, assay/source identifier, preprocessing version and label provenance.
+The reference's \texttt{Example} carries the coordinate and grouping subset;
+an actual data manifest must supply the remaining provenance. Its interval length
+must equal its stored sequence length. Coordinates from two assemblies cannot
+be compared by merely matching their integers. A liftover is a separately
+versioned mapping with ambiguous and failed mappings reported.
+
+\section{Leakage is a relation, then a transitive closure}
+\index{data leakage!genomic overlap}\index{homology}\index{split closure}
+The generalization question decides which relationships must remain inside a
+split: overlap, locus, donor, homolog family, experiment or species. No split
+is universally correct. An unseen-chromosome test asks a different question
+from an unseen-person test on familiar loci. Both may still contain homologs
+of training sequence. Pretraining exposure must also be audited when a
+foundation model has already seen the reference genome.
+
+Our small harness links two records when their same-assembly, same-contig
+intervals overlap, or when their nonempty declared homology IDs agree.
+Let $G=(V,E)$ be this undirected graph. Legal groups are its connected
+components. For half-open intervals, overlap means
+\[
+\max(a_i,a_j)<\min(b_i,b_j).
+\]
+Adjacent $[0,4)$ and $[4,8)$ windows do not overlap. If A overlaps B and B
+is homolog-linked to C, all three stay together even if A and C have no
+direct link. A pairwise check on only the initially selected test IDs misses
+this bridge.
+
+\Plate{02-components}{Edges encode prohibited split crossings. Holding out A
+also holds out B and C through transitive closure. D begins at C's end and has
+no homology link, so adjacency alone does not join it. The grouping policy is
+an input assumption, not a discovery of all possible biological dependence.}
+{evod48:components}
+
+\Listing{group_split}
+\begin{proposition}[No declared edge crosses the split]
+If each connected component is assigned wholly to one split, no edge in $E$
+has endpoints in different splits.
+\end{proposition}
+\begin{proof}
+The endpoints of an edge are connected by a path of length one and hence
+belong to the same component. Whole-component assignment gives them the same
+split. Transitive paths make the same argument apply to indirectly related
+records.
+\end{proof}
+This theorem covers the declared relation only. Undetected paralogs,
+misidentified donors or target-derived preprocessing can still leak. The
+reference uses an $O(n^2)$ pair scan to expose semantics; production-scale
+interval sweeps and homology clustering need their own parity tests.
+
+\section{Reverse complement acts on data and labels}
+\index{reverse complement}\index{unknown bases}\index{strand equivariance}
+For $\Sigma=\{A,C,G,T,N\}$, complement exchanges A/T and C/G and fixes N.
+For length $L$, $R(x)_i=c(x_{L-1-i})$. Applying reversal and complement twice
+restores every index and base, so $R^2=I$. This is a representation symmetry,
+not an assertion that all assays are orientation invariant.
+
+For a scalar strand-invariant score, a shared two-pass construction is
+\[
+f_{\mathrm{sym}}(x)=\tfrac12[g(x)+g(Rx)].
+\]
+Then $f_{\mathrm{sym}}(Rx)=\tfrac12[g(Rx)+g(R^2x)]=f_{\mathrm{sym}}(x)$.
+The equality assumes exactly the same deterministic $g$ and preprocessing in
+both passes. A strand-specific label instead requires its declared label
+action, potentially reversing positions and swapping strand channels. Pooling
+it to one invariant scalar can erase the required distinction.
+
+\Plate{03-strands}{Both strings describe the same antiparallel duplex, each read
+5$'$ to 3$'$. A substitution at forward index $p$ moves to $L-1-p$ with complemented
+alleles. Reversing positions without complementing bases produces the wrong
+variant. Unknown N is an observation symbol, not a fifth chemical base.}
+{evod48:strands}
+
+The original package used CG as its motif. CG is its own reverse complement,
+so that particular invariance test could pass without exercising two distinct
+motif orientations. We keep the motif-count example but use ACG and its
+reverse complement CGT. The assigned score for AACGTT is one, and the C-to-A
+change at index two removes both contributions, giving $\Delta=-1$.
+This is a detector calculation, not a learned affinity or expression change.
+
+The reference rejects characters outside ACGTN, treats N as an all-zero
+one-hot row with a separate validity flag, and returns an undefined GC fraction
+for an all-N record. Silently treating N as A would fabricate a base. Chapter
+23 accepts canonical ACGT; the local integration test uses that exact interface
+and its offline shared-RC readout, with two untrained layers, learned absolute
+positions and CPU float64. It proves neither learned invariance nor accuracy.
+
+\section{Resolution, context and the baseline ladder}
+\index{tokenization!base resolution}\index{long context}\index{baseline controls}
+Base tokens preserve nucleotide resolution. Fixed $k$-mers change the sequence
+length and perturbation footprint: one substituted base can affect several
+overlapping tokens. Chapter 24's span availability condition remains necessary
+even under triangular token attention. A context measured in tokens must also
+be reported in bases, with stride, padding and uncovered tails declared.
+
+Nucleotide Transformer evaluates pretrained Transformer representations on
+genomic tasks; its original tokenization uses six-base units
+\cite{evod48:nt}. HyenaDNA studies single-nucleotide modeling with contexts
+up to one million tokens \cite{evod48:hyena}. Caduceus constructs
+bidirectional RC-equivariant MambaDNA components \cite{evod48:caduceus}.
+These are distinct prior approaches, not interchangeable instances of DOGMA.
+The 2025 DNA-model benchmark evaluates frozen foundation representations
+with downstream classifiers and finds task-dependent comparisons with
+specialized models \cite{evod48:benchmark}. Frozen representations versus
+task-trained competitors is an adaptation condition that must accompany
+the conclusion; it is not a universal ranking of all fine-tuning procedures.
+
+Start with composition/Markov or $k$-mer counts, linear and MLP readouts,
+then local CNNs, GRUs, appropriate SSM/long-convolution models and Transformers.
+Choose meaningful controls rather than requiring every architecture on every
+task. Freeze splits, legal evidence, tuning trials, training tokens and primary
+metric. Report parameter, state, context and measured serving budgets separately.
+The actual Chapter 31 recurrence is a restricted teaching model, not full
+DOGMA. Hermon DNA is Transformer-based; DOGMA is the non-Transformer direction.
+
+A useful long-context ablation retains the central window while masking or
+shuffling distal context under a declared nuisance-matching rule. Compare
+several context lengths at matched training and tuning budgets. If only
+same-locus random splits benefit, leakage is a competing explanation. If a
+long context has no task information, success at storing it is not evidence
+of regulatory understanding.
+
+\section{Derive discrimination and probability checks}
+\index{Matthews correlation coefficient}\index{average precision}\index{Brier score}
+For binary predictions, retain $TP,TN,FP,FN$ before computing any scalar.
+An all-negative classifier at 1\% prevalence has 99\% accuracy and zero recall.
+The Matthews correlation coefficient is
+\[
+\mathrm{MCC}=\frac{TP\,TN-FP\,FN}
+{\sqrt{(TP+FP)(TP+FN)(TN+FP)(TN+FN)}}.
+\]
+A zero denominator makes this expression undefined. Our harness reports
+\texttt{None}; a benchmark choosing zero must disclose that convention.
+The Brier score for probabilities $p_i$ is $n^{-1}\sum_i(p_i-y_i)^2$.
+It measures squared probability error; a reliability curve by score bins
+adds diagnostic information that one scalar cannot show.
+
+Average precision (AP) is one specified summary of a precision--recall curve,
+not an unspecified trapezoidal AUPRC. At distinct score thresholds $k$, let
+$r_k$ be recall and $q_k$ precision after all tied examples enter. Define
+\begin{equation}\label{evod48:ap}
+\mathrm{AP}=\sum_k(r_k-r_{k-1})q_k.
+\end{equation}
+For scores $(.9,.8,.7)$ and labels $(1,0,1)$ the positive increments are
+$1/2$ at precision one and $1/2$ at precision $2/3$: AP is $5/6$.
+An all-tied predictor has AP equal to prevalence. Reordering tied rows cannot
+improve it. With no positives AP is undefined under this contract.
+\Listing{average_precision}
+\begin{center}\input{\Generated/metrics.tex}\end{center}
+The generated table uses labels $(1,1,0,0)$, predictions $(1,0,1,0)$ and
+probabilities $(.8,.4,.6,.1)$. Accuracy is $1/2$, MCC zero, Brier $.1925$,
+and AP $5/6$. These values validate arithmetic; they are not dataset results.
+
+\section{Uncertainty follows the independent unit}
+\index{cluster bootstrap}\index{sampling unit}
+Holding trained predictors fixed, a cluster bootstrap resamples biological
+groups with replacement and includes all windows of every sampled group.
+If groups are independent draws from the target population, this approximates
+sampling variation at that level. It does not include training-seed variation,
+unseen assays or uncertainty about the grouping relation.
+\Listing{cluster_interval}
+The reported statistic is row-weighted accuracy on each resampled collection;
+large groups receive more weight. Equal-group performance would first average
+within groups and then across groups, a different estimand. Percentile endpoints
+use the explicitly coded order-statistic indices. Two clusters are enough to
+exercise the implementation and far too few for a convincing scientific
+interval. Compare model differences on paired resamples, preserve seed-level
+results, and stratify by distance, GC, ambiguous-base rate and label source.
+
+\section{Variant scores and mechanistic claims}
+\index{variant effect score}\index{biological validation}
+For a normalized variant and fixed context, define
+$\Delta=s(x_{\mathrm{alt}})-s(x_{\mathrm{ref}})$.
+The sign convention, score scale, reference allele, assembly and context must
+be fixed before interpretation. The local oracle implements substitutions only;
+indels need an explicit alignment and output-coordinate policy.
+\Listing{snv}
+Saliency, attention and in-silico mutation measure sensitivity of a predictor.
+Controls include label shuffling, matched GC negatives, motif insertion/deletion,
+RC consistency and perturbations outside the tested footprint. A motif effect
+in a synthetic detector is a useful positive control for the harness. It does
+not show that a protein binds that sequence in a cell.
+
+A biological follow-up protocol states the hypothesized mechanism, intervention,
+assay, cell condition, replication unit and alternative explanations. Reference
+and alternate constructs need matched backgrounds, assay controls and an analysis
+plan. No wet-lab experiment is conducted here. Computational prioritization is a
+handoff to such evidence, not a replacement for it.
+
+\section{Selective glossary}
+\begin{description}
+\item[Sampling unit.] The biological entity treated as independent for the
+generalization and uncertainty claim; it need not equal one sequence window.
+\item[Split closure.] Connected-component grouping under all declared relations
+that must not cross train/evaluation boundaries.
+\item[RC action.] Reversal plus base complement, accompanied by the appropriate
+coordinate and label transformation.
+\item[Average precision.] Recall-increment-weighted precision with a declared
+tie policy; different from an unspecified trapezoidal PR area.
+\item[Variant score.] A model-score contrast between normalized reference and
+alternate sequence, with no automatic causal or clinical interpretation.
+\end{description}
+
+\section{Exercises and worked solutions}
+\begin{enumerate}
+\item Why does the opening random split change the question? \textbf{Answer:}
+it tests a partly observed locus rather than an independently unseen locus.
+\item Do adjacent half-open intervals overlap? \textbf{Answer:} no; their
+intersection has zero length and the strict inequality fails.
+\item A overlaps B; B and C share a family. Hold out A. \textbf{Answer:}
+hold out A, B and C by connected-component closure.
+\item Does the closure theorem prove all homology is removed? \textbf{Answer:}
+only links supplied by the audited relation; undetected homology remains possible.
+\item Compute $R(\mathrm{AACGTN})$. \textbf{Answer:} NACGTT.
+\item Prove $R^2=I$. \textbf{Answer:} each index reverses twice and each
+base is complemented twice.
+\item Why is CG a weak two-orientation test motif? \textbf{Answer:} its RC
+is CG, so missing the second orientation can be hidden.
+\item Transform a substitution at $p=2$ in a six-base record. \textbf{Answer:}
+index three, with both reference and alternate complemented.
+\item Why keep a validity mask for N? \textbf{Answer:} zero feature mass must
+not be confused with observed adenine or an actual chemical fifth base.
+\item Must a splice track be invariant? \textbf{Answer:} no; positional and
+strand channels can require an equivariant label transformation.
+\item A 1\% positive task, all-negative predictor? \textbf{Answer:}
+99\% accuracy, zero recall, undefined MCC under our denominator convention.
+\item Compute AP for $(1,0,1)$ sorted by descending score. \textbf{Answer:}
+$\tfrac12+\tfrac12(2/3)=5/6$.
+\item What is all-tied AP at 20\% prevalence? \textbf{Answer:} $.2$;
+breaking ties by labels would leak evaluation information.
+\item Brier for labels $(1,0)$ and probabilities $(.8,.2)$? \textbf{Answer:}
+$(.04+.04)/2=.04$.
+\item Does resampling windows estimate donor uncertainty? \textbf{Answer:}
+not when windows from one donor are dependent; resample the donor groups.
+\item Why distinguish frozen embeddings and fine-tuning? \textbf{Answer:}
+they permit different adaptation and compute, changing the comparison.
+\item Is the tested Hermon path a newly trained genomics model? \textbf{Answer:}
+no; it is the actual untrained Chapter 23 interface checked for algebraic symmetry.
+\item Design a distal-context ablation. \textbf{Rubric:} central evidence fixed,
+declared distal perturbation, nuisance matching, legal split, matched opportunity,
+paired metrics, seed/cluster uncertainty and retained negative results.
+\item What could falsify the motif explanation? \textbf{Answer:} gain survives
+motif deletion but vanishes with a GC-matched nuisance intervention, motivating
+a competing shortcut explanation.
+\item Propose a biological validation handoff. \textbf{Rubric:} explicit allele
+and cell context, causal intervention, assay controls, independent replication,
+predeclared analysis and bounded interpretation; no invented measurements.
+\end{enumerate}
+
+\section{Bridge}
+Chapter 49 changes domains but preserves the central discipline: record what
+was observed, retain the identity of carried state, and declare which evidence
+may influence the next decision. A persistent service needs those contracts
+even when its inputs are language and code rather than genomic bases.

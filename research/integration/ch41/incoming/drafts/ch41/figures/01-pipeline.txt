@@ -1,0 +1,1 @@
+Compilation makes validation and lowering explicit rather than executing an informal plan directly.

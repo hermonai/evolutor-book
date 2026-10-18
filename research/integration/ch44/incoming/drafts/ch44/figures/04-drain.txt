@@ -1,0 +1,1 @@
+Graceful shutdown first closes admission, then drains owned work before termination.

@@ -1,0 +1,29 @@
+[
+  {
+    "key": "levelsagi2023",
+    "claim": "Levels of AGI proposes operational classification by performance/depth and generality/breadth, while discussing autonomy and deployment risk separately.",
+    "primary": "https://arxiv.org/abs/2311.02462",
+    "authors": "Meredith Ringel Morris et al.",
+    "date": "2023",
+    "access_date": "2026-10-06",
+    "access_depth": "primary arXiv abstract"
+  },
+  {
+    "key": "arcagi2",
+    "claim": "ARC-AGI-2 stresses novel reasoning and reports efficiency/cost alongside capability; benchmark design emphasizes skill-acquisition efficiency rather than brute-force task skill.",
+    "primary": "https://arcprize.org/arc-agi/2",
+    "authors": "ARC Prize Foundation",
+    "date": "2025",
+    "access_date": "2026-10-06",
+    "access_depth": "official benchmark page and technical-report summary"
+  },
+  {
+    "key": "arcagi3",
+    "claim": "ARC-AGI-3 uses interactive environments to test exploration, goal acquisition, world-model building, continual adaptation and action efficiency.",
+    "primary": "https://arcprize.org/arc-agi/3",
+    "authors": "ARC Prize Foundation",
+    "date": "2026",
+    "access_date": "2026-10-06",
+    "access_depth": "official benchmark page and technical-report excerpt"
+  }
+]

@@ -1,0 +1,22 @@
+\chapter*{Sources and further reading}
+\addcontentsline{toc}{chapter}{Sources and further reading}
+Source access checked 17 October 2026. Kwon et al.'s primary HTML paper was
+inspected for Sections 4.1--4.4, including block tables, partial-tail COW and
+shared-prefix ownership. Its measurements were not reproduced. The actual
+Chapter 35 implementation and Chapter 23 model were read and imported;
+the relevant Chapter 32 generation/pin and Chapter 33 COW contracts were
+inspected. This chapter's proofs assume serialized trusted callers.
+Generation checks, hashes and refcounts do not establish authentication,
+hostile-process isolation or asynchronous device safety.
+
+The supplied r01 manuscript, allocator, tests, six figure pairs, storyboard
+and source ledger are retained as text-only provenance. Its tuple allocator
+is extended into actual multi-layer KV storage, and its logical-multiplicity
+ratio is corrected to distinguish physical utilization. The adoption map
+records section-level destinations; packaged caches and QA flags are not evidence.
+\begin{thebibliography}{9}
+\bibitem{evod36:kwon} Woosuk Kwon et al.
+\emph{Efficient Memory Management for Large Language Model Serving with
+PagedAttention}. SOSP, 2023. Primary HTML Sections 4.1--4.4 inspected.
+\url{https://arxiv.org/html/2309.06180}.
+\end{thebibliography}

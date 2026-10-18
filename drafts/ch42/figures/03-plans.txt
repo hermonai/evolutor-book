@@ -1,0 +1,1 @@
+Stipulated alternatives native-A and native-B satisfy native-v1. With weights 1 per ms, 0.1 per MiB and 10 per unit risk, their scores are 5.7 and 5.0. A wrong-contract alternative has lower score 0.11 but cannot enter the minimization. Choose native-B under the declared memory and risk ceilings. Names are abstract alternatives, not measured DOGMA versus Hermon results.

@@ -1,0 +1,10 @@
+{
+  "B": "release bundle",
+  "M": "model/artifact digest",
+  "R": "runtime digest",
+  "C": "configuration digest",
+  "S": "compatibility schema",
+  "P": "provenance",
+  "SLI": "service level indicator",
+  "SLO": "service level objective"
+}

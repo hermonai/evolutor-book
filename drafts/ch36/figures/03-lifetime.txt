@@ -1,0 +1,1 @@
+Page references count3→2 after cache eviction→1 after parent release→0 after child release. Only final zero scrubs payload and increments generation.

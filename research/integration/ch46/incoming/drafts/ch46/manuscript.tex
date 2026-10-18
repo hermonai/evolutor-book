@@ -1,0 +1,133 @@
+\chapter{Distributed serving and state placement}
+
+A single process can hide a fundamental systems question: where does state live? Once Evolutor spans hosts and accelerators, every request acquires a physical placement, every mutable state object has an owner, and every movement crosses a failure boundary.
+
+The central rule is:
+\[
+\boxed{\text{placement may change location, but never logical identity or authority}.}
+\]
+
+\section{Control and data planes}
+The control plane tracks workers, capabilities, topology, artifacts, health and capacity. The data plane carries tokens, tensors, native state, KV blocks, retrieval results and tool traffic.
+\Plate{01-control}{Placement is a constrained control-plane decision.}{evod46:control}
+
+A worker advertisement should include backend type, device class, memory capacity, supported precision/kernels, loaded artifacts, zone/rack and health epoch.
+
+\section{Placement function}
+For request $r$ and candidate worker $w$:
+\[
+w^*=\arg\min_{w\in \mathcal E(r)}
+\left(
+\alpha Q_w+\beta T_{transfer}(r,w)+\gamma C_w+\delta R_w
+\right),
+\]
+where $\mathcal E(r)$ is the set satisfying hard capability, tenant, artifact, memory and policy constraints. Queue, transfer, cost and risk terms are estimates, not measurements.
+
+\section{State ownership}
+Represent a mutable state handle as
+\[
+H=(sid,tenant,artifact,schema,owner,epoch).
+\]
+\Plate{02-owner}{Ownership is explicit and monotonically versioned.}{evod46:owner}
+
+The owner is physical; tenant/artifact/schema are logical. An epoch prevents an old source handle from remaining valid after migration.
+
+\section{Immutable versus mutable replication}
+Model weights, tokenizer artifacts and immutable compiler outputs can be replicated widely after digest verification. Mutable request state is different: replication creates consistency questions.
+
+The teaching contract uses one authoritative mutable owner. More advanced replicated state requires an explicit consistency protocol.
+
+\section{Migration protocol}
+A safe migration is:
+\[
+prepare(dst)\rightarrow copy\rightarrow verify\rightarrow commit(owner=dst,epoch+1).
+\]
+\Plate{03-migrate}{Destination readiness precedes ownership commit.}{evod46:migrate}
+
+The source remains authoritative until commit. After commit, old-epoch operations fail. A production implementation must define transport authentication, timeout, cancellation and crash recovery around every phase.
+
+\section{DOGMA placement}
+DOGMA's native state can be placed independently per request/branch. If its state representation is compact, movement may require fewer bytes than a token-addressable KV history, but this is a model/runtime-dependent measurement—not a universal property.
+
+Branch/checkpoint identity from Chapters 32--33 remains bound to artifact, schema and tenant.
+
+\section{Hermon placement}
+Hermon decode depends on its KV state. Moving a live request therefore means moving or reconstructing the relevant KV representation plus page-table/position metadata.
+
+Paged allocation solves local memory management; it does not make network movement free.
+
+\section{Prefill/decode disaggregation}
+Transformer serving can place prefill and decode on separate worker pools.
+\Plate{04-pd}{Disaggregation trades interference reduction for explicit state transfer.}{evod46:pd}
+
+DistServe shows why this can help: prefill and decode have different latency/resource behavior, and colocating them can create interference. It also emphasizes cluster bandwidth because KV transfer lies on the disaggregated path. citeturn0academia36
+
+For Evolutor, disaggregation is a physical plan chosen only when estimated queue/interference savings exceed transfer and coordination cost under the requested SLO.
+
+\section{Topology}
+Network topology matters at several levels:
+\[
+GPU\leftrightarrow GPU,\quad host\leftrightarrow host,\quad rack\leftrightarrow rack,\quad zone\leftrightarrow zone.
+\]
+Bandwidth alone is insufficient; latency, contention and serialization/deserialization cost matter.
+
+Prefer locality when it reduces transfer without violating load/SLO constraints.
+
+\section{Routing versus placement}
+Routing chooses a logical backend/capability. Placement chooses a physical worker instance. Keeping them separate prevents a scheduler from silently changing semantics merely to find spare capacity.
+
+\section{Admission}
+Distributed admission must reserve enough downstream capacity to avoid accepting a prefill whose decode phase has nowhere to run. Reservations can be strict, probabilistic or queue-based, but the contract must be explicit.
+
+\section{Failure model}
+Failures include process crash, accelerator reset, host loss, network partition, timeout, stale membership and partial migration.
+
+\Plate{05-failure}{Recovery chooses from evidence-backed alternatives.}{evod46:failure}
+
+If state has a verified checkpoint or deterministic replay source, the system can reconstruct it. Otherwise it must fail/restart the request rather than invent state.
+
+\section{Exactly-once warning}
+Internal state replay is not equivalent to exactly-once external effects. If a tool call charged a card before a worker crash, replaying the plan can duplicate the effect unless the tool protocol has its own idempotency/transaction semantics.
+
+\section{Cancellation}
+Cancellation propagates to the authoritative owner epoch. A late packet from a prior owner must not resurrect work. Distributed cancellation is therefore another versioned state transition.
+
+\section{Backpressure}
+Queues should expose pressure upstream. Without backpressure, overload moves from one pool to another and can amplify memory use, transfer traffic and tail latency.
+
+\section{Distributed observability}
+Every placement event records request, tenant-safe identifier, logical backend, physical worker, artifact, owner epoch, queue estimate, transfer bytes and reason code.
+\Plate{06-trace}{Placement provenance connects latency to topology and ownership transitions.}{evod46:trace}
+
+Distributed traces should connect prefill, transfer and decode spans rather than reporting only end-to-end latency.
+
+\section{Consistency boundary}
+Durable Evolutor memory may be replicated through a storage system with its own consistency model. Engine-native mutable state follows the stricter ownership contract in this chapter. Do not infer one consistency model from the other.
+
+\section{Executable oracle}
+\Listing{reference}
+The reference implements capability/topology-aware placement, epoch-bound handles, prepare-copy-verify-commit migration, stale-handle rejection, worker failure and replay recovery, plus a same-zone prefill/decode placement example.
+
+It deliberately avoids pretending to implement consensus, RDMA or real GPU transport.
+
+\section{Failure injection}
+Industrial validation should kill workers during each migration phase, delay/duplicate packets, corrupt transfer bytes, exhaust destination capacity, race cancellation with migration, replay stale epochs and partition the control plane.
+
+\section{Twelve worked exercises}
+\begin{enumerate}
+\item Routing versus placement? \textbf{Logical implementation choice versus physical worker choice.}
+\item What changes on migration? \textbf{Owner and epoch; tenant/artifact/schema identity do not.}
+\item Why verify before commit? \textbf{Avoid transferring authority to incomplete/corrupt state.}
+\item Old source handle after commit? \textbf{Reject by epoch/owner mismatch.}
+\item Replicated model weights equal replicated request state? \textbf{No.}
+\item Why topology in PD disaggregation? \textbf{KV/state transfer lies on the path.}
+\item Can replay guarantee exactly-once tools? \textbf{No.}
+\item Worker lost without checkpoint/replay? \textbf{Fail/restart; do not fabricate state.}
+\item Why downstream reservation? \textbf{Avoid prefill admission that strands decode.}
+\item Why backpressure? \textbf{Prevent overload amplification.}
+\item Does compact DOGMA state guarantee cheaper migration? \textbf{No; measure actual representation and transport.}
+\item Release rubric? \textbf{Capability placement; topology; owner epochs; verified migration; stale rejection; recovery policy; cancellation; backpressure; distributed trace; failure injection.}
+\end{enumerate}
+
+\section{Bridge}
+Chapter 47 replaces estimated placement costs with measured evidence. It develops a profiling hierarchy from end-to-end SLOs to phases, operators and kernels, then compares CPU, Metal, CUDA and Vulkan backends without confusing theoretical FLOPs, profiler counters and user-visible performance.

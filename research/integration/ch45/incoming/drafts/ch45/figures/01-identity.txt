@@ -1,0 +1,1 @@
+Security decisions begin from authenticated identity, never from a model's assertion of identity.

@@ -1,0 +1,1 @@
+\begin{tikzpicture}[node distance=5mm]\node[draw](logical){logical tokens\\0 1 2 3 4};\node[draw,right=of logical,fill=Pale](table){block table\\$[p_7,p_2,p_9]$};\node[draw,right=of table,fill=Gold!35](phys){physical pages\\non-contiguous};\draw[->,Blue](logical)--node[above]{block, offset}(table);\draw[->,Blue](table)--node[above]{page ref}(phys);\end{tikzpicture}

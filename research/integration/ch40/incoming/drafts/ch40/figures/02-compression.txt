@@ -1,0 +1,1 @@
+Compression reduces representation size but retains explicit provenance to original records.

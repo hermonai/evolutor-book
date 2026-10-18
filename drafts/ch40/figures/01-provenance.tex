@@ -1,0 +1,12 @@
+\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={note}]
+\node[draw,circle,fill=Red!12] (e1) at (1,2.2) {$e_1$};
+\node[draw,circle,fill=Pale] (e2) at (1,0) {$e_2$};
+\node[draw,fill=Red!12] (s1) at (6,2.2) {$s_1=C(e_1,e_2)$};
+\node[draw,fill=Red!12] (s2) at (11,1) {$s_2=C(s_1,e_2)$};
+\draw[flow] (e1)--(s1);\draw[flow] (e2)--(s1);
+\draw[flow] (s1)--(s2);\draw[flow] (e2)--(s2);
+\draw[Red,very thick] (.6,1.8)--(1.4,2.6);
+\node[Red,align=left] at (2.6,3.3) {forget $e_1$};
+\node[Red] at (8.5,3.3) {$s_1,s_2$: reads denied};
+\node[align=left] at (6,-1) {Source $e_2$ remains readable.\\Arrows mean ``used to derive,'' not permission.};
+\end{tikzpicture}

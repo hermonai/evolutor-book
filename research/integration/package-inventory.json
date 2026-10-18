@@ -34,8 +34,19 @@
       "source_verification": "PASS WITH NOTES; access depth recorded, no external reproduction",
       "code_test_state": "PASS; local chapter and full regression",
       "figure_state": "PASS WITH NOTES; six figures, all color/grayscale pages",
-      "pdf_state": "PASS; standalone 14 pages; full-book pending",
-      "final_integration_state": "reviewed"
+      "pdf_state": "standalone 14 pages; included in complete Chapters 1–52 cumulative candidate; acceptance pending",
+      "final_integration_state": "reviewed",
+      "gates": {
+        "integrated": true,
+        "tested": true,
+        "built": true,
+        "rendered": true,
+        "locally_reviewed": true,
+        "independently_reviewed": false,
+        "accepted": false,
+        "full_book_converged": true,
+        "cumulative_editorial_acceptance": false
+      }
     },
     {
       "book": "evolutor",
@@ -65,7 +76,7 @@
       "source_verification": "primary access depths recorded; no experiment replication",
       "code_test_state": "19 chapter tests; full regression passed",
       "figure_state": "all pages color/grayscale locally reviewed",
-      "pdf_state": "standalone 15 pages; full-book pending",
+      "pdf_state": "standalone 15 pages; included in complete Chapters 1–52 cumulative candidate; acceptance pending",
       "final_integration_state": "locally_reviewed_candidate",
       "gates": {
         "integrated": true,
@@ -75,7 +86,8 @@
         "locally_reviewed": true,
         "independently_reviewed": false,
         "accepted": false,
-        "full_book_converged": false
+        "full_book_converged": true,
+        "cumulative_editorial_acceptance": false
       }
     },
     {
@@ -104,7 +116,7 @@
       "source_verification": "primary access depths recorded; no experiment replication",
       "code_test_state": "24 chapter tests; full regression passed",
       "figure_state": "all pages color/grayscale locally reviewed",
-      "pdf_state": "standalone 15 pages; full-book pending",
+      "pdf_state": "standalone 15 pages; included in complete Chapters 1–52 cumulative candidate; acceptance pending",
       "final_integration_state": "locally_reviewed_candidate",
       "gates": {
         "integrated": true,
@@ -114,7 +126,8 @@
         "locally_reviewed": true,
         "independently_reviewed": false,
         "accepted": false,
-        "full_book_converged": false
+        "full_book_converged": true,
+        "cumulative_editorial_acceptance": false
       }
     },
     {
@@ -141,7 +154,7 @@
       "source_verification": "primary access depths recorded; no experiment replication",
       "code_test_state": "26 chapter tests; full regression passed",
       "figure_state": "all pages color/grayscale locally reviewed",
-      "pdf_state": "standalone 19 pages; full-book pending",
+      "pdf_state": "standalone 19 pages; included in complete Chapters 1–52 cumulative candidate; acceptance pending",
       "final_integration_state": "locally_reviewed_candidate",
       "gates": {
         "integrated": true,
@@ -151,7 +164,8 @@
         "locally_reviewed": true,
         "independently_reviewed": false,
         "accepted": false,
-        "full_book_converged": false
+        "full_book_converged": true,
+        "cumulative_editorial_acceptance": false
       }
     },
     {
@@ -178,7 +192,7 @@
       "source_verification": "primary access depths recorded; no experiment replication",
       "code_test_state": "30 chapter tests; full regression passed",
       "figure_state": "all pages color/grayscale locally reviewed",
-      "pdf_state": "standalone 16 pages; full-book pending",
+      "pdf_state": "standalone 16 pages; included in complete Chapters 1–52 cumulative candidate; acceptance pending",
       "final_integration_state": "locally_reviewed_candidate",
       "gates": {
         "integrated": true,
@@ -188,7 +202,8 @@
         "locally_reviewed": true,
         "independently_reviewed": false,
         "accepted": false,
-        "full_book_converged": false
+        "full_book_converged": true,
+        "cumulative_editorial_acceptance": false
       }
     },
     {
@@ -215,7 +230,7 @@
       "source_verification": "primary access depths recorded; no experiment replication",
       "code_test_state": "39 chapter tests; full regression passed",
       "figure_state": "all pages color/grayscale locally reviewed",
-      "pdf_state": "standalone 15 pages; full-book pending",
+      "pdf_state": "standalone 15 pages; included in complete Chapters 1–52 cumulative candidate; acceptance pending",
       "final_integration_state": "locally_reviewed_candidate",
       "gates": {
         "integrated": true,
@@ -225,7 +240,8 @@
         "locally_reviewed": true,
         "independently_reviewed": false,
         "accepted": false,
-        "full_book_converged": false
+        "full_book_converged": true,
+        "cumulative_editorial_acceptance": false
       }
     },
     {
@@ -252,7 +268,7 @@
       "source_verification": "primary access depths recorded; no experiment replication",
       "code_test_state": "46 chapter tests; full regression passed",
       "figure_state": "all pages color/grayscale locally reviewed",
-      "pdf_state": "standalone 15 pages; full-book pending",
+      "pdf_state": "standalone 15 pages; included in complete Chapters 1–52 cumulative candidate; acceptance pending",
       "final_integration_state": "locally_reviewed_candidate",
       "gates": {
         "integrated": true,
@@ -262,7 +278,8 @@
         "locally_reviewed": true,
         "independently_reviewed": false,
         "accepted": false,
-        "full_book_converged": false
+        "full_book_converged": true,
+        "cumulative_editorial_acceptance": false
       }
     },
     {
@@ -291,7 +308,7 @@
       "source_verification": "primary access depths recorded; no experiment replication",
       "code_test_state": "45 chapter tests; full regression passed",
       "figure_state": "all pages color/grayscale locally reviewed",
-      "pdf_state": "standalone 14 pages; full-book pending",
+      "pdf_state": "standalone 14 pages; included in complete Chapters 1–52 cumulative candidate; acceptance pending",
       "final_integration_state": "locally_reviewed_candidate",
       "gates": {
         "integrated": true,
@@ -301,7 +318,8 @@
         "locally_reviewed": true,
         "independently_reviewed": false,
         "accepted": false,
-        "full_book_converged": false
+        "full_book_converged": true,
+        "cumulative_editorial_acceptance": false
       }
     },
     {
@@ -330,7 +348,7 @@
       "source_verification": "primary access depths recorded; no experiment replication",
       "code_test_state": "46 chapter tests; full regression passed",
       "figure_state": "all pages color/grayscale locally reviewed",
-      "pdf_state": "standalone 15 pages; full-book pending",
+      "pdf_state": "standalone 15 pages; included in complete Chapters 1–52 cumulative candidate; acceptance pending",
       "final_integration_state": "locally_reviewed_candidate",
       "gates": {
         "integrated": true,
@@ -340,7 +358,8 @@
         "locally_reviewed": true,
         "independently_reviewed": false,
         "accepted": false,
-        "full_book_converged": false
+        "full_book_converged": true,
+        "cumulative_editorial_acceptance": false
       }
     },
     {
@@ -371,7 +390,7 @@
       "source_verification": "primary access depths recorded; no experiment replication",
       "code_test_state": "67 chapter tests; full regression passed",
       "figure_state": "all pages color/grayscale locally reviewed",
-      "pdf_state": "standalone 15 pages; full-book pending",
+      "pdf_state": "standalone 15 pages; included in complete Chapters 1–52 cumulative candidate; acceptance pending",
       "final_integration_state": "locally_reviewed_candidate",
       "gates": {
         "integrated": true,
@@ -381,7 +400,8 @@
         "locally_reviewed": true,
         "independently_reviewed": false,
         "accepted": false,
-        "full_book_converged": false
+        "full_book_converged": true,
+        "cumulative_editorial_acceptance": false
       }
     },
     {
@@ -412,7 +432,7 @@
       "source_verification": "primary access depths recorded; no experiment replication",
       "code_test_state": "40 chapter tests; full regression passed",
       "figure_state": "all pages color/grayscale locally reviewed",
-      "pdf_state": "standalone 14 pages; full-book pending",
+      "pdf_state": "standalone 14 pages; included in complete Chapters 1–52 cumulative candidate; acceptance pending",
       "final_integration_state": "locally_reviewed_candidate",
       "gates": {
         "integrated": true,
@@ -422,7 +442,8 @@
         "locally_reviewed": true,
         "independently_reviewed": false,
         "accepted": false,
-        "full_book_converged": false
+        "full_book_converged": true,
+        "cumulative_editorial_acceptance": false
       }
     },
     {
@@ -457,7 +478,7 @@
       "source_verification": "Primary official sections rechecked 2026-10-17; actual preceding interfaces imported; no external experiment replication",
       "code_test_state": "71 chapter tests; full regression 1283 passed",
       "figure_state": "all 17 standalone pages color/grayscale locally reviewed",
-      "pdf_state": "standalone 17 pages; authored-source cumulative through33 417 pages; full-book acceptance pending",
+      "pdf_state": "standalone 17 pages; included in complete Chapters 1–52 cumulative candidate; acceptance pending",
       "final_integration_state": "locally_reviewed_candidate",
       "gates": {
         "integrated": true,
@@ -467,7 +488,8 @@
         "locally_reviewed": true,
         "independently_reviewed": false,
         "accepted": false,
-        "full_book_converged": false
+        "full_book_converged": true,
+        "cumulative_editorial_acceptance": false
       }
     },
     {
@@ -504,7 +526,7 @@
       "source_verification": "primary access depths recorded; incoming hashes verified; no external replication",
       "code_test_state": "47 chapter tests; full regression 1416 passed, 0 skipped",
       "figure_state": "six original TikZ/TXT plates; all 17 standalone pages color/grayscale author-reviewed",
-      "pdf_state": "strict 17-page standalone and cumulative through35 build passed; acceptance pending",
+      "pdf_state": "standalone 17 pages; included in complete Chapters 1–52 cumulative candidate; acceptance pending",
       "final_integration_state": "locally_reviewed_candidate",
       "local_gates": {
         "integrated": true,
@@ -516,7 +538,18 @@
         "accepted": false,
         "full_book_converged": false
       },
-      "local_review": "research/integration/ch34/local-review.json"
+      "local_review": "research/integration/ch34/local-review.json",
+      "gates": {
+        "integrated": true,
+        "tested": true,
+        "built": true,
+        "rendered": true,
+        "locally_reviewed": true,
+        "independently_reviewed": false,
+        "accepted": false,
+        "full_book_converged": true,
+        "cumulative_editorial_acceptance": false
+      }
     },
     {
       "book": "evolutor",
@@ -554,7 +587,7 @@
       "source_verification": "primary access depths recorded; incoming hashes verified; no external replication",
       "code_test_state": "85 chapter tests; full regression 1416 passed, 0 skipped",
       "figure_state": "six original TikZ/TXT plates; all 17 standalone pages color/grayscale author-reviewed",
-      "pdf_state": "strict 17-page standalone and cumulative through35 build passed; acceptance pending",
+      "pdf_state": "standalone 17 pages; included in complete Chapters 1–52 cumulative candidate; acceptance pending",
       "final_integration_state": "locally_reviewed_candidate",
       "local_gates": {
         "integrated": true,
@@ -566,7 +599,18 @@
         "accepted": false,
         "full_book_converged": false
       },
-      "local_review": "research/integration/ch35/local-review.json"
+      "local_review": "research/integration/ch35/local-review.json",
+      "gates": {
+        "integrated": true,
+        "tested": true,
+        "built": true,
+        "rendered": true,
+        "locally_reviewed": true,
+        "independently_reviewed": false,
+        "accepted": false,
+        "full_book_converged": true,
+        "cumulative_editorial_acceptance": false
+      }
     },
     {
       "book": "evolutor",
@@ -592,12 +636,23 @@
       "existing_chapter_state": "absent",
       "dependencies": [],
       "conflicts": [],
-      "decision": "pending semantic inspection",
-      "source_verification": "not_rerun",
-      "code_test_state": "not_rerun",
-      "figure_state": "not_reviewed",
-      "pdf_state": "not_built_locally",
-      "final_integration_state": "candidate"
+      "decision": "All-layer actual Hermon paging, reference conservation, prefix sharing and partial-tail COW; contiguous compute staging remains explicit.",
+      "source_verification": "primary access depth recorded; no independent literature or experimental replication",
+      "code_test_state": "52 chapter tests; coordinator whole-repository evidence in continuous-through52-review.json",
+      "figure_state": "editable vector/TXT mechanisms; all standalone pages locally author-reviewed; cumulative scope recorded separately",
+      "pdf_state": "standalone 14 pages; included in complete Chapters 1–52 cumulative candidate; acceptance pending",
+      "final_integration_state": "assembled_review_candidate",
+      "gates": {
+        "integrated": true,
+        "tested": true,
+        "built": true,
+        "rendered": true,
+        "locally_reviewed": true,
+        "independently_reviewed": false,
+        "accepted": false,
+        "full_book_converged": true,
+        "cumulative_editorial_acceptance": false
+      }
     },
     {
       "book": "evolutor",
@@ -623,12 +678,23 @@
       "existing_chapter_state": "absent",
       "dependencies": [],
       "conflicts": [],
-      "decision": "pending semantic inspection",
-      "source_verification": "not_rerun",
-      "code_test_state": "not_rerun",
-      "figure_state": "not_reviewed",
-      "pdf_state": "not_built_locally",
-      "final_integration_state": "candidate"
+      "decision": "Real paged scheduler with conservative page reservations and explicit consumed/emitted clocks; typed precision reconstruction is not a native compressed backend.",
+      "source_verification": "primary access depth recorded; no independent literature or experimental replication",
+      "code_test_state": "47 chapter tests; coordinator whole-repository evidence in continuous-through52-review.json",
+      "figure_state": "editable vector/TXT mechanisms; all standalone pages locally author-reviewed; cumulative scope recorded separately",
+      "pdf_state": "standalone 14 pages; included in complete Chapters 1–52 cumulative candidate; acceptance pending",
+      "final_integration_state": "assembled_review_candidate",
+      "gates": {
+        "integrated": true,
+        "tested": true,
+        "built": true,
+        "rendered": true,
+        "locally_reviewed": true,
+        "independently_reviewed": false,
+        "accepted": false,
+        "full_book_converged": true,
+        "cumulative_editorial_acceptance": false
+      }
     },
     {
       "book": "evolutor",
@@ -654,12 +720,23 @@
       "existing_chapter_state": "absent",
       "dependencies": [],
       "conflicts": [],
-      "decision": "pending semantic inspection",
-      "source_verification": "not_rerun",
-      "code_test_state": "not_rerun",
-      "figure_state": "not_reviewed",
-      "pdf_state": "not_built_locally",
-      "final_integration_state": "candidate"
+      "decision": "History-conditioned corrected sampling, actual paged-state commit/rollback and whole-Hermon online attention; no GPU speed claim.",
+      "source_verification": "primary access depth recorded; no independent literature or experimental replication",
+      "code_test_state": "47 chapter tests; coordinator whole-repository evidence in continuous-through52-review.json",
+      "figure_state": "editable vector/TXT mechanisms; all standalone pages locally author-reviewed; cumulative scope recorded separately",
+      "pdf_state": "standalone 15 pages; included in complete Chapters 1–52 cumulative candidate; acceptance pending",
+      "final_integration_state": "assembled_review_candidate",
+      "gates": {
+        "integrated": true,
+        "tested": true,
+        "built": true,
+        "rendered": true,
+        "locally_reviewed": true,
+        "independently_reviewed": false,
+        "accepted": false,
+        "full_book_converged": true,
+        "cumulative_editorial_acceptance": false
+      }
     },
     {
       "book": "evolutor",
@@ -685,12 +762,23 @@
       "existing_chapter_state": "absent",
       "dependencies": [],
       "conflicts": [],
-      "decision": "pending semantic inspection",
-      "source_verification": "not_rerun",
-      "code_test_state": "not_rerun",
-      "figure_state": "not_reviewed",
-      "pdf_state": "not_built_locally",
-      "final_integration_state": "candidate"
+      "decision": "Typed orchestration over actual recurrent and Hermon interfaces; separate integrated-spine paged adapter, exact routing and cleanup tests.",
+      "source_verification": "primary access depth recorded; no independent literature or experimental replication",
+      "code_test_state": "34 chapter tests; coordinator whole-repository evidence in continuous-through52-review.json",
+      "figure_state": "editable vector/TXT mechanisms; all standalone pages locally author-reviewed; cumulative scope recorded separately",
+      "pdf_state": "standalone 12 pages; included in complete Chapters 1–52 cumulative candidate; acceptance pending",
+      "final_integration_state": "assembled_review_candidate",
+      "gates": {
+        "integrated": true,
+        "tested": true,
+        "built": true,
+        "rendered": true,
+        "locally_reviewed": true,
+        "independently_reviewed": false,
+        "accepted": false,
+        "full_book_converged": true,
+        "cumulative_editorial_acceptance": false
+      }
     },
     {
       "book": "evolutor",
@@ -716,12 +804,23 @@
       "existing_chapter_state": "absent",
       "dependencies": [],
       "conflicts": [],
-      "decision": "pending semantic inspection",
-      "source_verification": "not_rerun",
-      "code_test_state": "not_rerun",
-      "figure_state": "not_reviewed",
-      "pdf_state": "not_built_locally",
-      "final_integration_state": "candidate"
+      "decision": "Occurrence-bound evidence, transitive provenance/tombstones and bounded rehydration; no physical erase or neural-unlearning claim.",
+      "source_verification": "primary access depth recorded; no independent literature or experimental replication",
+      "code_test_state": "37 chapter tests; coordinator whole-repository evidence in continuous-through52-review.json",
+      "figure_state": "editable vector/TXT mechanisms; all standalone pages locally author-reviewed; cumulative scope recorded separately",
+      "pdf_state": "standalone 12 pages; included in complete Chapters 1–52 cumulative candidate; acceptance pending",
+      "final_integration_state": "assembled_review_candidate",
+      "gates": {
+        "integrated": true,
+        "tested": true,
+        "built": true,
+        "rendered": true,
+        "locally_reviewed": true,
+        "independently_reviewed": false,
+        "accepted": false,
+        "full_book_converged": true,
+        "cumulative_editorial_acceptance": false
+      }
     },
     {
       "book": "evolutor",
@@ -747,12 +846,23 @@
       "existing_chapter_state": "absent",
       "dependencies": [],
       "conflicts": [],
-      "decision": "pending semantic inspection",
-      "source_verification": "not_rerun",
-      "code_test_state": "not_rerun",
-      "figure_state": "not_reviewed",
-      "pdf_state": "not_built_locally",
-      "final_integration_state": "candidate"
+      "decision": "Typed exact-integer folding and effect-preserving DCE; actual runtime/memory handlers and separate paged integration tests.",
+      "source_verification": "primary access depth recorded; no independent literature or experimental replication",
+      "code_test_state": "50 chapter tests; coordinator whole-repository evidence in continuous-through52-review.json",
+      "figure_state": "editable vector/TXT mechanisms; all standalone pages locally author-reviewed; cumulative scope recorded separately",
+      "pdf_state": "standalone 13 pages; included in complete Chapters 1–52 cumulative candidate; acceptance pending",
+      "final_integration_state": "assembled_review_candidate",
+      "gates": {
+        "integrated": true,
+        "tested": true,
+        "built": true,
+        "rendered": true,
+        "locally_reviewed": true,
+        "independently_reviewed": false,
+        "accepted": false,
+        "full_book_converged": true,
+        "cumulative_editorial_acceptance": false
+      }
     },
     {
       "book": "evolutor",
@@ -780,12 +890,23 @@
       "conflicts": [
         "title/scope differs from canonical plan"
       ],
-      "decision": "pending semantic inspection",
-      "source_verification": "not_rerun",
-      "code_test_state": "not_rerun",
-      "figure_state": "not_reviewed",
-      "pdf_state": "not_built_locally",
-      "final_integration_state": "candidate"
+      "decision": "Hard semantic/resource plan gates and exact-record-bound committed-redo crash oracle; not full ARIES or real storage I/O.",
+      "source_verification": "primary access depth recorded; no independent literature or experimental replication",
+      "code_test_state": "40 chapter tests; coordinator whole-repository evidence in continuous-through52-review.json",
+      "figure_state": "editable vector/TXT mechanisms; all standalone pages locally author-reviewed; cumulative scope recorded separately",
+      "pdf_state": "standalone 11 pages; included in complete Chapters 1–52 cumulative candidate; acceptance pending",
+      "final_integration_state": "assembled_review_candidate",
+      "gates": {
+        "integrated": true,
+        "tested": true,
+        "built": true,
+        "rendered": true,
+        "locally_reviewed": true,
+        "independently_reviewed": false,
+        "accepted": false,
+        "full_book_converged": true,
+        "cumulative_editorial_acceptance": false
+      }
     },
     {
       "book": "evolutor",
@@ -811,12 +932,23 @@
       "existing_chapter_state": "absent",
       "dependencies": [],
       "conflicts": [],
-      "decision": "pending semantic inspection",
-      "source_verification": "not_rerun",
-      "code_test_state": "not_rerun",
-      "figure_state": "not_reviewed",
-      "pdf_state": "not_built_locally",
-      "final_integration_state": "candidate"
+      "decision": "Immutable lineage, role/revision/evaluation guards and eligible rollback; no authenticated durable deployment claim.",
+      "source_verification": "primary access depth recorded; no independent literature or experimental replication",
+      "code_test_state": "28 chapter tests; coordinator whole-repository evidence in continuous-through52-review.json",
+      "figure_state": "editable vector/TXT mechanisms; all standalone pages locally author-reviewed; cumulative scope recorded separately",
+      "pdf_state": "standalone 12 pages; included in complete Chapters 1–52 cumulative candidate; acceptance pending",
+      "final_integration_state": "assembled_review_candidate",
+      "gates": {
+        "integrated": true,
+        "tested": true,
+        "built": true,
+        "rendered": true,
+        "locally_reviewed": true,
+        "independently_reviewed": false,
+        "accepted": false,
+        "full_book_converged": true,
+        "cumulative_editorial_acceptance": false
+      }
     },
     {
       "book": "evolutor",
@@ -842,12 +974,23 @@
       "existing_chapter_state": "absent",
       "dependencies": [],
       "conflicts": [],
-      "decision": "pending semantic inspection",
-      "source_verification": "not_rerun",
-      "code_test_state": "not_rerun",
-      "figure_state": "not_reviewed",
-      "pdf_state": "not_built_locally",
-      "final_integration_state": "candidate"
+      "decision": "Byte-bound artifact capsule, candidate-local rollout evidence and named drain accounting; controller remains a serialized metadata reference.",
+      "source_verification": "primary access depth recorded; no independent literature or experimental replication",
+      "code_test_state": "31 chapter tests; coordinator whole-repository evidence in continuous-through52-review.json",
+      "figure_state": "editable vector/TXT mechanisms; all standalone pages locally author-reviewed; cumulative scope recorded separately",
+      "pdf_state": "standalone 13 pages; included in complete Chapters 1–52 cumulative candidate; acceptance pending",
+      "final_integration_state": "assembled_review_candidate",
+      "gates": {
+        "integrated": true,
+        "tested": true,
+        "built": true,
+        "rendered": true,
+        "locally_reviewed": true,
+        "independently_reviewed": false,
+        "accepted": false,
+        "full_book_converged": true,
+        "cumulative_editorial_acceptance": false
+      }
     },
     {
       "book": "evolutor",
@@ -873,12 +1016,23 @@
       "existing_chapter_state": "absent",
       "dependencies": [],
       "conflicts": [],
-      "decision": "pending semantic inspection",
-      "source_verification": "not_rerun",
-      "code_test_state": "not_rerun",
-      "figure_state": "not_reviewed",
-      "pdf_state": "not_built_locally",
-      "final_integration_state": "candidate"
+      "decision": "Issued authority, policy epochs, structured namespaces and vector quota conservation; trusted-process model, not production certification.",
+      "source_verification": "primary access depth recorded; no independent literature or experimental replication",
+      "code_test_state": "21 chapter tests; coordinator whole-repository evidence in continuous-through52-review.json",
+      "figure_state": "editable vector/TXT mechanisms; all standalone pages locally author-reviewed; cumulative scope recorded separately",
+      "pdf_state": "standalone 12 pages; included in complete Chapters 1–52 cumulative candidate; acceptance pending",
+      "final_integration_state": "assembled_review_candidate",
+      "gates": {
+        "integrated": true,
+        "tested": true,
+        "built": true,
+        "rendered": true,
+        "locally_reviewed": true,
+        "independently_reviewed": false,
+        "accepted": false,
+        "full_book_converged": true,
+        "cumulative_editorial_acceptance": false
+      }
     },
     {
       "book": "evolutor",
@@ -904,12 +1058,23 @@
       "existing_chapter_state": "absent",
       "dependencies": [],
       "conflicts": [],
-      "decision": "pending semantic inspection",
-      "source_verification": "not_rerun",
-      "code_test_state": "not_rerun",
-      "figure_state": "not_reviewed",
-      "pdf_state": "not_built_locally",
-      "final_integration_state": "candidate"
+      "decision": "Hard placement constraints, staged migration epochs/reservations and actual native/KV data snapshots; no consensus or network/page migration service.",
+      "source_verification": "primary access depth recorded; no independent literature or experimental replication",
+      "code_test_state": "21 chapter tests; coordinator whole-repository evidence in continuous-through52-review.json",
+      "figure_state": "editable vector/TXT mechanisms; all standalone pages locally author-reviewed; cumulative scope recorded separately",
+      "pdf_state": "standalone 12 pages; included in complete Chapters 1–52 cumulative candidate; acceptance pending",
+      "final_integration_state": "assembled_review_candidate",
+      "gates": {
+        "integrated": true,
+        "tested": true,
+        "built": true,
+        "rendered": true,
+        "locally_reviewed": true,
+        "independently_reviewed": false,
+        "accepted": false,
+        "full_book_converged": true,
+        "cumulative_editorial_acceptance": false
+      }
     },
     {
       "book": "evolutor",
@@ -935,12 +1100,23 @@
       "existing_chapter_state": "absent",
       "dependencies": [],
       "conflicts": [],
-      "decision": "pending semantic inspection",
-      "source_verification": "not_rerun",
-      "code_test_state": "not_rerun",
-      "figure_state": "not_reviewed",
-      "pdf_state": "not_built_locally",
-      "final_integration_state": "candidate"
+      "decision": "Strict synthetic timing/denominator analysis, critical-path and scoped roofline arithmetic; real backend measurements remain absent.",
+      "source_verification": "primary access depth recorded; no independent literature or experimental replication",
+      "code_test_state": "35 chapter tests; coordinator whole-repository evidence in continuous-through52-review.json",
+      "figure_state": "editable vector/TXT mechanisms; all standalone pages locally author-reviewed; cumulative scope recorded separately",
+      "pdf_state": "standalone 12 pages; included in complete Chapters 1–52 cumulative candidate; acceptance pending",
+      "final_integration_state": "assembled_review_candidate",
+      "gates": {
+        "integrated": true,
+        "tested": true,
+        "built": true,
+        "rendered": true,
+        "locally_reviewed": true,
+        "independently_reviewed": false,
+        "accepted": false,
+        "full_book_converged": true,
+        "cumulative_editorial_acceptance": false
+      }
     },
     {
       "book": "evolutor",
@@ -966,12 +1142,23 @@
       "existing_chapter_state": "absent",
       "dependencies": [],
       "conflicts": [],
-      "decision": "pending semantic inspection",
-      "source_verification": "not_rerun",
-      "code_test_state": "not_rerun",
-      "figure_state": "not_reviewed",
-      "pdf_state": "not_built_locally",
-      "final_integration_state": "candidate"
+      "decision": "Biological observation contract, dependency-closed split, strand/allele coordinates and cluster uncertainty; untrained model checks, not genomic validation.",
+      "source_verification": "primary access depth recorded; no independent literature or experimental replication",
+      "code_test_state": "25 chapter tests; coordinator whole-repository evidence in continuous-through52-review.json",
+      "figure_state": "editable vector/TXT mechanisms; all standalone pages locally author-reviewed; cumulative scope recorded separately",
+      "pdf_state": "standalone 12 pages; included in complete Chapters 1–52 cumulative candidate; acceptance pending",
+      "final_integration_state": "assembled_review_candidate",
+      "gates": {
+        "integrated": true,
+        "tested": true,
+        "built": true,
+        "rendered": true,
+        "locally_reviewed": true,
+        "independently_reviewed": false,
+        "accepted": false,
+        "full_book_converged": true,
+        "cumulative_editorial_acceptance": false
+      }
     },
     {
       "book": "evolutor",
@@ -997,12 +1184,23 @@
       "existing_chapter_state": "absent",
       "dependencies": [],
       "conflicts": [],
-      "decision": "pending semantic inspection",
-      "source_verification": "not_rerun",
-      "code_test_state": "not_rerun",
-      "figure_state": "not_reviewed",
-      "pdf_state": "not_built_locally",
-      "final_integration_state": "candidate"
+      "decision": "Replayable immutable intent/result history, reconciliation and bounded queue; actual native continuations, no external exactly-once claim.",
+      "source_verification": "primary access depth recorded; no independent literature or experimental replication",
+      "code_test_state": "21 chapter tests; coordinator whole-repository evidence in continuous-through52-review.json",
+      "figure_state": "editable vector/TXT mechanisms; all standalone pages locally author-reviewed; cumulative scope recorded separately",
+      "pdf_state": "standalone 12 pages; included in complete Chapters 1–52 cumulative candidate; acceptance pending",
+      "final_integration_state": "assembled_review_candidate",
+      "gates": {
+        "integrated": true,
+        "tested": true,
+        "built": true,
+        "rendered": true,
+        "locally_reviewed": true,
+        "independently_reviewed": false,
+        "accepted": false,
+        "full_book_converged": true,
+        "cumulative_editorial_acceptance": false
+      }
     },
     {
       "book": "evolutor",
@@ -1028,12 +1226,23 @@
       "existing_chapter_state": "absent",
       "dependencies": [],
       "conflicts": [],
-      "decision": "pending semantic inspection",
-      "source_verification": "not_rerun",
-      "code_test_state": "not_rerun",
-      "figure_state": "not_reviewed",
-      "pdf_state": "not_built_locally",
-      "final_integration_state": "candidate"
+      "decision": "Exact anchored quadratic and acquisition-retention tradeoff, replay and population budget accounting; not estimated Fisher or trained EWC result.",
+      "source_verification": "primary access depth recorded; no independent literature or experimental replication",
+      "code_test_state": "29 chapter tests; coordinator whole-repository evidence in continuous-through52-review.json",
+      "figure_state": "editable vector/TXT mechanisms; all standalone pages locally author-reviewed; cumulative scope recorded separately",
+      "pdf_state": "standalone 13 pages; included in complete Chapters 1–52 cumulative candidate; acceptance pending",
+      "final_integration_state": "assembled_review_candidate",
+      "gates": {
+        "integrated": true,
+        "tested": true,
+        "built": true,
+        "rendered": true,
+        "locally_reviewed": true,
+        "independently_reviewed": false,
+        "accepted": false,
+        "full_book_converged": true,
+        "cumulative_editorial_acceptance": false
+      }
     },
     {
       "book": "evolutor",
@@ -1059,12 +1268,23 @@
       "existing_chapter_state": "absent",
       "dependencies": [],
       "conflicts": [],
-      "decision": "pending semantic inspection",
-      "source_verification": "not_rerun",
-      "code_test_state": "not_rerun",
-      "figure_state": "not_reviewed",
-      "pdf_state": "not_built_locally",
-      "final_integration_state": "candidate"
+      "decision": "Scoped evidence promotion and capability protocols with finite-test and statistical premises; no AGI or benchmark result.",
+      "source_verification": "primary access depth recorded; no independent literature or experimental replication",
+      "code_test_state": "23 chapter tests; coordinator whole-repository evidence in continuous-through52-review.json",
+      "figure_state": "editable vector/TXT mechanisms; all standalone pages locally author-reviewed; cumulative scope recorded separately",
+      "pdf_state": "standalone 12 pages; included in complete Chapters 1–52 cumulative candidate; acceptance pending",
+      "final_integration_state": "assembled_review_candidate",
+      "gates": {
+        "integrated": true,
+        "tested": true,
+        "built": true,
+        "rendered": true,
+        "locally_reviewed": true,
+        "independently_reviewed": false,
+        "accepted": false,
+        "full_book_converged": true,
+        "cumulative_editorial_acceptance": false
+      }
     },
     {
       "book": "evolutor",
@@ -1091,13 +1311,26 @@
       "existing_chapter_state": "absent",
       "dependencies": [],
       "conflicts": [],
-      "decision": "pending semantic inspection",
-      "source_verification": "not_rerun",
-      "code_test_state": "not_rerun",
-      "figure_state": "not_reviewed",
-      "pdf_state": "not_built_locally",
-      "final_integration_state": "candidate"
+      "decision": "Failure-aware claim/experiment ledger, bounded source capsule and final research synthesis; complete manuscript does not imply production or empirical acceptance.",
+      "source_verification": "primary access depth recorded; no independent literature or experimental replication",
+      "code_test_state": "26 chapter tests; coordinator whole-repository evidence in continuous-through52-review.json",
+      "figure_state": "editable vector/TXT mechanisms; all standalone pages locally author-reviewed; cumulative scope recorded separately",
+      "pdf_state": "standalone 14 pages; included in complete Chapters 1–52 cumulative candidate; acceptance pending",
+      "final_integration_state": "assembled_review_candidate",
+      "gates": {
+        "integrated": true,
+        "tested": true,
+        "built": true,
+        "rendered": true,
+        "locally_reviewed": true,
+        "independently_reviewed": false,
+        "accepted": false,
+        "full_book_converged": true,
+        "cumulative_editorial_acceptance": false
+      }
     }
   ],
-  "last_updated": "2026-10-17"
+  "last_updated": "2026-10-17",
+  "current_integration_date": "2026-10-18",
+  "current_assembled_through": 52
 }

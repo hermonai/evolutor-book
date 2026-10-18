@@ -1,0 +1,12 @@
+\begin{tikzpicture}[x=1cm,y=1cm,font=\small\sffamily]
+\foreach \x/\y/\n in {0/3/23,4/3/35,8/3/49,12/3/31,0/0/48,4/0/52,8/0/51} {
+\node[draw,fill=Pale,minimum width=1.4cm,minimum height=.8cm] (n\n) at (\x,\y) {Ch\n};}
+\draw[flow] (n35)--(n23) node[midway,above] {model reuse};
+\draw[flow] (n52)--(n51) node[midway,above] {ledger contract};
+\draw[Blue,dashed,->] (n48)--(n23) node[midway,left] {test};
+\draw[Blue,dashed,->] (n49)--(n35) node[midway,above] {test};
+\draw[Blue,dashed,->] (n49)--(n31) node[midway,above] {test};
+\draw[Blue,dashed,->] (n52)--(n35) node[midway,left] {test};
+\node[draw,dotted,minimum width=1.4cm,minimum height=.8cm] at (12,0) {Ch50};
+\node[anchor=west] at (-.7,-1.1) {Eight reference files are named in the local manifest; arrows name actual reuse/probes.};
+\end{tikzpicture}

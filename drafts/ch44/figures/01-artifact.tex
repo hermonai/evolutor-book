@@ -1,0 +1,12 @@
+\begin{tikzpicture}[x=1cm,y=1cm,font=\small\sffamily]
+\draw[Blue,thick,fill=Pale] (0,0) rectangle (5.4,3.5);
+\node[anchor=west,font=\bfseries\sffamily] at (.25,3.15) {Canonical release manifest};
+\foreach \y/\a/\b in {2.6/model/weight digest,2.1/runtime/compiler + ABI,1.6/config/tokenizer + limits,1.1/schema/state + API + policy,.6/backend/device requirements}{
+\node[anchor=west] at (.25,\y) {\a};
+\node[anchor=west,text=Blue] at (1.9,\y) {\b};}
+\node[draw,fill=Gold!35,minimum width=3.5cm,minimum height=1cm,align=center] (d) at (9,2.1) {$d_B=H(\mathrm{encode}(B))$\\immutable execution identity};
+\draw[flow] (5.4,2.1)--node[above,font=\footnotesize]{hash} (d.west);
+\node[draw,align=center,minimum width=3.5cm] (p) at (9,.35) {builder + source + inputs\\subject digest $=d_B$};
+\draw[flow,dashed] (p.north)--node[right,font=\footnotesize]{verify provenance} (d.south);
+\node[anchor=west,align=left,text=Red] at (0,-.65) {Same weights + changed tokenizer\quad$\Rightarrow$\quad different release identity};
+\end{tikzpicture}

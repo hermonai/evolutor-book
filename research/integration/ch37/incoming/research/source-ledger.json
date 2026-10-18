@@ -1,0 +1,44 @@
+[
+  {
+    "key": "orca2022",
+    "claim": "Iteration-level scheduling enables batch membership to change across autoregressive iterations rather than remaining fixed for whole requests.",
+    "primary": "https://www.usenix.org/conference/osdi22/presentation/yu",
+    "authors": "Gyeong-In Yu et al.",
+    "date": "2022",
+    "access_date": "2026-10-05",
+    "access_depth": "official USENIX paper abstract/page inspected"
+  },
+  {
+    "key": "sarathi2024",
+    "claim": "Chunked/stall-free batching addresses the throughput versus time-between-token latency interaction between long prefills and decodes.",
+    "primary": "USENIX OSDI 2024 Sarathi-Serve proceedings",
+    "date": "2024",
+    "access_date": "2026-10-05",
+    "access_depth": "official proceedings excerpt inspected"
+  },
+  {
+    "key": "fairness2024",
+    "claim": "Continuous batching does not inherently provide client fairness; VTC formalizes one fairness policy with service-difference guarantees.",
+    "primary": "https://www.usenix.org/conference/osdi24/presentation/sheng",
+    "authors": "Ying Sheng et al.",
+    "date": "2024",
+    "access_date": "2026-10-05",
+    "access_depth": "official USENIX abstract inspected"
+  },
+  {
+    "key": "smoothquant",
+    "claim": "SmoothQuant is a W8A8 PTQ method that addresses activation outliers via equivalent rescaling and validates accuracy empirically.",
+    "primary": "https://arxiv.org/abs/2211.10438",
+    "authors": "Guangxuan Xiao et al.",
+    "date": "2022/2023",
+    "access_date": "2026-10-05",
+    "access_depth": "primary arXiv abstract inspected"
+  },
+  {
+    "key": "EVOD35-36",
+    "claim": "Causal cached parity and paged KV ownership are prerequisite correctness contracts for the scheduler/precision layer.",
+    "primary": "external EVOD-35/36 packages",
+    "access_date": "2026-10-05",
+    "access_depth": "complete package continuity"
+  }
+]

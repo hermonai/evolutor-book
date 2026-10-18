@@ -1,0 +1,367 @@
+\chapter{Continuous batching and precision}
+\label{evod37:chapter}
+
+A five-token prompt arrives while a shorter request is nearly ready to
+emit. Giving each request one turn sounds fair until a turn can mean either
+five prompt tokens or one decode token. Reserving one page per active request
+sounds safe until a long generation fills its last slot. Lowering KV precision
+sounds helpful until a small numerical perturbation changes a sampled future.
+Serving needs explicit units for work, storage, output time and error.
+
+We retain the supplied chapter's decode-first/chunked-prefill policy and
+precision experiments, but execute the policy through the actual Chapter 36
+allocator and Chapter 35 Hermon stack. The fixture is deterministic greedy
+ACGT generation, CPU float64, abstract iteration ticks and serialized
+execution. A list of scheduled lanes does not constitute a fused ragged
+device kernel or a measured service benchmark.
+
+\section{Define consumed work and emitted output}
+\index{Consumed token}\index{Emitted token}
+\label{evod37:clock}
+Let request $r$ have nonempty prompt $x^{(r)}$ of length $P_r$ and desired
+output count $O_r\ge1$. Its last prompt logits predict output token $y_0$.
+Consuming $y_0$ then predicts $y_1$, and so on. Therefore completion with
+$O_r$ outputs requires
+\begin{equation}
+ T_{r,\max}=P_r+O_r-1
+ \label{evod37:consumed}
+\end{equation}
+consumed positions, when the final emitted token is not subsequently
+consumed. A library may choose to consume it for future continuation, but
+then it needs an extra position and must declare that convention.
+
+\Plate{03-clock}{Prediction and cache advancement have different clocks. The last prompt row emits the first output; an unnecessary extra decode would change latency and page accounting.}{evod37:clockplate}
+
+At intermediate time, if $p_r$ prompt tokens are consumed and $g_r$ outputs
+emitted, the cache length is
+\[
+ T_r=p_r+\max(0,g_r-1).
+\]
+Before final prefill, $g_r=0$; at its completion $g_r=1$ without an
+additional consumed output. The scheduler checks this equation against the
+actual registered page table after every iteration. It rejects empty
+prompts rather than inventing an implicit BOS token absent from the model.
+
+\section{Admission reserves capacity; scheduling spends work}
+\index{Admission control}\index{Page reservation}
+\label{evod37:admission}
+Take page capacity $P$ and arena size $C$ physical pages. The teaching
+admission policy conservatively reserves
+\[
+ R_r=\left\lceil\frac{P_r+O_r-1}{P}\right\rceil
+\]
+page credits for each admitted request. The declared output limit must keep
+consumed positions inside the model's learned-position table. An impossible
+single request is rejected immediately; others wait until their reservation
+fits. A reservation is an accounting promise, not preallocated K/V tensors.
+
+\Plate{01-reservation}{Allocated pages are bounded by admitted reservations. Waiting requests own neither pages nor credits in this policy.}{evod37:reservation}
+
+This policy trades utilization for a simple progress guarantee. It supports
+no shared-prefix admission, preemption, spilling or speculative workspace.
+Because its pool is dedicated and its admitted requests have private tails,
+the final page count bounds every intermediate page count. A production
+policy reserving only immediate growth must instead handle later OOM;
+one that uses shared prefixes must account for COW obligations as well.
+Speculation needs temporary fork capacity beyond the live reservation.
+
+\begin{proposition}[Page-credit safety]
+Assume a dedicated arena, serialized native execution, validated length
+limits and no external forks. If admission maintains
+$\sum_{r\in A}R_r\le C$, then every scheduled native append fits the arena
+and physical allocation $U$ satisfies
+\[
+ U\le\sum_{r\in A}R_r\le C.
+\]
+\end{proposition}
+\begin{proof}
+Every active request has $T_r\le T_{r,\max}$, so its private page count
+is at most $R_r$. No other state owns a page in the dedicated pool.
+Sum over active requests. During append, preparing Python tensors does not
+claim arena pages, old full pages remain referenced, and private-tail
+replacement needs no extra page credit. The number of newly allocated pages
+is at most the request's unused reservation. Completion/cancellation releases
+all its actual pages and removes its reservation. Admission adds only a
+reservation that fits the remaining credit. Induction over these operations
+proves the bound.
+\end{proof}
+
+This is arena-credit safety, not a bound on process RSS: temporary tensor
+construction, parameters, metadata and staging still consume memory.
+
+\section{Construct the next mixed iteration}
+\index{Continuous batching}\index{Chunked prefill}\index{Decode-first scheduling}
+\label{evod37:schedule}
+Let $B$ be the iteration token-work budget and $C_p$ the maximum prompt
+chunk. First select at most one consumed token from each ready decoder,
+then use remaining budget for prompt chunks
+\[
+ n_r\le\min(C_p,P_r-p_r,B_{\rm remaining}).
+\]
+The ready list rotates by tick to avoid always privileging its first decoder.
+The work plan is fixed before execution, so a prompt finishing in this
+iteration cannot also receive a decode in the same plan. Native operations
+preserve causal order within each request even while membership changes.
+
+\Listing{Scheduler.plan}
+
+If the plan contains work units $n_1,\ldots,n_m$, repeated subtraction
+from nonnegative remaining budget proves $\sum_i n_i\le B$. Each prefill
+count is at most $C_p$ by construction, and every decode count is one.
+However, token counts are not equal execution costs. Attention to a long
+retained prefix can cost more than attention to a short prefix; projection,
+feed-forward and dispatch costs also matter. $B$ bounds this policy's
+token numerator, not iteration milliseconds.
+
+Orca is the primary precedent for iteration-level membership changes
+\cite{evod37:orca}. Sarathi-Serve studies chunked prefills mixed with decodes
+\cite{evod37:sarathi}. Those designs motivate this experiment; we do not
+claim this rotating serial scheduler reproduces their kernels or guarantees.
+
+\Plate{02-timeline}{The actual small workload changes membership between iterations. P and D label consumed token work, not abstract requests of equal cost.}{evod37:timeline}
+
+The example admits A at arrival 0 with prompt length five/output three,
+B at arrival 1 with prompt one/output two, and C at arrival 2 with prompt
+three/output one. Set $B=4,C_p=2,P=2$ and arena capacity 12. The generated
+table counts emissions separately from consumed tokens and records page
+usage \emph{after} releases at each completion boundary.
+
+\begin{center}\input{\Generated/iterations.tex}\end{center}
+
+The first iteration uses only two of four token units because only A is
+eligible and one chunk per request is allowed. This policy need not fill
+every budget. At tick three's completion, B has finished and released its
+pages while A emits its first token and C has consumed two prompt tokens.
+No fabricated device timing is attached to these ticks.
+
+\Listing{Scheduler.step}
+
+Execution is per-lane serial publication. If an unexpected runtime error
+occurs after an earlier lane completed, the earlier lane remains completed;
+the batch is not claimed atomic. Expected page exhaustion is excluded by
+the conservative admission proof. Cancellation is immediate at a serialized
+boundary and releases that request's handle. A real asynchronous backend
+must separately fence work already using its pages.
+
+\section{Latency, throughput and fairness are different questions}
+\index{Time to first token}\index{Inter-token latency}\index{Fairness}\index{Throughput}
+\label{evod37:metrics}
+For arrival $a_r$ and completion-boundary output timestamps
+$t_{r,0},\ldots,t_{r,O_r-1}$,
+\[
+ \mathrm{TTFT}_r=t_{r,0}-a_r,\qquad
+ \mathrm{ITL}_{r,i}=t_{r,i+1}-t_{r,i},\qquad
+ L_r=t_{r,O_r-1}-a_r.
+\]
+A one-output request has no ITL sample; it does not have measured zero ITL.
+The table uses a dash for that undefined statistic.
+\begin{center}\input{\Generated/latency.tex}\end{center}
+
+All quantities here are ticks. The example emits six outputs over five
+ticks, a useful-output rate of $6/5$ outputs per abstract tick. It consumes
+12 prompt/output tokens, giving $12/5$ consumed tokens per tick. These
+numerators differ even before conversion to seconds. Queueing is included
+in TTFT; scheduling overhead and execution time would enter real timestamps.
+
+Decode-first can protect existing token progress while delaying new prompts.
+Rotating decoders does not guarantee tenant fairness; clients can submit
+different numbers of requests, prompt costs vary, and sustained decode load
+can starve prefills. The finite-workload test establishes eventual completion
+only for its supplied requests. Fairness needs a declared unit, such as
+weighted client service, and a corresponding policy/proof; VTC provides
+one research comparison~\cite{evod37:fairness}.
+
+For an actual SLO experiment declare arrival process, offered rate,
+prompt/output distributions, cancellation mix, tenant weights and admission
+policy. Sweep load, recording generated tokens/s, requests/s, TTFT and ITL
+p50/p95/p99, completion latency, rejection rate and memory high-water mark.
+Compare configurations on the same workload and quality gate. A mean or a
+single low-load operating point cannot describe saturation behavior.
+
+\section{Precision belongs to a tensor role}
+\index{Precision policy}\index{Quantization!INT8}\index{BF16}\index{FP16}\index{Saturation}
+\label{evod37:precision}
+A useful policy is
+\[
+ \Pi=(\Pi_W,\Pi_A,\Pi_{KV},\Pi_{\rm accum},\Pi_{\rm out}),
+\]
+for weight, activation, retained KV, accumulation and output representations.
+An eight-bit storage label does not specify scale granularity, clipping,
+rounding, reduction precision or supported kernels. A model artifact and
+serving manifest must identify these choices alongside calibration data.
+
+FP16 has five exponent and ten explicit fraction bits; BF16 has eight and
+seven. BF16 preserves a wider exponent range, while FP16 resolves smaller
+relative differences for normal values in its narrower range. Tests use
+PyTorch's actual CPU casts for representation study, including BF16
+rounding, rather than calling a hand-written bit trick a native kernel.
+Large finite values that overflow FP16 trigger an explicit fallback error.
+FP8 is a family with multiple exponent/fraction and special-value contracts;
+we supply no FP8 conversion or hardware performance result.
+
+For symmetric INT8 storage of finite nonempty tensor $x$, define
+\[
+ s=\max_i|x_i|/127,\quad q_i=\operatorname{clip}
+ (\operatorname{round}(x_i/s),-127,127),\quad\widehat x_i=sq_i.
+\]
+For the all-zero tensor choose $s=1,q=0$. With no saturation and nearest
+rounding, $|x_i-\widehat x_i|\le s/2$: rounding changes $x_i/s$ by at most
+one half, then multiplication restores units. This proof does not apply to
+values clipped outside a fixed calibration range.
+
+\Needspace{14\baselineskip}
+\Listing{int8_symmetric}
+\Plate{04-quantization}{One outlier controls a per-tensor scale and erases small differences. A fixed scale can instead saturate previously unseen large values.}{evod37:quantization}
+
+Dynamic per-tensor scaling avoids clipping finite current extrema but can
+change older reconstructed rows when a later outlier changes the scale.
+Per-channel/group scales trade metadata for finer resolution. With one
+four-byte scale for every $g$ one-byte values, nominal storage is
+$1+4/g$ bytes/value before padding, not exactly one byte/value.
+SmoothQuant's equivalent rescaling is a method for moving quantization
+difficulty between activation and weight tensors; its W8A8 quality evidence
+does not validate a different KV policy~\cite{evod37:smoothquant}.
+
+\section{Trace KV error into attention before judging output}
+\index{Attention!perturbation bound}\index{Softmax!sensitivity}
+\label{evod37:error}
+For one fixed query $q\in\mathbb R^{d_h}$ and $T$ keys/values, assume
+$\|\Delta k_j\|_2\le\epsilon_K$ and
+$\|\Delta v_j\|_2\le\epsilon_V$. Exact score error is bounded by
+\[
+ |\Delta s_j|=|q^\top\Delta k_j|/\sqrt{d_h}
+ \le\delta:=\|q\|_2\epsilon_K/\sqrt{d_h}.
+\]
+Let $p(s)$ be softmax. Along $s(\tau)=s+\tau\Delta s$,
+\[
+ \frac{dp_j}{d\tau}=p_j\left(\Delta s_j-
+                 \sum_k p_k\Delta s_k\right).
+\]
+The absolute sum of derivatives is at most $2\delta$ because both each
+$|\Delta s_j|$ and the probability-weighted mean magnitude are at most
+$\delta$. Integrating over $\tau\in[0,1]$ gives
+$\|p(s+\Delta s)-p(s)\|_1\le2\delta$.
+
+If $\max_j\|v_j\|_2\le V_{\max}$, decompose the output difference into
+changed values weighted by $p'$ and changed probabilities weighted by $v$:
+\begin{equation}
+ \|\widehat y-y\|_2
+ \le\epsilon_V+2V_{\max}\|q\|_2\epsilon_K/\sqrt{d_h}.
+ \label{evod37:attentionbound}
+\end{equation}
+The first term uses probabilities summing to one. This deliberately loose
+one-head bound assumes a fixed query and mask, exact arithmetic, and one
+attention operation. It does not bound multi-layer feedback, new queries
+computed from perturbed prior layers, softmax rounding or future sampled
+history. Those require additional stability assumptions or measurement.
+
+\section{Run the real model, then apply a declared gate}
+\index{Calibration}\index{Quality gate}\index{Logit margin}\index{KV cache!precision}
+\label{evod37:gate}
+The executable experiment rounds stored K/V after every consumed token,
+then continues through Chapter 35's actual multi-layer model. All projections,
+attention and FFN arithmetic remain float64. INT8 reconstructs to float64
+and is repeatedly requantized per current layer tensor; it is neither a
+compressed page arena nor a native INT8 matmul path. Its approximate state
+is labeled separately and never inserted as an exact Chapter 36 prefix hit.
+
+\Listing{precision_rollout}
+\begin{center}\input{\Generated/precision.tex}\end{center}
+
+The generated eight-token fixture uses fixed untrained weights and teacher
+forcing, so all modes see identical token histories. This isolates numerical
+drift; it is not perplexity or a learned genomic task. Argmax agreement is
+computed per output row, not once over a flattened tensor. The report also
+contains mean target-to-candidate softmax KL, maximum logit error and relative
+L2 error with a declared denominator floor.
+
+If each logit changes by at most $\epsilon$ and the reference winner's
+margin is $m=z_{(1)}-z_{(2)}$, then its perturbed advantage is at least
+$m-2\epsilon$. Thus $m>2\epsilon$ is sufficient for unchanged argmax.
+It is not necessary, and it does not imply unchanged sampling probabilities.
+
+\Plate{05-margin}{Maximum error and discrete output agreement answer different questions. An explicit near-tie negative control prevents a small-error report from certifying the wrong winner.}{evod37:margin}
+
+The gate rejects nonfinite reports, errors above declared limits, or
+insufficient per-row argmax agreement. Thresholds are experiment inputs,
+not universal quality standards. Representative calibration and held-out
+task evaluation must cover domains, context lengths, positions, outliers,
+structured-output validity and any stochastic sampling transformation.
+Record baseline artifact, candidate policy, data/split hashes and fallback.
+Do not choose thresholds retrospectively to rescue a failed configuration.
+
+Lower KV storage can allow more resident requests, but a larger batch may
+increase iteration time or queueing. Precision therefore changes both
+numerical behavior and the scheduler's operating frontier. The float64
+emulation here does not allocate fewer bytes; such a claim needs actual
+compressed storage accounting and supported-kernel measurements.
+
+\section{Selective glossary}
+\begin{description}
+\item[Admission] Permission to enter the active set under a storage-credit policy.
+\item[Reservation] A bound on future arena allocation, distinct from resident payload.
+\item[Continuous batching] Revising eligible membership between iterations while preserving each request's causal order.
+\item[TTFT and ITL] Arrival-to-first-output delay and gaps between successive output completions.
+\item[Typed precision] Representation choices attached to tensor roles, scales and reduction rules.
+\item[Calibration] Data used to select quantization parameters; it is distinct from held-out task evaluation.
+\item[Logit margin] Difference between the largest and second-largest reference logits; it controls a sufficient argmax-stability condition.
+\end{description}
+
+\section{Twenty worked exercises}
+\label{evod37:exercises}
+\begin{enumerate}
+\setlength{\itemsep}{1pt}
+\setlength{\parsep}{0pt}
+\item \textbf{Consume versus emit.} Prompt five, output three?
+\emph{Solution:} seven consumed positions; last prefill emits the first output.
+\item \textbf{Reserve pages.} Those lengths with $P=2$?
+\emph{Solution:} $\lceil7/2\rceil=4$ page credits.
+\item \textbf{Distinguish reserve.} Four reserved, two allocated?
+\emph{Solution:} two actual payload pages, two future credits; not four
+pages of current valid KV.
+\item \textbf{Plan work.} Budget four, two ready decoders, prompt remains
+six and chunk two? \emph{Solution:} one token per decoder then a two-token chunk.
+\item \textbf{Predict a transition.} Can finishing prefill decode again in
+the same fixed plan? \emph{Solution:} no; next iteration sees its new phase.
+\item \textbf{Derive the budget.} Why no overspend? \emph{Solution:}
+each selection is bounded by remaining budget and subtracts its exact count.
+\item \textbf{Measure TTFT.} Arrival 2, first output at 4?
+\emph{Solution:} two ticks, including waiting and prefill.
+\item \textbf{Measure ITL.} One output only? \emph{Solution:} no gap sample;
+report undefined, not measured zero.
+\item \textbf{Name throughput.} Six emitted and twelve consumed over five
+ticks? \emph{Solution:} $1.2$ outputs/tick and $2.4$ consumed tokens/tick.
+\item \textbf{Challenge fairness.} Does decode-first prevent prompt starvation?
+\emph{Solution:} no; sustained decode load can spend the whole budget.
+\item \textbf{Choose precision fields.} What does ``INT8 model'' omit?
+\emph{Solution:} tensor roles, scale granularity, accumulators and clipping.
+\item \textbf{Compare sixteen bits.} FP16 versus BF16?
+\emph{Solution:} FP16 has more fraction bits; BF16 more exponent bits.
+\item \textbf{Prove INT8 rounding.} No saturation?
+\emph{Solution:} nearest rounding error is at most half a scale unit.
+\item \textbf{Find saturation.} $s=.01$, value ten?
+\emph{Solution:} integer clips to 127; reconstructed value 1.27 violates
+the unsaturated half-step bound.
+\item \textbf{Count scale overhead.} $g=32$ and four-byte scales?
+\emph{Solution:} $1.125$ nominal bytes/value, before alignment.
+\item \textbf{Propagate key error.} $\|q\|_2=2,d_h=4,\epsilon_K=.01$?
+\emph{Solution:} $\delta=.01$ and probability L1 change is bounded by .02.
+\item \textbf{Protect a winner.} Margin .1 and $\epsilon=.02$?
+\emph{Solution:} $.1>.04$ suffices; margin .01 would not.
+\item \textbf{Separate evidence.} All eight fixture argmaxes agree?
+\emph{Solution:} only that fixture's discrete predictions agree; no trained
+quality or long-context guarantee follows.
+\item \textbf{Design calibration.} \emph{Rubric:} separate calibration and
+evaluation, declare contexts, domains and outliers, fix thresholds beforehand,
+record artifact/scale hashes and unsupported-case fallback.
+\item \textbf{Design a load study.} \emph{Rubric:} vary offered load, hold
+workload and quality fixed, report TTFT/ITL tails, useful throughput,
+rejections, page and temporary-memory high-water marks, and uncertainty.
+\end{enumerate}
+
+\section{The next optimization must preserve these contracts}
+Chapter 38 adds speculative verification and online exact attention.
+Speculation needs temporary state outside the live reservation; online
+reduction needs the same offset masks and precision policy. Neither can
+silently change token order, the target sampling law or Hermon's model
+identity to make a performance claim easier.

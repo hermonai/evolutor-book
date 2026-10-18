@@ -1,0 +1,47 @@
+{
+  "branches": [
+    {
+      "request": "parent",
+      "tokens": 3,
+      "pages": 2,
+      "tail_waste": 1
+    },
+    {
+      "request": "child",
+      "tokens": 4,
+      "pages": 2,
+      "tail_waste": 0
+    }
+  ],
+  "stats": {
+    "used_pages": 3,
+    "free_pages": 5,
+    "references": 4,
+    "physical_rows": 5,
+    "tail_slots": 1
+  },
+  "native_error": 1.1102230246251565e-16,
+  "page_payload_bytes": 512,
+  "geometry": [
+    {
+      "P": 1,
+      "pages": 13,
+      "waste": 0
+    },
+    {
+      "P": 2,
+      "pages": 7,
+      "waste": 1
+    },
+    {
+      "P": 4,
+      "pages": 4,
+      "waste": 3
+    },
+    {
+      "P": 8,
+      "pages": 2,
+      "waste": 3
+    }
+  ]
+}

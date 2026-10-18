@@ -1,0 +1,1 @@
+Queue occupancy steps from zero to one on accepting A, then to two on accepting B. Arrival C is rejected while full and occupancy stays two. Popping A and then B returns to zero. The three attempted arrivals are not three accepted items. Time is an illustrative order axis rather than measured latency.

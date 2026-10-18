@@ -49,3 +49,40 @@ def test_multikey_citation_remap_and_missing_key_fail():
     )
     with pytest.raises(ValueError, match="Unresolved"):
         r.remap_cites(r"\cite{unknown}", {})
+
+
+def test_reserved_figure_loop_variable_is_alpha_renamed_only_in_derived_text():
+    source = r"\foreach \x/\label in {0/a,1/b}{\node at (\x,0) {\label};}"
+    changed = r.safe_figure_loop_variable(source)
+    assert changed == source.replace(r"\label", r"\EvolutorLoopText")
+    assert r.safe_figure_loop_variable(changed) == changed
+    ordinary_label = r"\node {text}; \label{actual-figure}"
+    assert r.safe_figure_loop_variable(ordinary_label) == ordinary_label
+
+
+def test_ambiguous_loop_and_real_reference_label_fail_instead_of_corrupting():
+    source = r"\foreach \x/\label in {0/a}{\node {\label};}\label{real}"
+    with pytest.raises(ValueError, match="Ambiguous"):
+        r.safe_figure_loop_variable(source)
+
+
+def test_cumulative_preamble_accepts_incremental_line_number_marker():
+    text = (Path(__file__).parents[1] / "tex/convergence/preamble.tex").read_text()
+    assert r"\providecommand\@LN@col[1]{}" in text
+
+
+def test_figure_labels_bypass_caption_local_label_reset_with_explicit_namespace():
+    text = (Path(__file__).parents[1] / "tex/convergence/preamble.tex").read_text()
+    assert r"\noexpand\OriginalBookLabel{\ChapterNamespace#3}" in text
+
+
+def test_printed_part_navigation_matches_complete_chapter_map():
+    starts = r.part_starts()
+    assert list(starts) == [1, 2, 11, 18, 23, 25, 30, 35, 39, 44, 48, 52]
+    assert starts[35] == "Hermon DNA Engine: attention-native inference"
+
+
+def test_cumulative_definition_reserves_its_heading_prose_and_display():
+    text = r"\section{Construct the next mixed iteration}" + "\nDefinition."
+    assert r"\Needspace{8\baselineskip}" in r.cumulative_layout(37, text)
+    assert r.cumulative_layout(36, text) == text

@@ -1,0 +1,19 @@
+{
+  "trace": [
+    {
+      "phase": "First admission",
+      "action": "dispatch"
+    },
+    {
+      "phase": "Resume unresolved",
+      "action": "reconcile"
+    },
+    {
+      "phase": "Observed completion",
+      "action": "cached"
+    }
+  ],
+  "events": 3,
+  "context": 2,
+  "checkpoint_still_valid": true
+}

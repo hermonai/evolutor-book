@@ -1,0 +1,1 @@
+Logical address translation includes a generational physical page reference, preventing reuse from validating stale block-table entries.

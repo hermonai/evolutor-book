@@ -1,0 +1,1 @@
+Capability ledger records evidence and limitations dimension by dimension.

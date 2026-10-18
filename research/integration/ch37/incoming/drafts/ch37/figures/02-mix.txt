@@ -1,0 +1,1 @@
+The teaching policy protects existing decodes first and uses remaining token budget for bounded prompt chunks.

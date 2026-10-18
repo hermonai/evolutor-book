@@ -1,0 +1,15 @@
+\begin{tikzpicture}[x=1cm,y=1cm,font=\small\sffamily]
+\draw[Blue,very thick] (0,2)--(12,2);
+\draw[Blue,very thick] (0,1.35)--(12,1.35);
+\foreach \x in {.3,.65,...,11.7} {\draw[dashed,gray] (\x,1.4)--(\x,1.95);}
+\node[anchor=east] at (0,2) {5$'$};\node[anchor=west] at (12,2) {3$'$};
+\node[anchor=east] at (0,1.35) {3$'$};\node[anchor=west] at (12,1.35) {5$'$};
+\draw[Green,thick] (2,2.4)--(4,2.4);\node at (3,2.75) {promoter region};
+\node[draw,ellipse,fill=Gold,minimum width=3cm,minimum height=1.3cm,align=center] at (5.4,1.7) {transcription\ machinery};
+\draw[flow] (6.5,2.6)--(9,2.6) node[midway,above] {transcription};
+\draw[Red,thick] (5.3,1)--(4.7,.45)--(3,.45);
+\node[Red,anchor=east] at (3,.45) {5$'$ RNA};\node[Red,anchor=west] at (6.7,.55) {3$'$ growing end};
+\draw[Red,thin] (5.4,.95)--(6.6,.55);
+\draw[Blue,dotted,thick] (1.5,-.1) rectangle (9.7,3.2);
+\node[anchor=west] at (0,-.7) {Recorded window $X$ + assay-derived target $Y$: observation, not molecular simulation};
+\end{tikzpicture}

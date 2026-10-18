@@ -1,0 +1,1 @@
+Evolutor first turns an objective into a typed plan whose operations and required capabilities can be validated before execution.

@@ -1,0 +1,1 @@
+Planning a side effect is not authorization to perform it; policy gates execution and denial is auditable.

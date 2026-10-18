@@ -1,0 +1,1 @@
+Verification rejects undefined values, type mismatches and illegal operation contracts before optimization.

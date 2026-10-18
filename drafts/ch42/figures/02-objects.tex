@@ -1,0 +1,8 @@
+\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={note,align=left}]
+\foreach \y/\obj/\rule in {3/native recurrence/complete checkpoint + artifact,1.5/Hermon layered KV/ordered prefix + model + positions,0/durable event/retained object + current tombstones}{
+ \node[draw,fill=Pale,minimum width=4cm] at (2,\y) {\obj};
+ \node[draw,minimum width=7cm] at (10,\y) {\rule};
+ \draw[flow] (4.1,\y)--(6.4,\y);
+}
+\node at (7,-1.2) {Same allocator page size does not imply the same reconstruction rule.};
+\end{tikzpicture}

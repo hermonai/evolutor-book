@@ -1,0 +1,1 @@
+Draft candidates depend serially on earlier candidates. Target verifies p_i conditioned on original prefix and earlier draft candidates. Rejection at2 commits accepted1 plus correction2; candidate3 invalid.

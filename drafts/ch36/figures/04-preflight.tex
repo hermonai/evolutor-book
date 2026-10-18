@@ -1,0 +1,12 @@
+\begin{tikzpicture}[x=1cm,y=1cm]
+\node[note,anchor=west] at (0,3) {Shared tail at $T=1$, $P=2$; append five tokens};
+\draw[thick,fill=Gold!35] (0,1.5) rectangle (3,2.25);
+\node[note] at (1.5,1.87) {tail COW: 1 page};
+\draw[thick,fill=Pale] (3.5,1.5) rectangle (6.5,2.25);
+\node[note] at (5,1.87) {new blocks: 2 pages};
+\node[note,draw] at (9.6,1.87) {need 3; free 1};
+\draw[flow] (6.5,1.87)--(8,1.87);
+\draw[Red,thick] (9,1)--(10.2,.4); \draw[Red,thick] (9,.4)--(10.2,1);
+\node[note,anchor=west] at (0,.65) {$1+\lceil\max(0,5-(2-1))/2\rceil=3$};
+\node[note,draw,fill=Pale] at (6.5,-.2) {Reject before arithmetic/publication; original tables, generations and refs unchanged};
+\end{tikzpicture}

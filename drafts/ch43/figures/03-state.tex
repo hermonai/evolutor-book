@@ -1,0 +1,10 @@
+\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={note}]
+\draw[flow] (0,2.8)--(14,2.8) node[right] {time};
+\draw[dashed,Red] (7,-.4)--(7,3.2);\node[above] at (7,3.3) {pointer switch};
+\draw[line width=6pt,Blue!45] (1,1.6)--(6.5,1.6);
+\node[left] at (0,1.6) {old requests};\node at (3.5,1.6) {artifact A + state A};
+\draw[line width=6pt,Green!45] (7.5,.5)--(13.5,.5);
+\node at (10.5,.5) {new requests: B + fresh state B};
+\node at (4,-1) {drain old work before incompatible switch};
+\node[Red] at (11,-1) {no raw A-state to B};
+\end{tikzpicture}

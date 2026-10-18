@@ -1,0 +1,36 @@
+{
+  "metrics": {
+    "requests": 3,
+    "output_tokens": 11,
+    "p50_ttft": 60.0,
+    "p95_ttft": 130.0,
+    "p95_itl": 30.0,
+    "output_tokens_per_s": 44.0,
+    "goodput_req_per_s": 8.0,
+    "slo_attainment": 0.6666666666666666
+  },
+  "costs": [
+    {
+      "kind": "Decode KV",
+      "flops": 402653184,
+      "nbytes": 402653184,
+      "ai": 1.0
+    },
+    {
+      "kind": "Native resident",
+      "flops": 6144,
+      "nbytes": 12544,
+      "ai": 0.4897959183673469
+    },
+    {
+      "kind": "Native staged",
+      "flops": 6144,
+      "nbytes": 28928,
+      "ai": 0.21238938053097345
+    }
+  ],
+  "speedup": 1.25,
+  "amdahl": 1.1111111111111112,
+  "evidence": "synthetic trace and analytic payload only",
+  "real_backend_measurements": []
+}

@@ -1,0 +1,1 @@
+A precision change is accepted only after numerical and task/output-quality gates on representative data; unsupported cases fall back.

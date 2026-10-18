@@ -1,0 +1,14 @@
+\begin{tikzpicture}[x=1cm,y=1cm,font=\small\sffamily]
+\node[draw,fill=Pale,minimum width=11.7cm] at (6,2.6) {Fixed: logical ID + tenant + artifact + schema + backend};
+\draw[flow] (0,0)--(12,0) node[right]{time};
+\node[anchor=east] at (1,1.35) {a};\node[anchor=east] at (1,-1.15) {b};
+\draw[Blue,line width=2pt] (1.3,1.35)--(7.4,1.35);
+\node[above] at (3.8,1.35) {authoritative epoch 7};
+\draw[Green,thick,dashed] (3.6,-1.15)--(7.4,-1.15);
+\node[below,align=center] at (5.1,-1.35) {staging copy\\cannot execute};
+\draw[Green,line width=2pt] (7.4,-1.15)--(11.4,-1.15);
+\node[below,align=center] at (9.8,-1.35) {owner b\\epoch 8};
+\draw[Red,dashed,thick] (7.4,-1.8)--(7.4,2);
+\node[anchor=west,text=Red] at (7.6,.65) {directory commit};
+\node[anchor=west,text=Red,font=\footnotesize] at (7.6,1.35) {a's old handle rejected};
+\end{tikzpicture}

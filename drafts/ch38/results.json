@@ -1,0 +1,67 @@
+{
+  "acceptance": [
+    {
+      "token": 0,
+      "p": 0.55,
+      "q": 0.45,
+      "accepted": 0.45,
+      "residual": 0.10000000000000003
+    },
+    {
+      "token": 1,
+      "p": 0.25,
+      "q": 0.35,
+      "accepted": 0.25,
+      "residual": 0
+    },
+    {
+      "token": 2,
+      "p": 0.15,
+      "q": 0.15,
+      "accepted": 0.15,
+      "residual": 0.0
+    },
+    {
+      "token": 3,
+      "p": 0.05,
+      "q": 0.05,
+      "accepted": 0.05,
+      "residual": 0.0
+    }
+  ],
+  "output": [
+    0.55,
+    0.25,
+    0.15,
+    0.05
+  ],
+  "expected_acceptance": 0.9,
+  "attention": [
+    {
+      "tile": 1,
+      "error": 2.220446049250313e-16
+    },
+    {
+      "tile": 2,
+      "error": 4.440892098500626e-16
+    },
+    {
+      "tile": 4,
+      "error": 2.220446049250313e-16
+    },
+    {
+      "tile": 32,
+      "error": 2.220446049250313e-16
+    }
+  ],
+  "traffic": [
+    {
+      "method": "scores",
+      "bytes": 2114048
+    },
+    {
+      "method": "online",
+      "bytes": 2097664
+    }
+  ]
+}

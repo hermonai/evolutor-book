@@ -1,0 +1,8 @@
+\begin{tikzpicture}
+\begin{axis}[width=11cm,height=5.5cm,xlabel={Action budget},ylabel={Quality},xmin=0,xmax=2,ymin=0,ymax=1.05,xtick={0,1,2},ytick={0,.2,.4,.6,.8,1},legend pos=south east,legend style={font=\small},grid=major]
+\addplot[Blue,thick,mark=*] coordinates {(0,0) (1,.8) (2,1)};
+\addlegendentry{early: area .65}
+\addplot[Red,dashed,thick,mark=square*] coordinates {(0,0) (1,.2) (2,1)};
+\addlegendentry{late: area .35}
+\end{axis}
+\end{tikzpicture}

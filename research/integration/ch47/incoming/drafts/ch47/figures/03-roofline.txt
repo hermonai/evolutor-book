@@ -1,0 +1,1 @@
+Roofline reasoning distinguishes compute and memory ceilings using measured/estimated work and traffic.

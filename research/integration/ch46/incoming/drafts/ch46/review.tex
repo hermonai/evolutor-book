@@ -1,0 +1,10 @@
+\chapter*{Author technical review}
+\begin{itemize}
+\item Placement preserves tenant/artifact/schema identity.
+\item Mutable state has one authoritative owner/epoch in the teaching contract.
+\item Migration verifies destination data before ownership commit.
+\item Stale source handles fail after migration.
+\item Immutable artifact replication is distinguished from mutable request-state ownership.
+\item Prefill/decode disaggregation includes transfer/topology cost rather than assuming it is free.
+\item Failure recovery requires checkpoint/replay evidence; the oracle does not claim distributed consensus or exactly-once external effects.
+\end{itemize}

@@ -1,0 +1,312 @@
+\chapter{Packaging, deployment and observable services}
+\label{evod44:chapter}
+
+A model artifact is not yet a service. Suppose revision r1 serves requests
+correctly and r2 changes a tokenizer option. The tensor dimensions still fit;
+the readiness endpoint returns success; a kernel test passes. Should r2 accept
+r1's checkpoints? Should it receive all traffic? Neither follows from those
+observations. We need to identify the complete computation, define compatible
+state and gather evidence about the service under a specified workload.
+
+Our running example is a small release controller with two revisions, a bounded
+number of admitted requests and synthetic completion times. It never starts a
+service. It makes acceptance, promotion, draining and rollback executable
+contracts. A real deployment must implement those contracts across crashes,
+concurrency, authenticated artifact storage and device completion fences.
+
+\section{Bind the release before starting it}
+\index{release bundle}\index{canonical encoding}\index{provenance}
+\label{evod44:bundle}
+Define a bundle $B=(M,R,C,S,P)$: model identity $M$, runtime/compiler
+identity $R$, execution configuration $C$, interpretation contracts $S$ and
+provenance $P$. Tokenizer identity belongs beside model identity even if it
+is stored in another file. $S$ includes API, state/checkpoint, IR and policy
+schemas plus required backend features. The runtime is not free to reinterpret
+an old native vector or KV tensor merely because its shape fits.
+
+The reference serializes a fixed record in sorted-key JSON and computes
+\[
+d_B=\operatorname{SHA256}(\operatorname{encode}(B)).
+\]
+This encoding has no
+floating-point or unordered-set ambiguity within its declared Python JSON
+profile; it is not a claim of cross-language RFC 8785 canonicalization.
+Production bundles should bind
+digests of actual files, a canonical manifest format and dependency closure;
+the fixture's strings are deliberately small substitutes. A mutable tag such
+as ``latest'' can locate a manifest, but the resolved digest must identify
+the revision used by each admitted request.
+
+\Plate{01-artifact}{The manifest binds interpretation as well as payload. Changing a tokenizer or state schema creates a different identity even when weights are unchanged. Dashed arrows are verification inputs, not execution data.}{evod44:artifact}
+\Listing{Bundle.digest}
+
+SLSA describes provenance as verifiable information about an artifact's
+production~\cite{slsa44}. Record source revision, builder, dependencies,
+parameters and output digests. A nonempty provenance URI is not verification:
+an attacker can type one. Verification needs a trusted issuer, subject-digest
+binding and policy about acceptable builders. Our controller accepts a
+\texttt{trusted\_provenance} boolean from such a hypothetical verifier;
+it implements no signature verification and claims no SLSA level.
+
+\subsection{A reproducibility test with two possible answers}
+Build the same manifest twice: its digest must match. Change only the
+tokenizer identifier: the digest must change. These are independent tests of
+serialization stability and semantic closure. Neither proves that recompiling
+source produces byte-identical binaries. Reproducible builds additionally
+control toolchains, dependency resolution, timestamps and environment inputs.
+Nor does artifact lineage prove model quality. Execution reproducibility,
+build reproducibility and task validity answer different questions.
+
+\subsection{Verify the delivered bytes against an independent identity}
+\index{artifact integrity}\index{trusted pin}
+A release capsule must deliver the payloads named by its manifest. The local
+byte fixture has exactly four roles: model, runtime, tokenizer and configuration.
+Each manifest field stores the SHA-256 of its corresponding immutable byte
+string. The tokenizer payload is the four bytes \texttt{ACGT}; the other
+payloads are small assigned strings, not executable binaries or learned weights.
+The verifier rejects missing or extra roles, mutable payload containers, sizes
+above one million bytes per role and any content-digest mismatch.
+\Listing{verify_capsule}
+
+First compare the manifest's identity with a trusted digest supplied through
+an independent channel. Then check each payload against that manifest. These
+checks answer different adversarial cases. Altering only weights fails the
+payload check. Altering weights and updating their manifest digest is internally
+consistent but changes the release identity, so the original trusted pin
+rejects it. If the attacker can also supply a replacement trusted pin, both
+checks pass: byte consistency cannot authenticate its own trust anchor. This
+negative control prevents ``all hashes match'' from being mistaken for provenance.
+
+The contract establishes exact delivered byte identity under collision resistance
+and a trusted manifest pin. It does not parse model formats, reject NaN weights,
+prove reproducible compilation or establish a model's task quality. Those are
+separate gates. Chapter 28 already distinguishes tensor byte interpretation and
+finite numerical validity. Here the capsule extends that principle to the
+complete release envelope. The controller below still accepts metadata only:
+an integration must run payload verification and backend loading before marking
+the corresponding revision ready. No archive extraction or executable object
+deserialization occurs in this data-only fixture.
+
+\section{Compatibility is an acceptance relation}
+\index{compatibility}\index{state schema}
+\label{evod44:compat}
+Write $\operatorname{Accept}(E,B)$ for an environment $E$ accepting bundle $B$.
+It is a conjunction of required features and interpretation agreements, not
+a comparison of version strings. In the reference it requires exact API,
+state-schema, policy-schema and backend matches. This conservative rule
+rejects potentially convertible states. Supporting a converter requires a
+versioned transformation, old/new fixtures and a rollback policy.
+
+For Chapter 31's restricted diagonal recurrence, bind the embedding, retention,
+write and readout parameters, dtype, vocabulary and consumed position. For
+Chapter 35's actual Chapter 23 Hermon stack, bind learned absolute positions,
+per-layer K/V geometry, normalization and causal mode. Replacing that stack
+with a rotary single-head demonstration would change the artifact. DOGMA
+remains the non-Transformer direction; Hermon DNA remains Transformer-based.
+This controller inspects release metadata; it does not verify either engine's
+numerical state or integrate an unfinished Chapter 39 runtime.
+
+\section{Roll out a revision, not a filename}
+\index{canary}\index{shadow execution}\index{rollback}
+\label{evod44:rollout}
+A registered revision has passed metadata gates. It is not ready until its
+weights and dependencies are usable. A canary is eligible for a declared small
+traffic cohort; active means selected for normal traffic. Superseded revisions
+stop receiving new work but may finish old requests. Draining closes admission
+before termination. A rolled-back candidate likewise retains responsibility
+for work already admitted.
+
+\Plate{02-rollout}{Promotion changes the routing choice. Existing request ownership remains attached to its admitted revision. Rollback closes the candidate's admission without erasing its unfinished requests.}{evod44:rolloutplate}
+
+Canary percentage, workload strata and observation window must be chosen
+before looking at results. A shadow candidate can run without publishing its
+output, but it must also be prevented from duplicating external effects.
+Shadow traffic that omits expensive tools or uses only short prompts cannot
+certify the corresponding full service workload.
+
+\Listing{Deployment.promote}
+The supplied package used global telemetry for promotion and allowed an empty
+sample to pass. The revised gate uses only the candidate's own completed
+observations and requires a minimum count. This prevents r1's healthy history
+from certifying an unobserved r2. It is still a simple serial specification:
+a real canary needs windows, representative traffic and unresolved-request
+deadlines, since counting only completed requests can hide stuck ones.
+
+\section{Live, ready and able to reserve are separate predicates}
+\index{liveness}\index{Readiness}\index{admission}\index{draining}
+\label{evod44:admit}
+Liveness asks whether a process can continue; readiness asks whether it should
+receive traffic. Startup may include loading or compilation. Kubernetes
+distinguishes these probe purposes~\cite{probes44}; our service contract uses
+that distinction without implementing Kubernetes. A live process can be unready
+while warming, losing a dependency, exhausting memory or draining. Overload
+should not automatically trigger a liveness restart that discards useful work.
+
+Even a ready revision can reject a request because capacity is exhausted.
+For request $r$, admission requires readiness, a compatible class, tenant
+authority, capacity and a plausible deadline. The simple controller reserves
+one global slot; the later isolation contract reserves resource vectors.
+Real estimates include prompt work, output reservation, native state or KV,
+tool budget and downstream decode capacity.
+
+\Listing{Deployment.admit}
+\Listing{Deployment.complete}
+
+Completion validates the observation before changing ownership, and binds an
+issued request ID to the revision that admitted it. Duplicate, foreign and
+late duplicate completions fail. This makes accounting testable instead of
+trusting callers to decrement a counter exactly once.
+
+\subsection{The conservation law behind graceful draining}
+Let $A_d$ be cumulative admitted requests, $C_d$ completed requests and $I_d$
+currently owned requests for revision $d$. All are integer counts, not rates.
+Initially they are zero. Admission increments $A_d,I_d$; completion increments
+$C_d$ and decrements $I_d$. No other operation changes these quantities. Thus
+\begin{equation} A_d=C_d+I_d. \label{evod44:conserve}\end{equation}
+This is an induction over accepted events. Rejected operations preserve all
+three values. Closing admission prevents further increments of $A_d$;
+termination requires $I_d=0$. A timeout is not an acknowledgement that a GPU
+kernel or tool no longer owns memory. A production service must add explicit
+cancel/acknowledge and output-publication accounting from Chapter 30.
+
+\Plate{03-drain}{Drain is a protocol over ownership. At the middle instant admission is closed, but two issued requests still prevent termination. Late valid completions reduce ownership; duplicate completions cannot do so twice.}{evod44:drain}
+
+\section{Observe causal operations without copying private content}
+\index{observability}\index{trace context}\index{telemetry cardinality}
+\label{evod44:observe}
+A request may cross gateway, planner, compiler, router, engine, memory and
+tools. Parent/child spans represent causal operations; their durations can
+overlap, so summing them can exceed end-to-end latency. OpenTelemetry supplies
+common trace, metric and log concepts~\cite{otel44}. Domain attributes should
+bind artifact, logical engine, phase and outcome using versioned names.
+Trace context is correlation data, not authentication or tenant authority.
+
+Track request/error rates, duration distributions, queue delay, TTFT, ITL and
+useful tokens/s alongside admission rejection. Record batch occupancy,
+KV/native-pool utilization, cache hit rates, retrieval/tool latency and rollback
+events so an SLO change can be related to resource pressure and plan changes.
+These are instrumentation requirements; the fixture emits only its small
+lifecycle schema and assigned completions, not these live metrics.
+
+Use bounded-cardinality metric labels for engine, revision class and outcome.
+Putting request IDs, prompts or arbitrary resource paths into metric labels
+can exhaust the telemetry backend. Keep a restricted correlation ID in traces
+and diagnostic logs. Sampled traces cannot alone count every failed request;
+use unsampled counters for SLI denominators and record dropped telemetry.
+Redaction must happen before export, including exception messages and span
+attributes. Prompts, outputs, retrieved private documents and credentials
+are absent from our event schema.
+
+The reference's sequential event numbers describe one process. They are not
+tamper-evident storage or distributed ordering. A production audit sink needs
+access control, retention, delivery/failure policy and privacy review.
+
+\section{Turn observations into a falsifiable service objective}
+\index{SLO}\index{percentile}\index{Error budget}
+\label{evod44:slo}
+An SLI is an observed indicator; an SLO is its target over an explicit
+population and window. For eligible offered requests in a one-hour class,
+an example is $P(\text{success}\land TTFT\le500\,\mathrm{ms})\ge0.99$.
+State how rejections, timeouts, cancellations and maintenance count.
+Accepted-only latency can improve merely by rejecting difficult requests.
+
+The reference has a simpler completion-cohort gate: error fraction at most
+0.01 and nearest-rank p95 latency at most 500 ms after at least 20 observations.
+For sorted values $x_{(1)}\le\cdots\le x_{(n)}$, the estimator is
+$x_{(\lceil qn\rceil)}$, $0<q\le1$. Three durations $(10,20,900)$ have
+p95 900 ms. A lower interpolation/index shortcut could conceal that tail.
+\Listing{Gate.passes}
+\begin{center}\input{\Generated/gates.tex}\end{center}
+The generated teaching trace deliberately overrides the minimum to three:
+both r1 and r2 observe $(40,60,130)$ ms, then r2 is rolled back. These are
+assigned numbers, not a reliability experiment or a recommended sample size.
+
+For target $A^*$, allowed bad fraction is $E=1-A^*$. With $N$ eligible
+requests, the budget is $NE$ bad requests; burn rate is
+$b=(N_{bad}/N)/E$. At $A^*=0.99$ and $N=10{,}000$, 100 bad requests consume
+the budget; 200 imply $b=2$. A short window estimates burn noisily. Even zero
+failures among $n$ independent Bernoulli trials has one-sided 95\% upper
+failure bound $1-0.05^{1/n}$: about 0.139 for $n=20$. Independence and a
+stationary representative population are assumptions, often violated by
+correlated outages. Passing the deterministic gate is no confidence guarantee.
+
+\section{Configuration, secrets and a rollback that can actually run}
+\label{evod44:rollback}
+Execution-critical configuration is immutable in the bundle. Dynamic policy
+knobs need version, validation and an effective-change event; admission must
+bind the applicable version. A secret reference can be configuration, but its
+resolved value must remain outside bundles, prompts, provenance and ordinary
+telemetry. Rotation needs scoped runtime resolution, not rebuilt model weights.
+This chapter resolves no secret and contacts no service.
+
+Rollback changes executable selection. It does not reverse emails, payments,
+deletions or other effects already committed by tools. Retain old immutable
+artifacts and verify that the current durable-state schema is readable by
+the target. If r2 irreversibly migrated durable memory, reverting binaries
+alone can make recovery worse. A tested reversible migration, forward-compatible
+reader or separate restoration plan is required.
+\Listing{Deployment.rollback}
+
+The reference refuses an incompatible or unavailable target, closes candidate
+admission and preserves its issued requests. It models one rollback pair,
+not a fleet consensus protocol. Crashes between routing and ownership updates,
+split controllers, lost journals and device completion races remain outside it.
+
+\section{Break the contract deliberately}
+\label{evod44:failure}
+Tests change semantic manifest fields, reject false provenance verification,
+attempt empty canary promotion, contaminate one revision with another's
+observations, exhaust global capacity, duplicate completions, drain with work
+outstanding and roll back into incompatible state. A bounded enumeration
+checks all $4^5=1024$ five-event words over admit/complete/drain/terminate
+against an independently maintained owner set. It catches accounting and
+state-machine errors, not arbitrary concurrent interleavings or process death.
+
+Production experiments should additionally interrupt artifact download, kill
+the controller at each journal boundary, lose the telemetry sink, race shutdown
+with kernel acknowledgement and replay a routing update. Define expected
+recovery before injecting each fault. No such live experiments are run here.
+
+\section{Twelve worked exercises}
+\begin{enumerate}
+\item \textbf{Bind configuration.} Weights are unchanged, but tokenization changes.
+May the digest remain equal? \emph{Solution:} no; the computed token sequence
+and state interpretation can change. Include tokenizer/config identity.
+\item \textbf{Separate provenance and quality.} A trusted builder produced poor
+weights. What passes? \emph{Solution:} lineage verification may pass while task
+evaluation fails; require both gates rather than treating either as the other.
+\item \textbf{Predict readiness.} Weights are loading in a healthy process.
+\emph{Solution:} live, unready and closed to admission; liveness alone is insufficient.
+\item \textbf{Drain arithmetic.} $A=11,C=8$. May shutdown finish?
+\emph{Solution:} $I=3$ by Equation~\ref{evod44:conserve}; no. First close admission,
+then settle all three ownership obligations.
+\item \textbf{Correlate logs.} Why include a safe trace ID but omit prompt text?
+\emph{Solution:} the ID links causal diagnostics without copying protected payloads.
+It still needs access controls and is not an authorization credential.
+\item \textbf{Calculate the tail.} Find nearest-rank p95 of $(10,20,900)$.
+\emph{Solution:} rank $\lceil2.85\rceil=3$, hence 900 ms; the 310 ms mean hides it.
+\item \textbf{Test the SLO claim.} A kernel is twice as fast. Is the service SLO proved?
+\emph{Solution:} no; queue, transfer, tools and offered-load outcomes remain unmeasured.
+\item \textbf{Undo an effect.} r2 sent an email before rollback.
+\emph{Solution:} selecting r1 does not retract it. Use an effect-specific compensation
+or idempotency protocol; never promise generic undo.
+\item \textbf{Check schemas.} Old code reads schema 1; durable memory is schema 2.
+\emph{Solution:} fail rollback unless a tested compatible reader/restoration exists.
+\item \textbf{Place secrets.} Should a build manifest include an API token?
+\emph{Solution:} no; include a scoped reference when needed and resolve after authorization.
+\item \textbf{Quantify canary evidence.} Zero failures in 20 independent trials proves
+99\% reliability? \emph{Solution:} no; the stated upper failure bound is about 13.9\%.
+Representativeness and dependence are additional problems.
+\item \textbf{Design a release experiment.} \emph{Rubric:} freeze bundle and workload;
+declare compatibility, cohort, minimum evidence and timeout accounting; verify
+readiness/admission/drain; redact correlated telemetry; test rollback and durable
+schema; archive raw outcomes and rejected hypotheses. A checklist without outcomes
+earns no claim of a successful deployment.
+\end{enumerate}
+
+\section{Terms and the next boundary}
+\Term{Release identity} binds the execution-critical manifest.
+\Term{Readiness} permits routing but does not reserve capacity.
+\Term{Error budget} is allowed bad service over a declared population/window.
+Chapter 45 adds mutually untrusted tenants. The same ownership and telemetry
+must now preserve identity, authority, resource quotas and privacy.

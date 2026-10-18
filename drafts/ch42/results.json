@@ -1,0 +1,64 @@
+{
+  "crashes": [
+    {
+      "cut": 0,
+      "durable": 0,
+      "page": 0,
+      "recovered": "absent"
+    },
+    {
+      "cut": 1,
+      "durable": 0,
+      "page": 0,
+      "recovered": "absent"
+    },
+    {
+      "cut": 2,
+      "durable": 1,
+      "page": 0,
+      "recovered": "v1"
+    },
+    {
+      "cut": 3,
+      "durable": 1,
+      "page": 1,
+      "recovered": "v1"
+    },
+    {
+      "cut": 4,
+      "durable": 1,
+      "page": 1,
+      "recovered": "v1"
+    },
+    {
+      "cut": 5,
+      "durable": 2,
+      "page": 1,
+      "recovered": "v2"
+    },
+    {
+      "cut": 6,
+      "durable": 2,
+      "page": 2,
+      "recovered": "v2"
+    }
+  ],
+  "alternatives": [
+    {
+      "name": "native-A",
+      "cost": 5.7,
+      "legal": 1
+    },
+    {
+      "name": "native-B",
+      "cost": 5.0,
+      "legal": 1
+    },
+    {
+      "name": "wrong-contract",
+      "cost": 0.11000000000000001,
+      "legal": 0
+    }
+  ],
+  "chosen": "native-B"
+}

@@ -1,0 +1,1 @@
+Output versus consumed clock: final prompt x2 emits y0; consuming y0 emits y1; consuming y1 emits y2. TTFT arrival-to-first-completion; ITL consecutive emissions.

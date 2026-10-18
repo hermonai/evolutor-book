@@ -1,0 +1,1 @@
+Source A and B bytes independently hash to h_A and h_B. The sorted filename-to-digest mapping hashes to one manifest digest. Editing A changes h_A and the new manifest identity; the old trusted manifest detects a changed file. B is unchanged. This illustrates content closure, not authentication, race-free use or scientific correctness.

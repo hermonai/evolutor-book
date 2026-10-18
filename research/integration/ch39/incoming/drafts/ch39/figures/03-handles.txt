@@ -1,0 +1,1 @@
+A handle carries identity and lifetime metadata but does not expose or unify native engine-state representation.

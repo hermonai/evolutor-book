@@ -1,5 +1,12 @@
 # Evolutor: complete the supplied chapter packages in substantial batches
 
+Completion update, 18 October 2026: all four authoring chats have handed off;
+Chapters 1–52 are assembled. This document preserves the production contract
+and historical starting baseline below. Current validation, scoped render review
+and remaining gates are in FINAL_INTEGRATION_REPORT.md and
+research/integration/continuous-through52-review.json. Authoring completion is
+not independent scientific or publication acceptance.
+
 User request: use the ChatGPT-generated evolutor-ch33-r01.zip through
 evolutor-ch52-r01.zip as much as possible, preserve quality, and split the
 remaining production across multiple conversations rather than stopping at

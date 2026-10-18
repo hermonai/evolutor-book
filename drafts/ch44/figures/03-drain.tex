@@ -1,0 +1,13 @@
+\begin{tikzpicture}[x=1cm,y=1cm,font=\small\sffamily]
+\draw[flow] (0,0)--(12,0) node[right]{time};
+\foreach \x/\lab in {1/admit rA,3/admit rB,5/close admission,8/complete rA,10/complete rB}{
+\draw (\x,.1)--(\x,-.1);\node[rotate=30,anchor=west,font=\footnotesize] at (\x,.3) {\lab};}
+\draw[Blue,line width=2pt] (1,-1)--(8,-1);
+\node[anchor=east] at (.8,-1) {rA};
+\draw[Green,line width=2pt,dashed] (3,-1.6)--(10,-1.6);
+\node[anchor=east] at (2.8,-1.6) {rB};
+\draw[Red,dashed] (5,-2.25)--(5,1.3);
+\node[draw,fill=Red!8,align=center] at (6.5,-2.65) {$I=2$ at closure\\termination blocked};
+\node[draw,fill=Green!12,align=center] at (10.4,-2.65) {$I=0$\\may terminate};
+\node[anchor=west] at (0,-3.55) {$A=C+I$\qquad counts change only on accepted admission/completion};
+\end{tikzpicture}

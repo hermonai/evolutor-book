@@ -1,0 +1,25 @@
+{
+  "date": "2026-10-17",
+  "chapter": 52,
+  "package_sha256": "9eecf85171cf21144491336b34daf57ea5ab946c7e34d7b6cf5e5a2a397cefb6",
+  "inherited_validation_claims_adopted": false,
+  "source_access": "selected primary sections only; no inherited package access-depth claims",
+  "records": [
+    {
+      "key": "local-synthesis",
+      "primary": "local:drafts/ch23;drafts/ch31;drafts/ch35;drafts/ch48..ch52",
+      "depth": "Actual stable model/state interfaces, authored owned chapters and owned tests inspected; source subset hashed. Sibling Chapters36-47 deliberately not imported while changing.",
+      "evidence": "Eight reference-file byte closure and stated owned test probes only; no whole-book convergence or independent acceptance."
+    },
+    {
+      "key": "prior-evidence-contracts",
+      "primary": "local:drafts/ch25/manuscript.tex;drafts/ch29/manuscript.tex;BATCH_PRODUCTION.md",
+      "depth": "Shared evaluation/split/uncertainty and baseline/resource contract sections plus full batch boundary contract inspected.",
+      "evidence": "Final synthesis retains established experimental discipline and explicitly defers global integration."
+    }
+  ],
+  "no_trained_genomic_results": true,
+  "no_wet_lab_measurements": true,
+  "no_agi_demonstration": true,
+  "independent_review": false
+}

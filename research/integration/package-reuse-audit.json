@@ -160,8 +160,10 @@
         "Twelve worked exercises",
         "Bridge"
       ],
-      "status": "verified_source_package_for_batch_authoring",
-      "independent_validation_claims_adopted": false
+      "status": "integrated_as_authored_review_candidate",
+      "independent_validation_claims_adopted": false,
+      "existing_use_record": "research/integration/ch36/package-adoption.md",
+      "existing_source": "drafts/ch36/manuscript.tex"
     },
     {
       "chapter": 37,
@@ -203,8 +205,10 @@
         "Twelve worked exercises",
         "Bridge"
       ],
-      "status": "verified_source_package_for_batch_authoring",
-      "independent_validation_claims_adopted": false
+      "status": "integrated_as_authored_review_candidate",
+      "independent_validation_claims_adopted": false,
+      "existing_use_record": "research/integration/ch37/package-adoption.md",
+      "existing_source": "drafts/ch37/manuscript.tex"
     },
     {
       "chapter": 38,
@@ -236,8 +240,10 @@
         "Closing the engine layer",
         "Bridge"
       ],
-      "status": "verified_source_package_for_batch_authoring",
-      "independent_validation_claims_adopted": false
+      "status": "integrated_as_authored_review_candidate",
+      "independent_validation_claims_adopted": false,
+      "existing_use_record": "research/integration/ch38/package-adoption.md",
+      "existing_source": "drafts/ch38/manuscript.tex"
     },
     {
       "chapter": 39,
@@ -273,8 +279,10 @@
         "Twelve worked exercises",
         "Bridge"
       ],
-      "status": "verified_source_package_for_batch_authoring",
-      "independent_validation_claims_adopted": false
+      "status": "integrated_as_authored_review_candidate",
+      "independent_validation_claims_adopted": false,
+      "existing_use_record": "research/integration/ch39/package-adoption.md",
+      "existing_source": "drafts/ch39/manuscript.tex"
     },
     {
       "chapter": 40,
@@ -306,8 +314,10 @@
         "Twelve worked exercises",
         "Bridge"
       ],
-      "status": "verified_source_package_for_batch_authoring",
-      "independent_validation_claims_adopted": false
+      "status": "integrated_as_authored_review_candidate",
+      "independent_validation_claims_adopted": false,
+      "existing_use_record": "research/integration/ch40/package-adoption.md",
+      "existing_source": "drafts/ch40/manuscript.tex"
     },
     {
       "chapter": 41,
@@ -343,8 +353,10 @@
         "Twelve worked exercises",
         "Bridge"
       ],
-      "status": "verified_source_package_for_batch_authoring",
-      "independent_validation_claims_adopted": false
+      "status": "integrated_as_authored_review_candidate",
+      "independent_validation_claims_adopted": false,
+      "existing_use_record": "research/integration/ch41/package-adoption.md",
+      "existing_source": "drafts/ch41/manuscript.tex"
     },
     {
       "chapter": 42,
@@ -374,8 +386,10 @@
         "Twelve worked exercises",
         "Bridge"
       ],
-      "status": "verified_source_package_for_batch_authoring",
-      "independent_validation_claims_adopted": false
+      "status": "integrated_as_authored_review_candidate",
+      "independent_validation_claims_adopted": false,
+      "existing_use_record": "research/integration/ch42/package-adoption.md",
+      "existing_source": "drafts/ch42/manuscript.tex"
     },
     {
       "chapter": 43,
@@ -407,8 +421,10 @@
         "Twelve worked exercises",
         "Bridge"
       ],
-      "status": "verified_source_package_for_batch_authoring",
-      "independent_validation_claims_adopted": false
+      "status": "integrated_as_authored_review_candidate",
+      "independent_validation_claims_adopted": false,
+      "existing_use_record": "research/integration/ch43/package-adoption.md",
+      "existing_source": "drafts/ch43/manuscript.tex"
     },
     {
       "chapter": 44,
@@ -441,8 +457,10 @@
         "Twelve worked exercises",
         "Bridge"
       ],
-      "status": "verified_source_package_for_batch_authoring",
-      "independent_validation_claims_adopted": false
+      "status": "integrated_as_authored_review_candidate",
+      "independent_validation_claims_adopted": false,
+      "existing_use_record": "research/integration/ch44/package-adoption.md",
+      "existing_source": "drafts/ch44/manuscript.tex"
     },
     {
       "chapter": 45,
@@ -479,8 +497,10 @@
         "Twelve worked exercises",
         "Bridge"
       ],
-      "status": "verified_source_package_for_batch_authoring",
-      "independent_validation_claims_adopted": false
+      "status": "integrated_as_authored_review_candidate",
+      "independent_validation_claims_adopted": false,
+      "existing_use_record": "research/integration/ch45/package-adoption.md",
+      "existing_source": "drafts/ch45/manuscript.tex"
     },
     {
       "chapter": 46,
@@ -515,8 +535,10 @@
         "Twelve worked exercises",
         "Bridge"
       ],
-      "status": "verified_source_package_for_batch_authoring",
-      "independent_validation_claims_adopted": false
+      "status": "integrated_as_authored_review_candidate",
+      "independent_validation_claims_adopted": false,
+      "existing_use_record": "research/integration/ch46/package-adoption.md",
+      "existing_source": "drafts/ch46/manuscript.tex"
     },
     {
       "chapter": 47,
@@ -560,8 +582,10 @@
         "Twelve worked exercises",
         "Bridge"
       ],
-      "status": "verified_source_package_for_batch_authoring",
-      "independent_validation_claims_adopted": false
+      "status": "integrated_as_authored_review_candidate",
+      "independent_validation_claims_adopted": false,
+      "existing_use_record": "research/integration/ch47/package-adoption.md",
+      "existing_source": "drafts/ch47/manuscript.tex"
     },
     {
       "chapter": 48,
@@ -593,8 +617,10 @@
         "Twelve worked exercises",
         "Bridge"
       ],
-      "status": "verified_source_package_for_batch_authoring",
-      "independent_validation_claims_adopted": false
+      "status": "integrated_as_authored_review_candidate",
+      "independent_validation_claims_adopted": false,
+      "existing_use_record": "research/integration/ch48/package-adoption.md",
+      "existing_source": "drafts/ch48/manuscript.tex"
     },
     {
       "chapter": 49,
@@ -631,8 +657,10 @@
         "Twelve worked exercises",
         "Bridge"
       ],
-      "status": "verified_source_package_for_batch_authoring",
-      "independent_validation_claims_adopted": false
+      "status": "integrated_as_authored_review_candidate",
+      "independent_validation_claims_adopted": false,
+      "existing_use_record": "research/integration/ch49/package-adoption.md",
+      "existing_source": "drafts/ch49/manuscript.tex"
     },
     {
       "chapter": 50,
@@ -667,8 +695,10 @@
         "Twelve worked exercises",
         "Bridge"
       ],
-      "status": "verified_source_package_for_batch_authoring",
-      "independent_validation_claims_adopted": false
+      "status": "integrated_as_authored_review_candidate",
+      "independent_validation_claims_adopted": false,
+      "existing_use_record": "research/integration/ch50/package-adoption.md",
+      "existing_source": "drafts/ch50/manuscript.tex"
     },
     {
       "chapter": 51,
@@ -712,8 +742,10 @@
         "Twelve worked exercises",
         "Bridge"
       ],
-      "status": "verified_source_package_for_batch_authoring",
-      "independent_validation_claims_adopted": false
+      "status": "integrated_as_authored_review_candidate",
+      "independent_validation_claims_adopted": false,
+      "existing_use_record": "research/integration/ch51/package-adoption.md",
+      "existing_source": "drafts/ch51/manuscript.tex"
     },
     {
       "chapter": 52,
@@ -758,8 +790,11 @@
         "Twelve final exercises",
         "Final synthesis"
       ],
-      "status": "verified_source_package_for_batch_authoring",
-      "independent_validation_claims_adopted": false
+      "status": "integrated_as_authored_review_candidate",
+      "independent_validation_claims_adopted": false,
+      "existing_use_record": "research/integration/ch52/package-adoption.md",
+      "existing_source": "drafts/ch52/manuscript.tex"
     }
-  ]
+  ],
+  "coordinator_update": "2026-10-18: all supplied Chapters 33–52 used as documented in chapter adoption/audit records; integrity audit is not independent scientific acceptance."
 }

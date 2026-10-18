@@ -1,0 +1,11 @@
+\begin{tikzpicture}[x=1cm,y=1cm]
+\node[note,anchor=west] at (0,3.4) {Dynamic symmetric INT8: $x=(1,0.99,1000)$, scale $s=1000/127\approx7.874$};
+\draw[flow] (0,1.7)--(12.5,1.7);
+\foreach \x/\val in {1/0,5/7.874,9/15.748}{
+ \draw[thick] (\x,1.5)--(\x,1.9);
+ \node[note] at (\x,1.05) {\val};
+}
+\draw[flow,Red] (1.6,2.7) node[above,note] {$0.99,1$} -- (1,1.9);
+\node[note,anchor=west] at (0,.2) {Both small values round to integer 0; the outlier gets integer 127.};
+\node[note,draw,fill=Gold!35] at (6,-.6) {Fixed calibrated $s=.01$: value 10 clips to 127, reconstructs 1.27};
+\end{tikzpicture}

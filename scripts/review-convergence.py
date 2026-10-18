@@ -34,6 +34,17 @@ def selected_pages(expression, total):
     return sorted(pages)
 
 
+def page_runs(pages):
+    """Render consecutive selections in one Poppler invocation, in order."""
+    runs = []
+    for page in pages:
+        if runs and page == runs[-1][1] + 1:
+            runs[-1] = (runs[-1][0], page)
+        else:
+            runs.append((page, page))
+    return runs
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--pages", default="all")
@@ -42,14 +53,14 @@ def main():
     total = int(re.search(r"Pages:\s+(\d+)", info)[1])
     pages = selected_pages(args.pages, total)
     OUT.mkdir(parents=True, exist_ok=True)
-    for n in pages:
+    for first, last in page_runs(pages):
         subprocess.run(
             [
                 "pdftoppm",
                 "-f",
-                str(n),
+                str(first),
                 "-l",
-                str(n),
+                str(last),
                 "-r",
                 "90",
                 "-png",

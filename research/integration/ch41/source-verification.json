@@ -1,0 +1,46 @@
+{
+  "chapter": 41,
+  "date": "2026-10-17",
+  "archive_record": "package-integrity.json",
+  "full_incoming_text_read": true,
+  "incoming_validation_claims_adopted": false,
+  "external_sources": [
+    {
+      "title": "MLIR LangRef",
+      "url": "https://mlir.llvm.org/docs/LangRef/",
+      "access_depth": "official high-level operation/value model",
+      "verified": "2026-10-17",
+      "empirical_results_reproduced": false
+    },
+    {
+      "title": "MLIR effects",
+      "url": "https://mlir.llvm.org/docs/Rationale/SideEffectsAndSpeculation/",
+      "access_depth": "official overview, categorization and modeling sections",
+      "verified": "2026-10-17",
+      "empirical_results_reproduced": false
+    },
+    {
+      "title": "TVM",
+      "url": "https://arxiv.org/abs/1802.04799",
+      "access_depth": "primary abstract only",
+      "verified": "2026-10-17",
+      "empirical_results_reproduced": false
+    }
+  ],
+  "local_continuity_files": {
+    "drafts/ch14/manuscript.tex": "0cfa86d7fb72a4c65ddb626fec4595106cf44c6ffd8f75676b1491a6bf4b81fa",
+    "drafts/ch14/reference.py": "a753878df54e820f95f8111d2879b1fb6f9bf664eaee3e2ad9bb11ec738b9d36",
+    "drafts/ch15/manuscript.tex": "8b6a572a5d38459f461f8aa44375498b22e6dcbb102ba6938de030788592a81a",
+    "drafts/ch15/reference.py": "5d6624890659f2391d2ebcc6f40a6cc4579589f98007dfd5a219fa644c5af27f",
+    "drafts/ch16/manuscript.tex": "9506205b0f288987d9a4b363aa042b2f32afd35ae2f10a15b9f5995c57492744",
+    "drafts/ch16/reference.py": "f9d1f0a1b00d4460911f57108bcb2bf60db52f928e8124f3aee9ef9175e526e6",
+    "drafts/ch39/manuscript.tex": "791f40e781fbb4cfea239a225c3351a6d1dc20d66e407e819dbe8a0aea1c7f19",
+    "drafts/ch39/reference.py": "e408a58c771c2e0ee09dae1d6f7c1430e25cd9091e03d6ccd8aa4fc3b0e2b4d4",
+    "drafts/ch40/manuscript.tex": "2ac0d777ffd6c02cccec27944906eced26d9091fbfe8821448dcef716f152479",
+    "drafts/ch40/reference.py": "e1f2e3edf3232627a5a25ef3e3635eff07b416b90ae914764ab18269b37c3c03"
+  },
+  "limits": "Source access is claim-specific. Internal imports are actual stable interfaces; local author review is not independent acceptance. No Chapter36 import or fabricated allocation pass.",
+  "package_sha256": "48115730a862e95e82fcd323d9183890cbb71558a3948c23bc0e3fd5b493928e",
+  "inherited_validation_claims_adopted": false,
+  "continuity_hashes_finalized": "2026-10-18"
+}

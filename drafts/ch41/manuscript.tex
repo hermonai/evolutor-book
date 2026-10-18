@@ -1,0 +1,305 @@
+\chapter{Compiler, IR and execution planning}
+\label{evod41:chapter}
+
+The small program defines $a=7$, $b=8$, $n=a+b$, an unused integer 99,
+a retrieval whose documents are unused, and a tool consuming $n$. The requested
+answer is only $n$. Which operations can disappear? It is safe to replace
+the addition by integer 15 and remove the unused integer definitions. It is
+not safe to erase the tool because it returns no value. In our dialect, the
+retrieval is also retained: a corpus read can fail and is an observable effect.
+
+Compilation should make this distinction explicit before optimizing a
+heterogeneous workflow. The path is plan, typed IR, verification, legal
+transformation, target lowering and executable schedule. Chapter 39's router
+does not decide which operations a plan needs; this compiler does not decide
+whether a model has learned the intended task.
+
+\section{An IR names semantics that a plan leaves implicit}
+\label{evod41:ir}
+\index{compiler!intermediate representation}\index{single static assignment}
+Our \Term{intermediate representation} is a straight-line SSA program
+$P=(\Gamma_{in},O,outputs,version)$. Each operation has
+\[
+ o=(id,kind,inputs,output,type,attributes,effects).
+\]
+Every input value has one defining operation or program-input declaration.
+Use-before-definition and redefinition are invalid. Operation IDs are unique
+and survive lowering and folding, giving a stable bridge from a runtime
+event to its source instruction.
+
+Types include exact mathematical integers, text, token tuples, documents and
+backend-specific logits. An engine instruction consumes tokens and names an
+exact artifact and capability; it does not promise a universal vocabulary
+or logits dimension. Tools here consume an integer and are effect-only:
+their receipts belong to the observable event sequence, not an SSA output.
+Memory operations write text into or read text from Chapter 40's actual store.
+Handle construction and release remain inside the engine adapter.
+
+This is a small \emph{dialect}, not a replacement for Chapter 14's semantic-axis
+tensor types or Chapter 15's loop semantics. A future tensor-level lowering
+must retain shapes, axes and alias/lifetime obligations. Loops need block
+arguments, dominance and termination rules beyond this finite sequence.
+
+\Plate{01-effects}{The graph carries value dependencies and an ordered effect chain. Lack of a value consumer does not make an operation semantically empty.}{evod41:effectsplate}
+
+\section{The verifier owns operation contracts}
+\label{evod41:verify}
+\index{compiler!verification}\index{Effect!declaration}
+Verification checks schema version, bounded operation count, unique IDs,
+defined inputs, SSA outputs, operation signatures and exact required attributes.
+Only supported capability names are legal. The engine artifact field is
+required before lowering; missing/ambiguous actual routes still fail during
+lowering. Unknown schema versions fail closed rather than silently reinterpret
+new instructions.
+
+Importantly, the producer cannot declare an engine or tool pure to obtain
+more optimization. The dialect computes an expected effect tuple per kind
+and rejects a different supplied declaration. Attribute pairs are immutable
+tuples, unique and exact; a stray field does not silently become policy.
+The verifier is in \texttt{drafts/ch41/reference.py}; the generated listings
+below extract whole tested functions rather than maintained line fragments.
+
+\begin{center}\begin{tabular}{lll}\toprule
+Kind & Result & Dialect effects\\\midrule
+const, add & integer & none\\
+retrieve & documents & corpus read\\
+engine & logits & native engine state\\
+mem\_get & text & memory read\\
+mem\_put & record ID text & memory write\\
+tool & no SSA result & policy, external action\\\bottomrule
+\end{tabular}\end{center}
+
+An IR can be well typed while its runtime input is invalid. The interpreter
+checks actual external integers/text/tokens and validates handler results.
+Native routines still check vocabulary, context length, finiteness and exact
+artifact identity. A type declaration is not a proof that an untrusted
+backend computed a correct result.
+
+\section{Define the observation before proving a pass}
+\label{evod41:semantics}
+\index{observation!compiler equivalence}
+For each instruction, let $\eta$ map defined SSA names to values and let
+$\sigma$ denote external/module state. A pure arithmetic transition extends
+$\eta$ without changing $\sigma$. An effectful transition invokes the declared
+handler, may change $\sigma$, and appends an event
+$(id,kind,args,result)$ to $E$.
+
+Under fixed deterministic handlers and valid inputs, define observation
+\[
+ \mathcal O(P,x)=(\eta(outputs),E,\sigma_{final}).
+\]
+Failures additionally retain the effect prefix and failure class. We exclude
+wall-clock time, allocation exhaustion and profiling events from the pure
+arithmetic semantics. Otherwise removing an integer addition could trivially
+change a timing observation, and no useful optimization theorem would have
+the intended meaning. Real resource limits require a separate refinement
+contract rather than pretending an infinite-integer model is a bounded machine.
+
+The only freely erasable instructions are total, deterministic \texttt{const}
+and \texttt{add} over mathematical integers. Retrieval is not freely erasable
+even for an immutable corpus fixture because the dialect preserves its read
+event and potential failure. A native engine call may allocate state, advance
+RNG or fail. A tool may mutate an external system. A memory read may depend on
+current deletion/expiry. Syntax alone does not make any of them pure.
+
+MLIR's official language reference provides an extensible operation/value
+representation and multiple abstraction levels~\cite{evod41:mlir}.
+Its side-effect rationale separately discusses resource effects and speculation
+conditions~\cite{evod41:effects}. Our conservative effect chain is much smaller:
+it neither implements MLIR nor inherits an optimizer correctness theorem.
+
+\section{Fold exact constants and preserve observable effects}
+\label{evod41:passes}
+\index{constant folding}\index{dead-code elimination}\index{arithmetic!exact integers}
+For known integer definitions $a=\operatorname{const}(u)$ and
+$b=\operatorname{const}(v)$, replace
+$n=\operatorname{add}(a,b)$ by $n=\operatorname{const}(u+v)$, retaining the
+original operation ID. Folding can use a known constant across an effect
+barrier because SSA constants cannot be mutated, but it does not move or erase
+that barrier.
+\Listing{constant_fold}
+
+\par\medskip\noindent\begin{minipage}{\linewidth}
+\begin{proposition}[Constant-fold observation preservation]
+For a verified program under the preceding exact-integer semantics, the folding
+pass preserves outputs, ordered effects and final handler state.
+\end{proposition}
+\begin{proof}
+Induct over instruction position, maintaining equality of values for all names
+defined so far and equality of handler states/event prefixes. An unchanged
+instruction receives equal arguments. A folded addition receives the two
+known integer constants and defines exactly their sum; it has no effects.
+Its replacement defines that same sum. Thus every later instruction receives
+the same values, and every effect executes at the same relative position
+with the same arguments. Requested outputs are equal at the end.
+\end{proof}
+\end{minipage}\par\medskip
+Floating-point reassociation is not covered. For example, in a common binary
+floating-point format $(10^{16}+(-10^{16}))+1$ and
+$10^{16}+((-10^{16})+1)$ need not agree. Neither expression is a mathematical
+integer instruction in this dialect. A floating dialect must define rounding,
+exceptions, tolerances and permitted fast-math transformations explicitly.
+
+Dead-code elimination walks backward from requested outputs and all effectful
+instructions. A retained instruction makes its input definitions live. An
+unneeded pure instruction can disappear; an unused retrieval or tool remains.
+\Listing{dce}
+
+The backward invariant is that every already-examined retained instruction's
+input dependencies are in the live set. If a removed pure definition could
+affect an output or effect, there would be a first retained consumer whose
+backward processing marked it live, a contradiction. Since removed operations
+are total and state-free, their removal also preserves the effect/failure
+prefix. A pure-only program may reduce to zero operations while returning an
+input; that empty operation tuple remains a legal program.
+
+\Plate{02-passes}{The fixture shrinks from six instructions to three. The retrieval and tool remain in order; answer 15 retains source ID sum.}{evod41:passesplate}
+
+\section{Use an independent oracle, then break the premises}
+\label{evod41:oracles}
+\index{oracle!recursive expressions}
+Comparing two executions of the same optimizer is weak evidence. Our second
+arithmetic oracle recursively expands the original definitions by dependency,
+rather than walking the sequential interpreter or calling the optimizer.
+\Listing{expression_oracle}
+
+Tests generate deterministic random integer DAGs, including negative and very
+large exact integers and repeated operands. They compare original and optimized
+interpreter outputs with this recursive oracle, and check pass idempotence.
+A separate effect test runs both programs with actual Chapter 39 handlers and
+compares ordered events as well as outputs. Another test denies the tool before
+and after optimization; both must retain the same denial.
+
+The verifier deliberately rejects erased tool effects, undefined values,
+wrong types, duplicate IDs, SSA redefinitions, unknown operations/capabilities,
+Boolean-as-integer constants, incomplete attributes and newer unsupported schema.
+Malformed handler results are rejected at runtime. These negative controls
+prevent a pass from appearing correct merely because every generated example
+is already legal and pure.
+
+\section{Lower legally before scheduling cheaply}
+\label{evod41:lower}
+\index{compiler!lowering}\index{scheduling!effect dependencies}
+Lowering maps abstract instructions to actual eligible implementations.
+Our \texttt{lower} function invokes Chapter 39's artifact-bound router for
+engine instructions and chooses named host/retriever/memory/tool handlers for
+the others. It creates a schedule only after complete verification.
+\Listing{lower}
+
+Data dependencies come from producer IDs. Effectful instructions additionally
+depend on the previous effectful instruction, giving a conservative total
+effect order. Independent pure branches could run concurrently if resources
+permit; this implementation executes serially. Finer parallelism would require
+resource identities, conflict analysis and a proof that the reordered effects
+commute. Merely running independent-looking Python functions on two threads
+does not supply that proof.
+
+The \texttt{Effects} class executes against the actual owned Chapter 39/40
+modules and stable earlier engines. Tests lower both native and attention
+capabilities, execute their real adapter calls and close all handles. The
+native path still uses the restricted diagonal recurrence; the attention path
+still uses Chapter 23's learned-position stack through Chapter 35. No rotating
+position toy or mock KV allocator is substituted.
+
+TVM is a useful precedent for separating tensor/graph optimization from
+target scheduling and code generation~\cite{evod41:tvm}. Our language includes
+retrieval, policy and durable-memory operations whose semantics need separate
+lowerings. We do not claim TVM's empirical performance or generate device code.
+Batch merge, prefix reuse, fusion and backend substitution remain candidates
+with specific obligations: matching artifacts/precision/owners, valid shared
+prefix identity, permitted numerical differences and preserved effects.
+
+\section{Plan resources with allocation-time liveness}
+\label{evod41:liveness}
+\index{liveness!allocation overlap}\index{memory!workspace}
+For SSA value $v$, define $d(v)$ as definition time and $u(v)$ as last use.
+Without legal in-place reuse, storage must remain live through its final
+consumer's computation. Allocate an output before releasing dying inputs.
+For $c=a+b$, this means peak \emph{three} live values, not one after
+post-operation cleanup.
+\Plate{03-liveness}{Peak pressure occurs during output allocation. Releasing operands after their final read cannot retroactively reduce that peak.}{evod41:livenessplate}
+\Listing{peak_live_values}
+
+The count proxy is useful for debugging but not a byte model. If $b(v)$ is a
+declared payload size, a schedule's stronger model is
+\[
+ M_{peak}=\max_t\left[\sum_{v\in Live(t)} b(v)+W(t)+S(t)\right],
+\]
+where $W$ is operator workspace and $S$ is external/native retained storage.
+Shared pages must be counted once by physical identity; checkpoint leases,
+prefix references and device pins may outlive an SSA handle's last use.
+A count of one logits value can conceal a large tensor. Python integers
+also use variable memory, so a live integer count is not a constant-byte bound.
+
+\begin{center}\input{\Generated/passes.tex}\end{center}
+These generated counts come from the exact fixture. Folding alone preserves
+instruction count; DCE removes three definitions while retaining two effects.
+The answer remains 15. No throughput conclusion follows from fewer instructions
+or lower value pressure without profiling the actual handlers.
+
+\section{Versioning, traceability and integration limits}
+\label{evod41:boundaries}
+\index{IR schema version}\index{trace!source identity}
+The program pins schema \texttt{evod41-v1}. A production serialized IR needs
+a strict data-only encoding, compiler/dialect versions, exact artifacts,
+tenant/policy scope and deterministic content identity. This reference checks
+trusted Python objects; it is not an untrusted plan parser. Unknown required
+fields and effects must not be ignored during a future decoder.
+
+Every lowered schedule item retains its operation ID. A serving trace should
+link runtime event to lowered operation to source IR and plan step. Constant
+folding preserves the ID of the operation whose value it replaces; richer
+fusion needs an explicit many-source provenance map. Such mapping explains
+external execution decisions, not hidden model reasoning.
+
+The chapter-local compiler does not allocate Chapter 36 pages itself.
+The companion \texttt{examples/integrated\_spine/paged\_runtime.py} connects
+its actual effect handler and lowering to that allocator through Chapter 39's
+opaque adapter protocol. Cross-chapter tests compare full-model logits,
+shared-tail continuation, allocation failure, cleanup and retained effects.
+These serialized checks do not implement asynchronous cancellation or prove
+that device page/pin lifetimes are bounded by SSA liveness.
+
+\section{Twelve worked exercises}
+\label{evod41:exercises}
+\begin{enumerate}
+\item Which fixture operations survive optimization? \textbf{Answer:}
+sum as const 15, retrieval ret, and effect-only tool act. c1, c2 and dead vanish.
+\item Why verify before optimizing? \textbf{Answer:} Undefined inputs and
+effect lies invalidate the premises of the backward liveness and folding proofs.
+\item Can an unused tool be removed? \textbf{Answer:} No. Its output-free
+effect is observable and is a DCE root.
+\item Is unused retrieval removable? \textbf{Answer:} Not in this dialect.
+Corpus reads are ordered observations and may fail; a different snapshot/purity
+contract would need its own proof.
+\item Prove folding preserves a later tool argument. \textbf{Answer:}
+The prefix invariant equates every retained SSA value. The tool therefore
+receives the same integer; its relative effect order is unchanged.
+\item Two model calls have equal text. Can they be commoned?
+\textbf{Answer:} Only with an explicit equivalence contract covering artifact,
+tokenizer, state, RNG, precision, policy, failure and observable-event semantics.
+Text equality alone is insufficient.
+\item What is peak live count for $c=a+b$ from two inputs?
+\textbf{Answer:} Three while c is allocated and both operands remain live.
+An in-place form could change this only if alias and mutation rules permit it.
+\item Can last SSA use free an engine page? \textbf{Answer:} Not while an
+external checkpoint, shared prefix or in-flight device operation still owns it.
+\item Why preserve source operation IDs? \textbf{Answer:} They link a route,
+failure or resource estimate back to the original plan even after folding.
+\item Propose a parallel schedule. \textbf{Rubric:} Respect all producer
+edges, preserve the declared effect order, reserve memory/workspace and justify
+any effect commutation. An unchanged final answer alone is inadequate.
+\item Why is recursive expansion an independent check?
+\textbf{Answer:} It evaluates dependency expressions from the original IR
+without the sequential interpreter or optimizer, reducing shared-bug paths.
+\item What does compiler correctness say about quality?
+\textbf{Answer:} Only that the declared program's observations are preserved.
+It does not prove that its chosen model, retrieval corpus or plan solves a task.
+\end{enumerate}
+
+\section{Vocabulary and the comparison boundary}
+\Term{SSA}: one defining assignment per value name. \Term{Effect}: observable
+behavior beyond a returned value. \Term{Lowering}: selecting a legal
+implementation at a more concrete abstraction level. Database systems have
+long separated logical intent, physical choice and effects; the next chapter
+asks exactly which of those mechanisms transfer to Evolutor.

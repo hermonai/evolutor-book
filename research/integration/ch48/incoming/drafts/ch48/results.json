@@ -1,0 +1,14 @@
+{
+  "rc_example": "NACGTT",
+  "rc_involution": true,
+  "train_groups": [
+    "chr1",
+    "chr2"
+  ],
+  "test_groups": [
+    "chr3"
+  ],
+  "mcc": 1.0,
+  "accuracy": 1.0,
+  "brier_example": 0.024999999999999994
+}

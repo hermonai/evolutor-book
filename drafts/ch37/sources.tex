@@ -1,0 +1,36 @@
+\chapter*{Sources and further reading}
+\addcontentsline{toc}{chapter}{Sources and further reading}
+Source access checked 17 October 2026. Orca and VTC were inspected at their
+official USENIX abstract/proceedings pages; their full proofs, artifacts
+and experimental results were not independently audited. Sarathi-Serve's
+primary HTML Section 4, including Algorithm 3 and token-budget/chunk
+discussion, was inspected. SmoothQuant's primary HTML Sections 3--4 and
+calibration/implementation discussion were inspected. These sources motivate
+specific comparisons, not inherited speed or fairness claims.
+
+Actual Chapters 35--36 implementations were read and executed. Native CPU
+FP16/BF16 casts and declared INT8 reconstruction are local representation
+experiments; no native FP8/INT8 engine or compressed KV pool is supplied.
+An attempted NVIDIA FP8 primer access failed, so no current device-support
+claim is based on it. The incoming r01 sections, tests, figures, source
+leads and work examples are mapped in the package-adoption record.
+The original extra-decode timing and flattened-argmax metric are corrected.
+Local author review is not independent specialist or task-quality acceptance.
+\begin{thebibliography}{9}
+\bibitem{evod37:orca} Gyeong-In Yu et al.
+\emph{Orca: A Distributed Serving System for Transformer-Based Generative
+Models}. OSDI, 2022. Official abstract inspected.
+\url{https://www.usenix.org/conference/osdi22/presentation/yu}.
+\bibitem{evod37:sarathi} Amey Agrawal et al.
+\emph{Taming Throughput-Latency Tradeoff in LLM Inference with Sarathi-Serve}.
+2024. Primary HTML Section 4 inspected.
+\url{https://arxiv.org/html/2403.02310v3}.
+\bibitem{evod37:fairness} Ying Sheng et al.
+\emph{Fairness in Serving Large Language Models}. OSDI, 2024.
+Official abstract inspected; VTC guarantees are not attributed to our scheduler.
+\url{https://www.usenix.org/conference/osdi24/presentation/sheng}.
+\bibitem{evod37:smoothquant} Guangxuan Xiao et al.
+\emph{SmoothQuant: Accurate and Efficient Post-Training Quantization for
+Large Language Models}. 2022/2023. Primary method and calibration text inspected.
+\url{https://arxiv.org/html/2211.10438}.
+\end{thebibliography}

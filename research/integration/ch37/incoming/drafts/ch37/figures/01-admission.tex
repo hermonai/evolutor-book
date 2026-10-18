@@ -1,0 +1,1 @@
+\begin{tikzpicture}[node distance=5mm]\node[draw](arr){arrivals};\node[draw,right=of arr](adm){admission\\KV/page budget};\node[draw,right=of adm,fill=Pale](ready){ready requests};\node[draw,right=of ready,fill=Gold!35](iter){iteration scheduler};\draw[->,Blue](arr)--(adm);\draw[->,Blue](adm)--(ready);\draw[->,Blue](ready)--(iter);\end{tikzpicture}

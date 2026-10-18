@@ -1,0 +1,14 @@
+{
+  "B": "per-iteration token-work budget",
+  "C": "maximum prefill chunk tokens",
+  "TTFT": "time to first token",
+  "ITL": "inter-token latency",
+  "P_W": "weight precision",
+  "P_A": "activation precision",
+  "P_KV": "KV-cache precision",
+  "P_accum": "accumulator precision",
+  "s": "symmetric INT8 scale",
+  "e_inf": "maximum absolute numerical error",
+  "e_rel": "relative L2 numerical error",
+  "lambda": "offered request load"
+}

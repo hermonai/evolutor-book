@@ -1,0 +1,123 @@
+{
+  "chapter": 49,
+  "review_date": "2026-10-18",
+  "review_kind": "local author review of standalone integration candidate",
+  "pdf": "output/pdf/evolutor-ch49-review.pdf",
+  "pdf_sha256": "257fbefd5476426f3e3bbb76762a3ba980d8e9dcae93c96ea1288a22c9c05882",
+  "pages": 12,
+  "source_hashes": {
+    "drafts/ch49/README.md": "3d6232af7d4d789597fafa8b787fabf6b47dc45c95d8dfaf4947c25941ce0b19",
+    "drafts/ch49/STORYBOARD.md": "af18b0e6b305cbb74011b223400cf7034f2390990e0a144b4f6b21ebaf481984",
+    "drafts/ch49/build.py": "d41b46d647790e01f394c14c9b2c1452fae8db24c90505229f08c4d542f3fe76",
+    "drafts/ch49/figures/01-pressure.tex": "959ebc43b1d2f343022b22a97e8d3af1669d08a8d24edb975ef3f4136d60186a",
+    "drafts/ch49/figures/01-pressure.txt": "caa9ba5a4d9e047502ddf776bc895e1b05f981edb6a265fe231128184fb328b1",
+    "drafts/ch49/figures/02-recovery.tex": "5012a66866fc63c0af159c081f41eacb028f46ae737be2852bf7891547df24d3",
+    "drafts/ch49/figures/02-recovery.txt": "5577faa6764fcd6f64a15cf6de6c9a405f446569620e961f995966b5fa619e5f",
+    "drafts/ch49/figures/03-code.tex": "66d703433a7cb1a14421afd9841a79e11ca34c364f5bd9d2299122d1fcb7d2a0",
+    "drafts/ch49/figures/03-code.txt": "d96261c16e1736dd724991137d138b40e8d3400fdebdc2cef2944cf34a42cb02",
+    "drafts/ch49/manuscript.tex": "a8f59c974285aadb0fa3bbd806308c583ccf05d41a9ed7ec823dc9af749c4593",
+    "drafts/ch49/reference.py": "f7c04567ee0b283b0034d8a0dff7393eace8dbbc2ea4ac19df07e543dd948b50",
+    "drafts/ch49/results.json": "a9e241dd45646173c6cb8337af132401a6f6da0c8d6b36ac9d47f236afdc6a71",
+    "drafts/ch49/review.tex": "457a8b9cb718e76f914f78f28ed5f360193fe85a6abaf7aa1de3a8ad8da64470",
+    "drafts/ch49/sources.tex": "15c54f4a9022537daa1e8266902dd0dbefd71b05590d524f52b6bc484686c898",
+    "tests/test_ch49_reference.py": "6422c7ee29f0f1bc68325db490df04d5be79702d1250431d0777c2e5db84d3a1"
+  },
+  "transitive_dependencies": {
+    "drafts/ch23/reference.py": "a071820f55006631c2b26a4710dab8b16149fc9e2f1b57b546b955d2168d225b",
+    "drafts/ch31/reference.py": "b0c0f8cc3815ee9c3156f07e8e427878ef11c77b489139dcbb4835c305d88d9a",
+    "drafts/ch35/reference.py": "3861e11797f0d6c8e480d2426e110d29347c5e6a281742208e49a91ea3075e98"
+  },
+  "dependency_scope": "Actual earlier reference sources used by assigned tests or owned code; not an inferred whole-book or environment closure.",
+  "research_hashes": {
+    "research/integration/ch49/hash-verification.json": "dc7b62b288b16768868c87c8966d6643e6afdee713fc5871188dee0a8fbf0405",
+    "research/integration/ch49/package-adoption.md": "56ac24cfb128c9a211d99e4dc2f3324e59661b1cae2271ea209eae0396a451d2",
+    "research/integration/ch49/source-verification.json": "312d390a6bf7168b4add14220310128335cc7eb2eea1fca31a7f9b80a316a64a",
+    "research/integration/ch49/technical-audit.md": "fcaf6806212c2a223c95ff6096b3bdf831a7a2ee3eb8d8b678fe56ae06795ad8"
+  },
+  "build_evidence": {
+    "status": "PASS",
+    "numerical_fixture_check": "PASS",
+    "strict_standalone_repeat_build": "PASS",
+    "build_record": "build/ch49/build-record.json",
+    "build_record_sha256": "8fff2d22aa8984e50e28f3aefe8cc7a67324ff55901d9c40662c51ef7f720fcd",
+    "log": "build/ch49/review.log",
+    "log_sha256": "9cfa199f2b4a57e3efed37abf7d71bbcb98c181fc801efb15d85b9f5a28394e9",
+    "checks": [
+      "overfull boxes",
+      "missing glyphs",
+      "unresolved references and citations",
+      "duplicate labels"
+    ],
+    "wrapper_note": "Chapter-local compatibility definition accepts legacy lineno auxiliary column markers on repeat builds; no shared TeX changes."
+  },
+  "tests": {
+    "chapter_passed": 21,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "report": "build/ch49/tests.xml",
+    "report_sha256": "f68ab11e80c6aff094778ad458b3c52e446fc07ee37eb5f00f7eca9482b24924",
+    "command": "/Users/wenyan/.pyenv/versions/3.13.6/bin/python3 -m pytest tests/test_ch49_reference.py -q -o addopts=''",
+    "python": "3.13.6",
+    "torch": "2.10.0 where actual-model tests require it",
+    "whole_repository_regression": "not run; outside batch author scope"
+  },
+  "visual_review": {
+    "status": "PASS",
+    "mode": "Agent local author visual inspection of every final rendered physical page in color and grayscale contact sheets, with individual-page inspection during corrections.",
+    "physical_pages": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12
+    ],
+    "render_dpi": 110,
+    "render_hashes": {
+      "tmp/pdfs/ch49-review/contact-1.png": "40d8e3350b4af3b5725e1d2c2d9907785bd71d857c727eb8434431841dca9f84",
+      "tmp/pdfs/ch49-review/contact-2.png": "19231412323fb5042e1c0c828ba4be3c34669d66f15c56874eae24d4b2119472",
+      "tmp/pdfs/ch49-review/contact-3.png": "6942b5a0c950c2633eb39fc0ceb761d822c58c4141ac02e4ecfbe8b3d5c21532",
+      "tmp/pdfs/ch49-review/grayscale-1.png": "0413dcbf9f7a08805a7d9c4468868cbabb037ab5a21863aa6de12676e72920d4",
+      "tmp/pdfs/ch49-review/grayscale-2.png": "65ecab6fbf7a3f477e04c90a800d0b771297f3e016c86496fec2d108d16a84bd",
+      "tmp/pdfs/ch49-review/grayscale-3.png": "62cd1c29f62058b458f7077d901d3c9e7c13b841c19f16fb1ff7328f89929e3b",
+      "tmp/pdfs/ch49-review/page-01.png": "3932bed4c8f68440501a8b7e20c7e1eb17e708f66bbedcd0c22b21915913402e",
+      "tmp/pdfs/ch49-review/page-02.png": "8825d842ec7ebcacbb9055e1518b63dcfad46a2b151d1bf5d290a0acc7ecf8ed",
+      "tmp/pdfs/ch49-review/page-03.png": "ddd32db482be4d3332ba4393a24b2c512e743a1d4e425e1908d93157fd879aaa",
+      "tmp/pdfs/ch49-review/page-04.png": "15815bd504cd1b05ae004b54a9582c5c779a095a35eef5c0d4bfc112162f8ffb",
+      "tmp/pdfs/ch49-review/page-05.png": "2f3f080f20d1d26226192199d7d3caf6f00d24dbdcc47df413d37a317ac8d8fc",
+      "tmp/pdfs/ch49-review/page-06.png": "59f899f08933adc63446e72a73dd73accba53b012486680fe5306ae349bd62ca",
+      "tmp/pdfs/ch49-review/page-07.png": "3bb975ec547375608feacc3104427c0637336f4a78360d345844a9553c1c9c14",
+      "tmp/pdfs/ch49-review/page-08.png": "5c1ac88d19b9a422894e37eaf9fc62622e29e59b9a5a49abf65e782d7adeaeb0",
+      "tmp/pdfs/ch49-review/page-09.png": "ce17149b3e5a806c52bd7d6e2693ec082caeb790f022d7d24beb71fb7735c5dc",
+      "tmp/pdfs/ch49-review/page-10.png": "acfe3ffd92882ce79a5981cdc7ab625152191e71db6d86ba2a1a0ca952376369",
+      "tmp/pdfs/ch49-review/page-11.png": "2e9054c400f8b4e7c5b1ecdfdbcbda01fc2988424a9ed4be8c065728448e1a67",
+      "tmp/pdfs/ch49-review/page-12.png": "e6b8d62a28a8b6cecc6ff10a8593dad5b9cae5930fd233057b037abf281e5510"
+    },
+    "checks": [
+      "legible mechanism and axis labels",
+      "no text/figure overlap or clipping",
+      "code pagination and numbered listings",
+      "table and proof flow",
+      "headers, footers, contents, bibliography, index",
+      "grayscale semantic distinctions"
+    ],
+    "notes": "Physical-page count includes standalone cover and contents. Review dates differ from the 17 October authoring date printed on covers. Cumulative pagination remains a separate gate."
+  },
+  "native_figure_count": 3,
+  "worked_exercise_count": 20,
+  "accepted": false,
+  "independent_review": false,
+  "cumulative_integration": false,
+  "limits": [
+    "Local tests and visual author review are not independent specialist or reader review.",
+    "No trained genomic performance, wet-lab experiment, general intelligence or production security/concurrency is established.",
+    "Cross-batch integration, global editorial convergence, whole-repository regression and publication gates remain open."
+  ]
+}

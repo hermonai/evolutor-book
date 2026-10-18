@@ -1,0 +1,1 @@
+Original fixture contains c1=7, c2=8, sum=a+b, dead=99, ret=read corpus and act=echo(sum). Constant folding replaces sum by const 15 under the same ID. DCE removes c1, c2 and dead, but keeps ret and act even though neither produces a requested output. Optimized observable answer and ordered effects match the original. This applies to exact mathematical integer arithmetic.

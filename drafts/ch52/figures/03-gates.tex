@@ -1,0 +1,7 @@
+\begin{tikzpicture}[x=1cm,y=1cm,font=\small\sffamily]
+\foreach \y/\t/\s in {3/local chapter checks/source and figure evidence,2/cross-batch integration/scoped interface and book checks,1/independent specialist review/external specialist and reader evidence,0/publication authorization/explicit user release decision} {
+\node[anchor=east] at (4,\y) {\t};
+\draw[Blue] (4.3,\y-.32) rectangle (11.7,\y+.32);
+\node[anchor=west] at (4.5,\y) {\s};}
+\node[anchor=west] at (-.5,-1.1) {A completed row does not fill the other rows. No final-book acceptance is implied.};
+\end{tikzpicture}

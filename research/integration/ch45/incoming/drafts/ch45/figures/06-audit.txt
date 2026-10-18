@@ -1,0 +1,1 @@
+Security telemetry records who/what/decision without copying secrets or sensitive payloads.

@@ -1,0 +1,139 @@
+\chapter{Multi-tenancy, isolation and security}
+
+Once Evolutor serves more than one mutually untrusted principal, correctness includes isolation. A response can be numerically correct and still be a catastrophic system failure if it exposes another tenant's memory, reuses another tenant's prefix cache, executes an unauthorized tool or leaks credentials through telemetry.
+
+\section{Threat model}
+Assume tenants can submit adversarial prompts, documents and tool parameters. Retrieved content may be malicious. Model output is untrusted for authorization. Bugs may attempt stale/foreign handles. A noisy tenant may exhaust memory or scheduling capacity.
+
+We do not assume the LLM can reliably recognize every attack.
+
+\section{Identity}
+A security principal is
+\[
+P=(tenant,subject,session,authentication\ context).
+\]
+\Plate{01-identity}{Authorization starts from authenticated system identity.}{evod45:identity}
+
+Natural-language statements such as ``I am the administrator'' do not modify $P$.
+
+\section{Deny by default}
+For action $a$ on resource $r$:
+\[
+Allow(P,a,r)=
+\begin{cases}
+1,&\text{explicit policy grant}\\
+0,&\text{otherwise}.
+\end{cases}
+\]
+\Plate{02-policy}{Capabilities are issued only after deterministic authorization.}{evod45:policy}
+
+The model may propose an operation. The policy/kernel/runtime authorizes it. The deterministic service executes it. This preserves the architecture's core safety invariant.
+
+\section{Capabilities}
+A capability binds at least tenant, subject, action, resource, validity interval/nonce and issuer. Narrow capabilities are preferable to ambient credentials.
+
+A read capability for `memory:x` does not authorize `memory:y`, tool execution or another tenant.
+
+\section{Resource namespaces}
+\Plate{03-isolation}{Tenant scope participates in every stateful resource identity.}{evod45:isolation}
+Tenant identity must bind:
+\begin{itemize}
+\item DOGMA state-pool handles and checkpoints;
+\item Hermon KV pages and prefix caches;
+\item Evolutor durable memory and retrieval indexes;
+\item compiler/runtime plan state;
+\item tool credentials and external account bindings;
+\item logs/traces and billing/quota records.
+\end{itemize}
+
+A globally keyed cache by prefix hash alone is unsafe in a multi-tenant service.
+
+\section{Cache isolation}
+A safe conceptual key is
+\[
+K=H(tenant\|artifact\|policy\ domain\|prefix\ digest).
+\]
+Cross-tenant sharing, if ever enabled, must be an explicit policy with privacy analysis rather than an accidental optimization.
+
+\section{Quota isolation}
+CPU/GPU time, native state slots, KV pages, durable memory, concurrent requests, tool calls and bandwidth require per-tenant accounting.
+\Plate{04-quota}{Quotas bound noisy-neighbor resource consumption.}{evod45:quota}
+
+Quota enforcement occurs before allocation where possible so an exhausted tenant cannot starve others by partially acquiring scarce resources.
+
+\section{Prompt injection}
+Prompt injection is a confused-authority problem when untrusted text can influence a component that possesses external privileges. OWASP recommends least privilege, segregating untrusted content and enforcing privilege controls outside the model.
+
+\Plate{05-untrusted}{Natural language can propose an action but cannot authorize it.}{evod45:untrusted}
+
+Retrieved webpages, emails, documents and memory records therefore remain labeled data. A sentence inside them cannot mint a capability.
+
+\section{Tool security}
+Each tool call is validated against principal, capability, tool schema, resource target, parameter constraints and risk policy. High-impact operations may additionally require user/human approval.
+
+Credentials are resolved after authorization and scoped to the narrow operation. They should not be inserted into prompts.
+
+\section{System prompts are not a security boundary}
+A system prompt can guide model behavior but cannot replace deterministic access control. Critical privilege separation, bounds checks and authorization must be implemented outside the LLM.
+
+\section{Memory isolation}
+EVOD-40 records carry tenant identity. Retrieval filters tenant scope before ranking/return. Deletion/tombstones are tenant-scoped. Derived summaries retain provenance without creating cross-tenant edges unless an explicit sharing policy permits them.
+
+\section{Engine-state isolation}
+EVOD-32 generational handles now gain a security context. A valid generation from the wrong tenant is still invalid. Release/scrub ordering should clear residual state before reassignment.
+
+Hermon KV pages require the same rule: page ownership and reference counts are necessary but not sufficient unless tenant identity is part of authorization.
+
+\section{Compiler and IR security}
+EVOD-41 verification adds effect/security labels. A compiler optimization may not merge operations across security domains merely because their tensors or prefixes are equal.
+
+CSE, prefix reuse, batching and memory deduplication all have security preconditions.
+
+\section{Batching}
+Continuous batching may physically colocate tenants on a GPU. Logical isolation still requires per-request masks, page tables, state handles, outputs, cancellation and accounting. Batch formation must never create cross-request attention/state edges.
+
+\section{Side channels}
+Shared accelerators, caches, timing and resource contention can reveal information even when logical authorization is correct. Stronger threat models may require partitioning, padding, dedicated hardware or disabling cross-tenant sharing.
+
+The chapter does not claim to eliminate hardware side channels.
+
+\section{Secrets}
+Secrets must not appear in prompts, checkpoints, model artifacts, debug dumps or ordinary telemetry. Secret access is a privileged tool/runtime operation with scoped credentials and rotation.
+
+\section{Audit}
+\Plate{06-audit}{Audit records security decisions without copying protected payloads.}{evod45:audit}
+A security event records principal, action, resource class, policy/version, allow/deny result, trace ID and reason code. Avoid logging credentials, raw secrets or unnecessary sensitive content.
+
+\section{Zero-trust comparison}
+NIST zero-trust architecture rejects implicit trust based merely on network location and centers explicit authentication/authorization around resources. Evolutor applies the same systems principle internally: being inside the runtime, on the same GPU or in the same batch does not grant access to another request's state.
+
+\section{Executable oracle}
+\Listing{reference}
+The reference implements tenant/subject-bound capabilities, deny-by-default policy, namespaced memory/cache identities, quotas, tool authorization and audit events. Its negative tests intentionally attempt cross-tenant capability reuse and prompt-based privilege escalation.
+
+The deterministic fixture is not a cryptographic authentication implementation.
+
+\section{Adversarial test matrix}
+Production security testing should include cross-tenant object IDs, stale handles, forged capabilities, cache collisions, malicious retrieved instructions, tool parameter injection, cancellation races, quota exhaustion, checkpoint restore across tenants, telemetry secret scanning and concurrent isolation stress.
+
+\section{Failure modes}
+Failures include trusting model identity claims, global prefix caches, authorization after data fetch, ambient credentials, logging secrets, cross-tenant batching bugs, quota checks after allocation, prompt-based policy overrides and treating a system prompt as an access-control mechanism.
+
+\section{Twelve worked exercises}
+\begin{enumerate}
+\item Who authorizes a tool? \textbf{Deterministic policy/runtime, not the model.}
+\item Prefix hash alone safe cache key? \textbf{No; tenant/security/artifact scope is required.}
+\item Same GPU implies trust? \textbf{No.}
+\item Retrieved instruction can grant privilege? \textbf{No.}
+\item Why capabilities? \textbf{Narrow explicit authority instead of ambient privilege.}
+\item Why quota before allocation? \textbf{Prevent partial resource exhaustion/noisy-neighbor harm.}
+\item Valid handle, wrong tenant? \textbf{Reject.}
+\item Can compiler CSE cross tenants? \textbf{Not without an explicit safe sharing contract.}
+\item System prompt sufficient access control? \textbf{No.}
+\item What should audit omit? \textbf{Credentials, secrets and unnecessary protected payloads.}
+\item Are logical checks enough against all side channels? \textbf{No.}
+\item Release rubric? \textbf{Authenticated identity; deny default; scoped capabilities; namespaced state/cache/memory; quotas; external tool auth; adversarial tests; redacted audit; side-channel threat declaration.}
+\end{enumerate}
+
+\section{Bridge}
+Chapter 46 distributes the service across machines. The security and ownership rules established here become placement constraints: moving or replicating state must preserve tenant identity, artifact/version binding, authorization, consistency and failure recovery across network boundaries.

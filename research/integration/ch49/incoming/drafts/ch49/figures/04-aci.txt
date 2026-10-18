@@ -1,0 +1,1 @@
+The agent-computer interface shapes available actions while deterministic policy remains the authority boundary.

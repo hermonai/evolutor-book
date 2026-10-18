@@ -1,0 +1,11 @@
+\begin{tikzpicture}[x=1cm,y=1cm,font=\small\sffamily]
+\node[draw,fill=Pale] (a) at (0,2) {base A};
+\node[draw] (b) at (3.3,2) {A + patch P};
+\node[draw,fill=Green!10] (c) at (7.5,2) {tests bind (A,P,env)};
+\draw[flow] (a)--(b) node[midway,above] {edit};
+\draw[flow] (b)--(c) node[midway,above] {evaluate};
+\node[draw,fill=Gold!40] (d) at (3.3,0) {current base B};
+\draw[flow] (a)--(d) node[midway,left] {other change};
+\draw[Red,dashed,thick] (c)--(d) node[midway,right,align=left] {identity mismatch:\\rebase + retest};
+\node[anchor=west] at (-.5,-1) {Promotion needs the tested base identity or new evidence for B.};
+\end{tikzpicture}

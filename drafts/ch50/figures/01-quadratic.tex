@@ -1,0 +1,14 @@
+\begin{tikzpicture}[x=5cm,y=4cm,font=\small\sffamily]
+\draw[->] (-.05,0)--(1.3,0) node[right] {$\theta_1$};
+\draw[->] (0,-.05)--(0,1.3) node[above] {$\theta_2$};
+\draw[Blue!30] (1,0) circle[radius=.2];\draw[Red!30] (0,1) circle[radius=.2];
+\node[below] at (1,0) {$u_1=(1,0)$};\node[left] at (0,1) {$u_2$};
+\draw[flow] (0,0)--(.9375,0);
+\fill[Blue] (.9375,0) circle[radius=.015];\node[above right] at (.9375,.02) {$a=(15/16,0)$};
+\draw[Red,thick,-{Stealth}] (.9375,0)--(.05859375,.9375);
+\fill[Red] (.05859375,.9375) circle[radius=.015];
+\node[anchor=west] at (.1,1.08) {sequential: $(15/256,15/16)$};
+\draw[Green,thick,dashed,-{Stealth}] (.9375,0)--(.46875,.5);
+\fill[Green] (.46875,.5) circle[radius=.018];
+\node[anchor=west] at (.49,.6) {anchored: $(15/32,1/2)$};
+\end{tikzpicture}

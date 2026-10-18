@@ -1,0 +1,110 @@
+\chapter{Continual learning and population adaptation}
+
+A persistent system is not necessarily a learning system. Evolutor must distinguish five state changes:
+\[
+\text{context}\neq\text{memory}\neq\text{parameters}\neq\text{structure}\neq\text{population}.
+\]
+A conversation appended to memory changes future evidence access; it does not by itself update model weights.
+
+\section{Five adaptation layers}
+\Plate{01-layers}{Adaptation layers must not be conflated.}{evo50:layers}
+Layer 0 changes active context. Layer 1 changes durable addressable memory. Layer 2 updates weights or adapters. Layer 3 changes graph, routing, modules or memory topology. Layer 4 selects/mutates a population of candidates. Each layer has different rollback, evaluation and safety requirements.
+
+\section{Continual-learning protocol}
+Let experiences arrive as $E_1,\ldots,E_T$. After learning experience $t$, evaluate the resulting model on every permitted evaluation experience, yielding matrix $A_{t,j}$. The diagonal measures immediate acquisition; lower-triangular entries reveal retention.
+
+For final time $T$, average retained accuracy is
+\[
+ACC_T=\frac1T\sum_{j=1}^{T}A_{T,j}.
+\]
+A simple forgetting statistic for old task $j$ is
+\[
+F_j=\max_{t<T}A_{t,j}-A_{T,j}.
+\]
+The exact metric convention must be declared because continual-learning literature uses multiple definitions.
+
+\section{Catastrophic forgetting}
+Sequential gradient updates can improve the new distribution while degrading old capabilities. A valid experiment therefore reports new-task acquisition and old-task retention together. A single final aggregate can hide severe regressions.
+
+\section{Baselines}
+Before an Evolutor mechanism, run: no-update/frozen model; naive sequential fine-tuning; joint/offline upper reference when legally available; replay; regularization such as EWC; adapters; and a capacity-matched alternative. This prevents architectural novelty from being inferred from an easy baseline.
+
+\section{Elastic weight consolidation}
+For old optimum $\theta^*$ and importance estimates $F_i$, EWC adds
+\[
+L(\theta)=L_{new}(\theta)+\frac{\lambda}{2}\sum_iF_i(\theta_i-\theta_i^*)^2.
+\]
+This protects parameters estimated as important to previous behavior. It is a regularizer, not a proof against forgetting and not a governance mechanism.
+
+\section{Replay}
+Replay interleaves representative old examples with new experience. It trades storage/privacy cost against retention. A replay buffer can itself become biased or stale; report selection policy and memory budget.
+
+\section{Adapters and modularity}
+Adapters isolate some task/domain updates from base weights. They reduce interference only to the extent that routing and shared components remain stable. Adapter proliferation creates its own lifecycle and routing problem.
+
+\section{Structural adaptation}
+Structural change may add/remove modules, alter routing, change memory topology or compile a different execution graph. Such candidates remain artifacts under Chapter 43 governance:
+\[
+propose\rightarrow evaluate\rightarrow canary\rightarrow promote.
+\]
+Self-modification does not imply self-authorization.
+
+\section{Population adaptation}
+\Plate{02-population}{Population search separates candidate variation from deployment authority.}{evo50:population}
+Population-based training jointly evolves model state and hyperparameters by periodically exploiting stronger candidates and exploring mutations. Evolutor generalizes the pattern to candidate artifacts, but fitness must be multi-objective:
+\[
+J=q-\alpha c-\beta r-\gamma f,
+\]
+for quality $q$, resource cost $c$, risk/regression $r$ and forgetting $f$. The scalarization is policy, not a universal definition of fitness.
+
+\section{Diversity}
+Selecting only current best score can collapse a population. Diversity can be measured in parameter, behavior, architecture or failure space. Diversity metrics are task-dependent; novelty without utility is not progress.
+
+\section{Budget parity}
+Population methods consume more trials. Compare under fixed training tokens, examples, accelerator-hours or monetary/energy budgets. Otherwise ``better'' may mean only ``more search.''
+
+\section{Online versus offline}
+Online continual learning restricts access to past data and future experiences. Offline retraining can revisit the whole dataset. These are different problems and must not share a leaderboard without disclosure.
+
+\section{Task boundaries}
+Some protocols reveal task IDs; task-free protocols do not. A method that relies on oracle task boundaries cannot be described as boundary-free adaptation.
+
+\section{Transfer and interference}
+Positive backward transfer occurs when later learning improves old tasks; negative backward transfer is forgetting. Forward transfer asks whether old learning accelerates new acquisition. Measure both rather than assuming transfer from shared representation.
+
+\section{Causal controls}
+\Plate{03-controls}{Interventions determine whether an adaptation mechanism caused the gain.}{evo50:controls}
+Ablate replay, regularizer, structural mutation and population selection separately. Randomize labels/data where appropriate. Match parameter and compute budgets. Repeat across seeds.
+
+\section{Evaluation matrix}
+\Plate{04-matrix}{The accuracy matrix exposes acquisition and retention over time.}{evo50:matrix}
+Keep per-experience metrics, calibration, resource cost and failure categories. Aggregate only after inspecting the matrix.
+
+\section{Rollback}
+Parameter/adaptor/structure updates are immutable candidate artifacts. Promotion records parent lineage, training data/version, optimizer, seeds and evaluation evidence. Rollback restores an artifact; it cannot erase external side effects produced while that artifact was active.
+
+\section{Security and poisoning}
+Continual learners create a new attack surface: malicious experience can persist through weights or memory. Training admission, provenance, quarantine, anomaly tests and tenant boundaries therefore precede online learning.
+
+\section{Executable oracle}
+\Listing{reference}
+The teaching oracle models a two-parameter learner across sequential quadratic tasks, computes an accuracy matrix, forgetting and a small population exploit/mutate step. It is a numerical semantics fixture, not evidence that EWC or PBT improves Evolutor.
+
+\section{Twelve worked exercises}
+\begin{enumerate}
+\item Saving a conversation changes weights? \textbf{No.}
+\item Why evaluate old tasks after each experience? \textbf{To expose forgetting/transfer.}
+\item EWC replaces regression tests? \textbf{No.}
+\item Replay is free? \textbf{No: storage, privacy and sampling costs.}
+\item Adapter equals no interference? \textbf{No.}
+\item Structural mutation may deploy itself? \textbf{No.}
+\item Why population budget parity? \textbf{Search uses extra compute.}
+\item Oracle task IDs disclosed? \textbf{Declare them.}
+\item Positive backward transfer? \textbf{Later learning improves earlier tasks.}
+\item Why seed distributions? \textbf{Separate mechanism from stochastic luck.}
+\item Poisoning concern? \textbf{Updates persist attacker influence.}
+\item Release gate? \textbf{Acquisition, retention, transfer, budget, safety, lineage and rollback all pass.}
+\end{enumerate}
+
+\section{Bridge}
+Chapter 51 asks which broad capabilities such mechanisms could support. It does not infer AGI from persistence, continual learning, tool use or population adaptation; each capability requires its own operational test.

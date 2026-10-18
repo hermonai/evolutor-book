@@ -1,8 +1,8 @@
 # Evolutor — chapter structure and reading routes
 
-Updated 17 October 2026. This is the current project-level navigation map.
-Chapters **1–35 are authored and included** in the continuous review candidate;
-Chapters **36–52 are inventoried packages, not integrated content**. Local
+Updated 18 October 2026. This is the current project-level navigation map.
+Chapters **1–52 are authored and included** in the continuous review candidate.
+All four authoring batches have handed off. Local
 author review does not establish independent specialist review or publication acceptance.
 
 The machine-readable companion is [chapter-structure.json](chapter-structure.json).
@@ -30,8 +30,8 @@ implied by a software arrow.
 
 “Authored” means source present in the current assembly, not accepted publication.
 Ch1–2 retain internal acceptance records; Ch3–21 retain existing review candidates;
-Ch22–35 have source-bound local integration review. “Staged” means local gates
-must still be rerun. Prerequisites below are reading dependencies, not a claim
+Ch22–52 have source-bound local review records. Complete assembly does not
+mean independent or publication acceptance. Prerequisites below are reading dependencies, not a claim
 that every prerequisite is independently accepted.
 
 ### Part 1 — The research question
@@ -108,66 +108,67 @@ that every prerequisite is independently accepted.
 | Ch. | Title and active source | Stage | Direct prerequisites |
 |---|---|---|---|
 | 35 | [Hermon DNA prefill, decode and KV state](drafts/ch35/manuscript.tex) | Authored | 8, 9, 23, 24, 30 |
-| 36 | Paged KV, prefix sharing and allocation | Staged | 32, 35 |
-| 37 | Continuous batching and precision | Staged | 34, 35, 36 |
-| 38 | Speculative decoding and attention kernels | Staged | 29, 35, 36, 37 |
+| 36 | [Paged KV, prefix sharing and allocation](drafts/ch36/manuscript.tex) | Authored | 32, 35 |
+| 37 | [Continuous batching and precision](drafts/ch37/manuscript.tex) | Authored | 34, 35, 36 |
+| 38 | [Speculative decoding and attention kernels](drafts/ch38/manuscript.tex) | Authored | 29, 35, 36, 37 |
 
 ### Part 9 — Evolutor: heterogeneous execution
 
 | Ch. | Title and active source | Stage | Direct prerequisites |
 |---|---|---|---|
-| 39 | Evolutor runtime above both engines | Staged | 14, 15, 30, 34, 35 |
-| 40 | Hybrid compressed and addressable memory | Staged | 20, 35, 39 |
-| 41 | Compiler, IR and execution planning | Staged | 14, 15, 16, 39 |
-| 42 | Database engines as a systems comparison | Staged | 32, 36, 41 |
-| 43 | Structural adaptation and lifecycle governance | Staged | 13, 17, 41 |
+| 39 | [Evolutor runtime above both engines](drafts/ch39/manuscript.tex) | Authored | 14, 15, 30, 34, 35 |
+| 40 | [Hybrid compressed and addressable memory](drafts/ch40/manuscript.tex) | Authored | 20, 35, 39 |
+| 41 | [Compiler, IR and execution planning](drafts/ch41/manuscript.tex) | Authored | 14, 15, 16, 39 |
+| 42 | [Database engines as a systems comparison](drafts/ch42/manuscript.tex) | Authored | 32, 36, 41 |
+| 43 | [Structural adaptation and lifecycle governance](drafts/ch43/manuscript.tex) | Authored | 13, 17, 41 |
 
 ### Part 10 — Industrial engineering
 
 | Ch. | Title and active source | Stage | Direct prerequisites |
 |---|---|---|---|
-| 44 | Packaging, deployment and observable services | Staged | 28, 30, 39 |
-| 45 | Multi-tenancy, isolation and security | Staged | 30, 32, 33, 36, 44 |
-| 46 | Distributed serving and state placement | Staged | 28, 36, 39, 45 |
-| 47 | Profiling, performance and hardware backends | Staged | 16, 29, 34, 38, 46 |
+| 44 | [Packaging, deployment and observable services](drafts/ch44/manuscript.tex) | Authored | 28, 30, 39 |
+| 45 | [Multi-tenancy, isolation and security](drafts/ch45/manuscript.tex) | Authored | 30, 32, 33, 36, 44 |
+| 46 | [Distributed serving and state placement](drafts/ch46/manuscript.tex) | Authored | 28, 36, 39, 45 |
+| 47 | [Profiling, performance and hardware backends](drafts/ch47/manuscript.tex) | Authored | 16, 29, 34, 38, 46 |
 
 ### Part 11 — Applications and capability research
 
 | Ch. | Title and active source | Stage | Direct prerequisites |
 |---|---|---|---|
-| 48 | Genomic sequence applications | Staged | 5, 21, 24, 25, 29 |
-| 49 | Streaming, language, code and persistent agents | Staged | 29, 39, 40, 45 |
-| 50 | Continual learning and population adaptation | Staged | 13, 27, 43 |
-| 51 | AGI capability hypotheses and limits | Staged | 17, 29, 43, 48, 49, 50 |
+| 48 | [Genomic sequence applications](drafts/ch48/manuscript.tex) | Authored | 5, 21, 24, 25, 29 |
+| 49 | [Streaming, language, code and persistent agents](drafts/ch49/manuscript.tex) | Authored | 29, 39, 40, 45 |
+| 50 | [Continual learning and population adaptation](drafts/ch50/manuscript.tex) | Authored | 13, 27, 43 |
+| 51 | [AGI capability hypotheses and limits](drafts/ch51/manuscript.tex) | Authored | 17, 29, 43, 48, 49, 50 |
 
 ### Part 12 — Research synthesis
 
 | Ch. | Title and active source | Stage | Direct prerequisites |
 |---|---|---|---|
-| 52 | Failures, open problems and reproducible synthesis | Staged | 29, 43, 47, 48, 49, 50, 51 |
+| 52 | [Failures, open problems and reproducible synthesis](drafts/ch52/manuscript.tex) | Authored | 29, 43, 47, 48, 49, 50, 51 |
 
-## The current engineering handoff
+## The complete integration candidate
 
-Chapter 34 lifts the actual Chapter 31 gated state across requests, using
-Chapter 32 pins and Chapter 33 restored branches. It distinguishes inactive
-identity, local token clocks, completion fences and logical traffic from
-device performance. Chapter 35 caches the actual Chapter 23 Hermon stack
-with learned absolute positions, per-layer KV and offset causal masks.
+All 52 chapters now form one source-assembled book with printed part navigation,
+a common glossary/index and consolidated bibliography. The four batches retain
+section-by-section adoption and source-bound local review evidence.
 
-**Next: Chapter 36 — Paged KV, prefix sharing and allocation.** Preserve
-Chapter 35's exact ordered logical K/V while changing physical placement.
-Test full/partial blocks, fresh ownership, generation identity, prefix forks,
-copy-on-write tails, eviction versus live references, and reclaim only at
-reference-count zero. Chapter 37 then combines admission/batching and precision;
-Chapter 38 evaluates speculative verification and optimized attention kernels.
+Chapter 36 refines actual Chapter 35 layered KV into physical pages; Chapters
+37–38 build scheduling/precision and speculative/online-attention references.
+The [integrated-spine companion](examples/integrated_spine/README.md) connects
+the real page pool to Chapters 39/41's runtime and compiler. It checks native
+parity and effects, not asynchronous service completion or hardware speed.
+
+Next: the [Claude pre-publication review](docs/CLAUDE_PREPUBLICATION_REVIEW_PROMPT.md),
+external specialist/reader review, rights/accessibility work and human release
+decisions. See [verified results and limits](FINAL_INTEGRATION_REPORT.md).
 
 ## Reading routes
 
 - **Model builder:** Ch2–10, then Ch18–29. Learn objectives and state semantics before comparing architectures.
-- **Formal systems reader:** Ch11–17, then Ch39–43 (the latter are staged). Separate biological analogy from typed semantics and legal lowering.
-- **Inference engineer:** Ch23, Ch25–30, Ch31–35; then planned Ch36–38. Keep scalar/full-model oracles when changing storage and scheduling.
-- **Deployment engineer:** Ch28–30, Ch32–38, then staged Ch44–47. Do not infer production readiness from reference tests.
-- **Application researcher:** Ch2, Ch5, Ch17, Ch21, Ch24–29, then staged Ch48–52. Require dataset, intervention and negative evidence.
+- **Formal systems reader:** Ch11–17, then Ch39–43. Separate biological analogy from typed semantics and legal lowering.
+- **Inference engineer:** Ch23, Ch25–30, Ch31–35; then Ch36–38. Keep scalar/full-model oracles when changing storage and scheduling.
+- **Deployment engineer:** Ch28–30, Ch32–38, then Ch44–47. Do not infer production readiness from reference tests.
+- **Application researcher:** Ch2, Ch5, Ch17, Ch21, Ch24–29, then Ch48–52. Require dataset, intervention and negative evidence.
 
 ## Production and publication gates
 

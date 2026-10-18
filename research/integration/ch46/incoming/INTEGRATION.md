@@ -1,0 +1,2 @@
+# Integration contract
+Use repository-native worker IDs, artifact IDs and transport APIs only after inspection. Preserve tenant/model/schema identity and monotonic ownership epochs across migration. Source ownership must be revoked only after destination preparation and commit; stale epochs fail closed. Replication of immutable artifacts is distinct from mutable request-state ownership. Measure transfer/topology costs before enabling disaggregated placement.

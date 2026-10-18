@@ -1,0 +1,12 @@
+\begin{tikzpicture}[x=1cm,y=1cm,font=\small\sffamily]
+\node[draw,fill=Pale,align=center] (a) at (1.1,2.2) {active a\\used a = 1};
+\node[draw,fill=Gold!30,align=center] (p) at (5,2.2) {prepared\\a frozen; b reserved};
+\node[draw,fill=Green!12,align=center] (b) at (10,2.2) {active b\\epoch + 1};
+\draw[flow] (a)--node[above,font=\footnotesize]{prepare} (p);
+\draw[flow] (p)--node[above,yshift=3mm,font=\footnotesize,align=center]{verified copy\\commit} (b);
+\node[draw,fill=Red!8,align=center] (e) at (5,0) {corrupt / unavailable\\commit rejected};
+\draw[flow,Red] (p)--node[right,font=\footnotesize]{copy fails} (e);
+\draw[flow,dashed] (e.south)--(5,-.9)--node[below,font=\footnotesize]{abort: release b; unfreeze a} (1.1,-.9)--(a.south);
+\node[align=left,anchor=west,font=\footnotesize] at (8.2,-.1) {used a = 0\\used b = 1\\reserved b = 0};
+\node[anchor=west] at (0,-1.9) {Failure before commit preserves source authority; explicit abort settles staging.};
+\end{tikzpicture}

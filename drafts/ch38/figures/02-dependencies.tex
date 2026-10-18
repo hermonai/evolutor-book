@@ -1,0 +1,10 @@
+\begin{tikzpicture}[x=1cm,y=1cm]
+\foreach \x/\i in {0/1,4/2,8/3}{
+ \node[note,draw,minimum width=2.2cm] (x\i) at (\x+1.5,2.5) {draft $x_{\i}\sim q_{\i}$};
+ \node[note,draw,fill=Pale,minimum width=2.2cm] (p\i) at (\x+1.5,.8) {target $p_{\i}(\cdot\mid h,x_{<\i})$};
+ \draw[flow] (x\i.south)--node[right,smallnote]{verify}(p\i.north);
+}
+\draw[flow] (x1)--(x2);\draw[flow] (x2)--(x3);
+\node[note,draw,fill=Gold!35] at (5.5,-.35) {If $x_2$ rejects: commit $x_1,y_2$; discard $x_3$ and its target continuation};
+\draw[dashed,Red,thick] (7.1,3.1)--(7.1,.1);
+\end{tikzpicture}

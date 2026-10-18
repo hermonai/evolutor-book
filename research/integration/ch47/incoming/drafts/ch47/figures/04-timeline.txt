@@ -1,0 +1,1 @@
+System timelines reveal launch, transfer, queue and synchronization gaps invisible in kernel-only timing.

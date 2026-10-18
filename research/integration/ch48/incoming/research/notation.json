@@ -1,0 +1,7 @@
+{
+  "RC": "reverse complement",
+  "U": "sampling/independence unit",
+  "MCC": "Matthews correlation coefficient",
+  "Delta(x,v)": "variant score difference",
+  "X/Y": "input sequence/context and target"
+}

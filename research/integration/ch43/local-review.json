@@ -1,0 +1,72 @@
+{
+  "date": "2026-10-18",
+  "chapter": 43,
+  "pdf": "output/pdf/evolutor-ch43-review.pdf",
+  "pdf_sha256": "d9ecfcbc156bd939cdc888660853b1488bc88755f2caacb635714d9832c15876",
+  "pages": 12,
+  "source_hashes": {
+    "drafts/ch43/README.md": "f5339f94bf3db015bfb507947fba961485419f719bf16c7ed81898ac5a01e3ed",
+    "drafts/ch43/STORYBOARD.md": "9c845bc7821d34ea32548c34e91df9416828f445002ec3886d71318c6b3d7552",
+    "drafts/ch43/build.py": "c481b846f3a6c8555e64d2f14b4f9bf8b9e0196d13e64596fdf9360ff759ae17",
+    "drafts/ch43/figures/01-lineage.tex": "f81534c03273468fc488ff0c8b3aed5168d87cb2a2adb754c2394c1af6e9b8f4",
+    "drafts/ch43/figures/01-lineage.txt": "5a9b584701103a6964017427ed724b25508df52a3103afa0371a125cada07807",
+    "drafts/ch43/figures/02-lifecycle.tex": "8a4c6f8a930a7d5a3c15bc8c79db2d0b066b9026a0aa07287abae60165a9311d",
+    "drafts/ch43/figures/02-lifecycle.txt": "fb4dea6443806ca24416497302cdb54ea805ebe48b5a2b0e2284b80c08219d25",
+    "drafts/ch43/figures/03-state.tex": "2eb564ef10733ea4ee3a1ae7ec9ea1484a5ecdee56406e37b37c84f75d346b1d",
+    "drafts/ch43/figures/03-state.txt": "5911fdfd513bd2d624c3fa9a1e7973b590f705e7bbc97613961351594efa6036",
+    "drafts/ch43/manuscript.tex": "b311798f1f886260c710659132a7144008c1d4477e361b439961373435a68ae2",
+    "drafts/ch43/reference.py": "207fb62ebf8aa49c1469edbe5f25f2dbc6a4b2fda42c6423928cee6fdf2617dd",
+    "drafts/ch43/results.json": "18d48f18e7bc17c6c96c963e23fc3ad0df4607e21f95373702789bb53fe466f7",
+    "drafts/ch43/review.tex": "a2f28fbdec0a2e95aaf648410f3e924879c9d1f60d8a139277c2ffcb2c24fd77",
+    "drafts/ch43/sources.tex": "290f278d4bd6f7e95b8526c1c5eff681b894f98c8abbca030ee7d2eb474800b2",
+    "tests/test_ch43_reference.py": "4ecf9ac9d8d2f97be4329751f288d8b0ad6c244173b16b5162021b8567518ac7"
+  },
+  "transitive_dependencies": {},
+  "research_hashes": {
+    "research/integration/ch43/package-integrity.json": "c5dcc827daf3c237ce187d71a2cec59f1a2d3fe08c967214ed53ea03808ee476",
+    "research/integration/ch43/package-adoption.md": "67989d366653977f62d0aa17535fa63e4b887cd52a46e59b73142babe7d81675",
+    "research/integration/ch43/package-adoption.json": "d04f1bea5b13edd2b1c07a8e319175ca82372d8b5a258ed98903fca9cfcdff3c",
+    "research/integration/ch43/source-verification.json": "a1bcd81c5a43769734722706ea57476cb0a9bdd46f5b5958a5fc6c36b7453619",
+    "research/integration/ch43/technical-audit.md": "4fc0b55dbb438e7ffa0146c7fff4e1ef8dc05b513544a4bf07abdc229f5ffe2a",
+    "research/integration/ch43/visual-review.json": "93f7c9ca7147f000b7fb31fd711ecdeb241c95888385f4c25396c07db2c88450"
+  },
+  "package_archive_sha256": "e7dc8b7553364697c187d487f32552b454153eb4f913d23998334c2c9ac596ca",
+  "tests": {
+    "chapter_passed": 28,
+    "chapter_failed": 0,
+    "chapter_skipped": 0,
+    "batch_passed": 189,
+    "report": "build/ch43/reference-tests.xml",
+    "report_sha256": "ba5c0643328106249a3002f528ef0203104b4cf1b9c8a8adc1ea58109cd8c497",
+    "batch_report": "build/ch39/batch-B-reference.xml",
+    "batch_report_sha256": "c17c05ca1dd1b6ac2c69958f276aa690f49a6594b8183e6c9c872994003ee5c6",
+    "python": "3.13.6",
+    "torch": "2.10.0",
+    "repository_status": "not_run_by_batch_owner; reserved for final integration coordinator"
+  },
+  "derived_artifacts": {
+    "status": "passed",
+    "command": "python drafts/ch43/build.py --check"
+  },
+  "strict_compile": {
+    "status": "passed",
+    "overfull_boxes": 0,
+    "missing_glyphs": 0,
+    "unresolved_references_or_citations": 0,
+    "multiply_defined_labels": 0,
+    "log": "build/ch43/review.log",
+    "log_sha256": "c55994b4746c610700f8f08c61e1c79fc806bc3a7fc139f60888dd25aeda7458"
+  },
+  "visual_review": {
+    "reviewer": "author/agent",
+    "status": "PASS WITH NOTES",
+    "mode": "all 12 physical standalone pages, color and grayscale",
+    "record": "research/integration/ch43/visual-review.json",
+    "notes": "Lineage and serving-history strips are now separated, with non-overlapping labels and distinct solid/dashed edges. The serving invariant proposition/proof remains together. Promotion/Rollback index entries were consolidated. Short closing vocabulary whitespace is intentional."
+  },
+  "mathematical_review": "See technical-audit.md and the premise-bound chapter proofs; independent reference oracles and negative controls cover the stated teaching contracts.",
+  "cross_batch_integration": "not implemented/tested by this batch; exact remaining checks are in research/integration/batches/B-handoff.md",
+  "independent_review": false,
+  "accepted": false,
+  "acceptance": "locally reviewed standalone integration candidate; cumulative integration and publication gates remain open"
+}

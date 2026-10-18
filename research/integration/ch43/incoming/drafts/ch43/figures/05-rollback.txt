@@ -1,0 +1,1 @@
+Rollback restores a prior validated serving artifact but cannot undo irreversible external effects.

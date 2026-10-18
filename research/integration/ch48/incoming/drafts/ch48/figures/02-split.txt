@@ -1,0 +1,1 @@
+Group-aware splitting prevents nearby or homologous sequence leakage across evaluation boundaries.

@@ -1,0 +1,10 @@
+\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={note}]
+\node at (1.8,3) {candidate};\node at (6,3) {contract gate};\node at (11,3) {weighted score};
+\foreach \y/\name/\gate/\score in {2/native-A/pass/5.7,1/native-B/pass/5.0,0/wrong-contract/reject/0.11}{
+ \node[draw,minimum width=3cm] (p\y) at (1.8,\y) {\name};
+ \node at (6,\y) {\gate};\node at (11,\y) {\score};
+ \draw[flow] (3.4,\y)--(4.9,\y);
+}
+\draw[Red,thick] (9.8,-.3)--(12.2,.3);
+\node[below] at (7,-1) {Rank only legal candidates: choose native-B.};
+\end{tikzpicture}

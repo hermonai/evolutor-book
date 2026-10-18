@@ -1,0 +1,19 @@
+{
+  "visibility": [
+    {
+      "phase": "live",
+      "events": 3,
+      "summary_visible": 1
+    },
+    {
+      "phase": "expired",
+      "events": 1,
+      "summary_visible": 0
+    }
+  ],
+  "source_bytes": 29,
+  "summary_bytes": 16,
+  "payload_ratio": 0.5517241379310345,
+  "alias_text_equal": true,
+  "alias_provenance_different": true
+}

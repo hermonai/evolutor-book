@@ -1,0 +1,336 @@
+\chapter{Paged KV, prefix sharing and allocation}
+\label{evod36:chapter}
+
+Two requests consume the same three-token prompt. One continues with A and
+the other with T. With two token positions per page, which bytes can they
+still share? The first full page is easy: neither continuation changes it.
+The second page is more subtle. It contains one valid prefix position and
+one vacant slot. Writing into that vacancy through a shared pointer would
+silently change the other request's history.
+
+Chapter 35 made the ordered, per-layer Hermon cache explicit. This chapter
+changes physical placement while preserving that computation. Its allocator
+stores the actual two-layer Chapter 23 Transformer state through Chapter 35's
+adapter, including learned absolute positions. It is a serialized CPU
+reference with expensive validation and contiguous staging. It establishes
+allocation and continuation contracts; it is not a production paged kernel.
+
+\section{The logical object must survive relocation}
+\index{KV cache!paged layout}\index{Logical ordinal}\index{Page table}
+\label{evod36:invariant}
+For layer $\ell=0,\ldots,L-1$, head count $H$ and head width $d_h$, a
+consumed prefix of $T$ tokens has
+\[
+ K^\ell,V^\ell\in\mathbb R^{H\times T\times d_h}.
+\]
+One token slice contains K and V across \emph{all} layers and heads. The
+reference uses $L=2,H=2,d_h=4$, eight-byte float64 elements: one such slice
+occupies $2LHd_h(8)=256$ logical payload bytes. These are model tensors,
+not biological molecules. The DNA vocabulary supplies token identity;
+software allocation supplies the page mechanism.
+
+Let $C_T$ denote the tuple of layer tensors plus owner, model artifact,
+causal mode and ordered token metadata. The refinement obligation is
+\[
+ \operatorname{flatten}(\operatorname{paged}(C_T))=C_T
+\]
+for every layer and token ordinal, with fresh tensor storage returned by
+flatten. Physical page IDs may change. Logical order, learned-position
+ordinal and layer identity may not. Merely obtaining the right final
+length does not establish this equality.
+
+Choose page capacity $P$ token positions. Token ordinal $t$ uses logical
+block $b=\lfloor t/P\rfloor$ and offset $o=t\bmod P$. A request's
+\Term{block table} maps $b$ to a physical reference. With $P=2$, ordinal
+four is block two, offset zero, even when that block resides at physical
+page three. Attention must never sort page IDs to infer history.
+
+\Plate{01-translation}{Logical ordinals pass through a block table to scattered storage. One occupied cell is the complete layer/head K/V slice at that ordinal.}{evod36:translation}
+
+The reference deliberately groups all layers into one allocation unit. A
+production engine may instead coordinate separate per-layer arenas, but
+then publication must make all layer tables consistent. Allocating one
+layer successfully and abandoning the others is not a valid half-cache.
+
+\section{References carry identity; counts carry lifetime}
+\index{Reference count}\index{Reference conservation}\index{ABA problem}
+\label{evod36:lifetime}
+A \Term{generational reference} is $\rho=(i,g)$: slot $i$ and allocation
+generation $g$. Reclamation clears the page's logical payload and advances
+its generation. A stale reference to $(i,g)$ fails after reuse as $(i,g+1)$.
+This avoids an ABA mistake in which an old numeric slot ID appears valid
+again merely because a new object occupies the slot.
+
+The request handle additionally contains an arena-instance identity and a
+monotonically issued serial. Released handles fail; a handle from another
+arena fails even when slot numbers happen to match. Owner checks bind a
+tenant/request pair. Refcounts alone do not supply that authorization.
+
+Let $\mathcal S$ contain every registered live request, branch and cached
+prefix table. Our central conservation invariant is
+\begin{equation}
+ r_i=\sum_{s\in\mathcal S}\sum_{\rho\in s.\mathrm{pages}}
+       [\rho.\mathrm{id}=i],\qquad
+ r_i=0\ \Longleftrightarrow\ i\text{ is free}.
+ \label{evod36:counts}
+\end{equation}
+No sequence repeats a physical reference within its own table. A free slot
+has no logical K/V tensors. A live page's generation agrees with every
+table reference, and its valid row count matches the logical span.
+
+\begin{proposition}[Reference conservation]
+Assume serialized operations, valid initial registries and no process
+failure during publication. Empty creation, same-tenant fresh-owner fork,
+append and release preserve Equation~\eqref{evod36:counts}.
+\end{proposition}
+\begin{proof}
+An empty table adds no references. Fork adds one table entry and increments
+the corresponding count once for each entry; both sides increase equally.
+Release removes those entries and decrements the same counts. If a count
+becomes zero, no registered table refers to that page, so clearing it and
+advancing generation cannot invalidate a live table. Append either preserves
+an existing private entry, adds a new entry/count pair, or replaces one
+shared tail entry by a new private entry: decrement old, increment new.
+Unchanged prefix entries keep their counts. These cases exhaust the
+implemented transitions. Induction over operations proves the invariant.
+\end{proof}
+
+\Listing{PagedKV.fork}
+
+\Plate{03-lifetime}{Cache eviction drops only the cache's reference. A live child keeps the page alive until its own release. Generation changes only at zero.}{evod36:lifeplate}
+
+The executable \texttt{audit} recomputes expected counts from the registry
+rather than trusting the counters it is meant to check. A negative test
+adds an unowned count and requires audit failure. A counter that is merely
+nonnegative would miss that leak.
+\Listing{PagedKV.audit}
+
+\section{Append requires a partial-tail rule}
+\label{evod36:cow}
+If $T\bmod P=0$, all old pages are full. Append allocates a new page; it
+never writes the old full page. Otherwise there is a partial tail of $o$
+valid positions, where $1\le o<P$. A private tail ($r=1$) may receive new
+rows. A shared tail ($r>1$) needs \Term{copy-on-write}: copy its valid
+rows into private storage, redirect this branch, and append there.
+
+For a three-token prefix and $P=2$, parent and child initially hold the
+same two references. After child append, they still share the first page.
+The parent tail remains one row long; the child's private tail is two rows
+long. A later append by the parent may use its now-private tail without a
+new allocation. Vacant capacity is not a consumed token and cannot be
+included in attention normalization.
+
+\Plate{02-cow}{Appending to a shared partial tail redirects only the child. Full pages stay shared and the parent's logical history is unchanged.}{evod36:cowplate}
+
+\begin{proposition}[Branch isolation and native parity]
+Fix the actual Hermon artifact, causal mode, learned-position convention
+and deterministic evaluation. If flattened registered caches equal their
+Chapter 35 counterparts, a successful append preserves that equality and
+does not change any other registered sequence's logical tensors or tokens.
+\end{proposition}
+\begin{proof}
+Chapter 35's complete-stack continuation computes the correct candidate
+layer tensors from the flattened old cache. Split those candidates at
+the same logical multiples of $P$. Old full blocks remain identical by
+causality. New pages contain exactly the candidate slices; a private tail
+has no other reader, and a shared tail is replaced only in the appending
+table. Thus concatenating its page slices returns the candidate in order,
+while all other tables still see their old slices. Learned positions are
+derived from consumed length, independent of page ID. This proves the
+step; induction over forks and continuation chunks proves the claim.
+\end{proof}
+
+The real-arithmetic statement inherits Chapter 35's assumptions. CPU
+float64 tests use $2\times10^{-12}$ absolute/relative tolerance because
+different chunk shapes can change rounding. This is a checked fixture
+tolerance, not a numerical theorem for all Transformer artifacts.
+
+\section{Preflight the entire chunk before publishing it}
+\index{Failure atomicity}\index{Allocation!preflight}
+\label{evod36:atomic}
+Let $c$ be append length, $F$ the number of free pages, and $o=T\bmod P$.
+For $c>0$, the required \emph{additional} page count is
+\[
+ N_{\rm add}=\begin{cases}
+ \lceil c/P\rceil,&o=0,\\
+ [r_{\rm tail}>1]+\left\lceil\max(0,c-(P-o))/P\right\rceil,&o>0.
+ \end{cases}
+\]
+The second term subtracts the remaining capacity in the tail; the first
+term pays for copying a shared tail. For $c=0$, the operation is identity
+and needs zero pages. Reject if $N_{\rm add}>F$ before modifying any table,
+payload, generation or refcount.
+
+\Listing{PagedKV.required_pages}
+
+With $T=1,P=2,c=5$ and a shared tail, one new page holds the copied old row
+and first appended row; two further pages hold the other four rows.
+The requirement is three. A loop that allocates one page and then discovers
+exhaustion would need rollback; preflight avoids exposing that partial state.
+
+\Plate{04-preflight}{Preflight counts COW and every subsequent block. A failed multi-page append leaves the original snapshot unchanged.}{evod36:preflight}
+
+\Listing{PagedKV.consume}
+
+All model arithmetic, tensor construction and content/table hashes occur
+before the short publication phase. The phase installs prepared page
+records and the new table without yielding. This establishes failure
+atomicity for the checked validation, arithmetic and capacity paths under
+the serialized model. It is not a durable transaction, a lock-free allocator
+or a proof against asynchronous process interruption. Device execution
+would also require pins/completion fences before reclamation, as earlier
+state-pool chapters explain.
+
+\section{Prefix caching owns pages too}
+\index{Prefix cache}\index{Tenant namespace}\index{Eviction}
+\label{evod36:prefix}
+Deterministic execution of an identical prefix under the same artifact
+produces the same per-layer K/V. The cache key therefore binds tenant,
+artifact digest, causal/position mode and the exact ordered token tuple.
+If adapters, attention masks or other model-affecting inputs are added,
+they must enter that identity. Token text alone is insufficient.
+
+The bounded prefix cache retains a registered fork with its own owner.
+Acquiring a hit makes another fresh-owner fork; evicting releases only the
+cache-owned handle. LRU orders cached entries, not physical page IDs.
+The test retains a live hit, evicts its cache entry, releases its parent
+and continues reading the surviving branch. Each reference remains counted.
+
+Sharing is tenant-scoped here. An exact key and a content hash do not prove
+permission to acquire another tenant's state. Cross-tenant public-prefix
+sharing would need a policy and side-channel analysis: even an immutable
+hit can reveal whether a prefix was present through timing. This local
+Python registry is not a hostile-process security boundary.
+
+Block-table integrity matters separately from page contents. Reordering
+two valid page references changes attention history. The reference seals
+ordered table metadata and layer payloads to detect accidental mutation.
+It rejects a changed model artifact or stale generation. A producer able
+to rewrite both data and seals can still forge a false cache; these are
+consistency checks, not authentication or proof of native computation.
+
+\section{Count physical capacity and logical sharing separately}
+\index{Fragmentation!internal}\index{Physical utilization}\index{Logical multiplicity}
+\label{evod36:memory}
+For a nonempty unshared sequence,
+\[
+ N_p=\lceil T/P\rceil,\qquad W=N_pP-T,\qquad0\le W<P.
+\]
+Only its tail is partly unused. Fixed-size paging removes the need for a
+single contiguous region at this allocation level; it does not eliminate
+alignment, arena reserve or device-allocator fragmentation.
+
+\begin{center}\input{\Generated/geometry.tex}\end{center}
+\Plate{05-geometry}{The same thirteen rows use different table lengths and unused tails. Smaller pages reduce worst-case tail waste while increasing metadata and lookup operations.}{evod36:geometry}
+
+With shared pages, sum physical occupancy once per distinct allocated page:
+\[
+ U_{\rm physical}=\frac{\sum_{i:r_i>0} n_i}{NP},\qquad
+ M_{\rm payload\ capacity}=NPs,\qquad s=2LHd_hb.
+\]
+Here $n_i$ is the valid row count, $N$ is the number of allocated pages,
+and $b$ is bytes per element. When $N=0$, utilization is undefined; report
+zero live payload separately. The sum $\sum_r T_r/(NP)$ instead measures
+logical multiplicity and can exceed one. It must not be called physical
+utilization.
+
+In our prefix-three/child-four example there are three distinct pages of
+capacity two, storing five physical rows. Hence $U_{\rm physical}=5/6$.
+The two logical histories contain seven rows, giving multiplicity $7/6$.
+At $s=256$, physical payload capacity is 1,536 bytes, occupied rows are
+1,280 bytes, and equivalent independent contiguous payload is 1,792 bytes.
+Block tables, Python objects, hashes, token metadata and staging tensors
+are excluded. Cached owners add references without adding physical rows.
+
+\begin{center}\input{\Generated/branches.tex}\end{center}
+
+For $B$ branches at a common prefix, full shared pages avoid $B-1$ copies
+each. Partial-tail savings depend on which branches append and whether the
+original tail remains cached. Fanout alone is not a savings percentage.
+PagedAttention supplies the established serving-system comparison
+for block tables and COW~\cite{evod36:kwon}; its empirical speedups are
+not measurements of this reference.
+
+\section{What the implementation establishes}
+\label{evod36:evidence}
+The tests compare every layer against the independent original full Hermon
+path across page sizes and split positions; force scattered placement;
+exercise full/partial tails, stale generations, foreign handles, cache
+eviction, all branch-release orders, invalid input and multi-page OOM;
+and deliberately corrupt tables, payloads and counters. These controls
+make incorrect order, leaks and premature reclamation observable.
+
+Flattening and computing through Chapter 35 still copy contiguous tensors.
+Even a logically private tail is replaced by a prepared tensor object.
+Thus the reference demonstrates bounded physical-page placement and sharing,
+but does not claim reduced actual Python traffic, native in-place writes,
+GPU coalescing, concurrent correctness or speedup. Chapter 38 supplies a
+page-streaming attention reduction; Chapter 37 first treats pages as a
+finite scheduling resource.
+
+\section{Selective glossary}
+\begin{description}
+\item[Logical block] A consecutive span of token ordinals of capacity $P$.
+\item[Physical page] An allocation unit holding all layer/head K/V at that span in this reference.
+\item[Generation] Allocation identity advanced when a page is reclaimed; it is distinct from token position.
+\item[Reference count] Number of registered owning table entries, including cache entries.
+\item[Copy-on-write] Private replacement of a shared partial tail before an append changes its valid rows.
+\item[Physical utilization] Distinct occupied page rows divided by distinct allocated page capacity.
+\item[Logical multiplicity] Repeated request-visible rows per physical slot; sharing can make it exceed one.
+\end{description}
+
+\section{Twenty worked exercises}
+\label{evod36:exercises}
+\begin{enumerate}
+\item \textbf{Translate.} Ordinal 13, $P=4$? \emph{Solution:} block 3,
+offset 1; look up entry 3, never physical page 13.
+\item \textbf{Size one cell.} $L=2,H=2,d_h=4,b=8$? \emph{Solution:}
+$2(2)(2)(4)(8)=256$ bytes, including both K and V.
+\item \textbf{Count a page.} $P=2$ for that geometry? \emph{Solution:}
+512 bytes of payload capacity, before metadata.
+\item \textbf{Bound waste.} Show $W<P$. \emph{Solution:}
+$N_p-1<T/P\le N_p$ implies $0\le N_pP-T<P$.
+\item \textbf{Empty state.} How many pages? \emph{Solution:} zero;
+no all-masked pseudo-token is created.
+\item \textbf{Trace COW.} Prefix three, $P=2$, fork then child append?
+\emph{Solution:} first page remains shared; child gets a private second page.
+\item \textbf{Full tail.} Prefix four, $P=2$, child append?
+\emph{Solution:} retain both shared full pages and allocate a third.
+\item \textbf{Private capacity.} One row in a private $P=2$ tail with
+zero free pages can append one row? \emph{Solution:} yes, no new page credit.
+\item \textbf{Preflight.} Shared $T=1,P=2,c=5$? \emph{Solution:}
+$1+\lceil(5-1)/2\rceil=3$ additional pages.
+\item \textbf{Evict.} Count two becomes one. Free? \emph{Solution:} no;
+the remaining table still owns the page.
+\item \textbf{Invalidate reuse.} Why increment generation?
+\emph{Solution:} an old reference cannot name a later allocation in that slot.
+\item \textbf{Audit a leak.} Count positive with no registered owner?
+\emph{Solution:} recomputed incidence is zero; conservation fails.
+\item \textbf{Reject a reorder.} Do page hashes alone suffice?
+\emph{Solution:} no; ordered table metadata must also be checked.
+\item \textbf{Prefix identity.} Same tokens under a changed position table?
+\emph{Solution:} different artifact, so reject reuse.
+\item \textbf{Separate permission.} Does a matching digest authorize a hit?
+\emph{Solution:} no; enforce tenant/trust-domain policy first.
+\item \textbf{Interpret $7/6$.} Is physical utilization above 100 percent?
+\emph{Solution:} it is logical multiplicity, counting shared rows repeatedly.
+\item \textbf{Explain parity.} What passes from Chapter 35 into the proof?
+\emph{Solution:} exact ordered old K/V and identical learned positions
+produce correct candidate rows through every layer.
+\item \textbf{Inject failure.} What snapshots should an OOM test compare?
+\emph{Solution:} both branches' flattened contents, tables, counts and
+generations, including a failure requiring several pages.
+\item \textbf{Design a page-size experiment.} \emph{Rubric:} declare
+length/fanout distributions, capacity, metadata, high-water occupancy,
+copy volume and end-to-end latency; do not infer speed from waste alone.
+\item \textbf{Design device reclamation.} \emph{Rubric:} name in-flight
+pins, completion acknowledgement, cancelled writes and stale generations;
+prove reuse waits for the final physical reader, not only a logical eviction.
+\end{enumerate}
+
+\section{From storage to service}
+The allocator preserves each request's causal history but cannot choose
+which waiting request deserves the next page or token step. Chapter 37
+adds iteration-level admission, work budgets and explicit precision
+policies. These mechanisms preserve Hermon's Transformer identity;
+they do not turn it into DOGMA's non-Transformer state representation.

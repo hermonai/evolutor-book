@@ -1,0 +1,65 @@
+{
+  "date": "2026-10-17",
+  "chapter": 45,
+  "package_sha256": "551b48a43de6aabcc2335d15827da00d26b8d15c371b4fcadb2645f46eb26510",
+  "original_archive": {
+    "archive": "/Users/wenyan/Downloads/evolutor-ch45-r01.zip",
+    "archive_sha256": "551b48a43de6aabcc2335d15827da00d26b8d15c371b4fcadb2645f46eb26510",
+    "manifest_entries_verified": 37,
+    "mismatches": [],
+    "incoming_text_files": [
+      "CONTINUATION.md",
+      "INTEGRATION.md",
+      "PACKAGE_README.md",
+      "checksums.sha256",
+      "drafts/ch45/README.md",
+      "drafts/ch45/STORYBOARD.md",
+      "drafts/ch45/build.py",
+      "drafts/ch45/figures/01-identity.tex",
+      "drafts/ch45/figures/01-identity.txt",
+      "drafts/ch45/figures/02-policy.tex",
+      "drafts/ch45/figures/02-policy.txt",
+      "drafts/ch45/figures/03-isolation.tex",
+      "drafts/ch45/figures/03-isolation.txt",
+      "drafts/ch45/figures/04-quota.tex",
+      "drafts/ch45/figures/04-quota.txt",
+      "drafts/ch45/figures/05-untrusted.tex",
+      "drafts/ch45/figures/05-untrusted.txt",
+      "drafts/ch45/figures/06-audit.tex",
+      "drafts/ch45/figures/06-audit.txt",
+      "drafts/ch45/manuscript.tex",
+      "drafts/ch45/reference.py",
+      "drafts/ch45/results.json",
+      "drafts/ch45/review.tex",
+      "drafts/ch45/sources.tex",
+      "manifest.json",
+      "research/notation.json",
+      "research/source-ledger.json",
+      "tests/test_ch45_reference.py"
+    ],
+    "qa_flags_adopted": false,
+    "executed_packaged_code": false
+  },
+  "inherited_validation_claims_adopted": false,
+  "sources": [
+    {
+      "url": "https://csrc.nist.gov/pubs/sp/800/207/final",
+      "access": "Official publication overview inspected; no complete compliance mapping or full standard implementation audit.",
+      "claim": "No implicit trust based solely on network location; explicit resource authentication/authorization."
+    },
+    {
+      "url": "https://genai.owasp.org/llmrisk/llm01-prompt-injection/",
+      "access": "Official LLM01:2025 types, mitigations, least privilege, external content segregation and high-risk approval sections inspected.",
+      "claim": "Untrusted content can affect behavior; least privilege and outside-model controls."
+    },
+    {
+      "url": "https://genai.owasp.org/llmrisk/llm072025-system-prompt-leakage/",
+      "access": "Official LLM07:2025 description and mitigation/authorization boundary passages inspected.",
+      "claim": "Critical privilege separation/authorization bounds stay outside model/system prompt."
+    }
+  ],
+  "local_dependencies": [],
+  "external_replication": false,
+  "hardware_measurement": false,
+  "independent_review": false
+}

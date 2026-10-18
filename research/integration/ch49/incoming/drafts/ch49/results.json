@@ -1,0 +1,7 @@
+{
+  "checkpoint_valid": true,
+  "context_len": 3,
+  "tool_idempotent": true,
+  "tool_events": 1,
+  "backpressure": true
+}

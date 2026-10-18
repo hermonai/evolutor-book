@@ -1,0 +1,10 @@
+\begin{tikzpicture}[x=1cm,y=1cm]
+\node[note,anchor=west] at (0,3.4) {A small logit error can change a discrete winner};
+\draw[thick,fill=Pale] (1,0) rectangle (3,2);
+\draw[thick,fill=Gold!35] (4,0) rectangle (6,1.98);
+\node[note] at (2,2.4) {$z_0=1$};\node[note] at (5,2.4) {$z_1=.99$};
+\draw[flow,Red] (2,1.9)--(2,1.4) node[below,note] {$\widehat z_0=.98$};
+\draw[flow,Red] (5,2)--(5,2.7) node[above,note] {$\widehat z_1=1.01$};
+\node[note,draw,text width=4.8cm] at (10,1.4) {Gap $.01<2\epsilon=.04$\\No argmax guarantee\\Numerical gate + task gate};
+\node[smallnote,anchor=west] at (0,-.8) {A sufficient guarantee is gap $>2\epsilon$ when every logit error is at most $\epsilon$.};
+\end{tikzpicture}

@@ -1,0 +1,31 @@
+{
+  "date": "2026-10-17",
+  "chapter": 51,
+  "package_sha256": "8c8d43b6f8e11a7d375d6124f225c95649a8d48fd16bac39fe45aa3df687490a",
+  "inherited_validation_claims_adopted": false,
+  "source_access": "selected primary sections only; no inherited package access-depth claims",
+  "records": [
+    {
+      "key": "levels",
+      "primary": "https://arxiv.org/html/2311.02462v2",
+      "depth": "Primary abstract and selected sections on generality/performance and section6.2 autonomy inspected; no full-paper reproduction.",
+      "evidence": "Breadth/performance/autonomy distinction only; Evolutor receives no asserted AGI level."
+    },
+    {
+      "key": "arc2",
+      "primary": "https://arcprize.org/arc-agi/2",
+      "depth": "Official benchmark page overview and efficiency measurement section inspected on 17 October2026; no task corpus, technical-paper or leaderboard audit.",
+      "evidence": "Novel task/efficiency motivation; no scores or claim of benchmark completion."
+    },
+    {
+      "key": "arc3",
+      "primary": "https://arcprize.org/arc-agi/3",
+      "depth": "Official page interactive-environment and evaluation description inspected on 17 October2026; technical paper/SDK not inspected.",
+      "evidence": "Interactive exploration/action efficiency as one bounded design; no SDK compatibility or performance claim."
+    }
+  ],
+  "no_trained_genomic_results": true,
+  "no_wet_lab_measurements": true,
+  "no_agi_demonstration": true,
+  "independent_review": false
+}

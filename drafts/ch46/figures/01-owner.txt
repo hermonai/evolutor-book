@@ -1,0 +1,1 @@
+Fixed identity fields span the figure. Worker a has the only authoritative epoch-7 handle. Worker b obtains a dashed staging copy, which cannot execute. A directory commit at one instant changes owner to b and epoch to 8; old a operations are then fenced. Bars indicate logical authority, not measured network or lease durations.

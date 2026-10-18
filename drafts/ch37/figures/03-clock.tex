@@ -1,0 +1,13 @@
+\begin{tikzpicture}[x=1cm,y=1cm]
+\draw[flow] (0,0)--(12.6,0) node[right,note]{tick boundary};
+\foreach \x/\txt in {0/arrival,4/prefill ends,8/decode ends,12/decode ends}{
+ \draw[thick] (\x,-.15)--(\x,.2);
+ \node[note,text width=2.8cm] at (\x,2) {\txt};
+}
+\node[note] at (4,.8) {consume $x_2$\\emit $y_0$};
+\node[note] at (8,.8) {consume $y_0$\\emit $y_1$};
+\node[note] at (12,.8) {consume $y_1$\\emit $y_2$};
+\draw[<->,thick] (0,-.7)--node[below,note]{TTFT}(4,-.7);
+\draw[<->,thick] (4,-.7)--node[below,note]{ITL}(8,-.7);
+\node[smallnote,anchor=west] at (0,-1.7) {Three emitted outputs need only two output-token KV appends. Final emitted $y_2$ need not be consumed.};
+\end{tikzpicture}

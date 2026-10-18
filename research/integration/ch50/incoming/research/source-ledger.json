@@ -1,0 +1,29 @@
+[
+  {
+    "key": "ewc2017",
+    "claim": "EWC constrains changes to parameters estimated important to previously learned tasks to mitigate catastrophic forgetting.",
+    "primary": "https://arxiv.org/abs/1612.00796",
+    "authors": "James Kirkpatrick et al.",
+    "date": "2017",
+    "access_date": "2026-10-06",
+    "access_depth": "bibliographic/primary-paper identification; mechanism cross-checked through literature indexing"
+  },
+  {
+    "key": "avalanche2021",
+    "claim": "Continual learning requires reproducible evaluation across non-stationary streams and strategies; Avalanche provides a shared end-to-end framework.",
+    "primary": "https://arxiv.org/abs/2104.00405",
+    "authors": "Vincenzo Lomonaco et al.",
+    "date": "2021",
+    "access_date": "2026-10-06",
+    "access_depth": "primary arXiv abstract"
+  },
+  {
+    "key": "pbt2017",
+    "claim": "Population Based Training asynchronously trains a population while exploiting stronger candidates and exploring hyperparameter mutations/schedules.",
+    "primary": "https://arxiv.org/abs/1711.09846",
+    "authors": "Max Jaderberg et al.",
+    "date": "2017",
+    "access_date": "2026-10-06",
+    "access_depth": "primary arXiv abstract"
+  }
+]

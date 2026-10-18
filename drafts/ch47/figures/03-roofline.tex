@@ -1,0 +1,13 @@
+\begin{tikzpicture}
+\begin{loglogaxis}[width=13cm,height=6.3cm,xmin=.1,xmax=1000,ymin=.1,ymax=300,
+ xlabel={Arithmetic intensity (FLOP/byte)},ylabel={Ceiling (TFLOP/s)},
+ grid=major,legend style={at={(.02,.98)},anchor=north west,font=\small},
+ tick label style={font=\small},label style={font=\small}]
+\addplot[Blue,thick] coordinates {(.1,.2)(1,2)(2,4)(10,20)(50,100)(1000,100)};
+\addlegendentry{Model $\min(100,2I)$}
+\addplot[Red,dashed] coordinates {(50,.1)(50,100)};
+\addlegendentry{Ridge $I^*=50$}
+\addplot[only marks,mark=*,Green,mark size=3pt] coordinates {(2,4)};
+\node[anchor=west,font=\small] at (axis cs:2.6,3.2) {$I=2:\ 4$ TFLOP/s};
+\end{loglogaxis}
+\end{tikzpicture}

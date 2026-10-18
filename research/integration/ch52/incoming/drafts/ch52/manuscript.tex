@@ -1,0 +1,188 @@
+\chapter{Failures, open problems and reproducible synthesis}
+
+A research book should end with fewer vague claims than it began with.
+
+Evolutor therefore closes not with a declaration of success, but with a ledger:
+\[
+\boxed{\text{architecture}\rightarrow\text{claim}\rightarrow
+\text{falsifier}\rightarrow\text{experiment}\rightarrow
+\text{evidence or failure}.}
+\]
+\Plate{01-loop}{The final research loop is explicitly falsifiable.}{evo52:loop}
+
+\section{What has actually been built}
+Across the book we developed computational contracts for genomic representations, state, routing, memory, training, DOGMA and Hermon execution, serving, compiler/IR, security, distribution, profiling, applications, persistent agents and adaptation. Executable chapter oracles establish local semantics and invariants.
+
+They do not collectively establish a new general-intelligence capability.
+
+\section{The three research layers}
+Keep three layers separate:
+\begin{enumerate}
+\item \textbf{model semantics}: what function/state transition DOGMA or Hermon computes;
+\item \textbf{execution/serving systems}: how those semantics are scheduled, stored, compiled, distributed and observed;
+\item \textbf{capability science}: what held-out behavior is actually demonstrated.
+\end{enumerate}
+A serving optimization cannot prove a learning hypothesis. A benchmark win cannot prove a biological analogy.
+
+\section{DOGMA evidence matrix}
+DOGMA is a non-Transformer DNA-native research direction. Its strongest hypotheses concern state organization, regulation, persistent computation and efficiency. Compare it against Markov/MLP/CNN/GRU/LSTM/SSM/selective-state/linear-attention/Transformer baselines as appropriate.
+
+\Plate{02-matrix}{DOGMA and Hermon are tested against established matched baselines.}{evo52:matrix}
+
+Every comparison declares parameter count, training tokens/examples, optimizer budget, precision, context/state budget, hardware time, seeds and inference constraints.
+
+\section{Hermon DNA evidence matrix}
+Hermon DNA is Transformer-based. Its DNA/genomic mechanisms must be compared against an otherwise matched Transformer and against strong genomic architectures. Improvements attributable merely to more parameters, longer context, extra data or a better runtime are not evidence for the proposed biological inductive bias.
+
+\section{Evolutor evidence matrix}
+Evolutor is the orchestration/research/compiler/runtime layer above model families. Evaluate it on persistent workflow success, recovery, memory provenance, policy correctness, adaptation governance, resource efficiency and cross-engine execution. These are systems capabilities, not AGI by definition.
+
+\section{Failure taxonomy}
+\Plate{03-failure}{A failure is reduced to a reproducible counterexample.}{evo52:failure}
+Record at least:
+\begin{enumerate}
+\item semantic/correctness failure;
+\item numerical instability;
+\item causality or target leakage;
+\item baseline regression;
+\item optimization regression;
+\item scaling failure;
+\item data contamination;
+\item reproducibility failure;
+\item security/policy failure;
+\item systems/SLO failure;
+\item biological-interpretation overreach;
+\item capability-claim overreach.
+\end{enumerate}
+
+\section{Why failures are assets}
+A failed experiment narrows the hypothesis space. Preserve its exact commit, data, configuration, seeds, raw measurements, environment and minimal counterexample. Deleting negative evidence creates publication bias inside the project itself.
+
+\section{Known high-risk failure modes}
+The program must continually test for non-causal sequence operations, target leakage, random-data floors, invalid perplexity comparisons, train/test homology leakage, reverse-complement inconsistencies, state contamination between tenants, stale handles, silent fallback, tool replay, benchmark contamination and hardware benchmark cherry-picking.
+
+\section{Random-data sanity}
+For a uniform vocabulary of size $V$, an uninformed predictor has cross entropy
+\[
+H=\log V
+\]
+in natural-log units. A model apparently beating the appropriate random-data floor demands investigation for leakage, metric bugs or distribution mismatch before celebration.
+
+\section{Causality}
+For a causal predictor, perturbing suffix tokens must not change earlier logits. Finite-difference causality tests belong in the permanent suite. Bidirectional/full-record representations are valid only when the task contract permits future context.
+
+\section{Capacity and budget controls}
+Architecture A versus B is uninterpretable if A receives materially more parameters, training data, tuning trials, context, memory, search or accelerator-hours without accounting for the difference. Report both fixed-budget and scaling curves.
+
+\section{Reproducibility capsule}
+\Plate{04-capsule}{Evidence is bound to an executable artifact capsule.}{evo52:capsule}
+A result capsule contains:
+\begin{enumerate}
+\item source commit and dirty-tree status;
+\item model/data/tokenizer digests and licenses;
+\item complete config and random seeds;
+\item compiler/runtime/driver/library versions;
+\item hardware topology and precision;
+\item exact commands;
+\item raw logs/checkpoints/metrics;
+\item analysis scripts;
+\item expected hashes and numerical tolerances;
+\item known failures and exclusions.
+\end{enumerate}
+
+\section{Claim ledger}
+Each claim has an ID, exact wording, evidence level, supporting experiments and a falsifier. Avoid words such as ``general'', ``biological'', ``efficient'', ``scalable'' and ``intelligent'' without an operational definition.
+
+\section{Experiment ledger}
+Every decisive experiment records hypothesis, baselines, interventions, dataset/split, metric, threshold, budget, seeds and stopping rule before examining the final result whenever feasible.
+
+\section{Theorem ledger}
+Formal claims list hypotheses, domain/codomain, proof status and dependencies. Numerical experiments cannot silently substitute for proofs; proofs of simplified models cannot silently transfer to production systems.
+
+\section{Maturity ladder}
+\Plate{05-maturity}{Research maturity advances only through evidence gates.}{evo52:maturity}
+Use:
+\[
+concept\rightarrow specified\rightarrow implemented\rightarrow tested
+\rightarrow benchmarked\rightarrow replicated\rightarrow operational.
+\]
+Operational adds deployment evidence; it does not imply general intelligence.
+
+\section{Open problem: state}
+Can a DNA-native state organization outperform strong recurrent/SSM alternatives on quality--latency--memory tradeoffs at matched budget? What information must remain addressable rather than compressed?
+
+\section{Open problem: regulation}
+Can learned regulation/routing produce causal, stable gains beyond ordinary gating, MoE routing or conditional computation? The closest established mechanism must be named and ablated.
+
+\section{Open problem: structural learning}
+Can structure change online without catastrophic regression, unbounded complexity or governance loss? Separate search over structures from parameter learning and from deployment authorization.
+
+\section{Open problem: memory}
+When should exact addressable records, compressed summaries, learned state and parameters carry information? Develop a rate--distortion--retrievability view rather than treating ``memory'' as one object.
+
+\section{Open problem: continual learning}
+Can the system acquire genuinely new skills while retaining old ones under realistic data-access constraints? Measure acquisition, forgetting, forward/backward transfer, calibration and compute/storage cost.
+
+\section{Open problem: genomic inductive bias}
+Which DNA-inspired transformations improve genomic prediction because they encode real invariances/structure, and which are decorative analogies? Use reverse-complement, strand, motif, long-range and intervention tests.
+
+\section{Open problem: world models and agents}
+Persistent tool-using agents need predictive models, planning and recovery across long horizons. Determine whether model-native state, retrieval and external simulators contribute independently.
+
+\section{Open problem: self-improvement}
+Self-editing is not self-improvement. Require repeated held-out gains, causal attribution, fixed/declarative budget, regression controls and external authorization.
+
+\section{Open problem: open-endedness}
+Open-ended learning requires sustained useful novelty beyond a fixed benchmark suite. Define measurable niches, skill novelty, transfer and resource efficiency before claiming it.
+
+\section{Open problem: AGI}
+No chapter provides evidence sufficient for AGI. The research question remains whether the combination of generalization, efficient skill acquisition, world modeling, continual learning, memory, planning, tool use, metacognition and adaptation can scale in breadth and depth without losing safety and control.
+
+\section{Post-book research program}
+\Plate{06-agenda}{The post-book program cycles through preregistration and falsification.}{evo52:agenda}
+Phase A builds shared baselines and datasets. Phase B establishes DOGMA/Hermon scaling and ablations. Phase C tests memory/continual adaptation. Phase D tests persistent agents in interactive environments. Phase E conducts independent replication and adversarial evaluation.
+
+Each phase can terminate a hypothesis.
+
+\section{Release criteria for the book}
+A research edition is releasable when:
+\begin{enumerate}
+\item all chapters compile and render at print size;
+\item all executable examples/tests pass in a clean environment;
+\item notation, labels and cross-references are globally reconciled;
+\item quantitative claims have verified primary sources or reproducible artifacts;
+\item theorem/claim/experiment/failure ledgers agree with prose;
+\item figures have editable source and semantic descriptions;
+\item unsupported novelty/AGI/biology claims are removed;
+\item known limitations and failed experiments remain visible.
+\end{enumerate}
+
+\section{Executable ledger oracle}
+\Listing{reference}
+The reference makes failures first-class objects and prevents benchmark-level evidence without a complete experiment contract. Its sample DOGMA efficiency hypothesis remains \emph{hypothesized} after a recorded baseline regression; the ledger does not reward wishful interpretation.
+
+\section{Twelve final exercises}
+\begin{enumerate}
+\item A chapter test passes; is its scientific hypothesis demonstrated? \textbf{No.}
+\item DOGMA beats a smaller GRU; architecture advantage proven? \textbf{No; capacity/budget control is missing.}
+\item A negative result should be deleted? \textbf{No; preserve it with provenance.}
+\item Random-data loss suspiciously beats its entropy floor? \textbf{Audit leakage and metrics first.}
+\item Bidirectional state used for causal next-token prediction? \textbf{Invalid unless future information is excluded.}
+\item Hermon improves after a faster kernel; DNA inductive bias proven? \textbf{No.}
+\item Reproducibility requires only a seed? \textbf{No.}
+\item Formal theorem proven on simplified recurrence implies production system property? \textbf{Not without a valid mapping/proof.}
+\item More autonomous means more intelligent? \textbf{No.}
+\item Self-modification means self-improvement? \textbf{No.}
+\item What makes an open problem useful? \textbf{Operational definition and falsifiable experiment.}
+\item What is the book's final result? \textbf{A rigorous architecture and experimental program whose strongest future claims must still be earned by evidence.}
+\end{enumerate}
+
+\section{Final synthesis}
+The durable contribution of Evolutor should not be a vocabulary of genomic metaphors. It should be a disciplined bridge among model semantics, systems engineering and capability science.
+
+DOGMA asks whether DNA-native computational organization can yield useful alternatives to Transformer computation. Hermon DNA asks how genomic structure and Transformer semantics can be combined and served efficiently. Evolutor asks how heterogeneous models, memory, tools, learning and governance can form a persistent research system.
+
+The correct ending is therefore an invitation to falsify:
+\[
+\boxed{\text{build precisely, measure honestly, preserve failures, and promote only what evidence supports}.}
+\]

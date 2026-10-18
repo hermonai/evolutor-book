@@ -1,0 +1,92 @@
+{
+  "chapter": 41,
+  "date": "2026-10-18",
+  "reviewer": "author/agent",
+  "independent_review": false,
+  "pdf": "output/pdf/evolutor-ch41-review.pdf",
+  "pdf_sha256": "c91e4bb746f294d9f9d69d383dec9534cbaf5af33f8fc2738f889be41a5a10bf",
+  "physical_pages": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13
+  ],
+  "color_pages_inspected": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13
+  ],
+  "grayscale_pages_inspected": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13
+  ],
+  "render_dpi": 110,
+  "method": "Poppler page PNGs, four-page contact sheets in color and grayscale, with targeted full-page inspection during authoring. After index-only cleanup, raster comparison identified only the final index page as changed in Chapters39/40/41/43; those latest pages were reinspected in both modes.",
+  "status": "PASS WITH NOTES",
+  "notes": "Effect graph, pipeline and allocation-before-release bars are legible. Liveness bar endpoints agree with the release marker. The optimizer proposition/proof and short listings remain together. Effect index entries were consolidated.",
+  "page_png_hashes": {
+    "tmp/pdfs/ch41-review/page-01.png": "589008ed6704670f0ada5ebd4b11560257d7609807a379fdfd014f812da4624b",
+    "tmp/pdfs/ch41-review/page-02.png": "04eb6160774737e994062b54d6589b93dd3f736a6fbffa323508a0f87e2e85d9",
+    "tmp/pdfs/ch41-review/page-03.png": "4c365a10d278f4608976c1aad902469535567227743688a1208ef025406af756",
+    "tmp/pdfs/ch41-review/page-04.png": "c8e176957159ac7aae2b7b63c80144c3762fb052e8c2cf80d8f73d29c429da6b",
+    "tmp/pdfs/ch41-review/page-05.png": "6cb4d83b42ff8d495dff8b580a4e32e3b60d242860bc2e117f3f5be0c7322850",
+    "tmp/pdfs/ch41-review/page-06.png": "46fecb622767b755db4adff1fcbdb49108c9863740a64f5aad878e6642508f7f",
+    "tmp/pdfs/ch41-review/page-07.png": "aff88ed38f1c26c9570adaa3c95d6dbd6059fae090ac2bd94fccd60734cf26f8",
+    "tmp/pdfs/ch41-review/page-08.png": "b13f1b68bb08846ec9d2592e44006ab6cb0e2bd6b55a8b1f4ba75ee0d13c7f5a",
+    "tmp/pdfs/ch41-review/page-09.png": "9d5de99987708673b9bbd9ba7aea9a47193510d20d049bd2868a51c4ba879b87",
+    "tmp/pdfs/ch41-review/page-10.png": "34319896c21e0de070b57f3e2ef95d1b9d0b6355f69eb487f47614aa2500e252",
+    "tmp/pdfs/ch41-review/page-11.png": "b84bd85adf32b455cb34fa1662e43b224f6cbd313505e1af8e4c50414bf586a5",
+    "tmp/pdfs/ch41-review/page-12.png": "f9b0e47b42796962e6ca7976937e6a9b0c2d3a1ab33c89f4847fdf10ecdd11a0",
+    "tmp/pdfs/ch41-review/page-13.png": "1989af2ebf0cca979d8b69453b3ed1d171a0fd2b8808df6a5bfa79a3e0952f44"
+  },
+  "contact_sheet_hashes": {
+    "tmp/pdfs/ch41-review/contact-1.png": "92b4cb0f9a3553c1921d873f333e7dbe3f327d05a627411d21d6541696389ab2",
+    "tmp/pdfs/ch41-review/contact-2.png": "1e6e90073344c7cb782bca3976881fd1da0e5835d6a48dc2a0ecbaab17157c7c",
+    "tmp/pdfs/ch41-review/contact-3.png": "88573d6c05e0bfe5f7462cc0af651037db13a0c5be0d13eae7a05b1a6c8daf4a",
+    "tmp/pdfs/ch41-review/contact-4.png": "b5157f83b8787d2cdd24e46a27774bf09d07a61b353c96838e7c80c496ba0ca7",
+    "tmp/pdfs/ch41-review/grayscale-1.png": "58ddb4180cfb5d349ac7aca4e9fffa99955f0eaf5027d5bdfb3f36f10fb3c1b4",
+    "tmp/pdfs/ch41-review/grayscale-2.png": "cd2e7f79a8427437f764beca3441910d59c1a0f376adfbbb017bbb8440fd6641",
+    "tmp/pdfs/ch41-review/grayscale-3.png": "41f2ac2b21f1965dad1c5d45ce08154603cf57aed97c0110a4c81ac5d3d70bd5",
+    "tmp/pdfs/ch41-review/grayscale-4.png": "3bea75d2fbbfa3204583cf2a11c38632d35d33dc76db2afad0fef7a68165561a"
+  },
+  "limits": "Local author review only. Standalone pagination does not establish cumulative-book layout or independent reader acceptance.",
+  "coordinator_revision": {
+    "date": "2026-10-18",
+    "changed_pages_reinspected_color_and_grayscale": [
+      10,
+      11
+    ],
+    "prior_review": "standalone-author-visual-review-2026-10-18.json",
+    "notes": "Current changed pages inspected individually and in grayscale contacts; unchanged PNG hashes retain the original author scope."
+  }
+}

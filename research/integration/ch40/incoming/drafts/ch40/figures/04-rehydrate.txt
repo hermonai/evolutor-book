@@ -1,0 +1,1 @@
+Rehydration expands a compressed record only through declared source links and budget.

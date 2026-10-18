@@ -1,0 +1,290 @@
+\chapter{Hybrid compressed and addressable memory}
+\label{evod40:chapter}
+
+A source event says ``alpha beta omitted-x.'' Another says ``alpha beta
+omitted-y.'' A compressor retaining the first two distinct words gives both
+the same text. Can the agent later tell which event occurred? A larger context
+window does not answer this question. The system must preserve the source
+record, its identity and the link from summary to source---or explicitly accept
+that the distinction is gone.
+
+Chapter 20 derived compressed numerical memory and an order-loss
+counterexample. Chapter 35 built token-addressable Transformer execution
+state. Chapter 39 coordinated those engines with retrieval and tools.
+Here we add a separate memory contract: durable events, lossy derived records,
+addressable reads, bounded working context and explicit unavailability.
+The reference is a serialized in-memory specification of those rules.
+Calling its objects durable names their intended lifecycle; it does not make
+this Python dictionary survive a process crash.
+
+\section{Four memory classes answer different questions}
+\label{evod40:classes}
+\index{memory!native versus durable}
+Engine-native transient state supports numerical continuation. For the
+restricted native recurrence it includes hidden vector and token position;
+for Hermon it includes every layer's ordered KV and model/position metadata.
+A checkpoint may persist those bytes, but that does not make them searchable
+semantic evidence.
+
+An immutable \Term{durable event} records an occurrence under a tenant and
+schema. A \Term{summary} is a lossy derived record with explicit source edges.
+An \Term{addressable record} has a stable identity that a lexical, vector,
+graph or temporal index can return. Addressability is an access property;
+events and summaries can both be addressable. These are not four disjoint
+physical storage devices.
+
+A native checkpoint can be useful for exact continuation but poor for
+semantic search. A document can answer a retrieval query yet be insufficient
+to reconstruct the exact numerical state. A system may keep both, linked
+through provenance and artifact identities. It must not serialize a retrieved
+paragraph into a state tensor and claim exact continuation without a tested
+decoder relation.
+
+\section{Define identity, time and availability before ranking}
+\label{evod40:records}
+\index{record identity}\index{expiry}\index{provenance!ancestor availability}
+Our record is
+\[
+ R=(id,tenant,kind,payload,sources,t_c,t_e,artifact).
+\]
+$t_c$ and optional $t_e$ count \emph{logical integer ticks}, not wall-clock
+seconds. A record expires at $t\ge t_e$, including equality. An event's
+artifact names its schema; a summary's artifact names the compressor and word
+limit. Production records would also pin data/prompt/policy versions, creation
+authority, quality evidence and content encodings.
+
+The ID hashes the record fields and a fresh store serial using SHA-256.
+Including serial prevents a forgotten event from being resurrected by
+reinserting identical text under the same ID. An explicit later event with
+equal payload is a new occurrence; it does not restore old provenance edges.
+These hashes do not authenticate producers, protect a hostile object store
+or replace a transactional ID service.
+
+Define $L_t(r)$ as the conjunction of existence, tenant match, absence of a
+tombstone and non-expiry. For an event, availability is $A_t(r)=L_t(r)$.
+For a derived record,
+\begin{equation}
+ A_t(r)=L_t(r)\ \wedge\!\bigwedge_{s\in sources(r)} A_t(s).
+ \label{evod40:availability}
+\end{equation}
+This is a strict evidence policy: if any ancestor is unavailable, the summary
+is unavailable. Another system might return a stale summary with explicit
+warnings, but silently presenting it as current evidence is a different
+contract. Read-time validation dominates index contents.
+
+\Listing{Memory._available}
+Summary creation accepts only existing available distinct source IDs.
+Edges therefore point to older registered objects, forming a DAG. The store
+bounds provenance depth to 32 and total records to 10,000; it also detects
+cycles if trusted internal storage is corrupted. The recursive checker memoizes
+shared ancestors within one availability call, bounding it by the reachable
+vertices and edges. Retrieval repeats that check for candidate records.
+A production DAG still needs incremental invalidation and deletion-transaction
+design; no scalable lookup claim follows from this small reference.
+
+\Plate{01-provenance}{Deletion propagates through evidence dependencies. The surviving source remains readable, but both derived records fail the strict ancestor-availability rule.}{evod40:dag}
+
+\par\medskip\noindent\begin{minipage}{\linewidth}
+\begin{proposition}[Deletion dominance under fixed records]
+Assume a finite acyclic source graph, fixed record bytes, nondecreasing time,
+and tombstones that are never removed. Once a record is unavailable because
+of expiry or a tombstoned ancestor, no later read of that record becomes
+available merely by updating or retaining an index entry.
+\end{proposition}
+\begin{proof}
+For a source event, neither time advancing nor adding tombstones can turn
+$L_t$ from false to true. Induct in source-before-derived order. Every
+derived availability is a conjunction of its own local predicate and already
+monotone ancestor predicates. That conjunction cannot turn true after one
+such cause makes it false. Ranking does not appear in
+Equation~\ref{evod40:availability}, so stale index entries cannot alter it.
+\end{proof}
+\end{minipage}\par\medskip
+The fixed-record premise matters. A corrected event is a new record and
+requires new summaries. Editing bytes in place would invalidate both identity
+and this reasoning.
+
+\section{Compression preserves provenance, not all information}
+\label{evod40:compression}
+\index{compression!non-injectivity}\index{memory!payload accounting}
+The supplied package's compressor keeps the first distinct words encountered
+over ordered sources. We retain that transparent rule because it makes loss
+inspectable, rather than pretending an untrained summarizer has learned
+semantic retention. Source IDs remain ordered and the compressor version
+includes the word limit.
+\Listing{Memory.summarize}
+
+\Plate{02-alias}{A payload collision is an exact information-loss witness. Provenance can distinguish the records even when their summary texts are identical.}{evod40:alias}
+
+For $C(X)=Z$, if $C(X_1)=C(X_2)$ for distinct source histories, no function
+of $Z$ alone can always recover the history: the same input $Z$ would require
+two outputs. This elementary non-injectivity argument is independent of
+floating-point precision. Source expansion is not a general inverse of $C$;
+it is an addressable read of separately retained evidence.
+
+Measure compression and usefulness separately:
+\[
+ \rho_{payload}=\frac{\operatorname{bytes}_{UTF8}(Z)}
+ {\sum_i\operatorname{bytes}_{UTF8}(X_i)},\qquad
+ U=\operatorname{quality}(task\mid Z).
+\]
+The generated fixture stores the exact numerator and denominator in
+\texttt{results.json}. This ratio excludes IDs, source edges, object overhead,
+index entries and retained original records. Keeping the originals \emph{and}
+adding a summary increases total stored bytes even if its payload ratio is
+small. A summary useful for approximate topic recall can fail exact quotation,
+chronology or a rare identifier query. No utility measurement is implemented
+by counting words.
+
+\section{Rank records only after scope and provenance checks}
+\label{evod40:retrieval}
+\index{retrieval!lexical ranking}\index{index!stale entries}
+The addressable query returns ordered record IDs with payloads after tenant,
+retention and ancestor checks. The reference lexical score is the number of
+distinct lowercase ASCII alphanumeric query terms also present in a record.
+Scores are nonnegative integers, not probabilities or semantic similarity
+measurements. Zero-overlap records are omitted. Ties use creation tick and
+full record ID, making the result deterministic within a fixed store image.
+
+An optional candidate-ID list models a stale index. Before returning a hit,
+the object store rechecks current availability. A tombstoned ID still present
+in that list cannot bypass deletion; duplicates are removed. Cross-tenant
+candidate IDs produce no hits. Direct foreign-object reads raise a permission
+error in this teaching contract. Revealing existence through error differences
+can itself require a different policy in a hostile multi-tenant service.
+
+Retrieval should be conditional on an evidence need, not blindly invoked
+before every token. MemGPT motivates explicit context tiers and movement
+between them~\cite{evod40:memgpt}. Self-RAG explicitly makes retrieval
+adaptive~\cite{evod40:selfrag}. Those narrow precedents do not establish that
+this lexical ranker reproduces either system, nor that a retrieved result is
+correct or safe. Their reported benchmark comparisons are not our evidence.
+
+\section{Bound source expansion and working-context promotion}
+\label{evod40:rehydrate}
+\index{Rehydration!budgets}\index{UTF-8 payload bytes}
+For summary $s$, rehydration traverses source links breadth-first, visiting
+each ID at most once in its returned expansion. It accepts both a record-count
+ceiling $B_n$ and a UTF-8 payload-byte ceiling $B_b$. The first whole record
+that would exceed the remaining byte budget stops traversal. This deterministic
+prefix policy favors provenance order rather than solving a knapsack problem.
+\Listing{Memory.rehydrate}
+
+If returned records are $r_1,\ldots,r_m$, the maintained invariant is
+\[
+ m\le B_n,\qquad used=\sum_{j=1}^m |payload(r_j)|_{UTF8}\le B_b.
+\]
+Initially both sums are zero. A record is appended only if its full byte size
+fits; then both count and sum advance together. The loop guard enforces the
+count. This proves the payload bound by induction, not a bound on Python
+object memory or tokenizer context length. Repeated paths to a shared source
+do not duplicate that source in the result.
+
+Promotion selects whole readable records into a \Term{working set} under a
+declared byte ceiling. Unlike rehydration's prefix, the direct promotion
+operation is all-or-error: if the requested set is too large, it returns no
+partial context. Both interfaces are explicit so callers can choose rather
+than infer an accidental truncation rule.
+\Listing{Memory.promote}
+\Plate{03-budget}{Payload budgets limit context movement. Authorization comes from the separate policy configuration, never from the selected record text.}{evod40:budget}
+
+UTF-8 bytes are not tokens. Two Chinese characters consume six UTF-8 bytes
+before spaces or other text; their tokenizer length depends on the exact
+tokenizer artifact. A real planner must reserve engine-context tokens after
+the declared conversion, as well as storage and transport bytes.
+
+\section{Retention, forgetting and the evidence firewall}
+\label{evod40:firewall}
+\index{forgetting!issued contexts}\index{authority!memory firewall}
+Expiry expresses a declared availability horizon. Forgetting adds a tombstone
+even for an already expired record and is idempotent. It does not delete the
+dictionary payload. Retention policy may additionally require physical erasure,
+backup expiry, legal holds, index compaction or derived-data destruction;
+those actions are not implemented here.
+
+An already returned immutable context still contains its payload after a
+source is forgotten. The store can reject future promotion, but it cannot
+recall bytes already issued to a client or a running model. Strong revocation
+therefore needs request-time fences, context leases or cancellation and an
+explicit policy for in-flight work. Claiming instantaneous distributed erasure
+from a local tombstone test would be false.
+
+The \Term{memory safety firewall} is a semantic authority boundary. Every
+\texttt{Context} has an empty authority tuple; memory operators cannot mint
+Chapter 39 policy grants. Retrieved text can contain stale facts, secrets or
+prompt injection. Provenance and quoting let a planner reason about it as
+evidence. Authorization remains an independent configured decision before
+an action. This small typed separation is not a production prompt-injection
+defense or proof of hostile-process isolation.
+
+\section{Consistency and failure controls}
+\label{evod40:evidence}
+\index{consistency!memory store}
+\begin{center}\input{\Generated/visibility.tex}\end{center}
+At tick zero, both source events and the derived summary can contribute
+ranked hits. At tick two, one source expires; its summary becomes unavailable
+under the strict rule while the unrelated live event remains retrievable.
+The exact compression collision has equal summary text and unequal source IDs.
+These are deterministic logical examples, not retrieval-quality benchmarks.
+
+Tests cover exact TTL equality, transitive invalidation, stale index entries,
+cross-tenant reads, duplicate sources, missing provenance, shared ancestors,
+UTF-8 budgets, corrupted cycles and equal-payload reinsertion. A negative
+control deliberately retains an issued context after deletion to demonstrate
+the revocation limit. Testing only direct event lookup would miss the stale
+summary path.
+
+The reference assumes serialized trusted callers and strongly consistent
+dictionary access. A real service must define atomicity among object writes,
+source edges, indexes and tombstones; conflict resolution; replication lag;
+deletion epochs; and failure recovery. A safe eventual index can lag while
+the authoritative read gate stays current. A stale authoritative tombstone
+replica needs a separate consistency protocol. Chapter 42's recovery model
+will provide vocabulary, not automatically implement that distributed store.
+
+\section{Twelve worked exercises}
+\label{evod40:exercises}
+\begin{enumerate}
+\item Is KV automatically durable memory? \textbf{Answer:} No. It supports
+native continuation. Persistent searchable evidence needs identity, retention
+and provenance beyond a transient cache.
+\item Show a compression collision. \textbf{Answer:} The two strings ending
+in omitted-x and omitted-y both map to alpha beta under the two-word rule.
+\item Why is rehydration not inversion? \textbf{Answer:} It reads retained
+source IDs. If those objects are unavailable, the summary cannot recreate them.
+\item An event expires at tick 2. Is it readable at tick 2?
+\textbf{Answer:} No; the availability predicate requires $t<t_e$.
+\item A summary depends on a forgotten source through another summary.
+What happens? \textbf{Answer:} Induction through the provenance DAG makes
+both derived records unavailable, even if indexes list them.
+\item Sources have payload sizes 10, 10 and 12 bytes. What does prefix
+rehydration return under 20 bytes and three records? \textbf{Answer:} The
+first two, totaling 20 bytes; it does not cut the third record.
+\item Does a 20-byte bound imply 20 tokenizer tokens? \textbf{Answer:} No.
+The byte encoding and tokenizer artifact define different units.
+\item What happens when identical forgotten text is inserted again?
+\textbf{Answer:} It gets a fresh occurrence ID. Old summaries still point
+to the old tombstoned source and remain unavailable.
+\item Can an already returned context disappear after forgetting?
+\textbf{Answer:} Not from this caller's memory. Future reads can be denied;
+revoking in-flight use needs a separate lifecycle protocol.
+\item Why distinguish payload ratio from total storage?
+\textbf{Answer:} The latter includes original records, links, identities and
+index overhead. Summaries added to retained sources can increase storage.
+\item How would you evaluate a learned compressor? \textbf{Rubric:} Pin
+source sets, compressor/prompt and budgets; compare raw records, truncation
+and summary-plus-retrieval on held-out exact and approximate tasks; include
+rare identifiers, order changes, deleted sources and adversarial instructions;
+report utility and full memory cost separately.
+\item What must a distributed memory contract specify?
+\textbf{Answer:} Which store is authoritative, visibility/transaction boundaries,
+replication and conflict rules, tombstone propagation, recovery and in-flight
+revocation. Naming a memory tier supplies none of those guarantees.
+\end{enumerate}
+
+\section{Vocabulary and the compiler boundary}
+\Term{Provenance DAG}: source relations among immutable evidence records.
+\Term{Tombstone}: an explicit denial of future access, not proof of physical
+erasure. \Term{Rehydration}: bounded source traversal rather than loss reversal.
+Chapter 41 now treats engine, memory, retrieval and tool operations as typed
+instructions whose effects must survive legal compilation.

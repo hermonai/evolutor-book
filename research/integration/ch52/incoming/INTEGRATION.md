@@ -1,0 +1,2 @@
+# Integration contract
+Before integration inspect the live repository. Merge this chapter only after reconciling chapter IDs, labels, bibliography keys, theorem/claim/experiment/failure ledgers and current manuscript status. Do not upgrade any evidence level merely because the chapter is integrated. Whole-book release requires executable tests, full PDF rendering, source verification, cross-chapter consistency and explicit unresolved-item disclosure.

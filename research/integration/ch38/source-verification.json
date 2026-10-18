@@ -1,0 +1,39 @@
+{
+  "date": "2026-10-17",
+  "chapter": 38,
+  "package_sha256": "48cacc5504694f67a6a25a7c27df2850dd7052c537a196120da5258900d91353",
+  "inherited_validation_claims_adopted": false,
+  "coordinator_metadata_note": "2026-10-18: expose the already verified package-integrity digest and explicit package-adoption exclusion under shared admission keys; no manuscript or PDF change.",
+  "reviewer": "author/agent",
+  "sources": [
+    {
+      "key": "Leviathan et al.",
+      "url": "https://arxiv.org/html/2211.17192v2",
+      "access_depth": "Primary HTML Section2, Algorithm1, AppendixA.1 proof and stated independence simplification inspected. No empirical timing reproduction."
+    },
+    {
+      "key": "Chen et al.",
+      "url": "https://arxiv.org/html/2302.01318v1",
+      "access_depth": "Primary Algorithm2 and Section4 conditional-scoring text inspected; target/draft p/q reversal accounted for."
+    },
+    {
+      "key": "FlashAttention",
+      "url": "https://arxiv.org/html/2205.14135",
+      "access_depth": "Primary online-softmax derivation, Algorithm1, correctness/IO theorem statements and proof excerpt inspected. No CUDA artifact reproduction or full-paper empirical audit."
+    },
+    {
+      "key": "FlashAttention-2",
+      "url": "https://arxiv.org/abs/2307.08691",
+      "access_depth": "Primary abstract only; narrow parallelism/work-partition comparison."
+    },
+    {
+      "key": "SDPA2.10",
+      "url": "https://docs.pytorch.org/docs/2.10/generated/torch.nn.functional.scaled_dot_product_attention.html",
+      "access_depth": "Official boolean mask polarity, non-square causal alignment, dropout and numerical/backend contract read. Local CPU float64 oracle exercised."
+    }
+  ],
+  "scope": "Targeted primary sections and local code, not full independent literature or artifact validation.",
+  "incoming_ledger": "incoming/research/source-ledger.json",
+  "accepted": false,
+  "independent_review": false
+}

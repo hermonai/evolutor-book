@@ -1,0 +1,72 @@
+\chapter{Database engines as systems comparison}
+Database engines are useful to Evolutor because they have spent decades separating declarative intent, logical plans, physical plans, execution, memory management, concurrency, durability and observability. The useful lesson is architectural discipline, not the slogan ``LLM inference is SQL.''
+
+\section{Comparison map}
+A database query moves from declarative request to logical algebra, optimized physical plan and operators. Evolutor Chapter 41 similarly moves from typed plan to verified IR, lowering and schedule. Volcano's uniform operator interface and exchange operator show how extensibility and parallelism can be separated; Cascades shows rule-driven search over alternatives. These are precedents for compiler/runtime structure, not proof that model generation is relational algebra.
+
+\section{Logical and physical plans}
+Let logical program $G$ denote required semantics and let $\mathcal P(G)$ be legal physical realizations. An optimizer chooses
+\[
+p^\star=\arg\min_{p\in\mathcal P(G)}J(p).
+\]
+For Evolutor, $J$ is multi-objective: latency, memory, communication, energy/cost and quality/risk. Unlike a traditional relational cost estimate, quality can depend on model choice and stochastic decoding.
+
+\section{Iterator and dataflow precedent}
+Volcano standardizes an operator interface and uses exchange to encapsulate parallelism. Evolutor can similarly standardize typed operator boundaries while leaving DOGMA, Hermon, retrieval and tools internally different. A token step, however, is prefix-stateful: output changes the next operator state.
+
+\section{Buffer manager comparison}
+A DB buffer manager moves pages between durable storage and memory. Evolutor manages model weights, native DOGMA state, Hermon KV pages, durable events and retrieved context. The analogy is useful for admission, eviction and locality. It breaks because these objects have different semantic validity rules; evicting a reconstructible KV page is not the same operation as evicting a clean database page.
+
+\section{Transactions and effects}
+ACID transactions provide a vocabulary for atomicity, consistency, isolation and durability. Evolutor should use transactional mechanisms for durable metadata, memory writes and external actions where appropriate. Model sampling itself is not a database transaction.
+
+\section{WAL and recovery}
+ARIES demonstrates write-ahead logging, LSNs, repeating history during redo and controlled rollback. Evolutor can borrow the ordering invariant
+\[
+\text{durable(log record)} \prec \text{durable(state mutation)}
+\]
+for lifecycle metadata and artifact promotion. The reference implements this ordering in miniature.
+
+\section{Isolation}
+Concurrent requests require isolation of tenant memory, engine state and side effects. Database isolation levels are useful vocabulary, but ``serializable generation'' is usually the wrong abstraction. What must be serializable are particular shared durable mutations.
+
+\section{Indexes}
+B-trees/hash indexes answer exact/range access; vector/graph indexes support approximate semantic retrieval. Chapter 40's memory layer can use both. Index identity/version belongs in provenance because a changed index can change retrieved context.
+
+\section{Optimizer statistics}
+Database optimizers use cardinality/selectivity estimates. Evolutor needs workload statistics: prompt/output lengths, acceptance rates, prefix reuse, memory pressure, backend queueing and retrieval hit quality. Misestimation can choose a legal but poor plan.
+
+\section{Materialization and caching}
+Materialized views precompute reusable results. Evolutor analogues include immutable prefixes, compiled artifacts, retrieved-document caches and derived summaries. Reuse is legal only when version, tenant, policy and semantic identity match.
+
+\section{Recovery versus replay}
+Recovery restores a consistent durable system state. Replay attempts to reproduce observable execution under captured artifacts, inputs and RNG. They are related but distinct: recovery need not regenerate every historical token.
+
+\section{Where SQL analogy breaks}
+Four hard breaks matter: token generation is sequentially stateful; sampling is not ACID commit; KV/native state has model-specific semantics; and the objective includes quality/risk, not merely relational cost. The chapter's executable oracle returns these boundaries explicitly.
+
+\section{Executable comparison}
+\Listing{reference}
+The reference contains a multi-objective physical-plan chooser and a tiny WAL store. It proves log-before-page ordering, redo idempotence and deterministic tie-breaking.
+
+\section{Failure modes}
+Failures include treating model state as generic pages, applying transaction rollback to irreversible external actions, trusting stale cost statistics, caching across artifact/tenant boundaries, and claiming database equivalence from superficial terminology.
+
+\section{Twelve worked exercises}
+\begin{enumerate}
+\item Logical versus physical plan? \textbf{Required semantics versus one executable realization.}
+\item Why is Volcano relevant? \textbf{Uniform operators and encapsulated parallelism.}
+\item Is decode an iterator over independent rows? \textbf{No; each token changes prefix state.}
+\item What transfers from buffer managers? \textbf{Locality, residency, admission/eviction accounting.}
+\item Does ACID describe sampling? \textbf{No.}
+\item WAL invariant? \textbf{Log must be durable before corresponding durable mutation.}
+\item What can be transactional? \textbf{Durable metadata/memory/tool effects when designed so.}
+\item Why version indexes? \textbf{Retrieval result can change with index state.}
+\item Materialized-view analogue? \textbf{Validated reusable prefixes/artifacts/summaries.}
+\item Recovery equals replay? \textbf{No.}
+\item Cost-only routing sufficient? \textbf{No; quality/risk constraints matter.}
+\item Release rubric? \textbf{Map transferable mechanisms and explicit analogy failures; test ordering, recovery and plan selection.}
+\end{enumerate}
+
+\section{Bridge}
+Chapter 43 uses these lifecycle/recovery lessons to govern structural adaptation: candidates may evolve, but promotion into a serving lineage is a controlled state transition with evaluation, provenance and rollback.

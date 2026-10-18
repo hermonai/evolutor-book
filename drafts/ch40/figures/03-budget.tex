@@ -1,0 +1,12 @@
+\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={note}]
+\foreach \x/\lab/\col in {0/record A: 10 B/Pale,4/record B: 10 B/Pale,8/record C: 12 B/Red!12}{
+ \draw[fill=\col] (\x,1) rectangle (\x+3.8,2);
+ \node at (\x+1.9,1.5) {\lab};
+}
+\draw[thick,Green] (0,.6)--(7.8,.6);
+\node[below] at (4,.5) {20-byte budget: A + B; whole records only};
+\node[draw,fill=Gold!30] (grant) at (3,-1.5) {configured policy grants};
+\node[draw] (action) at (10,-1.5) {tool authorization};
+\draw[flow] (grant)--(action);
+\draw[->,Red,dashed] (10,1)--(action);\node[Red] at (12,-.1) {$\times$ no grant};
+\end{tikzpicture}

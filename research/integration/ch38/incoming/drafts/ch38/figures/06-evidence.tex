@@ -1,0 +1,1 @@
+\begin{tikzpicture}[node distance=5mm]\node[draw](p){proof/parity};\node[draw,right=of p](m){traffic model};\node[draw,right=of m](k){kernel profile};\node[draw,right=of k,fill=Pale](e){end-to-end SLO};\node[draw,right=of e,fill=Gold!35](c){bounded claim};\draw[->,Blue](p)--(m);\draw[->,Blue](m)--(k);\draw[->,Blue](k)--(e);\draw[->,Blue](e)--(c);\end{tikzpicture}

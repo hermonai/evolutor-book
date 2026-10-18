@@ -1,0 +1,9 @@
+\chapter*{Author technical review}
+\begin{itemize}
+\item Scheduling review: per-iteration token budget is enforced; arrived/not-arrived and completed requests are distinguished; decode priority is explicit rather than universal.
+\item Tail review: TTFT, ITL and completion are separately defined; throughput is not used as their surrogate.
+\item Precision review: FP16/BF16/INT8 are representation transformations with independent reference comparisons; no hardware speed claim is inferred.
+\item Quality review: max error, relative $L_2$ and argmax stability are necessary diagnostics, not sufficient task validation.
+\item Boundary review: speculative decoding and optimized attention kernels remain EVOD-38.
+\end{itemize}
+Independent specialist and render reviews remain open.

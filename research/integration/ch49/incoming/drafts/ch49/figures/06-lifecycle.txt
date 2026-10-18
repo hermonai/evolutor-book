@@ -1,0 +1,1 @@
+Persistence is governed by explicit lifetime, cost, authority and audit boundaries.

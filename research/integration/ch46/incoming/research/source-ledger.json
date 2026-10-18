@@ -1,0 +1,11 @@
+[
+  {
+    "key": "distserve2024",
+    "claim": "DistServe disaggregates prefill and decode onto different GPUs to reduce interference, co-optimizes phase-specific resource allocation, and accounts for cluster bandwidth/communication placement.",
+    "primary": "https://arxiv.org/abs/2401.09670",
+    "authors": "Yinmin Zhong et al.",
+    "date": "2024",
+    "access_date": "2026-10-05",
+    "access_depth": "primary arXiv abstract/core architecture and evaluation claims"
+  }
+]

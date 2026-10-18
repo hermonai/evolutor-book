@@ -1,0 +1,1 @@
+Canary exposure follows offline evaluation and has explicit rollback thresholds.

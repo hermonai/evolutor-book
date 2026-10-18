@@ -1,0 +1,1 @@
+Retrieval selects addressable records; returned records remain data with source identity.

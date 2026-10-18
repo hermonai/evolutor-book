@@ -1,0 +1,1 @@
+T13 with P2 needs7 pages waste1; P4 needs4 waste3; P8 needs2 waste3. Solid cells occupied, dashed capacity. No physical utilization inferred from duplicate logical references.

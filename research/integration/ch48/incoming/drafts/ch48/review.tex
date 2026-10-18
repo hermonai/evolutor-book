@@ -1,0 +1,14 @@
+\documentclass[11pt]{book}
+\usepackage{newpxtext,newpxmath}\usepackage[scaled=0.92]{helvet}
+\usepackage{amsmath,booktabs,array,geometry,xcolor,tikz,listings,hyperref}
+\usetikzlibrary{positioning,arrows.meta,shapes.geometric}
+\geometry{margin=1in}
+\definecolor{Blue}{HTML}{173E60}\definecolor{Green}{HTML}{26714D}\definecolor{Red}{HTML}{AA354C}\definecolor{Pale}{HTML}{EDF4F8}\definecolor{Gold}{HTML}{F2D799}
+\newcommand{\Plate}[3]{\begin{figure}[ht]\centering\input{figures/#1.tex}\caption{#2}\label{#3}\end{figure}}
+\newcommand{\Listing}[1]{\lstinputlisting[language=Python,basicstyle=\ttfamily\small,breaklines=true]{#1.py}}
+\begin{document}
+\input{manuscript.tex}
+\input{sources.tex}
+\chapter*{Author technical review}
+This standalone wrapper validates chapter source, figures, equations and executable-listing layout. Repository integration, bibliography normalization, index generation and independent specialist review remain separate gates.
+\end{document}

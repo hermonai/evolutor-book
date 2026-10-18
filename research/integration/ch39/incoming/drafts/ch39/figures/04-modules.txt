@@ -1,0 +1,1 @@
+Evolutor composes engines with retrieval, symbolic and tool modules; these are distinct operators with distinct evidence and authority.

@@ -1,0 +1,132 @@
+{
+  "chapter": 43,
+  "incoming_manuscript_sha256": "50d7fe171eb37be634a9a70930573a57fad1277f09873bb3e5304e03e11fd62a",
+  "sections": [
+    {
+      "incoming_section": "What may adapt",
+      "incoming_section_sha256": "6935f28907998db36a40141f43be2377da5b731e15cdc9f1c19ba0cbb22a7d40",
+      "disposition": "expanded",
+      "destination": "evod43:objects",
+      "reason": "Keep weight/structure/policy/index categories with distinct compatibility."
+    },
+    {
+      "incoming_section": "Immutable artifact lineage",
+      "incoming_section_sha256": "4cd1e670f8a4f453cca870f51629ed9b16269593eb41b3af3a5c9226c3ee4bb4",
+      "disposition": "expanded",
+      "destination": "evod43:objects",
+      "reason": "Separate content identity from mutable stage/evidence; keep rejected branches."
+    },
+    {
+      "incoming_section": "Lifecycle state machine",
+      "incoming_section_sha256": "dee083aa7126da936b59247f0bbc2319c92aeb8d074ae13618dfcb3904656e2f",
+      "disposition": "expanded",
+      "destination": "evod43:lifecycle",
+      "reason": "Formalize guards and prove serving-path/revision invariant."
+    },
+    {
+      "incoming_section": "Evaluation gates",
+      "incoming_section_sha256": "8d0c38fc2b0c6f470e682a4f207cbcf3ebefa21adf733998c1d7aaf42c263824",
+      "disposition": "expanded",
+      "destination": "evod43:gates",
+      "reason": "Use nonempty conjunctive min/max gates; reject nonfinite/missing metrics."
+    },
+    {
+      "incoming_section": "Continual learning and forgetting",
+      "incoming_section_sha256": "c0251887fb7f1ccfd6505e778228d7b028572feded03a97dd1c71b48ae075ce6",
+      "disposition": "expanded",
+      "destination": "evod43:ewc",
+      "reason": "Retain EWC approximate method; add independent quadratic derivation/control."
+    },
+    {
+      "incoming_section": "Candidate creation",
+      "incoming_section_sha256": "d9666280719175d48189085200ba242a728bc3feaa4579083d08e5a0b7e95d34",
+      "disposition": "expanded",
+      "destination": "evod43:objects",
+      "reason": "Record recipe/data/fingerprint; duplicate content cannot reset stage."
+    },
+    {
+      "incoming_section": "Shadow and canary",
+      "incoming_section_sha256": "209bf291302884e84e9cc100fa1df2303733ef0e08d41c22157312942a84e58a",
+      "disposition": "expanded",
+      "destination": "evod43:lifecycle",
+      "reason": "Bound exposure, isolate effects, derive weak statistical power of 20 zero-error observations."
+    },
+    {
+      "incoming_section": "Promotion",
+      "incoming_section_sha256": "3f6dd409ccdf75afc3a0b2b6163751c7e42febca047999906efaf6e1cdc0a3af",
+      "disposition": "expanded",
+      "destination": "evod43:promotion",
+      "reason": "Require role, current revision and bound evidence; distinguish serialized method from durable CAS."
+    },
+    {
+      "incoming_section": "Rollback",
+      "incoming_section_sha256": "cde2ae43146a0279b86970eea6bbe50df92f329d055df4b81acdfd897a884e0a",
+      "disposition": "expanded",
+      "destination": "evod43:rollback",
+      "reason": "Restrict to previously served validated retired targets; require incompatible reset."
+    },
+    {
+      "incoming_section": "Structural versus parametric adaptation",
+      "incoming_section_sha256": "12874f5524ee2a4bfe04c9ae11b7e8472fc45cc3464f125913e1363f07300cc7",
+      "disposition": "expanded",
+      "destination": "evod43:ewc",
+      "reason": "Keep effect/topology legality distinct from parameter regularization."
+    },
+    {
+      "incoming_section": "Population search",
+      "incoming_section_sha256": "b232b2a8021f052c648859a182cdd0bd8febdefb4dee9537d07d4ba8be1d18a8",
+      "disposition": "retained",
+      "destination": "evod43:evaluation",
+      "reason": "Preserve matched budgets, selection-set reuse and rejected evidence."
+    },
+    {
+      "incoming_section": "Governance authority",
+      "incoming_section_sha256": "4fe294d5d1d65a2824d7981edc38cc3aa4f1eeee8f6f86c3263b8d8c39f46304",
+      "disposition": "expanded",
+      "destination": "evod43:promotion",
+      "reason": "Separate caller roles while explicitly excluding authentication/signature claims."
+    },
+    {
+      "incoming_section": "Safety invariants",
+      "incoming_section_sha256": "f404a4a564f6195790c76df35f598eb0aa1515cb729938a685f1a0a871c960af",
+      "disposition": "merged",
+      "destination": "evod43:gates",
+      "reason": "Hard constraints cannot be traded for aggregate task score."
+    },
+    {
+      "incoming_section": "Drift and monitoring",
+      "incoming_section_sha256": "71c92822cfb7644628b5c06fcf567c4ef68d8946cae29bd971f01786ba8a57cf",
+      "disposition": "expanded",
+      "destination": "evod43:evidence",
+      "reason": "Retain monitoring and bound automated rollback authority."
+    },
+    {
+      "incoming_section": "Executable registry",
+      "incoming_section_sha256": "ded8195f90b161fdd81937259e85e195520f37a92b3ab2402c4fc340f2577f54",
+      "disposition": "expanded",
+      "destination": "evod43:evidence",
+      "reason": "Run baseline/unsafe/v2/rollback scenario and reject illegal transitions."
+    },
+    {
+      "incoming_section": "Failure modes",
+      "incoming_section_sha256": "1abbd3862b24ae906b28e0351de0171257b3658117cca1d56a2fcddb0f0a6388",
+      "disposition": "expanded",
+      "destination": "evod43:evidence",
+      "reason": "Add rejected rollback, duplicate revival, evidence overwrite, stale revision and reset controls."
+    },
+    {
+      "incoming_section": "Twelve worked exercises",
+      "incoming_section_sha256": "de959c0acf01d8ad73f0da065da8828fd26e7a0b9af50b349288e5e1786576d6",
+      "disposition": "expanded",
+      "destination": "evod43:exercises",
+      "reason": "Retain concepts with algebra, probability and system-design rubric."
+    },
+    {
+      "incoming_section": "Bridge",
+      "incoming_section_sha256": "b0a6bc23d21b182606901d6dd89c2a7a55fb32500e0808f14c47b8f97a382595",
+      "disposition": "relocated",
+      "destination": "final Vocabulary section",
+      "reason": "Final Vocabulary and industrial handoff transitions to Ch44."
+    }
+  ]
+}

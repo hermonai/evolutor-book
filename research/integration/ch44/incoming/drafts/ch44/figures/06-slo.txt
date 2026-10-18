@@ -1,0 +1,1 @@
+Service decisions use workload-level SLO evidence rather than isolated kernel timings.

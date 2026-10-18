@@ -1,0 +1,1 @@
+Mixed-work timeline uses token units, labels P prompt and D consume previous output. Final prefill and each decode emit one token. Read generated timeline for exact membership.

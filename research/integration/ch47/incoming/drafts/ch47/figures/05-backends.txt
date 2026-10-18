@@ -1,0 +1,1 @@
+Backend comparison requires identical semantics/workload and backend-native profiling rather than peak-spec tables.

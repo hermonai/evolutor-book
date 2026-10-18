@@ -1,0 +1,44 @@
+{
+  "chapter": 42,
+  "date": "2026-10-17",
+  "archive_record": "package-integrity.json",
+  "full_incoming_text_read": true,
+  "incoming_validation_claims_adopted": false,
+  "external_sources": [
+    {
+      "title": "Volcano",
+      "url": "https://people.eecs.berkeley.edu/~prabal/teaching/resources/eecs582/graefe94volcano.pdf",
+      "access_depth": "primary paper text: interface, buffer mechanisms/policy and exchange passages",
+      "verified": "2026-10-17",
+      "empirical_results_reproduced": false
+    },
+    {
+      "title": "Cascades",
+      "url": "https://15721.courses.cs.cmu.edu/spring2019/papers/22-optimizer1/graefe-ieee1995.pdf",
+      "access_depth": "primary paper sections on optimization tasks/memo and on-demand exploration",
+      "verified": "2026-10-17",
+      "empirical_results_reproduced": false
+    },
+    {
+      "title": "ARIES",
+      "url": "https://research.ibm.com/publications/aries-a-transaction-recovery-method-supporting-fine-granularity-locking-and-partial-rollbacks-using-write-ahead-logging",
+      "access_depth": "publisher record/abstract plus primary-paper indexed excerpt at https://www.cs.cmu.edu/~15849g/readings/mohan92.pdf; full PDF attempts there and IISc mirror timed out; no full-paper inspection",
+      "verified": "2026-10-17",
+      "empirical_results_reproduced": false
+    }
+  ],
+  "local_continuity_files": {
+    "drafts/ch32/manuscript.tex": "0c8094e8de5dd8b51e05997e3d054c39e95eab389e8f9c641510b59ce3fd0cf1",
+    "drafts/ch32/reference.py": "c0d0e3c7b9a985508a6dc0e519b79f44a0067a462dd26d5d586f0417607f2c3e",
+    "drafts/ch35/manuscript.tex": "1df59417c47b52cb1447ec9c53887509da4881d957bffc3661654d688d00991b",
+    "drafts/ch35/reference.py": "3861e11797f0d6c8e480d2426e110d29347c5e6a281742208e49a91ea3075e98",
+    "drafts/ch40/manuscript.tex": "2ac0d777ffd6c02cccec27944906eced26d9091fbfe8821448dcef716f152479",
+    "drafts/ch40/reference.py": "e1f2e3edf3232627a5a25ef3e3635eff07b416b90ae914764ab18269b37c3c03",
+    "drafts/ch41/manuscript.tex": "1efff025322b0d5aafc7db9875cee8b59d90eab42849ffb341efe7b4672ef06f",
+    "drafts/ch41/reference.py": "b191c4c8b819d7a54e2ffdd5fde9c7df2fdc2eb569fff322960a0b3eaa74bfc5"
+  },
+  "limits": "Source access is claim-specific. Internal imports are actual stable interfaces; local author review is not independent acceptance. No Chapter36 import or fabricated allocation pass.",
+  "package_sha256": "9102e1b3bfcbf72ad53705bda4d306aa88599a510cf31a2b5b6f2592ef3ff7f6",
+  "inherited_validation_claims_adopted": false,
+  "continuity_hashes_finalized": "2026-10-18"
+}

@@ -1,0 +1,13 @@
+\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={note}]
+\node[draw,fill=Pale,minimum width=5cm] (a) at (3,2.5) {adapter UUID A, serial 0\\owner $(t,r)$, artifact $\alpha$};
+\node[draw,fill=Gold!25,minimum width=5cm] (b) at (11,2.5) {adapter UUID B, serial 0\\owner $(t,r)$, artifact $\beta$};
+\foreach \x/\name in {3/A,11/B}{
+ \draw[thick,Blue] (\x-2,0) rectangle (\x+2,1);
+ \node at (\x,.5) {private state in \name};
+ \draw[flow] (\x,1.9)--(\x,1.05);
+}
+\draw[->,Red,dashed,thick] (a.south east)--(9,1);
+\node[Red] at (7.4,1.4) {$\times$ foreign instance};
+\node at (3,-.7) {close removes A:0 mapping};
+\node at (11,-.7) {B:0 is unaffected};
+\end{tikzpicture}

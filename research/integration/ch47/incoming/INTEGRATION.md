@@ -1,0 +1,2 @@
+# Integration contract
+Do not copy synthetic oracle timings into production claims. Instrument integrated DOGMA/Hermon/Evolutor with phase and kernel ranges, then collect backend-native profiles. Preserve correctness tests before/after optimization. Report TTFT, ITL/TPOT, throughput and SLO goodput under declared concurrency/prompt/output distributions. Record hardware, clocks/power mode, driver/runtime/compiler, precision, batch/scheduler and commit/artifact IDs.

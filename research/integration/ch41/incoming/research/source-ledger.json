@@ -1,0 +1,20 @@
+[
+  {
+    "key": "lattner2020",
+    "claim": "MLIR provides reusable/extensible compiler infrastructure spanning multiple abstraction levels and heterogeneous targets.",
+    "primary": "https://arxiv.org/abs/2002.11054",
+    "authors": "Chris Lattner et al.",
+    "date": "2020",
+    "access_date": "2026-10-05",
+    "access_depth": "primary arXiv abstract/core design claim"
+  },
+  {
+    "key": "chen2018",
+    "claim": "TVM performs graph/operator optimization and hardware-specific lowering/scheduling across heterogeneous deep-learning targets.",
+    "primary": "https://arxiv.org/abs/1802.04799",
+    "authors": "Tianqi Chen et al.",
+    "date": "2018",
+    "access_date": "2026-10-05",
+    "access_depth": "primary arXiv abstract/core compiler claim"
+  }
+]
